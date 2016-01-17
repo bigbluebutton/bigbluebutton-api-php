@@ -18,7 +18,7 @@
  */
 namespace BigBlueButton;
 
-class BigBlueButtonTest extends \PHPUnit_Framework_TestCase
+class BigBlueButtonTest extends TestCase
 {
     /**
      * @var BigBlueButton
@@ -30,7 +30,7 @@ class BigBlueButtonTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         foreach (['BBB_SECURITY_SALT', 'BBB_SERVER_BASE_URL'] as $k) {
-            if (!isset($_SERVER[$k]) || $_SERVER[$k] == 'change_me') {
+            if (!isset($_SERVER[$k]) || !isset($_SERVER[$k])) {
                 $this->fail('$_SERVER[\''.$k.'\'] not set in '
                     .'phpunit.xml');
             }
@@ -39,10 +39,20 @@ class BigBlueButtonTest extends \PHPUnit_Framework_TestCase
         $this->bbb = new BigBlueButton();
     }
 
+    /* API Version */
+
     public function testApiVersion()
     {
         $apiVersion = $this->bbb->getApiVersion();
         $this->assertEquals('SUCCESS', $apiVersion->getReturnCode());
         $this->assertEquals('0.9', $apiVersion->getVersion());
+    }
+
+    /* Create Meeting */
+
+    public function testCreateMeeting()
+    {
+        $params = $this->generateCreateParams();
+        print_r($this->bbb->getCreateMeetingUrl($this->getCreateParamsMock($params)));
     }
 }

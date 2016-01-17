@@ -18,9 +18,11 @@
  */
 namespace BigBlueButton;
 
+use BigBlueButton\Parameters\CreateMeeting;
 use BigBlueButton\Responses\ApiVersion as ApiVersion;
 use BigBlueButton\Util\UrlBuilder as UrlBuilder;
 use SimpleXMLElement as SimpleXMLElement;
+use BigBlueButton\Core\ApiMethod as ApiMethod;
 
 class BigBlueButton
 {
@@ -52,36 +54,14 @@ class BigBlueButton
         return new ApiVersion($this->processXmlResponse($this->urlBuilder->buildUrl()));
     }
 
-    public function getCreateMeetingUrl($creationParams)
+    /**
+     * @param $createMeetingParams CreateMeeting
+     *
+     * @return string
+     */
+    public function getCreateMeetingUrl($createMeetingParams)
     {
-        /*
-        USAGE:
-        (see $creationParams array in createMeetingArray method.)
-        */
-        $this->_meetingId = $this->_requiredParam($creationParams['meetingId'], 'meetingId');
-        $this->_meetingName = $this->_requiredParam($creationParams['meetingName'], 'meetingName');
-        // Set up the basic creation URL:
-        $creationUrl = $this->bbbServerBaseUrl.'api/create?';
-        // Add params:
-        $params =
-            'name='.urlencode($this->_meetingName).
-            '&meetingID='.urlencode($this->_meetingId).
-            '&attendeePW='.urlencode($creationParams['attendeePw']).
-            '&moderatorPW='.urlencode($creationParams['moderatorPw']).
-            '&dialNumber='.urlencode($creationParams['dialNumber']).
-            '&voiceBridge='.urlencode($creationParams['voiceBridge']).
-            '&webVoice='.urlencode($creationParams['webVoice']).
-            '&logoutURL='.urlencode($creationParams['logoutUrl']).
-            '&maxParticipants='.urlencode($creationParams['maxParticipants']).
-            '&record='.urlencode($creationParams['record']).
-            '&duration='.urlencode($creationParams['duration']);
-        //'&meta_category='.urlencode($creationParams['meta_category']);
-        $welcomeMessage = $creationParams['welcomeMsg'];
-        if (trim($welcomeMessage)) {
-            $params .= '&welcome='.urlencode($welcomeMessage);
-        }
-        // Return the complete URL:
-        return $creationUrl.$params.'&checksum='.sha1('create'.$params.$this->securitySalt);
+        return $this->urlBuilder->buildUrl(ApiMethod::CREATE, $createMeetingParams->getHTTPQuery());
     }
 
     public function createMeetingWithXmlResponseArray($creationParams, $xml = '')

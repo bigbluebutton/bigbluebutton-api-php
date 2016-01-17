@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-error_reporting(-1);
-date_default_timezone_set('UTC');
-// Include the composer autoloader
-$loader = require_once __DIR__.'/../vendor/autoload.php';
-// Include custom test class
-require_once __DIR__.'/TestCase.php';
+namespace BigBlueButton\Parameters;
+
+class BaseParameters
+{
+}
