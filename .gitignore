@@ -1,0 +1,5 @@
+composer.phar
+/vendor/
+
+## Directory-based project format:
+.idea/
