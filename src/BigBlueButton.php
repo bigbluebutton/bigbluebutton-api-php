@@ -20,12 +20,17 @@ namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod as ApiMethod;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Util\UrlBuilder as UrlBuilder;
 use SimpleXMLElement as SimpleXMLElement;
 
+/**
+ * Class BigBlueButton
+ * @package BigBlueButton
+ */
 class BigBlueButton
 {
     private $securitySalt;
@@ -68,6 +73,7 @@ class BigBlueButton
 
     /**
      * @param $joinMeetingParams JoinMeetingParameters
+     *
      * @return string
      */
     public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams)
@@ -75,22 +81,14 @@ class BigBlueButton
         return $this->urlBuilder->buildUrl(ApiMethod::JOIN, $joinMeetingParams->getHTTPQuery());
     }
 
+    /**
+     * @param $endParams EndMeetingParameters
+     *
+     * @return string
+     */
     public function getEndMeetingURL($endParams)
     {
-        /* USAGE:
-        $endParams = array (
-            'meetingId' => '1234',		-- REQUIRED - The unique id for the meeting
-            'password' => 'mp'			-- REQUIRED - The moderator password for the meeting
-        );
-        */
-        $this->_meetingId = $this->_requiredParam($endParams['meetingId'], 'meetingId');
-        $this->_password = $this->_requiredParam($endParams['password'], 'password');
-        $endUrl = $this->bbbServerBaseUrl.'api/end?';
-        $params =
-            'meetingID='.urlencode($this->_meetingId).
-            '&password='.urlencode($this->_password);
-
-        return $endUrl.$params.'&checksum='.sha1('end'.$params.$this->securitySalt);
+        return $this->urlBuilder->buildUrl(ApiMethod::END, $endParams->getHTTPQuery());
     }
 
     public function endMeetingWithXmlResponseArray($endParams)
@@ -468,30 +466,5 @@ class BigBlueButton
         }
 
         return simplexml_load_file($url);
-    }
-
-    private function _requiredParam($param, $name = '')
-    {
-        /* Process required params and throw errors if we don't get values */
-        if ((isset($param)) && ($param != '')) {
-            return $param;
-        } elseif (!isset($param)) {
-            throw new \Exception('Missing parameter.');
-        } else {
-            throw new \Exception(''.$name.' is required.');
-        }
-    }
-
-    private function _optionalParam($param)
-    {
-        /* Pass most optional params through as set value, or set to '' */
-        /* Don't know if we'll use this one, but let's build it in case. */
-        if ((isset($param)) && ($param != '')) {
-            return $param;
-        } else {
-            $param = '';
-
-            return $param;
-        }
     }
 }

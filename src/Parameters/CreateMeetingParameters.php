@@ -19,8 +19,7 @@
 namespace BigBlueButton\Parameters;
 
 /**
- * Class CreateMeetingParameters
- * @package BigBlueButton\Parameters
+ * Class CreateMeetingParameters.
  */
 class CreateMeetingParameters extends BaseParameters
 {
@@ -99,6 +98,7 @@ class CreateMeetingParameters extends BaseParameters
 
     /**
      * CreateMeetingParameters constructor.
+     *
      * @param $meetingId
      * @param $meetingName
      */
@@ -366,19 +366,19 @@ class CreateMeetingParameters extends BaseParameters
     public function getHTTPQuery()
     {
         return $this->buildHTTPQuery(
-            array('name'               => $this->meetingName,
-                  'meetingID'          => $this->meetingId,
-                  'attendeePW'         => $this->attendeePassword,
-                  'moderatorPW'        => $this->moderatorPassword,
-                  'dialNumber'         => $this->dialNumber,
-                  'voiceBridge'        => $this->voiceBridge,
-                  'webVoice'           => $this->webVoice,
-                  'logoutURL'          => $this->logoutUrl,
-                  'maxParticipants'    => $this->maxParticipants,
-                  'record'             => $this->record,
+            array('name' => $this->meetingName,
+                  'meetingID' => $this->meetingId,
+                  'attendeePW' => $this->attendeePassword,
+                  'moderatorPW' => $this->moderatorPassword,
+                  'dialNumber' => $this->dialNumber,
+                  'voiceBridge' => $this->voiceBridge,
+                  'webVoice' => $this->webVoice,
+                  'logoutURL' => $this->logoutUrl,
+                  'maxParticipants' => $this->maxParticipants,
+                  'record' => $this->record,
                   'autoStartRecording' => $this->autoStartRecording,
-                  'duration'           => $this->duration,
-                  '$welcomeMessage'    => trim($this->welcomeMessage),
+                  'duration' => $this->duration,
+                  'welcomeMessage' => trim($this->welcomeMessage),
             )
         );
     }

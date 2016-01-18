@@ -35,6 +35,7 @@ class UrlBuilder
 
     /**
      * UrlBuilder constructor.
+     *
      * @param $salt
      * @param $serverBaseUrl
      */

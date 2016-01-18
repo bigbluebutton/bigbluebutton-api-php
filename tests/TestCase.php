@@ -19,6 +19,7 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Parameters\CreateMeetingParameters as CreateMeetingParameters;
+use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters as JoinMeetingParameters;
 use Faker\Factory as Faker;
 use Faker\Generator as Generator;
@@ -35,7 +36,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected $faker;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function setUp()
     {
@@ -50,23 +51,24 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function generateCreateParams()
     {
         return array(
-            'meetingName'       => $this->faker->name,
-            'meetingId'         => $this->faker->uuid,
-            'attendeePassword'  => $this->faker->password,
+            'meetingName' => $this->faker->name,
+            'meetingId' => $this->faker->uuid,
+            'attendeePassword' => $this->faker->password,
             'moderatorPassword' => $this->faker->password,
-            'dialNumber'        => $this->faker->phoneNumber,
-            'voiceBridge'       => $this->faker->randomNumber(5),
-            'webVoice'          => $this->faker->word,
-            'logoutUrl'         => $this->faker->url,
-            'maxParticipants'   => $this->faker->numberBetween(2, 100),
-            'record'            => $this->faker->boolean(50),
-            'duration'          => $this->faker->numberBetween(0, 6000),
-            'welcomeMessage'    => $this->faker->sentence,
+            'dialNumber' => $this->faker->phoneNumber,
+            'voiceBridge' => $this->faker->randomNumber(5),
+            'webVoice' => $this->faker->word,
+            'logoutUrl' => $this->faker->url,
+            'maxParticipants' => $this->faker->numberBetween(2, 100),
+            'record' => $this->faker->boolean(50),
+            'duration' => $this->faker->numberBetween(0, 6000),
+            'welcomeMessage' => $this->faker->sentence,
         );
     }
 
     /**
      * @param $params array
+     *
      * @return CreateMeetingParameters
      */
     protected function getCreateParamsMock($params)
@@ -85,21 +87,42 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function generateJoinMeetingParams()
     {
-        return array('meetingId'    => $this->faker->uuid,
-                     'userName'     => $this->faker->name,
-                     'password'     => $this->faker->password,
-                     'userId'       => $this->faker->numberBetween(1, 1000),
+        return array('meetingId' => $this->faker->uuid,
+                     'userName' => $this->faker->name,
+                     'password' => $this->faker->password,
+                     'userId' => $this->faker->numberBetween(1, 1000),
                      'webVoiceConf' => $this->faker->word,
-                     'creationTime' => $this->faker->unixTime);
+                     'creationTime' => $this->faker->unixTime, );
     }
 
     /**
      * @param $params array
+     *
      * @return JoinMeetingParameters
      */
     protected function getJoinMeetingMock($params)
     {
         $joinMeetingParams = new JoinMeetingParameters($params['meetingId'], $params['userName'], $params['password']);
+
         return $joinMeetingParams->setUserId($params['userId'])->setWebVoiceConf($params['webVoiceConf'])->setCreationTime($params['creationTime']);
+    }
+
+    /**
+     * @return array
+     */
+    protected function generateEndMeetingParams()
+    {
+        return array('meetingId' => $this->faker->uuid,
+                     'password' => $this->faker->password);
+    }
+
+    /**
+     * @param $params array
+     *
+     * @return EndMeetingParameters
+     */
+    protected function getEndMeetingMock($params)
+    {
+        return new EndMeetingParameters($params['meetingId'], $params['password']);
     }
 }

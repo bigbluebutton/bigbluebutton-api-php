@@ -19,13 +19,13 @@
 namespace BigBlueButton\Parameters;
 
 /**
- * Class BaseParameters
- * @package BigBlueButton\Parameters
+ * Class BaseParameters.
  */
 abstract class BaseParameters
 {
     /**
      * @param $array
+     *
      * @return string
      */
     protected function buildHTTPQuery($array)
@@ -33,5 +33,8 @@ abstract class BaseParameters
         return http_build_query(array_filter($array));
     }
 
+    /**
+     * @return string
+     */
     abstract public function getHTTPQuery();
 }
