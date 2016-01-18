@@ -140,4 +140,12 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals('SUCCESS', $result->getReturnCode());
         $this->assertEquals(false, $result->isRunning());
     }
+
+       /* Get Metings */
+
+    public function testGetMeetingUrl()
+    {
+        $result = $this->bbb->getGetMeetingsUrl();
+        $this->assertNotEmpty($result);
+    }
 }

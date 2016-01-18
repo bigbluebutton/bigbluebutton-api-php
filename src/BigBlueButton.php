@@ -134,15 +134,12 @@ class BigBlueButton
         return new IsMeetingRunningResponse($xml);
     }
 
+    /**
+     * @return string
+     */
     public function getGetMeetingsUrl()
     {
-        /* Simply formulate the getMeetings URL
-        We do this in a separate function so we have the option to just get this
-        URL and print it if we want for some reason.
-        */
-        $getMeetingsUrl = $this->bbbServerBaseUrl.'api/getMeetings?checksum='.sha1('getMeetings'.$this->securitySalt);
-
-        return $getMeetingsUrl;
+        return $this->urlBuilder->buildUrl(ApiMethod::GET_MEETINGS);
     }
 
     public function getMeetingsWithXmlResponseArray()
