@@ -16,43 +16,27 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Responses;
 
 /**
- * Class EndMeetingParameters.
+ * Class EndMeetingResponse
+ * @package BigBlueButton\Responses
  */
-class EndMeetingParameters extends BaseParameters
+class EndMeetingResponse extends BaseResponse
 {
     /**
-     * @var string
+     * @return string
      */
-    private $meetingId;
-    /**
-     * @var string
-     */
-    private $password;
-
-    /**
-     * EndMeetingParameters constructor.
-     *
-     * @param $meetingId
-     * @param $password
-     */
-    public function __construct($meetingId, $password)
+    public function getMessageKey()
     {
-        $this->password = $password;
-        $this->meetingId = $meetingId;
+        return $this->rawXml->messageKey;
     }
 
     /**
      * @return string
      */
-    public function getHTTPQuery()
+    public function getMessage()
     {
-        return $this->buildHTTPQuery(
-            array('meetingID' => $this->meetingId,
-                  'password' => $this->password,
-            )
-        );
+        return $this->rawXml->message;
     }
 }

@@ -24,6 +24,7 @@ use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
+use BigBlueButton\Responses\EndMeetingResponse;
 use BigBlueButton\Util\UrlBuilder as UrlBuilder;
 use SimpleXMLElement as SimpleXMLElement;
 
@@ -91,24 +92,16 @@ class BigBlueButton
         return $this->urlBuilder->buildUrl(ApiMethod::END, $endParams->getHTTPQuery());
     }
 
-    public function endMeetingWithXmlResponseArray($endParams)
+    /**
+     * @param $endParams EndMeetingParameters
+     *
+     * @return EndMeetingResponse
+     */
+    public function endMeeting($endParams)
     {
-        /* USAGE:
-        $endParams = array (
-            'meetingId' => '1234',		-- REQUIRED - The unique id for the meeting
-            'password' => 'mp'			-- REQUIRED - The moderator password for the meeting
-        );
-        */
         $xml = $this->processXmlResponse($this->getEndMeetingURL($endParams));
-        if ($xml) {
-            return array(
-                'returncode' => $xml->returncode,
-                'message' => $xml->message,
-                'messageKey' => $xml->messageKey,
-            );
-        } else {
-            return;
-        }
+
+        return new EndMeetingResponse($xml);
     }
 
     /* __________________ BBB MONITORING METHODS _________________ */
