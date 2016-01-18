@@ -143,9 +143,15 @@ class BigBlueButtonTest extends TestCase
 
        /* Get Metings */
 
-    public function testGetMeetingUrl()
+    public function testGetMeetingsUrl()
     {
-        $result = $this->bbb->getGetMeetingsUrl();
+        $result = $this->bbb->getMeetingsUrl();
         $this->assertNotEmpty($result);
+    }
+
+    public function testGetMeetings()
+    {
+        $result = $this->bbb->getMeetings();
+        $this->assertNotNull($result->getMeetings());
     }
 }

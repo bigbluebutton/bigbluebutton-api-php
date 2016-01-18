@@ -26,6 +26,7 @@ use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
+use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Util\UrlBuilder as UrlBuilder;
 use SimpleXMLElement as SimpleXMLElement;
@@ -137,60 +138,19 @@ class BigBlueButton
     /**
      * @return string
      */
-    public function getGetMeetingsUrl()
+    public function getMeetingsUrl()
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_MEETINGS);
     }
 
-    public function getMeetingsWithXmlResponseArray()
+    /**
+     * @return GetMeetingsResponse
+     */
+    public function getMeetings()
     {
-        /* USAGE:
-        We don't need to pass any parameters with this one, so we just send the query URL off to BBB
-        and then handle the results that we get in the XML response.
-        */
-        $xml = $this->processXmlResponse($this->getGetMeetingsUrl());
-        if ($xml) {
-            // If we don't get a success code, stop processing and return just the returncode:
-            if ($xml->returncode != 'SUCCESS') {
-                $result = array(
-                    'returncode' => $xml->returncode,
-                );
+        $xml = $this->processXmlResponse($this->getMeetingsUrl());
 
-                return $result;
-            } elseif ($xml->messageKey == 'noMeetings') {
-                /* No meetings on server, so return just this info: */
-                $result = array(
-                    'returncode' => $xml->returncode,
-                    'messageKey' => $xml->messageKey,
-                    'message' => $xml->message,
-                );
-
-                return $result;
-            } else {
-                // In this case, we have success and meetings. First return general response:
-                $result = array(
-                    'returncode' => $xml->returncode,
-                    'messageKey' => $xml->messageKey,
-                    'message' => $xml->message,
-                );
-                // Then interate through meeting results and return them as part of the array:
-                foreach ($xml->meetings->meeting as $m) {
-                    $result[] = array(
-                        'meetingId' => $m->meetingID,
-                        'meetingName' => $m->meetingName,
-                        'createTime' => $m->createTime,
-                        'attendeePw' => $m->attendeePW,
-                        'moderatorPw' => $m->moderatorPW,
-                        'hasBeenForciblyEnded' => $m->hasBeenForciblyEnded,
-                        'running' => $m->running,
-                    );
-                }
-
-                return $result;
-            }
-        } else {
-            return;
-        }
+        return new GetMeetingsResponse($xml);
     }
 
     public function getMeetingInfoUrl($infoParams)
