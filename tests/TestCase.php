@@ -18,7 +18,7 @@
  */
 namespace BigBlueButton;
 
-use BigBlueButton\Parameters\CreateMeeting;
+use BigBlueButton\Parameters\CreateMeetingParameters;
 use Faker\Factory as Faker;
 
 class TestCase extends \PHPUnit_Framework_TestCase
@@ -52,7 +52,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
 
     protected function getCreateParamsMock($params)
     {
-        $createMeetingParams = new CreateMeeting();
+        $createMeetingParams = new CreateMeetingParameters();
         $createMeetingParams->setMeetingName($params['meetingName']);
         $createMeetingParams->setMeetingId($params['meetingId']);
         $createMeetingParams->setAttendeePassword($params['attendeePassword']);

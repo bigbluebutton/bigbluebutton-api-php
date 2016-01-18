@@ -18,31 +18,13 @@
  */
 namespace BigBlueButton\Responses;
 
-abstract class BaseResponse
+class ApiVersionResponse extends BaseResponse
 {
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $rawXml;
-
-    public function __construct(\SimpleXMLElement $xml)
-    {
-        $this->rawXml = $xml;
-    }
-
-    /**
-     * @return \SimpleXMLElement
-     */
-    public function getRawXml()
-    {
-        return $this->rawXml;
-    }
-
     /**
      * @return string
      */
-    public function getReturnCode()
+    public function getVersion()
     {
-        return $this->rawXml->returncode;
+        return $this->rawXml->version;
     }
 }

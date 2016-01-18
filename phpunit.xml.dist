@@ -19,6 +19,9 @@
         <server name="BBB_SERVER_BASE_URL" value="http://test-install.blindsidenetworks.com/bigbluebutton/"/>
     </php>
 
+    <log type="coverage-html" target="./coverage"
+         charset='UTF-8' yui='true'/>
+
     <testsuites>
         <testsuite name="BigBlueButton test suit">
             <directory>./tests/</directory>

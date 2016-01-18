@@ -20,4 +20,8 @@ namespace BigBlueButton\Parameters;
 
 class BaseParameters
 {
+    protected function buildHTTPQuery($array)
+    {
+        return http_build_query(array_filter($array));
+    }
 }

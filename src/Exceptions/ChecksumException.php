@@ -16,23 +16,8 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Responses;
+namespace BigBlueButton\Exceptions;
 
-class ApiVersion extends BaseResponse
+class ChecksumException extends \Exception
 {
-    /**
-     * @return \SimpleXMLElement
-     */
-    public function getRawXml()
-    {
-        return $this->rawXml;
-    }
-
-    /**
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->rawXml->version;
-    }
 }

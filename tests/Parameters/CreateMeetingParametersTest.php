@@ -20,7 +20,7 @@ namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase as TestCase;
 
-class CreateMeetingTest extends TestCase
+class CreateMeetingParametersTest extends TestCase
 {
     /**
      * @covers Helo

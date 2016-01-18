@@ -18,7 +18,7 @@
  */
 namespace BigBlueButton\Parameters;
 
-class CreateMeeting extends BaseParameters
+class CreateMeetingParameters extends BaseParameters
 {
     private $meetingId;
     private $meetingName;
@@ -29,7 +29,8 @@ class CreateMeeting extends BaseParameters
     private $webVoice;
     private $logoutUrl;
     private $maxParticipants;
-    private $record;
+    private $record = null;
+    private $autoStartRecording = null;
     private $duration;
     private $welcomeMessage;
 
@@ -44,7 +45,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $meetingId
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setMeetingId($meetingId)
     {
@@ -64,7 +65,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $meetingName
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setMeetingName($meetingName)
     {
@@ -84,7 +85,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $attendeePassword
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setAttendeePassword($attendeePassword)
     {
@@ -104,7 +105,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $moderatorPassword
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setModeratorPassword($moderatorPassword)
     {
@@ -124,7 +125,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $dialNumber
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setDialNumber($dialNumber)
     {
@@ -144,7 +145,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $voiceBridge
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setVoiceBridge($voiceBridge)
     {
@@ -164,7 +165,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $webVoice
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setWebVoice($webVoice)
     {
@@ -184,7 +185,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $logoutUrl
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setLogoutUrl($logoutUrl)
     {
@@ -204,7 +205,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $maxParticipants
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setMaxParticipants($maxParticipants)
     {
@@ -214,7 +215,7 @@ class CreateMeeting extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function getRecord()
     {
@@ -222,13 +223,33 @@ class CreateMeeting extends BaseParameters
     }
 
     /**
-     * @param mixed $record
+     * @param bool $record
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setRecord($record)
     {
         $this->record = $record;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAutoStartRecording()
+    {
+        return $this->autoStartRecording;
+    }
+
+    /**
+     * @param bool $autoStartRecording
+     *
+     * @return CreateMeetingParameters
+     */
+    public function setAutoStartRecording($autoStartRecording)
+    {
+        $this->record = $autoStartRecording;
 
         return $this;
     }
@@ -244,7 +265,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $duration
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setDuration($duration)
     {
@@ -264,7 +285,7 @@ class CreateMeeting extends BaseParameters
     /**
      * @param mixed $welcomeMessage
      *
-     * @return CreateMeeting
+     * @return CreateMeetingParameters
      */
     public function setWelcomeMessage($welcomeMessage)
     {
@@ -278,18 +299,21 @@ class CreateMeeting extends BaseParameters
      */
     public function getHTTPQuery()
     {
-        return http_build_query(array('name' => $this->meetingName,
-                                      'meetingID' => $this->meetingId,
-                                      'attendeePW' => $this->attendeePassword,
-                                      'moderatorPW' => $this->moderatorPassword,
-                                      'dialNumber' => $this->dialNumber,
-                                      'voiceBridge' => $this->voiceBridge,
-                                      'webVoice' => $this->webVoice,
-                                      'logoutURL' => $this->logoutUrl,
-                                      'maxParticipants' => $this->maxParticipants,
-                                      'record' => $this->record,
-                                      'duration' => $this->duration,
-                                      '$welcomeMessage' => trim($this->welcomeMessage),
-        ));
+        return $this->buildHTTPQuery(
+            array('name' => $this->meetingName,
+                  'meetingID' => $this->meetingId,
+                  'attendeePW' => $this->attendeePassword,
+                  'moderatorPW' => $this->moderatorPassword,
+                  'dialNumber' => $this->dialNumber,
+                  'voiceBridge' => $this->voiceBridge,
+                  'webVoice' => $this->webVoice,
+                  'logoutURL' => $this->logoutUrl,
+                  'maxParticipants' => $this->maxParticipants,
+                  'record' => $this->record,
+                   'autoStartRecording' => $this->autoStartRecording,
+                  'duration' => $this->duration,
+                  '$welcomeMessage' => trim($this->welcomeMessage),
+            )
+        );
     }
 }

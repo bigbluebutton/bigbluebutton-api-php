@@ -31,8 +31,8 @@ class BigBlueButtonTest extends TestCase
 
         foreach (['BBB_SECURITY_SALT', 'BBB_SERVER_BASE_URL'] as $k) {
             if (!isset($_SERVER[$k]) || !isset($_SERVER[$k])) {
-                $this->fail('$_SERVER[\''.$k.'\'] not set in '
-                    .'phpunit.xml');
+                $this->fail('$_SERVER[\'' . $k . '\'] not set in '
+                    . 'phpunit.xml');
             }
         }
 
@@ -50,9 +50,19 @@ class BigBlueButtonTest extends TestCase
 
     /* Create Meeting */
 
+    public function testCreateMeetingUrl()
+    {
+        $params = $this->generateCreateParams();
+        $url = $this->bbb->getCreateMeetingUrl($this->getCreateParamsMock($params));
+        foreach ($params as $key => $value) {
+            $this->assertContains('=' . urlencode($value), $url);
+        }
+    }
+
     public function testCreateMeeting()
     {
         $params = $this->generateCreateParams();
-        print_r($this->bbb->getCreateMeetingUrl($this->getCreateParamsMock($params)));
+        $result = $this->bbb->createMeeting($this->getCreateParamsMock($params));
+        $this->assertEquals("SUCCESS", $result->getReturnCode());
     }
 }

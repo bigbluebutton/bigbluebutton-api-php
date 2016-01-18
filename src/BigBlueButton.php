@@ -18,11 +18,12 @@
  */
 namespace BigBlueButton;
 
-use BigBlueButton\Parameters\CreateMeeting;
-use BigBlueButton\Responses\ApiVersion as ApiVersion;
+use BigBlueButton\Core\ApiMethod as ApiMethod;
+use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Responses\ApiVersionResponse;
+use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Util\UrlBuilder as UrlBuilder;
 use SimpleXMLElement as SimpleXMLElement;
-use BigBlueButton\Core\ApiMethod as ApiMethod;
 
 class BigBlueButton
 {
@@ -45,17 +46,17 @@ class BigBlueButton
     */
 
     /**
-     * @return ApiVersion
+     * @return ApiVersionResponse
      *
      * @throws \Exception
      */
     public function getApiVersion()
     {
-        return new ApiVersion($this->processXmlResponse($this->urlBuilder->buildUrl()));
+        return new ApiVersionResponse($this->processXmlResponse($this->urlBuilder->buildUrl()));
     }
 
     /**
-     * @param $createMeetingParams CreateMeeting
+     * @param $createMeetingParams CreateMeetingParameters
      *
      * @return string
      */
@@ -64,7 +65,7 @@ class BigBlueButton
         return $this->urlBuilder->buildUrl(ApiMethod::CREATE, $createMeetingParams->getHTTPQuery());
     }
 
-    public function createMeetingWithXmlResponseArray($creationParams, $xml = '')
+    public function createMeeting($createMeetingParams, $xml = '')
     {
         /*
         USAGE:
@@ -85,30 +86,9 @@ class BigBlueButton
         );
         $xml = '';				-- Use to pass additional xml to BBB server. Example, use to Preupload Slides. See API docs.
         */
-        $xml = $this->processXmlResponse($this->getCreateMeetingURL($creationParams), $xml);
+        $xml = $this->processXmlResponse($this->getCreateMeetingURL($createMeetingParams), $xml);
 
-        if ($xml) {
-            if ($xml->meetingID) {
-                return array(
-                    'returncode' => $xml->returncode,
-                    'message' => $xml->message,
-                    'messageKey' => $xml->messageKey,
-                    'meetingId' => $xml->meetingID,
-                    'attendeePw' => $xml->attendeePW,
-                    'moderatorPw' => $xml->moderatorPW,
-                    'hasBeenForciblyEnded' => $xml->hasBeenForciblyEnded,
-                    'createTime' => $xml->createTime,
-                );
-            } else {
-                return array(
-                    'returncode' => $xml->returncode,
-                    'message' => $xml->message,
-                    'messageKey' => $xml->messageKey,
-                );
-            }
-        } else {
-            return;
-        }
+        return new CreateMeetingResponse($xml);
     }
 
     public function getJoinMeetingURL($joinParams)
