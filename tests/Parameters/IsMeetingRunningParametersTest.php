@@ -16,42 +16,21 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Responses;
+namespace BigBlueButton\Parameters;
+
+use BigBlueButton\TestCase;
 
 /**
- * Class BaseResponse
- * @package BigBlueButton\Responses
+ * Class IsMeetingRunningParametersTest
+ * @package BigBlueButton\Parameters
  */
-abstract class BaseResponse
+class IsMeetingRunningParametersTest extends TestCase
 {
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $rawXml;
-
-    /**
-     * BaseResponse constructor.
-     *
-     * @param \SimpleXMLElement $xml
-     */
-    public function __construct(\SimpleXMLElement $xml)
+    public function testIsMeetingRunningParameters()
     {
-        $this->rawXml = $xml;
-    }
+        $id = $this->faker->uuid;
+        $isRunningParams = new IsMeetingRunningParameters($id);
 
-    /**
-     * @return \SimpleXMLElement
-     */
-    public function getRawXml()
-    {
-        return $this->rawXml;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReturnCode()
-    {
-        return $this->rawXml->returncode->__toString();
+        $this->assertEquals($id, $isRunningParams->getMeetingId());
     }
 }

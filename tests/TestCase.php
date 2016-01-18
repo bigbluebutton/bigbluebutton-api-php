@@ -21,6 +21,7 @@ namespace BigBlueButton;
 use BigBlueButton\Parameters\CreateMeetingParameters as CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters as JoinMeetingParameters;
+use BigBlueButton\Responses\CreateMeetingResponse;
 use Faker\Factory as Faker;
 use Faker\Generator as Generator;
 
@@ -43,6 +44,17 @@ class TestCase extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->faker = Faker::create();
+    }
+
+    /**
+     * @param $bbb BigBlueButton
+     * @return CreateMeetingResponse
+     */
+    protected function createRealMeeting($bbb)
+    {
+        $createMeetingParams = $this->generateCreateParams();
+        $createMeetingMock = $this->getCreateParamsMock($createMeetingParams);
+        return $bbb->createMeeting($createMeetingMock);
     }
 
     /**

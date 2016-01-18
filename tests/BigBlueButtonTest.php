@@ -19,7 +19,7 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Parameters\EndMeetingParameters;
-use BigBlueButton\Responses\EndMeetingResponse;
+use BigBlueButton\Parameters\IsMeetingRunningParameters;
 
 /**
  * Class BigBlueButtonTest
@@ -118,11 +118,9 @@ class BigBlueButtonTest extends TestCase
 
     public function testEndMeeting()
     {
-        $createMeetingParams = $this->generateCreateParams();
-        $createMeetingMock = $this->getCreateParamsMock($createMeetingParams);
-        $this->bbb->createMeeting($createMeetingMock);
+        $meeting = $this->createRealMeeting($this->bbb);
 
-        $endMeeting = new EndMeetingParameters($createMeetingMock->getMeetingId(), $createMeetingMock->getModeratorPassword());
+        $endMeeting = new EndMeetingParameters($meeting->getMeetingId(), $meeting->getModeratorPassword());
         $result = $this->bbb->endMeeting($endMeeting);
         $this->assertEquals('SUCCESS', $result->getReturnCode());
     }
@@ -132,5 +130,14 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateEndMeetingParams();
         $result = $this->bbb->endMeeting($this->getEndMeetingMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
+    }
+
+    /* Is Meeting Running */
+
+    public function testIsMeetingRunning()
+    {
+        $result = $this->bbb->isMeetingRunning(new IsMeetingRunningParameters($this->faker->uuid));
+        $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertEquals(false, $result->isRunning());
     }
 }

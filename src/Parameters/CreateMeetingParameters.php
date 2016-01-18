@@ -89,14 +89,6 @@ class CreateMeetingParameters extends BaseParameters
     private $welcomeMessage;
 
     /**
-     * @return string
-     */
-    public function getMeetingId()
-    {
-        return $this->meetingId;
-    }
-
-    /**
      * CreateMeetingParameters constructor.
      *
      * @param $meetingId
@@ -106,6 +98,14 @@ class CreateMeetingParameters extends BaseParameters
     {
         $this->meetingId = $meetingId;
         $this->meetingName = $meetingName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMeetingId()
+    {
+        return $this->meetingId;
     }
 
     /**

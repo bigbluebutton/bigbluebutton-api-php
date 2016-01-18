@@ -19,39 +19,16 @@
 namespace BigBlueButton\Responses;
 
 /**
- * Class BaseResponse
- * @package BigBlueButton\Responses
+ * Class IsMeetingRunningResponse
+ * @package BigBlueButton\Parameters
  */
-abstract class BaseResponse
+class IsMeetingRunningResponse extends BaseResponse
 {
     /**
-     * @var \SimpleXMLElement
+     * @return boolean
      */
-    protected $rawXml;
-
-    /**
-     * BaseResponse constructor.
-     *
-     * @param \SimpleXMLElement $xml
-     */
-    public function __construct(\SimpleXMLElement $xml)
+    public function isRunning()
     {
-        $this->rawXml = $xml;
-    }
-
-    /**
-     * @return \SimpleXMLElement
-     */
-    public function getRawXml()
-    {
-        return $this->rawXml;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReturnCode()
-    {
-        return $this->rawXml->returncode->__toString();
+        return $this->rawXml->running->__toString() == 'true';
     }
 }

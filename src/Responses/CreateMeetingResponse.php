@@ -29,7 +29,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getMeetingId()
     {
-        return $this->rawXml->meetingID;
+        return $this->rawXml->meetingID->__toString();
     }
 
     /**
@@ -37,7 +37,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getAttendeePassword()
     {
-        return $this->rawXml->attendeePW;
+        return $this->rawXml->attendeePW->__toString();
     }
 
     /**
@@ -45,7 +45,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getModeratorPassword()
     {
-        return $this->rawXml->moderatorPW;
+        return $this->rawXml->moderatorPW->__toString();
     }
 
     /**

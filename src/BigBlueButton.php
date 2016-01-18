@@ -21,10 +21,12 @@ namespace BigBlueButton;
 use BigBlueButton\Core\ApiMethod as ApiMethod;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
+use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Util\UrlBuilder as UrlBuilder;
 use SimpleXMLElement as SimpleXMLElement;
 
@@ -111,33 +113,25 @@ class BigBlueButton
     -- getMeetingInfo
     */
 
-    public function getIsMeetingRunningUrl($meetingId)
+    /**
+     * @param $meetingParams IsMeetingRunningParameters
+     * @return string
+     */
+    public function getIsMeetingRunningUrl($meetingParams)
     {
-        /* USAGE:
-        $meetingId = '1234'		-- REQUIRED - The unique id for the meeting
-        */
-        $this->_meetingId = $this->_requiredParam($meetingId, 'meetingId');
-        $runningUrl = $this->bbbServerBaseUrl.'api/isMeetingRunning?';
-        $params =
-            'meetingID='.urlencode($this->_meetingId);
-
-        return $runningUrl.$params.'&checksum='.sha1('isMeetingRunning'.$params.$this->securitySalt);
+        return $this->urlBuilder->buildUrl(ApiMethod::IS_MEETING_RUNNING, $meetingParams->getHTTPQuery());
     }
 
-    public function isMeetingRunningWithXmlResponseArray($meetingId)
+    /**
+     * @param $meetingParams
+     * @return IsMeetingRunningResponse
+     * @throws \Exception
+     */
+    public function isMeetingRunning($meetingParams)
     {
-        /* USAGE:
-        $meetingId = '1234'		-- REQUIRED - The unique id for the meeting
-        */
-        $xml = $this->processXmlResponse($this->getIsMeetingRunningUrl($meetingId));
-        if ($xml) {
-            return array(
-                'returncode' => $xml->returncode,
-                'running' => $xml->running,    // -- Returns true/false.
-            );
-        } else {
-            return;
-        }
+        $xml = $this->processXmlResponse($this->getIsMeetingRunningUrl($meetingParams));
+
+        return new IsMeetingRunningResponse($xml);
     }
 
     public function getGetMeetingsUrl()
