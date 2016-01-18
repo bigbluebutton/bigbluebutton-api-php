@@ -18,6 +18,8 @@
  */
 namespace BigBlueButton;
 
+use BigBlueButton\Parameters\JoinMeetingParameters;
+
 class BigBlueButtonTest extends TestCase
 {
     /**
@@ -64,5 +66,17 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateCreateParams();
         $result = $this->bbb->createMeeting($this->getCreateParamsMock($params));
         $this->assertEquals("SUCCESS", $result->getReturnCode());
+    }
+
+    public function testCreateJoinMeetingUrl()
+    {
+        $joinMeetingParams = $this->generateJoinMeetingParams();
+        $joinMeetingMock = $this->getJoinMeetingMock($joinMeetingParams);
+
+        $url = $this->bbb->getJoinMeetingURL($joinMeetingMock);
+
+        foreach ($joinMeetingParams as $key => $value) {
+            $this->assertContains('=' . urlencode($value), $url);
+        }
     }
 }

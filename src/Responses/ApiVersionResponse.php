@@ -18,6 +18,10 @@
  */
 namespace BigBlueButton\Responses;
 
+/**
+ * Class ApiVersionResponse
+ * @package BigBlueButton\Responses
+ */
 class ApiVersionResponse extends BaseResponse
 {
     /**

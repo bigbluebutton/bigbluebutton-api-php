@@ -20,6 +20,7 @@ namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod as ApiMethod;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Util\UrlBuilder as UrlBuilder;
@@ -37,13 +38,6 @@ class BigBlueButton
         $this->bbbServerBaseUrl = $_SERVER['BBB_SERVER_BASE_URL'];
         $this->urlBuilder = new UrlBuilder($this->securitySalt, $this->bbbServerBaseUrl);
     }
-
-    /* __________________ BBB ADMINISTRATION METHODS _________________ */
-    /* The methods in the following section support the following categories of the BBB API:
-    -- create
-    -- join
-    -- end
-    */
 
     /**
      * @return ApiVersionResponse
@@ -67,64 +61,18 @@ class BigBlueButton
 
     public function createMeeting($createMeetingParams, $xml = '')
     {
-        /*
-        USAGE:
-        $creationParams = array(
-            'name' => 'Meeting Name',	-- A name for the meeting (or username)
-            'meetingId' => '1234',		-- A unique id for the meeting
-            'attendeePw' => 'ap',  		-- Set to 'ap' and use 'ap' to join = no user pass required.
-            'moderatorPw' => 'mp', 		-- Set to 'mp' and use 'mp' to join = no user pass required.
-            'welcomeMsg' => '', 		-- ''= use default. Change to customize.
-            'dialNumber' => '', 		-- The main number to call into. Optional.
-            'voiceBridge' => '12345', 	-- 5 digit PIN to join voice conference.  Required.
-            'webVoice' => '', 			-- Alphanumeric to join voice. Optional.
-            'logoutUrl' => '', 			-- Default in bigbluebutton.properties. Optional.
-            'maxParticipants' => '-1', 	-- Optional. -1 = unlimitted. Not supported in BBB. [number]
-            'record' => 'false', 		-- New. 'true' will tell BBB to record the meeting.
-            'duration' => '0', 			-- Default = 0 which means no set duration in minutes. [number]
-            'meta_category' => '', 		-- Use to pass additional info to BBB server. See API docs to enable.
-        );
-        $xml = '';				-- Use to pass additional xml to BBB server. Example, use to Preupload Slides. See API docs.
-        */
         $xml = $this->processXmlResponse($this->getCreateMeetingURL($createMeetingParams), $xml);
 
         return new CreateMeetingResponse($xml);
     }
 
-    public function getJoinMeetingURL($joinParams)
+    /**
+     * @param $joinMeetingParams JoinMeetingParameters
+     * @return string
+     */
+    public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams)
     {
-        /*
-        NOTE: At this point, we don't use a corresponding joinMeetingWithXmlResponse here because the API
-        doesn't respond on success, but you can still code that method if you need it. Or, you can take the URL
-        that's returned from this method and simply send your users off to that URL in your code.
-        USAGE:
-        $joinParams = array(
-            'meetingId' => '1234',		-- REQUIRED - A unique id for the meeting
-            'username' => 'Jane Doe',	-- REQUIRED - The name that will display for the user in the meeting
-            'password' => 'ap',			-- REQUIRED - The attendee or moderator password, depending on what's passed here
-            'createTime' => '',			-- OPTIONAL - string. Leave blank ('') unless you set this correctly.
-            'userID' => '',				-- OPTIONAL - string
-            'webVoiceConf' => ''		-- OPTIONAL - string
-        );
-        */
-        $this->_meetingId = $this->_requiredParam($joinParams['meetingId'], 'meetingId');
-        $this->_username = $this->_requiredParam($joinParams['username'], 'username');
-        $this->_password = $this->_requiredParam($joinParams['password'], 'password');
-        // Establish the basic join URL:
-        $joinUrl = $this->bbbServerBaseUrl.'api/join?';
-        // Add parameters to the URL:
-        $params =
-            'meetingID='.urlencode($this->_meetingId).
-            '&fullName='.urlencode($this->_username).
-            '&password='.urlencode($this->_password).
-            '&userID='.urlencode($joinParams['userId']).
-            '&webVoiceConf='.urlencode($joinParams['webVoiceConf']);
-        // Only use createTime if we really want to use it. If it's '', then don't pass it:
-        if (((isset($joinParams['createTime'])) && ($joinParams['createTime'] != ''))) {
-            $params .= '&createTime='.urlencode($joinParams['createTime']);
-        }
-        // Return the URL:
-        return $joinUrl.$params.'&checksum='.sha1('join'.$params.$this->securitySalt);
+        return $this->urlBuilder->buildUrl(ApiMethod::JOIN, $joinMeetingParams->getHTTPQuery());
     }
 
     public function getEndMeetingURL($endParams)

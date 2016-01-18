@@ -18,6 +18,10 @@
  */
 namespace BigBlueButton\Responses;
 
+/**
+ * Class CreateMeetingResponse
+ * @package BigBlueButton\Responses
+ */
 class CreateMeetingResponse extends BaseResponse
 {
     /**

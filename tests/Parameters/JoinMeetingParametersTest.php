@@ -16,41 +16,22 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Responses;
+namespace BigBlueButton\Parameters;
 
-/**
- * Class BaseResponse
- * @package BigBlueButton\Responses
- */
-abstract class BaseResponse
+use BigBlueButton\TestCase as TestCase;
+
+class JoinMeetingParametersTest extends TestCase
 {
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $rawXml;
-
-    /**
-     * BaseResponse constructor.
-     * @param \SimpleXMLElement $xml
-     */
-    public function __construct(\SimpleXMLElement $xml)
+    public function testJoinMeetingParameters()
     {
-        $this->rawXml = $xml;
-    }
+        $params = $this->generateJoinMeetingParams();
+        $createMeetingParams = $this->getJoinMeetingMock($params);
 
-    /**
-     * @return \SimpleXMLElement
-     */
-    public function getRawXml()
-    {
-        return $this->rawXml;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReturnCode()
-    {
-        return $this->rawXml->returncode;
+        $this->assertEquals($params['meetingId'], $createMeetingParams->getMeetingId());
+        $this->assertEquals($params['userName'], $createMeetingParams->getUsername());
+        $this->assertEquals($params['password'], $createMeetingParams->getPassword());
+        $this->assertEquals($params['userId'], $createMeetingParams->getUserId());
+        $this->assertEquals($params['webVoiceConf'], $createMeetingParams->getWebVoiceConf());
+        $this->assertEquals($params['creationTime'], $createMeetingParams->getCreationTime());
     }
 }

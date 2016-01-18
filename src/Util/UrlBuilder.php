@@ -18,11 +18,26 @@
  */
 namespace BigBlueButton\Util;
 
+/**
+ * Class UrlBuilder
+ * @package BigBlueButton\Util
+ */
 class UrlBuilder
 {
+    /**
+     * @var string
+     */
     private $securitySalt;
+    /**
+     * @var string
+     */
     private $bbbServerBaseUrl;
 
+    /**
+     * UrlBuilder constructor.
+     * @param $salt
+     * @param $serverBaseUrl
+     */
     public function __construct($salt, $serverBaseUrl)
     {
         $this->securitySalt = $salt;

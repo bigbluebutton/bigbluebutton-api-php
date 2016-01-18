@@ -18,24 +18,79 @@
  */
 namespace BigBlueButton\Parameters;
 
+/**
+ * Class CreateMeetingParameters
+ * @package BigBlueButton\Parameters
+ */
 class CreateMeetingParameters extends BaseParameters
 {
+    /**
+     * @var string
+     */
     private $meetingId;
+
+    /**
+     * @var string
+     */
     private $meetingName;
+
+    /**
+     * @var string
+     */
     private $attendeePassword;
+
+    /**
+     * @var string
+     */
     private $moderatorPassword;
+
+    /**
+     * @var string
+     */
     private $dialNumber;
+
+    /**
+     * @var int
+     */
     private $voiceBridge;
+
+    /**
+     * @var string
+     */
     private $webVoice;
+
+    /**
+     * @var string
+     */
     private $logoutUrl;
+
+    /**
+     * @var int
+     */
     private $maxParticipants;
-    private $record = null;
-    private $autoStartRecording = null;
+
+    /**
+     * @var bool
+     */
+    private $record;
+
+    /**
+     * @var bool
+     */
+    private $autoStartRecording;
+
+    /**
+     * @var int
+     */
     private $duration;
+
+    /**
+     * @var string
+     */
     private $welcomeMessage;
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getMeetingId()
     {
@@ -43,7 +98,18 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $meetingId
+     * CreateMeetingParameters constructor.
+     * @param $meetingId
+     * @param $meetingName
+     */
+    public function __construct($meetingId, $meetingName)
+    {
+        $this->meetingId = $meetingId;
+        $this->meetingName = $meetingName;
+    }
+
+    /**
+     * @param string $meetingId
      *
      * @return CreateMeetingParameters
      */
@@ -55,7 +121,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getMeetingName()
     {
@@ -63,7 +129,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $meetingName
+     * @param string $meetingName
      *
      * @return CreateMeetingParameters
      */
@@ -75,7 +141,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAttendeePassword()
     {
@@ -83,7 +149,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $attendeePassword
+     * @param string $attendeePassword
      *
      * @return CreateMeetingParameters
      */
@@ -95,7 +161,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getModeratorPassword()
     {
@@ -103,7 +169,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $moderatorPassword
+     * @param string $moderatorPassword
      *
      * @return CreateMeetingParameters
      */
@@ -115,7 +181,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDialNumber()
     {
@@ -123,7 +189,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $dialNumber
+     * @param string $dialNumber
      *
      * @return CreateMeetingParameters
      */
@@ -135,7 +201,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getVoiceBridge()
     {
@@ -143,7 +209,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $voiceBridge
+     * @param int $voiceBridge
      *
      * @return CreateMeetingParameters
      */
@@ -155,7 +221,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getWebVoice()
     {
@@ -163,7 +229,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $webVoice
+     * @param string $webVoice
      *
      * @return CreateMeetingParameters
      */
@@ -175,7 +241,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLogoutUrl()
     {
@@ -183,7 +249,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $logoutUrl
+     * @param string $logoutUrl
      *
      * @return CreateMeetingParameters
      */
@@ -195,7 +261,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getMaxParticipants()
     {
@@ -203,7 +269,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $maxParticipants
+     * @param int $maxParticipants
      *
      * @return CreateMeetingParameters
      */
@@ -217,7 +283,7 @@ class CreateMeetingParameters extends BaseParameters
     /**
      * @return bool
      */
-    public function getRecord()
+    public function isRecorded()
     {
         return $this->record;
     }
@@ -237,7 +303,7 @@ class CreateMeetingParameters extends BaseParameters
     /**
      * @return bool
      */
-    public function getAutoStartRecording()
+    public function isAutoStartRecording()
     {
         return $this->autoStartRecording;
     }
@@ -249,13 +315,13 @@ class CreateMeetingParameters extends BaseParameters
      */
     public function setAutoStartRecording($autoStartRecording)
     {
-        $this->record = $autoStartRecording;
+        $this->autoStartRecording = $autoStartRecording;
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getDuration()
     {
@@ -263,7 +329,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $duration
+     * @param int $duration
      *
      * @return CreateMeetingParameters
      */
@@ -275,7 +341,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getWelcomeMessage()
     {
@@ -283,7 +349,7 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $welcomeMessage
+     * @param string $welcomeMessage
      *
      * @return CreateMeetingParameters
      */
@@ -300,19 +366,19 @@ class CreateMeetingParameters extends BaseParameters
     public function getHTTPQuery()
     {
         return $this->buildHTTPQuery(
-            array('name' => $this->meetingName,
-                  'meetingID' => $this->meetingId,
-                  'attendeePW' => $this->attendeePassword,
-                  'moderatorPW' => $this->moderatorPassword,
-                  'dialNumber' => $this->dialNumber,
-                  'voiceBridge' => $this->voiceBridge,
-                  'webVoice' => $this->webVoice,
-                  'logoutURL' => $this->logoutUrl,
-                  'maxParticipants' => $this->maxParticipants,
-                  'record' => $this->record,
-                   'autoStartRecording' => $this->autoStartRecording,
-                  'duration' => $this->duration,
-                  '$welcomeMessage' => trim($this->welcomeMessage),
+            array('name'               => $this->meetingName,
+                  'meetingID'          => $this->meetingId,
+                  'attendeePW'         => $this->attendeePassword,
+                  'moderatorPW'        => $this->moderatorPassword,
+                  'dialNumber'         => $this->dialNumber,
+                  'voiceBridge'        => $this->voiceBridge,
+                  'webVoice'           => $this->webVoice,
+                  'logoutURL'          => $this->logoutUrl,
+                  'maxParticipants'    => $this->maxParticipants,
+                  'record'             => $this->record,
+                  'autoStartRecording' => $this->autoStartRecording,
+                  'duration'           => $this->duration,
+                  '$welcomeMessage'    => trim($this->welcomeMessage),
             )
         );
     }

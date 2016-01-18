@@ -20,12 +20,13 @@ namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase as TestCase;
 
+/**
+ * Class CreateMeetingParametersTest
+ * @package BigBlueButton\Parameters
+ */
 class CreateMeetingParametersTest extends TestCase
 {
-    /**
-     * @covers Helo
-     */
-    public function testCreateMeeting()
+    public function testCreateMeetingParameters()
     {
         $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateParamsMock($params);
@@ -39,9 +40,8 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['webVoice'], $createMeetingParams->getWebVoice());
         $this->assertEquals($params['logoutUrl'], $createMeetingParams->getLogoutUrl());
         $this->assertEquals($params['maxParticipants'], $createMeetingParams->getMaxParticipants());
-        $this->assertEquals($params['record'], $createMeetingParams->getRecord());
+        $this->assertEquals($params['record'], $createMeetingParams->isRecorded());
         $this->assertEquals($params['duration'], $createMeetingParams->getDuration());
         $this->assertEquals($params['welcomeMessage'], $createMeetingParams->getWelcomeMessage());
-        // todo: test getHTTPQuery
     }
 }
