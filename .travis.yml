@@ -18,8 +18,8 @@ before_script:
   - composer install --prefer-source
 
 script:
-  - phpunit --coverage-text --coverage-clover=coverage.clover
+  - mkdir -p build/logs
+  - phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  - php vendor/bin/coveralls -v
