@@ -68,4 +68,164 @@ class MeetingInfo
         $this->maxUsers              = intval($xml->maxUsers);
         $this->moderatorCount        = intval($xml->moderatorCount);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getInternalMeetingId()
+    {
+        return $this->internalMeetingId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCreationTime()
+    {
+        return $this->creationTime;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVoiceBridge()
+    {
+        return $this->voiceBridge;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDialNumber()
+    {
+        return $this->dialNumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAttendeePassword()
+    {
+        return $this->attendeePassword;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModeratorPassword()
+    {
+        return $this->moderatorPassword;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsRunning()
+    {
+        return $this->isRunning;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isHasUserJoined()
+    {
+        return $this->hasUserJoined;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsRecording()
+    {
+        return $this->isRecording;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isHasBeenForciblyEnded()
+    {
+        return $this->hasBeenForciblyEnded;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStartTime()
+    {
+        return $this->startTime;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEndTime()
+    {
+        return $this->endTime;
+    }
+
+    /**
+     * @return int
+     */
+    public function getParticipantCount()
+    {
+        return $this->participantCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getListenerCount()
+    {
+        return $this->listenerCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVoiceParticipantCount()
+    {
+        return $this->voiceParticipantCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVideoCount()
+    {
+        return $this->videoCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxUsers()
+    {
+        return $this->maxUsers;
+    }
+
+    /**
+     * @return int
+     */
+    public function getModeratorCount()
+    {
+        return $this->moderatorCount;
+    }
 }

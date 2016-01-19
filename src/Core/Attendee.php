@@ -61,12 +61,68 @@ class Attendee
      */
     public function __construct($xml)
     {
-        $this->userID          = $xml->userID->__toString();
+        $this->userId          = $xml->userID->__toString();
         $this->fullName        = $xml->fullName->__toString();
         $this->role            = $xml->role->__toString();
         $this->isPresenter     = $xml->isPresenter->__toString() == 'true';
         $this->isListeningOnly = $xml->isListeningOnly->__toString() == 'true';
         $this->hasJoinedVoice  = $xml->hasJoinedVoice->__toString() == 'true';
         $this->hasVideo        = $xml->hasVideo->__toString() == 'true';
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return $this->fullName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsPresenter()
+    {
+        return $this->isPresenter;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsListeningOnly()
+    {
+        return $this->isListeningOnly;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isHasJoinedVoice()
+    {
+        return $this->hasJoinedVoice;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isHasVideo()
+    {
+        return $this->hasVideo;
     }
 }

@@ -19,11 +19,33 @@
  */
 class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 {
-    public function testGetMeetingInfoResponse()
+
+    /**
+     * @var \BigBlueButton\Responses\GetMeetingInfoResponse
+     */
+    private $meetingInfo;
+
+    public function setUp()
     {
+        parent::setUp();
+
         $xml = simplexml_load_string(file_get_contents((__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_meeting_info.xml')));
 
-        $meetingInfo = new \BigBlueButton\Responses\GetMeetingInfoResponse($xml);
-        $this->assertEquals(2, sizeof($meetingInfo->getAttendees()));
+        $this->meetingInfo = new \BigBlueButton\Responses\GetMeetingInfoResponse($xml);
     }
+
+    public function testGetMeetingInfoResponseContent()
+    {
+        $this->assertEquals(2, sizeof($this->meetingInfo->getAttendees()));
+    }
+
+    public function testGetMeetingInfoResponseTypes(){
+        $info = $this->meetingInfo->getMeetingInfo();
+
+        $this->assertTrue(is_string($info->getInternalMeetingId()));
+        $this->assertTrue(is_string($info->getModeratorPassword()));
+        $this->assertTrue(is_string($info->getAttendeePassword()));
+        $this->assertTrue(is_string($info->getCreationDate()));
+    }
+
 }

@@ -129,4 +129,132 @@ class Meeting
         $this->duration              = intval($xml->duration);
         $this->hasUserJoined         = $xml->hasUserJoined->__toString() == 'true';
     }
+
+    /**
+     * @return string
+     */
+    public function getMeetingId()
+    {
+        return $this->meetingId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMeetingName()
+    {
+        return $this->meetingName;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCreationTime()
+    {
+        return $this->creationTime;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVoiceBridge()
+    {
+        return $this->voiceBridge;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDialNumber()
+    {
+        return $this->dialNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAttendeePassword()
+    {
+        return $this->attendeePassword;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModeratorPassword()
+    {
+        return $this->moderatorPassword;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isHasBeenForciblyEnded()
+    {
+        return $this->hasBeenForciblyEnded;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsRunning()
+    {
+        return $this->isRunning;
+    }
+
+    /**
+     * @return int
+     */
+    public function getParticipantCount()
+    {
+        return $this->participantCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getListenerCount()
+    {
+        return $this->listenerCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVoiceParticipantCount()
+    {
+        return $this->voiceParticipantCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVideoCount()
+    {
+        return $this->videoCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isHasUserJoined()
+    {
+        return $this->hasUserJoined;
+    }
 }
