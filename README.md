@@ -1,10 +1,15 @@
 [![Build Status](https://travis-ci.org/bigbluebutton/bigbluebutton-api-php.svg?branch=master)](https://travis-ci.org/bigbluebutton/bigbluebutton-api-php)
-
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/?branch=master)
 ![PHP7 ready](https://img.shields.io/badge/PHP7-ready-green.svg)
+[![@bigbluebutton on Twitter](https://img.shields.io/badge/twitter-%40bigbluebutton-blue.svg?style=flat)](https://twitter.com/bigbluebutton)
 
-# bigbluebutton-api-php
-BigBlueButton PHP API Library
 
+
+# BigBlueButton API for PHP
+
+The **BigBlueButton API for PHP** makes it easy for developers to access [BigBlueButton][bbb] API.
+API in their PHP code.
 
 ## Development
 
@@ -19,3 +24,5 @@ Running PHPCS-Fixer
 ```
 ./vendor/bin/phpunit
 ```
+
+[bbb]: http://bigbluebutton.org
