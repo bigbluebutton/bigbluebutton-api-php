@@ -60,8 +60,8 @@ class JoinMeetingParameters extends BaseParameters
     public function __construct($meetingId, $username, $password)
     {
         $this->meetingId = $meetingId;
-        $this->username = $username;
-        $this->password = $password;
+        $this->username  = $username;
+        $this->password  = $password;
     }
 
     /**
@@ -190,14 +190,14 @@ class JoinMeetingParameters extends BaseParameters
     public function getHTTPQuery()
     {
         return $this->buildHTTPQuery(
-            array(
-                'meetingID' => $this->meetingId,
-                'fullName' => $this->username,
-                'password' => $this->password,
-                'userID' => $this->userId,
+            [
+                'meetingID'    => $this->meetingId,
+                'fullName'     => $this->username,
+                'password'     => $this->password,
+                'userID'       => $this->userId,
                 'webVoiceConf' => $this->webVoiceConf,
-                'createTime' => $this->creationTime,
-            )
+                'createTime'   => $this->creationTime,
+            ]
         );
     }
 }

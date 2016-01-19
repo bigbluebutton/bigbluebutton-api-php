@@ -40,7 +40,7 @@ class EndMeetingParameters extends BaseParameters
      */
     public function __construct($meetingId, $password)
     {
-        $this->password = $password;
+        $this->password  = $password;
         $this->meetingId = $meetingId;
     }
 
@@ -53,12 +53,13 @@ class EndMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param string $meetingId
+     * @param  string               $meetingId
      * @return EndMeetingParameters
      */
     public function setMeetingId($meetingId)
     {
         $this->meetingId = $meetingId;
+
         return $this;
     }
 
@@ -71,12 +72,13 @@ class EndMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param string $password
+     * @param  string               $password
      * @return EndMeetingParameters
      */
     public function setPassword($password)
     {
         $this->password = $password;
+
         return $this;
     }
 
@@ -86,9 +88,9 @@ class EndMeetingParameters extends BaseParameters
     public function getHTTPQuery()
     {
         return $this->buildHTTPQuery(
-            array('meetingID' => $this->meetingId,
+            ['meetingID'     => $this->meetingId,
                   'password' => $this->password,
-            )
+            ]
         );
     }
 }

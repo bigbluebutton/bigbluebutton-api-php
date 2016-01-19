@@ -53,7 +53,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function createRealMeeting($bbb)
     {
         $createMeetingParams = $this->generateCreateParams();
-        $createMeetingMock = $this->getCreateParamsMock($createMeetingParams);
+        $createMeetingMock   = $this->getCreateParamsMock($createMeetingParams);
+
         return $bbb->createMeeting($createMeetingMock);
     }
 
@@ -62,20 +63,20 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function generateCreateParams()
     {
-        return array(
-            'meetingName' => $this->faker->name,
-            'meetingId' => $this->faker->uuid,
-            'attendeePassword' => $this->faker->password,
+        return [
+            'meetingName'       => $this->faker->name,
+            'meetingId'         => $this->faker->uuid,
+            'attendeePassword'  => $this->faker->password,
             'moderatorPassword' => $this->faker->password,
-            'dialNumber' => $this->faker->phoneNumber,
-            'voiceBridge' => $this->faker->randomNumber(5),
-            'webVoice' => $this->faker->word,
-            'logoutUrl' => $this->faker->url,
-            'maxParticipants' => $this->faker->numberBetween(2, 100),
-            'record' => $this->faker->boolean(50),
-            'duration' => $this->faker->numberBetween(0, 6000),
-            'welcomeMessage' => $this->faker->sentence,
-        );
+            'dialNumber'        => $this->faker->phoneNumber,
+            'voiceBridge'       => $this->faker->randomNumber(5),
+            'webVoice'          => $this->faker->word,
+            'logoutUrl'         => $this->faker->url,
+            'maxParticipants'   => $this->faker->numberBetween(2, 100),
+            'record'            => $this->faker->boolean(50),
+            'duration'          => $this->faker->numberBetween(0, 6000),
+            'welcomeMessage'    => $this->faker->sentence,
+        ];
     }
 
     /**
@@ -99,12 +100,12 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function generateJoinMeetingParams()
     {
-        return array('meetingId' => $this->faker->uuid,
-                     'userName' => $this->faker->name,
-                     'password' => $this->faker->password,
-                     'userId' => $this->faker->numberBetween(1, 1000),
+        return ['meetingId'         => $this->faker->uuid,
+                     'userName'     => $this->faker->name,
+                     'password'     => $this->faker->password,
+                     'userId'       => $this->faker->numberBetween(1, 1000),
                      'webVoiceConf' => $this->faker->word,
-                     'creationTime' => $this->faker->unixTime, );
+                     'creationTime' => $this->faker->unixTime, ];
     }
 
     /**
@@ -124,8 +125,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function generateEndMeetingParams()
     {
-        return array('meetingId' => $this->faker->uuid,
-                     'password' => $this->faker->password);
+        return ['meetingId'     => $this->faker->uuid,
+                     'password' => $this->faker->password];
     }
 
     /**

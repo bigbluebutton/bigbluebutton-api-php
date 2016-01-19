@@ -48,12 +48,13 @@ class IsMeetingRunningParameters extends BaseParameters
     }
 
     /**
-     * @param string $meetingId
+     * @param  string                     $meetingId
      * @return IsMeetingRunningParameters
      */
     public function setMeetingId($meetingId)
     {
         $this->meetingId = $meetingId;
+
         return $this;
     }
 
@@ -62,6 +63,6 @@ class IsMeetingRunningParameters extends BaseParameters
      */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(array('meetingID' => $this->meetingId));
+        return $this->buildHTTPQuery(['meetingID' => $this->meetingId]);
     }
 }

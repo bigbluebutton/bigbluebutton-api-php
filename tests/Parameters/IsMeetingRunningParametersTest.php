@@ -28,7 +28,7 @@ class IsMeetingRunningParametersTest extends TestCase
 {
     public function testIsMeetingRunningParameters()
     {
-        $meetingId = $this->faker->uuid;
+        $meetingId       = $this->faker->uuid;
         $isRunningParams = new IsMeetingRunningParameters($meetingId);
 
         $this->assertEquals($meetingId, $isRunningParams->getMeetingId());

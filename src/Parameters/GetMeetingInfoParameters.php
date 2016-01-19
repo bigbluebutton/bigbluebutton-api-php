@@ -41,7 +41,7 @@ class GetMeetingInfoParameters extends BaseParameters
      */
     public function __construct($meetingId, $password)
     {
-        $this->password = $password;
+        $this->password  = $password;
         $this->meetingId = $meetingId;
     }
 
@@ -54,12 +54,13 @@ class GetMeetingInfoParameters extends BaseParameters
     }
 
     /**
-     * @param string $meetingId
+     * @param  string                   $meetingId
      * @return GetMeetingInfoParameters
      */
     public function setMeetingId($meetingId)
     {
         $this->meetingId = $meetingId;
+
         return $this;
     }
 
@@ -72,12 +73,13 @@ class GetMeetingInfoParameters extends BaseParameters
     }
 
     /**
-     * @param string $password
+     * @param  string                   $password
      * @return GetMeetingInfoParameters
      */
     public function setPassword($password)
     {
         $this->password = $password;
+
         return $this;
     }
 
@@ -87,9 +89,9 @@ class GetMeetingInfoParameters extends BaseParameters
     public function getHTTPQuery()
     {
         return $this->buildHTTPQuery(
-            array('meetingID' => $this->meetingId,
+            ['meetingID'     => $this->meetingId,
                   'password' => $this->password,
-            )
+            ]
         );
     }
 }

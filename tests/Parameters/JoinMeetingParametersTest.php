@@ -24,7 +24,7 @@ class JoinMeetingParametersTest extends TestCase
 {
     public function testJoinMeetingParameters()
     {
-        $params = $this->generateJoinMeetingParams();
+        $params              = $this->generateJoinMeetingParams();
         $createMeetingParams = $this->getJoinMeetingMock($params);
 
         $this->assertEquals($params['meetingId'], $createMeetingParams->getMeetingId());

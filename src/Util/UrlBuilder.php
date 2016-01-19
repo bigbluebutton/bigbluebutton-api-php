@@ -41,7 +41,7 @@ class UrlBuilder
      */
     public function __construct($salt, $serverBaseUrl)
     {
-        $this->securitySalt = $salt;
+        $this->securitySalt     = $salt;
         $this->bbbServerBaseUrl = $serverBaseUrl;
     }
 

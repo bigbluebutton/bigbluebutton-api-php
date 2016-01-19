@@ -47,25 +47,25 @@ class MeetingInfo
      */
     public function __construct($xml)
     {
-        $this->internalMeetingId = $xml->internalMeetingID->__toString();
-        $this->creationTime = intval($xml->createTime);
-        $this->creationDate = $xml->createDate->__toString();
-        $this->voiceBridge = intval($xml->voiceBridge);
-        $this->dialNumber = $xml->dialNumber->__toString();
-        $this->attendeePassword = $xml->attendeePW->__toString();
-        $this->moderatorPassword = $xml->moderatorPW->__toString();
-        $this->isRunning = boolval($xml->running);
-        $this->duration = intval($xml->duration);
-        $this->hasUserJoined = boolval($xml->hasUserJoined);
-        $this->isRecording = boolval($xml->recording);
-        $this->hasBeenForciblyEnded = boolval($xml->hasBeenForciblyEnded);
-        $this->startTime = intval($xml->startTime);
-        $this->endTime = intval($xml->endTime);
-        $this->participantCount = intval($xml->participantCount);
-        $this->listenerCount = intval($xml->listenerCount);
+        $this->internalMeetingId     = $xml->internalMeetingID->__toString();
+        $this->creationTime          = intval($xml->createTime);
+        $this->creationDate          = $xml->createDate->__toString();
+        $this->voiceBridge           = intval($xml->voiceBridge);
+        $this->dialNumber            = $xml->dialNumber->__toString();
+        $this->attendeePassword      = $xml->attendeePW->__toString();
+        $this->moderatorPassword     = $xml->moderatorPW->__toString();
+        $this->isRunning             = boolval($xml->running);
+        $this->duration              = intval($xml->duration);
+        $this->hasUserJoined         = boolval($xml->hasUserJoined);
+        $this->isRecording           = boolval($xml->recording);
+        $this->hasBeenForciblyEnded  = boolval($xml->hasBeenForciblyEnded);
+        $this->startTime             = intval($xml->startTime);
+        $this->endTime               = intval($xml->endTime);
+        $this->participantCount      = intval($xml->participantCount);
+        $this->listenerCount         = intval($xml->listenerCount);
         $this->voiceParticipantCount = intval($xml->voiceParticipantCount);
-        $this->videoCount = intval($xml->videoCount);
-        $this->maxUsers = intval($xml->maxUsers);
-        $this->moderatorCount = intval($xml->moderatorCount);
+        $this->videoCount            = intval($xml->videoCount);
+        $this->maxUsers              = intval($xml->maxUsers);
+        $this->moderatorCount        = intval($xml->moderatorCount);
     }
 }

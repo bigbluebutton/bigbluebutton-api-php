@@ -6,8 +6,12 @@ BigBlueButton PHP API Library
 
 Running PHPCS-Fixer
 
-vendor/bin/php-cs-fixer fix src --level=psr2
+```
+./vendor/bin/php-cs-fixer fix
+```
 
 ## Runing tests
 
+```
 ./vendor/bin/phpunit
+```

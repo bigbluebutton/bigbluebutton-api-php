@@ -3,3 +3,6 @@ composer.phar
 
 ## Directory-based project format:
 .idea/
+
+# PHP CS Fixer cache file
+.php_cs.cache

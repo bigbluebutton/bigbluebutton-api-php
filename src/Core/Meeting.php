@@ -112,21 +112,21 @@ class Meeting
      */
     public function __construct($xml)
     {
-        $this->meetingId = $xml->meetingID->__toString();
-        $this->meetingName = $xml->meetingName->__toString();
-        $this->creationTime = intval($xml->createTime);
-        $this->creationDate = $xml->createDate->__toString();
-        $this->voiceBridge = intval($xml->voiceBridge);
-        $this->dialNumber = $xml->dialNumber->__toString();
-        $this->attendeePassword = $xml->attendeePW->__toString();
-        $this->moderatorPassword = $xml->moderatorPW->__toString();
-        $this->hasBeenForciblyEnded = boolval($xml->hasBeenForciblyEnded);
-        $this->isRunning = boolval($xml->running);
-        $this->participantCount = intval($xml->participantCount);
-        $this->listenerCount = intval($xml->listenerCount);
+        $this->meetingId             = $xml->meetingID->__toString();
+        $this->meetingName           = $xml->meetingName->__toString();
+        $this->creationTime          = intval($xml->createTime);
+        $this->creationDate          = $xml->createDate->__toString();
+        $this->voiceBridge           = intval($xml->voiceBridge);
+        $this->dialNumber            = $xml->dialNumber->__toString();
+        $this->attendeePassword      = $xml->attendeePW->__toString();
+        $this->moderatorPassword     = $xml->moderatorPW->__toString();
+        $this->hasBeenForciblyEnded  = boolval($xml->hasBeenForciblyEnded);
+        $this->isRunning             = boolval($xml->running);
+        $this->participantCount      = intval($xml->participantCount);
+        $this->listenerCount         = intval($xml->listenerCount);
         $this->voiceParticipantCount = intval($xml->voiceParticipantCount);
-        $this->videoCount = intval($xml->videoCount);
-        $this->duration = intval($xml->duration);
-        $this->hasUserJoined = boolval($xml->hasUserJoined);
+        $this->videoCount            = intval($xml->videoCount);
+        $this->duration              = intval($xml->duration);
+        $this->hasUserJoined         = boolval($xml->hasUserJoined);
     }
 }

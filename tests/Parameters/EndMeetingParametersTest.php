@@ -24,8 +24,8 @@ class EndMeetingParametersTest extends TestCase
 {
     public function testEndMeetingParameters()
     {
-        $meetingId = $this->faker->uuid;
-        $password = $this->faker->password();
+        $meetingId        = $this->faker->uuid;
+        $password         = $this->faker->password();
         $endMeetingParams = new EndMeetingParameters($meetingId, $password);
 
         $this->assertEquals($meetingId, $endMeetingParams->getMeetingId());

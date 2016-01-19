@@ -44,9 +44,9 @@ class BigBlueButton
 
     public function __construct()
     {
-        $this->securitySalt = $_SERVER['BBB_SECURITY_SALT'];
+        $this->securitySalt     = $_SERVER['BBB_SECURITY_SALT'];
         $this->bbbServerBaseUrl = $_SERVER['BBB_SERVER_BASE_URL'];
-        $this->urlBuilder = new UrlBuilder($this->securitySalt, $this->bbbServerBaseUrl);
+        $this->urlBuilder       = new UrlBuilder($this->securitySalt, $this->bbbServerBaseUrl);
     }
 
     /**
@@ -175,39 +175,39 @@ class BigBlueButton
         if ($xml) {
             // If we don't get a success code or messageKey, find out why:
             if (($xml->returncode != 'SUCCESS') || ($xml->messageKey == null)) {
-                $result = array(
+                $result = [
                     'returncode' => $xml->returncode,
                     'messageKey' => $xml->messageKey,
-                    'message' => $xml->message,
-                );
+                    'message'    => $xml->message,
+                ];
 
                 return $result;
             } else {
                 // In this case, we have success and meeting info:
-                $result = array(
-                    'returncode' => $xml->returncode,
-                    'meetingName' => $xml->meetingName,
-                    'meetingId' => $xml->meetingID,
-                    'createTime' => $xml->createTime,
-                    'voiceBridge' => $xml->voiceBridge,
-                    'attendeePw' => $xml->attendeePW,
-                    'moderatorPw' => $xml->moderatorPW,
-                    'running' => $xml->running,
-                    'recording' => $xml->recording,
+                $result = [
+                    'returncode'           => $xml->returncode,
+                    'meetingName'          => $xml->meetingName,
+                    'meetingId'            => $xml->meetingID,
+                    'createTime'           => $xml->createTime,
+                    'voiceBridge'          => $xml->voiceBridge,
+                    'attendeePw'           => $xml->attendeePW,
+                    'moderatorPw'          => $xml->moderatorPW,
+                    'running'              => $xml->running,
+                    'recording'            => $xml->recording,
                     'hasBeenForciblyEnded' => $xml->hasBeenForciblyEnded,
-                    'startTime' => $xml->startTime,
-                    'endTime' => $xml->endTime,
-                    'participantCount' => $xml->participantCount,
-                    'maxUsers' => $xml->maxUsers,
-                    'moderatorCount' => $xml->moderatorCount,
-                );
+                    'startTime'            => $xml->startTime,
+                    'endTime'              => $xml->endTime,
+                    'participantCount'     => $xml->participantCount,
+                    'maxUsers'             => $xml->maxUsers,
+                    'moderatorCount'       => $xml->moderatorCount,
+                ];
                 // Then interate through attendee results and return them as part of the array:
                 foreach ($xml->attendees->attendee as $a) {
-                    $result[] = array(
-                        'userId' => $a->userID,
+                    $result[] = [
+                        'userId'   => $a->userID,
                         'fullName' => $a->fullName,
-                        'role' => $a->role,
-                    );
+                        'role'     => $a->role,
+                    ];
                 }
 
                 return $result;
@@ -232,7 +232,7 @@ class BigBlueButton
         );
         */
         $recordingsUrl = $this->bbbServerBaseUrl.'api/getRecordings?';
-        $params =
+        $params        =
             'meetingID='.urlencode($recordingParams['meetingId']);
 
         return $recordingsUrl.$params.'&checksum='.sha1('getRecordings'.$params.$this->securitySalt);
@@ -252,41 +252,41 @@ class BigBlueButton
         if ($xml) {
             // If we don't get a success code or messageKey, find out why:
             if (($xml->returncode != 'SUCCESS') || ($xml->messageKey == null)) {
-                $result = array(
+                $result = [
                     'returncode' => $xml->returncode,
                     'messageKey' => $xml->messageKey,
-                    'message' => $xml->message,
-                );
+                    'message'    => $xml->message,
+                ];
 
                 return $result;
             } else {
                 // In this case, we have success and recording info:
-                $result = array(
+                $result = [
                     'returncode' => $xml->returncode,
                     'messageKey' => $xml->messageKey,
-                    'message' => $xml->message,
-                );
+                    'message'    => $xml->message,
+                ];
 
                 foreach ($xml->recordings->recording as $r) {
-                    $result[] = array(
-                        'recordId' => $r->recordID,
-                        'meetingId' => $r->meetingID,
-                        'name' => $r->name,
-                        'published' => $r->published,
-                        'startTime' => $r->startTime,
-                        'endTime' => $r->endTime,
-                        'playbackFormatType' => $r->playback->format->type,
-                        'playbackFormatUrl' => $r->playback->format->url,
+                    $result[] = [
+                        'recordId'             => $r->recordID,
+                        'meetingId'            => $r->meetingID,
+                        'name'                 => $r->name,
+                        'published'            => $r->published,
+                        'startTime'            => $r->startTime,
+                        'endTime'              => $r->endTime,
+                        'playbackFormatType'   => $r->playback->format->type,
+                        'playbackFormatUrl'    => $r->playback->format->url,
                         'playbackFormatLength' => $r->playback->format->length,
-                        'metadataTitle' => $r->metadata->title,
-                        'metadataSubject' => $r->metadata->subject,
-                        'metadataDescription' => $r->metadata->description,
-                        'metadataCreator' => $r->metadata->creator,
-                        'metadataContributor' => $r->metadata->contributor,
-                        'metadataLanguage' => $r->metadata->language,
+                        'metadataTitle'        => $r->metadata->title,
+                        'metadataSubject'      => $r->metadata->subject,
+                        'metadataDescription'  => $r->metadata->description,
+                        'metadataCreator'      => $r->metadata->creator,
+                        'metadataContributor'  => $r->metadata->contributor,
+                        'metadataLanguage'     => $r->metadata->language,
                         // Add more here as needed for your app depending on your
                         // use of metadata when creating recordings.
-                    );
+                    ];
                 }
 
                 return $result;
@@ -305,7 +305,7 @@ class BigBlueButton
         );
         */
         $recordingsUrl = $this->bbbServerBaseUrl.'api/publishRecordings?';
-        $params =
+        $params        =
             'recordID='.urlencode($recordingParams['recordId']).
             '&publish='.urlencode($recordingParams['publish']);
 
@@ -322,10 +322,10 @@ class BigBlueButton
         */
         $xml = $this->processXmlResponse($this->getPublishRecordingsUrl($recordingParams));
         if ($xml) {
-            return array(
+            return [
                 'returncode' => $xml->returncode,
-                'published' => $xml->published,    // -- Returns true/false.
-            );
+                'published'  => $xml->published,    // -- Returns true/false.
+            ];
         } else {
             return;
         }
@@ -339,7 +339,7 @@ class BigBlueButton
         );
         */
         $recordingsUrl = $this->bbbServerBaseUrl.'api/deleteRecordings?';
-        $params =
+        $params        =
             'recordID='.urlencode($recordingParams['recordId']);
 
         return $recordingsUrl.$params.'&checksum='.sha1('deleteRecordings'.$params.$this->securitySalt);
@@ -355,10 +355,10 @@ class BigBlueButton
 
         $xml = $this->processXmlResponse($this->getDeleteRecordingsUrl($recordingParams));
         if ($xml) {
-            return array(
+            return [
                 'returncode' => $xml->returncode,
-                'deleted' => $xml->deleted,    // -- Returns true/false.
-            );
+                'deleted'    => $xml->deleted,    // -- Returns true/false.
+            ];
         } else {
             return;
         }
@@ -372,7 +372,7 @@ class BigBlueButton
         A private utility method used by other public methods to process XML responses.
         */
         if (extension_loaded('curl')) {
-            $ch = curl_init() or die(curl_error());
+            $ch      = curl_init() or die(curl_error());
             $timeout = 10;
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_URL, $url);
@@ -383,10 +383,10 @@ class BigBlueButton
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     'Content-type: application/xml',
                     'Content-length: '.strlen($xml),
-                ));
+                ]);
             }
             $data = curl_exec($ch);
             curl_close($ch);

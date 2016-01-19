@@ -48,6 +48,7 @@ class GetMeetingInfoResponse extends BaseResponse
         } else {
             $this->meetingInfo = new MeetingInfo($this->rawXml);
         }
+
         return $this->meetingInfo;
     }
 
@@ -59,11 +60,12 @@ class GetMeetingInfoResponse extends BaseResponse
         if (!is_null($this->attendees)) {
             return $this->attendees;
         } else {
-            $this->meetings = array();
+            $this->meetings = [];
             foreach ($this->rawXml->attendess->children() as $attendeeXml) {
                 $this->attendees[] = new Attendee($attendeeXml);
             }
         }
+
         return $this->attendees;
     }
 }

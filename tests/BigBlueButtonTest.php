@@ -71,7 +71,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingUrl()
     {
         $params = $this->generateCreateParams();
-        $url = $this->bbb->getCreateMeetingUrl($this->getCreateParamsMock($params));
+        $url    = $this->bbb->getCreateMeetingUrl($this->getCreateParamsMock($params));
         foreach ($params as $key => $value) {
             $this->assertContains('=' . urlencode($value), $url);
         }
@@ -95,7 +95,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateJoinMeetingUrl()
     {
         $joinMeetingParams = $this->generateJoinMeetingParams();
-        $joinMeetingMock = $this->getJoinMeetingMock($joinMeetingParams);
+        $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
 
         $url = $this->bbb->getJoinMeetingURL($joinMeetingMock);
 
@@ -112,7 +112,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateEndMeetingUrl()
     {
         $params = $this->generateEndMeetingParams();
-        $url = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
+        $url    = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
         foreach ($params as $key => $value) {
             $this->assertContains('=' . urlencode($value), $url);
         }
@@ -123,7 +123,7 @@ class BigBlueButtonTest extends TestCase
         $meeting = $this->createRealMeeting($this->bbb);
 
         $endMeeting = new EndMeetingParameters($meeting->getMeetingId(), $meeting->getModeratorPassword());
-        $result = $this->bbb->endMeeting($endMeeting);
+        $result     = $this->bbb->endMeeting($endMeeting);
         $this->assertEquals('SUCCESS', $result->getReturnCode());
     }
 

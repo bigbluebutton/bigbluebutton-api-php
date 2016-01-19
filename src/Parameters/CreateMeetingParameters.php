@@ -96,7 +96,7 @@ class CreateMeetingParameters extends BaseParameters
      */
     public function __construct($meetingId, $meetingName)
     {
-        $this->meetingId = $meetingId;
+        $this->meetingId   = $meetingId;
         $this->meetingName = $meetingName;
     }
 
@@ -366,20 +366,20 @@ class CreateMeetingParameters extends BaseParameters
     public function getHTTPQuery()
     {
         return $this->buildHTTPQuery(
-            array('name' => $this->meetingName,
-                  'meetingID' => $this->meetingId,
-                  'attendeePW' => $this->attendeePassword,
-                  'moderatorPW' => $this->moderatorPassword,
-                  'dialNumber' => $this->dialNumber,
-                  'voiceBridge' => $this->voiceBridge,
-                  'webVoice' => $this->webVoice,
-                  'logoutURL' => $this->logoutUrl,
-                  'maxParticipants' => $this->maxParticipants,
-                  'record' => $this->record,
+            ['name'                    => $this->meetingName,
+                  'meetingID'          => $this->meetingId,
+                  'attendeePW'         => $this->attendeePassword,
+                  'moderatorPW'        => $this->moderatorPassword,
+                  'dialNumber'         => $this->dialNumber,
+                  'voiceBridge'        => $this->voiceBridge,
+                  'webVoice'           => $this->webVoice,
+                  'logoutURL'          => $this->logoutUrl,
+                  'maxParticipants'    => $this->maxParticipants,
+                  'record'             => $this->record,
                   'autoStartRecording' => $this->autoStartRecording,
-                  'duration' => $this->duration,
-                  'welcomeMessage' => trim($this->welcomeMessage),
-            )
+                  'duration'           => $this->duration,
+                  'welcomeMessage'     => trim($this->welcomeMessage),
+            ]
         );
     }
 }
