@@ -14,8 +14,8 @@ matrix:
   fast_finish: true
 
 before_script:
-  - composer self-update
-  - composer install --prefer-source
+  - wget http://getcomposer.org/composer.phar
+  - php composer.phar install --dev --no-interaction
 
 script:
   - mkdir -p build/logs

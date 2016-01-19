@@ -26,7 +26,6 @@
     "fzaninotto/faker": "~1.5.0",
     "fabpot/php-cs-fixer": "~1.10",
     "squizlabs/php_codesniffer": "2.*",
-    "satooshi/php-coveralls": "dev-master"
   },
   "autoload": {
     "psr-4": {
