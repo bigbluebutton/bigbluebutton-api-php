@@ -20,4 +20,53 @@ namespace BigBlueButton\Core;
 
 class Attendee
 {
+    /**
+     * @var string
+     */
+    private $userId;
+
+    /**
+     * @var string
+     */
+    private $fullName;
+
+    /**
+     * @var string
+     */
+    private $role;
+
+    /**
+     * @var boolean
+     */
+    private $isPresenter;
+
+    /**
+     * @var boolean
+     */
+    private $isListeningOnly;
+
+    /**
+     * @var boolean
+     */
+    private $hasJoinedVoice;
+
+    /**
+     * @var boolean
+     */
+    private $hasVideo;
+
+    /**
+     * Attendee constructor.
+     * @param $xml \SimpleXMLElement
+     */
+    public function __construct($xml)
+    {
+        $this->userID          = $xml->userID->__toString();
+        $this->fullName        = $xml->fullName->__toString();
+        $this->role            = $xml->role->__toString();
+        $this->isPresenter     = $xml->isPresenter->__toString() == 'true';
+        $this->isListeningOnly = $xml->isListeningOnly->__toString() == 'true';
+        $this->hasJoinedVoice  = $xml->hasJoinedVoice->__toString() == 'true';
+        $this->hasVideo        = $xml->hasVideo->__toString() == 'true';
+    }
 }

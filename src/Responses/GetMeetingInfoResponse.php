@@ -33,6 +33,11 @@ class GetMeetingInfoResponse extends BaseResponse
      */
     private $attendees;
 
+    /**
+     * @var array
+     */
+    private $metadata;
+
     public function __construct(\SimpleXMLElement $xml)
     {
         parent::__construct($xml);
@@ -60,8 +65,8 @@ class GetMeetingInfoResponse extends BaseResponse
         if (!is_null($this->attendees)) {
             return $this->attendees;
         } else {
-            $this->meetings = [];
-            foreach ($this->rawXml->attendess->children() as $attendeeXml) {
+            $this->attendess = [];
+            foreach ($this->rawXml->attendees->attendee as $attendeeXml) {
                 $this->attendees[] = new Attendee($attendeeXml);
             }
         }

@@ -27,6 +27,7 @@ use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
+use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Util\UrlBuilder as UrlBuilder;
@@ -163,58 +164,15 @@ class BigBlueButton
         return $this->urlBuilder->buildUrl(ApiMethod::IS_MEETING_RUNNING, $meetingParams->getHTTPQuery());
     }
 
-    public function getMeetingInfoWithXmlResponseArray($infoParams)
+    /**
+     * @param $meetingParams GetMeetingInfoParameters
+     * @return GetMeetingInfoResponse
+     */
+    public function getMeetingInfo($meetingParams)
     {
-        /* USAGE:
-        $infoParams = array(
-            'meetingId' => '1234',		-- REQUIRED - The unique id for the meeting
-            'password' => 'mp'			-- REQUIRED - The moderator password for the meeting
-        );
-        */
-        $xml = $this->processXmlResponse($this->getMeetingInfoUrl($infoParams));
-        if ($xml) {
-            // If we don't get a success code or messageKey, find out why:
-            if (($xml->returncode != 'SUCCESS') || ($xml->messageKey == null)) {
-                $result = [
-                    'returncode' => $xml->returncode,
-                    'messageKey' => $xml->messageKey,
-                    'message'    => $xml->message,
-                ];
+        $xml = $this->processXmlResponse($this->getMeetingInfoUrl($meetingParams));
 
-                return $result;
-            } else {
-                // In this case, we have success and meeting info:
-                $result = [
-                    'returncode'           => $xml->returncode,
-                    'meetingName'          => $xml->meetingName,
-                    'meetingId'            => $xml->meetingID,
-                    'createTime'           => $xml->createTime,
-                    'voiceBridge'          => $xml->voiceBridge,
-                    'attendeePw'           => $xml->attendeePW,
-                    'moderatorPw'          => $xml->moderatorPW,
-                    'running'              => $xml->running,
-                    'recording'            => $xml->recording,
-                    'hasBeenForciblyEnded' => $xml->hasBeenForciblyEnded,
-                    'startTime'            => $xml->startTime,
-                    'endTime'              => $xml->endTime,
-                    'participantCount'     => $xml->participantCount,
-                    'maxUsers'             => $xml->maxUsers,
-                    'moderatorCount'       => $xml->moderatorCount,
-                ];
-                // Then interate through attendee results and return them as part of the array:
-                foreach ($xml->attendees->attendee as $a) {
-                    $result[] = [
-                        'userId'   => $a->userID,
-                        'fullName' => $a->fullName,
-                        'role'     => $a->role,
-                    ];
-                }
-
-                return $result;
-            }
-        } else {
-            return;
-        }
+        return new GetMeetingInfoResponse($xml);
     }
 
     /* __________________ BBB RECORDING METHODS _________________ */
@@ -231,11 +189,11 @@ class BigBlueButton
             'meetingId' => '1234',		-- OPTIONAL - comma separate if multiple ids
         );
         */
-        $recordingsUrl = $this->bbbServerBaseUrl.'api/getRecordings?';
+        $recordingsUrl = $this->bbbServerBaseUrl . 'api/getRecordings?';
         $params        =
-            'meetingID='.urlencode($recordingParams['meetingId']);
+            'meetingID=' . urlencode($recordingParams['meetingId']);
 
-        return $recordingsUrl.$params.'&checksum='.sha1('getRecordings'.$params.$this->securitySalt);
+        return $recordingsUrl . $params . '&checksum=' . sha1('getRecordings' . $params . $this->securitySalt);
     }
 
     public function getRecordingsWithXmlResponseArray($recordingParams)
@@ -304,12 +262,12 @@ class BigBlueButton
             'publish' => 'true',		-- REQUIRED - boolean: true/false
         );
         */
-        $recordingsUrl = $this->bbbServerBaseUrl.'api/publishRecordings?';
+        $recordingsUrl = $this->bbbServerBaseUrl . 'api/publishRecordings?';
         $params        =
-            'recordID='.urlencode($recordingParams['recordId']).
-            '&publish='.urlencode($recordingParams['publish']);
+            'recordID=' . urlencode($recordingParams['recordId']) .
+            '&publish=' . urlencode($recordingParams['publish']);
 
-        return $recordingsUrl.$params.'&checksum='.sha1('publishRecordings'.$params.$this->securitySalt);
+        return $recordingsUrl . $params . '&checksum=' . sha1('publishRecordings' . $params . $this->securitySalt);
     }
 
     public function publishRecordingsWithXmlResponseArray($recordingParams)
@@ -338,11 +296,11 @@ class BigBlueButton
             'recordId' => '1234',		-- REQUIRED - comma separate if multiple ids
         );
         */
-        $recordingsUrl = $this->bbbServerBaseUrl.'api/deleteRecordings?';
+        $recordingsUrl = $this->bbbServerBaseUrl . 'api/deleteRecordings?';
         $params        =
-            'recordID='.urlencode($recordingParams['recordId']);
+            'recordID=' . urlencode($recordingParams['recordId']);
 
-        return $recordingsUrl.$params.'&checksum='.sha1('deleteRecordings'.$params.$this->securitySalt);
+        return $recordingsUrl . $params . '&checksum=' . sha1('deleteRecordings' . $params . $this->securitySalt);
     }
 
     public function deleteRecordingsWithXmlResponseArray($recordingParams)
@@ -375,6 +333,7 @@ class BigBlueButton
             $ch      = curl_init() or die(curl_error());
             $timeout = 10;
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
@@ -385,7 +344,7 @@ class BigBlueButton
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     'Content-type: application/xml',
-                    'Content-length: '.strlen($xml),
+                    'Content-length: ' . strlen($xml),
                 ]);
             }
             $data = curl_exec($ch);

@@ -170,6 +170,9 @@ class BigBlueButtonTest extends TestCase
 
     public function testGetMeetingInfo()
     {
-        // TODO
+        $meeting = $this->createRealMeeting($this->bbb);
+
+        $result = $this->bbb->getMeetingInfo(new GetMeetingInfoParameters($meeting->getMeetingId(), $meeting->getModeratorPassword()));
+        $this->assertEquals('SUCCESS', $result->getReturnCode());
     }
 }
