@@ -25,7 +25,7 @@
     "phpunit/phpunit": "~4.0|~5.0",
     "fzaninotto/faker": "~1.5.0",
     "fabpot/php-cs-fixer": "~1.10",
-    "squizlabs/php_codesniffer": "2.*",
+    "squizlabs/php_codesniffer": "2.*"
   },
   "autoload": {
     "psr-4": {
