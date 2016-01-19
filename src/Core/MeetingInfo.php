@@ -54,11 +54,11 @@ class MeetingInfo
         $this->dialNumber            = $xml->dialNumber->__toString();
         $this->attendeePassword      = $xml->attendeePW->__toString();
         $this->moderatorPassword     = $xml->moderatorPW->__toString();
-        $this->isRunning             = boolval($xml->running);
+        $this->isRunning             = $xml->running->__toString() == 'true';
         $this->duration              = intval($xml->duration);
-        $this->hasUserJoined         = boolval($xml->hasUserJoined);
-        $this->isRecording           = boolval($xml->recording);
-        $this->hasBeenForciblyEnded  = boolval($xml->hasBeenForciblyEnded);
+        $this->hasUserJoined         = $xml->hasUserJoined->__toString() == 'true';
+        $this->isRecording           = $xml->recording->__toString() == 'true';
+        $this->hasBeenForciblyEnded  = $xml->hasBeenForciblyEnded->__toString() == 'true';
         $this->startTime             = intval($xml->startTime);
         $this->endTime               = intval($xml->endTime);
         $this->participantCount      = intval($xml->participantCount);

@@ -120,13 +120,13 @@ class Meeting
         $this->dialNumber            = $xml->dialNumber->__toString();
         $this->attendeePassword      = $xml->attendeePW->__toString();
         $this->moderatorPassword     = $xml->moderatorPW->__toString();
-        $this->hasBeenForciblyEnded  = boolval($xml->hasBeenForciblyEnded);
-        $this->isRunning             = boolval($xml->running);
+        $this->hasBeenForciblyEnded  = $xml->hasBeenForciblyEnded->__toString() == 'true';
+        $this->isRunning             = $xml->running->__toString() == 'true';
         $this->participantCount      = intval($xml->participantCount);
         $this->listenerCount         = intval($xml->listenerCount);
         $this->voiceParticipantCount = intval($xml->voiceParticipantCount);
         $this->videoCount            = intval($xml->videoCount);
         $this->duration              = intval($xml->duration);
-        $this->hasUserJoined         = boolval($xml->hasUserJoined);
+        $this->hasUserJoined         = $xml->hasUserJoined->__toString() == 'true';
     }
 }
