@@ -9,7 +9,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
     ->in(__DIR__ . '/tests');
 
 return Symfony\CS\Config\Config::create()
-    ->setUsingCache(true)
+    ->setUsingCache(false)
     ->level(Symfony\CS\FixerInterface::NONE_LEVEL)
     ->fixers(array(
         'psr0', 'encoding', 'short_tag', 'braces', 'elseif', 'eof_ending', 'function_call_space', 'function_declaration',
