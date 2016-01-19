@@ -21,6 +21,7 @@ namespace BigBlueButton;
 use BigBlueButton\Core\ApiMethod as ApiMethod;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
@@ -153,22 +154,13 @@ class BigBlueButton
         return new GetMeetingsResponse($xml);
     }
 
-    public function getMeetingInfoUrl($infoParams)
+    /**
+     * @param $meetingParams GetMeetingInfoParameters
+     * @return string
+     */
+    public function getMeetingInfoUrl($meetingParams)
     {
-        /* USAGE:
-        $infoParams = array(
-            'meetingId' => '1234',		-- REQUIRED - The unique id for the meeting
-            'password' => 'mp'			-- REQUIRED - The moderator password for the meeting
-        );
-        */
-        $this->_meetingId = $this->_requiredParam($infoParams['meetingId'], 'meetingId');
-        $this->_password = $this->_requiredParam($infoParams['password'], 'password');
-        $infoUrl = $this->bbbServerBaseUrl.'api/getMeetingInfo?';
-        $params =
-            'meetingID='.urlencode($this->_meetingId).
-            '&password='.urlencode($this->_password);
-
-        return $infoUrl.$params.'&checksum='.sha1('getMeetingInfo'.$params.$this->securitySalt);
+        return $this->urlBuilder->buildUrl(ApiMethod::IS_MEETING_RUNNING, $meetingParams->getHTTPQuery());
     }
 
     public function getMeetingInfoWithXmlResponseArray($infoParams)

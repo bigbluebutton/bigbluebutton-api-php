@@ -19,9 +19,10 @@
 namespace BigBlueButton\Parameters;
 
 /**
- * Class EndMeetingParameters.
+ * Class GetMeetingInfoParameters
+ * @package BigBlueButton\Parameters
  */
-class EndMeetingParameters extends BaseParameters
+class GetMeetingInfoParameters extends BaseParameters
 {
     /**
      * @var string
@@ -33,7 +34,7 @@ class EndMeetingParameters extends BaseParameters
     private $password;
 
     /**
-     * EndMeetingParameters constructor.
+     * GetMeetingInfoParameters constructor.
      *
      * @param $meetingId
      * @param $password
@@ -54,7 +55,7 @@ class EndMeetingParameters extends BaseParameters
 
     /**
      * @param string $meetingId
-     * @return EndMeetingParameters
+     * @return GetMeetingInfoParameters
      */
     public function setMeetingId($meetingId)
     {
@@ -72,7 +73,7 @@ class EndMeetingParameters extends BaseParameters
 
     /**
      * @param string $password
-     * @return EndMeetingParameters
+     * @return GetMeetingInfoParameters
      */
     public function setPassword($password)
     {

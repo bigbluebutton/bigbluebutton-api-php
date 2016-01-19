@@ -22,16 +22,13 @@ use BigBlueButton\TestCase as TestCase;
 
 class EndMeetingParametersTest extends TestCase
 {
-    public function testJoinMeetingParameters()
+    public function testEndMeetingParameters()
     {
-        $params = $this->generateJoinMeetingParams();
-        $createMeetingParams = $this->getJoinMeetingMock($params);
+        $meetingId = $this->faker->uuid;
+        $password = $this->faker->password();
+        $endMeetingParams = new EndMeetingParameters($meetingId, $password);
 
-        $this->assertEquals($params['meetingId'], $createMeetingParams->getMeetingId());
-        $this->assertEquals($params['userName'], $createMeetingParams->getUsername());
-        $this->assertEquals($params['password'], $createMeetingParams->getPassword());
-        $this->assertEquals($params['userId'], $createMeetingParams->getUserId());
-        $this->assertEquals($params['webVoiceConf'], $createMeetingParams->getWebVoiceConf());
-        $this->assertEquals($params['creationTime'], $createMeetingParams->getCreationTime());
+        $this->assertEquals($meetingId, $endMeetingParams->getMeetingId());
+        $this->assertEquals($password, $endMeetingParams->getPassword());
     }
 }

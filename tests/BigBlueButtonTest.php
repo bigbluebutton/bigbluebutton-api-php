@@ -18,7 +18,9 @@
  */
 namespace BigBlueButton;
 
+use BigBlueButton\Core\ApiMethod;
 use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 
 /**
@@ -141,17 +143,33 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals(false, $result->isRunning());
     }
 
-       /* Get Metings */
+    /* Get Metings */
 
     public function testGetMeetingsUrl()
     {
-        $result = $this->bbb->getMeetingsUrl();
-        $this->assertNotEmpty($result);
+        $url = $this->bbb->getMeetingsUrl();
+        $this->assertContains(ApiMethod::GET_MEETINGS, $url);
     }
 
     public function testGetMeetings()
     {
         $result = $this->bbb->getMeetings();
         $this->assertNotNull($result->getMeetings());
+    }
+
+    /* Get meeting info */
+
+    public function testGetMeetingInfoUrl()
+    {
+        $meeting = $this->createRealMeeting($this->bbb);
+
+        $url = $this->bbb->getMeetingInfoUrl(new GetMeetingInfoParameters($meeting->getMeetingId(), $meeting->getModeratorPassword()));
+        $this->assertContains('=' . urlencode($meeting->getMeetingId()), $url);
+        $this->assertContains('=' . urlencode($meeting->getModeratorPassword()), $url);
+    }
+
+    public function testGetMeetingInfo()
+    {
+        // TODO
     }
 }

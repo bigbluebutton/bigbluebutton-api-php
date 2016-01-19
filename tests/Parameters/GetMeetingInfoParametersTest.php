@@ -18,50 +18,17 @@
  */
 namespace BigBlueButton\Parameters;
 
-/**
- * Class IsMeetingRunningParameters
- * @package BigBlueButton\Parameters
- */
-class IsMeetingRunningParameters extends BaseParameters
+use BigBlueButton\TestCase;
+
+class GetMeetingInfoParametersTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    private $meetingId;
-
-    /**
-     * IsMeetingRunningParameters constructor.
-     *
-     * @param $meetingId
-     */
-    public function __construct($meetingId)
+    public function testGetMeetingInfoParameters()
     {
-        $this->meetingId = $meetingId;
-    }
+        $meetingId = $this->faker->uuid;
+        $password = $this->faker->password();
+        $getMeetingInfoParams = new GetMeetingInfoParameters($meetingId, $password);
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
-    {
-        return $this->meetingId;
-    }
-
-    /**
-     * @param string $meetingId
-     * @return IsMeetingRunningParameters
-     */
-    public function setMeetingId($meetingId)
-    {
-        $this->meetingId = $meetingId;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        return $this->buildHTTPQuery(array('meetingID' => $this->meetingId));
+        $this->assertEquals($meetingId, $getMeetingInfoParams->getMeetingId());
+        $this->assertEquals($password, $getMeetingInfoParams->getPassword());
     }
 }

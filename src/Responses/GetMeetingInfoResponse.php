@@ -18,48 +18,52 @@
  */
 namespace BigBlueButton\Responses;
 
-use BigBlueButton\Core\Meeting;
+use BigBlueButton\Core\Attendee;
+use BigBlueButton\Core\MeetingInfo;
 
-/**
- * Class GetMeetingsResponse
- * @package BigBlueButton\Responses
- */
-class GetMeetingsResponse extends BaseResponse
+class GetMeetingInfoResponse extends BaseResponse
 {
     /**
-     * @var Meeting[]
+     * @var MeetingInfo
      */
-    private $meetings;
+    private $meetingInfo;
 
     /**
-     * @return string
+     * @var Attendee[]
      */
-    public function getMessageKey()
+    private $attendees;
+
+    public function __construct(\SimpleXMLElement $xml)
     {
-        return $this->rawXml->messageKey->__toString();
+        parent::__construct($xml);
     }
 
     /**
-     * @return string
+     * @return MeetingInfo
      */
-    public function getMessage()
+    public function getMeetingInfo()
     {
-        return $this->rawXml->message->__toString();
+        if (!is_null($this->meetingInfo)) {
+            return $this->meetingInfo;
+        } else {
+            $this->meetingInfo = new MeetingInfo($this->rawXml);
+        }
+        return $this->meetingInfo;
     }
 
     /**
-     * @return Meeting[]
+     * @return Attendee[]
      */
-    public function getMeetings()
+    public function getAttendees()
     {
-        if (!is_null($this->meetings)) {
-            return $this->meetings;
+        if (!is_null($this->attendees)) {
+            return $this->attendees;
         } else {
             $this->meetings = array();
-            foreach ($this->rawXml->meetings->children() as $meetingXml) {
-                $this->meetings[] = new Meeting($meetingXml);
+            foreach ($this->rawXml->attendess->children() as $attendeeXml) {
+                $this->attendees[] = new Attendee($attendeeXml);
             }
         }
-        return $this->meetings;
+        return $this->attendees;
     }
 }

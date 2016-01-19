@@ -16,21 +16,8 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Core;
 
-use BigBlueButton\TestCase;
-
-/**
- * Class IsMeetingRunningParametersTest
- * @package BigBlueButton\Parameters
- */
-class IsMeetingRunningParametersTest extends TestCase
+class Attendee
 {
-    public function testIsMeetingRunningParameters()
-    {
-        $meetingId = $this->faker->uuid;
-        $isRunningParams = new IsMeetingRunningParameters($meetingId);
-
-        $this->assertEquals($meetingId, $isRunningParams->getMeetingId());
-    }
 }
