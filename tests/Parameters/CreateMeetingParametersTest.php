@@ -35,6 +35,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['meetingId'], $createMeetingParams->getMeetingId());
         $this->assertEquals($params['attendeePassword'], $createMeetingParams->getAttendeePassword());
         $this->assertEquals($params['moderatorPassword'], $createMeetingParams->getModeratorPassword());
+        $this->assertEquals($params['autoStartRecording'], $createMeetingParams->isAutoStartRecording());
         $this->assertEquals($params['dialNumber'], $createMeetingParams->getDialNumber());
         $this->assertEquals($params['voiceBridge'], $createMeetingParams->getVoiceBridge());
         $this->assertEquals($params['webVoice'], $createMeetingParams->getWebVoice());
@@ -43,5 +44,13 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['record'], $createMeetingParams->isRecorded());
         $this->assertEquals($params['duration'], $createMeetingParams->getDuration());
         $this->assertEquals($params['welcomeMessage'], $createMeetingParams->getWelcomeMessage());
+
+        // Test setters that are ignored by the constructor
+        $newId   = $this->faker->uuid;
+        $newName = $this->faker->name;
+        $createMeetingParams->setMeetingId($newId);
+        $createMeetingParams->setMeetingName($newName);
+        $this->assertEquals($newName, $createMeetingParams->getMeetingName());
+        $this->assertEquals($newId, $createMeetingParams->getMeetingId());
     }
 }

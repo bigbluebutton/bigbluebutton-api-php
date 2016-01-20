@@ -97,7 +97,7 @@ class Attendee
     /**
      * @return bool
      */
-    public function isIsPresenter()
+    public function isPresenter()
     {
         return $this->isPresenter;
     }
@@ -105,7 +105,7 @@ class Attendee
     /**
      * @return bool
      */
-    public function isIsListeningOnly()
+    public function isListeningOnly()
     {
         return $this->isListeningOnly;
     }
@@ -113,7 +113,7 @@ class Attendee
     /**
      * @return bool
      */
-    public function isHasJoinedVoice()
+    public function hasJoinedVoice()
     {
         return $this->hasJoinedVoice;
     }
@@ -121,7 +121,7 @@ class Attendee
     /**
      * @return bool
      */
-    public function isHasVideo()
+    public function hasVideo()
     {
         return $this->hasVideo;
     }

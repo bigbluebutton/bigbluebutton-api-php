@@ -26,7 +26,7 @@
     <attendees>
         <attendee>
             <userID>amslzbgzzddp</userID>
-            <fullName>Юлия Маринова</fullName>
+            <fullName>Ernie Abernathy</fullName>
             <role>MODERATOR</role>
             <isPresenter>true</isPresenter>
             <isListeningOnly>false</isListeningOnly>
@@ -36,7 +36,7 @@
         </attendee>
         <attendee>
             <userID>xi7y7gpmyq1g</userID>
-            <fullName>Администратор КУПа</fullName>
+            <fullName>Barrett Kutch</fullName>
             <role>MODERATOR</role>
             <isPresenter>false</isPresenter>
             <isListeningOnly>false</isListeningOnly>

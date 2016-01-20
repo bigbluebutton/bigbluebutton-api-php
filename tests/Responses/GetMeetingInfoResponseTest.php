@@ -35,9 +35,11 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
     public function testGetMeetingInfoResponseContent()
     {
-        $info = $this->meetingInfo->getMeetingInfo();
+        $this->assertInstanceOf('BigBlueButton\Core\MeetingInfo', $this->meetingInfo->getMeetingInfo());
         $this->assertEquals(2, sizeof($this->meetingInfo->getAttendees()));
         $this->assertEquals('SUCCESS', $this->meetingInfo->getReturnCode());
+
+        $info = $this->meetingInfo->getMeetingInfo();
         $this->assertEquals('Mock meeting for testing getMeetingInfo API method', $info->getMeetingName());
         $this->assertEquals('117b12ae2656972d330b6bad58878541-28-15', $info->getMeetingId());
         $this->assertEquals('178757fcedd9449054536162cdfe861ddebc70ba-1453206317376', $info->getInternalMeetingId());
@@ -62,6 +64,19 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals(2, $info->getModeratorCount());
     }
 
+    public function testMeetingAttendeeContent()
+    {
+        $anAttendee = $this->meetingInfo->getAttendees()[1];
+
+        $this->assertEquals('xi7y7gpmyq1g', $anAttendee->getUserId());
+        $this->assertEquals('Barrett Kutch', $anAttendee->getFullName());
+        $this->assertEquals('MODERATOR', $anAttendee->getRole());
+        $this->assertEquals(false, $anAttendee->isPresenter());
+        $this->assertEquals(false, $anAttendee->isListeningOnly());
+        $this->assertEquals(true, $anAttendee->hasJoinedVoice());
+        $this->assertEquals(false, $anAttendee->hasVideo());
+    }
+
     public function testGetMeetingInfoResponseTypes()
     {
         $info = $this->meetingInfo->getMeetingInfo();
@@ -75,5 +90,10 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEachGetterValueIsDouble($info, ['getStartTime', 'getEndTime', 'getCreationTime']);
 
         $this->assertEachGetterValueIsBoolean($info, ['isRunning', 'isRecording', 'hasUserJoined', 'hasBeenForciblyEnded']);
+
+        $anAttendee = $this->meetingInfo->getAttendees()[1];
+
+        $this->assertEachGetterValueIsString($anAttendee, ['getUserId', 'getFullName', 'getRole']);
+        $this->assertEachGetterValueIsBoolean($anAttendee, ['isPresenter', 'isListeningOnly', 'hasJoinedVoice', 'hasVideo']);
     }
 }

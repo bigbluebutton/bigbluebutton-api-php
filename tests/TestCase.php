@@ -64,18 +64,19 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function generateCreateParams()
     {
         return [
-            'meetingName'       => $this->faker->name,
-            'meetingId'         => $this->faker->uuid,
-            'attendeePassword'  => $this->faker->password,
-            'moderatorPassword' => $this->faker->password,
-            'dialNumber'        => $this->faker->phoneNumber,
-            'voiceBridge'       => $this->faker->randomNumber(5),
-            'webVoice'          => $this->faker->word,
-            'logoutUrl'         => $this->faker->url,
-            'maxParticipants'   => $this->faker->numberBetween(2, 100),
-            'record'            => $this->faker->boolean(50),
-            'duration'          => $this->faker->numberBetween(0, 6000),
-            'welcomeMessage'    => $this->faker->sentence,
+            'meetingName'        => $this->faker->name,
+            'meetingId'          => $this->faker->uuid,
+            'attendeePassword'   => $this->faker->password,
+            'moderatorPassword'  => $this->faker->password,
+            'autoStartRecording' => $this->faker->boolean(50),
+            'dialNumber'         => $this->faker->phoneNumber,
+            'voiceBridge'        => $this->faker->randomNumber(5),
+            'webVoice'           => $this->faker->word,
+            'logoutUrl'          => $this->faker->url,
+            'maxParticipants'    => $this->faker->numberBetween(2, 100),
+            'record'             => $this->faker->boolean(50),
+            'duration'           => $this->faker->numberBetween(0, 6000),
+            'welcomeMessage'     => $this->faker->sentence,
         ];
     }
 
@@ -90,7 +91,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $createMeetingParams->setAttendeePassword($params['attendeePassword'])->setModeratorPassword($params['moderatorPassword'])->
         setDialNumber($params['dialNumber'])->setVoiceBridge($params['voiceBridge'])->setWebVoice($params['webVoice'])->
         setLogoutUrl($params['logoutUrl'])->setMaxParticipants($params['maxParticipants'])->setRecord($params['record'])->
-        setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage']);
+        setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording']);
 
         return $createMeetingParams;
     }
