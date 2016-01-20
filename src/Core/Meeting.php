@@ -37,7 +37,7 @@ class Meeting
     private $meetingName;
 
     /**
-     * @var integer
+     * @var int
      */
     private $creationTime;
 
@@ -47,7 +47,7 @@ class Meeting
     private $creationDate;
 
     /**
-     * @var integer
+     * @var int
      */
     private $voiceBridge;
 
@@ -67,42 +67,42 @@ class Meeting
     private $moderatorPassword;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $hasBeenForciblyEnded;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $isRunning;
 
     /**
-     * @var integer
+     * @var int
      */
     private $participantCount;
 
     /**
-     * @var integer
+     * @var int
      */
     private $listenerCount;
 
     /**
-     * @var integer
+     * @var int
      */
     private $voiceParticipantCount;
 
     /**
-     * @var integer
+     * @var int
      */
     private $videoCount;
 
     /**
-     * @var integer
+     * @var int
      */
     private $duration;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $hasUserJoined;
 
@@ -114,7 +114,7 @@ class Meeting
     {
         $this->meetingId             = $xml->meetingID->__toString();
         $this->meetingName           = $xml->meetingName->__toString();
-        $this->creationTime          = intval($xml->createTime);
+        $this->creationTime          = doubleval($xml->createTime);
         $this->creationDate          = $xml->createDate->__toString();
         $this->voiceBridge           = intval($xml->voiceBridge);
         $this->dialNumber            = $xml->dialNumber->__toString();
@@ -147,7 +147,7 @@ class Meeting
     }
 
     /**
-     * @return int
+     * @return double
      */
     public function getCreationTime()
     {
@@ -195,17 +195,17 @@ class Meeting
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isHasBeenForciblyEnded()
+    public function hasBeenForciblyEnded()
     {
         return $this->hasBeenForciblyEnded;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isIsRunning()
+    public function isRunning()
     {
         return $this->isRunning;
     }
@@ -251,9 +251,9 @@ class Meeting
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isHasUserJoined()
+    public function hasUserJoined()
     {
         return $this->hasUserJoined;
     }

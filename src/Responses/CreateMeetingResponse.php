@@ -51,19 +51,19 @@ class CreateMeetingResponse extends BaseResponse
     /**
      * Creation timestamp.
      *
-     * @return int
+     * @return double
      */
     public function getCreationTime()
     {
-        return $this->rawXml->createTime;
+        return doubleval($this->rawXml->createTime);
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getVoiceBridge()
     {
-        return $this->rawXml->voiceBridge;
+        return intval($this->rawXml->voiceBridge);
     }
 
     /**
@@ -71,7 +71,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getDialNumber()
     {
-        return $this->rawXml->dialNumber;
+        return $this->rawXml->dialNumber->__toString();
     }
 
     /**
@@ -81,7 +81,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getCreationDate()
     {
-        return $this->rawXml->createDate;
+        return $this->rawXml->createDate->__toString();
     }
 
     /**
@@ -89,23 +89,23 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function hasUserJoined()
     {
-        return $this->rawXml->hasUserJoined;
+        return $this->rawXml->hasUserJoined->__toString() == 'true';
     }
 
     /**
      * @return int
      */
-    public function getDurtation()
+    public function getDuration()
     {
-        return $this->rawXml->duration;
+        return intval($this->rawXml->duration);
     }
 
     /**
-     * @return true
+     * @return bool
      */
     public function hasBeenForciblyEnded()
     {
-        return $this->rawXml->hasBeenForciblyEnded;
+        return $this->rawXml->hasBeenForciblyEnded->__toString() == 'true';
     }
 
     /**
@@ -113,7 +113,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getMessageKey()
     {
-        return $this->rawXml->messageKey;
+        return $this->rawXml->messageKey->__toString();
     }
 
     /**
@@ -121,6 +121,6 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getMessage()
     {
-        return $this->rawXml->message;
+        return $this->rawXml->message->__toString();
     }
 }

@@ -100,12 +100,12 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function generateJoinMeetingParams()
     {
-        return ['meetingId'         => $this->faker->uuid,
-                     'userName'     => $this->faker->name,
-                     'password'     => $this->faker->password,
-                     'userId'       => $this->faker->numberBetween(1, 1000),
-                     'webVoiceConf' => $this->faker->word,
-                     'creationTime' => $this->faker->unixTime, ];
+        return ['meetingId'    => $this->faker->uuid,
+                'userName'     => $this->faker->name,
+                'password'     => $this->faker->password,
+                'userId'       => $this->faker->numberBetween(1, 1000),
+                'webVoiceConf' => $this->faker->word,
+                'creationTime' => $this->faker->unixTime, ];
     }
 
     /**
@@ -125,8 +125,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function generateEndMeetingParams()
     {
-        return ['meetingId'     => $this->faker->uuid,
-                     'password' => $this->faker->password];
+        return ['meetingId' => $this->faker->uuid,
+                'password'  => $this->faker->password];
     }
 
     /**
@@ -137,5 +137,74 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function getEndMeetingMock($params)
     {
         return new EndMeetingParameters($params['meetingId'], $params['password']);
+    }
+
+    // Load fixtures
+
+    protected function loadXmlFile($path)
+    {
+        return simplexml_load_string(file_get_contents(($path)));
+    }
+
+    // Additional assertions
+
+    public function assertIsString($actual, $message = '')
+    {
+        if (empty($message)) {
+            $message = 'Got a ' . gettype($actual) . ' instead of a string';
+        }
+        $this->assertTrue(is_string($actual), $message);
+    }
+
+    public function assertIsInteger($actual, $message = '')
+    {
+        if (empty($message)) {
+            $message = 'Got a ' . gettype($actual) . ' instead of an integer.';
+        }
+        $this->assertTrue(is_integer($actual), $message);
+    }
+
+    public function assertIsDouble($actual, $message = '')
+    {
+        if (empty($message)) {
+            $message = 'Got a ' . gettype($actual) . ' instead of a double.';
+        }
+        $this->assertTrue(is_double($actual), $message);
+    }
+
+    public function assertIsBoolean($actual, $message = '')
+    {
+        if (empty($message)) {
+            $message = 'Got a ' . gettype($actual) . ' instead of a boolean.';
+        }
+        $this->assertTrue(is_bool($actual), $message);
+    }
+
+    public function assertEachGetterValueIsString($obj, $getters)
+    {
+        foreach ($getters as $getterName) {
+            $this->assertIsString($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a string for property -> ' . $getterName);
+        }
+    }
+
+    public function assertEachGetterValueIsInteger($obj, $getters)
+    {
+        foreach ($getters as $getterName) {
+            $this->assertIsInteger($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of an integer for property -> ' . $getterName);
+        }
+    }
+
+    public function assertEachGetterValueIsDouble($obj, $getters)
+    {
+        foreach ($getters as $getterName) {
+            $this->assertIsDouble($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a double for property -> ' . $getterName);
+        }
+    }
+
+    public function assertEachGetterValueIsBoolean($obj, $getters)
+    {
+        foreach ($getters as $getterName) {
+            $this->assertIsBoolean($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a boolean for property -> ' . $getterName);
+        }
     }
 }

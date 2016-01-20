@@ -19,7 +19,6 @@
  */
 class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 {
-
     /**
      * @var \BigBlueButton\Responses\GetMeetingInfoResponse
      */
@@ -29,23 +28,52 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
     {
         parent::setUp();
 
-        $xml = simplexml_load_string(file_get_contents((__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_meeting_info.xml')));
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_meeting_info.xml');
 
         $this->meetingInfo = new \BigBlueButton\Responses\GetMeetingInfoResponse($xml);
     }
 
     public function testGetMeetingInfoResponseContent()
     {
+        $info = $this->meetingInfo->getMeetingInfo();
         $this->assertEquals(2, sizeof($this->meetingInfo->getAttendees()));
+        $this->assertEquals('SUCCESS', $this->meetingInfo->getReturnCode());
+        $this->assertEquals('Mock meeting for testing getMeetingInfo API method', $info->getMeetingName());
+        $this->assertEquals('117b12ae2656972d330b6bad58878541-28-15', $info->getMeetingId());
+        $this->assertEquals('178757fcedd9449054536162cdfe861ddebc70ba-1453206317376', $info->getInternalMeetingId());
+        $this->assertEquals(1453206317376, $info->getCreationTime());
+        $this->assertEquals('Tue Jan 19 07:25:17 EST 2016', $info->getCreationDate());
+        $this->assertEquals(70100, $info->getVoiceBridge());
+        $this->assertEquals('613-555-1234', $info->getDialNumber());
+        $this->assertEquals('dbfc7207321527bbb870c82028', $info->getAttendeePassword());
+        $this->assertEquals('4bfbbeeb4a65cacaefe3676633', $info->getModeratorPassword());
+        $this->assertEquals(true, $info->isRunning());
+        $this->assertEquals(20, $info->getDuration());
+        $this->assertEquals(true, $info->hasUserJoined());
+        $this->assertEquals(true, $info->isRecording());
+        $this->assertEquals(false, $info->hasBeenForciblyEnded());
+        $this->assertEquals(1453206317380, $info->getStartTime());
+        $this->assertEquals(1453206325002, $info->getEndTime());
+        $this->assertEquals(2, $info->getParticipantCount());
+        $this->assertEquals(1, $info->getListenerCount());
+        $this->assertEquals(2, $info->getVoiceParticipantCount());
+        $this->assertEquals(1, $info->getVideoCount());
+        $this->assertEquals(20, $info->getMaxUsers());
+        $this->assertEquals(2, $info->getModeratorCount());
     }
 
-    public function testGetMeetingInfoResponseTypes(){
+    public function testGetMeetingInfoResponseTypes()
+    {
         $info = $this->meetingInfo->getMeetingInfo();
 
-        $this->assertTrue(is_string($info->getInternalMeetingId()));
-        $this->assertTrue(is_string($info->getModeratorPassword()));
-        $this->assertTrue(is_string($info->getAttendeePassword()));
-        $this->assertTrue(is_string($info->getCreationDate()));
-    }
+        $this->assertEachGetterValueIsString($info, ['getMeetingName', 'getMeetingId', 'getInternalMeetingId',
+            'getModeratorPassword', 'getAttendeePassword', 'getCreationDate', 'getDialNumber']);
 
+        $this->assertEachGetterValueIsInteger($info, ['getVoiceBridge', 'getDuration', 'getParticipantCount',
+            'getListenerCount', 'getVoiceParticipantCount', 'getVideoCount', 'getMaxUsers', 'getModeratorCount']);
+
+        $this->assertEachGetterValueIsDouble($info, ['getStartTime', 'getEndTime', 'getCreationTime']);
+
+        $this->assertEachGetterValueIsBoolean($info, ['isRunning', 'isRecording', 'hasUserJoined', 'hasBeenForciblyEnded']);
+    }
 }

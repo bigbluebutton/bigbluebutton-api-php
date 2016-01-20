@@ -11,14 +11,14 @@
     <attendeePW>dbfc7207321527bbb870c82028</attendeePW>
     <moderatorPW>4bfbbeeb4a65cacaefe3676633</moderatorPW>
     <running>true</running>
-    <duration>0</duration>
+    <duration>20</duration>
     <hasUserJoined>true</hasUserJoined>
     <recording>true</recording>
     <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
     <startTime>1453206317380</startTime>
-    <endTime>0</endTime>
+    <endTime>1453206325002</endTime>
     <participantCount>2</participantCount>
-    <listenerCount>0</listenerCount>
+    <listenerCount>1</listenerCount>
     <voiceParticipantCount>2</voiceParticipantCount>
     <videoCount>1</videoCount>
     <maxUsers>20</maxUsers>
