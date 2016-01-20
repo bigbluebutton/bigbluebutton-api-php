@@ -1,0 +1,59 @@
+<response>
+    <returncode>SUCCESS</returncode>
+    <meetings>
+        <meeting>
+            <meetingID>Demo Meeting</meetingID>
+            <meetingName>Demo Meeting</meetingName>
+            <createTime>1453177310703</createTime>
+            <createDate>Mon Jan 18 23:21:50 EST 2016</createDate>
+            <voiceBridge>76239</voiceBridge>
+            <dialNumber>613-555-1234</dialNumber>
+            <attendeePW>ap</attendeePW>
+            <moderatorPW>mp</moderatorPW>
+            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+            <running>true</running>
+            <participantCount>1</participantCount>
+            <listenerCount>0</listenerCount>
+            <voiceParticipantCount>1</voiceParticipantCount>
+            <videoCount>1</videoCount>
+            <duration>0</duration>
+            <hasUserJoined>true</hasUserJoined>
+        </meeting>
+        <meeting>
+            <meetingID>Test Meeting</meetingID>
+            <meetingName>Test Meeting</meetingName>
+            <createTime>1453210216834</createTime>
+            <createDate>Tue Jan 19 08:30:16 EST 2016</createDate>
+            <voiceBridge>16905</voiceBridge>
+            <dialNumber>613-555-1234</dialNumber>
+            <attendeePW>ap</attendeePW>
+            <moderatorPW>mp</moderatorPW>
+            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+            <running>false</running>
+            <participantCount>0</participantCount>
+            <listenerCount>0</listenerCount>
+            <voiceParticipantCount>0</voiceParticipantCount>
+            <videoCount>0</videoCount>
+            <duration>0</duration>
+            <hasUserJoined>true</hasUserJoined>
+        </meeting>
+        <meeting>
+            <meetingID>56e1ae16-3dfc-390d-b0d8-5aa844a25874</meetingID>
+            <meetingName>Marty Lueilwitz</meetingName>
+            <createTime>1453210075799</createTime>
+            <createDate>Tue Jan 19 08:27:55 EST 2016</createDate>
+            <voiceBridge>49518</voiceBridge>
+            <dialNumber>580.124.3937x93615</dialNumber>
+            <attendeePW>f~kxYJeAV~G?Jb+E:ggn</attendeePW>
+            <moderatorPW>n:"zWc##Bi.y,d^s,mMF</moderatorPW>
+            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+            <running>true</running>
+            <participantCount>5</participantCount>
+            <listenerCount>2</listenerCount>
+            <voiceParticipantCount>1</voiceParticipantCount>
+            <videoCount>3</videoCount>
+            <duration>2206</duration>
+            <hasUserJoined>true</hasUserJoined>
+        </meeting>
+    </meetings>
+</response>

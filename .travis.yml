@@ -1,0 +1,27 @@
+language: php
+
+php:
+  - '5.4'
+  - '5.5'
+  - '5.6'
+  - '7.0'
+  - hhvm
+  - nightly
+
+matrix:
+  allow_failures:
+    - php: nightly
+  fast_finish: true
+
+before_script:
+  - wget http://getcomposer.org/composer.phar
+  - php composer.phar install --dev --no-interaction
+
+script:
+  - mkdir -p build/logs
+  - phpunit --coverage-clover build/logs/clover.xml
+
+after_script:
+  - if [ "$TRAVIS_PHP_VERSION" != "7.0" ] && [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "7.0" ] && [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "7.0" ] && [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml; fi

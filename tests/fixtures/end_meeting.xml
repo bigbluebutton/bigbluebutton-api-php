@@ -1,0 +1,5 @@
+<response>
+    <returncode>SUCCESS</returncode>
+    <messageKey>sentEndMeetingRequest</messageKey>
+    <message>A request to end the meeting was sent. Please wait a few seconds, and then use the getMeetingInfo or isMeetingRunning API calls to verify that it was ended.</message>
+</response>
