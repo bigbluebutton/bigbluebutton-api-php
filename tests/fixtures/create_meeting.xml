@@ -1,0 +1,15 @@
+<response>
+    <returncode>SUCCESS</returncode>
+    <meetingID>random-1665177</meetingID>
+    <attendeePW>tK6J5cJv3hMLNx5IBePa</attendeePW>
+    <moderatorPW>34Heu0uiZYqCZXX9C4m2</moderatorPW>
+    <createTime>1453283819419</createTime>
+    <voiceBridge>76286</voiceBridge>
+    <dialNumber>613-555-1234</dialNumber>
+    <createDate>Wed Jan 20 04:56:59 EST 2016</createDate>
+    <hasUserJoined>false</hasUserJoined>
+    <duration>20</duration>
+    <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+    <messageKey></messageKey>
+    <message></message>
+</response>

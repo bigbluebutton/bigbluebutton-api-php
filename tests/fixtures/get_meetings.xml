@@ -44,16 +44,16 @@
             <createDate>Tue Jan 19 08:27:55 EST 2016</createDate>
             <voiceBridge>49518</voiceBridge>
             <dialNumber>580.124.3937x93615</dialNumber>
-            <attendeePW>&lt;e#_2s7&lt;+fYhb</attendeePW>
-            <moderatorPW>)04@{-,!dA)X?|-2</moderatorPW>
+            <attendeePW>f~kxYJeAV~G?Jb+E:ggn</attendeePW>
+            <moderatorPW>n:"zWc##Bi.y,d^s,mMF</moderatorPW>
             <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
-            <running>false</running>
-            <participantCount>0</participantCount>
-            <listenerCount>0</listenerCount>
-            <voiceParticipantCount>0</voiceParticipantCount>
-            <videoCount>0</videoCount>
+            <running>true</running>
+            <participantCount>5</participantCount>
+            <listenerCount>2</listenerCount>
+            <voiceParticipantCount>1</voiceParticipantCount>
+            <videoCount>3</videoCount>
             <duration>2206</duration>
-            <hasUserJoined>false</hasUserJoined>
+            <hasUserJoined>true</hasUserJoined>
         </meeting>
     </meetings>
 </response>
