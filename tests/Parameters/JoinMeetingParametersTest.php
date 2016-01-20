@@ -41,8 +41,8 @@ class JoinMeetingParametersTest extends TestCase
         $joinMeetingParams->setMeetingId($newId);
         $joinMeetingParams->setUsername($newName);
         $joinMeetingParams->setPassword($newPassword);
-        $this->assertEquals($newName, $joinMeetingParams->getMeetingName());
         $this->assertEquals($newId, $joinMeetingParams->getMeetingId());
+        $this->assertEquals($newName, $joinMeetingParams->getUsername());
         $this->assertEquals($newPassword, $joinMeetingParams->getPassword());
     }
 }
