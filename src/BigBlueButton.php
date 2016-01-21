@@ -20,10 +20,13 @@ namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod as ApiMethod;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
+use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
@@ -59,6 +62,13 @@ class BigBlueButton
     {
         return new ApiVersionResponse($this->processXmlResponse($this->urlBuilder->buildUrl()));
     }
+
+    /* __________________ BBB ADMINISTRATION METHODS _________________ */
+    /* The methods in the following section support the following categories of the BBB API:
+    -- create
+    -- join
+    -- end
+    */
 
     /**
      * @param $createMeetingParams CreateMeetingParameters
@@ -182,18 +192,13 @@ class BigBlueButton
     -- deleteRecordings
     */
 
-    public function getRecordingsUrl($recordingParams)
+    /**
+     * @param $recordingsParams GetRecordingsParameters
+     * @return string
+     */
+    public function getRecordingsUrl($recordingsParams)
     {
-        /* USAGE:
-        $recordingParams = array(
-            'meetingId' => '1234',		-- OPTIONAL - comma separate if multiple ids
-        );
-        */
-        $recordingsUrl = $this->bbbServerBaseUrl . 'api/getRecordings?';
-        $params        =
-            'meetingID=' . urlencode($recordingParams['meetingId']);
-
-        return $recordingsUrl . $params . '&checksum=' . sha1('getRecordings' . $params . $this->securitySalt);
+        return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDINGS, $recordingsParams->getHTTPQuery());
     }
 
     public function getRecordingsWithXmlResponseArray($recordingParams)
@@ -254,20 +259,13 @@ class BigBlueButton
         }
     }
 
+    /**
+     * @param $recordingParams PublishRecordingsParameters
+     * @return string
+     */
     public function getPublishRecordingsUrl($recordingParams)
     {
-        /* USAGE:
-        $recordingParams = array(
-            'recordId' => '1234',		-- REQUIRED - comma separate if multiple ids
-            'publish' => 'true',		-- REQUIRED - boolean: true/false
-        );
-        */
-        $recordingsUrl = $this->bbbServerBaseUrl . 'api/publishRecordings?';
-        $params        =
-            'recordID=' . urlencode($recordingParams['recordId']) .
-            '&publish=' . urlencode($recordingParams['publish']);
-
-        return $recordingsUrl . $params . '&checksum=' . sha1('publishRecordings' . $params . $this->securitySalt);
+        return $this->urlBuilder->buildUrl(ApiMethod::PUBLISH_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
     public function publishRecordingsWithXmlResponseArray($recordingParams)
@@ -289,22 +287,18 @@ class BigBlueButton
         }
     }
 
+    /**
+     * @param $recordingParams DeleteRecordingsParameters
+     * @return string
+     */
     public function getDeleteRecordingsUrl($recordingParams)
     {
-        /* USAGE:
-        $recordingParams = array(
-            'recordId' => '1234',		-- REQUIRED - comma separate if multiple ids
-        );
-        */
-        $recordingsUrl = $this->bbbServerBaseUrl . 'api/deleteRecordings?';
-        $params        =
-            'recordID=' . urlencode($recordingParams['recordId']);
-
-        return $recordingsUrl . $params . '&checksum=' . sha1('deleteRecordings' . $params . $this->securitySalt);
+        return $this->urlBuilder->buildUrl(ApiMethod::DELETE_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
     public function deleteRecordingsWithXmlResponseArray($recordingParams)
     {
+
         /* USAGE:
         $recordingParams = array(
             'recordId' => '1234',		-- REQUIRED - comma separate if multiple ids

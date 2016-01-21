@@ -10,6 +10,6 @@
     <hasUserJoined>false</hasUserJoined>
     <duration>20</duration>
     <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
-    <messageKey></messageKey>
-    <message></message>
+    <messageKey>messageKeyContentShouldNeverHappen</messageKey>
+    <message>A message that never happens in real world cases.</message>
 </response>

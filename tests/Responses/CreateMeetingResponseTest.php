@@ -50,6 +50,8 @@ class CreateMeetingResponseTest extends TestCase
         $this->assertEquals(false, $this->meeting->hasUserJoined());
         $this->assertEquals(20, $this->meeting->getDuration());
         $this->assertEquals(false, $this->meeting->hasBeenForciblyEnded());
+        $this->assertEquals('messageKeyContentShouldNeverHappen', $this->meeting->getMessageKey());
+        $this->assertEquals('A message that never happens in real world cases.', $this->meeting->getMessage());
     }
 
     public function testCreateMeetingResponseTypes()

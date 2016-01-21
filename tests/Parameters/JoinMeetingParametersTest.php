@@ -25,13 +25,24 @@ class JoinMeetingParametersTest extends TestCase
     public function testJoinMeetingParameters()
     {
         $params              = $this->generateJoinMeetingParams();
-        $createMeetingParams = $this->getJoinMeetingMock($params);
+        $joinMeetingParams   = $this->getJoinMeetingMock($params);
 
-        $this->assertEquals($params['meetingId'], $createMeetingParams->getMeetingId());
-        $this->assertEquals($params['userName'], $createMeetingParams->getUsername());
-        $this->assertEquals($params['password'], $createMeetingParams->getPassword());
-        $this->assertEquals($params['userId'], $createMeetingParams->getUserId());
-        $this->assertEquals($params['webVoiceConf'], $createMeetingParams->getWebVoiceConf());
-        $this->assertEquals($params['creationTime'], $createMeetingParams->getCreationTime());
+        $this->assertEquals($params['meetingId'], $joinMeetingParams->getMeetingId());
+        $this->assertEquals($params['userName'], $joinMeetingParams->getUsername());
+        $this->assertEquals($params['password'], $joinMeetingParams->getPassword());
+        $this->assertEquals($params['userId'], $joinMeetingParams->getUserId());
+        $this->assertEquals($params['webVoiceConf'], $joinMeetingParams->getWebVoiceConf());
+        $this->assertEquals($params['creationTime'], $joinMeetingParams->getCreationTime());
+
+        // Test setters that are ignored by the constructor
+        $newId       = $this->faker->uuid;
+        $newName     = $this->faker->name;
+        $newPassword = $this->faker->password;
+        $joinMeetingParams->setMeetingId($newId);
+        $joinMeetingParams->setUsername($newName);
+        $joinMeetingParams->setPassword($newPassword);
+        $this->assertEquals($newId, $joinMeetingParams->getMeetingId());
+        $this->assertEquals($newName, $joinMeetingParams->getUsername());
+        $this->assertEquals($newPassword, $joinMeetingParams->getPassword());
     }
 }
