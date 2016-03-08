@@ -79,6 +79,11 @@ class CreateMeetingParameters extends BaseParameters
     private $autoStartRecording;
 
     /**
+     * @var bool
+     */
+    private $allowStartStopRecording;
+
+    /**
      * @var int
      */
     private $duration;
@@ -87,6 +92,16 @@ class CreateMeetingParameters extends BaseParameters
      * @var string
      */
     private $welcomeMessage;
+
+    /**
+     * @var string
+     */
+    private $moderatorOnlyMessage;
+
+    /**
+     * @var array
+     */
+    private $meta = array();
 
     /**
      * CreateMeetingParameters constructor.
@@ -363,23 +378,73 @@ class CreateMeetingParameters extends BaseParameters
     /**
      * @return string
      */
+    public function getModeratorOnlyMessage()
+    {
+        return $this->moderatorOnlyMessage;
+    }
+
+    /**
+     * @param string $message
+     *
+     * @return CreateMeetingParameters
+     */
+    public function setModeratorOnlyMessage($message)
+    {
+        $this->moderatorOnlyMessage = $message;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMeta($key)
+    {
+        return $this->meta[$key];
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     *
+     * @return CreateMeetingParameters
+     */
+    public function setMeta($key, $value)
+    {
+        $key = preg_replace('/^meta_/', '', $key);
+        $this->meta[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(
-            ['name'                    => $this->meetingName,
-                  'meetingID'          => $this->meetingId,
-                  'attendeePW'         => $this->attendeePassword,
-                  'moderatorPW'        => $this->moderatorPassword,
-                  'dialNumber'         => $this->dialNumber,
-                  'voiceBridge'        => $this->voiceBridge,
-                  'webVoice'           => $this->webVoice,
-                  'logoutURL'          => $this->logoutUrl,
-                  'maxParticipants'    => $this->maxParticipants,
-                  'record'             => $this->record,
-                  'autoStartRecording' => $this->autoStartRecording,
-                  'duration'           => $this->duration,
-                  'welcomeMessage'     => trim($this->welcomeMessage),
-            ]
-        );
+        $queries = [
+            'name'                    => $this->meetingName,
+            'meetingID'               => $this->meetingId,
+            'attendeePW'              => $this->attendeePassword,
+            'moderatorPW'             => $this->moderatorPassword,
+            'dialNumber'              => $this->dialNumber,
+            'voiceBridge'             => $this->voiceBridge,
+            'webVoice'                => $this->webVoice,
+            'logoutURL'               => $this->logoutUrl,
+            'maxParticipants'         => $this->maxParticipants,
+            'record'                  => $this->record,
+            'autoStartRecording'      => $this->autoStartRecording,
+            'allowStartStopRecording' => $this->allowStartStopRecording,
+            'duration'                => $this->duration,
+            'welcomeMessage'          => trim($this->welcomeMessage),
+            'moderatorOnlyMessage'    => trim($this->moderatorOnlyMessage),
+        ];
+        if (!empty($this->meta)) {
+            foreach ($this->meta as $k => $v) {
+                $queries['meta_' . strtolower($k)] = $v;
+            }
+        }
+
+        return $this->buildHTTPQuery($queries);
     }
 }
