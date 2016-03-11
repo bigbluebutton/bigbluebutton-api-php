@@ -64,19 +64,22 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function generateCreateParams()
     {
         return [
-            'meetingName'        => $this->faker->name,
-            'meetingId'          => $this->faker->uuid,
-            'attendeePassword'   => $this->faker->password,
-            'moderatorPassword'  => $this->faker->password,
-            'autoStartRecording' => $this->faker->boolean(50),
-            'dialNumber'         => $this->faker->phoneNumber,
-            'voiceBridge'        => $this->faker->randomNumber(5),
-            'webVoice'           => $this->faker->word,
-            'logoutUrl'          => $this->faker->url,
-            'maxParticipants'    => $this->faker->numberBetween(2, 100),
-            'record'             => $this->faker->boolean(50),
-            'duration'           => $this->faker->numberBetween(0, 6000),
-            'welcomeMessage'     => $this->faker->sentence,
+            'meetingName'             => $this->faker->name,
+            'meetingId'               => $this->faker->uuid,
+            'attendeePassword'        => $this->faker->password,
+            'moderatorPassword'       => $this->faker->password,
+            'autoStartRecording'      => $this->faker->boolean(50),
+            'dialNumber'              => $this->faker->phoneNumber,
+            'voiceBridge'             => $this->faker->randomNumber(5),
+            'webVoice'                => $this->faker->word,
+            'logoutUrl'               => $this->faker->url,
+            'maxParticipants'         => $this->faker->numberBetween(2, 100),
+            'record'                  => $this->faker->boolean(50),
+            'duration'                => $this->faker->numberBetween(0, 6000),
+            'welcomeMessage'          => $this->faker->sentence,
+            'allowStartStopRecording' => $this->faker->boolean(50),
+            'moderatorOnlyMessage'    => $this->faker->sentence,
+            'meta_presenter'          => $this->faker->name,
         ];
     }
 
@@ -91,7 +94,9 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $createMeetingParams->setAttendeePassword($params['attendeePassword'])->setModeratorPassword($params['moderatorPassword'])->
         setDialNumber($params['dialNumber'])->setVoiceBridge($params['voiceBridge'])->setWebVoice($params['webVoice'])->
         setLogoutUrl($params['logoutUrl'])->setMaxParticipants($params['maxParticipants'])->setRecord($params['record'])->
-        setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording']);
+        setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording'])->
+        setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])->
+        setMeta('presenter', $params['meta_presenter']);
 
         return $createMeetingParams;
     }
