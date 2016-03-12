@@ -431,7 +431,6 @@ class CreateMeetingParameters extends BaseParameters
      */
     public function setMeta($key, $value)
     {
-        $key = preg_replace('/^meta_/', '', $key);
         $this->meta[$key] = $value;
 
         return $this;
@@ -461,7 +460,7 @@ class CreateMeetingParameters extends BaseParameters
         ];
         if (!empty($this->meta)) {
             foreach ($this->meta as $k => $v) {
-                $queries['meta_' . strtolower($k)] = $v;
+                $queries['meta_' . $k] = $v;
             }
         }
 
