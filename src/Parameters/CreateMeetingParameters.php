@@ -336,6 +336,26 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
+     * @return bool
+     */
+    public function isAllowStartStopRecording()
+    {
+        return $this->allowStartStopRecording;
+    }
+
+    /**
+     * @param bool $autoStartRecording
+     *
+     * @return CreateMeetingParameters
+     */
+    public function setAllowStartStopRecording($autoStartRecording)
+    {
+        $this->allowStartStopRecording = $autoStartRecording;
+
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getDuration()
