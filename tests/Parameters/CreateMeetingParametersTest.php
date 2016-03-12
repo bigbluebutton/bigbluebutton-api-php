@@ -44,6 +44,9 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['record'], $createMeetingParams->isRecorded());
         $this->assertEquals($params['duration'], $createMeetingParams->getDuration());
         $this->assertEquals($params['welcomeMessage'], $createMeetingParams->getWelcomeMessage());
+        $this->assertEquals($params['allowStartStopRecording'], $createMeetingParams->isAllowStartStopRecording());
+        $this->assertEquals($params['moderatorOnlyMessage'], $createMeetingParams->getModeratorOnlyMessage());
+        $this->assertEquals($params['meta_presenter'], $createMeetingParams->getMeta('presenter'));
 
         // Test setters that are ignored by the constructor
         $newId   = $this->faker->uuid;
