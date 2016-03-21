@@ -378,7 +378,7 @@ class CreateMeetingParameters extends BaseParameters
                   'record'             => $this->record,
                   'autoStartRecording' => $this->autoStartRecording,
                   'duration'           => $this->duration,
-                  'welcomeMessage'     => trim($this->welcomeMessage),
+                  'welcome'     => trim($this->welcomeMessage),
             ]
         );
     }
