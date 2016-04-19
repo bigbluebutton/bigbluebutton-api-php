@@ -16,6 +16,12 @@
       "role": "Developer"
     }
   ],
+  "repositories": {
+    "packagist": {
+      "url": "https://packagist.org",
+      "type": "composer"
+    }
+  },
   "require": {
     "php": ">=5.4",
     "ext-curl": "*",
