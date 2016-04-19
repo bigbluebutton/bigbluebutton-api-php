@@ -60,7 +60,7 @@ class BigBlueButtonTest extends TestCase
     {
         $apiVersion = $this->bbb->getApiVersion();
         $this->assertEquals('SUCCESS', $apiVersion->getReturnCode());
-        $this->assertEquals('0.9', $apiVersion->getVersion());
+        $this->assertEquals('1.0', $apiVersion->getVersion());
     }
 
     /* Create Meeting */
