@@ -88,8 +88,9 @@ class EndMeetingParameters extends BaseParameters
     public function getHTTPQuery()
     {
         return $this->buildHTTPQuery(
-            ['meetingID'     => $this->meetingId,
-                  'password' => $this->password,
+            [
+                'meetingID' => $this->meetingId,
+                'password'  => $this->password,
             ]
         );
     }

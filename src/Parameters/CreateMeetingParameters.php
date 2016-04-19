@@ -366,19 +366,20 @@ class CreateMeetingParameters extends BaseParameters
     public function getHTTPQuery()
     {
         return $this->buildHTTPQuery(
-            ['name'                    => $this->meetingName,
-                  'meetingID'          => $this->meetingId,
-                  'attendeePW'         => $this->attendeePassword,
-                  'moderatorPW'        => $this->moderatorPassword,
-                  'dialNumber'         => $this->dialNumber,
-                  'voiceBridge'        => $this->voiceBridge,
-                  'webVoice'           => $this->webVoice,
-                  'logoutURL'          => $this->logoutUrl,
-                  'maxParticipants'    => $this->maxParticipants,
-                  'record'             => $this->record,
-                  'autoStartRecording' => $this->autoStartRecording,
-                  'duration'           => $this->duration,
-                  'welcome'     => trim($this->welcomeMessage),
+            [
+                'name'               => $this->meetingName,
+                'meetingID'          => $this->meetingId,
+                'attendeePW'         => $this->attendeePassword,
+                'moderatorPW'        => $this->moderatorPassword,
+                'welcome'            => trim($this->welcomeMessage),
+                'dialNumber'         => $this->dialNumber,
+                'voiceBridge'        => $this->voiceBridge,
+                'webVoice'           => $this->webVoice,
+                'logoutURL'          => $this->logoutUrl,
+                'record'             => $this->record,
+                'duration'           => $this->duration,
+                'maxParticipants'    => $this->maxParticipants,
+                'autoStartRecording' => $this->autoStartRecording,
             ]
         );
     }

@@ -92,7 +92,7 @@ class BigBlueButton
      *
      * @return string
      */
-    public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams)
+    public function getJoinMeetingURL($joinMeetingParams)
     {
         return $this->urlBuilder->buildUrl(ApiMethod::JOIN, $joinMeetingParams->getHTTPQuery());
     }
