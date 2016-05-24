@@ -453,10 +453,13 @@ class CreateMeetingParameters extends BaseParameters
      * @param $nameOrUrl
      * @param null $content
      *
+     * @return CreateMeetingParameters
      */
     public function addPresentation($nameOrUrl, $content = null)
     {
         $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);
+
+        return $this;
     }
 
     public function getPresentationsAsXML()

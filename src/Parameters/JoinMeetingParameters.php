@@ -27,10 +27,12 @@ class JoinMeetingParameters extends BaseParameters
      * @var string
      */
     private $meetingId;
+
     /**
      * @var string
      */
     private $username;
+
     /**
      * @var string
      */
@@ -47,9 +49,30 @@ class JoinMeetingParameters extends BaseParameters
     private $webVoiceConf;
 
     /**
-     * @var int
+     * @var string
      */
     private $creationTime;
+
+    /**
+     * @var string
+     */
+    private $configToken;
+
+    /**
+     * @var string
+     */
+    private $avatarURL;
+
+    /**
+     * @var
+     */
+    private $redirect;
+
+    /**
+     * @var
+     */
+    private $clientURL;
+
     /**
      * JoinMeetingParametersTest constructor.
      *
@@ -187,6 +210,82 @@ class JoinMeetingParameters extends BaseParameters
     /**
      * @return string
      */
+    public function getConfigToken()
+    {
+        return $this->configToken;
+    }
+
+    /**
+     * @param  string                $configToken
+     * @return JoinMeetingParameters
+     */
+    public function setConfigToken($configToken)
+    {
+        $this->configToken = $configToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatarURL()
+    {
+        return $this->avatarURL;
+    }
+
+    /**
+     * @param  string                $avatarURL
+     * @return JoinMeetingParameters
+     */
+    public function setAvatarURL($avatarURL)
+    {
+        $this->avatarURL = $avatarURL;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRedirect()
+    {
+        return $this->redirect;
+    }
+
+    /**
+     * @param  mixed                 $redirect
+     * @return JoinMeetingParameters
+     */
+    public function setRedirect($redirect)
+    {
+        $this->redirect = $redirect;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClientURL()
+    {
+        return $this->clientURL;
+    }
+
+    /**
+     * @param  mixed                 $clientURL
+     * @return JoinMeetingParameters
+     */
+    public function setClientURL($clientURL)
+    {
+        $this->clientURL = $clientURL;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getHTTPQuery()
     {
         return $this->buildHTTPQuery(
@@ -197,6 +296,10 @@ class JoinMeetingParameters extends BaseParameters
                 'userID'       => $this->userId,
                 'webVoiceConf' => $this->webVoiceConf,
                 'createTime'   => $this->creationTime,
+                'configToken'  => $this->configToken,
+                'avatarURL'    => $this->avatarURL,
+                'redirect'     => $this->redirect,
+                'clientURL'    => $this->clientURL
             ]
         );
     }
