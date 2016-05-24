@@ -18,7 +18,7 @@
  */
 namespace BigBlueButton;
 
-use BigBlueButton\Core\ApiMethod as ApiMethod;
+use BigBlueButton\Core\ApiMethod;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -33,8 +33,8 @@ use BigBlueButton\Responses\EndMeetingResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
-use BigBlueButton\Util\UrlBuilder as UrlBuilder;
-use SimpleXMLElement as SimpleXMLElement;
+use BigBlueButton\Util\UrlBuilder;
+use SimpleXMLElement;
 
 /**
  * Class BigBlueButton
@@ -80,9 +80,14 @@ class BigBlueButton
         return $this->urlBuilder->buildUrl(ApiMethod::CREATE, $createMeetingParams->getHTTPQuery());
     }
 
-    public function createMeeting($createMeetingParams, $xml = '')
+    /**
+     * @param  CreateMeetingParameters $createMeetingParams
+     * @return CreateMeetingResponse
+     * @throws \Exception
+     */
+    public function createMeeting($createMeetingParams)
     {
-        $xml = $this->processXmlResponse($this->getCreateMeetingURL($createMeetingParams), $xml);
+        $xml = $this->processXmlResponse($this->getCreateMeetingUrl($createMeetingParams), $createMeetingParams->getPresentationsAsXML());
 
         return new CreateMeetingResponse($xml);
     }

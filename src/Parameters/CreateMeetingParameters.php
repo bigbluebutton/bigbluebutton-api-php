@@ -104,6 +104,11 @@ class CreateMeetingParameters extends BaseParameters
     private $meta = [];
 
     /**
+     * @var array
+     */
+    private $presentations = [];
+
+    /**
      * CreateMeetingParameters constructor.
      *
      * @param $meetingId
@@ -434,6 +439,46 @@ class CreateMeetingParameters extends BaseParameters
         $this->meta[$key] = $value;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPresentations()
+    {
+        return $this->presentations;
+    }
+
+    /**
+     * @param $nameOrUrl
+     * @param null $content
+     *
+     */
+    public function addPresentation($nameOrUrl, $content = null)
+    {
+        $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);
+    }
+
+    public function getPresentationsAsXML()
+    {
+        $result = '';
+        if (!empty($this->presentations)) {
+            $xml     = new \SimpleXMLElement('<xml/>');
+            $modules = $xml->addChild('modules');
+            $module  = $modules->addChild('module');
+            foreach ($this->presentations as $nameOrUrl => $content) {
+                if (!$this->presentations[$nameOrUrl]) {
+                    $module->addChild('document')->addAttribute('url', $nameOrUrl);
+                } else {
+                    $document = $module->addChild('document');
+                    $document->addAttribute('name', $nameOrUrl);
+                    $document[0] = $content;
+                }
+            }
+            $result = $xml->asXML();
+        }
+
+        return $result;
     }
 
     /**
