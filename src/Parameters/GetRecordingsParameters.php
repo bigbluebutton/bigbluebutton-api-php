@@ -34,7 +34,7 @@ class GetRecordingsParameters extends BaseParameters
      *
      * @param $meetingId
      */
-    public function __construct($meetingId)
+    public function __construct($meetingId = null)
     {
         $this->meetingId = $meetingId;
     }
