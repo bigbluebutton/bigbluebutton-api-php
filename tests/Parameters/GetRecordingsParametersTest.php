@@ -28,11 +28,13 @@ class GetRecordingsParametersTest extends TestCase
         $getRecordings->setMeetingId($meetingId = $this->faker->uuid);
         $getRecordings->setRecordId($recordId = $this->faker->uuid);
         $getRecordings->setState($state = 'published');
-        $getRecordings->setMeta($meta = 'bbb-name');
+        $getRecordings->setMeta($meta = 'name', $name = $this->faker->firstName);
+
+        $params = $getRecordings->getHTTPQuery();
 
         $this->assertEquals($meetingId, $getRecordings->getMeetingId());
         $this->assertEquals($recordId, $getRecordings->getRecordId());
         $this->assertEquals($state, $getRecordings->getState());
-        $this->assertEquals($meta, $getRecordings->getMeta());
+        $this->assertContains('meta_' . $meta . '=' . $name, $params);
     }
 }
