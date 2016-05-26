@@ -18,7 +18,7 @@
  */
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Responses\DeleteRecordingsResponse;
+use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\TestCase;
 
 class PublishRecordingsResponseTest extends TestCase
@@ -34,7 +34,7 @@ class PublishRecordingsResponseTest extends TestCase
 
         $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'publish_recordings.xml');
 
-        $this->publish = new DeleteRecordingsResponse($xml);
+        $this->publish = new PublishRecordingsResponse($xml);
     }
 
     public function testIsMeetingRunningResponseContent()

@@ -87,6 +87,11 @@ class PublishRecordingsParameters extends BaseParameters
      */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(['recordID' => $this->recordingId]);
+        return $this->buildHTTPQuery(
+            [
+                'recordID' => $this->recordingId,
+                'publish', $this->publish
+            ]
+        );
     }
 }

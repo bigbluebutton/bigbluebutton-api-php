@@ -24,8 +24,8 @@ class GetRecordingsParametersTest extends TestCase
 {
     public function testGetRecordingsParameters()
     {
-        $meetingId       = $this->faker->uuid;
-        $getRecordings   = new GetRecordingsParameters($meetingId);
+        $getRecordings = new GetRecordingsParameters();
+        $getRecordings->setMeetingId($meetingId = $this->faker->uuid);
 
         $this->assertEquals($meetingId, $getRecordings->getMeetingId());
     }

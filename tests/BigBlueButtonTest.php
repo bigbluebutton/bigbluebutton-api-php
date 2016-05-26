@@ -192,7 +192,7 @@ class BigBlueButtonTest extends TestCase
 
     public function testGetRecordingsUrl()
     {
-        $url = $this->bbb->deleteRecordingsUrl(new GetRecordingsParameters());
+        $url = $this->bbb->getRecordingsUrl(new GetRecordingsParameters());
         $this->assertContains(ApiMethod::GET_RECORDINGS, $url);
     }
 
@@ -204,14 +204,14 @@ class BigBlueButtonTest extends TestCase
 
     public function testPublishRecordingsUrl()
     {
-        $url = $this->bbb->publishRecordings(new PublishRecordingsParameters($this->faker->sha1, true));
+        $url = $this->bbb->getPublishRecordingsUrl(new PublishRecordingsParameters($this->faker->sha1, true));
         $this->assertContains(ApiMethod::PUBLISH_RECORDINGS, $url);
     }
 
     public function testPublishRecordings()
     {
-        $result = $this->bbb->deleteRecordings('non-existing-id-' . $this->faker->sha1);
-        $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $result = $this->bbb->publishRecordings(new PublishRecordingsParameters('non-existing-id-' . $this->faker->sha1, true));
+        $this->assertEquals('FAILED', $result->getReturnCode());
     }
 
     public function testDeleteRecordingsUrl()
@@ -222,7 +222,7 @@ class BigBlueButtonTest extends TestCase
 
     public function testDeleteRecordings()
     {
-        $result = $this->bbb->deleteRecordings('non-existing-id-' . $this->faker->sha1);
+        $result = $this->bbb->deleteRecordings(new DeleteRecordingsParameters('non-existing-id-' . $this->faker->sha1));
         $this->assertEquals('SUCCESS', $result->getReturnCode());
     }
 }

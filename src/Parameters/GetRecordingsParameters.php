@@ -30,14 +30,19 @@ class GetRecordingsParameters extends BaseParameters
     private $meetingId;
 
     /**
-     * GetRecordingsParameters constructor.
-     *
-     * @param $meetingId
+     * @var string
      */
-    public function __construct($meetingId = null)
-    {
-        $this->meetingId = $meetingId;
-    }
+    private $recordId;
+
+    /**
+     * @var string
+     */
+    private $state;
+
+    /**
+     * @var string
+     */
+    private $meta;
 
     /**
      * @return string
@@ -61,8 +66,72 @@ class GetRecordingsParameters extends BaseParameters
     /**
      * @return string
      */
+    public function getRecordId()
+    {
+        return $this->recordId;
+    }
+
+    /**
+     * @param  string                  $recordId
+     * @return GetRecordingsParameters
+     */
+    public function setRecordId($recordId)
+    {
+        $this->recordId = $recordId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param  string                  $state
+     * @return GetRecordingsParameters
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMeta()
+    {
+        return $this->meta;
+    }
+
+    /**
+     * @param  string                  $meta
+     * @return GetRecordingsParameters
+     */
+    public function setMeta($meta)
+    {
+        $this->meta = $meta;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(['meetingID' => $this->meetingId]);
+        return $this->buildHTTPQuery(
+            [
+                'meetingID' => $this->meetingId,
+                'recordID'  => $this->recordId,
+                'state'     => $this->state,
+                'meta'      => $this->meta
+            ]
+        );
     }
 }

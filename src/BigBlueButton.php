@@ -209,6 +209,11 @@ class BigBlueButton
         return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDINGS, $recordingsParams->getHTTPQuery());
     }
 
+    /**
+     * @param $recordingParams
+     * @return GetRecordingsResponse
+     * @throws \Exception
+     */
     public function getRecordings($recordingParams)
     {
         $xml = $this->processXmlResponse($this->getRecordingsUrl($recordingParams));
@@ -227,7 +232,7 @@ class BigBlueButton
 
     /**
      * @param $recordingParams PublishRecordingsParameters
-     * @return array|void
+     * @return PublishRecordingsResponse
      * @throws \Exception
      */
     public function publishRecordings($recordingParams)
@@ -246,6 +251,11 @@ class BigBlueButton
         return $this->urlBuilder->buildUrl(ApiMethod::DELETE_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
+    /**
+     * @param $recordingParams
+     * @return DeleteRecordingsResponse
+     * @throws \Exception
+     */
     public function deleteRecordings($recordingParams)
     {
         $xml = $this->processXmlResponse($this->deleteRecordingsUrl($recordingParams));
@@ -255,10 +265,18 @@ class BigBlueButton
 
     /* ____________________ INTERNAL CLASS METHODS ___________________ */
 
+    /**
+     * A private utility method used by other public methods to process XML responses.
+     *
+     * @param $url
+     * @param  string                $xml
+     * @return bool|SimpleXMLElement
+     * @throws \Exception
+     */
     private function processXmlResponse($url, $xml = '')
     {
         /*
-        A private utility method used by other public methods to process XML responses.
+        
         */
         if (extension_loaded('curl')) {
             $ch      = curl_init() or die(curl_error());
