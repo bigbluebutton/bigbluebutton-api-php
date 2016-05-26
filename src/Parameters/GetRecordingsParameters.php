@@ -40,9 +40,9 @@ class GetRecordingsParameters extends BaseParameters
     private $state;
 
     /**
-     * @var string
+     * @var array
      */
-    private $meta;
+    private $meta = [];
 
     /**
      * @return string
@@ -104,18 +104,20 @@ class GetRecordingsParameters extends BaseParameters
     /**
      * @return string
      */
-    public function getMeta()
+    public function getMeta($key)
     {
-        return $this->meta;
+        return $this->meta[$key];
     }
 
     /**
-     * @param  string                  $meta
-     * @return GetRecordingsParameters
+     * @param string $key
+     * @param string $value
+     *
+     * @return CreateMeetingParameters
      */
-    public function setMeta($meta)
+    public function setMeta($key, $value)
     {
-        $this->meta = $meta;
+        $this->meta[$key] = $value;
 
         return $this;
     }
@@ -125,13 +127,19 @@ class GetRecordingsParameters extends BaseParameters
      */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-                'recordID'  => $this->recordId,
-                'state'     => $this->state,
-                'meta'      => $this->meta
-            ]
-        );
+        $queries = [
+            'meetingID' => $this->meetingId,
+            'recordID'  => $this->recordId,
+            'state'     => $this->state,
+            'meta'      => $this->meta
+        ];
+
+        if (!empty($this->meta)) {
+            foreach ($this->meta as $k => $v) {
+                $queries['meta_' . $k] = $v;
+            }
+        }
+
+        return $this->buildHTTPQuery($queries);
     }
 }
