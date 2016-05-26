@@ -1,0 +1,167 @@
+<response>
+    <returncode>SUCCESS</returncode>
+    <recordings>
+        <recording>
+            <recordID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120</recordID>
+            <meetingID>9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]</meetingID>
+            <name><![CDATA[SAT- Writing-Humanities (All participants)]]></name>
+            <published>true</published>
+            <state>published</state>
+            <startTime>1462807897120</startTime>
+            <endTime>1462812873004</endTime>
+            <metadata>
+                <bbb-context><![CDATA[SAT Score Booster Program-Main]]></bbb-context>
+                <bbb-origin-version><![CDATA[2.7.7+ (Build: 20150319)]]></bbb-origin-version>
+                <bn-origin><![CDATA[Moodle]]></bn-origin>
+                <bbb-origin-tag><![CDATA[moodle-mod_bigbluebuttonbn (2015080611)]]></bbb-origin-tag>
+                <bbb-origin-server-common-name><![CDATA[]]></bbb-origin-server-common-name>
+                <bbb-origin-server-name><![CDATA[planetinteractive.us]]></bbb-origin-server-name>
+                <bbb-recording-description><![CDATA[]]></bbb-recording-description>
+                <bbb-recording-name><![CDATA[SAT- Writing-Humanities (All participants)]]></bbb-recording-name>
+                <bbb-recording-tags><![CDATA[]]></bbb-recording-tags>
+            </metadata>
+            <playback>
+                <format>
+                    <type>presentation</type>
+                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120</url>
+                    <length>44</length>
+                </format>
+            </playback>
+        </recording>
+        <recording>
+            <recordID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1463153001071</recordID>
+            <meetingID>9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]</meetingID>
+            <name><![CDATA[SAT- Quadratic Equations (All participants)]]></name>
+            <published>true</published>
+            <state>published</state>
+            <startTime>1463153001071</startTime>
+            <endTime>1463163335375</endTime>
+            <metadata>
+                <bbb-context><![CDATA[SAT Score Booster Program-Main]]></bbb-context>
+                <bbb-origin-tag><![CDATA[moodle-mod_bigbluebuttonbn (2015080611)]]></bbb-origin-tag>
+                <bbb-origin-version><![CDATA[2.7.7+ (Build: 20150319)]]></bbb-origin-version>
+                <bn-origin><![CDATA[Moodle]]></bn-origin>
+                <bbb-origin-server-common-name><![CDATA[]]></bbb-origin-server-common-name>
+                <bbb-origin-server-name><![CDATA[planetinteractive.us]]></bbb-origin-server-name>
+                <bbb-recording-name><![CDATA[SAT- Quadratic Equations (All participants)]]></bbb-recording-name>
+                <bbb-recording-description><![CDATA[]]></bbb-recording-description>
+                <bbb-recording-tags><![CDATA[]]></bbb-recording-tags>
+            </metadata>
+            <playback>
+                <format>
+                    <type>presentation</type>
+                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1463153001071</url>
+                    <length>126</length>
+                </format>
+            </playback>
+        </recording>
+        <recording>
+            <recordID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1463067444315</recordID>
+            <meetingID>9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]</meetingID>
+            <name><![CDATA[SAT- Polynomials and Inequalities (All participants)]]></name>
+            <published>true</published>
+            <state>published</state>
+            <startTime>1463067444315</startTime>
+            <endTime>1463073048933</endTime>
+            <metadata>
+                <bbb-context><![CDATA[SAT Score Booster Program-Main]]></bbb-context>
+                <bn-origin><![CDATA[Moodle]]></bn-origin>
+                <bbb-origin-tag><![CDATA[moodle-mod_bigbluebuttonbn (2015080611)]]></bbb-origin-tag>
+                <bbb-origin-version><![CDATA[2.7.7+ (Build: 20150319)]]></bbb-origin-version>
+                <bbb-origin-server-common-name><![CDATA[]]></bbb-origin-server-common-name>
+                <bbb-origin-server-name><![CDATA[planetinteractive.us]]></bbb-origin-server-name>
+                <bbb-recording-description><![CDATA[]]></bbb-recording-description>
+                <bbb-recording-name><![CDATA[SAT- Polynomials and Inequalities (All participants)]]></bbb-recording-name>
+                <bbb-recording-tags><![CDATA[]]></bbb-recording-tags>
+            </metadata>
+            <playback>
+                <format>
+                    <type>presentation</type>
+                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1463067444315</url>
+                    <length>63</length>
+                </format>
+            </playback>
+        </recording>
+        <recording>
+            <recordID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1463413631320</recordID>
+            <meetingID>9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]</meetingID>
+            <name><![CDATA[SAT- Quadratic Equations (All participants)]]></name>
+            <published>true</published>
+            <state>published</state>
+            <startTime>1463413631320</startTime>
+            <endTime>1463419560951</endTime>
+            <metadata>
+                <bbb-context><![CDATA[SAT Score Booster Program-Main]]></bbb-context>
+                <bbb-origin-version><![CDATA[2.7.7+ (Build: 20150319)]]></bbb-origin-version>
+                <bbb-origin-tag><![CDATA[moodle-mod_bigbluebuttonbn (2015080611)]]></bbb-origin-tag>
+                <bn-origin><![CDATA[Moodle]]></bn-origin>
+                <bbb-origin-server-common-name><![CDATA[]]></bbb-origin-server-common-name>
+                <bbb-origin-server-name><![CDATA[planetinteractive.us]]></bbb-origin-server-name>
+                <bbb-recording-name><![CDATA[SAT- Quadratic Equations (All participants)]]></bbb-recording-name>
+                <bbb-recording-description><![CDATA[]]></bbb-recording-description>
+                <bbb-recording-tags><![CDATA[]]></bbb-recording-tags>
+            </metadata>
+            <playback>
+                <format>
+                    <type>presentation</type>
+                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1463413631320</url>
+                    <length>50</length>
+                </format>
+            </playback>
+        </recording>
+        <recording>
+            <recordID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026</recordID>
+            <meetingID>9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]</meetingID>
+            <name><![CDATA[SAT- Writing Section- Social Science and History (All participants)]]></name>
+            <published>true</published>
+            <state>published</state>
+            <startTime>1462980100026</startTime>
+            <endTime>1462986640649</endTime>
+            <metadata>
+                <bbb-context><![CDATA[SAT Score Booster Program-Main]]></bbb-context>
+                <bbb-origin-version><![CDATA[2.7.7+ (Build: 20150319)]]></bbb-origin-version>
+                <bbb-origin-tag><![CDATA[moodle-mod_bigbluebuttonbn (2015080611)]]></bbb-origin-tag>
+                <bn-origin><![CDATA[Moodle]]></bn-origin>
+                <bbb-origin-server-common-name><![CDATA[]]></bbb-origin-server-common-name>
+                <bbb-origin-server-name><![CDATA[planetinteractive.us]]></bbb-origin-server-name>
+                <bbb-recording-description><![CDATA[]]></bbb-recording-description>
+                <bbb-recording-name><![CDATA[SAT- Writing Section- Social Science and History (All participants)]]></bbb-recording-name>
+                <bbb-recording-tags><![CDATA[]]></bbb-recording-tags>
+            </metadata>
+            <playback>
+                <format>
+                    <type>presentation</type>
+                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026</url>
+                    <length>86</length>
+                </format>
+            </playback>
+        </recording>
+        <recording>
+            <recordID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1462894360422</recordID>
+            <meetingID>9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]</meetingID>
+            <name><![CDATA[SAT- Linear Equations (All participants)]]></name>
+            <published>true</published>
+            <state>published</state>
+            <startTime>1462894360422</startTime>
+            <endTime>1462899112563</endTime>
+            <metadata>
+                <bbb-context><![CDATA[SAT Score Booster Program-Main]]></bbb-context>
+                <bbb-origin-tag><![CDATA[moodle-mod_bigbluebuttonbn (2015080611)]]></bbb-origin-tag>
+                <bn-origin><![CDATA[Moodle]]></bn-origin>
+                <bbb-origin-version><![CDATA[2.7.7+ (Build: 20150319)]]></bbb-origin-version>
+                <bbb-origin-server-common-name><![CDATA[]]></bbb-origin-server-common-name>
+                <bbb-origin-server-name><![CDATA[planetinteractive.us]]></bbb-origin-server-name>
+                <bbb-recording-name><![CDATA[SAT- Linear Equations (All participants)]]></bbb-recording-name>
+                <bbb-recording-description><![CDATA[]]></bbb-recording-description>
+                <bbb-recording-tags><![CDATA[]]></bbb-recording-tags>
+            </metadata>
+            <playback>
+                <format>
+                    <type>presentation</type>
+                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462894360422</url>
+                    <length>46</length>
+                </format>
+            </playback>
+        </recording>
+    </recordings>
+</response>

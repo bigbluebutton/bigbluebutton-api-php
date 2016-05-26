@@ -32,6 +32,7 @@ use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
+use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Util\UrlBuilder;
 use SimpleXMLElement;
@@ -208,60 +209,9 @@ class BigBlueButton
 
     public function getRecordingsWithXmlResponseArray($recordingParams)
     {
-        /* USAGE:
-        $recordingParams = array(
-            'meetingId' => '1234',		-- OPTIONAL - comma separate if multiple ids
-        );
-        NOTE: 'duration' DOES work when creating a meeting, so if you set duration
-        when creating a meeting, it will kick users out after the duration. Should
-        probably be required in user code when 'recording' is set to true.
-        */
         $xml = $this->processXmlResponse($this->getRecordingsUrl($recordingParams));
-        if ($xml) {
-            // If we don't get a success code or messageKey, find out why:
-            if (($xml->returncode != 'SUCCESS') || ($xml->messageKey == null)) {
-                $result = [
-                    'returncode' => $xml->returncode,
-                    'messageKey' => $xml->messageKey,
-                    'message'    => $xml->message,
-                ];
 
-                return $result;
-            } else {
-                // In this case, we have success and recording info:
-                $result = [
-                    'returncode' => $xml->returncode,
-                    'messageKey' => $xml->messageKey,
-                    'message'    => $xml->message,
-                ];
-
-                foreach ($xml->recordings->recording as $r) {
-                    $result[] = [
-                        'recordId'             => $r->recordID,
-                        'meetingId'            => $r->meetingID,
-                        'name'                 => $r->name,
-                        'published'            => $r->published,
-                        'startTime'            => $r->startTime,
-                        'endTime'              => $r->endTime,
-                        'playbackFormatType'   => $r->playback->format->type,
-                        'playbackFormatUrl'    => $r->playback->format->url,
-                        'playbackFormatLength' => $r->playback->format->length,
-                        'metadataTitle'        => $r->metadata->title,
-                        'metadataSubject'      => $r->metadata->subject,
-                        'metadataDescription'  => $r->metadata->description,
-                        'metadataCreator'      => $r->metadata->creator,
-                        'metadataContributor'  => $r->metadata->contributor,
-                        'metadataLanguage'     => $r->metadata->language,
-                        // Add more here as needed for your app depending on your
-                        // use of metadata when creating recordings.
-                    ];
-                }
-
-                return $result;
-            }
-        } else {
-            return;
-        }
+        return new GetRecordingsResponse($xml);
     }
 
     /**
