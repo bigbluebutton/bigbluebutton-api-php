@@ -209,7 +209,7 @@ class BigBlueButton
         return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDINGS, $recordingsParams->getHTTPQuery());
     }
 
-    public function getRecordingsWithXmlResponseArray($recordingParams)
+    public function getRecordings($recordingParams)
     {
         $xml = $this->processXmlResponse($this->getRecordingsUrl($recordingParams));
 
@@ -230,7 +230,7 @@ class BigBlueButton
      * @return array|void
      * @throws \Exception
      */
-    public function publishRecordingsWithXmlResponseArray($recordingParams)
+    public function publishRecordings($recordingParams)
     {
         $xml = $this->processXmlResponse($this->getPublishRecordingsUrl($recordingParams));
 
@@ -241,14 +241,14 @@ class BigBlueButton
      * @param $recordingParams DeleteRecordingsParameters
      * @return string
      */
-    public function getDeleteRecordingsUrl($recordingParams)
+    public function deleteRecordingsUrl($recordingParams)
     {
         return $this->urlBuilder->buildUrl(ApiMethod::DELETE_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
-    public function deleteRecordingsWithXmlResponseArray($recordingParams)
+    public function deleteRecordings($recordingParams)
     {
-        $xml = $this->processXmlResponse($this->getDeleteRecordingsUrl($recordingParams));
+        $xml = $this->processXmlResponse($this->deleteRecordingsUrl($recordingParams));
 
         return new DeleteRecordingsResponse($xml);
     }

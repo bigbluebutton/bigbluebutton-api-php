@@ -19,9 +19,12 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
+use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
+use BigBlueButton\Parameters\PublishRecordingsParameters;
 
 /**
  * Class BigBlueButtonTest
@@ -184,6 +187,42 @@ class BigBlueButtonTest extends TestCase
         $meeting = $this->createRealMeeting($this->bbb);
 
         $result = $this->bbb->getMeetingInfo(new GetMeetingInfoParameters($meeting->getMeetingId(), $meeting->getModeratorPassword()));
+        $this->assertEquals('SUCCESS', $result->getReturnCode());
+    }
+
+    public function testGetRecordingsUrl()
+    {
+        $url = $this->bbb->deleteRecordingsUrl(new GetRecordingsParameters());
+        $this->assertContains(ApiMethod::GET_RECORDINGS, $url);
+    }
+
+    public function testGetRecordings()
+    {
+        $result = $this->bbb->getRecordings(new GetRecordingsParameters($this->faker->sha1));
+        $this->assertEquals('SUCCESS', $result->getReturnCode());
+    }
+
+    public function testPublishRecordingsUrl()
+    {
+        $url = $this->bbb->publishRecordings(new PublishRecordingsParameters($this->faker->sha1, true));
+        $this->assertContains(ApiMethod::PUBLISH_RECORDINGS, $url);
+    }
+
+    public function testPublishRecordings()
+    {
+        $result = $this->bbb->deleteRecordings('non-existing-id-' . $this->faker->sha1);
+        $this->assertEquals('SUCCESS', $result->getReturnCode());
+    }
+
+    public function testDeleteRecordingsUrl()
+    {
+        $url = $this->bbb->deleteRecordingsUrl(new DeleteRecordingsParameters($this->faker->sha1));
+        $this->assertContains(ApiMethod::DELETE_RECORDINGS, $url);
+    }
+
+    public function testDeleteRecordings()
+    {
+        $result = $this->bbb->deleteRecordings('non-existing-id-' . $this->faker->sha1);
         $this->assertEquals('SUCCESS', $result->getReturnCode());
     }
 }
