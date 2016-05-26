@@ -29,11 +29,13 @@ use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
+use BigBlueButton\Responses\DeleteRecordingsResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
+use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 use SimpleXMLElement;
 
@@ -223,23 +225,16 @@ class BigBlueButton
         return $this->urlBuilder->buildUrl(ApiMethod::PUBLISH_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
+    /**
+     * @param $recordingParams PublishRecordingsParameters
+     * @return array|void
+     * @throws \Exception
+     */
     public function publishRecordingsWithXmlResponseArray($recordingParams)
     {
-        /* USAGE:
-        $recordingParams = array(
-            'recordId' => '1234',		-- REQUIRED - comma separate if multiple ids
-            'publish' => 'true',		-- REQUIRED - boolean: true/false
-        );
-        */
         $xml = $this->processXmlResponse($this->getPublishRecordingsUrl($recordingParams));
-        if ($xml) {
-            return [
-                'returncode' => $xml->returncode,
-                'published'  => $xml->published,    // -- Returns true/false.
-            ];
-        } else {
-            return;
-        }
+
+        return new PublishRecordingsResponse($xml);
     }
 
     /**
@@ -253,22 +248,9 @@ class BigBlueButton
 
     public function deleteRecordingsWithXmlResponseArray($recordingParams)
     {
-
-        /* USAGE:
-        $recordingParams = array(
-            'recordId' => '1234',		-- REQUIRED - comma separate if multiple ids
-        );
-        */
-
         $xml = $this->processXmlResponse($this->getDeleteRecordingsUrl($recordingParams));
-        if ($xml) {
-            return [
-                'returncode' => $xml->returncode,
-                'deleted'    => $xml->deleted,    // -- Returns true/false.
-            ];
-        } else {
-            return;
-        }
+
+        return new DeleteRecordingsResponse($xml);
     }
 
     /* ____________________ INTERNAL CLASS METHODS ___________________ */
