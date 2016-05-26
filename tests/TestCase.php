@@ -152,6 +152,11 @@ class TestCase extends \PHPUnit_Framework_TestCase
         return simplexml_load_string(file_get_contents(($path)));
     }
 
+    protected function minifyString($string)
+    {
+        return str_replace(["\r\n", "\r", "\n", "\t", ' '], '', $string);
+    }
+
     // Additional assertions
 
     public function assertIsString($actual, $message = '')

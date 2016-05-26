@@ -20,13 +20,16 @@ namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
 
-class DeleteRecordingParametersTest extends TestCase
+class DeleteRecordingsParametersTest extends TestCase
 {
     public function testDeleteRecordingParameter()
     {
         $recordingId     = $this->faker->uuid;
         $deleteRecording = new DeleteRecordingsParameters($recordingId);
 
+        $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
+
+        $deleteRecording->setRecordingId($recordingId = $this->faker->uuid);
         $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
     }
 }

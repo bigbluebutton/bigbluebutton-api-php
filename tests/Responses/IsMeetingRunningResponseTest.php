@@ -41,6 +41,8 @@ class IsMeetingRunningResponseTest extends TestCase
     {
         $this->assertEquals('SUCCESS', $this->running->getReturnCode());
         $this->assertEquals(true, $this->running->isRunning());
+
+        $this->assertEquals('<?xmlversion="1.0"?><response><returncode>SUCCESS</returncode><running>true</running></response>', $this->minifyString($this->running->getRawXml()->asXML()));
     }
 
     public function testIsMeetingRunningResponseTypes()

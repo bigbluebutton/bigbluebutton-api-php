@@ -24,11 +24,14 @@ class PublishRecordingsParametersTest extends TestCase
 {
     public function testPublishRecordingsParameters()
     {
-        $recordingId     = $this->faker->uuid;
-        $publish         = $this->faker->boolean(50);
-        $deleteRecording = new PublishRecordingsParameters($recordingId, $publish);
+        $recordingId      = $this->faker->uuid;
+        $publish          = $this->faker->boolean(50);
+        $publishRecording = new PublishRecordingsParameters($recordingId, $publish);
 
-        $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
-        $this->assertEquals($publish, $deleteRecording->isPublish());
+        $this->assertEquals($recordingId, $publishRecording->getRecordingId());
+        $this->assertEquals($publish, $publishRecording->isPublish());
+
+        $publishRecording->setPublish($publish = !$publish);
+        $this->assertEquals($publish, $publishRecording->isPublish());
     }
 }
