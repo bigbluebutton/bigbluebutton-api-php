@@ -49,10 +49,8 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['meta_presenter'], $createMeetingParams->getMeta('presenter'));
 
         // Test setters that are ignored by the constructor
-        $newId   = $this->faker->uuid;
-        $newName = $this->faker->name;
-        $createMeetingParams->setMeetingId($newId);
-        $createMeetingParams->setMeetingName($newName);
+        $createMeetingParams->setMeetingId($newId = $this->faker->uuid);
+        $createMeetingParams->setMeetingName($newName = $this->faker->name);
         $this->assertEquals($newName, $createMeetingParams->getMeetingName());
         $this->assertEquals($newId, $createMeetingParams->getMeetingId());
     }

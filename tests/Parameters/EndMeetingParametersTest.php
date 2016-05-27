@@ -24,11 +24,15 @@ class EndMeetingParametersTest extends TestCase
 {
     public function testEndMeetingParameters()
     {
-        $meetingId        = $this->faker->uuid;
-        $password         = $this->faker->password();
-        $endMeetingParams = new EndMeetingParameters($meetingId, $password);
+        $endMeetingParams = new EndMeetingParameters($meetingId = $this->faker->uuid, $password = $this->faker->password());
 
         $this->assertEquals($meetingId, $endMeetingParams->getMeetingId());
         $this->assertEquals($password, $endMeetingParams->getPassword());
+
+        // Test setters that are ignored by the constructor
+        $endMeetingParams->setMeetingId($newId = $this->faker->uuid);
+        $endMeetingParams->setPassword($newPassword = $this->faker->password);
+        $this->assertEquals($newId, $endMeetingParams->getMeetingId());
+        $this->assertEquals($newPassword, $endMeetingParams->getPassword());
     }
 }

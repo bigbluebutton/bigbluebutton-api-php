@@ -29,6 +29,7 @@ class DeleteRecordingsParametersTest extends TestCase
 
         $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
 
+        // Test setters that are ignored by the constructor
         $deleteRecording->setRecordingId($recordingId = $this->faker->uuid);
         $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
     }

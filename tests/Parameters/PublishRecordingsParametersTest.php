@@ -31,6 +31,7 @@ class PublishRecordingsParametersTest extends TestCase
         $this->assertEquals($recordingId, $publishRecording->getRecordingId());
         $this->assertEquals($publish, $publishRecording->isPublish());
 
+        // Test setters that are ignored by the constructor
         $publishRecording->setPublish($publish = !$publish);
         $this->assertEquals($publish, $publishRecording->isPublish());
     }

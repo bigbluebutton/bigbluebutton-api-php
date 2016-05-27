@@ -32,5 +32,9 @@ class IsMeetingRunningParametersTest extends TestCase
         $isRunningParams = new IsMeetingRunningParameters($meetingId);
 
         $this->assertEquals($meetingId, $isRunningParams->getMeetingId());
+
+        // Test setters that are ignored by the constructor
+        $isRunningParams->setMeetingId($newId = $this->faker->uuid);
+        $this->assertEquals($newId, $isRunningParams->getMeetingId());
     }
 }
