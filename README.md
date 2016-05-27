@@ -8,21 +8,71 @@
 
 # BigBlueButton API for PHP
 
-The **BigBlueButton API for PHP** makes it easy for developers to access [BigBlueButton][bbb] API.
-API in their PHP code.
+The official and easy to use **BigBlueButton API for PHP**, makes easy for developers to use [BigBlueButton][bbb] API for **PHP 5.4+**.
 
-## Development
+## Requirements
 
-Running PHPCS-Fixer
+- PHP 5.4 or above.
+- Curl library installed.
+
+BigBlueButton API for PHP is also tested to work with HHVM and fully compatible with PHP 7.0.
+
+
+## Installation
+
+**bigbluebutton-api-php** can be installed via [Composer][composer] CLI
+
+```
+composer require bigbluebutton-api-php/bigbluebutton-api-php
+```
+
+or by editing [Composer][composer].json
+
+```json
+{
+    "require": {
+        "bigbluebutton/bigbluebutton-api-php": "dev-master"
+    }
+}
+```
+
+## Usage
+
+You should have environment variables ```BBB_SECURITY_SALT``` and ```BBB_SERVER_BASE_URL``` defined in your sever.
+
+The you will be able to call BigBlueButton API of your server. A simple usage example for create meeting looks like:
+
+```php
+use BigBlueButton;
+
+$bbb = new BigBlueButton();
+$createMeetingParams = new CreateMeetingParameters('bbb-meeting-uid-65', 'BigBlueButton API Meeting');
+$response = $bbb->createMeeting(createMeetingParams);
+
+echo "Created Meetin with ID: " . $response->getMeetingId();
+```
+
+
+## Submitting bugs and feature requests
+
+Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
+
+## Contributing guidelines
+### Code style
+
+Make sure the code style configuration is applied by running PHPCS-Fixer.
 
 ```
 ./vendor/bin/php-cs-fixer fix
 ```
 
-## Runing tests
+### Runing tests
+
+For every implemented feature add unit tests and check all is green by running the command below.
 
 ```
 ./vendor/bin/phpunit
 ```
 
 [bbb]: http://bigbluebutton.org
+[composer]: https://getcomposer.org
