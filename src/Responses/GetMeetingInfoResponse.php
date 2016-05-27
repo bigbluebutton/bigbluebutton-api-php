@@ -21,6 +21,10 @@ namespace BigBlueButton\Responses;
 use BigBlueButton\Core\Attendee;
 use BigBlueButton\Core\MeetingInfo;
 
+/**
+ * Class GetMeetingInfoResponse
+ * @package BigBlueButton\Responses
+ */
 class GetMeetingInfoResponse extends BaseResponse
 {
     /**
@@ -65,7 +69,7 @@ class GetMeetingInfoResponse extends BaseResponse
         if (!is_null($this->attendees)) {
             return $this->attendees;
         } else {
-            $this->attendess = [];
+            $this->attendees = [];
             foreach ($this->rawXml->attendees->attendee as $attendeeXml) {
                 $this->attendees[] = new Attendee($attendeeXml);
             }
