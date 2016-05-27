@@ -118,6 +118,20 @@ class BigBlueButtonTest extends TestCase
         }
     }
 
+    /* Default Config XML */
+
+    public function testGetDefaultConfigXMLUrl()
+    {
+        $url = $this->bbb->getDefaultConfigXMLUrl();
+        $this->assertContains(ApiMethod::GET_DEFAULT_CONFIG_XML, $url);
+    }
+
+    public function testGetDefaultConfigXML()
+    {
+        $result = $this->bbb->getDefaultConfigXML();
+        $this->assertNotNull($result->getRawXml());
+    }
+
     /* End Meeting */
 
     /**
@@ -157,7 +171,7 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals(false, $result->isRunning());
     }
 
-    /* Get Metings */
+    /* Get Meetings */
 
     public function testGetMeetingsUrl()
     {

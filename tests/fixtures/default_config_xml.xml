@@ -1,0 +1,142 @@
+<?xml version="1.0" ?>
+<config>
+    <localeversion suppressWarning="false">0.9.0</localeversion>
+    <version>419</version>
+    <help url="https://test-install.blindsidenetworks.com/help.html"/>
+    <javaTest url="https://test-install.blindsidenetworks.com/testjava.html"/>
+    <porttest host="test-install.blindsidenetworks.com" application="video/portTest" timeout="10000"/>
+    <bwMon server="192.99.8.120" application="video/bwTest"/>
+    <application uri="rtmp://test-install.blindsidenetworks.com/bigbluebutton" host="https://test-install.blindsidenetworks.com/bigbluebutton/api/enter"/>
+    <language userSelectionEnabled="true" />
+    <skinning enabled="true" url="https://test-install.blindsidenetworks.com/client/branding/css/BBBDefault.css.swf" />
+    <shortcutKeys showButton="true" />
+    <browserVersions chrome="47" firefox="43" flash="19" java="1.7.0_51" />
+    <layout showLogButton="false" defaultLayout="bbb.layout.name.defaultlayout"
+            showToolbar="true" showFooter="true" showMeetingName="true" showHelpButton="true"
+            showLogoutWindow="true" showLayoutTools="true" confirmLogout="true"
+            showRecordingNotification="true"/>
+    <meeting muteOnStart="false" />
+    <logging enabled="true" target="trace" level="info" format="{dateUTC} {time} :: {name} :: [{logLevel}] {message}" uri="https://test-install.blindsidenetworks.com"/>
+    <lock disableCamForLockedUsers="false" disableMicForLockedUsers="false" disablePrivateChatForLockedUsers="false"
+          disablePublicChatForLockedUsers="false" lockLayoutForLockedUsers="false" lockOnJoin="true" lockOnJoinConfigurable="false"/>
+
+    <modules>
+
+        <module name="ChatModule" url="https://test-install.blindsidenetworks.com/client/ChatModule.swf?v=419"
+                uri="rtmp://test-install.blindsidenetworks.com/bigbluebutton"
+                dependsOn="UsersModule"
+                privateEnabled="true"
+                fontSize="12"
+                position="top-right"
+                baseTabIndex="701"
+                colorPickerIsVisible="false"
+                maxMessageLength="1024"
+        />
+
+        <module name="UsersModule" url="https://test-install.blindsidenetworks.com/client/UsersModule.swf?v=419"
+                uri="rtmp://test-install.blindsidenetworks.com/bigbluebutton"
+                allowKickUser="true"
+                enableEmojiStatus="true"
+                enableSettingsButton="true"
+                baseTabIndex="301"
+        />
+
+
+        <module name="DeskShareModule"
+                url="https://test-install.blindsidenetworks.com/client/DeskShareModule.swf?v=419"
+                uri="rtmp://test-install.blindsidenetworks.com/deskShare"
+                publishURI="test-install.blindsidenetworks.com"
+                useTLS="false"
+                showButton="true"
+                autoStart="false"
+                autoFullScreen="false"
+                baseTabIndex="201"
+        />
+
+        <module name="PhoneModule" url="https://test-install.blindsidenetworks.com/client/PhoneModule.swf?v=419"
+                uri="rtmp://test-install.blindsidenetworks.com/sip"
+                autoJoin="true"
+                listenOnlyMode="true"
+                presenterShareOnly="false"
+                skipCheck="false"
+                showButton="true"
+                enabledEchoCancel="true"
+                useWebRTCIfAvailable="true"
+                showPhoneOption="false"
+                echoTestApp="9196"
+                dependsOn="UsersModule"
+        />
+
+        <module name="VideoconfModule" url="https://test-install.blindsidenetworks.com/client/VideoconfModule.swf?v=419"
+                uri="rtmp://test-install.blindsidenetworks.com/video"
+                dependson = "UsersModule"
+                baseTabIndex="401"
+                presenterShareOnly = "false"
+                controlsForPresenter = "false"
+                autoStart = "false"
+                skipCamSettingsCheck="false"
+                showButton = "true"
+                showCloseButton = "true"
+                publishWindowVisible = "true"
+                viewerWindowMaxed = "false"
+                viewerWindowLocation = "top"
+                smoothVideo="false"
+                applyConvolutionFilter="false"
+                convolutionFilter="-1, 0, -1, 0, 6, 0, -1, 0, -1"
+                filterBias="0"
+                filterDivisor="4"
+                displayAvatar = "false"
+                focusTalking = "false"
+                glowColor = "0x4A931D"
+                glowBlurSize = "30.0"
+                priorityRatio = "0.67"
+        />
+
+        <module name="WhiteboardModule" url="https://test-install.blindsidenetworks.com/client/WhiteboardModule.swf?v=419"
+                uri="rtmp://test-install.blindsidenetworks.com/bigbluebutton"
+                dependsOn="PresentModule"
+                baseTabIndex="601"
+                whiteboardAccess="presenter"
+                keepToolbarVisible="false"
+        />
+
+        <module name="PollingModule" url="https://test-install.blindsidenetworks.com/client/PollingModule.swf?v=419"
+                uri="rtmp://test-install.blindsidenetworks.com/bigbluebutton"
+                dependsOn="PresentModule"
+        />
+
+        <module name="PresentModule" url="https://test-install.blindsidenetworks.com/client/PresentModule.swf?v=419"
+                uri="rtmp://test-install.blindsidenetworks.com/bigbluebutton"
+                host="https://test-install.blindsidenetworks.com"
+                showPresentWindow="true"
+                showWindowControls="true"
+                openExternalFileUploadDialog="false"
+                dependsOn="UsersModule"
+                baseTabIndex="501"
+                maxFileSize="30"
+        />
+
+        <module name="LayoutModule" url="https://test-install.blindsidenetworks.com/client/LayoutModule.swf?v=419"
+                uri="rtmp://test-install.blindsidenetworks.com/bigbluebutton"
+                layoutConfig="https://test-install.blindsidenetworks.com/client/conf/layout.xml"
+                enableEdit="false"
+        />
+
+        <!--
+            <module name="NotesModule" url="https://test-install.blindsidenetworks.com/client/NotesModule.swf?v=419"
+              saveURL="https://test-install.blindsidenetworks.com"
+              position="top-left"
+            />
+
+            <module name="BroadcastModule" url="https://test-install.blindsidenetworks.com/client/BroadcastModule.swf?v=419"
+              uri="rtmp://test-install.blindsidenetworks.com/bigbluebutton"
+              streamsUri="https://test-install.blindsidenetworks.com/streams.xml"
+              position="top-left"
+              showStreams="true"
+              autoPlay="false"
+              dependsOn="UsersModule"
+            />
+        -->
+
+    </modules>
+</config>

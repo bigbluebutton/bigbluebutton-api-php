@@ -31,6 +31,7 @@ use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\DeleteRecordingsResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
+use BigBlueButton\Responses\GetDefaultConfigXMLResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
@@ -69,6 +70,7 @@ class BigBlueButton
     /* __________________ BBB ADMINISTRATION METHODS _________________ */
     /* The methods in the following section support the following categories of the BBB API:
     -- create
+    -- getDefaultConfigXML
     -- join
     -- end
     */
@@ -93,6 +95,25 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getCreateMeetingUrl($createMeetingParams), $createMeetingParams->getPresentationsAsXML());
 
         return new CreateMeetingResponse($xml);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultConfigXMLUrl()
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::GET_DEFAULT_CONFIG_XML);
+    }
+
+    /**
+     *
+     * @return GetDefaultConfigXMLResponse
+     */
+    public function getDefaultConfigXML()
+    {
+        $xml = $this->processXmlResponse($this->getDefaultConfigXMLUrl());
+
+        return new GetDefaultConfigXMLResponse($xml);
     }
 
     /**
