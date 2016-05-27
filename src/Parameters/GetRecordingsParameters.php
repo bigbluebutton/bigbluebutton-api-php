@@ -109,6 +109,6 @@ class GetRecordingsParameters extends MetaParameters
 
         $this->buildMeta($queries);
 
-        $this->buildHTTPQuery($queries);
+        return $this->buildHTTPQuery($queries);
     }
 }
