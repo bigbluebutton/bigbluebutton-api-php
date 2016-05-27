@@ -60,7 +60,7 @@ class BigBlueButton
     /**
      * @return ApiVersionResponse
      *
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function getApiVersion()
     {
@@ -76,8 +76,7 @@ class BigBlueButton
     */
 
     /**
-     * @param $createMeetingParams CreateMeetingParameters
-     *
+     * @param  CreateMeetingParameters $createMeetingParams
      * @return string
      */
     public function getCreateMeetingUrl($createMeetingParams)
@@ -88,7 +87,7 @@ class BigBlueButton
     /**
      * @param  CreateMeetingParameters $createMeetingParams
      * @return CreateMeetingResponse
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function createMeeting($createMeetingParams)
     {
@@ -106,8 +105,8 @@ class BigBlueButton
     }
 
     /**
-     *
      * @return GetDefaultConfigXMLResponse
+     * @throws \RuntimeException
      */
     public function getDefaultConfigXML()
     {
@@ -140,7 +139,8 @@ class BigBlueButton
      * @param $endParams EndMeetingParameters
      *
      * @return EndMeetingResponse
-     */
+     * @throws \RuntimeException
+     * */
     public function endMeeting($endParams)
     {
         $xml = $this->processXmlResponse($this->getEndMeetingURL($endParams));
@@ -167,7 +167,7 @@ class BigBlueButton
     /**
      * @param $meetingParams
      * @return IsMeetingRunningResponse
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function isMeetingRunning($meetingParams)
     {
@@ -186,6 +186,7 @@ class BigBlueButton
 
     /**
      * @return GetMeetingsResponse
+     * @throws \RuntimeException
      */
     public function getMeetings()
     {
@@ -206,6 +207,7 @@ class BigBlueButton
     /**
      * @param $meetingParams GetMeetingInfoParameters
      * @return GetMeetingInfoResponse
+     * @throws \RuntimeException
      */
     public function getMeetingInfo($meetingParams)
     {
@@ -233,7 +235,7 @@ class BigBlueButton
     /**
      * @param $recordingParams
      * @return GetRecordingsResponse
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function getRecordings($recordingParams)
     {
@@ -254,7 +256,7 @@ class BigBlueButton
     /**
      * @param $recordingParams PublishRecordingsParameters
      * @return PublishRecordingsResponse
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function publishRecordings($recordingParams)
     {
@@ -275,7 +277,7 @@ class BigBlueButton
     /**
      * @param $recordingParams
      * @return DeleteRecordingsResponse
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     public function deleteRecordings($recordingParams)
     {
@@ -290,7 +292,7 @@ class BigBlueButton
      * A private utility method used by other public methods to process XML responses.
      *
      * @param $url
-     * @param  string                $xml
+     * @param  string            $xml
      * @return SimpleXMLElement
      * @throws \RuntimeException
      */
