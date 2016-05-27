@@ -22,7 +22,7 @@ namespace BigBlueButton\Parameters;
  * Class GetRecordingsParameters
  * @package BigBlueButton\Parameters
  */
-class GetRecordingsParameters extends BaseParameters
+class GetRecordingsParameters extends MetaParameters
 {
     /**
      * @var string
@@ -38,11 +38,6 @@ class GetRecordingsParameters extends BaseParameters
      * @var string
      */
     private $state;
-
-    /**
-     * @var array
-     */
-    private $meta = [];
 
     /**
      * @return string
@@ -104,42 +99,16 @@ class GetRecordingsParameters extends BaseParameters
     /**
      * @return string
      */
-    public function getMeta($key)
-    {
-        return $this->meta[$key];
-    }
-
-    /**
-     * @param string $key
-     * @param string $value
-     *
-     * @return CreateMeetingParameters
-     */
-    public function setMeta($key, $value)
-    {
-        $this->meta[$key] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getHTTPQuery()
     {
         $queries = [
             'meetingID' => $this->meetingId,
             'recordID'  => $this->recordId,
-            'state'     => $this->state,
-            'meta'      => $this->meta
+            'state'     => $this->state
         ];
 
-        if (!empty($this->meta)) {
-            foreach ($this->meta as $k => $v) {
-                $queries['meta_' . $k] = $v;
-            }
-        }
+        $this->buildMeta($queries);
 
-        return $this->buildHTTPQuery($queries);
+        $this->buildHTTPQuery($queries);
     }
 }

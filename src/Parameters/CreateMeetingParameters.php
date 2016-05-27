@@ -21,7 +21,7 @@ namespace BigBlueButton\Parameters;
 /**
  * Class CreateMeetingParameters.
  */
-class CreateMeetingParameters extends BaseParameters
+class CreateMeetingParameters extends MetaParameters
 {
     /**
      * @var string
@@ -97,11 +97,6 @@ class CreateMeetingParameters extends BaseParameters
      * @var string
      */
     private $moderatorOnlyMessage;
-
-    /**
-     * @var array
-     */
-    private $meta = [];
 
     /**
      * @var array
@@ -421,27 +416,6 @@ class CreateMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return string
-     */
-    public function getMeta($key)
-    {
-        return $this->meta[$key];
-    }
-
-    /**
-     * @param string $key
-     * @param string $value
-     *
-     * @return CreateMeetingParameters
-     */
-    public function setMeta($key, $value)
-    {
-        $this->meta[$key] = $value;
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function getPresentations()
@@ -506,11 +480,8 @@ class CreateMeetingParameters extends BaseParameters
             'welcome'                 => trim($this->welcomeMessage),
             'moderatorOnlyMessage'    => trim($this->moderatorOnlyMessage),
         ];
-        if (!empty($this->meta)) {
-            foreach ($this->meta as $k => $v) {
-                $queries['meta_' . $k] = $v;
-            }
-        }
+
+        $this->buildMeta($queries);
 
         return $this->buildHTTPQuery($queries);
     }
