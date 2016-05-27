@@ -54,4 +54,20 @@ abstract class BaseResponse
     {
         return $this->rawXml->returncode->__toString();
     }
+
+    /**
+     * @return string
+     */
+    public function getMessageKey()
+    {
+        return $this->rawXml->messageKey->__toString();
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->rawXml->message->__toString();
+    }
 }

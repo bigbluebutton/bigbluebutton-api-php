@@ -32,22 +32,6 @@ class GetMeetingsResponse extends BaseResponse
     private $meetings;
 
     /**
-     * @return string
-     */
-    public function getMessageKey()
-    {
-        return $this->rawXml->messageKey->__toString();
-    }
-
-    /**
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->rawXml->message->__toString();
-    }
-
-    /**
      * @return Meeting[]
      */
     public function getMeetings()
