@@ -23,7 +23,7 @@ BigBlueButton API for PHP is also tested to work with HHVM and fully compatible 
 **bigbluebutton-api-php** can be installed via [Composer][composer] CLI
 
 ```
-composer require bigbluebutton-api-php/bigbluebutton-api-php
+composer require bigbluebutton/bigbluebutton-api-php:dev-master
 ```
 
 or by editing [Composer][composer].json
