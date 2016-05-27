@@ -291,23 +291,23 @@ class BigBlueButton
      *
      * @param $url
      * @param  string                $xml
-     * @return bool|SimpleXMLElement
-     * @throws \Exception
+     * @return SimpleXMLElement
+     * @throws \RuntimeException
      */
     private function processXmlResponse($url, $xml = '')
     {
-        /*
-        
-        */
         if (extension_loaded('curl')) {
-            $ch      = curl_init() or die(curl_error());
+            $ch = curl_init();
+            if (!$ch) {
+                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+            }
             $timeout = 10;
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-            if (!empty($xml)) {
+            if (count($xml) !== 0) {
                 curl_setopt($ch, CURLOPT_HEADER, 0);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                 curl_setopt($ch, CURLOPT_POST, 1);
@@ -318,18 +318,15 @@ class BigBlueButton
                 ]);
             }
             $data = curl_exec($ch);
+            if ($data === false) {
+                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+            }
             curl_close($ch);
 
-            if ($data) {
-                return new SimpleXMLElement($data);
-            } else {
-                return false;
-            }
+            return new SimpleXMLElement($data);
         }
-        if (!empty($xml)) {
-            throw new \Exception('Set xml, but curl does not installed.');
+        if (count($xml) !== 0) {
+            throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
         }
-
-        return simplexml_load_file($url);
     }
 }
