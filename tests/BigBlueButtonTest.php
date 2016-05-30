@@ -45,7 +45,7 @@ class BigBlueButtonTest extends TestCase
         parent::setUp();
 
         foreach (['BBB_SECURITY_SALT', 'BBB_SERVER_BASE_URL'] as $k) {
-            if (!isset($_SERVER[$k]) || !isset($_SERVER[$k])) {
+            if (!getenv($k)) {
                 $this->fail('$_SERVER[\'' . $k . '\'] not set in '
                     . 'phpunit.xml');
             }
