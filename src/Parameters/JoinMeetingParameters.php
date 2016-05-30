@@ -188,7 +188,7 @@ class JoinMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getCreationTime()
     {
@@ -246,7 +246,7 @@ class JoinMeetingParameters extends BaseParameters
     }
 
     /**
-     * @return mixed
+     * @return boolean
      */
     public function isRedirect()
     {

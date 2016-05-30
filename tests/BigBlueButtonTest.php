@@ -76,6 +76,7 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateCreateParams();
         $url    = $this->bbb->getCreateMeetingUrl($this->getCreateParamsMock($params));
         foreach ($params as $key => $value) {
+            $value = !is_bool($value) ? $value : ($value ? 'true' : 'false');
             $this->assertContains('=' . urlencode($value), $url);
         }
     }
@@ -114,6 +115,7 @@ class BigBlueButtonTest extends TestCase
         $url = $this->bbb->getJoinMeetingURL($joinMeetingMock);
 
         foreach ($joinMeetingParams as $key => $value) {
+            $value = !is_bool($value) ? $value : ($value ? 'true' : 'false');
             $this->assertContains('=' . urlencode($value), $url);
         }
     }
