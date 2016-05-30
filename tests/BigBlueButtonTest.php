@@ -118,6 +118,17 @@ class BigBlueButtonTest extends TestCase
         }
     }
 
+    public function testJoinMeeting()
+    {
+        $joinMeetingParams = $this->generateJoinMeetingParams();
+        $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
+        $joinMeetingMock->setRedirect(false);
+
+        $response = $this->bbb->joinMeeting($joinMeetingMock);
+
+        $this->assertEquals('FAILED', $response->getReturnCode());
+    }
+
     /* Default Config XML */
 
     public function testGetDefaultConfigXMLUrl()

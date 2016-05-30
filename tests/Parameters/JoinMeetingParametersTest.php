@@ -47,7 +47,7 @@ class JoinMeetingParametersTest extends TestCase
         $this->assertEquals($newPassword, $joinMeetingParams->getPassword());
         $this->assertEquals($configToken, $joinMeetingParams->getConfigToken());
         $this->assertEquals($avatarUrl, $joinMeetingParams->getAvatarURL());
-        $this->assertEquals($redirect, $joinMeetingParams->getRedirect());
+        $this->assertEquals($redirect, $joinMeetingParams->isRedirect());
         $this->assertEquals($clientUrl, $joinMeetingParams->getClientURL());
     }
 }

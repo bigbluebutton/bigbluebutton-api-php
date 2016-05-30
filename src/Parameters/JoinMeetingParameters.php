@@ -64,7 +64,7 @@ class JoinMeetingParameters extends BaseParameters
     private $avatarURL;
 
     /**
-     * @var
+     * @var boolean
      */
     private $redirect;
 
@@ -248,7 +248,7 @@ class JoinMeetingParameters extends BaseParameters
     /**
      * @return mixed
      */
-    public function getRedirect()
+    public function isRedirect()
     {
         return $this->redirect;
     }

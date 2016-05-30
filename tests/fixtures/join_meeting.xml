@@ -1,0 +1,8 @@
+<response>
+    <returncode>SUCCESS</returncode>
+    <messageKey>successfullyJoined</messageKey>
+    <message>You have joined successfully.</message>
+    <meeting_id>fa51ae0c65adef7fe3cf115421da8a6a25855a20-1464618262714</meeting_id>
+    <user_id>ao6ehbtvbmhz</user_id>
+    <auth_token>huzbpgthac7s</auth_token>
+</response>

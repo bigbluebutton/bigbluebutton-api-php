@@ -18,58 +18,33 @@
  */
 namespace BigBlueButton\Responses;
 
-use BigBlueButton\Core\Attendee;
-use BigBlueButton\Core\MeetingInfo;
-
 /**
- * Class GetMeetingInfoResponse
+ * Class JoinMeetingResponse
  * @package BigBlueButton\Responses
  */
-class GetMeetingInfoResponse extends BaseResponse
+class JoinMeetingResponse extends BaseResponse
 {
     /**
-     * @var MeetingInfo
+     * @return string
      */
-    private $meetingInfo;
-
-    /**
-     * @var Attendee[]
-     */
-    private $attendees;
-
-    /**
-     * @var array
-     */
-    private $metadata;
-
-    /**
-     * @return MeetingInfo
-     */
-    public function getMeetingInfo()
+    public function getMeetingId()
     {
-        if (!is_null($this->meetingInfo)) {
-            return $this->meetingInfo;
-        } else {
-            $this->meetingInfo = new MeetingInfo($this->rawXml);
-        }
-
-        return $this->meetingInfo;
+        return $this->rawXml->meeting_id->__toString();
     }
 
     /**
-     * @return Attendee[]
+     * @return string
      */
-    public function getAttendees()
+    public function getUserId()
     {
-        if (!is_null($this->attendees)) {
-            return $this->attendees;
-        } else {
-            $this->attendees = [];
-            foreach ($this->rawXml->attendees->attendee as $attendeeXml) {
-                $this->attendees[] = new Attendee($attendeeXml);
-            }
-        }
+        return $this->rawXml->user_id->__toString();
+    }
 
-        return $this->attendees;
+    /**
+     * @return string
+     */
+    public function getAuthToken()
+    {
+        return $this->rawXml->auth_token->__toString();
     }
 }

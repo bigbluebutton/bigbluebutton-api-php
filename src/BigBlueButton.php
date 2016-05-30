@@ -36,6 +36,7 @@ use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
+use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 use SimpleXMLElement;
@@ -123,6 +124,19 @@ class BigBlueButton
     public function getJoinMeetingURL($joinMeetingParams)
     {
         return $this->urlBuilder->buildUrl(ApiMethod::JOIN, $joinMeetingParams->getHTTPQuery());
+    }
+
+    /**
+     * @param $joinMeetingParams JoinMeetingParameters
+     *
+     * @return JoinMeetingResponse
+     * @throws \RuntimeException
+     */
+    public function joinMeeting($joinMeetingParams)
+    {
+        $xml = $this->processXmlResponse($this->getJoinMeetingURL($joinMeetingParams));
+
+        return new JoinMeetingResponse($xml);
     }
 
     /**
