@@ -28,6 +28,7 @@ class GetMeetingInfoParameters extends BaseParameters
      * @var string
      */
     private $meetingId;
+
     /**
      * @var string
      */

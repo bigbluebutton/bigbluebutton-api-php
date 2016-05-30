@@ -298,7 +298,7 @@ class JoinMeetingParameters extends BaseParameters
                 'createTime'   => $this->creationTime,
                 'configToken'  => $this->configToken,
                 'avatarURL'    => $this->avatarURL,
-                'redirect'     => $this->redirect,
+                'redirect'     => $this->redirect ? 'true' : 'false',
                 'clientURL'    => $this->clientURL
             ]
         );

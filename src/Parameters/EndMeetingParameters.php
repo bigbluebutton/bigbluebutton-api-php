@@ -27,6 +27,7 @@ class EndMeetingParameters extends BaseParameters
      * @var string
      */
     private $meetingId;
+
     /**
      * @var string
      */
