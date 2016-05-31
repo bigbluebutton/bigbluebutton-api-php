@@ -75,6 +75,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals(false, $anAttendee->isListeningOnly());
         $this->assertEquals(true, $anAttendee->hasJoinedVoice());
         $this->assertEquals(false, $anAttendee->hasVideo());
+        $this->assertCount(2, $this->meetingInfo->getAttendees());
     }
 
     public function testGetMeetingInfoResponseTypes()
