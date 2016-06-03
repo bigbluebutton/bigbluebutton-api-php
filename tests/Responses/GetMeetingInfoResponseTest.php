@@ -36,7 +36,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
     public function testGetMeetingInfoResponseContent()
     {
         $this->assertInstanceOf('BigBlueButton\Core\MeetingInfo', $this->meetingInfo->getMeetingInfo());
-        $this->assertEquals(2, sizeof($this->meetingInfo->getAttendees()));
+        $this->assertCount(2, $this->meetingInfo->getAttendees());
         $this->assertEquals('SUCCESS', $this->meetingInfo->getReturnCode());
 
         $info = $this->meetingInfo->getMeetingInfo();

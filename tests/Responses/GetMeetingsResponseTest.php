@@ -41,7 +41,7 @@ class GetMeetingsResponseTest extends TestCase
     {
         $this->assertEquals('SUCCESS', $this->meetings->getReturnCode());
 
-        $this->assertEquals(3, sizeof($this->meetings->getMeetings()));
+        $this->assertCount(3, $this->meetings->getMeetings());
 
         $aMeeting = $this->meetings->getMeetings()[2];
 

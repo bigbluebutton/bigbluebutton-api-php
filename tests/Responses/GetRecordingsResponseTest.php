@@ -41,7 +41,7 @@ class GetRecordingsResponseTest extends TestCase
     {
         $this->assertEquals('SUCCESS', $this->records->getReturnCode());
 
-        $this->assertEquals(6, sizeof($this->records->getRecords()));
+        $this->assertCount(6, $this->records->getRecords());
 
         $aRecord = $this->records->getRecords()[4];
 
