@@ -440,12 +440,13 @@ class CreateMeetingParameters extends MetaParameters
     {
         $result = '';
         if (!empty($this->presentations)) {
-            $xml     = new \SimpleXMLElement('<xml/>');
-            $modules = $xml->addChild('modules');
-            $module  = $modules->addChild('module');
+            $xml    = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><modules/>');
+            $module = $xml->addChild('module');
+            $module->addAttribute('name', 'presentation');
+
             foreach ($this->presentations as $nameOrUrl => $content) {
-                if (!$this->presentations[$nameOrUrl]) {
-                    $module->addChild('document')->addAttribute('url', $nameOrUrl);
+                if ($this->presentations[$nameOrUrl] === true) {
+                    $module->addChild('document')->addAttribute('url', urlencode($nameOrUrl));
                 } else {
                     $document = $module->addChild('document');
                     $document->addAttribute('name', $nameOrUrl);
