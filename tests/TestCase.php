@@ -96,7 +96,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
         setLogoutUrl($params['logoutUrl'])->setMaxParticipants($params['maxParticipants'])->setRecord($params['record'])->
         setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording'])->
         setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])->
-        setMeta('presenter', $params['meta_presenter']);
+        addMeta('presenter', $params['meta_presenter']);
 
         return $createMeetingParams;
     }

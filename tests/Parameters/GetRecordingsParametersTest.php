@@ -28,7 +28,7 @@ class GetRecordingsParametersTest extends TestCase
         $getRecordings->setMeetingId($meetingId = $this->faker->uuid);
         $getRecordings->setRecordId($recordId = $this->faker->uuid);
         $getRecordings->setState($state = 'published');
-        $getRecordings->setMeta($meta = 'name', $name = $this->faker->firstName);
+        $getRecordings->addMeta($meta = 'name', $name = $this->faker->firstName);
 
         $params = $getRecordings->getHTTPQuery();
 
