@@ -215,7 +215,7 @@ class BigBlueButton
      */
     public function getMeetingInfoUrl($meetingParams)
     {
-        return $this->urlBuilder->buildUrl(ApiMethod::IS_MEETING_RUNNING, $meetingParams->getHTTPQuery());
+        return $this->urlBuilder->buildUrl(ApiMethod::GET_MEETING_INFO, $meetingParams->getHTTPQuery());
     }
 
     /**
