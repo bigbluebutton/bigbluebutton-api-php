@@ -45,11 +45,11 @@ The you will be able to call BigBlueButton API of your server. A simple usage ex
 ```php
 use BigBlueButton;
 
-$bbb = new BigBlueButton();
+$bbb                 = new BigBlueButton();
 $createMeetingParams = new CreateMeetingParameters('bbb-meeting-uid-65', 'BigBlueButton API Meeting');
-$response = $bbb->createMeeting(createMeetingParams);
+$response            = $bbb->createMeeting($createMeetingParams);
 
-echo "Created Meetin with ID: " . $response->getMeetingId();
+echo "Created Meeting with ID: " . $response->getMeetingId();
 ```
 
 

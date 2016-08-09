@@ -305,8 +305,8 @@ class BigBlueButton
     /**
      * A private utility method used by other public methods to process XML responses.
      *
-     * @param  string $url
-     * @param  string $xml
+     * @param  string            $url
+     * @param  string            $xml
      * @return SimpleXMLElement
      * @throws \RuntimeException
      */
