@@ -157,6 +157,8 @@ if ($response->getReturnCode() == 'SUCCESS') {
 	}
 }
 ```
+*note that BigBlueButton need about several minutes to process recording until it available.*  
+*You can check in* `bbb-record --watch`
 
 
 ## Submitting bugs and feature requests
