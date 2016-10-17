@@ -141,6 +141,24 @@ if ($response->getReturnCode() == 'FAILED') {
 ```
 
 
+### # Get Recordings
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\GetRecordingsParameters;
+
+$recordingParams = new GetRecordingsParameters();
+$bbb = new BigBlueButton();
+$response = $bbb->getRecordings($recordingParams);
+
+if ($response->getReturnCode() == 'SUCCESS') {
+	foreach ($response->getRawXml()->recordings->recording as $recording) {
+		// process all recording
+	}
+}
+```
+
+
 ## Submitting bugs and feature requests
 
 Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
