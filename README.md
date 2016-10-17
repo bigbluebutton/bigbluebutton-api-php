@@ -52,6 +52,24 @@ $response            = $bbb->createMeeting($createMeetingParams);
 echo "Created Meeting with ID: " . $response->getMeetingId();
 ```
 
+## Example
+
+### # Get meetings
+```php
+
+use BigBlueButton\BigBlueButton;
+
+$bbb = new BigBlueButton();
+$response = $bbb->getMeetings();
+
+if ($response->getReturnCode() == 'SUCCESS') {
+	foreach ($response->getRawXml()->meetings->meeting as $meeting) {
+		// process all meeting
+	}
+}
+```
+
+
 
 ## Submitting bugs and feature requests
 
