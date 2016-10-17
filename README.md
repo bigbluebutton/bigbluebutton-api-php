@@ -39,17 +39,144 @@ or by editing [Composer][composer].json
 ## Usage
 
 You should have environment variables ```BBB_SECURITY_SALT``` and ```BBB_SERVER_BASE_URL``` defined in your sever.
+\*if you are using Laravel you can add it in your .env
 
 The you will be able to call BigBlueButton API of your server. A simple usage example for create meeting looks like:
 
 ```php
-use BigBlueButton;
+use BigBlueButton/BigBlueButton;
 
 $bbb                 = new BigBlueButton();
 $createMeetingParams = new CreateMeetingParameters('bbb-meeting-uid-65', 'BigBlueButton API Meeting');
 $response            = $bbb->createMeeting($createMeetingParams);
 
 echo "Created Meeting with ID: " . $response->getMeetingId();
+```
+
+## Example
+
+### # Get meetings
+```php
+
+use BigBlueButton\BigBlueButton;
+
+$bbb = new BigBlueButton();
+$response = $bbb->getMeetings();
+
+if ($response->getReturnCode() == 'SUCCESS') {
+	foreach ($response->getRawXml()->meetings->meeting as $meeting) {
+		// process all meeting
+	}
+}
+```
+
+### # Create Meeting
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\CreateMeetingParameters;
+
+$bbb = new BigBlueButton();
+
+$createMeetingParams = new CreateMeetingParameters($meetingID, $meetingName);
+$createMeetingParams->setAttendeePassword($attendee_password);
+$createMeetingParams->setModeratorPassword($moderator_password);
+$createMeetingParams->setDuration($duration);
+$createMeetingParams->setLogoutUrl($urlLogout);
+if ($isRecordingTrue) {
+	$createMeetingParams->setRecord(true);
+	$createMeetingParams->setAllowStartStopRecording(true);
+	$createMeetingParams->setAutoStartRecording(true);
+}
+
+$response = $bbb->createMeeting($createMeetingParams);
+if ($response->getReturnCode() == 'FAILED') {
+	return 'Can\'t create room! please contact our administrator.';
+} else {
+	// process after room created
+}
+```
+
+### # Join Meeting
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\JoinMeetingParameters;
+
+$bbb = new BigBlueButton();
+
+$joinMeetingParams = new JoinMeetingParameters($meetingID, $name, $password); // $moderator_password for moderator
+$joinMeetingParams->setRedirect(true);
+$url = $bbb->getJoinMeetingURL($joinMeetingParams);
+
+// header('Location:' . $url);
+```
+
+### # Close Meeting
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\EndMeetingParameters;
+
+$bbb = new BigBlueButton();
+
+$endMeetingParams = new EndMeetingParameters($meetingID, $moderator_password);
+$response = $bbb->endMeeting($endMeetingParams);
+```
+
+### # Get Meeting Info
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\GetMeetingInfoParameters;
+
+$bbb = new BigBlueButton();
+
+$getMeetingInfoParams = new GetMeetingInfoParameters($meetingID, '', $moderator_password);
+$response = $bbb->getMeetingInfo($getMeetingInfoParams);
+if ($response->getReturnCode() == 'FAILED') {
+	// meeting not found or already closed
+} else {
+	// process $response->getRawXml();
+}
+```
+
+
+### # Get Recordings
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\GetRecordingsParameters;
+
+$recordingParams = new GetRecordingsParameters();
+$bbb = new BigBlueButton();
+$response = $bbb->getRecordings($recordingParams);
+
+if ($response->getReturnCode() == 'SUCCESS') {
+	foreach ($response->getRawXml()->recordings->recording as $recording) {
+		// process all recording
+	}
+}
+```
+*note that BigBlueButton need about several minutes to process recording until it available.*  
+*You can check in* `bbb-record --watch`
+
+
+### # Delete Recording
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\DeleteRecordingsParameters;
+
+$bbb = new BigBlueButton();
+$deleteRecordingsParams= new DeleteRecordingsParameters($recordingID); // get from "Get Recordings"
+$response = $bbb->deleteRecordings($deleteRecordingsParams);
+
+if ($response->getReturnCode() == 'SUCCESS') {
+	// recording deleted
+} else {
+	// something wrong
+}
 ```
 
 
