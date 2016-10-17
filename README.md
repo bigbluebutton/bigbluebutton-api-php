@@ -39,6 +39,7 @@ or by editing [Composer][composer].json
 ## Usage
 
 You should have environment variables ```BBB_SECURITY_SALT``` and ```BBB_SERVER_BASE_URL``` defined in your sever.
+\*if you are using Laravel you can add it in your .env
 
 The you will be able to call BigBlueButton API of your server. A simple usage example for create meeting looks like:
 
