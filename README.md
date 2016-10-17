@@ -96,6 +96,21 @@ if ($response->getReturnCode() == 'FAILED') {
 }
 ```
 
+### # Join Meeting
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\JoinMeetingParameters;
+
+$bbb = new BigBlueButton();
+
+$joinMeetingParams = new JoinMeetingParameters($meetingID, $name, $password); // $moderator_password for moderator
+$joinMeetingParams->setRedirect(true);
+$url = $bbb->getJoinMeetingURL($joinMeetingParams);
+
+// header('Location:' . $url);
+```
+
 
 ## Submitting bugs and feature requests
 
