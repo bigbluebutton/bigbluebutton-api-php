@@ -43,7 +43,7 @@ You should have environment variables ```BBB_SECURITY_SALT``` and ```BBB_SERVER_
 The you will be able to call BigBlueButton API of your server. A simple usage example for create meeting looks like:
 
 ```php
-use BigBlueButton;
+use BigBlueButton/BigBlueButton;
 
 $bbb                 = new BigBlueButton();
 $createMeetingParams = new CreateMeetingParameters('bbb-meeting-uid-65', 'BigBlueButton API Meeting');
