@@ -123,6 +123,23 @@ $endMeetingParams = new EndMeetingParameters($meetingID, $moderator_password);
 $response = $bbb->endMeeting($endMeetingParams);
 ```
 
+### # Get Meeting Info
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\GetMeetingInfoParameters;
+
+$bbb = new BigBlueButton();
+
+$getMeetingInfoParams = new GetMeetingInfoParameters($meetingID, '', $moderator_password);
+$response = $bbb->getMeetingInfo($getMeetingInfoParams);
+if ($response->getReturnCode() == 'FAILED') {
+	// meeting not found or already closed
+} else {
+	// process $response->getRawXml();
+}
+```
+
 
 ## Submitting bugs and feature requests
 
