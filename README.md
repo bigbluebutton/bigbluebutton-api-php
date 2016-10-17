@@ -111,6 +111,18 @@ $url = $bbb->getJoinMeetingURL($joinMeetingParams);
 // header('Location:' . $url);
 ```
 
+### # Close Meeting
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\EndMeetingParameters;
+
+$bbb = new BigBlueButton();
+
+$endMeetingParams = new EndMeetingParameters($meetingID, $moderator_password);
+$response = $bbb->endMeeting($endMeetingParams);
+```
+
 
 ## Submitting bugs and feature requests
 
