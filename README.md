@@ -161,6 +161,24 @@ if ($response->getReturnCode() == 'SUCCESS') {
 *You can check in* `bbb-record --watch`
 
 
+### # Delete Recording
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\DeleteRecordingsParameters;
+
+$bbb = new BigBlueButton();
+$deleteRecordingsParams= new DeleteRecordingsParameters($recordingID); // get from "Get Recordings"
+$response = $bbb->deleteRecordings($deleteRecordingsParams);
+
+if ($response->getReturnCode() == 'SUCCESS') {
+	// recording deleted
+} else {
+	// something wrong
+}
+```
+
+
 ## Submitting bugs and feature requests
 
 Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
