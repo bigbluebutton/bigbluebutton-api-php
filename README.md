@@ -69,6 +69,32 @@ if ($response->getReturnCode() == 'SUCCESS') {
 }
 ```
 
+### # Create Meeting
+```php
+
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\CreateMeetingParameters;
+
+$bbb = new BigBlueButton();
+
+$createMeetingParams = new CreateMeetingParameters($meetingID, $meetingName);
+$createMeetingParams->setAttendeePassword($attendee_password);
+$createMeetingParams->setModeratorPassword($moderator_password);
+$createMeetingParams->setDuration($duration);
+$createMeetingParams->setLogoutUrl($urlLogout);
+if ($isRecordingTrue) {
+	$createMeetingParams->setRecord(true);
+	$createMeetingParams->setAllowStartStopRecording(true);
+	$createMeetingParams->setAutoStartRecording(true);
+}
+
+$response = $bbb->createMeeting($createMeetingParams);
+if ($response->getReturnCode() == 'FAILED') {
+	return 'Can\'t create room! please contact our administrator.';
+} else {
+	// process after room created
+}
+```
 
 
 ## Submitting bugs and feature requests
