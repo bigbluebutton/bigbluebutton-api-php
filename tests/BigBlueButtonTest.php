@@ -143,9 +143,8 @@ class BigBlueButtonTest extends TestCase
         $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
         $joinMeetingMock->setRedirect(false);
 
-        $response = $this->bbb->joinMeeting($joinMeetingMock);
-
-        $this->assertEquals('FAILED', $response->getReturnCode());
+        $this->expectException(\Exception::class);
+        $this->bbb->joinMeeting($joinMeetingMock);
     }
 
     /* Default Config XML */
@@ -267,6 +266,6 @@ class BigBlueButtonTest extends TestCase
     public function testDeleteRecordings()
     {
         $result = $this->bbb->deleteRecordings(new DeleteRecordingsParameters('non-existing-id-' . $this->faker->sha1));
-        $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertEquals('FAILED', $result->getReturnCode());
     }
 }
