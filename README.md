@@ -15,7 +15,7 @@ The official and easy to use **BigBlueButton API for PHP**, makes easy for devel
 - PHP 5.4 or above.
 - Curl library installed.
 
-BigBlueButton API for PHP is also tested to work with HHVM and fully compatible with PHP 7.0.
+BigBlueButton API for PHP is also tested to work with HHVM and fully compatible with PHP 7.1.
 
 
 ## Installation
