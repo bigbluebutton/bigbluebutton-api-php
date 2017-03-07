@@ -143,7 +143,7 @@ class BigBlueButtonTest extends TestCase
         $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
         $joinMeetingMock->setRedirect(false);
 
-        $this->expectException(\Exception::class);
+        $this->setExpectedException(\Exception::class);
         $this->bbb->joinMeeting($joinMeetingMock);
     }
 
