@@ -1,5 +1,6 @@
 composer.phar
 /vendor/
+composer.lock
 
 ## Directory-based project format:
 .idea/

@@ -25,7 +25,6 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
-use BigBlueButton\Parameters\UpdateRecordingsParameters;
 
 /**
  * Class BigBlueButtonTest
@@ -287,5 +286,4 @@ class BigBlueButtonTest extends TestCase
         $result = $this->bbb->updateRecordings($this->getUpdateRecordingsParamsMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
     }
-
 }

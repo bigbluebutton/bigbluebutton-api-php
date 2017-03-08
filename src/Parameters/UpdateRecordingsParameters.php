@@ -49,7 +49,7 @@ class UpdateRecordingsParameters extends MetaParameters
     }
 
     /**
-     * @param  string                      $recordingId
+     * @param  string                     $recordingId
      * @return UpdateRecordingsParameters
      */
     public function setRecordingId($recordingId)

@@ -159,7 +159,6 @@ class TestCase extends \PHPUnit_Framework_TestCase
         return $bbb->updateRecordings($updateRecordingsMock);
     }
 
-
     /**
      * @return array
      */
@@ -183,7 +182,6 @@ class TestCase extends \PHPUnit_Framework_TestCase
 
         return $updateRecordingsParams;
     }
-
 
     // Load fixtures
 
