@@ -37,7 +37,7 @@ class JoinMeetingResponseTest extends TestCase
         $this->joinMeeting = new JoinMeetingResponse($xml);
     }
 
-    public function testIsMeetingRunningResponseContent()
+    public function testJoinMeetingResponseContent()
     {
         $this->assertEquals('SUCCESS', $this->joinMeeting->getReturnCode());
         $this->assertEquals('successfullyJoined', $this->joinMeeting->getMessageKey());
@@ -47,7 +47,7 @@ class JoinMeetingResponseTest extends TestCase
         $this->assertEquals('huzbpgthac7s', $this->joinMeeting->getAuthToken());
     }
 
-    public function testIsMeetingRunningResponseTypes()
+    public function testJoinMeetingResponseTypes()
     {
         $this->assertEachGetterValueIsString($this->joinMeeting, ['getReturnCode', 'getMessageKey', 'getMessage', 'getMeetingId', 'getUserId', 'getAuthToken']);
     }

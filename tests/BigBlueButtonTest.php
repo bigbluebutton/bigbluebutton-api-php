@@ -143,7 +143,8 @@ class BigBlueButtonTest extends TestCase
         $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
         $joinMeetingMock->setRedirect(false);
 
-        $this->setExpectedException(\Exception::class);
+        $exception = new \Exception;
+        $this->setExpectedException(get_class($exception));
         $this->bbb->joinMeeting($joinMeetingMock);
     }
 
@@ -259,13 +260,30 @@ class BigBlueButtonTest extends TestCase
 
     public function testDeleteRecordingsUrl()
     {
-        $url = $this->bbb->deleteRecordingsUrl(new DeleteRecordingsParameters($this->faker->sha1));
+        $url = $this->bbb->getDeleteRecordingsUrl(new DeleteRecordingsParameters($this->faker->sha1));
         $this->assertContains(ApiMethod::DELETE_RECORDINGS, $url);
     }
 
     public function testDeleteRecordings()
     {
         $result = $this->bbb->deleteRecordings(new DeleteRecordingsParameters('non-existing-id-' . $this->faker->sha1));
+        $this->assertEquals('FAILED', $result->getReturnCode());
+    }
+
+    public function testUpdateRecordingsUrl()
+    {
+        $params = $this->generateUpdateRecordingsParams();
+        $url    = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
+        foreach ($params as $key => $value) {
+            $value = !is_bool($value) ? $value : ($value ? 'true' : 'false');
+            $this->assertContains('=' . urlencode($value), $url);
+        }
+    }
+
+    public function testUpdateRecordings()
+    {
+        $params = $this->generateUpdateRecordingsParams();
+        $result = $this->bbb->updateRecordings($this->getUpdateRecordingsParamsMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
     }
 }

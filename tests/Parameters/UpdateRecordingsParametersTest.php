@@ -18,34 +18,20 @@
  */
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\TestCase;
 
-class PublishRecordingsResponseTest extends TestCase
+class UpdateRecordingsParametersTest extends TestCase
 {
-    /**
-     * @var \BigBlueButton\Responses\PublishRecordingsResponse
-     */
-    private $publish;
-
-    public function setUp()
+    public function testUpdateRecordingsParameters()
     {
-        parent::setUp();
+        $params                 = $this->generateUpdateRecordingsParams();
+        $updateRecordingsParams = $this->getUpdateRecordingsParamsMock($params);
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'publish_recordings.xml');
+        $this->assertEquals($params['recordingId'], $updateRecordingsParams->getRecordingId());
+        $this->assertEquals($params['meta_presenter'], $updateRecordingsParams->getMeta('presenter'));
 
-        $this->publish = new PublishRecordingsResponse($xml);
-    }
-
-    public function testPublishRecordingsResponseContent()
-    {
-        $this->assertEquals('SUCCESS', $this->publish->getReturnCode());
-        $this->assertEquals(true, $this->publish->isPublished());
-    }
-
-    public function testPublishRecordingsResponseTypes()
-    {
-        $this->assertEachGetterValueIsString($this->publish, ['getReturnCode']);
-        $this->assertEachGetterValueIsBoolean($this->publish, ['isPublished']);
+        // Test setters that are ignored by the constructor
+        $updateRecordingsParams->setRecordingId($newId = $this->faker->uuid);
+        $this->assertEquals($newId, $updateRecordingsParams->getRecordingId());
     }
 }

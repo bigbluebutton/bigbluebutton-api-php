@@ -18,34 +18,34 @@
  */
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Responses\PublishRecordingsResponse;
+use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\TestCase;
 
-class PublishRecordingsResponseTest extends TestCase
+class UpdateRecordingsResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\PublishRecordingsResponse
+     * @var \BigBlueButton\Responses\UpdateRecordingsResponse
      */
-    private $publish;
+    private $protect;
 
     public function setUp()
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'publish_recordings.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'update_recordings.xml');
 
-        $this->publish = new PublishRecordingsResponse($xml);
+        $this->update = new UpdateRecordingsResponse($xml);
     }
 
-    public function testPublishRecordingsResponseContent()
+    public function testUpdateRecordingsResponseContent()
     {
-        $this->assertEquals('SUCCESS', $this->publish->getReturnCode());
-        $this->assertEquals(true, $this->publish->isPublished());
+        $this->assertEquals('SUCCESS', $this->update->getReturnCode());
+        $this->assertEquals(true, $this->update->isUpdated());
     }
 
-    public function testPublishRecordingsResponseTypes()
+    public function testUpdateRecordingsResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->publish, ['getReturnCode']);
-        $this->assertEachGetterValueIsBoolean($this->publish, ['isPublished']);
+        $this->assertEachGetterValueIsString($this->update, ['getReturnCode']);
+        $this->assertEachGetterValueIsBoolean($this->update, ['isUpdated']);
     }
 }

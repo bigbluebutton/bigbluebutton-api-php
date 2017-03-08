@@ -19,16 +19,16 @@
 namespace BigBlueButton\Responses;
 
 /**
- * Class DeleteRecordingsResponse
+ * Class UpdateRecordingsResponse
  * @package BigBlueButton\Parameters
  */
-class DeleteRecordingsResponse extends BaseResponse
+class UpdateRecordingsResponse extends BaseResponse
 {
     /**
      * @return bool
      */
-    public function isDeleted()
+    public function isUpdated()
     {
-        return $this->rawXml->deleted->__toString() == 'true';
+        return $this->rawXml->updated->__toString() == 'true';
     }
 }

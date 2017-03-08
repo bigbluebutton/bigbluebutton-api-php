@@ -21,7 +21,9 @@ namespace BigBlueButton;
 use BigBlueButton\Parameters\CreateMeetingParameters as CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters as JoinMeetingParameters;
+use BigBlueButton\Parameters\UpdateRecordingsParameters as UpdateRecordingsParameters;
 use BigBlueButton\Responses\CreateMeetingResponse;
+use BigBlueButton\Responses\UpdateRecordingsResponse;
 use Faker\Factory as Faker;
 use Faker\Generator as Generator;
 
@@ -143,6 +145,42 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function getEndMeetingMock($params)
     {
         return new EndMeetingParameters($params['meetingId'], $params['password']);
+    }
+
+    /**
+     * @param $bbb BigBlueButton
+     * @return UpdateRecordingsResponse
+     */
+    protected function updateRecordings($bbb)
+    {
+        $updateRecordingsParams = $this->generateUpdateRecordingsParams();
+        $updateRecordingsMock   = $this->getUpdateRecordingsParamsMock($updateRecordingsParams);
+
+        return $bbb->updateRecordings($updateRecordingsMock);
+    }
+
+    /**
+     * @return array
+     */
+    protected function generateUpdateRecordingsParams()
+    {
+        return [
+            'recordingId'             => $this->faker->uuid,
+            'meta_presenter'          => $this->faker->name,
+        ];
+    }
+
+    /**
+     * @param $params array
+     *
+     * @return UpdateRecordingsParameters
+     */
+    protected function getUpdateRecordingsParamsMock($params)
+    {
+        $updateRecordingsParams = new UpdateRecordingsParameters($params['recordingId']);
+        $updateRecordingsParams->addMeta('presenter', $params['meta_presenter']);
+
+        return $updateRecordingsParams;
     }
 
     // Load fixtures
