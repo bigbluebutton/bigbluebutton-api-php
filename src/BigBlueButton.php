@@ -39,6 +39,7 @@ use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
+use BigBlueButton\Responses\SetConfigXMLResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 use SimpleXMLElement;
@@ -67,7 +68,9 @@ class BigBlueButton
      */
     public function getApiVersion()
     {
-        return new ApiVersionResponse($this->processXmlResponse($this->urlBuilder->buildUrl()));
+        $xml = $this->processXmlResponse($this->urlBuilder->buildUrl());
+
+        return new ApiVersionResponse($xml);
     }
 
     /* __________________ BBB ADMINISTRATION METHODS _________________ */
@@ -116,6 +119,27 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getDefaultConfigXMLUrl());
 
         return new GetDefaultConfigXMLResponse($xml);
+    }
+
+    /**
+     * @return string
+     */
+    public function setConfigXMLUrl()
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::SET_CONFIG_XML, '', false);
+    }
+
+    /**
+     * @return SetConfigXMLResponse
+     * @throws \RuntimeException
+     */
+    public function setConfigXML($setConfigXMLParams)
+    {
+        $setConfigXMLPayload = $this->urlBuilder->buildQs(ApiMethod::SET_CONFIG_XML, $setConfigXMLParams->getHTTPQuery());
+
+        $xml = $this->processXmlResponse($this->setConfigXMLUrl(), $setConfigXMLPayload, 'application/x-www-form-urlencoded');
+
+        return new SetConfigXMLResponse($xml);
     }
 
     /**
@@ -333,7 +357,7 @@ class BigBlueButton
      * @return SimpleXMLElement
      * @throws \RuntimeException
      */
-    private function processXmlResponse($url, $xml = '')
+    private function processXmlResponse($url, $xml = '', $contentType = 'application/xml')
     {
         if (extension_loaded('curl')) {
             $ch = curl_init();
@@ -346,13 +370,13 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-            if (count($xml) !== 0) {
+            if ($xml != '') {
                 curl_setopt($ch, CURLOPT_HEADER, 0);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Content-type: application/xml',
+                    'Content-type: ' . $contentType,
                     'Content-length: ' . strlen($xml),
                 ]);
             }

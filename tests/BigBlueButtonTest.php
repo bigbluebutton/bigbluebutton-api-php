@@ -148,7 +148,7 @@ class BigBlueButtonTest extends TestCase
         $this->bbb->joinMeeting($joinMeetingMock);
     }
 
-    /* Default Config XML */
+    /* Get Default Config XML */
 
     public function testGetDefaultConfigXMLUrl()
     {
@@ -160,6 +160,36 @@ class BigBlueButtonTest extends TestCase
     {
         $result = $this->bbb->getDefaultConfigXML();
         $this->assertNotNull($result->getRawXml());
+    }
+
+    /* Set Config XML */
+
+    public function testSetConfigXMLUrl()
+    {
+        $url = $this->bbb->setConfigXMLUrl();
+        $this->assertContains(ApiMethod::SET_CONFIG_XML, $url);
+    }
+
+    public function testSetConfigXML()
+    {
+        // Fetch the Default Config XML file
+        $defaultConfigXMLResponse = $this->bbb->getDefaultConfigXML();
+
+        // Modify the XML file if required
+
+        // Create a meeting
+        $params                = $this->generateCreateParams();
+        $createMeetingResponse = $this->bbb->createMeeting($this->getCreateParamsMock($params));
+        $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
+
+        // Execute setConfigXML request
+        $params             = ['meetingId' => $createMeetingResponse->getMeetingId()];
+        $setConfigXMLParams = $this->getSetConfigXMLMock($params);
+        $setConfigXMLParams = $setConfigXMLParams->setRawXml($defaultConfigXMLResponse->getRawXml());
+
+        $result = $this->bbb->setConfigXML($setConfigXMLParams);
+        $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertNotNull($result->getRawXml()->token->__toString());
     }
 
     /* End Meeting */
