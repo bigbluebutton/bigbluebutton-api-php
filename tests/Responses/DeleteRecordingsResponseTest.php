@@ -37,13 +37,13 @@ class DeleteRecordingsResponseTest extends TestCase
         $this->delete = new DeleteRecordingsResponse($xml);
     }
 
-    public function testIsMeetingRunningResponseContent()
+    public function testDeleteRecordingsResponseContent()
     {
         $this->assertEquals('SUCCESS', $this->delete->getReturnCode());
         $this->assertEquals(true, $this->delete->isDeleted());
     }
 
-    public function testIsMeetingRunningResponseTypes()
+    public function testDeleteRecordingsResponseTypes()
     {
         $this->assertEachGetterValueIsString($this->delete, ['getReturnCode']);
         $this->assertEachGetterValueIsBoolean($this->delete, ['isDeleted']);

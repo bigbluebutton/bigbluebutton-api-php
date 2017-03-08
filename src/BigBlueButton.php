@@ -27,6 +27,7 @@ use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\DeleteRecordingsResponse;
@@ -38,6 +39,7 @@ use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
+use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 use SimpleXMLElement;
 
@@ -283,21 +285,42 @@ class BigBlueButton
      * @param $recordingParams DeleteRecordingsParameters
      * @return string
      */
-    public function deleteRecordingsUrl($recordingParams)
+    public function getDeleteRecordingsUrl($recordingParams)
     {
         return $this->urlBuilder->buildUrl(ApiMethod::DELETE_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
     /**
-     * @param $recordingParams
+     * @param $recordingParams DeleteRecordingsParameters
      * @return DeleteRecordingsResponse
      * @throws \RuntimeException
      */
     public function deleteRecordings($recordingParams)
     {
-        $xml = $this->processXmlResponse($this->deleteRecordingsUrl($recordingParams));
+        $xml = $this->processXmlResponse($this->getDeleteRecordingsUrl($recordingParams));
 
         return new DeleteRecordingsResponse($xml);
+    }
+
+    /**
+     * @param $recordingParams UpdateRecordingsParameters
+     * @return string
+     */
+    public function getUpdateRecordingsUrl($recordingParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::UPDATE_RECORDINGS, $recordingParams->getHTTPQuery());
+    }
+
+    /**
+     * @param $recordingParams UpdateRecordingsParameters
+     * @return UpdateRecordingsResponse
+     * @throws \RuntimeException
+     */
+    public function updateRecordings($recordingParams)
+    {
+        $xml = $this->processXmlResponse($this->getUpdateRecordingsUrl($recordingParams));
+
+        return new UpdateRecordingsResponse($xml);
     }
 
     /* ____________________ INTERNAL CLASS METHODS ___________________ */

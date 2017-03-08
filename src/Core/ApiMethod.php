@@ -34,4 +34,5 @@ abstract class ApiMethod
     const GET_RECORDINGS         = 'getRecordings';
     const PUBLISH_RECORDINGS     = 'publishRecordings';
     const DELETE_RECORDINGS      = 'deleteRecordings';
+    const UPDATE_RECORDINGS      = 'updateRecordings';
 }
