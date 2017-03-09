@@ -50,9 +50,9 @@ use SimpleXMLElement;
  */
 class BigBlueButton
 {
-    private $securitySalt;
-    private $bbbServerBaseUrl;
-    private $urlBuilder;
+    protected $securitySalt;
+    protected $bbbServerBaseUrl;
+    protected $urlBuilder;
 
     public function __construct()
     {
