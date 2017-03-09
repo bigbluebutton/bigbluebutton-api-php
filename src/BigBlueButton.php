@@ -39,6 +39,7 @@ use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
+use BigBlueButton\Responses\SetConfigXMLResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 use SimpleXMLElement;
@@ -67,7 +68,9 @@ class BigBlueButton
      */
     public function getApiVersion()
     {
-        return new ApiVersionResponse($this->processXmlResponse($this->urlBuilder->buildUrl()));
+        $xml = $this->processXmlResponse($this->urlBuilder->buildUrl());
+
+        return new ApiVersionResponse($xml);
     }
 
     /* __________________ BBB ADMINISTRATION METHODS _________________ */
@@ -116,6 +119,27 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getDefaultConfigXMLUrl());
 
         return new GetDefaultConfigXMLResponse($xml);
+    }
+
+    /**
+     * @return string
+     */
+    public function setConfigXMLUrl()
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::SET_CONFIG_XML, '', false);
+    }
+
+    /**
+     * @return SetConfigXMLResponse
+     * @throws \RuntimeException
+     */
+    public function setConfigXML($setConfigXMLParams)
+    {
+        $setConfigXMLPayload = $this->urlBuilder->buildQs(ApiMethod::SET_CONFIG_XML, $setConfigXMLParams->getHTTPQuery());
+
+        $xml = $this->processXmlResponse($this->setConfigXMLUrl(), $setConfigXMLPayload, 'application/x-www-form-urlencoded');
+
+        return new SetConfigXMLResponse($xml);
     }
 
     /**
@@ -329,11 +353,11 @@ class BigBlueButton
      * A private utility method used by other public methods to process XML responses.
      *
      * @param  string            $url
-     * @param  string            $xml
+     * @param  string            $payload
      * @return SimpleXMLElement
      * @throws \RuntimeException
      */
-    private function processXmlResponse($url, $xml = '')
+    private function processXmlResponse($url, $payload = '', $contentType = 'application/xml')
     {
         if (extension_loaded('curl')) {
             $ch = curl_init();
@@ -346,14 +370,14 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-            if (count($xml) !== 0) {
+            if ($payload != '') {
                 curl_setopt($ch, CURLOPT_HEADER, 0);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Content-type: application/xml',
-                    'Content-length: ' . strlen($xml),
+                    'Content-type: ' . $contentType,
+                    'Content-length: ' . strlen($payload),
                 ]);
             }
             $data = curl_exec($ch);
@@ -364,8 +388,17 @@ class BigBlueButton
 
             return new SimpleXMLElement($data);
         }
-        if (count($xml) !== 0) {
+
+        if ($payload != '') {
             throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
+        }
+
+        try {
+            $response = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
+
+            return new SimpleXMLElement($response);
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException('Failover curl error: ' . $e->getMessage());
         }
     }
 }

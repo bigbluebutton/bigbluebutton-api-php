@@ -74,7 +74,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingUrl()
     {
         $params = $this->generateCreateParams();
-        $url    = $this->bbb->getCreateMeetingUrl($this->getCreateParamsMock($params));
+        $url    = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
         foreach ($params as $key => $value) {
             $value = !is_bool($value) ? $value : ($value ? 'true' : 'false');
             $this->assertContains('=' . urlencode($value), $url);
@@ -87,7 +87,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeeting()
     {
         $params = $this->generateCreateParams();
-        $result = $this->bbb->createMeeting($this->getCreateParamsMock($params));
+        $result = $this->bbb->createMeeting($this->getCreateMock($params));
         $this->assertEquals('SUCCESS', $result->getReturnCode());
     }
 
@@ -96,7 +96,7 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingWithDocumentUrl()
     {
-        $params = $this->getCreateParamsMock($this->generateCreateParams());
+        $params = $this->getCreateMock($this->generateCreateParams());
         $params->addPresentation('https://placeholdit.imgix.net/~text?txtsize=96&bg=30406B&txtclr=ffffff&txt=BigBlueButton&w=800&h=600');
 
         $result = $this->bbb->createMeeting($params);
@@ -110,7 +110,7 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingWithDocumentEmbdded()
     {
-        $params = $this->getCreateParamsMock($this->generateCreateParams());
+        $params = $this->getCreateMock($this->generateCreateParams());
         $params->addPresentation('bbb_logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
 
         $result = $this->bbb->createMeeting($params);
@@ -148,7 +148,7 @@ class BigBlueButtonTest extends TestCase
         $this->bbb->joinMeeting($joinMeetingMock);
     }
 
-    /* Default Config XML */
+    /* Get Default Config XML */
 
     public function testGetDefaultConfigXMLUrl()
     {
@@ -160,6 +160,37 @@ class BigBlueButtonTest extends TestCase
     {
         $result = $this->bbb->getDefaultConfigXML();
         $this->assertNotNull($result->getRawXml());
+    }
+
+    /* Set Config XML */
+
+    public function testSetConfigXMLUrl()
+    {
+        $url = $this->bbb->setConfigXMLUrl();
+        $this->assertContains(ApiMethod::SET_CONFIG_XML, $url);
+    }
+
+    public function testSetConfigXML()
+    {
+        // Fetch the Default Config XML file
+        $defaultConfigXMLResponse = $this->bbb->getDefaultConfigXML();
+
+        // Modify the XML file if required
+
+        // Create a meeting
+        $params                = $this->generateCreateParams();
+        $createMeetingResponse = $this->bbb->createMeeting($this->getCreateMock($params));
+        $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
+
+        // Execute setConfigXML request
+        $params             = ['meetingId' => $createMeetingResponse->getMeetingId()];
+        $setConfigXMLParams = $this->getSetConfigXMLMock($params);
+        $setConfigXMLParams = $setConfigXMLParams->setRawXml($defaultConfigXMLResponse->getRawXml());
+        $this->assertEquals($setConfigXMLParams->getRawXml(), $defaultConfigXMLResponse->getRawXml());
+
+        $result = $this->bbb->setConfigXML($setConfigXMLParams);
+        $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertNotNull($result->getToken());
     }
 
     /* End Meeting */

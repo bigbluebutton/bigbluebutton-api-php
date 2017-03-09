@@ -25,7 +25,6 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - if [ "$TRAVIS_PHP_VERSION" == "5.4" ]; then phpunit; fi
   - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then phpunit --coverage-clover build/logs/clover.xml; fi
   - if [ "$TRAVIS_PHP_VERSION" == "nightly" ]; then phpunit; fi
 

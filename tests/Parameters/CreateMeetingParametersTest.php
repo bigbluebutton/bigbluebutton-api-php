@@ -29,7 +29,7 @@ class CreateMeetingParametersTest extends TestCase
     public function testCreateMeetingParameters()
     {
         $params              = $this->generateCreateParams();
-        $createMeetingParams = $this->getCreateParamsMock($params);
+        $createMeetingParams = $this->getCreateMock($params);
 
         $this->assertEquals($params['meetingName'], $createMeetingParams->getMeetingName());
         $this->assertEquals($params['meetingId'], $createMeetingParams->getMeetingId());

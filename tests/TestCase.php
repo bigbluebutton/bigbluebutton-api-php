@@ -21,6 +21,7 @@ namespace BigBlueButton;
 use BigBlueButton\Parameters\CreateMeetingParameters as CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters as JoinMeetingParameters;
+use BigBlueButton\Parameters\SetConfigXMLParameters as SetConfigXMLParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters as UpdateRecordingsParameters;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
@@ -55,7 +56,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function createRealMeeting($bbb)
     {
         $createMeetingParams = $this->generateCreateParams();
-        $createMeetingMock   = $this->getCreateParamsMock($createMeetingParams);
+        $createMeetingMock   = $this->getCreateMock($createMeetingParams);
 
         return $bbb->createMeeting($createMeetingMock);
     }
@@ -90,7 +91,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @return CreateMeetingParameters
      */
-    protected function getCreateParamsMock($params)
+    protected function getCreateMock($params)
     {
         $createMeetingParams = new CreateMeetingParameters($params['meetingId'], $params['meetingName']);
         $createMeetingParams->setAttendeePassword($params['attendeePassword'])->setModeratorPassword($params['moderatorPassword'])->
@@ -181,6 +182,28 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $updateRecordingsParams->addMeta('presenter', $params['meta_presenter']);
 
         return $updateRecordingsParams;
+    }
+
+    /**
+     * @return array
+     */
+    protected function generateSetConfigXMLParams()
+    {
+        return [
+            'meetingId'               => $this->faker->uuid,
+        ];
+    }
+
+    /**
+     * @param $params array
+     *
+     * @return SetConfigXMLParameters
+     */
+    protected function getSetConfigXMLMock($params)
+    {
+        $setConfigXMLParams = new SetConfigXMLParameters($params['meetingId']);
+
+        return $setConfigXMLParams;
     }
 
     // Load fixtures

@@ -46,15 +46,29 @@ class UrlBuilder
     }
 
     /**
-     * Builds an API method URL and generates its checksum.
+     * Builds an API method URL that includes the url + params + its generated checksum.
      *
      * @param string $method
      * @param string $params
+     * @param string $append
      *
      * @return string
      */
-    public function buildUrl($method = '', $params = '')
+    public function buildUrl($method = '', $params = '', $append = true)
     {
-        return $this->bbbServerBaseUrl.'api/'.$method.'?'.$params.'&checksum='.sha1($method.$params.$this->securitySalt);
+        return $this->bbbServerBaseUrl.'api/'.$method.($append ? '?'.$this->buildQs($method, $params) : '');
     }
+
+     /**
+      * Builds a query string for an API method URL that includes the params + its generated checksum.
+      *
+      * @param string $method
+      * @param string $params
+      *
+      * @return string
+      */
+     public function buildQs($method = '', $params = '')
+     {
+         return $params.'&checksum='.sha1($method.$params.$this->securitySalt);
+     }
 }
