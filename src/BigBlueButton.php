@@ -353,11 +353,11 @@ class BigBlueButton
      * A private utility method used by other public methods to process XML responses.
      *
      * @param  string            $url
-     * @param  string            $xml
+     * @param  string            $payload
      * @return SimpleXMLElement
      * @throws \RuntimeException
      */
-    private function processXmlResponse($url, $xml = '', $contentType = 'application/xml')
+    private function processXmlResponse($url, $payload = '', $contentType = 'application/xml')
     {
         if (extension_loaded('curl')) {
             $ch = curl_init();
@@ -370,14 +370,14 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-            if ($xml != '') {
+            if ($payload != '') {
                 curl_setopt($ch, CURLOPT_HEADER, 0);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                 curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, [
                     'Content-type: ' . $contentType,
-                    'Content-length: ' . strlen($xml),
+                    'Content-length: ' . strlen($payload),
                 ]);
             }
             $data = curl_exec($ch);
@@ -388,8 +388,17 @@ class BigBlueButton
 
             return new SimpleXMLElement($data);
         }
-        if (count($xml) !== 0) {
+
+        if ($payload != '') {
             throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
+        }
+
+        try {
+            $response = simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
+
+            return new SimpleXMLElement($response);
+        } catch (\RuntimeException $e) {
+            throw new \RuntimeException('Failover curl error: ' . $e->getMessage());
         }
     }
 }

@@ -439,6 +439,7 @@ class CreateMeetingParameters extends MetaParameters
     public function getPresentationsAsXML()
     {
         $result = '';
+
         if (!empty($this->presentations)) {
             $xml    = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><modules/>');
             $module = $xml->addChild('module');

@@ -56,7 +56,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function createRealMeeting($bbb)
     {
         $createMeetingParams = $this->generateCreateParams();
-        $createMeetingMock   = $this->getCreateParamsMock($createMeetingParams);
+        $createMeetingMock   = $this->getCreateMock($createMeetingParams);
 
         return $bbb->createMeeting($createMeetingMock);
     }
@@ -91,7 +91,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @return CreateMeetingParameters
      */
-    protected function getCreateParamsMock($params)
+    protected function getCreateMock($params)
     {
         $createMeetingParams = new CreateMeetingParameters($params['meetingId'], $params['meetingName']);
         $createMeetingParams->setAttendeePassword($params['attendeePassword'])->setModeratorPassword($params['moderatorPassword'])->
