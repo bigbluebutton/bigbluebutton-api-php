@@ -99,6 +99,21 @@ class CreateMeetingParameters extends MetaParameters
     private $moderatorOnlyMessage;
 
     /**
+     * @var string
+     */
+    private $logo;
+
+    /**
+     * @var string
+     */
+    private $copyright;
+
+    /**
+     * @var bool
+     */
+    private $muteOnStart;
+
+    /**
      * @var array
      */
     private $presentations = [];
@@ -416,6 +431,66 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return string
+     */
+    public function getLogo()
+    {
+        return $this->moderatorOnlyMessage;
+    }
+
+    /**
+     * @param string $message
+     *
+     * @return CreateMeetingParameters
+     */
+    public function setLogo($url)
+    {
+        $this->logo = $url;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCopyright()
+    {
+        return $this->copyright;
+    }
+
+    /**
+     * @param string $message
+     *
+     * @return CreateMeetingParameters
+     */
+    public function setCopyright($string)
+    {
+        $this->copyright = $string;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMuteOnStart()
+    {
+        return $this->muteOnStart;
+    }
+
+    /**
+     * @param bool $muteOnStart
+     *
+     * @return CreateMeetingParameters
+     */
+    public function setMuteOnStart($muteOnStart)
+    {
+        $this->muteOnStart = $muteOnStart;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getPresentations()
@@ -481,6 +556,9 @@ class CreateMeetingParameters extends MetaParameters
             'allowStartStopRecording' => $this->allowStartStopRecording ? 'true' : 'false',
             'welcome'                 => trim($this->welcomeMessage),
             'moderatorOnlyMessage'    => trim($this->moderatorOnlyMessage),
+            'logo'                    => $this->logo,
+            'copyright'               => $this->copyright,
+            'muteOnStart'             => $this->muteOnStart ? 'false' : 'true'
         ];
 
         $this->buildMeta($queries);
