@@ -54,10 +54,10 @@ class BigBlueButton
     protected $bbbServerBaseUrl;
     protected $urlBuilder;
 
-    public function __construct()
+    public function __construct($securitySalt = '', $bbbServerBaseUrl = '')
     {
-        $this->securitySalt     = getenv('BBB_SECURITY_SALT');
-        $this->bbbServerBaseUrl = getenv('BBB_SERVER_BASE_URL');
+        $this->securitySalt     = !empty($securitySalt) ? $securitySalt : getenv('BBB_SECURITY_SALT');
+        $this->bbbServerBaseUrl = !empty($bbbServerBaseUrl) ? $bbbServerBaseUrl :getenv('BBB_SERVER_BASE_URL');
         $this->urlBuilder       = new UrlBuilder($this->securitySalt, $this->bbbServerBaseUrl);
     }
 
