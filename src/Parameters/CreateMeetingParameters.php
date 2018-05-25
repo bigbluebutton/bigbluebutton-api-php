@@ -447,7 +447,7 @@ class CreateMeetingParameters extends MetaParameters
 
             foreach ($this->presentations as $nameOrUrl => $content) {
                 if ($this->presentations[$nameOrUrl] === true) {
-                    $module->addChild('document')->addAttribute('url', urlencode($nameOrUrl));
+                    $module->addChild('document')->addAttribute('url', $nameOrUrl);
                 } else {
                     $document = $module->addChild('document');
                     $document->addAttribute('name', $nameOrUrl);
