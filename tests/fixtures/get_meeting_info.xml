@@ -45,6 +45,9 @@
             <customdata></customdata>
         </attendee>
     </attendees>
+    <isBreakout>true</isBreakout>
+    <parentMeetingID>b97b512f2c92c0ffe7a3476152525807daa1c676-1524213151782</parentMeetingID>
+    <sequence>1</sequence>
     <metadata>
         <bbb-context>Best BBB Developers Club</bbb-context>
         <bn-origin>Moodle</bn-origin>

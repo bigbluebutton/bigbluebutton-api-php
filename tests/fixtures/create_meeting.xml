@@ -1,6 +1,8 @@
 <response>
     <returncode>SUCCESS</returncode>
     <meetingID>random-1665177</meetingID>
+    <internalMeetingID>1a6938c707cdf5d052958672d66c219c30690c47-1524212045514</internalMeetingID>
+    <parentMeetingID>bbb-none</parentMeetingID>
     <attendeePW>tK6J5cJv3hMLNx5IBePa</attendeePW>
     <moderatorPW>34Heu0uiZYqCZXX9C4m2</moderatorPW>
     <createTime>1453283819419</createTime>
@@ -10,6 +12,6 @@
     <hasUserJoined>false</hasUserJoined>
     <duration>20</duration>
     <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
-    <messageKey>messageKeyContentShouldNeverHappen</messageKey>
-    <message>A message that never happens in real world cases.</message>
+    <messageKey>duplicateWarning</messageKey>
+    <message>This conference was already in existence and may currently be in progress.</message>
 </response>

@@ -1,8 +1,8 @@
 <?php
 /**
- * BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+ * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -32,7 +32,7 @@ use Faker\Generator as Generator;
  * Class TestCase
  * @package BigBlueButton
  */
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Generator
@@ -83,6 +83,10 @@ class TestCase extends \PHPUnit_Framework_TestCase
             'allowStartStopRecording' => $this->faker->boolean(50),
             'moderatorOnlyMessage'    => $this->faker->sentence,
             'meta_presenter'          => $this->faker->name,
+            'webcamsOnlyForModerator' => $this->faker->boolean(50),
+            'logo'                    => $this->faker->imageUrl(330, 70),
+            'copyright'               => $this->faker->text,
+            'muteOnStart'             => $this->faker->boolean(50),
         ];
     }
 
@@ -99,7 +103,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
         setLogoutUrl($params['logoutUrl'])->setMaxParticipants($params['maxParticipants'])->setRecord($params['record'])->
         setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording'])->
         setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])->
-        addMeta('presenter', $params['meta_presenter']);
+        setWebcamsOnlyForModerator($params['webcamsOnlyForModerator'])->setLogo($params['logo'])->setCopyright($params['copyright'])->
+        setMuteOnStart($params['muteOnStart'])->addMeta('presenter', $params['meta_presenter']);
 
         return $createMeetingParams;
     }
@@ -114,7 +119,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
                 'password'     => $this->faker->password,
                 'userId'       => $this->faker->numberBetween(1, 1000),
                 'webVoiceConf' => $this->faker->word,
-                'creationTime' => $this->faker->unixTime, ];
+                'creationTime' => $this->faker->unixTime];
     }
 
     /**
@@ -166,8 +171,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function generateUpdateRecordingsParams()
     {
         return [
-            'recordingId'             => $this->faker->uuid,
-            'meta_presenter'          => $this->faker->name,
+            'recordingId'    => $this->faker->uuid,
+            'meta_presenter' => $this->faker->name,
         ];
     }
 
@@ -190,7 +195,7 @@ class TestCase extends \PHPUnit_Framework_TestCase
     protected function generateSetConfigXMLParams()
     {
         return [
-            'meetingId'               => $this->faker->uuid,
+            'meetingId' => $this->faker->uuid,
         ];
     }
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+ * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -45,10 +45,11 @@ class JoinMeetingResponseTest extends TestCase
         $this->assertEquals('fa51ae0c65adef7fe3cf115421da8a6a25855a20-1464618262714', $this->joinMeeting->getMeetingId());
         $this->assertEquals('ao6ehbtvbmhz', $this->joinMeeting->getUserId());
         $this->assertEquals('huzbpgthac7s', $this->joinMeeting->getAuthToken());
+        $this->assertEquals('rbe7bbkjzx5mnoda', $this->joinMeeting->getSessionToken());
     }
 
     public function testJoinMeetingResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->joinMeeting, ['getReturnCode', 'getMessageKey', 'getMessage', 'getMeetingId', 'getUserId', 'getAuthToken']);
+        $this->assertEachGetterValueIsString($this->joinMeeting, ['getReturnCode', 'getMessageKey', 'getMessage', 'getMeetingId', 'getUserId', 'getAuthToken', 'getSessionToken']);
     }
 }

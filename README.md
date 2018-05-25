@@ -9,6 +9,7 @@
 [![PHP 5.6](https://img.shields.io/badge/php-5.6-8892BF.svg?style=flat-square)](https://php.net/)
 [![PHP 7](https://img.shields.io/badge/php-7-8892BF.svg?style=flat-square)](https://php.net/)
 [![PHP 7.1](https://img.shields.io/badge/php-7.1-8892BF.svg?style=flat-square)](https://php.net/)
+[![PHP 7.2](https://img.shields.io/badge/php-7.2-8892BF.svg?style=flat-square)](https://php.net/)
 
 # BigBlueButton API for PHP
 
@@ -18,6 +19,8 @@ The official and easy to use **BigBlueButton API for PHP**, makes easy for devel
 
 - PHP 5.4 or above.
 - Curl library installed.
+- mbstring library installed.
+- Xml library installed.
 
 BigBlueButton API for PHP is also tested to work with HHVM and fully compatible with PHP 7.1.
 
@@ -194,10 +197,10 @@ Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutto
 Make sure the code style configuration is applied by running PHPCS-Fixer.
 
 ```
-./vendor/bin/php-cs-fixer fix
+./vendor/bin/php-cs-fixer fix --allow-risky yes
 ```
 
-### Runing tests
+### Running tests
 
 For every implemented feature add unit tests and check all is green by running the command below.
 

@@ -2,24 +2,52 @@
 
 // Invoke the config easily with `php-cs-fixer fix`
 
-$finder = Symfony\CS\Finder\DefaultFinder::create()
+$finder = \PhpCsFixer\Finder::create()
     ->files()
     ->name('*.php')
     ->in(__DIR__ . '/src')
     ->in(__DIR__ . '/tests');
 
-return Symfony\CS\Config\Config::create()
+return PhpCsFixer\Config::create()
     ->setUsingCache(false)
-    ->level(Symfony\CS\FixerInterface::NONE_LEVEL)
-    ->fixers(array(
-        'psr0', 'encoding', 'short_tag', 'braces', 'elseif', 'eof_ending', 'function_call_space', 'function_declaration',
-        'indentation', 'line_after_namespace', 'linefeed', 'lowercase_constants', 'lowercase_keywords', 'method_argument_space',
-        'multiple_use', 'parenthesis', 'php_closing_tag', 'trailing_spaces', 'visibility', 'array_element_no_space_before_comma',
-        'array_element_white_space_after_comma', 'blankline_after_open_tag', 'duplicate_semicolon', 'extra_empty_lines',
-        'function_typehint_space', 'include', 'list_commas ', 'namespace_no_leading_whitespace', 'no_blank_lines_after_class_opening ',
-        'no_empty_lines_after_phpdocs ', 'object_operator', 'operators_spaces', 'phpdoc_indent', 'phpdoc_params',
-        'return', 'self_accessor', 'single_array_no_trailing_comma', 'single_quote', 'spaces_cast', 'standardize_not_equal',
-        'ternary_spaces', 'unneeded_control_parentheses', 'unused_use', 'whitespacy_lines', 'short_array_syntax',
-        'align_double_arrow', 'align_equals'
+    ->setRules(array(
+        'psr4'                               => true,
+        'encoding'                           => true,
+        'full_opening_tag'                   => true,
+        'braces'                             => true,
+        'elseif'                             => true,
+        'single_blank_line_at_eof'           => true,
+        'no_spaces_after_function_name'      => true,
+        'function_declaration'               => true,
+        'blank_line_after_namespace'         => true,
+        'blank_line_before_statement'        => true,
+        'lowercase_constants'                => true,
+        'lowercase_keywords'                 => true,
+        'method_argument_space'              => true,
+        'no_closing_tag'                     => true,
+        'no_trailing_whitespace'             => true,
+        'visibility_required'                => true,
+        'blank_line_after_opening_tag'       => true,
+        'no_empty_statement'                 => true,
+        'no_extra_blank_lines'               => true,
+        'function_typehint_space'            => true,
+        'include'                            => true,
+        'no_blank_lines_after_phpdoc'        => true,
+        'object_operator_without_whitespace' => true,
+        'phpdoc_indent'                      => true,
+        'phpdoc_align'                       => true,
+        'self_accessor'                      => true,
+        'no_trailing_comma_in_list_call'     => true,
+        'single_quote'                       => true,
+        'cast_spaces'                        => true,
+        'standardize_not_equals'             => true,
+        'ternary_operator_spaces'            => true,
+        'no_unneeded_control_parentheses'    => true,
+        'no_unused_imports'                  => true,
+        'array_syntax'                       => ['syntax' => 'short'],
+        'binary_operator_spaces'             => [
+            'align_double_arrow' => true,
+            'align_equals'       => true,
+        ]
     ))
-    ->finder($finder);
+    ->setFinder($finder);
