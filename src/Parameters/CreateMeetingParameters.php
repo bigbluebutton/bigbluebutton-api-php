@@ -1,8 +1,8 @@
 <?php
 /**
- * BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+ * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -97,6 +97,26 @@ class CreateMeetingParameters extends MetaParameters
      * @var string
      */
     private $moderatorOnlyMessage;
+
+    /**
+     * @var bool
+     */
+    private $webcamsOnlyForModerator;
+
+    /**
+     * @var string
+     */
+    private $logo;
+
+    /**
+     * @var string
+     */
+    private $copyright;
+
+    /**
+     * @var bool
+     */
+    private $muteOnStart;
 
     /**
      * @var array
@@ -416,6 +436,82 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return bool
+     */
+    public function isWebcamsOnlyForModerator()
+    {
+        return $this->webcamsOnlyForModerator;
+    }
+
+    /**
+     * @param  bool                    $webcamsOnlyForModerator
+     * @return CreateMeetingParameters
+     */
+    public function setWebcamsOnlyForModerator($webcamsOnlyForModerator)
+    {
+        $this->webcamsOnlyForModerator = $webcamsOnlyForModerator;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param  string                  $logo
+     * @return CreateMeetingParameters
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCopyright()
+    {
+        return $this->copyright;
+    }
+
+    /**
+     * @param  string                  $copyright
+     * @return CreateMeetingParameters
+     */
+    public function setCopyright($copyright)
+    {
+        $this->copyright = $copyright;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMuteOnStart()
+    {
+        return $this->muteOnStart;
+    }
+
+    /**
+     * @param  bool                    $muteOnStart
+     * @return CreateMeetingParameters
+     */
+    public function setMuteOnStart($muteOnStart)
+    {
+        $this->muteOnStart = $muteOnStart;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getPresentations()
@@ -481,6 +577,10 @@ class CreateMeetingParameters extends MetaParameters
             'allowStartStopRecording' => $this->allowStartStopRecording ? 'true' : 'false',
             'welcome'                 => trim($this->welcomeMessage),
             'moderatorOnlyMessage'    => trim($this->moderatorOnlyMessage),
+            'webcamsOnlyForModerator' => $this->webcamsOnlyForModerator ? 'true' : 'false',
+            'logo'                    => $this->logo,
+            'copyright'               => $this->copyright,
+            'muteOnStart'             => $this->muteOnStart,
         ];
 
         $this->buildMeta($queries);

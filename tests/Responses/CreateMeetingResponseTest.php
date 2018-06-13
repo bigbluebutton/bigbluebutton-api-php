@@ -1,8 +1,8 @@
 <?php
 /**
- * BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+ * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -41,6 +41,8 @@ class CreateMeetingResponseTest extends TestCase
     {
         $this->assertEquals('SUCCESS', $this->meeting->getReturnCode());
         $this->assertEquals('random-1665177', $this->meeting->getMeetingId());
+        $this->assertEquals('1a6938c707cdf5d052958672d66c219c30690c47-1524212045514', $this->meeting->getInternalMeetingId());
+        $this->assertEquals('bbb-none', $this->meeting->getParentMeetingId());
         $this->assertEquals('tK6J5cJv3hMLNx5IBePa', $this->meeting->getAttendeePassword());
         $this->assertEquals('34Heu0uiZYqCZXX9C4m2', $this->meeting->getModeratorPassword());
         $this->assertEquals(1453283819419, $this->meeting->getCreationTime());
@@ -50,14 +52,14 @@ class CreateMeetingResponseTest extends TestCase
         $this->assertEquals(false, $this->meeting->hasUserJoined());
         $this->assertEquals(20, $this->meeting->getDuration());
         $this->assertEquals(false, $this->meeting->hasBeenForciblyEnded());
-        $this->assertEquals('messageKeyContentShouldNeverHappen', $this->meeting->getMessageKey());
-        $this->assertEquals('A message that never happens in real world cases.', $this->meeting->getMessage());
+        $this->assertEquals('duplicateWarning', $this->meeting->getMessageKey());
+        $this->assertEquals('This conference was already in existence and may currently be in progress.', $this->meeting->getMessage());
     }
 
     public function testCreateMeetingResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->meeting, ['getReturnCode', 'getAttendeePassword', 'getModeratorPassword',
-            'getDialNumber', 'getCreationDate']);
+        $this->assertEachGetterValueIsString($this->meeting, ['getReturnCode', 'getInternalMeetingId', 'getParentMeetingId',
+                                                              'getAttendeePassword', 'getModeratorPassword', 'getDialNumber', 'getCreationDate']);
         $this->assertEachGetterValueIsDouble($this->meeting, ['getCreationTime']);
         $this->assertEachGetterValueIsInteger($this->meeting, ['getDuration', 'getVoiceBridge']);
         $this->assertEachGetterValueIsBoolean($this->meeting, ['hasUserJoined', 'hasBeenForciblyEnded']);

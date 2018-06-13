@@ -1,8 +1,8 @@
 <?php
 /**
- * BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+ * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -59,16 +59,16 @@ class UrlBuilder
         return $this->bbbServerBaseUrl.'api/'.$method.($append ? '?'.$this->buildQs($method, $params) : '');
     }
 
-     /**
-      * Builds a query string for an API method URL that includes the params + its generated checksum.
-      *
-      * @param string $method
-      * @param string $params
-      *
-      * @return string
-      */
-     public function buildQs($method = '', $params = '')
-     {
-         return $params.'&checksum='.sha1($method.$params.$this->securitySalt);
-     }
+    /**
+     * Builds a query string for an API method URL that includes the params + its generated checksum.
+     *
+     * @param string $method
+     * @param string $params
+     *
+     * @return string
+     */
+    public function buildQs($method = '', $params = '')
+    {
+        return $params.'&checksum='.sha1($method.$params.$this->securitySalt);
+    }
 }

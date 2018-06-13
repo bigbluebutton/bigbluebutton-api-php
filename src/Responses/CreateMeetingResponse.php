@@ -1,8 +1,8 @@
 <?php
 /**
- * BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
+ * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -30,6 +30,22 @@ class CreateMeetingResponse extends BaseResponse
     public function getMeetingId()
     {
         return $this->rawXml->meetingID->__toString();
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalMeetingId()
+    {
+        return $this->rawXml->internalMeetingID->__toString();
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentMeetingId()
+    {
+        return $this->rawXml->parentMeetingID->__toString();
     }
 
     /**
