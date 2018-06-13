@@ -10,6 +10,7 @@
 [![PHP 7](https://img.shields.io/badge/php-7-8892BF.svg?style=flat-square)](https://php.net/)
 [![PHP 7.1](https://img.shields.io/badge/php-7.1-8892BF.svg?style=flat-square)](https://php.net/)
 [![PHP 7.2](https://img.shields.io/badge/php-7.2-8892BF.svg?style=flat-square)](https://php.net/)
+[![PHP 7.3](https://img.shields.io/badge/php-7.3-8892BF.svg?style=flat-square)](https://php.net/)
 
 # BigBlueButton API for PHP
 

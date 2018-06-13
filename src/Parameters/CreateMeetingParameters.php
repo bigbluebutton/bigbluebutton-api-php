@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace BigBlueButton\Parameters;
 
 /**
@@ -445,12 +444,13 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $webcamsOnlyForModerator
+     * @param  bool                    $webcamsOnlyForModerator
      * @return CreateMeetingParameters
      */
     public function setWebcamsOnlyForModerator($webcamsOnlyForModerator)
     {
         $this->webcamsOnlyForModerator = $webcamsOnlyForModerator;
+
         return $this;
     }
 
@@ -463,12 +463,13 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param string $logo
+     * @param  string                  $logo
      * @return CreateMeetingParameters
      */
     public function setLogo($logo)
     {
         $this->logo = $logo;
+
         return $this;
     }
 
@@ -481,12 +482,13 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param string $copyright
+     * @param  string                  $copyright
      * @return CreateMeetingParameters
      */
     public function setCopyright($copyright)
     {
         $this->copyright = $copyright;
+
         return $this;
     }
 
@@ -499,12 +501,13 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $muteOnStart
+     * @param  bool                    $muteOnStart
      * @return CreateMeetingParameters
      */
     public function setMuteOnStart($muteOnStart)
     {
         $this->muteOnStart = $muteOnStart;
+
         return $this;
     }
 
@@ -574,7 +577,7 @@ class CreateMeetingParameters extends MetaParameters
             'allowStartStopRecording' => $this->allowStartStopRecording ? 'true' : 'false',
             'welcome'                 => trim($this->welcomeMessage),
             'moderatorOnlyMessage'    => trim($this->moderatorOnlyMessage),
-            'webcamsOnlyForModerator' => $this->webcamsOnlyForModerator ?  ? 'true' : 'false',
+            'webcamsOnlyForModerator' => $this->webcamsOnlyForModerator ? 'true' : 'false',
             'logo'                    => $this->logo,
             'copyright'               => $this->copyright,
             'muteOnStart'             => $this->muteOnStart,
