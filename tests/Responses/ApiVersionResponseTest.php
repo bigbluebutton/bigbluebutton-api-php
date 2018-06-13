@@ -40,7 +40,7 @@ class ApiVersionResponseTest extends TestCase
     public function testApiVersionResponseContent()
     {
         $this->assertEquals('SUCCESS', $this->version->getReturnCode());
-        $this->assertEquals('1.0', $this->version->getVersion());
+        $this->assertEquals('2.0', $this->version->getVersion());
     }
 
     public function testApiVersionResponseTypes()
