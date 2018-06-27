@@ -74,6 +74,11 @@ class JoinMeetingParameters extends BaseParameters
     private $clientURL;
 
     /**
+     * @var boolean
+     */
+    private $joinViaHtml5;
+
+    /**
      * JoinMeetingParametersTest constructor.
      *
      * @param $meetingId
@@ -254,7 +259,7 @@ class JoinMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param  mixed                 $redirect
+     * @param  boolean               $redirect
      * @return JoinMeetingParameters
      */
     public function setRedirect($redirect)
@@ -284,6 +289,25 @@ class JoinMeetingParameters extends BaseParameters
     }
 
     /**
+     * @return boolean
+     */
+    public function isJoinViaHtml5()
+    {
+        return $this->joinViaHtml5;
+    }
+
+    /**
+     * @param  boolean               $joinViaHtml5
+     * @return JoinMeetingParameters
+     */
+    public function setJoinViaHtml5($joinViaHtml5)
+    {
+        $this->joinViaHtml5 = $joinViaHtml5;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getHTTPQuery()
@@ -299,6 +323,7 @@ class JoinMeetingParameters extends BaseParameters
                 'configToken'  => $this->configToken,
                 'avatarURL'    => $this->avatarURL,
                 'redirect'     => $this->redirect ? 'true' : 'false',
+                'joinViaHtml5' => $this->joinViaHtml5 ? 'true' : 'false',
                 'clientURL'    => $this->clientURL
             ]
         );
