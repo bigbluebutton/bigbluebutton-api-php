@@ -364,13 +364,13 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $autoStartRecording
+     * @param bool $allowStartStopRecording
      *
      * @return CreateMeetingParameters
      */
-    public function setAllowStartStopRecording($autoStartRecording)
+    public function setAllowStartStopRecording($allowStartStopRecording)
     {
-        $this->allowStartStopRecording = $autoStartRecording;
+        $this->allowStartStopRecording = $allowStartStopRecording;
 
         return $this;
     }
