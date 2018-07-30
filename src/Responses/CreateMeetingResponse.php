@@ -71,7 +71,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getCreationTime()
     {
-        return doubleval($this->rawXml->createTime);
+        return (float) $this->rawXml->createTime;
     }
 
     /**
@@ -79,7 +79,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getVoiceBridge()
     {
-        return intval($this->rawXml->voiceBridge);
+        return (int) $this->rawXml->voiceBridge;
     }
 
     /**
@@ -105,7 +105,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function hasUserJoined()
     {
-        return $this->rawXml->hasUserJoined->__toString() == 'true';
+        return $this->rawXml->hasUserJoined->__toString() === 'true';
     }
 
     /**
@@ -113,7 +113,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getDuration()
     {
-        return intval($this->rawXml->duration);
+        return (int) $this->rawXml->duration;
     }
 
     /**
@@ -121,7 +121,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function hasBeenForciblyEnded()
     {
-        return $this->rawXml->hasBeenForciblyEnded->__toString() == 'true';
+        return $this->rawXml->hasBeenForciblyEnded->__toString() === 'true';
     }
 
     /**

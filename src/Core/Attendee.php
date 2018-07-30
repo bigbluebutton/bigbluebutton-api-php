@@ -64,10 +64,10 @@ class Attendee
         $this->userId          = $xml->userID->__toString();
         $this->fullName        = $xml->fullName->__toString();
         $this->role            = $xml->role->__toString();
-        $this->isPresenter     = $xml->isPresenter->__toString() == 'true';
-        $this->isListeningOnly = $xml->isListeningOnly->__toString() == 'true';
-        $this->hasJoinedVoice  = $xml->hasJoinedVoice->__toString() == 'true';
-        $this->hasVideo        = $xml->hasVideo->__toString() == 'true';
+        $this->isPresenter     = $xml->isPresenter->__toString() === 'true';
+        $this->isListeningOnly = $xml->isListeningOnly->__toString() === 'true';
+        $this->hasJoinedVoice  = $xml->hasJoinedVoice->__toString() === 'true';
+        $this->hasVideo        = $xml->hasVideo->__toString() === 'true';
     }
 
     /**

@@ -29,6 +29,6 @@ class IsMeetingRunningResponse extends BaseResponse
      */
     public function isRunning()
     {
-        return $this->rawXml->running->__toString() == 'true';
+        return $this->rawXml->running->__toString() === 'true';
     }
 }

@@ -45,13 +45,13 @@ class Record
         $this->recordId       = $xml->recordID->__toString();
         $this->meetingId      = $xml->meetingID->__toString();
         $this->name           = $xml->name->__toString();
-        $this->isPublished    = $xml->published->__toString() == 'true';
+        $this->isPublished    = $xml->published->__toString() === 'true';
         $this->state          = $xml->state->__toString();
-        $this->startTime      = doubleval($xml->startTime->__toString());
-        $this->endTime        = doubleval($xml->endTime->__toString());
+        $this->startTime      = (float) $xml->startTime->__toString();
+        $this->endTime        = (float) $xml->endTime->__toString();
         $this->playbackType   = $xml->playback->format->type->__toString();
         $this->playbackUrl    = $xml->playback->format->url->__toString();
-        $this->playbackLength = intval($xml->playback->format->length->__toString());
+        $this->playbackLength = (int) $xml->playback->format->length->__toString();
 
         foreach ($xml->metadata->children() as $meta) {
             $this->metas[$meta->getName()] = $meta->__toString();

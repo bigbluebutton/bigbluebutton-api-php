@@ -62,6 +62,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals(1, $info->getVideoCount());
         $this->assertEquals(20, $info->getMaxUsers());
         $this->assertEquals(2, $info->getModeratorCount());
+        $this->assertEquals(10, sizeof($info->getMetas()));
     }
 
     public function testMeetingAttendeeContent()
@@ -96,5 +97,12 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
         $this->assertEachGetterValueIsString($anAttendee, ['getUserId', 'getFullName', 'getRole']);
         $this->assertEachGetterValueIsBoolean($anAttendee, ['isPresenter', 'isListeningOnly', 'hasJoinedVoice', 'hasVideo']);
+    }
+
+    public function testGetMeetingInfoMetadataContent()
+    {
+        $metas = $this->meetingInfo->getMetadata();
+
+        $this->assertEquals('Bigbluebutton "Mock meeting for testing getMeetingInfo"', $metas['bbb-recording-name']);
     }
 }

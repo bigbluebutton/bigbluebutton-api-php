@@ -29,6 +29,6 @@ class UpdateRecordingsResponse extends BaseResponse
      */
     public function isUpdated()
     {
-        return $this->rawXml->updated->__toString() == 'true';
+        return $this->rawXml->updated->__toString() === 'true';
     }
 }

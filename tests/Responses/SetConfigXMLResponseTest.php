@@ -26,7 +26,7 @@ class SetConfigXMLResponseTest extends TestCase
     /**
      * @var \BigBlueButton\Responses\SetConfigXMLResponse
      */
-    private $protect;
+    private $config;
 
     public function setUp()
     {

@@ -59,7 +59,7 @@
         <bbb-origin-server-common-name></bbb-origin-server-common-name>
         <bbb-origin-server-name>bigbluebutton.org</bbb-origin-server-name>
         <bbb-recording-description></bbb-recording-description>
-        <bbb-recording-name>Bigbluebutton "ock meeting for testing getMeetingInfo"</bbb-recording-name>
+        <bbb-recording-name>Bigbluebutton "Mock meeting for testing getMeetingInfo"</bbb-recording-name>
         <bbb-recording-tags></bbb-recording-tags>
     </metadata>
     <messageKey></messageKey>

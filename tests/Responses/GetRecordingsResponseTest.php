@@ -55,6 +55,7 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals('presentation', $aRecord->getPlaybackType());
         $this->assertEquals('http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getPlaybackUrl());
         $this->assertEquals(86, $aRecord->getPlaybackLength());
+        $this->assertEquals(9, sizeof($aRecord->getMetas()));
     }
 
     public function testRecordMetadataContent()

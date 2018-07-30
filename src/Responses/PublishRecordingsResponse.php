@@ -29,6 +29,6 @@ class PublishRecordingsResponse extends BaseResponse
      */
     public function isPublished()
     {
-        return $this->rawXml->published->__toString() == 'true';
+        return $this->rawXml->published->__toString() === 'true';
     }
 }

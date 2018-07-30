@@ -36,7 +36,7 @@ class GetMeetingsResponse extends BaseResponse
      */
     public function getMeetings()
     {
-        if (!is_null($this->meetings)) {
+        if ($this->meetings !== null) {
             return $this->meetings;
         } else {
             $this->meetings = [];

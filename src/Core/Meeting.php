@@ -113,20 +113,20 @@ class Meeting
     {
         $this->meetingId             = $xml->meetingID->__toString();
         $this->meetingName           = $xml->meetingName->__toString();
-        $this->creationTime          = doubleval($xml->createTime);
+        $this->creationTime          = (float) $xml->createTime;
         $this->creationDate          = $xml->createDate->__toString();
-        $this->voiceBridge           = intval($xml->voiceBridge);
+        $this->voiceBridge           = (int) $xml->voiceBridge;
         $this->dialNumber            = $xml->dialNumber->__toString();
         $this->attendeePassword      = $xml->attendeePW->__toString();
         $this->moderatorPassword     = $xml->moderatorPW->__toString();
-        $this->hasBeenForciblyEnded  = $xml->hasBeenForciblyEnded->__toString() == 'true';
-        $this->isRunning             = $xml->running->__toString() == 'true';
-        $this->participantCount      = intval($xml->participantCount);
-        $this->listenerCount         = intval($xml->listenerCount);
-        $this->voiceParticipantCount = intval($xml->voiceParticipantCount);
-        $this->videoCount            = intval($xml->videoCount);
-        $this->duration              = intval($xml->duration);
-        $this->hasUserJoined         = $xml->hasUserJoined->__toString() == 'true';
+        $this->hasBeenForciblyEnded  = $xml->hasBeenForciblyEnded->__toString() === 'true';
+        $this->isRunning             = $xml->running->__toString() === 'true';
+        $this->participantCount      = (int) $xml->participantCount;
+        $this->listenerCount         = (int) $xml->listenerCount;
+        $this->voiceParticipantCount = (int) $xml->voiceParticipantCount;
+        $this->videoCount            = (int) $xml->videoCount;
+        $this->duration              = (int) $xml->duration;
+        $this->hasUserJoined         = $xml->hasUserJoined->__toString() === 'true';
     }
 
     /**

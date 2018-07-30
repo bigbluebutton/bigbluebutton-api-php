@@ -63,7 +63,7 @@ class BigBlueButtonTest extends TestCase
     {
         $apiVersion = $this->bbb->getApiVersion();
         $this->assertEquals('SUCCESS', $apiVersion->getReturnCode());
-        $this->assertEquals('1.0', $apiVersion->getVersion());
+        $this->assertEquals('2.0', $apiVersion->getVersion());
     }
 
     /* Create Meeting */
@@ -108,7 +108,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test create meeting with a document URL
      */
-    public function testCreateMeetingWithDocumentEmbdded()
+    public function testCreateMeetingWithDocumentEmbedded()
     {
         $params = $this->getCreateMock($this->generateCreateParams());
         $params->addPresentation('bbb_logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
@@ -145,7 +145,11 @@ class BigBlueButtonTest extends TestCase
 
         $exception = new \Exception;
         $this->expectException(get_class($exception));
-        $this->bbb->joinMeeting($joinMeetingMock);
+        $joinMeeting = $this->bbb->joinMeeting($joinMeetingMock);
+        $this->assertEquals('SUCCESS', $joinMeeting->getReturnCode());
+        $this->assertNotNull($joinMeeting->getAuthToken());
+        $this->assertNotNull($joinMeeting->getUserId());
+        $this->assertNotNull($joinMeeting->getSessionToken());
     }
 
     /* Get Default Config XML */
@@ -273,7 +277,7 @@ class BigBlueButtonTest extends TestCase
 
     public function testGetRecordings()
     {
-        $result = $this->bbb->getRecordings(new GetRecordingsParameters($this->faker->sha1));
+        $result = $this->bbb->getRecordings(new GetRecordingsParameters());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
     }
 

@@ -55,18 +55,27 @@ class MeetingInfo extends Meeting
     private $moderatorCount;
 
     /**
+     * @var array
+     */
+    private $metas;
+
+    /**
      * MeetingInfo constructor.
      * @param $xml \SimpleXMLElement
      */
     public function __construct($xml)
     {
         parent::__construct($xml);
-        $this->internalMeetingId     = $xml->internalMeetingID->__toString();
-        $this->isRecording           = $xml->recording->__toString() == 'true';
-        $this->startTime             = doubleval($xml->startTime);
-        $this->endTime               = doubleval($xml->endTime);
-        $this->maxUsers              = $xml->maxUsers->__toString() + 0;
-        $this->moderatorCount        = $xml->moderatorCount->__toString() + 0;
+        $this->internalMeetingId = $xml->internalMeetingID->__toString();
+        $this->isRecording       = $xml->recording->__toString() === 'true';
+        $this->startTime         = (float) $xml->startTime;
+        $this->endTime           = (float) $xml->endTime;
+        $this->maxUsers          = (int) $xml->maxUsers->__toString();
+        $this->moderatorCount    = (int) $xml->moderatorCount->__toString();
+
+        foreach ($xml->metadata->children() as $meta) {
+            $this->metas[$meta->getName()] = $meta->__toString();
+        }
     }
 
     /**
@@ -115,5 +124,13 @@ class MeetingInfo extends Meeting
     public function getModeratorCount()
     {
         return $this->moderatorCount;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetas()
+    {
+        return $this->metas;
     }
 }

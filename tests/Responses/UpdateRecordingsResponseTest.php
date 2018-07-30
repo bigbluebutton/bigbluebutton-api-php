@@ -26,7 +26,7 @@ class UpdateRecordingsResponseTest extends TestCase
     /**
      * @var \BigBlueButton\Responses\UpdateRecordingsResponse
      */
-    private $protect;
+    private $update;
 
     public function setUp()
     {

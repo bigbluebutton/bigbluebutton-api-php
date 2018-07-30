@@ -40,14 +40,14 @@ class GetMeetingInfoResponse extends BaseResponse
     /**
      * @var array
      */
-    private $metadata;
+    private $metas;
 
     /**
      * @return MeetingInfo
      */
     public function getMeetingInfo()
     {
-        if (!is_null($this->meetingInfo)) {
+        if ($this->meetingInfo !== null) {
             return $this->meetingInfo;
         } else {
             $this->meetingInfo = new MeetingInfo($this->rawXml);
@@ -61,7 +61,7 @@ class GetMeetingInfoResponse extends BaseResponse
      */
     public function getAttendees()
     {
-        if (!is_null($this->attendees)) {
+        if ($this->attendees !== null) {
             return $this->attendees;
         } else {
             $this->attendees = [];
@@ -71,5 +71,22 @@ class GetMeetingInfoResponse extends BaseResponse
         }
 
         return $this->attendees;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetadata()
+    {
+        if ($this->metas !== null) {
+            return $this->metas;
+        } else {
+            $this->metas = [];
+            foreach ($this->rawXml->metadata->children() as $metadataXml) {
+                $this->metas[$metadataXml->getName()] = $metadataXml->__toString();
+            }
+        }
+
+        return $this->metas;
     }
 }

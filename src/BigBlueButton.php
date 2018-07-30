@@ -130,6 +130,7 @@ class BigBlueButton
     }
 
     /**
+     * @param  $setConfigXMLParams
      * @return SetConfigXMLResponse
      * @throws \RuntimeException
      */

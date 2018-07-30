@@ -74,8 +74,7 @@ class PublishRecordingsParameters extends BaseParameters
     }
 
     /**
-     * @param  bool                        $publish
-     * @return PublishRecordingsParameters
+     * @param bool $publish
      */
     public function setPublish($publish)
     {

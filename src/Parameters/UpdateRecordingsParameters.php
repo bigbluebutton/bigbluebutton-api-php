@@ -33,7 +33,6 @@ class UpdateRecordingsParameters extends MetaParameters
      * UpdateRecordingsParameters constructor.
      *
      * @param $recordingId
-     * @param $protect
      */
     public function __construct($recordingId)
     {
