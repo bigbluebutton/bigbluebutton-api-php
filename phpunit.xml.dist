@@ -22,6 +22,12 @@
     <log type="coverage-html" target="./coverage"
          charset='UTF-8' yui='true'/>
 
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/</directory>
+        </whitelist>
+    </filter>
+
     <testsuites>
         <testsuite name="BigBlueButton test suit">
             <directory>./tests/</directory>
