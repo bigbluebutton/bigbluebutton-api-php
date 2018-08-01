@@ -36,7 +36,7 @@ class Meeting
     private $meetingName;
 
     /**
-     * @var int
+     * @var double
      */
     private $creationTime;
 

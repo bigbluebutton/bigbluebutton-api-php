@@ -76,7 +76,9 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateCreateParams();
         $url    = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
         foreach ($params as $key => $value) {
-            $value = !is_bool($value) ? $value : ($value === true ? 'true' : 'false');
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            }
             $this->assertContains('=' . urlencode($value), $url);
         }
     }
@@ -132,7 +134,9 @@ class BigBlueButtonTest extends TestCase
         $url = $this->bbb->getJoinMeetingURL($joinMeetingMock);
 
         foreach ($joinMeetingParams as $key => $value) {
-            $value = !is_bool($value) ? $value : ($value ? 'true' : 'false');
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            }
             $this->assertContains('=' . urlencode($value), $url);
         }
     }
@@ -310,7 +314,9 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateUpdateRecordingsParams();
         $url    = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
         foreach ($params as $key => $value) {
-            $value = !is_bool($value) ? $value : ($value ? 'true' : 'false');
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            }
             $this->assertContains('=' . urlencode($value), $url);
         }
     }

@@ -356,6 +356,7 @@ class BigBlueButton
      *
      * @param  string            $url
      * @param  string            $payload
+     * @param  string            $contentType
      * @return SimpleXMLElement
      * @throws \RuntimeException
      */
