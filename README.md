@@ -23,7 +23,7 @@ The official and easy to use **BigBlueButton API for PHP**, makes easy for devel
 - mbstring library installed.
 - Xml library installed.
 
-BigBlueButton API for PHP is also tested to work with HHVM and fully compatible with PHP 7.1.
+BigBlueButton API for PHP is also tested to work with HHVM and fully compatible with PHP 7.0 and above.
 
 
 ## Installation
@@ -31,7 +31,7 @@ BigBlueButton API for PHP is also tested to work with HHVM and fully compatible 
 **bigbluebutton-api-php** can be installed via [Composer][composer] CLI
 
 ```
-composer require bigbluebutton/bigbluebutton-api-php:dev-master
+composer require bigbluebutton/bigbluebutton-api-php:~2.0.0
 ```
 
 or by editing [Composer][composer].json
@@ -39,14 +39,14 @@ or by editing [Composer][composer].json
 ```json
 {
     "require": {
-        "bigbluebutton/bigbluebutton-api-php": "dev-master"
+        "bigbluebutton/bigbluebutton-api-php": "~2.0.0"
     }
 }
 ```
 
 ## Usage
 
-You should have environment variables ```BBB_SECURITY_SALT``` and ```BBB_SERVER_BASE_URL``` defined in your sever.
+You should have environment variables ```BBB_SECRET``` and ```BBB_SERVER_BASE_URL``` defined in your sever.
 \*if you are using Laravel you can add it in your .env
 
 The you will be able to call BigBlueButton API of your server. A simple usage example for create meeting looks like:

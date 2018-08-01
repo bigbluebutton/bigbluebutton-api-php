@@ -36,12 +36,12 @@ class UrlBuilder
     /**
      * UrlBuilder constructor.
      *
-     * @param $salt
+     * @param $secret
      * @param $serverBaseUrl
      */
-    public function __construct($salt, $serverBaseUrl)
+    public function __construct($secret, $serverBaseUrl)
     {
-        $this->securitySalt     = $salt;
+        $this->securitySalt     = $secret;
         $this->bbbServerBaseUrl = $serverBaseUrl;
     }
 
