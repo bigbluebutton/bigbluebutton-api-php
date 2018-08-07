@@ -56,6 +56,10 @@ Once you have them, create two environment variables. For Apache2 you can use th
 
 Let’s go ahead and create our HTML form to join BigBlueButton meeting. The contact form will contain the following fields: username, a combo-box for the meeting name, a second combo-box for the user role and a checkbox for the client type.
 
+Your form should look like the image below, and the source code is just below the image.
+
+![bbbjoinform](https://user-images.githubusercontent.com/4991088/43764586-b2aa24e8-9a25-11e8-826f-06fb393bc298.png)
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
