@@ -151,9 +151,9 @@ class BigBlueButtonTest extends TestCase
         $this->expectException(get_class($exception));
         $joinMeeting = $this->bbb->joinMeeting($joinMeetingMock);
         $this->assertEquals('SUCCESS', $joinMeeting->getReturnCode());
-        $this->assertNotNull($joinMeeting->getAuthToken());
-        $this->assertNotNull($joinMeeting->getUserId());
-        $this->assertNotNull($joinMeeting->getSessionToken());
+        $this->assertNotEmpty($joinMeeting->getAuthToken());
+        $this->assertNotEmpty($joinMeeting->getUserId());
+        $this->assertNotEmpty($joinMeeting->getSessionToken());
     }
 
     /* Get Default Config XML */
@@ -167,7 +167,7 @@ class BigBlueButtonTest extends TestCase
     public function testGetDefaultConfigXML()
     {
         $result = $this->bbb->getDefaultConfigXML();
-        $this->assertNotNull($result->getRawXml());
+        $this->assertNotEmpty($result->getRawXml());
     }
 
     /* Set Config XML */
@@ -198,7 +198,7 @@ class BigBlueButtonTest extends TestCase
 
         $result = $this->bbb->setConfigXML($setConfigXMLParams);
         $this->assertEquals('SUCCESS', $result->getReturnCode());
-        $this->assertNotNull($result->getToken());
+        $this->assertNotEmpty($result->getToken());
     }
 
     /* End Meeting */
@@ -251,7 +251,7 @@ class BigBlueButtonTest extends TestCase
     public function testGetMeetings()
     {
         $result = $this->bbb->getMeetings();
-        $this->assertNotNull($result->getMeetings());
+        $this->assertNotEmpty($result->getMeetings());
     }
 
     /* Get meeting info */

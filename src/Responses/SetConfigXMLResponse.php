@@ -29,6 +29,6 @@ class SetConfigXMLResponse extends BaseResponse
      */
     public function getToken()
     {
-        return $this->rawXml->token->__toString();
+        return $this->rawXml->configToken->__toString();
     }
 }
