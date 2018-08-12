@@ -22,7 +22,7 @@ matrix:
 env:
   global:
     - BBB_SECRET=8cd8ef52e8e101574e400365b55e11a6
-    - BBB_SERVER_BASE_URL=http://test-install.blindsidenetworks.com/bigbluebutton/
+    - BBB_SERVER_BASE_URL=https://test-install.blindsidenetworks.com/bigbluebutton/
 
 before_script:
   - wget http://getcomposer.org/composer.phar
