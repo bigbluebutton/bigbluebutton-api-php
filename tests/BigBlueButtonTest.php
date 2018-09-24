@@ -108,6 +108,20 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
+     * Test create meeting with a document URL and filename
+     */
+    public function testCreateMeetingWithDocumentUrlAndFileName()
+    {
+        $params = $this->getCreateMock($this->generateCreateParams());
+        $params->addPresentation('https://placeholdit.imgix.net/~text?txtsize=96&bg=30406B&txtclr=ffffff&txt=BigBlueButton&w=800&h=600', null, 'placeholder.png');
+
+        $result = $this->bbb->createMeeting($params);
+
+        $this->assertCount(1, $params->getPresentations());
+        $this->assertEquals('SUCCESS', $result->getReturnCode());
+    }
+
+    /**
      * Test create meeting with a document URL
      */
     public function testCreateMeetingWithDocumentEmbedded()

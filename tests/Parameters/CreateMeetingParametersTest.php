@@ -58,4 +58,28 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($newName, $createMeetingParams->getMeetingName());
         $this->assertEquals($newId, $createMeetingParams->getMeetingId());
     }
+
+    public function testGetPresentationsAsXMLWithUrl()
+    {
+        $params              = $this->generateCreateParams();
+        $createMeetingParams = $this->getCreateMock($params);
+        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf');
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
+    }
+
+    public function testGetPresentationsAsXMLWithUrlAndFilename()
+    {
+        $params              = $this->generateCreateParams();
+        $createMeetingParams = $this->getCreateMock($params);
+        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf', null, 'presentation.pdf');
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
+    }
+
+    public function testGetPresentationsAsXMLWithFile()
+    {
+        $params              = $this->generateCreateParams();
+        $createMeetingParams = $this->getCreateMock($params);
+        $createMeetingParams->addPresentation('bbb_logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
+        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
+    }
 }

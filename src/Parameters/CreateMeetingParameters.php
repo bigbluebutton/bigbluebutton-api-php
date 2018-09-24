@@ -525,9 +525,13 @@ class CreateMeetingParameters extends MetaParameters
      *
      * @return CreateMeetingParameters
      */
-    public function addPresentation($nameOrUrl, $content = null)
+    public function addPresentation($nameOrUrl, $content = null, $filname = null)
     {
-        $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);
+        if (!$filname) {
+            $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);
+        } else {
+            $this->presentations[$nameOrUrl] = $filname;
+        }
 
         return $this;
     }
@@ -542,8 +546,12 @@ class CreateMeetingParameters extends MetaParameters
             $module->addAttribute('name', 'presentation');
 
             foreach ($this->presentations as $nameOrUrl => $content) {
-                if ($this->presentations[$nameOrUrl] === true) {
-                    $module->addChild('document')->addAttribute('url', $nameOrUrl);
+                if (strpos($nameOrUrl, 'http') === 0) {
+                    $presentation = $module->addChild('document');
+                    $presentation->addAttribute('url', $nameOrUrl);
+                    if (is_string($content)) {
+                        $presentation->addAttribute('filename', $content);
+                    }
                 } else {
                     $document = $module->addChild('document');
                     $document->addAttribute('name', $nameOrUrl);
