@@ -36,9 +36,7 @@ class GetRecordingsResponse extends BaseResponse
      */
     public function getRecords()
     {
-        if ($this->records !== null) {
-            return $this->records;
-        } else {
+        if ($this->records === null) {
             $this->records = [];
             foreach ($this->rawXml->recordings->children() as $recordXml) {
                 $this->records[] = new Record($recordXml);

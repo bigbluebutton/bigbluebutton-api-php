@@ -47,9 +47,7 @@ class GetMeetingInfoResponse extends BaseResponse
      */
     public function getMeetingInfo()
     {
-        if ($this->meetingInfo !== null) {
-            return $this->meetingInfo;
-        } else {
+        if ($this->meetingInfo === null) {
             $this->meetingInfo = new MeetingInfo($this->rawXml);
         }
 
@@ -61,9 +59,7 @@ class GetMeetingInfoResponse extends BaseResponse
      */
     public function getAttendees()
     {
-        if ($this->attendees !== null) {
-            return $this->attendees;
-        } else {
+        if ($this->attendees === null) {
             $this->attendees = [];
             foreach ($this->rawXml->attendees->attendee as $attendeeXml) {
                 $this->attendees[] = new Attendee($attendeeXml);
@@ -78,9 +74,7 @@ class GetMeetingInfoResponse extends BaseResponse
      */
     public function getMetadata()
     {
-        if ($this->metas !== null) {
-            return $this->metas;
-        } else {
+        if ($this->metas === null) {
             $this->metas = [];
             foreach ($this->rawXml->metadata->children() as $metadataXml) {
                 $this->metas[$metadataXml->getName()] = $metadataXml->__toString();
