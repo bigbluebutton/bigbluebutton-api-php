@@ -34,7 +34,7 @@
     "composer/composer": "1.7.*@dev",
     "phpunit/phpunit": "6.*",
     "fzaninotto/faker": "~1.8.0",
-    "friendsofphp/php-cs-fixer": "~2.11",
+    "friendsofphp/php-cs-fixer": "2.*",
     "squizlabs/php_codesniffer": "3.*",
     "php-coveralls/php-coveralls": "2.1.*"
   },
