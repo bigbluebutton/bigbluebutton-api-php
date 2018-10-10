@@ -512,6 +512,17 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @param $endCallbackUrl
+     * @return CreateMeetingParameters
+     */
+    public function setEndCallbackUrl($endCallbackUrl)
+    {
+        $this->addMeta('endCallbackUrl', $endCallbackUrl);
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getPresentations()

@@ -67,26 +67,27 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function generateCreateParams()
     {
         return [
-            'meetingName'             => $this->faker->name,
-            'meetingId'               => $this->faker->uuid,
-            'attendeePassword'        => $this->faker->password,
-            'moderatorPassword'       => $this->faker->password,
-            'autoStartRecording'      => $this->faker->boolean(50),
-            'dialNumber'              => $this->faker->phoneNumber,
-            'voiceBridge'             => $this->faker->randomNumber(5),
-            'webVoice'                => $this->faker->word,
-            'logoutUrl'               => $this->faker->url,
-            'maxParticipants'         => $this->faker->numberBetween(2, 100),
-            'record'                  => $this->faker->boolean(50),
-            'duration'                => $this->faker->numberBetween(0, 6000),
-            'welcomeMessage'          => $this->faker->sentence,
-            'allowStartStopRecording' => $this->faker->boolean(50),
-            'moderatorOnlyMessage'    => $this->faker->sentence,
-            'meta_presenter'          => $this->faker->name,
-            'webcamsOnlyForModerator' => $this->faker->boolean(50),
-            'logo'                    => $this->faker->imageUrl(330, 70),
-            'copyright'               => $this->faker->text,
-            'muteOnStart'             => $this->faker->boolean(50),
+            'meetingName'                  => $this->faker->name,
+            'meetingId'                    => $this->faker->uuid,
+            'attendeePassword'             => $this->faker->password,
+            'moderatorPassword'            => $this->faker->password,
+            'autoStartRecording'           => $this->faker->boolean(50),
+            'dialNumber'                   => $this->faker->phoneNumber,
+            'voiceBridge'                  => $this->faker->randomNumber(5),
+            'webVoice'                     => $this->faker->word,
+            'logoutUrl'                    => $this->faker->url,
+            'maxParticipants'              => $this->faker->numberBetween(2, 100),
+            'record'                       => $this->faker->boolean(50),
+            'duration'                     => $this->faker->numberBetween(0, 6000),
+            'welcomeMessage'               => $this->faker->sentence,
+            'allowStartStopRecording'      => $this->faker->boolean(50),
+            'moderatorOnlyMessage'         => $this->faker->sentence,
+            'webcamsOnlyForModerator'      => $this->faker->boolean(50),
+            'logo'                         => $this->faker->imageUrl(330, 70),
+            'copyright'                    => $this->faker->text,
+            'muteOnStart'                  => $this->faker->boolean(50),
+            'meta_presenter'               => $this->faker->name,
+            'meta_endCallbackUrl'          => $this->faker->url
         ];
     }
 
@@ -104,7 +105,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording'])->
         setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])->
         setWebcamsOnlyForModerator($params['webcamsOnlyForModerator'])->setLogo($params['logo'])->setCopyright($params['copyright'])->
-        setMuteOnStart($params['muteOnStart'])->addMeta('presenter', $params['meta_presenter']);
+        setEndCallbackUrl($params['meta_endCallbackUrl'])->setMuteOnStart($params['muteOnStart'])->addMeta('presenter', $params['meta_presenter']);
 
         return $createMeetingParams;
     }

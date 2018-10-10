@@ -51,6 +51,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['copyright'], $createMeetingParams->getCopyright());
         $this->assertEquals($params['muteOnStart'], $createMeetingParams->isMuteOnStart());
         $this->assertEquals($params['meta_presenter'], $createMeetingParams->getMeta('presenter'));
+        $this->assertEquals($params['meta_endCallbackUrl'], $createMeetingParams->getMeta('endCallbackUrl'));
 
         // Test setters that are ignored by the constructor
         $createMeetingParams->setMeetingId($newId = $this->faker->uuid);
