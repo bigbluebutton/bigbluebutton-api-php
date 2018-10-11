@@ -197,14 +197,25 @@ $bbb->createMeeting($createParams);
 
 ## Joining the meeting
 
+A meeting can be joined by two different ways. The first way is to let the BigBlueButton server do the redirection for
+you. The second way is to ask for an XML response then construct the URL using `getSessionToken`. Both of the methods
+are detailed below.
+
 Joining the meeting is done in two steps. In the first step we create an instance of `CreateMeetingParameters` and fill
-the previously saved `$meetingId`, then `username` and `role` values from POST values. Don’t forget to set `redirect`
-to `true` if you want an immediate redirection to the meeting. We also pass `true` to `setJoinViaHtml5` to join the
-meeting using the HTML5 client.
+the previously saved `$meetingId`, then `username` and `role` values from POST values.
 
 ```php
 // Send a join meeting request
 $joinParams = new JoinMeetingParameters($meetingId, $HTTP_POST_VARS['username'], $passwords[$HTTP_POST_VARS['role']]);
+```
+
+### Following the server redirection
+
+We set `redirect` to `true` if we want an immediate redirection to the meeting. We also pass `true` to
+`setJoinViaHtml5` to join the meeting using the HTML5 client.
+
+```php
+// Ask for immediate redirection
 $joinParams->setRedirect(true)
 ```
 
@@ -215,6 +226,46 @@ BigBlueButton by calling `$bbb->getJoinMeetingURL($joinParams))`. You should now
 // Join the meeting by redirecting the user to the generated URL
 header('Status: 301 Moved Permanently', false, 301);
 header('Location:' . $bbb->getJoinMeetingURL($joinParams));
+```
+
+### Storing join response to join manually
+
+There is also a different way to join a meeting. To achieve it, we set `redirect` to `false`.
+
+ ```php
+ // Let the prorgrammer do the redirection later
+ $joinParams->setRedirect(false)
+ ```
+ 
+In this particular case the server will return an XML response. To handle it you need to call the `joinMeeting` method. 
+ 
+```php
+$joinResponse = $bbb->joinMeeting($joinParams);
+```
+
+Then we prepare the server URL for joining the meeting.
+
+```php
+// Prepare the server URL
+$bbbServerUrl = "https://my-bbb-server.com";
+```
+
+Depending on the client you want to use the join URL construction will be different.
+
+If you want to join the Flash client, the default URL will look like the lines below.
+
+```php
+// Join the Flash client
+header('Status: 301 Moved Permanently', false, 301);
+header('Location:' . $bbbServerUrl . "/client/BigBlueButton.html?sessionToken=" . $joinResponse->getSessionToken());
+```
+
+If you want to join the meeting using the HTML5 client, the default URL is different.
+
+```php
+// Join the HTML5 client
+header('Status: 301 Moved Permanently', false, 301);
+header('Location:' . $bbbServerUrl . "/html5client/join?sessionToken=" . $joinResponse->getSessionToken());
 ```
 
 ## Conclusion
