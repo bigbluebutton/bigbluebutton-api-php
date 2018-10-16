@@ -113,7 +113,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithDocumentUrlAndFileName()
     {
         $params = $this->getCreateMock($this->generateCreateParams());
-        $params->addPresentation('https://placeholdit.imgix.net/~text?txtsize=96&bg=30406B&txtclr=ffffff&txt=BigBlueButton&w=800&h=600', null, 'placeholder.png');
+        $params->addPresentation('https://placeholdit.imgix.net/~text?txtsize=100&bg=AB5080&txtclr=ffffff&txt=BigBlueButton&w=1920&h=1080', null, 'placeholder.png');
 
         $result = $this->bbb->createMeeting($params);
 
@@ -132,6 +132,21 @@ class BigBlueButtonTest extends TestCase
         $result = $this->bbb->createMeeting($params);
 
         $this->assertCount(1, $params->getPresentations());
+        $this->assertEquals('SUCCESS', $result->getReturnCode());
+    }
+
+    /**
+     * Test create meeting with a multiple documents
+     */
+    public function testCreateMeetingWithMultiDocument()
+    {
+        $params = $this->getCreateMock($this->generateCreateParams());
+        $params->addPresentation('https://placeholdit.imgix.net/~text?txtsize=96&bg=DE3040&txtclr=ffffff&txt=BigBlueButton&w=1600&h=1200', null, 'presentation.png');
+        $params->addPresentation('logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
+
+        $result = $this->bbb->createMeeting($params);
+
+        $this->assertCount(2, $params->getPresentations());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
     }
 
