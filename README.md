@@ -221,4 +221,4 @@ For every implemented feature add unit tests and check all is green by running t
 
 [bbb]: http://bigbluebutton.org
 [composer]: https://getcomposer.org
-[INSTALL]: ./INSTALL.md
+[INSTALL]: samples/README.md
