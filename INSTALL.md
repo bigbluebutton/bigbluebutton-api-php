@@ -202,7 +202,10 @@ you. The second way is to ask for an XML response then construct the URL using `
 are detailed below.
 
 Joining the meeting is done in two steps. In the first step we create an instance of `CreateMeetingParameters` and fill
-the previously saved `$meetingId`, then `username` and `role` values from POST values.
+the previously saved `$meetingId`, then `username` and `role` values from POST values. The third required parameter is
+password, the role of the user is determined by the system depending on the provided password. For that reason we will
+read it from `$passwords` using the `$HTTP_POST_VARS['role']` key. 
+
 
 ```php
 // Send a join meeting request
