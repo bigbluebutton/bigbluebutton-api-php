@@ -170,14 +170,16 @@ class BigBlueButtonTest extends TestCase
         }
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage String could not be parsed as XML
+     */
     public function testJoinMeeting()
     {
         $joinMeetingParams = $this->generateJoinMeetingParams();
         $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
         $joinMeetingMock->setRedirect(false);
 
-        $exception = new \Exception;
-        $this->expectException(get_class($exception));
         $joinMeeting = $this->bbb->joinMeeting($joinMeetingMock);
         $this->assertEquals('SUCCESS', $joinMeeting->getReturnCode());
         $this->assertNotEmpty($joinMeeting->getAuthToken());

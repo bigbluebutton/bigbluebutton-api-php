@@ -53,11 +53,27 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['meta_presenter'], $createMeetingParams->getMeta('presenter'));
         $this->assertEquals($params['meta_endCallbackUrl'], $createMeetingParams->getMeta('endCallbackUrl'));
 
+        // Check values are empty of this is not a breakout room
+        $this->assertNull($createMeetingParams->isBreakout());
+        $this->assertNull($createMeetingParams->getParentMeetingId());
+        $this->assertNull($createMeetingParams->getSequence());
+        $this->assertNull($createMeetingParams->isFreeJoin());
+
         // Test setters that are ignored by the constructor
         $createMeetingParams->setMeetingId($newId = $this->faker->uuid);
         $createMeetingParams->setMeetingName($newName = $this->faker->name);
         $this->assertEquals($newName, $createMeetingParams->getMeetingName());
         $this->assertEquals($newId, $createMeetingParams->getMeetingId());
+    }
+
+    public function testCreateBreakoutMeeting()
+    {
+        $params                      = $this->generateBreakoutCreateParams($this->generateCreateParams());
+        $createBreakoutMeetingParams = $this->getBreakoutCreateMock($params);
+        $this->assertEquals($params['isBreakout'], $createBreakoutMeetingParams->isBreakout());
+        $this->assertEquals($params['parentMeetingId'], $createBreakoutMeetingParams->getParentMeetingId());
+        $this->assertEquals($params['sequence'], $createBreakoutMeetingParams->getSequence());
+        $this->assertEquals($params['freeJoin'], $createBreakoutMeetingParams->isFreeJoin());
     }
 
     public function testGetPresentationsAsXMLWithUrl()

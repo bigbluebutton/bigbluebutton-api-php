@@ -67,28 +67,42 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function generateCreateParams()
     {
         return [
-            'meetingName'                  => $this->faker->name,
-            'meetingId'                    => $this->faker->uuid,
-            'attendeePassword'             => $this->faker->password,
-            'moderatorPassword'            => $this->faker->password,
-            'autoStartRecording'           => $this->faker->boolean(50),
-            'dialNumber'                   => $this->faker->phoneNumber,
-            'voiceBridge'                  => $this->faker->randomNumber(5),
-            'webVoice'                     => $this->faker->word,
-            'logoutUrl'                    => $this->faker->url,
-            'maxParticipants'              => $this->faker->numberBetween(2, 100),
-            'record'                       => $this->faker->boolean(50),
-            'duration'                     => $this->faker->numberBetween(0, 6000),
-            'welcomeMessage'               => $this->faker->sentence,
-            'allowStartStopRecording'      => $this->faker->boolean(50),
-            'moderatorOnlyMessage'         => $this->faker->sentence,
-            'webcamsOnlyForModerator'      => $this->faker->boolean(50),
-            'logo'                         => $this->faker->imageUrl(330, 70),
-            'copyright'                    => $this->faker->text,
-            'muteOnStart'                  => $this->faker->boolean(50),
-            'meta_presenter'               => $this->faker->name,
-            'meta_endCallbackUrl'          => $this->faker->url
+            'meetingName'             => $this->faker->name,
+            'meetingId'               => $this->faker->uuid,
+            'attendeePassword'        => $this->faker->password,
+            'moderatorPassword'       => $this->faker->password,
+            'autoStartRecording'      => $this->faker->boolean(50),
+            'dialNumber'              => $this->faker->phoneNumber,
+            'voiceBridge'             => $this->faker->randomNumber(5),
+            'webVoice'                => $this->faker->word,
+            'logoutUrl'               => $this->faker->url,
+            'maxParticipants'         => $this->faker->numberBetween(2, 100),
+            'record'                  => $this->faker->boolean(50),
+            'duration'                => $this->faker->numberBetween(0, 6000),
+            'welcomeMessage'          => $this->faker->sentence,
+            'allowStartStopRecording' => $this->faker->boolean(50),
+            'moderatorOnlyMessage'    => $this->faker->sentence,
+            'webcamsOnlyForModerator' => $this->faker->boolean(50),
+            'logo'                    => $this->faker->imageUrl(330, 70),
+            'copyright'               => $this->faker->text,
+            'muteOnStart'             => $this->faker->boolean(50),
+            'meta_presenter'          => $this->faker->name,
+            'meta_endCallbackUrl'     => $this->faker->url
         ];
+    }
+
+    /**
+     * @param $createParams
+     * @return array
+     */
+    protected function generateBreakoutCreateParams($createParams)
+    {
+        return array_merge($createParams, [
+            'isBreakout'      => true,
+            'parentMeetingId' => $this->faker->uuid,
+            'sequence'        => $this->faker->numberBetween(1, 8),
+            'freeJoin'        => $this->faker->boolean(50)
+        ]);
     }
 
     /**
@@ -99,15 +113,27 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function getCreateMock($params)
     {
         $createMeetingParams = new CreateMeetingParameters($params['meetingId'], $params['meetingName']);
-        $createMeetingParams->setAttendeePassword($params['attendeePassword'])->setModeratorPassword($params['moderatorPassword'])->
+
+        return $createMeetingParams->setAttendeePassword($params['attendeePassword'])->setModeratorPassword($params['moderatorPassword'])->
         setDialNumber($params['dialNumber'])->setVoiceBridge($params['voiceBridge'])->setWebVoice($params['webVoice'])->
         setLogoutUrl($params['logoutUrl'])->setMaxParticipants($params['maxParticipants'])->setRecord($params['record'])->
         setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording'])->
         setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])->
         setWebcamsOnlyForModerator($params['webcamsOnlyForModerator'])->setLogo($params['logo'])->setCopyright($params['copyright'])->
         setEndCallbackUrl($params['meta_endCallbackUrl'])->setMuteOnStart($params['muteOnStart'])->addMeta('presenter', $params['meta_presenter']);
+    }
 
-        return $createMeetingParams;
+    /**
+     * @param $params
+     *
+     * @return CreateMeetingParameters
+     */
+    protected function getBreakoutCreateMock($params)
+    {
+        $createMeetingParams = $this->getCreateMock($params);
+
+        return $createMeetingParams->setBreakout($params['isBreakout'])->setParentMeetingId($params['parentMeetingId'])->
+        setSequence($params['sequence'])->setFreeJoin($params['freeJoin']);
     }
 
     /**
@@ -185,9 +211,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function getUpdateRecordingsParamsMock($params)
     {
         $updateRecordingsParams = new UpdateRecordingsParameters($params['recordingId']);
-        $updateRecordingsParams->addMeta('presenter', $params['meta_presenter']);
 
-        return $updateRecordingsParams;
+        return $updateRecordingsParams->addMeta('presenter', $params['meta_presenter']);
     }
 
     /**
@@ -207,9 +232,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function getSetConfigXMLMock($params)
     {
-        $setConfigXMLParams = new SetConfigXMLParameters($params['meetingId']);
-
-        return $setConfigXMLParams;
+        return new SetConfigXMLParameters($params['meetingId']);
     }
 
     // Load fixtures

@@ -124,6 +124,26 @@ class CreateMeetingParameters extends MetaParameters
     private $presentations = [];
 
     /**
+     * @var boolean
+     */
+    private $isBreakout;
+
+    /**
+     * @var string
+     */
+    private $parentMeetingId;
+
+    /**
+     * @var int
+     */
+    private $sequence;
+
+    /**
+     * @var boolean
+     */
+    private $freeJoin;
+
+    /**
      * CreateMeetingParameters constructor.
      *
      * @param $meetingId
@@ -523,6 +543,82 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return bool
+     */
+    public function isBreakout()
+    {
+        return $this->isBreakout;
+    }
+
+    /**
+     * @param  bool                    $isBreakout
+     * @return CreateMeetingParameters
+     */
+    public function setBreakout($isBreakout)
+    {
+        $this->isBreakout = $isBreakout;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentMeetingId()
+    {
+        return $this->parentMeetingId;
+    }
+
+    /**
+     * @param  string                  $parentMeetingId
+     * @return CreateMeetingParameters
+     */
+    public function setParentMeetingId($parentMeetingId)
+    {
+        $this->parentMeetingId = $parentMeetingId;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSequence()
+    {
+        return $this->sequence;
+    }
+
+    /**
+     * @param  int                     $sequence
+     * @return CreateMeetingParameters
+     */
+    public function setSequence($sequence)
+    {
+        $this->sequence = $sequence;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFreeJoin()
+    {
+        return $this->freeJoin;
+    }
+
+    /**
+     * @param  bool                    $freeJoin
+     * @return CreateMeetingParameters
+     */
+    public function setFreeJoin($freeJoin)
+    {
+        $this->freeJoin = $freeJoin;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getPresentations()
@@ -533,20 +629,24 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @param $nameOrUrl
      * @param null $content
+     * @param null $filename
      *
      * @return CreateMeetingParameters
      */
-    public function addPresentation($nameOrUrl, $content = null, $filname = null)
+    public function addPresentation($nameOrUrl, $content = null, $filename = null)
     {
-        if (!$filname) {
+        if (!$filename) {
             $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);
         } else {
-            $this->presentations[$nameOrUrl] = $filname;
+            $this->presentations[$nameOrUrl] = $filename;
         }
 
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPresentationsAsXML()
     {
         $result = '';
@@ -601,6 +701,16 @@ class CreateMeetingParameters extends MetaParameters
             'copyright'               => $this->copyright,
             'muteOnStart'             => $this->muteOnStart,
         ];
+
+        // Add breakout rooms parameters only if the meeting is a breakout room
+        if ($this->isBreakout()) {
+            $queries = array_merge($queries, [
+                'isBreakout'      => $this->isBreakout ? 'true' : 'false',
+                'parentMeetingID' => $this->parentMeetingId,
+                'sequence'        => $this->sequence,
+                'freeJoin'        => $this->freeJoin ? 'true' : 'false'
+            ]);
+        }
 
         $this->buildMeta($queries);
 
