@@ -78,6 +78,7 @@ class BigBlueButton
     /* The methods in the following section support the following categories of the BBB API:
     -- create
     -- getDefaultConfigXML
+    -- setConfigXML
     -- join
     -- end
     */

@@ -1,3 +1,9 @@
+# BigBlueButton API for PHP
+
+![Home Image](https://raw.githubusercontent.com/wiki/bigbluebutton/bigbluebutton-api-php/images/header.png)
+
+The official and easy to use **BigBlueButton API for PHP**, makes easy for developers to use [BigBlueButton][bbb] API for **PHP 5.4+**.
+
 ![Packagist](https://img.shields.io/packagist/v/bigbluebutton/bigbluebutton-api-php.svg?label=release)
 ![PHP from Travis config](https://img.shields.io/travis/php-v/bigbluebutton/bigbluebutton-api-php.svg)
 [![Downloads](https://img.shields.io/packagist/dt/bigbluebutton/bigbluebutton-api-php.svg?style=flat-square)](https://packagist.org/packages/bigbluebutton/bigbluebutton-api-php)
@@ -18,185 +24,10 @@
 [![PHP 7.2](https://img.shields.io/badge/php-7.2-9c9.svg?style=flat-square)](https://php.net/)
 [![PHP 7.3](https://img.shields.io/badge/php-7.3-9c9.svg?style=flat-square)](https://php.net/)
 
-# BigBlueButton API for PHP
+## Installation and usage
 
-The official and easy to use **BigBlueButton API for PHP**, makes easy for developers to use [BigBlueButton][bbb] API for **PHP 5.4+**.
-
-## Requirements
-
-- PHP 5.4 or above.
-- Curl library installed.
-- mbstring library installed.
-- Xml library installed.
-
-BigBlueButton API for PHP is also tested to work with HHVM and fully compatible with PHP 7.0 and above.
-
-## Install and usage tutorial
-
-We have written [INSTALL] to show a full install and usage example. If you are familiar to composer and API please
-continue top the next section.
-
-## Installation
-
-**bigbluebutton-api-php** can be installed via [Composer][composer] CLI
-
-```
-composer require bigbluebutton/bigbluebutton-api-php:~2.0.0
-```
-
-or by editing [Composer][composer].json
-
-```json
-{
-    "require": {
-        "bigbluebutton/bigbluebutton-api-php": "~2.0.0"
-    }
-}
-```
-
-## Usage
-
-You should have environment variables ```BBB_SECRET``` and ```BBB_SERVER_BASE_URL``` defined in your sever.
-\*if you are using Laravel you can add it in your .env
-
-The you will be able to call BigBlueButton API of your server. A simple usage example for create meeting looks like:
-
-```php
-use BigBlueButton/BigBlueButton;
-
-$bbb                 = new BigBlueButton();
-$createMeetingParams = new CreateMeetingParameters('bbb-meeting-uid-65', 'BigBlueButton API Meeting');
-$response            = $bbb->createMeeting($createMeetingParams);
-
-echo "Created Meeting with ID: " . $response->getMeetingId();
-```
-
-## Example
-
-### # Get meetings
-```php
-
-use BigBlueButton\BigBlueButton;
-
-$bbb = new BigBlueButton();
-$response = $bbb->getMeetings();
-
-if ($response->getReturnCode() == 'SUCCESS') {
-	foreach ($response->getRawXml()->meetings->meeting as $meeting) {
-		// process all meeting
-	}
-}
-```
-
-### # Create Meeting
-```php
-
-use BigBlueButton\BigBlueButton;
-use BigBlueButton\Parameters\CreateMeetingParameters;
-
-$bbb = new BigBlueButton();
-
-$createMeetingParams = new CreateMeetingParameters($meetingID, $meetingName);
-$createMeetingParams->setAttendeePassword($attendee_password);
-$createMeetingParams->setModeratorPassword($moderator_password);
-$createMeetingParams->setDuration($duration);
-$createMeetingParams->setLogoutUrl($urlLogout);
-if ($isRecordingTrue) {
-	$createMeetingParams->setRecord(true);
-	$createMeetingParams->setAllowStartStopRecording(true);
-	$createMeetingParams->setAutoStartRecording(true);
-}
-
-$response = $bbb->createMeeting($createMeetingParams);
-if ($response->getReturnCode() == 'FAILED') {
-	return 'Can\'t create room! please contact our administrator.';
-} else {
-	// process after room created
-}
-```
-
-### # Join Meeting
-```php
-
-use BigBlueButton\BigBlueButton;
-use BigBlueButton\Parameters\JoinMeetingParameters;
-
-$bbb = new BigBlueButton();
-
-// $moderator_password for moderator
-$joinMeetingParams = new JoinMeetingParameters($meetingID, $name, $password);
-$joinMeetingParams->setRedirect(true);
-$url = $bbb->getJoinMeetingURL($joinMeetingParams);
-
-// header('Location:' . $url);
-```
-
-### # Close Meeting
-```php
-
-use BigBlueButton\BigBlueButton;
-use BigBlueButton\Parameters\EndMeetingParameters;
-
-$bbb = new BigBlueButton();
-
-$endMeetingParams = new EndMeetingParameters($meetingID, $moderator_password);
-$response = $bbb->endMeeting($endMeetingParams);
-```
-
-### # Get Meeting Info
-```php
-
-use BigBlueButton\BigBlueButton;
-use BigBlueButton\Parameters\GetMeetingInfoParameters;
-
-$bbb = new BigBlueButton();
-
-$getMeetingInfoParams = new GetMeetingInfoParameters($meetingID, '', $moderator_password);
-$response = $bbb->getMeetingInfo($getMeetingInfoParams);
-if ($response->getReturnCode() == 'FAILED') {
-	// meeting not found or already closed
-} else {
-	// process $response->getRawXml();
-}
-```
-
-
-### # Get Recordings
-```php
-
-use BigBlueButton\BigBlueButton;
-use BigBlueButton\Parameters\GetRecordingsParameters;
-
-$recordingParams = new GetRecordingsParameters();
-$bbb = new BigBlueButton();
-$response = $bbb->getRecordings($recordingParams);
-
-if ($response->getReturnCode() == 'SUCCESS') {
-	foreach ($response->getRawXml()->recordings->recording as $recording) {
-		// process all recording
-	}
-}
-```
-*note that BigBlueButton need about several minutes to process recording until it available.*  
-*You can check in* `bbb-record --watch`
-
-
-### # Delete Recording
-```php
-
-use BigBlueButton\BigBlueButton;
-use BigBlueButton\Parameters\DeleteRecordingsParameters;
-
-$bbb = new BigBlueButton();
-$deleteRecordingsParams= new DeleteRecordingsParameters($recordingID); // get from "Get Recordings"
-$response = $bbb->deleteRecordings($deleteRecordingsParams);
-
-if ($response->getReturnCode() == 'SUCCESS') {
-	// recording deleted
-} else {
-	// something wrong
-}
-```
+The [wiki] contains all the documentation related to the PHP library. We have also written a samples to show a full
+install and usage example.
 
 ## Submitting bugs and feature requests
 
@@ -222,3 +53,4 @@ For every implemented feature add unit tests and check all is green by running t
 [bbb]: http://bigbluebutton.org
 [composer]: https://getcomposer.org
 [INSTALL]: samples/README.md
+[wiki]: https://github.com/bigbluebutton/bigbluebutton-api-php/wiki
