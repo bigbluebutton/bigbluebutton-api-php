@@ -87,7 +87,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'copyright'               => $this->faker->text,
             'muteOnStart'             => $this->faker->boolean(50),
             'meta_presenter'          => $this->faker->name,
-            'meta_endCallbackUrl'     => $this->faker->url
+            'meta_endCallbackUrl'     => $this->faker->url,
+            'userdata_countrycode'    => $this->faker->countryCode
         ];
     }
 
@@ -114,13 +115,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         $createMeetingParams = new CreateMeetingParameters($params['meetingId'], $params['meetingName']);
 
-        return $createMeetingParams->setAttendeePassword($params['attendeePassword'])->setModeratorPassword($params['moderatorPassword'])->
-        setDialNumber($params['dialNumber'])->setVoiceBridge($params['voiceBridge'])->setWebVoice($params['webVoice'])->
-        setLogoutUrl($params['logoutUrl'])->setMaxParticipants($params['maxParticipants'])->setRecord($params['record'])->
-        setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording'])->
-        setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])->
-        setWebcamsOnlyForModerator($params['webcamsOnlyForModerator'])->setLogo($params['logo'])->setCopyright($params['copyright'])->
-        setEndCallbackUrl($params['meta_endCallbackUrl'])->setMuteOnStart($params['muteOnStart'])->addMeta('presenter', $params['meta_presenter']);
+        return $createMeetingParams->setAttendeePassword($params['attendeePassword'])->setModeratorPassword($params['moderatorPassword'])
+            ->setDialNumber($params['dialNumber'])->setVoiceBridge($params['voiceBridge'])->setWebVoice($params['webVoice'])
+            ->setLogoutUrl($params['logoutUrl'])->setMaxParticipants($params['maxParticipants'])->setRecord($params['record'])
+            ->setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording'])
+            ->setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])
+            ->setWebcamsOnlyForModerator($params['webcamsOnlyForModerator'])->setLogo($params['logo'])->setCopyright($params['copyright'])
+            ->setEndCallbackUrl($params['meta_endCallbackUrl'])->setMuteOnStart($params['muteOnStart'])->addMeta('presenter', $params['meta_presenter'])
+            ->addUserData('countrycode', $params['userdata_countrycode']);
     }
 
     /**

@@ -123,20 +123,4 @@ class CreateMeetingResponse extends BaseResponse
     {
         return $this->rawXml->hasBeenForciblyEnded->__toString() === 'true';
     }
-
-    /**
-     * @return string
-     */
-    public function getMessageKey()
-    {
-        return $this->rawXml->messageKey->__toString();
-    }
-
-    /**
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->rawXml->message->__toString();
-    }
 }
