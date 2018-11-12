@@ -52,7 +52,6 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['muteOnStart'], $createMeetingParams->isMuteOnStart());
         $this->assertEquals($params['meta_presenter'], $createMeetingParams->getMeta('presenter'));
         $this->assertEquals($params['meta_endCallbackUrl'], $createMeetingParams->getMeta('endCallbackUrl'));
-        $this->assertEquals($params['userdata_countrycode'], $createMeetingParams->getUserData('countrycode'));
 
         // Check values are empty of this is not a breakout room
         $this->assertNull($createMeetingParams->isBreakout());

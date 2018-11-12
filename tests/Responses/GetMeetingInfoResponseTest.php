@@ -76,7 +76,14 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals(false, $anAttendee->isListeningOnly());
         $this->assertEquals(true, $anAttendee->hasJoinedVoice());
         $this->assertEquals(false, $anAttendee->hasVideo());
+        $this->assertEquals('FLASH', $anAttendee->getClientType());
         $this->assertCount(2, $this->meetingInfo->getAttendees());
+
+        $customData = $anAttendee->getCustomData();
+        $this->assertEquals(3, sizeof($customData));
+        $this->assertEquals('true', $customData['skipCheck']);
+        $this->assertEquals('#FF0033', $customData['backgroundColor']);
+        $this->assertEquals('a:focus{color:#0181eb}', $customData['customStyle']);
     }
 
     public function testGetMeetingInfoResponseTypes()
@@ -95,7 +102,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
         $anAttendee = $this->meetingInfo->getAttendees()[1];
 
-        $this->assertEachGetterValueIsString($anAttendee, ['getUserId', 'getFullName', 'getRole']);
+        $this->assertEachGetterValueIsString($anAttendee, ['getUserId', 'getFullName', 'getRole', 'getClientType']);
         $this->assertEachGetterValueIsBoolean($anAttendee, ['isPresenter', 'isListeningOnly', 'hasJoinedVoice', 'hasVideo']);
     }
 

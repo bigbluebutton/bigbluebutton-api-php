@@ -87,8 +87,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'copyright'               => $this->faker->text,
             'muteOnStart'             => $this->faker->boolean(50),
             'meta_presenter'          => $this->faker->name,
-            'meta_endCallbackUrl'     => $this->faker->url,
-            'userdata_countrycode'    => $this->faker->countryCode
+            'meta_endCallbackUrl'     => $this->faker->url
         ];
     }
 
@@ -121,8 +120,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording'])
             ->setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])
             ->setWebcamsOnlyForModerator($params['webcamsOnlyForModerator'])->setLogo($params['logo'])->setCopyright($params['copyright'])
-            ->setEndCallbackUrl($params['meta_endCallbackUrl'])->setMuteOnStart($params['muteOnStart'])->addMeta('presenter', $params['meta_presenter'])
-            ->addUserData('countrycode', $params['userdata_countrycode']);
+            ->setEndCallbackUrl($params['meta_endCallbackUrl'])->setMuteOnStart($params['muteOnStart'])->addMeta('presenter', $params['meta_presenter']);
     }
 
     /**
@@ -143,12 +141,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function generateJoinMeetingParams()
     {
-        return ['meetingId'    => $this->faker->uuid,
-                'userName'     => $this->faker->name,
-                'password'     => $this->faker->password,
-                'userId'       => $this->faker->numberBetween(1, 1000),
-                'webVoiceConf' => $this->faker->word,
-                'creationTime' => $this->faker->unixTime];
+        return ['meetingId'            => $this->faker->uuid,
+                'userName'             => $this->faker->name,
+                'password'             => $this->faker->password,
+                'userId'               => $this->faker->numberBetween(1, 1000),
+                'webVoiceConf'         => $this->faker->word,
+                'creationTime'         => $this->faker->unixTime,
+                'userdata_countrycode' => $this->faker->countryCode
+        ];
     }
 
     /**
@@ -160,7 +160,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         $joinMeetingParams = new JoinMeetingParameters($params['meetingId'], $params['userName'], $params['password']);
 
-        return $joinMeetingParams->setUserId($params['userId'])->setWebVoiceConf($params['webVoiceConf'])->setCreationTime($params['creationTime']);
+        return $joinMeetingParams->setUserId($params['userId'])->setWebVoiceConf($params['webVoiceConf'])
+            ->setCreationTime($params['creationTime'])->addUserData('countrycode', $params['userdata_countrycode']);
     }
 
     /**

@@ -22,7 +22,7 @@ namespace BigBlueButton\Parameters;
  * Class UserDataParameters
  * @package BigBlueButton\Parameters
  */
-abstract class UserDataParameters extends MetaParameters
+abstract class UserDataParameters extends BaseParameters
 {
     /**
      * @var array

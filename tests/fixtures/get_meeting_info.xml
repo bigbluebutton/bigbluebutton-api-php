@@ -32,6 +32,7 @@
             <isListeningOnly>false</isListeningOnly>
             <hasJoinedVoice>true</hasJoinedVoice>
             <hasVideo>true</hasVideo>
+            <clientType>HTML5</clientType>
             <customdata></customdata>
         </attendee>
         <attendee>
@@ -42,7 +43,12 @@
             <isListeningOnly>false</isListeningOnly>
             <hasJoinedVoice>true</hasJoinedVoice>
             <hasVideo>false</hasVideo>
-            <customdata></customdata>
+            <clientType>FLASH</clientType>
+            <customdata>
+                <skipCheck>true</skipCheck>
+                <backgroundColor>#FF0033</backgroundColor>
+                <customStyle>a:focus{color:#0181eb}</customStyle>
+            </customdata>
         </attendee>
     </attendees>
     <isBreakout>true</isBreakout>
@@ -52,7 +58,7 @@
         <bbb-context>Best BBB Developers Club</bbb-context>
         <bn-origin>Moodle</bn-origin>
         <bn-recording-ready-url>
-           http://bigbluebutton.org/moodle/mod/bigbluebuttonbn/bbb_broker.php?action=recording_ready
+            http://bigbluebutton.org/moodle/mod/bigbluebuttonbn/bbb_broker.php?action=recording_ready
         </bn-recording-ready-url>
         <bbb-origin-tag>moodle-mod_bigbluebuttonbn (2015080609)</bbb-origin-tag>
         <bbb-origin-version>3.0.2 (Build: 20160111)</bbb-origin-version>

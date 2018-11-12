@@ -56,6 +56,16 @@ class Attendee
     private $hasVideo;
 
     /**
+     * @var array
+     */
+    private $customData;
+
+    /**
+     * @var string
+     */
+    private $clientType;
+
+    /**
      * Attendee constructor.
      * @param $xml \SimpleXMLElement
      */
@@ -68,6 +78,11 @@ class Attendee
         $this->isListeningOnly = $xml->isListeningOnly->__toString() === 'true';
         $this->hasJoinedVoice  = $xml->hasJoinedVoice->__toString() === 'true';
         $this->hasVideo        = $xml->hasVideo->__toString() === 'true';
+        $this->clientType      = $xml->clientType->__toString();
+
+        foreach ($xml->customdata->children() as $data) {
+            $this->customData[$data->getName()] = $data->__toString();
+        }
     }
 
     /**
@@ -124,5 +139,21 @@ class Attendee
     public function hasVideo()
     {
         return $this->hasVideo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClientType()
+    {
+        return $this->clientType;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCustomData()
+    {
+        return $this->customData;
     }
 }

@@ -21,7 +21,7 @@ namespace BigBlueButton\Parameters;
 /**
  * Class JoinMeetingParametersTest.
  */
-class JoinMeetingParameters extends BaseParameters
+class JoinMeetingParameters extends UserDataParameters
 {
     /**
      * @var string
@@ -312,20 +312,21 @@ class JoinMeetingParameters extends BaseParameters
      */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID'    => $this->meetingId,
-                'fullName'     => $this->username,
-                'password'     => $this->password,
-                'userID'       => $this->userId,
-                'webVoiceConf' => $this->webVoiceConf,
-                'createTime'   => $this->creationTime,
-                'configToken'  => $this->configToken,
-                'avatarURL'    => $this->avatarURL,
-                'redirect'     => $this->redirect ? 'true' : 'false',
-                'joinViaHtml5' => $this->joinViaHtml5 ? 'true' : 'false',
-                'clientURL'    => $this->clientURL
-            ]
-        );
+        $queries = [
+            'meetingID'    => $this->meetingId,
+            'fullName'     => $this->username,
+            'password'     => $this->password,
+            'userID'       => $this->userId,
+            'webVoiceConf' => $this->webVoiceConf,
+            'createTime'   => $this->creationTime,
+            'configToken'  => $this->configToken,
+            'avatarURL'    => $this->avatarURL,
+            'redirect'     => $this->redirect ? 'true' : 'false',
+            'joinViaHtml5' => $this->joinViaHtml5 ? 'true' : 'false',
+            'clientURL'    => $this->clientURL
+        ];
+        $this->buildUserData($queries);
+
+        return $this->buildHTTPQuery($queries);
     }
 }

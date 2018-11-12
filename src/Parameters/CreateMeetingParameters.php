@@ -21,7 +21,7 @@ namespace BigBlueButton\Parameters;
 /**
  * Class CreateMeetingParameters.
  */
-class CreateMeetingParameters extends UserDataParameters
+class CreateMeetingParameters extends MetaParameters
 {
     /**
      * @var string
@@ -713,7 +713,6 @@ class CreateMeetingParameters extends UserDataParameters
         }
 
         $this->buildMeta($queries);
-        $this->buildUserData($queries);
 
         return $this->buildHTTPQuery($queries);
     }
