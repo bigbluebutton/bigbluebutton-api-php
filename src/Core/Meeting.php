@@ -25,6 +25,12 @@ namespace BigBlueButton\Core;
  */
 class Meeting
 {
+
+    /**
+     * @var \SimpleXMLElement
+     */
+    protected $rawXml;
+
     /**
      * @var string
      */
@@ -106,11 +112,52 @@ class Meeting
     private $hasUserJoined;
 
     /**
+     * @var string
+     */
+    private $internalMeetingId;
+
+    /**
+     * @var bool
+     */
+    private $isRecording;
+
+    /**
+     * @var double
+     */
+    private $startTime;
+
+    /**
+     * @var double
+     */
+    private $endTime;
+
+    /**
+     * @var int
+     */
+    private $maxUsers;
+
+    /**
+     * @var int
+     */
+    private $moderatorCount;
+
+    /**
+     * @var Attendee[]
+     */
+    private $attendees;
+
+    /**
+     * @var array
+     */
+    private $metas;
+
+    /**
      * Meeting constructor.
      * @param $xml \SimpleXMLElement
      */
     public function __construct($xml)
     {
+        $this->rawXml                = $xml;
         $this->meetingId             = $xml->meetingID->__toString();
         $this->meetingName           = $xml->meetingName->__toString();
         $this->creationTime          = (float) $xml->createTime;
@@ -127,6 +174,12 @@ class Meeting
         $this->videoCount            = (int) $xml->videoCount;
         $this->duration              = (int) $xml->duration;
         $this->hasUserJoined         = $xml->hasUserJoined->__toString() === 'true';
+        $this->internalMeetingId     = $xml->internalMeetingID->__toString();
+        $this->isRecording           = $xml->recording->__toString() === 'true';
+        $this->startTime             = (float) $xml->startTime;
+        $this->endTime               = (float) $xml->endTime;
+        $this->maxUsers              = (int) $xml->maxUsers->__toString();
+        $this->moderatorCount        = (int) $xml->moderatorCount->__toString();
     }
 
     /**
@@ -255,5 +308,83 @@ class Meeting
     public function hasUserJoined()
     {
         return $this->hasUserJoined;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInternalMeetingId()
+    {
+        return $this->internalMeetingId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRecording()
+    {
+        return $this->isRecording;
+    }
+
+    /**
+     * @return double
+     */
+    public function getStartTime()
+    {
+        return $this->startTime;
+    }
+
+    /**
+     * @return double
+     */
+    public function getEndTime()
+    {
+        return $this->endTime;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxUsers()
+    {
+        return $this->maxUsers;
+    }
+
+    /**
+     * @return int
+     */
+    public function getModeratorCount()
+    {
+        return $this->moderatorCount;
+    }
+
+    /**
+     * @return Attendee[]
+     */
+    public function getAttendees()
+    {
+        if ($this->attendees === null) {
+            $this->attendees = [];
+            foreach ($this->rawXml->attendees->attendee as $attendeeXml) {
+                $this->attendees[] = new Attendee($attendeeXml);
+            }
+        }
+
+        return $this->attendees;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMetas()
+    {
+        if ($this->metas === null) {
+            $this->metas = [];
+            foreach ($this->rawXml->metadata->children() as $metadataXml) {
+                $this->metas[$metadataXml->getName()] = $metadataXml->__toString();
+            }
+        }
+
+        return $this->metas;
     }
 }

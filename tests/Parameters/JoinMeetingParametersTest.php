@@ -34,6 +34,8 @@ class JoinMeetingParametersTest extends TestCase
         $this->assertEquals($params['webVoiceConf'], $joinMeetingParams->getWebVoiceConf());
         $this->assertEquals($params['creationTime'], $joinMeetingParams->getCreationTime());
         $this->assertEquals($params['userdata_countrycode'], $joinMeetingParams->getUserData('countrycode'));
+        $this->assertEquals($params['userdata_email'], $joinMeetingParams->getUserData('email'));
+        $this->assertEquals($params['userdata_commercial'], $joinMeetingParams->getUserData('commercial'));
 
         // Test setters that are ignored by the constructor
         $joinMeetingParams->setMeetingId($newId = $this->faker->uuid);

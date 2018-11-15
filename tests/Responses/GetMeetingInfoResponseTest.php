@@ -35,11 +35,11 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
     public function testGetMeetingInfoResponseContent()
     {
-        $this->assertInstanceOf('BigBlueButton\Core\MeetingInfo', $this->meetingInfo->getMeetingInfo());
-        $this->assertCount(2, $this->meetingInfo->getAttendees());
+        $this->assertInstanceOf('BigBlueButton\Core\Meeting', $this->meetingInfo->getMeeting());
+        $this->assertCount(2, $this->meetingInfo->getMeeting()->getAttendees());
         $this->assertEquals('SUCCESS', $this->meetingInfo->getReturnCode());
 
-        $info = $this->meetingInfo->getMeetingInfo();
+        $info = $this->meetingInfo->getMeeting();
         $this->assertEquals('Mock meeting for testing getMeetingInfo API method', $info->getMeetingName());
         $this->assertEquals('117b12ae2656972d330b6bad58878541-28-15', $info->getMeetingId());
         $this->assertEquals('178757fcedd9449054536162cdfe861ddebc70ba-1453206317376', $info->getInternalMeetingId());
@@ -67,7 +67,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
     public function testMeetingAttendeeContent()
     {
-        $anAttendee = $this->meetingInfo->getAttendees()[1];
+        $anAttendee = $this->meetingInfo->getMeeting()->getAttendees()[1];
 
         $this->assertEquals('xi7y7gpmyq1g', $anAttendee->getUserId());
         $this->assertEquals('Barrett Kutch', $anAttendee->getFullName());
@@ -77,7 +77,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals(true, $anAttendee->hasJoinedVoice());
         $this->assertEquals(false, $anAttendee->hasVideo());
         $this->assertEquals('FLASH', $anAttendee->getClientType());
-        $this->assertCount(2, $this->meetingInfo->getAttendees());
+        $this->assertCount(2, $this->meetingInfo->getMeeting()->getAttendees());
 
         $customData = $anAttendee->getCustomData();
         $this->assertEquals(3, sizeof($customData));
@@ -88,7 +88,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
     public function testGetMeetingInfoResponseTypes()
     {
-        $info = $this->meetingInfo->getMeetingInfo();
+        $info = $this->meetingInfo->getMeeting();
 
         $this->assertEachGetterValueIsString($info, ['getMeetingName', 'getMeetingId', 'getInternalMeetingId',
             'getModeratorPassword', 'getAttendeePassword', 'getCreationDate', 'getDialNumber']);
@@ -100,7 +100,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
         $this->assertEachGetterValueIsBoolean($info, ['isRunning', 'isRecording', 'hasUserJoined', 'hasBeenForciblyEnded']);
 
-        $anAttendee = $this->meetingInfo->getAttendees()[1];
+        $anAttendee = $this->meetingInfo->getMeeting()->getAttendees()[1];
 
         $this->assertEachGetterValueIsString($anAttendee, ['getUserId', 'getFullName', 'getRole', 'getClientType']);
         $this->assertEachGetterValueIsBoolean($anAttendee, ['isPresenter', 'isListeningOnly', 'hasJoinedVoice', 'hasVideo']);
@@ -108,7 +108,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
     public function testGetMeetingInfoMetadataContent()
     {
-        $metas = $this->meetingInfo->getMetadata();
+        $metas = $this->meetingInfo->getMeeting()->getMetas();
 
         $this->assertEquals('Bigbluebutton "Mock meeting for testing getMeetingInfo"', $metas['bbb-recording-name']);
     }

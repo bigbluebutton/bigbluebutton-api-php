@@ -18,8 +18,7 @@
  */
 namespace BigBlueButton\Responses;
 
-use BigBlueButton\Core\Attendee;
-use BigBlueButton\Core\MeetingInfo;
+use BigBlueButton\Core\Meeting;
 
 /**
  * Class GetMeetingInfoResponse
@@ -28,59 +27,19 @@ use BigBlueButton\Core\MeetingInfo;
 class GetMeetingInfoResponse extends BaseResponse
 {
     /**
-     * @var MeetingInfo
+     * @var Meeting
      */
-    private $meetingInfo;
+    private $meeting;
 
     /**
-     * @var Attendee[]
+     * @return Meeting
      */
-    private $attendees;
-
-    /**
-     * @var array
-     */
-    private $metas;
-
-    /**
-     * @return MeetingInfo
-     */
-    public function getMeetingInfo()
+    public function getMeeting()
     {
-        if ($this->meetingInfo === null) {
-            $this->meetingInfo = new MeetingInfo($this->rawXml);
+        if ($this->meeting === null) {
+            $this->meeting = new Meeting($this->rawXml);
         }
 
-        return $this->meetingInfo;
-    }
-
-    /**
-     * @return Attendee[]
-     */
-    public function getAttendees()
-    {
-        if ($this->attendees === null) {
-            $this->attendees = [];
-            foreach ($this->rawXml->attendees->attendee as $attendeeXml) {
-                $this->attendees[] = new Attendee($attendeeXml);
-            }
-        }
-
-        return $this->attendees;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMetadata()
-    {
-        if ($this->metas === null) {
-            $this->metas = [];
-            foreach ($this->rawXml->metadata->children() as $metadataXml) {
-                $this->metas[$metadataXml->getName()] = $metadataXml->__toString();
-            }
-        }
-
-        return $this->metas;
+        return $this->meeting;
     }
 }
