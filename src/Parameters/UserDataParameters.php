@@ -55,7 +55,11 @@ abstract class UserDataParameters extends BaseParameters
     {
         if (count($this->userData) !== 0) {
             foreach ($this->userData as $k => $v) {
-                $queries['userdata-' . $k] = $v;
+                if (!is_bool($v)) {
+                    $queries['userdata-' . $k] = $v;
+                } else {
+                    $queries['userdata-' . $k] = $v ? 'true' : 'false';
+                }
             }
         }
     }
