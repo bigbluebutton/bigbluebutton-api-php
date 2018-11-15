@@ -242,6 +242,9 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateEndMeetingParams();
         $url    = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
         foreach ($params as $key => $value) {
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            }
             $this->assertContains('=' . urlencode($value), $url);
         }
     }
