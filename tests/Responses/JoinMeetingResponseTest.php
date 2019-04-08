@@ -46,10 +46,12 @@ class JoinMeetingResponseTest extends TestCase
         $this->assertEquals('ao6ehbtvbmhz', $this->joinMeeting->getUserId());
         $this->assertEquals('huzbpgthac7s', $this->joinMeeting->getAuthToken());
         $this->assertEquals('rbe7bbkjzx5mnoda', $this->joinMeeting->getSessionToken());
+        $this->assertEquals('ALLOW', $this->joinMeeting->getGuestStatus());
+        $this->assertEquals('https://bigblubutton-server.sample/client/BigBlueButton.html?sessionToken=0wzsph6uaelwc68z', $this->joinMeeting->getUrl());
     }
 
     public function testJoinMeetingResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->joinMeeting, ['getReturnCode', 'getMessageKey', 'getMessage', 'getMeetingId', 'getUserId', 'getAuthToken', 'getSessionToken']);
+        $this->assertEachGetterValueIsString($this->joinMeeting, ['getReturnCode', 'getMessageKey', 'getMessage', 'getMeetingId', 'getUserId', 'getAuthToken', 'getSessionToken', 'getGuestStatus', 'getUrl']);
     }
 }

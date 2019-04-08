@@ -6,4 +6,6 @@
     <user_id>ao6ehbtvbmhz</user_id>
     <auth_token>huzbpgthac7s</auth_token>
     <session_token>rbe7bbkjzx5mnoda</session_token>
+    <guestStatus>ALLOW</guestStatus>
+    <url>https://bigblubutton-server.sample/client/BigBlueButton.html?sessionToken=0wzsph6uaelwc68z</url>
 </response>

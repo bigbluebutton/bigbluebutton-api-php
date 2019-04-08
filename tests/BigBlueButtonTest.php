@@ -185,6 +185,8 @@ class BigBlueButtonTest extends TestCase
         $this->assertNotEmpty($joinMeeting->getAuthToken());
         $this->assertNotEmpty($joinMeeting->getUserId());
         $this->assertNotEmpty($joinMeeting->getSessionToken());
+        $this->assertNotEmpty($joinMeeting->getGuestStatus());
+        $this->assertNotEmpty($joinMeeting->getUrl());
     }
 
     /* Get Default Config XML */

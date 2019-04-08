@@ -55,4 +55,20 @@ class JoinMeetingResponse extends BaseResponse
     {
         return $this->rawXml->session_token->__toString();
     }
+
+    /**
+     * @return string
+     */
+    public function getGuestStatus()
+    {
+        return $this->rawXml->guestStatus->__toString();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->rawXml->url->__toString();
+    }
 }
