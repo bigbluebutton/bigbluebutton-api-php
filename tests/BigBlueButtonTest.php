@@ -99,7 +99,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithDocumentUrl()
     {
         $params = $this->getCreateMock($this->generateCreateParams());
-        $params->addPresentation('https://placeholdit.imgix.net/~text?txtsize=96&bg=30406B&txtclr=ffffff&txt=BigBlueButton&w=800&h=600');
+        $params->addPresentation('https://picsum.photos/3840/2160/?random');
 
         $result = $this->bbb->createMeeting($params);
 
@@ -113,7 +113,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithDocumentUrlAndFileName()
     {
         $params = $this->getCreateMock($this->generateCreateParams());
-        $params->addPresentation('https://placeholdit.imgix.net/~text?txtsize=100&bg=AB5080&txtclr=ffffff&txt=BigBlueButton&w=1920&h=1080', null, 'placeholder.png');
+        $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'placeholder.png');
 
         $result = $this->bbb->createMeeting($params);
 
@@ -141,7 +141,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithMultiDocument()
     {
         $params = $this->getCreateMock($this->generateCreateParams());
-        $params->addPresentation('https://placeholdit.imgix.net/~text?txtsize=96&bg=DE3040&txtclr=ffffff&txt=BigBlueButton&w=1600&h=1200', null, 'presentation.png');
+        $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'presentation.png');
         $params->addPresentation('logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
 
         $result = $this->bbb->createMeeting($params);
