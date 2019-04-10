@@ -53,11 +53,12 @@ class BigBlueButton
     protected $securitySecret;
     protected $bbbServerBaseUrl;
     protected $urlBuilder;
+    protected $jSessionId;
 
     public function __construct()
     {
         // Keeping backward compatibility with older deployed versions
-        $this->securitySecret   = (getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret   = getenv('BBB_SECURITY_SALT');
+        $this->securitySecret   = (getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret = getenv('BBB_SECURITY_SALT');
         $this->bbbServerBaseUrl = getenv('BBB_SERVER_BASE_URL');
         $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
     }
@@ -350,6 +351,23 @@ class BigBlueButton
         return new UpdateRecordingsResponse($xml);
     }
 
+    /* ____________________ SPECIAL METHODS ___________________ */
+    /**
+     * @return string
+     */
+    public function getJSessionId()
+    {
+        return $this->jSessionId;
+    }
+
+    /**
+     * @param string $jSessionId
+     */
+    public function setJSessionId($jSessionId)
+    {
+        $this->jSessionId = $jSessionId;
+    }
+
     /* ____________________ INTERNAL CLASS METHODS ___________________ */
 
     /**
@@ -369,11 +387,18 @@ class BigBlueButton
                 throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
             }
             $timeout = 10;
+
+            // Needed to store the JSESSIONID
+            $cookiefile     = tmpfile();
+            $cookiefilepath = stream_get_meta_data($cookiefile)['uri'];
+
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
             curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiefilepath);
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiefilepath);
             if (!empty($payload)) {
                 curl_setopt($ch, CURLOPT_HEADER, 0);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
@@ -389,6 +414,12 @@ class BigBlueButton
                 throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
             }
             curl_close($ch);
+
+            $cookies = file_get_contents($cookiefilepath);
+            if (strpos($cookies, 'JSESSIONID') !== false) {
+                preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
+                $this->setJSessionId($output_array['JSESSIONID']);
+            }
 
             return new SimpleXMLElement($data);
         } else {
