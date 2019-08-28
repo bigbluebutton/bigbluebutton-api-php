@@ -61,6 +61,10 @@ class GetMeetingsResponseTest extends TestCase
         $this->assertEquals(3, $aMeeting->getVideoCount());
         $this->assertEquals(2206, $aMeeting->getDuration());
         $this->assertEquals(true, $aMeeting->hasUserJoined());
+        $this->assertEquals(14, $aMeeting->getMaxUsers());
+        $this->assertEquals(0, $aMeeting->getModeratorCount());
+        $this->assertEquals('Alessandra Funk', $aMeeting->getMetas()['presenter']);
+        $this->assertEquals('http://www.schiller.info/ut-perspiciatis-et-vero-dolorum-repellendus-nesciunt-commodi-voluptate', $aMeeting->getMetas()['endcallbackurl']);
     }
 
     public function testGetMeetingsResponseTypes()

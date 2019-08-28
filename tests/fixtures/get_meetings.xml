@@ -2,51 +2,65 @@
     <returncode>SUCCESS</returncode>
     <meetings>
         <meeting>
-            <meetingName>Demo Meeting</meetingName>
-            <meetingID>Demo Meeting</meetingID>
-            <internalMeetingID>926285fc98548840cb3dcd367aab663c180a8f1f-1524211665355</internalMeetingID>
-            <createTime>1453177310703</createTime>
-            <createDate>Mon Jan 18 23:21:50 EST 2016</createDate>
-            <voiceBridge>76239</voiceBridge>
-            <dialNumber>613-555-1234</dialNumber>
-            <attendeePW>ap</attendeePW>
-            <moderatorPW>mp</moderatorPW>
-            <running>true</running>
-            <duration>0</duration>
-            <hasUserJoined>true</hasUserJoined>
+            <meetingName>Prof. Josie Reichert IV</meetingName>
+            <meetingID>5cf490a7-2c9a-3571-a48c-134ef58d47c2</meetingID>
+            <internalMeetingID>bf32e77309232abb44627ddbb5edd47e0e13e7b8-1554729625768</internalMeetingID>
+            <createTime>1554729625768</createTime>
+            <createDate>Mon Apr 08 15:20:25 CEST 2019</createDate>
+            <voiceBridge>25304</voiceBridge>
+            <dialNumber>(985) 807-9923</dialNumber>
+            <attendeePW>=g.TrpDM=xB.oOW5h|m</attendeePW>
+            <moderatorPW>$is=CM}xF;108o!Jqd</moderatorPW>
+            <running>false</running>
+            <duration>1913</duration>
+            <hasUserJoined>false</hasUserJoined>
             <recording>true</recording>
             <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
-            <startTime>1524213054678</startTime>
+            <startTime>1554729625807</startTime>
             <endTime>0</endTime>
-            <moderatorCount>1</moderatorCount>
-            <participantCount>1</participantCount>
-            <listenerCount>0</listenerCount>
-            <voiceParticipantCount>1</voiceParticipantCount>
-            <videoCount>1</videoCount>
-            <isBreakout>false</isBreakout>
-        </meeting>
-        <meeting>
-            <meetingName>Test Meeting</meetingName>
-            <meetingID>Test Meeting</meetingID>
-            <internalMeetingID>6e942fb90f55b56638cfcb2d8e1a29377914c577-1524213230893</internalMeetingID>
-            <createTime>1524213092560</createTime>
-            <createDate>Tue Jan 19 08:30:16 EST 2016</createDate>
-            <voiceBridge>16905</voiceBridge>
-            <dialNumber>613-555-1234</dialNumber>
-            <attendeePW>ap</attendeePW>
-            <moderatorPW>mp</moderatorPW>
-            <running>false</running>
-            <duration>0</duration>
-            <hasUserJoined>true</hasUserJoined>
-            <recording>false</recording>
-            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
-            <startTime>1524213049434</startTime>
-            <endTime>0</endTime>
-            <moderatorCount>0</moderatorCount>
             <participantCount>0</participantCount>
             <listenerCount>0</listenerCount>
             <voiceParticipantCount>0</voiceParticipantCount>
             <videoCount>0</videoCount>
+            <maxUsers>14</maxUsers>
+            <moderatorCount>0</moderatorCount>
+            <attendees>
+            </attendees>
+            <metadata>
+                <presenter>Alessandra Funk</presenter>
+                <endcallbackurl>http://www.schiller.info/ut-perspiciatis-et-vero-dolorum-repellendus-nesciunt-commodi-voluptate</endcallbackurl>
+            </metadata>
+            <isBreakout>false</isBreakout>
+        </meeting>
+        <meeting>
+            <meetingName>Barbara Schiller</meetingName>
+            <meetingID>b2e7555d-b7c6-3b9f-b3ae-4c5754f64427</meetingID>
+            <internalMeetingID>8299be7b3bc6693c3b747fe5178a5f7b6e417ac7-1554729632085</internalMeetingID>
+            <createTime>1554729632085</createTime>
+            <createDate>Mon Apr 08 15:20:32 CEST 2019</createDate>
+            <voiceBridge>81776</voiceBridge>
+            <dialNumber>1-971-223-6118 x5746</dialNumber>
+            <attendeePW>SlD;CE</attendeePW>
+            <moderatorPW>03_bF+p+Fjm|M3</moderatorPW>
+            <running>false</running>
+            <duration>2873</duration>
+            <hasUserJoined>false</hasUserJoined>
+            <recording>false</recording>
+            <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+            <startTime>1554729632096</startTime>
+            <endTime>0</endTime>
+            <participantCount>0</participantCount>
+            <listenerCount>0</listenerCount>
+            <voiceParticipantCount>0</voiceParticipantCount>
+            <videoCount>0</videoCount>
+            <maxUsers>25</maxUsers>
+            <moderatorCount>0</moderatorCount>
+            <attendees>
+            </attendees>
+            <metadata>
+                <presenter>Prof. Maud Corkery II</presenter>
+                <endcallbackurl>http://www.hegmann.biz/explicabo-praesentium-labore-dolor</endcallbackurl>
+            </metadata>
             <isBreakout>false</isBreakout>
         </meeting>
         <meeting>
@@ -66,11 +80,18 @@
             <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
             <startTime>1524213049434</startTime>
             <endTime>0</endTime>
-            <moderatorCount>1</moderatorCount>
             <participantCount>5</participantCount>
             <listenerCount>2</listenerCount>
             <voiceParticipantCount>1</voiceParticipantCount>
             <videoCount>3</videoCount>
+            <maxUsers>44</maxUsers>
+            <moderatorCount>1</moderatorCount>
+            <attendees>
+            </attendees>
+            <metadata>
+                <presenter>Consuelo Gleichner IV</presenter>
+                <endcallbackurl>http://www.muller.biz/autem-dolor-aut-nam-doloribus-molestiae</endcallbackurl>
+            </metadata>
             <isBreakout>false</isBreakout>
         </meeting>
     </meetings>
