@@ -121,32 +121,32 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var bool
      */
-    private $lockSettingsDisableCam = true;
+    private $lockSettingsDisableCam;
 
     /**
      * @var bool
      */
-    private $lockSettingsDisableMic = true;
+    private $lockSettingsDisableMic;
 
     /**
      * @var bool
      */
-    private $lockSettingsDisablePrivateChat = true;
+    private $lockSettingsDisablePrivateChat;
 
     /**
      * @var bool
      */
-    private $lockSettingsDisablePublicChat = true;
+    private $lockSettingsDisablePublicChat;
 
     /**
      * @var bool
      */
-    private $lockSettingsDisableNote = true;
+    private $lockSettingsDisableNote;
 
     /**
      * @var bool
      */
-    private $lockSettingsLockedLayout = true;
+    private $lockSettingsLockedLayout;
 
     /**
      * @var bool
