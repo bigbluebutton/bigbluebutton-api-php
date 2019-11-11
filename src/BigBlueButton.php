@@ -24,6 +24,7 @@ use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
@@ -349,6 +350,27 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUpdateRecordingsUrl($recordingParams));
 
         return new UpdateRecordingsResponse($xml);
+    }
+
+    /**
+     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
+     * @return string
+     */
+    public function getRecordingTextTracksUrl($getRecordingTextTracksParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDING_TEXT_TRACKS, $getRecordingTextTracksParams->getHTTPQuery());
+    }
+
+    /**
+     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
+     * @return GetRecordingTextTracksResponse
+     * @throws \RuntimeException
+     */
+    public function getRecordingTextTracks($getRecordingTextTracksParams)
+    {
+        $xml = $this->processXmlResponse($this->getRecordingTextTracksUrl($getRecordingTextTracksParams));
+
+        return new GetRecordingTextTracksResponse($xml);
     }
 
     /* ____________________ SPECIAL METHODS ___________________ */
