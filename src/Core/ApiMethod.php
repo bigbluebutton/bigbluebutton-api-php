@@ -20,19 +20,21 @@ namespace BigBlueButton\Core;
 
 abstract class ApiMethod
 {
-    const CREATE                 = 'create';
-    const JOIN                   = 'join';
-    const ENTER                  = 'enter';
-    const END                    = 'end';
-    const IS_MEETING_RUNNING     = 'isMeetingRunning';
-    const GET_MEETING_INFO       = 'getMeetingInfo';
-    const GET_MEETINGS           = 'getMeetings';
-    const GET_DEFAULT_CONFIG_XML = 'getDefaultConfigXML';
-    const SET_CONFIG_XML         = 'setConfigXML';
-    const CONFIG_XML             = 'configXML';
-    const SIGN_OUT               = 'signOut';
-    const GET_RECORDINGS         = 'getRecordings';
-    const PUBLISH_RECORDINGS     = 'publishRecordings';
-    const DELETE_RECORDINGS      = 'deleteRecordings';
-    const UPDATE_RECORDINGS      = 'updateRecordings';
+    const CREATE                    = 'create';
+    const JOIN                      = 'join';
+    const ENTER                     = 'enter';
+    const END                       = 'end';
+    const IS_MEETING_RUNNING        = 'isMeetingRunning';
+    const GET_MEETING_INFO          = 'getMeetingInfo';
+    const GET_MEETINGS              = 'getMeetings';
+    const GET_DEFAULT_CONFIG_XML    = 'getDefaultConfigXML';
+    const SET_CONFIG_XML            = 'setConfigXML';
+    const CONFIG_XML                = 'configXML';
+    const SIGN_OUT                  = 'signOut';
+    const GET_RECORDINGS            = 'getRecordings';
+    const PUBLISH_RECORDINGS        = 'publishRecordings';
+    const DELETE_RECORDINGS         = 'deleteRecordings';
+    const UPDATE_RECORDINGS         = 'updateRecordings';
+    const GET_RECORDING_TEXT_TRACKS = 'getRecordingTextTracks';
+    const PUT_RECORDING_TEXT_TRACKS = 'putRecordingTextTrack';
 }
