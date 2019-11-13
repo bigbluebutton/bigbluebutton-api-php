@@ -91,11 +91,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsDisablePrivateChat'     => $this->faker->boolean(50),
             'lockSettingsDisablePublicChat'      => $this->faker->boolean(50),
             'lockSettingsDisableNote'            => $this->faker->boolean(50),
-	        'lockSettingsHideUserList'              => $this->faker->boolean(50),
-	        'lockSettingsLockedLayout'              => $this->faker->boolean(50),
+            'lockSettingsHideUserList'           => $this->faker->boolean(50),
+            'lockSettingsLockedLayout'           => $this->faker->boolean(50),
             'lockSettingsLockOnJoin'             => $this->faker->boolean(50),
-	        'lockSettingsLockOnJoinConfigurable'    => $this->faker->boolean(50),
-	        'meta_presenter'                        => $this->faker->name,
+            'lockSettingsLockOnJoinConfigurable' => $this->faker->boolean(50),
+            'meta_presenter'                     => $this->faker->name,
             'meta_endCallbackUrl'                => $this->faker->url
         ];
     }
@@ -130,11 +130,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])
             ->setWebcamsOnlyForModerator($params['webcamsOnlyForModerator'])->setLogo($params['logo'])->setCopyright($params['copyright'])
             ->setEndCallbackUrl($params['meta_endCallbackUrl'])->setMuteOnStart($params['muteOnStart'])->setLockSettingsDisableCam($params['lockSettingsDisableCam'])
-	        ->setLockSettingsDisableMic($params['lockSettingsDisableMic'])->setLockSettingsDisablePrivateChat($params['lockSettingsDisablePrivateChat'])
-	        ->setLockSettingsDisablePublicChat($params['lockSettingsDisablePublicChat'])->setLockSettingsDisableNote($params['lockSettingsDisableNote'])
-	        ->setLockSettingsHideUserList($params['lockSettingsHideUserList'])->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
-	        ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoin'])
-	        ->addMeta('presenter', $params['meta_presenter']);
+            ->setLockSettingsDisableMic($params['lockSettingsDisableMic'])->setLockSettingsDisablePrivateChat($params['lockSettingsDisablePrivateChat'])
+            ->setLockSettingsDisablePublicChat($params['lockSettingsDisablePublicChat'])->setLockSettingsDisableNote($params['lockSettingsDisableNote'])
+            ->setLockSettingsHideUserList($params['lockSettingsHideUserList'])->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
+            ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoin'])
+            ->addMeta('presenter', $params['meta_presenter']);
     }
 
     /**
