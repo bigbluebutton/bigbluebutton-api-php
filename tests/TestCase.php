@@ -91,11 +91,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsDisablePrivateChat'     => $this->faker->boolean(50),
             'lockSettingsDisablePublicChat'      => $this->faker->boolean(50),
             'lockSettingsDisableNote'            => $this->faker->boolean(50),
-	        'lockSettingsHideUserList'           => $this->faker->boolean(50),
-	        'lockSettingsLockedLayout'           => $this->faker->boolean(50),
+	        'lockSettingsHideUserList'              => $this->faker->boolean(50),
+	        'lockSettingsLockedLayout'              => $this->faker->boolean(50),
             'lockSettingsLockOnJoin'             => $this->faker->boolean(50),
-	        'lockSettingsLockOnJoinConfigurable' => $this->faker->boolean(50),
-	        'meta_presenter'                     => $this->faker->name,
+	        'lockSettingsLockOnJoinConfigurable'    => $this->faker->boolean(50),
+	        'meta_presenter'                        => $this->faker->name,
             'meta_endCallbackUrl'                => $this->faker->url
         ];
     }
