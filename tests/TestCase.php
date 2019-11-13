@@ -67,34 +67,36 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function generateCreateParams()
     {
         return [
-            'meetingName'                    => $this->faker->name,
-            'meetingId'                      => $this->faker->uuid,
-            'attendeePassword'               => $this->faker->password,
-            'moderatorPassword'              => $this->faker->password,
-            'autoStartRecording'             => $this->faker->boolean(50),
-            'dialNumber'                     => $this->faker->phoneNumber,
-            'voiceBridge'                    => $this->faker->randomNumber(5),
-            'webVoice'                       => $this->faker->word,
-            'logoutUrl'                      => $this->faker->url,
-            'maxParticipants'                => $this->faker->numberBetween(2, 100),
-            'record'                         => $this->faker->boolean(50),
-            'duration'                       => $this->faker->numberBetween(0, 6000),
-            'welcomeMessage'                 => $this->faker->sentence,
-            'allowStartStopRecording'        => $this->faker->boolean(50),
-            'moderatorOnlyMessage'           => $this->faker->sentence,
-            'webcamsOnlyForModerator'        => $this->faker->boolean(50),
-            'logo'                           => $this->faker->imageUrl(330, 70),
-            'copyright'                      => $this->faker->text,
-            'muteOnStart'                    => $this->faker->boolean(50),
-            'lockSettingsDisableCam'         => $this->faker->boolean(50),
-            'lockSettingsDisableMic'         => $this->faker->boolean(50),
-            'lockSettingsDisablePrivateChat' => $this->faker->boolean(50),
-            'lockSettingsDisablePublicChat'  => $this->faker->boolean(50),
-            'lockSettingsDisableNote'        => $this->faker->boolean(50),
-            'lockSettingsLockedLayout'       => $this->faker->boolean(50),
-            'lockSettingsLockedOnJoin'       => $this->faker->boolean(50),
-            'meta_presenter'                 => $this->faker->name,
-            'meta_endCallbackUrl'            => $this->faker->url
+            'meetingName'                        => $this->faker->name,
+            'meetingId'                          => $this->faker->uuid,
+            'attendeePassword'                   => $this->faker->password,
+            'moderatorPassword'                  => $this->faker->password,
+            'autoStartRecording'                 => $this->faker->boolean(50),
+            'dialNumber'                         => $this->faker->phoneNumber,
+            'voiceBridge'                        => $this->faker->randomNumber(5),
+            'webVoice'                           => $this->faker->word,
+            'logoutUrl'                          => $this->faker->url,
+            'maxParticipants'                    => $this->faker->numberBetween(2, 100),
+            'record'                             => $this->faker->boolean(50),
+            'duration'                           => $this->faker->numberBetween(0, 6000),
+            'welcomeMessage'                     => $this->faker->sentence,
+            'allowStartStopRecording'            => $this->faker->boolean(50),
+            'moderatorOnlyMessage'               => $this->faker->sentence,
+            'webcamsOnlyForModerator'            => $this->faker->boolean(50),
+            'logo'                               => $this->faker->imageUrl(330, 70),
+            'copyright'                          => $this->faker->text,
+            'muteOnStart'                        => $this->faker->boolean(50),
+            'lockSettingsDisableCam'             => $this->faker->boolean(50),
+            'lockSettingsDisableMic'             => $this->faker->boolean(50),
+            'lockSettingsDisablePrivateChat'     => $this->faker->boolean(50),
+            'lockSettingsDisablePublicChat'      => $this->faker->boolean(50),
+            'lockSettingsDisableNote'            => $this->faker->boolean(50),
+	        'lockSettingsHideUserList'           => $this->faker->boolean(50),
+	        'lockSettingsLockedLayout'           => $this->faker->boolean(50),
+            'lockSettingsLockOnJoin'             => $this->faker->boolean(50),
+	        'lockSettingsLockOnJoinConfigurable' => $this->faker->boolean(50),
+	        'meta_presenter'                     => $this->faker->name,
+            'meta_endCallbackUrl'                => $this->faker->url
         ];
     }
 
@@ -130,7 +132,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setEndCallbackUrl($params['meta_endCallbackUrl'])->setMuteOnStart($params['muteOnStart'])->setLockSettingsDisableCam($params['lockSettingsDisableCam'])
 	        ->setLockSettingsDisableMic($params['lockSettingsDisableMic'])->setLockSettingsDisablePrivateChat($params['lockSettingsDisablePrivateChat'])
 	        ->setLockSettingsDisablePublicChat($params['lockSettingsDisablePublicChat'])->setLockSettingsDisableNote($params['lockSettingsDisableNote'])
-	        ->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])->setLockSettingsLockedOnJoin($params['lockSettingsLockedOnJoin'])
+	        ->setLockSettingsHideUserList($params['lockSettingsHideUserList'])->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
+	        ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoin'])
 	        ->addMeta('presenter', $params['meta_presenter']);
     }
 

@@ -143,18 +143,28 @@ class CreateMeetingParameters extends MetaParameters
      */
     private $lockSettingsDisableNote;
 
-    /**
-     * @var bool
+	/**
+	 * @var bool
+	 */
+	private $lockSettingsHideUserList;
+
+	/**
+	 * @var bool
      */
     private $lockSettingsLockedLayout;
 
     /**
      * @var bool
      */
-    private $lockSettingsLockedOnJoin = true;
+    private $lockSettingsLockOnJoin = true;
 
-    /**
-     * @var array
+	/**
+	 * @var bool
+	 */
+	private $lockSettingsLockOnJoinConfigurable;
+
+	/**
+	 * @var array
      */
     private $presentations = [];
 
@@ -661,10 +671,29 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isLockSettingsLockedLayout()
+	/**
+	 * @return bool
+	 */
+	public function isLockSettingsHideUserList()
+	{
+		return $this->lockSettingsHideUserList;
+	}
+
+	/**
+	 * @param  bool                    $lockSettingsHideUserList
+	 * @return CreateMeetingParameters
+	 */
+	public function setLockSettingsHideUserList($lockSettingsHideUserList)
+	{
+		$this->lockSettingsHideUserList = $lockSettingsHideUserList;
+
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isLockSettingsLockedLayout()
     {
         return $this->lockSettingsLockedLayout;
     }
@@ -683,25 +712,44 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @return bool
      */
-    public function isLockSettingsLockedOnJoin()
+    public function isLockSettingsLockOnJoin()
     {
-        return $this->lockSettingsLockedOnJoin;
+        return $this->lockSettingsLockOnJoin;
     }
 
     /**
-     * @param  bool                    $lockedOnJoin
+     * @param  bool                    $lockOnJoin
      * @return CreateMeetingParameters
      */
-    public function setLockSettingsLockedOnJoin($lockedOnJoin)
+    public function setLockSettingsLockOnJoin($lockOnJoin)
     {
-        $this->lockedOnJoin = $lockedOnJoin;
+        $this->lockSettingsLockOnJoin = $lockOnJoin;
 
         return $this;
     }
 
-    /**
-     * @param $endCallbackUrl
-     * @return CreateMeetingParameters
+	/**
+	 * @return bool
+	 */
+	public function isLockSettingsLockOnJoinConfigurable()
+	{
+		return $this->lockSettingsLockOnJoinConfigurable;
+	}
+
+	/**
+	 * @param  bool                    $lockOnJoinConfigurable
+	 * @return CreateMeetingParameters
+	 */
+	public function setLockSettingsLockOnJoinConfigurable($lockOnJoinConfigurable)
+	{
+		$this->lockSettingsLockOnJoinConfigurable = $lockOnJoinConfigurable;
+
+		return $this;
+	}
+
+	/**
+	 * @param $endCallbackUrl
+	 * @return CreateMeetingParameters
      */
     public function setEndCallbackUrl($endCallbackUrl)
     {
@@ -874,7 +922,7 @@ class CreateMeetingParameters extends MetaParameters
             'lockSettingsDisablePublicChat'  => $this->isLockSettingsDisablePublicChat() ? 'true' : 'false',
             'lockSettingsDisableNote'        => $this->isLockSettingsDisableNote() ? 'true' : 'false',
             'lockSettingsLockedLayout'       => $this->isLockSettingsLockedLayout() ? 'true' : 'false',
-            'lockSettingsLockOnJoin'         => $this->isLockSettingsLockedOnJoin() ? 'true' : 'false',
+            'lockSettingsLockOnJoin'         => $this->isLockSettingsLockOnJoin() ? 'true' : 'false',
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room
