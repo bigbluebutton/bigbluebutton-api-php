@@ -119,6 +119,51 @@ class CreateMeetingParameters extends MetaParameters
     private $muteOnStart;
 
     /**
+     * @var bool
+     */
+    private $lockSettingsDisableCam;
+
+    /**
+     * @var bool
+     */
+    private $lockSettingsDisableMic;
+
+    /**
+     * @var bool
+     */
+    private $lockSettingsDisablePrivateChat;
+
+    /**
+     * @var bool
+     */
+    private $lockSettingsDisablePublicChat;
+
+    /**
+     * @var bool
+     */
+    private $lockSettingsDisableNote;
+
+    /**
+     * @var bool
+     */
+    private $lockSettingsHideUserList;
+
+    /**
+     * @var bool
+     */
+    private $lockSettingsLockedLayout;
+
+    /**
+     * @var bool
+     */
+    private $lockSettingsLockOnJoin = true;
+
+    /**
+     * @var bool
+     */
+    private $lockSettingsLockOnJoinConfigurable;
+
+    /**
      * @var array
      */
     private $presentations = [];
@@ -532,6 +577,177 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return bool
+     */
+    public function isLockSettingsDisableCam()
+    {
+        return $this->lockSettingsDisableCam;
+    }
+
+    /**
+     * @param  bool                    $lockSettingsDisableCam
+     * @return CreateMeetingParameters
+     */
+    public function setLockSettingsDisableCam($lockSettingsDisableCam)
+    {
+        $this->lockSettingsDisableCam = $lockSettingsDisableCam;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLockSettingsDisableMic()
+    {
+        return $this->lockSettingsDisableMic;
+    }
+
+    /**
+     * @param  bool                    $lockSettingsDisableMic
+     * @return CreateMeetingParameters
+     */
+    public function setLockSettingsDisableMic($lockSettingsDisableMic)
+    {
+        $this->lockSettingsDisableMic = $lockSettingsDisableMic;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLockSettingsDisablePrivateChat()
+    {
+        return $this->lockSettingsDisablePrivateChat;
+    }
+
+    /**
+     * @param  bool                    $lockSettingsDisablePrivateChat
+     * @return CreateMeetingParameters
+     */
+    public function setLockSettingsDisablePrivateChat($lockSettingsDisablePrivateChat)
+    {
+        $this->lockSettingsDisablePrivateChat = $lockSettingsDisablePrivateChat;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLockSettingsDisablePublicChat()
+    {
+        return $this->lockSettingsDisablePublicChat;
+    }
+
+    /**
+     * @param  bool                    $lockSettingsDisablePublicChat
+     * @return CreateMeetingParameters
+     */
+    public function setLockSettingsDisablePublicChat($lockSettingsDisablePublicChat)
+    {
+        $this->lockSettingsDisablePublicChat = $lockSettingsDisablePublicChat;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLockSettingsDisableNote()
+    {
+        return $this->lockSettingsDisableNote;
+    }
+
+    /**
+     * @param  bool                    $lockSettingsDisableNote
+     * @return CreateMeetingParameters
+     */
+    public function setLockSettingsDisableNote($lockSettingsDisableNote)
+    {
+        $this->lockSettingsDisableNote = $lockSettingsDisableNote;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLockSettingsHideUserList()
+    {
+        return $this->lockSettingsHideUserList;
+    }
+
+    /**
+     * @param  bool                    $lockSettingsHideUserList
+     * @return CreateMeetingParameters
+     */
+    public function setLockSettingsHideUserList($lockSettingsHideUserList)
+    {
+        $this->lockSettingsHideUserList = $lockSettingsHideUserList;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLockSettingsLockedLayout()
+    {
+        return $this->lockSettingsLockedLayout;
+    }
+
+    /**
+     * @param  bool                    $lockSettingsLockedLayout
+     * @return CreateMeetingParameters
+     */
+    public function setLockSettingsLockedLayout($lockSettingsLockedLayout)
+    {
+        $this->lockSettingsLockedLayout = $lockSettingsLockedLayout;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLockSettingsLockOnJoin()
+    {
+        return $this->lockSettingsLockOnJoin;
+    }
+
+    /**
+     * @param  bool                    $lockOnJoin
+     * @return CreateMeetingParameters
+     */
+    public function setLockSettingsLockOnJoin($lockOnJoin)
+    {
+        $this->lockSettingsLockOnJoin = $lockOnJoin;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLockSettingsLockOnJoinConfigurable()
+    {
+        return $this->lockSettingsLockOnJoinConfigurable;
+    }
+
+    /**
+     * @param  bool                    $lockOnJoinConfigurable
+     * @return CreateMeetingParameters
+     */
+    public function setLockSettingsLockOnJoinConfigurable($lockOnJoinConfigurable)
+    {
+        $this->lockSettingsLockOnJoinConfigurable = $lockOnJoinConfigurable;
+
+        return $this;
+    }
+
+    /**
      * @param $endCallbackUrl
      * @return CreateMeetingParameters
      */
@@ -681,25 +897,32 @@ class CreateMeetingParameters extends MetaParameters
     public function getHTTPQuery()
     {
         $queries = [
-            'name'                    => $this->meetingName,
-            'meetingID'               => $this->meetingId,
-            'attendeePW'              => $this->attendeePassword,
-            'moderatorPW'             => $this->moderatorPassword,
-            'dialNumber'              => $this->dialNumber,
-            'voiceBridge'             => $this->voiceBridge,
-            'webVoice'                => $this->webVoice,
-            'logoutURL'               => $this->logoutUrl,
-            'record'                  => $this->record ? 'true' : 'false',
-            'duration'                => $this->duration,
-            'maxParticipants'         => $this->maxParticipants,
-            'autoStartRecording'      => $this->autoStartRecording ? 'true' : 'false',
-            'allowStartStopRecording' => $this->allowStartStopRecording ? 'true' : 'false',
-            'welcome'                 => trim($this->welcomeMessage),
-            'moderatorOnlyMessage'    => trim($this->moderatorOnlyMessage),
-            'webcamsOnlyForModerator' => $this->webcamsOnlyForModerator ? 'true' : 'false',
-            'logo'                    => $this->logo,
-            'copyright'               => $this->copyright,
-            'muteOnStart'             => $this->muteOnStart,
+            'name'                           => $this->meetingName,
+            'meetingID'                      => $this->meetingId,
+            'attendeePW'                     => $this->attendeePassword,
+            'moderatorPW'                    => $this->moderatorPassword,
+            'dialNumber'                     => $this->dialNumber,
+            'voiceBridge'                    => $this->voiceBridge,
+            'webVoice'                       => $this->webVoice,
+            'logoutURL'                      => $this->logoutUrl,
+            'record'                         => $this->record ? 'true' : 'false',
+            'duration'                       => $this->duration,
+            'maxParticipants'                => $this->maxParticipants,
+            'autoStartRecording'             => $this->autoStartRecording ? 'true' : 'false',
+            'allowStartStopRecording'        => $this->allowStartStopRecording ? 'true' : 'false',
+            'welcome'                        => trim($this->welcomeMessage),
+            'moderatorOnlyMessage'           => trim($this->moderatorOnlyMessage),
+            'webcamsOnlyForModerator'        => $this->webcamsOnlyForModerator ? 'true' : 'false',
+            'logo'                           => $this->logo,
+            'copyright'                      => $this->copyright,
+            'muteOnStart'                    => $this->muteOnStart,
+            'lockSettingsDisableCam'         => $this->isLockSettingsDisableCam() ? 'true' : 'false',
+            'lockSettingsDisableMic'         => $this->isLockSettingsDisableMic() ? 'true' : 'false',
+            'lockSettingsDisablePrivateChat' => $this->isLockSettingsDisablePrivateChat() ? 'true' : 'false',
+            'lockSettingsDisablePublicChat'  => $this->isLockSettingsDisablePublicChat() ? 'true' : 'false',
+            'lockSettingsDisableNote'        => $this->isLockSettingsDisableNote() ? 'true' : 'false',
+            'lockSettingsLockedLayout'       => $this->isLockSettingsLockedLayout() ? 'true' : 'false',
+            'lockSettingsLockOnJoin'         => $this->isLockSettingsLockOnJoin() ? 'true' : 'false',
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room
