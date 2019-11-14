@@ -24,6 +24,9 @@ namespace BigBlueButton\Responses;
  */
 abstract class BaseResponse
 {
+    const SUCCESS = 'SUCCESS';
+    const FAILED  = 'FAILED';
+
     /**
      * @var \SimpleXMLElement
      */
@@ -69,5 +72,15 @@ abstract class BaseResponse
     public function getMessage()
     {
         return $this->rawXml->message->__toString();
+    }
+
+    public function success()
+    {
+        return $this->getReturnCode() === self::SUCCESS;
+    }
+
+    public function failed()
+    {
+        return $this->getReturnCode() === self::FAILED;
     }
 }
