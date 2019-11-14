@@ -64,6 +64,7 @@ class BigBlueButtonTest extends TestCase
         $apiVersion = $this->bbb->getApiVersion();
         $this->assertEquals('SUCCESS', $apiVersion->getReturnCode());
         $this->assertEquals('2.0', $apiVersion->getVersion());
+        $this->assertTrue($apiVersion->success());
     }
 
     /* Create Meeting */
@@ -91,6 +92,7 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateCreateParams();
         $result = $this->bbb->createMeeting($this->getCreateMock($params));
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
     }
 
     /**
@@ -105,6 +107,7 @@ class BigBlueButtonTest extends TestCase
 
         $this->assertCount(1, $params->getPresentations());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
     }
 
     /**
@@ -119,6 +122,7 @@ class BigBlueButtonTest extends TestCase
 
         $this->assertCount(1, $params->getPresentations());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
     }
 
     /**
@@ -133,6 +137,7 @@ class BigBlueButtonTest extends TestCase
 
         $this->assertCount(1, $params->getPresentations());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
     }
 
     /**
@@ -148,6 +153,7 @@ class BigBlueButtonTest extends TestCase
 
         $this->assertCount(2, $params->getPresentations());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
     }
 
     /* Join Meeting */
@@ -182,6 +188,7 @@ class BigBlueButtonTest extends TestCase
 
         $joinMeeting = $this->bbb->joinMeeting($joinMeetingMock);
         $this->assertEquals('SUCCESS', $joinMeeting->getReturnCode());
+        $this->assertTrue($joinMeeting->success());
         $this->assertNotEmpty($joinMeeting->getAuthToken());
         $this->assertNotEmpty($joinMeeting->getUserId());
         $this->assertNotEmpty($joinMeeting->getSessionToken());
@@ -222,6 +229,7 @@ class BigBlueButtonTest extends TestCase
         $params                = $this->generateCreateParams();
         $createMeetingResponse = $this->bbb->createMeeting($this->getCreateMock($params));
         $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
+        $this->assertTrue($createMeetingResponse->success());
 
         // Execute setConfigXML request
         $params             = ['meetingId' => $createMeetingResponse->getMeetingId()];
@@ -231,6 +239,7 @@ class BigBlueButtonTest extends TestCase
 
         $result = $this->bbb->setConfigXML($setConfigXMLParams);
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
         $this->assertNotEmpty($result->getToken());
     }
 
@@ -258,6 +267,7 @@ class BigBlueButtonTest extends TestCase
         $endMeeting = new EndMeetingParameters($meeting->getMeetingId(), $meeting->getModeratorPassword());
         $result     = $this->bbb->endMeeting($endMeeting);
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
     }
 
     public function testEndNonExistingMeeting()
@@ -265,6 +275,7 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateEndMeetingParams();
         $result = $this->bbb->endMeeting($this->getEndMeetingMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
+        $this->assertTrue($result->failed());
     }
 
     /* Is Meeting Running */
@@ -273,6 +284,7 @@ class BigBlueButtonTest extends TestCase
     {
         $result = $this->bbb->isMeetingRunning(new IsMeetingRunningParameters($this->faker->uuid));
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
         $this->assertEquals(false, $result->isRunning());
     }
 
@@ -307,6 +319,7 @@ class BigBlueButtonTest extends TestCase
 
         $result = $this->bbb->getMeetingInfo(new GetMeetingInfoParameters($meeting->getMeetingId(), $meeting->getModeratorPassword()));
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
     }
 
     public function testGetRecordingsUrl()
@@ -319,6 +332,7 @@ class BigBlueButtonTest extends TestCase
     {
         $result = $this->bbb->getRecordings(new GetRecordingsParameters());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertTrue($result->success());
     }
 
     public function testPublishRecordingsUrl()
@@ -331,6 +345,7 @@ class BigBlueButtonTest extends TestCase
     {
         $result = $this->bbb->publishRecordings(new PublishRecordingsParameters('non-existing-id-' . $this->faker->sha1, true));
         $this->assertEquals('FAILED', $result->getReturnCode());
+        $this->assertTrue($result->failed());
     }
 
     public function testDeleteRecordingsUrl()
@@ -343,6 +358,7 @@ class BigBlueButtonTest extends TestCase
     {
         $result = $this->bbb->deleteRecordings(new DeleteRecordingsParameters('non-existing-id-' . $this->faker->sha1));
         $this->assertEquals('FAILED', $result->getReturnCode());
+        $this->assertTrue($result->failed());
     }
 
     public function testUpdateRecordingsUrl()
@@ -362,5 +378,6 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateUpdateRecordingsParams();
         $result = $this->bbb->updateRecordings($this->getUpdateRecordingsParamsMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
+        $this->assertTrue($result->failed());
     }
 }
