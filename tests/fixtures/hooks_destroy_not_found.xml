@@ -1,0 +1,5 @@
+<response>
+    <returncode>FAILED</returncode>
+    <messageKey>destroyMissingHook</messageKey>
+    <message>The hook informed was not found.</message>
+</response>

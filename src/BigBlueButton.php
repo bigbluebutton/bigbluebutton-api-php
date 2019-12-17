@@ -24,6 +24,8 @@ use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\HooksCreateParameters;
+use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
@@ -36,6 +38,9 @@ use BigBlueButton\Responses\GetDefaultConfigXMLResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
+use BigBlueButton\Responses\HooksCreateResponse;
+use BigBlueButton\Responses\HooksDestroyResponse;
+use BigBlueButton\Responses\HooksListResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
@@ -349,6 +354,66 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUpdateRecordingsUrl($recordingParams));
 
         return new UpdateRecordingsResponse($xml);
+    }
+
+    /* ____________________ WEB HOOKS METHODS ___________________ */
+
+    /**
+     * @param $hookCreateParams HooksCreateParameters
+     * @return string
+     */
+    public function getHooksCreateUrl($hookCreateParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::HOOKS_CREATE, $hookCreateParams->getHTTPQuery());
+    }
+
+    /**
+     * @param $hookCreateParams
+     * @return HooksCreateResponse
+     */
+    public function hooksCreate($hookCreateParams)
+    {
+        $xml = $this->processXmlResponse($this->getHooksCreateUrl($hookCreateParams));
+
+        return new HooksCreateResponse($xml);
+    }
+
+    /**
+     * @return string
+     */
+    public function getHooksListUrl()
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::HOOKS_LIST);
+    }
+
+    /**
+     * @return HooksListResponse
+     */
+    public function hooksList()
+    {
+        $xml = $this->processXmlResponse($this->getHooksListUrl());
+
+        return new HooksListResponse($xml);
+    }
+
+    /**
+     * @param $hooksDestroyParams HooksDestroyParameters
+     * @return string
+     */
+    public function getHooksDestroyUrl($hooksDestroyParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::HOOKS_DESTROY, $hooksDestroyParams->getHTTPQuery());
+    }
+
+    /**
+     * @param $hooksDestroyParams
+     * @return HooksDestroyResponse
+     */
+    public function hooksDestroy($hooksDestroyParams)
+    {
+        $xml = $this->processXmlResponse($this->getHooksDestroyUrl($hooksDestroyParams));
+
+        return new HooksDestroyResponse($xml);
     }
 
     /* ____________________ SPECIAL METHODS ___________________ */

@@ -1,0 +1,5 @@
+<response>
+    <returncode>FAILED</returncode>
+    <messageKey>destroyHookError</messageKey>
+    <message>An error happened while removing your hook. Check the logs.</message>
+</response>
