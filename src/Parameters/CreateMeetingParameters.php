@@ -753,7 +753,18 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function setEndCallbackUrl($endCallbackUrl)
     {
-        $this->addMeta('endCallbackUrl', $endCallbackUrl);
+        $this->addMeta('endCallbackUrl', urlencode($endCallbackUrl));
+
+        return $this;
+    }
+    
+    /**
+     * @param $recordingReadyCallbackUrl
+     * @return CreateMeetingParameters
+     */
+    public function setRecordingReadyCallbackUrl($recordingReadyCallbackUrl)
+    {
+        $this->addMeta('bbb-recording-ready-url', urlencode($recordingReadyCallbackUrl));
 
         return $this;
     }

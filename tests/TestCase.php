@@ -96,7 +96,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsLockOnJoin'             => $this->faker->boolean(50),
             'lockSettingsLockOnJoinConfigurable' => $this->faker->boolean(50),
             'meta_presenter'                     => $this->faker->name,
-            'meta_endCallbackUrl'                => $this->faker->url
+            'meta_endCallbackUrl'                => $this->faker->url,
+            'meta_bbb-recording-ready-url'       => $this->faker->url,
         ];
     }
 
