@@ -61,7 +61,6 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['lockSettingsLockOnJoinConfigurable'], $createMeetingParams->isLockSettingsLockOnJoinConfigurable());
         $this->assertEquals($params['meta_presenter'], $createMeetingParams->getMeta('presenter'));
         $this->assertEquals($params['meta_endCallbackUrl'], urlencode($createMeetingParams->getMeta('endCallbackUrl')));
-        $this->assertEquals($params['meta_endCallbackUrl'], urlencode($createMeetingParams->getMeta('endCallbackUrl')));
         $this->assertEquals($params['meta_bbb-recording-ready-url'], urlencode($createMeetingParams->getMeta('bbb-recording-ready-url')));
 
         // Check values are empty of this is not a breakout room
