@@ -60,12 +60,21 @@ class BigBlueButton
     protected $urlBuilder;
     protected $jSessionId;
 
-    public function __construct()
+    public function __construct($bbbServerBaseUrl = null, $securitySecret = null)
     {
-        // Keeping backward compatibility with older deployed versions
-        $this->securitySecret   = (getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret = getenv('BBB_SECURITY_SALT');
-        $this->bbbServerBaseUrl = getenv('BBB_SERVER_BASE_URL');
-        $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
+        if (!empty($bbbServerBaseUrl)) {
+            $this->bbbServerBaseUrl = $bbbServerBaseUrl;
+        } else {
+            $this->bbbServerBaseUrl = getenv('BBB_SERVER_BASE_URL');
+        }
+        if (!empty($securitySecret)) {
+            $this->securitySecret = $securitySecret;
+        } else {
+            // Keeping backward compatibility with older deployed versions
+            $this->securitySecret = (getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret = getenv('BBB_SECURITY_SALT');
+        }
+
+        $this->urlBuilder = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
     }
 
     /**
@@ -105,7 +114,10 @@ class BigBlueButton
      */
     public function createMeeting($createMeetingParams)
     {
-        $xml = $this->processXmlResponse($this->getCreateMeetingUrl($createMeetingParams), $createMeetingParams->getPresentationsAsXML());
+        $xml = $this->processXmlResponse(
+            $this->getCreateMeetingUrl($createMeetingParams),
+            $createMeetingParams->getPresentationsAsXML()
+        );
 
         return new CreateMeetingResponse($xml);
     }
@@ -449,7 +461,7 @@ class BigBlueButton
         if (extension_loaded('curl')) {
             $ch = curl_init();
             if (!$ch) {
-                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+                throw new \RuntimeException('Unhandled curl error: '.curl_error($ch));
             }
             $timeout = 10;
 
@@ -477,7 +489,7 @@ class BigBlueButton
             }
             $data = curl_exec($ch);
             if ($data === false) {
-                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+                throw new \RuntimeException('Unhandled curl error: '.curl_error($ch));
             }
             curl_close($ch);
 
