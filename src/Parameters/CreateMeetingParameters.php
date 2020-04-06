@@ -23,6 +23,10 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
+    const ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
+    const ALWAYS_DENY   = 'ALWAYS_DENY';
+    const ASK_MODERATOR = 'ASK_MODERATOR';
+
     /**
      * @var string
      */
@@ -187,6 +191,11 @@ class CreateMeetingParameters extends MetaParameters
      * @var boolean
      */
     private $freeJoin;
+
+    /**
+     * @var string
+     */
+    private $guestPolicy = self::ALWAYS_ACCEPT;
 
     /**
      * CreateMeetingParameters constructor.
@@ -757,7 +766,7 @@ class CreateMeetingParameters extends MetaParameters
 
         return $this;
     }
-    
+
     /**
      * @param $recordingReadyCallbackUrl
      * @return CreateMeetingParameters
@@ -840,9 +849,62 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function setFreeJoin($freeJoin)
     {
-        $this->freeJoin = $freeJoin;
+        $this->freeJoin    = $freeJoin;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBlockedJoin()
+    {
+        return $this->guestPolicy === self::ALWAYS_DENY;
+    }
+
+    public function setBlockedJoin()
+    {
+        $this->guestPolicy = self::ALWAYS_DENY;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isModerateJoin()
+    {
+        return $this->guestPolicy === self::ASK_MODERATOR;
+    }
+
+    public function setModerateJoin()
+    {
+        $this->guestPolicy = self::ASK_MODERATOR;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOpenJoin()
+    {
+        return $this->guestPolicy === self::ALWAYS_ACCEPT;
+    }
+
+    public function setOpenJoin()
+    {
+        $this->guestPolicy = self::ALWAYS_ACCEPT;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGuestPolicy()
+    {
+        return $this->guestPolicy;
     }
 
     /**
@@ -927,6 +989,7 @@ class CreateMeetingParameters extends MetaParameters
             'logo'                               => $this->logo,
             'copyright'                          => $this->copyright,
             'muteOnStart'                        => $this->muteOnStart,
+            'guestPolicy'                        => $this->guestPolicy,
             'lockSettingsDisableCam'             => $this->isLockSettingsDisableCam() ? 'true' : 'false',
             'lockSettingsDisableMic'             => $this->isLockSettingsDisableMic() ? 'true' : 'false',
             'lockSettingsDisablePrivateChat'     => $this->isLockSettingsDisablePrivateChat() ? 'true' : 'false',
