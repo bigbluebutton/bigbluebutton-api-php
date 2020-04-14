@@ -761,7 +761,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param  bool                    $lockOnJoinConfigurable
+     * @param  bool                    $allowModsToUnmuteUsers
      * @return CreateMeetingParameters
      */
     public function setAllowModsToUnmuteUsers($allowModsToUnmuteUsers)
