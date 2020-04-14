@@ -95,6 +95,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsLockedLayout'           => $this->faker->boolean(50),
             'lockSettingsLockOnJoin'             => $this->faker->boolean(50),
             'lockSettingsLockOnJoinConfigurable' => $this->faker->boolean(50),
+            'allowModsToUnmuteUsers'             => $this->faker->boolean(50),
             'meta_presenter'                     => $this->faker->name,
             'meta_endCallbackUrl'                => $this->faker->url,
             'meta_bbb-recording-ready-url'       => $this->faker->url,
