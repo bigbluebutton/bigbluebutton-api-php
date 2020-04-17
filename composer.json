@@ -1,5 +1,5 @@
 {
-  "name": "bigbluebutton/bigbluebutton-api-php",
+  "name": "umutc/bigbluebutton-api-php",
   "type": "library",
   "description": "BigBlueButton PHP API Library for PHP",
   "keywords": [
@@ -13,6 +13,11 @@
     {
       "name": "Ghazi Triki",
       "email": "ghazi.nocturne@gmail.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Umut ÇELİK",
+      "email": "mail@umutcelik.com.tr",
       "role": "Developer"
     }
   ],
