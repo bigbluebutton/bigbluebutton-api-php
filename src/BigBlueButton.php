@@ -451,7 +451,10 @@ class BigBlueButton
             if (!$ch) {
                 throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
             }
-            $timeout = 10;
+            // Time to connect to BigBlueButton host
+            $connectTimeout = 10;
+            // Time to for the whole request and response flow (inclusive connect)
+            $timeout = 20;
 
             // Needed to store the JSESSIONID
             $cookiefile     = tmpfile();
@@ -462,7 +465,8 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connectTimeout);
+            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiefilepath);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiefilepath);
             if (!empty($payload)) {
