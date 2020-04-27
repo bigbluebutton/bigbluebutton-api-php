@@ -67,11 +67,11 @@ class CreateMeetingResponse extends BaseResponse
     /**
      * Creation timestamp.
      *
-     * @return double
+     * @return int
      */
     public function getCreationTime()
     {
-        return (float) $this->rawXml->createTime;
+        return (int) $this->rawXml->createTime;
     }
 
     /**
