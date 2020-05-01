@@ -60,11 +60,17 @@ class BigBlueButton
     protected $urlBuilder;
     protected $jSessionId;
 
+    /**
+     * BigBlueButton constructor.
+     * Allows to set url and secret as paramater, otherwise use values in env
+     * @param  null  $bbbServerBaseUrl API Base Url
+     * @param  null  $securitySecret API Server secret
+     */
     public function __construct($bbbServerBaseUrl = null, $securitySecret = null)
     {
         // Keeping backward compatibility with older deployed versions
-        $this->securitySecret   = $securitySecret ?? ((getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret = getenv('BBB_SECURITY_SALT'));
-        $this->bbbServerBaseUrl = $bbbServerBaseUrl ?? (getenv('BBB_SERVER_BASE_URL'));
+        $this->securitySecret   = isset($securitySecret) ? $securitySecret :((getenv('BBB_SECURITY_SALT') === false) ? getenv('BBB_SECRET') : $this->securitySecret = getenv('BBB_SECURITY_SALT'));
+        $this->bbbServerBaseUrl = isset($bbbServerBaseUrl) ? $bbbServerBaseUrl : (getenv('BBB_SERVER_BASE_URL'));
         $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
     }
 
