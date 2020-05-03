@@ -926,7 +926,7 @@ class CreateMeetingParameters extends MetaParameters
             'webcamsOnlyForModerator'            => $this->webcamsOnlyForModerator ? 'true' : 'false',
             'logo'                               => $this->logo,
             'copyright'                          => $this->copyright,
-            'muteOnStart'                        => $this->muteOnStart,
+            'muteOnStart'                        => $this->muteOnStart ? 'true' : 'false',
             'lockSettingsDisableCam'             => $this->isLockSettingsDisableCam() ? 'true' : 'false',
             'lockSettingsDisableMic'             => $this->isLockSettingsDisableMic() ? 'true' : 'false',
             'lockSettingsDisablePrivateChat'     => $this->isLockSettingsDisablePrivateChat() ? 'true' : 'false',
