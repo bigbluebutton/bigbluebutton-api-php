@@ -31,6 +31,7 @@ class Record
     private $state;
     private $startTime;
     private $endTime;
+    private $participantCount;
     private $playbackType;
     private $playbackUrl;
     private $playbackLength;
@@ -42,16 +43,17 @@ class Record
      */
     public function __construct($xml)
     {
-        $this->recordId       = $xml->recordID->__toString();
-        $this->meetingId      = $xml->meetingID->__toString();
-        $this->name           = $xml->name->__toString();
-        $this->isPublished    = $xml->published->__toString() === 'true';
-        $this->state          = $xml->state->__toString();
-        $this->startTime      = (float) $xml->startTime->__toString();
-        $this->endTime        = (float) $xml->endTime->__toString();
-        $this->playbackType   = $xml->playback->format->type->__toString();
-        $this->playbackUrl    = $xml->playback->format->url->__toString();
-        $this->playbackLength = (int) $xml->playback->format->length->__toString();
+        $this->recordId           = $xml->recordID->__toString();
+        $this->meetingId          = $xml->meetingID->__toString();
+        $this->name               = $xml->name->__toString();
+        $this->isPublished        = $xml->published->__toString() === 'true';
+        $this->state              = $xml->state->__toString();
+        $this->startTime          = (float) $xml->startTime->__toString();
+        $this->endTime            = (float) $xml->endTime->__toString();
+        $this->participantCount   = (int) $xml->participants->__toString();
+        $this->playbackType       = $xml->playback->format->type->__toString();
+        $this->playbackUrl        = $xml->playback->format->url->__toString();
+        $this->playbackLength     = (int) $xml->playback->format->length->__toString();
 
         foreach ($xml->metadata->children() as $meta) {
             $this->metas[$meta->getName()] = $meta->__toString();
@@ -112,6 +114,14 @@ class Record
     public function getEndTime()
     {
         return $this->endTime;
+    }
+
+    /**
+     * @return int Number of participants
+     */
+    public function getParticipantCount()
+    {
+        return $this->participantCount;
     }
 
     /**
