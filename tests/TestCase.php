@@ -135,8 +135,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setLockSettingsDisableMic($params['lockSettingsDisableMic'])->setLockSettingsDisablePrivateChat($params['lockSettingsDisablePrivateChat'])
             ->setLockSettingsDisablePublicChat($params['lockSettingsDisablePublicChat'])->setLockSettingsDisableNote($params['lockSettingsDisableNote'])
             ->setLockSettingsHideUserList($params['lockSettingsHideUserList'])->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
-            ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoin'])
-            ->addMeta('presenter', $params['meta_presenter']);
+            ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoinConfigurable'])
+            ->setAllowModsToUnmuteUsers($params['allowModsToUnmuteUsers'])->addMeta('presenter', $params['meta_presenter'])
+            ->addMeta('endCallbackUrl', $params['meta_endCallbackUrl'])->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url']);
     }
 
     /**
