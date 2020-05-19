@@ -63,12 +63,19 @@ class BigBlueButton
     /**
      * @param string $baseUrl (optional)
      * @param string $secret  (optional)
+     * @throws \Exception
      */
     public function __construct($baseUrl = null, $secret = null)
     {
         // Keeping backward compatibility with older deployed versions
         $this->securitySecret   = $secret ?: getenv('BBB_SECURITY_SALT') ?: getenv('BBB_SECRET');
         $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL');
+
+        if (empty($this->bbbServerBaseUrl))
+        {
+            throw new \Exception('Base url required');
+        }
+
         $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
     }
 
