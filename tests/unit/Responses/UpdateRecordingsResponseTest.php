@@ -18,34 +18,34 @@
  */
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Responses\SetConfigXMLResponse;
+use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\TestCase;
 
-class SetConfigXMLResponseTest extends TestCase
+class UpdateRecordingsResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\SetConfigXMLResponse
+     * @var \BigBlueButton\Responses\UpdateRecordingsResponse
      */
-    private $config;
+    private $update;
 
     public function setUp()
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'set_config_xml.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'update_recordings.xml');
 
-        $this->config = new SetConfigXMLResponse($xml);
+        $this->update = new UpdateRecordingsResponse($xml);
     }
 
-    public function testSetConfigXMLResponseContent()
+    public function testUpdateRecordingsResponseContent()
     {
-        $this->assertEquals('SUCCESS', $this->config->getReturnCode());
-        $this->assertEquals('TETDApIC', $this->config->getToken());
+        $this->assertEquals('SUCCESS', $this->update->getReturnCode());
+        $this->assertEquals(true, $this->update->isUpdated());
     }
 
-    public function testSetConfigXMLResponseTypes()
+    public function testUpdateRecordingsResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->config, ['getReturnCode']);
-        $this->assertEachGetterValueIsString($this->config, ['getToken']);
+        $this->assertEachGetterValueIsString($this->update, ['getReturnCode']);
+        $this->assertEachGetterValueIsBoolean($this->update, ['isUpdated']);
     }
 }

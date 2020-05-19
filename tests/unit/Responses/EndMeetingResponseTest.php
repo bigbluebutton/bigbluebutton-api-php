@@ -18,33 +18,34 @@
  */
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Responses\ApiVersionResponse;
+use BigBlueButton\Responses\EndMeetingResponse;
 use BigBlueButton\TestCase;
 
-class ApiVersionResponseTest extends TestCase
+class EndMeetingResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\ApiVersionResponse
+     * @var \BigBlueButton\Responses\EndMeetingResponse
      */
-    private $version;
+    private $end;
 
     public function setUp()
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'api_version.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'end_meeting.xml');
 
-        $this->version = new ApiVersionResponse($xml);
+        $this->end = new EndMeetingResponse($xml);
     }
 
-    public function testApiVersionResponseContent()
+    public function testEndMeetingResponseContent()
     {
-        $this->assertEquals('SUCCESS', $this->version->getReturnCode());
-        $this->assertEquals('2.0', $this->version->getVersion());
+        $this->assertEquals('SUCCESS', $this->end->getReturnCode());
+        $this->assertEquals('sentEndMeetingRequest', $this->end->getMessageKey());
+        $this->assertEquals('A request to end the meeting was sent. Please wait a few seconds, and then use the getMeetingInfo or isMeetingRunning API calls to verify that it was ended.', $this->end->getMessage());
     }
 
-    public function testApiVersionResponseTypes()
+    public function testEndMeetingResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->version, ['getReturnCode', 'getVersion']);
+        $this->assertEachGetterValueIsString($this->end, ['getReturnCode', 'getMessageKey', 'getMessage']);
     }
 }

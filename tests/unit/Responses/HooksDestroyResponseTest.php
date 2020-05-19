@@ -18,34 +18,34 @@
  */
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Responses\UpdateRecordingsResponse;
+use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\TestCase;
 
-class UpdateRecordingsResponseTest extends TestCase
+class HooksDestroyResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\UpdateRecordingsResponse
+     * @var \BigBlueButton\Responses\HooksDestroyResponse
      */
-    private $update;
+    private $destroyResponse;
 
     public function setUp()
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'update_recordings.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_destroy.xml');
 
-        $this->update = new UpdateRecordingsResponse($xml);
+        $this->destroyResponse = new HooksDestroyResponse($xml);
     }
 
-    public function testUpdateRecordingsResponseContent()
+    public function testHooksDestroyResponseContent()
     {
-        $this->assertEquals('SUCCESS', $this->update->getReturnCode());
-        $this->assertEquals(true, $this->update->isUpdated());
+        $this->assertEquals('SUCCESS', $this->destroyResponse->getReturnCode());
+        $this->assertEquals(true, $this->destroyResponse->removed());
     }
 
-    public function testUpdateRecordingsResponseTypes()
+    public function testHooksDestroyResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->update, ['getReturnCode']);
-        $this->assertEachGetterValueIsBoolean($this->update, ['isUpdated']);
+        $this->assertEachGetterValueIsString($this->destroyResponse, ['getReturnCode']);
+        $this->assertEachGetterValueIsBoolean($this->destroyResponse, ['removed']);
     }
 }

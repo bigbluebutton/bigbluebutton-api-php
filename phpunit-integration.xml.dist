@@ -23,7 +23,7 @@
 
     <testsuites>
         <testsuite name="BigBlueButton test suit">
-            <directory>./tests/unit/</directory>
+            <directory>./tests/integration/</directory>
         </testsuite>
     </testsuites>
 

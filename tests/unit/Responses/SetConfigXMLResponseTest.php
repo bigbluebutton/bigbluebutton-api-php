@@ -18,34 +18,34 @@
  */
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Responses\EndMeetingResponse;
+use BigBlueButton\Responses\SetConfigXMLResponse;
 use BigBlueButton\TestCase;
 
-class EndMeetingResponseTest extends TestCase
+class SetConfigXMLResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\EndMeetingResponse
+     * @var \BigBlueButton\Responses\SetConfigXMLResponse
      */
-    private $end;
+    private $config;
 
     public function setUp()
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'end_meeting.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'set_config_xml.xml');
 
-        $this->end = new EndMeetingResponse($xml);
+        $this->config = new SetConfigXMLResponse($xml);
     }
 
-    public function testEndMeetingResponseContent()
+    public function testSetConfigXMLResponseContent()
     {
-        $this->assertEquals('SUCCESS', $this->end->getReturnCode());
-        $this->assertEquals('sentEndMeetingRequest', $this->end->getMessageKey());
-        $this->assertEquals('A request to end the meeting was sent. Please wait a few seconds, and then use the getMeetingInfo or isMeetingRunning API calls to verify that it was ended.', $this->end->getMessage());
+        $this->assertEquals('SUCCESS', $this->config->getReturnCode());
+        $this->assertEquals('TETDApIC', $this->config->getToken());
     }
 
-    public function testEndMeetingResponseTypes()
+    public function testSetConfigXMLResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->end, ['getReturnCode', 'getMessageKey', 'getMessage']);
+        $this->assertEachGetterValueIsString($this->config, ['getReturnCode']);
+        $this->assertEachGetterValueIsString($this->config, ['getToken']);
     }
 }
