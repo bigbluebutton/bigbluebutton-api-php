@@ -10,7 +10,7 @@ $finder = \PhpCsFixer\Finder::create()
 
 return PhpCsFixer\Config::create()
     ->setUsingCache(false)
-    ->setRules(array(
+    ->setRules([
         'psr4'                               => true,
         'encoding'                           => true,
         'full_opening_tag'                   => true,
@@ -49,5 +49,6 @@ return PhpCsFixer\Config::create()
             'align_double_arrow' => true,
             'align_equals'       => true,
         ]
-    ))
+    ])
+    ->setRiskyAllowed(true)
     ->setFinder($finder);
