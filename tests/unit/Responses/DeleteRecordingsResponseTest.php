@@ -18,36 +18,34 @@
  */
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Responses\IsMeetingRunningResponse;
+use BigBlueButton\Responses\DeleteRecordingsResponse;
 use BigBlueButton\TestCase;
 
-class IsMeetingRunningResponseTest extends TestCase
+class DeleteRecordingsResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\IsMeetingRunningResponse
+     * @var \BigBlueButton\Responses\DeleteRecordingsResponse
      */
-    private $running;
+    private $delete;
 
     public function setUp()
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'is_meeting_running.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'delete_recordings.xml');
 
-        $this->running = new IsMeetingRunningResponse($xml);
+        $this->delete = new DeleteRecordingsResponse($xml);
     }
 
-    public function testIsMeetingRunningResponseContent()
+    public function testDeleteRecordingsResponseContent()
     {
-        $this->assertEquals('SUCCESS', $this->running->getReturnCode());
-        $this->assertEquals(true, $this->running->isRunning());
-
-        $this->assertEquals('<?xmlversion="1.0"?><response><returncode>SUCCESS</returncode><running>true</running></response>', $this->minifyString($this->running->getRawXml()->asXML()));
+        $this->assertEquals('SUCCESS', $this->delete->getReturnCode());
+        $this->assertEquals(true, $this->delete->isDeleted());
     }
 
-    public function testIsMeetingRunningResponseTypes()
+    public function testDeleteRecordingsResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->running, ['getReturnCode']);
-        $this->assertEachGetterValueIsBoolean($this->running, ['isRunning']);
+        $this->assertEachGetterValueIsString($this->delete, ['getReturnCode']);
+        $this->assertEachGetterValueIsBoolean($this->delete, ['isDeleted']);
     }
 }

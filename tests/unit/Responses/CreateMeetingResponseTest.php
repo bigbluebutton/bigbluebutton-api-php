@@ -32,7 +32,7 @@ class CreateMeetingResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'create_meeting.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'create_meeting.xml');
 
         $this->meeting = new CreateMeetingResponse($xml);
     }

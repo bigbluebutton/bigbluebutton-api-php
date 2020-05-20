@@ -16,36 +16,28 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Responses;
 
-use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\TestCase;
 
-class PublishRecordingsResponseTest extends TestCase
+class GetDefaultConfigXMLResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\PublishRecordingsResponse
+     * @var \BigBlueButton\Responses\GetDefaultConfigXMLResponse
      */
-    private $publish;
+    private $configXml;
 
     public function setUp()
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'publish_recordings.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'default_config_xml.xml');
 
-        $this->publish = new PublishRecordingsResponse($xml);
+        $this->configXml = new GetDefaultConfigXMLResponse($xml);
     }
 
-    public function testPublishRecordingsResponseContent()
+    public function testEndMeetingResponseContent()
     {
-        $this->assertEquals('SUCCESS', $this->publish->getReturnCode());
-        $this->assertEquals(true, $this->publish->isPublished());
-    }
-
-    public function testPublishRecordingsResponseTypes()
-    {
-        $this->assertEachGetterValueIsString($this->publish, ['getReturnCode']);
-        $this->assertEachGetterValueIsBoolean($this->publish, ['isPublished']);
+        $this->assertNotEmpty('SUCCESS', $this->configXml->getRawXml()->asXML());
     }
 }

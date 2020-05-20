@@ -32,7 +32,7 @@ class HooksCreateResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_create.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_create.xml');
 
         $this->createResponse = new HooksCreateResponse($xml);
     }

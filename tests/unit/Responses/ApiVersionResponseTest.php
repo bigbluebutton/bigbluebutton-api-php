@@ -18,34 +18,33 @@
  */
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Responses\DeleteRecordingsResponse;
+use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\TestCase;
 
-class DeleteRecordingsResponseTest extends TestCase
+class ApiVersionResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\DeleteRecordingsResponse
+     * @var \BigBlueButton\Responses\ApiVersionResponse
      */
-    private $delete;
+    private $version;
 
     public function setUp()
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'delete_recordings.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'api_version.xml');
 
-        $this->delete = new DeleteRecordingsResponse($xml);
+        $this->version = new ApiVersionResponse($xml);
     }
 
-    public function testDeleteRecordingsResponseContent()
+    public function testApiVersionResponseContent()
     {
-        $this->assertEquals('SUCCESS', $this->delete->getReturnCode());
-        $this->assertEquals(true, $this->delete->isDeleted());
+        $this->assertEquals('SUCCESS', $this->version->getReturnCode());
+        $this->assertEquals('2.0', $this->version->getVersion());
     }
 
-    public function testDeleteRecordingsResponseTypes()
+    public function testApiVersionResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->delete, ['getReturnCode']);
-        $this->assertEachGetterValueIsBoolean($this->delete, ['isDeleted']);
+        $this->assertEachGetterValueIsString($this->version, ['getReturnCode', 'getVersion']);
     }
 }
