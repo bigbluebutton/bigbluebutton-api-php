@@ -36,11 +36,27 @@
     "fzaninotto/faker": "~1.8.0",
     "friendsofphp/php-cs-fixer": "2.*",
     "squizlabs/php_codesniffer": "3.*",
-    "php-coveralls/php-coveralls": "2.1.*"
+    "php-coveralls/php-coveralls": "2.1.*",
+    "brainmaestro/composer-git-hooks": "^2.8"
   },
   "autoload": {
     "psr-4": {
       "BigBlueButton\\": "src"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": "vendor/bin/cghooks add --ignore-lock",
+    "post-update-cmd": "vendor/bin/cghooks update"
+  },
+  "extra": {
+    "hooks": {
+      "pre-commit": [
+        "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
+      ],
+      "pre-push": [
+        "vendor/bin/phpunit"
+      ],
+      "post-merge": "composer install"
     }
   }
 }
