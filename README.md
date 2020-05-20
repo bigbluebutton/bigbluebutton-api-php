@@ -5,12 +5,38 @@ developers to use [BigBlueButton API] v2.2 for **PHP 5.4+**.
 
 [![Build Status](https://travis-ci.org/littleredbutton/bigbluebutton-api-php.svg?branch=master)](https://travis-ci.org/littleredbutton/bigbluebutton-api-php)
 [![Coverage Status](https://coveralls.io/repos/github/littleredbutton/bigbluebutton-api-php/badge.svg?branch=master)](https://coveralls.io/github/littleredbutton/bigbluebutton-api-php?branch=master)
-<!-- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/?branch=master) -->
 ![PHP from Travis config](https://img.shields.io/travis/php-v/littleredbutton/bigbluebutton-api-php.svg)
+<!-- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/?branch=master) -->
 
 **This API uses BigBlueButton and is not endorsed or certified by BigBlueButton
 Inc. BigBlueButton and the BigBlueButton Logo are trademarks of BigBlueButton
 Inc.**
+
+#### Table of Contents
+* [Why should I use a fork?](#question-why-should-i-use-a-fork)
+* [Installation and usage](#gear-installation-and-usage)
+    * [Requirements](#requirements)
+    * [Installation](#installation)
+    * [Basic usage](#basic-usage)
+    * [Test if API url and secret are valid](#test-if-api-url-and-secret-are-valid)
+* [Documentation](#closed_book-documentation)
+    * [Administration](#administration)
+        * [Get API version](#get-api-version)
+        * [Create a meeting](#create-a-meeting)
+        * [Join a meeting](#join-a-meeting)
+        * [End a meeting](#end-a-meeting)
+        * [Get default config](#get-default-config)
+        * [Set default config](#set-default-config)
+    * [Monitoring](#monitoring)
+        * [Get a list of meetings](#get-a-list-of-meetings)
+        * [Is a meeting running?](#is-a-meeting-running)
+        * [Get meeting info](#get-meeting-info)
+    * [Recording](#recording)
+        * [Get recordings](#get-recordings)
+        * [Publish recordings](#publish-recordings)
+        * [Delete recordings](#delete-recordings)
+* [Submitting bugs and feature requests](#submitting-bugs-and-feature-requests)
+
 
 ## :question: Why should I use a fork?
 To explain why you should use a fork, we have to explain why we created our own
