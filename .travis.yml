@@ -25,6 +25,7 @@ script:
   - mkdir -p build/logs
   - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
   - if [ "$TRAVIS_PHP_VERSION" == "nightly" ]; then vendor/bin/phpunit; fi
+  - vendor/bin/php-cs-fixer fix --dry-run
 
 after_script:
   - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then php vendor/bin/php-coveralls -v; fi
