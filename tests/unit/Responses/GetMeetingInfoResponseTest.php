@@ -24,7 +24,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
      */
     private $meetingInfo;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -28,7 +28,7 @@ class HooksListResponseTest extends TestCase
      */
     private $listResponse;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
