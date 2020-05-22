@@ -27,6 +27,11 @@
       "type": "composer"
     }
   },
+  "support": {
+    "issues": "https://github.com/littleredbutton/bigbluebutton-api-php/issues",
+    "source": "https://github.com/littleredbutton/bigbluebutton-api-php/",
+    "docs": "https://github.com/littleredbutton/bigbluebutton-api-php/blob/master/README.md"
+  },
   "require": {
     "php": "^7.2",
     "ext-curl": "*",
