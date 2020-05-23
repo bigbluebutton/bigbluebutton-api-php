@@ -35,6 +35,6 @@ class GetRecordingsParametersTest extends TestCase
         $this->assertEquals($meetingId, $getRecordings->getMeetingId());
         $this->assertEquals($recordId, $getRecordings->getRecordId());
         $this->assertEquals($state, $getRecordings->getState());
-        $this->assertContains('meta_' . $meta . '=' . $name, $params);
+        $this->assertStringContainsString('meta_' . $meta . '=' . $name, $params);
     }
 }

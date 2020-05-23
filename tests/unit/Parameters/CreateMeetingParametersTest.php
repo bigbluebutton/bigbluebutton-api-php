@@ -88,10 +88,10 @@ class CreateMeetingParametersTest extends TestCase
 
         $params = $createBreakoutMeetingParams->getHTTPQuery();
 
-        $this->assertContains('isBreakout=' . urlencode($createBreakoutMeetingParams->isBreakout() ? 'true' : 'false'), $params);
-        $this->assertContains('parentMeetingID=' . urlencode($createBreakoutMeetingParams->getParentMeetingId()), $params);
-        $this->assertContains('sequence=' . urlencode($createBreakoutMeetingParams->getSequence()), $params);
-        $this->assertContains('freeJoin=' . urlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
+        $this->assertStringContainsString('isBreakout=' . urlencode($createBreakoutMeetingParams->isBreakout() ? 'true' : 'false'), $params);
+        $this->assertStringContainsString('parentMeetingID=' . urlencode($createBreakoutMeetingParams->getParentMeetingId()), $params);
+        $this->assertStringContainsString('sequence=' . urlencode($createBreakoutMeetingParams->getSequence()), $params);
+        $this->assertStringContainsString('freeJoin=' . urlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
     }
 
     public function testGetPresentationsAsXMLWithUrl()

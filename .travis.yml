@@ -3,6 +3,7 @@ language: php
 php:
   - 7.2
   - 7.3
+  - 7.4
   - hhvm
   - nightly
 
@@ -11,11 +12,6 @@ matrix:
   allow_failures:
     - php: hhvm
     - php: nightly
-
-env:
-  global:
-    - BBB_SECRET=8cd8ef52e8e101574e400365b55e11a6
-    - BBB_SERVER_BASE_URL=https://test-install.blindsidenetworks.com/bigbluebutton/
 
 before_script:
   - wget http://getcomposer.org/composer.phar

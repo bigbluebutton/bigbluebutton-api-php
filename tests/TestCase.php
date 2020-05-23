@@ -42,7 +42,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -289,38 +289,6 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     // Additional assertions
 
-    public function assertIsString($actual, $message = '')
-    {
-        if (empty($message)) {
-            $message = 'Got a ' . gettype($actual) . ' instead of a string';
-        }
-        $this->assertTrue(is_string($actual), $message);
-    }
-
-    public function assertIsInteger($actual, $message = '')
-    {
-        if (empty($message)) {
-            $message = 'Got a ' . gettype($actual) . ' instead of an integer.';
-        }
-        $this->assertTrue(is_integer($actual), $message);
-    }
-
-    public function assertIsDouble($actual, $message = '')
-    {
-        if (empty($message)) {
-            $message = 'Got a ' . gettype($actual) . ' instead of a double.';
-        }
-        $this->assertTrue(is_double($actual), $message);
-    }
-
-    public function assertIsBoolean($actual, $message = '')
-    {
-        if (empty($message)) {
-            $message = 'Got a ' . gettype($actual) . ' instead of a boolean.';
-        }
-        $this->assertTrue(is_bool($actual), $message);
-    }
-
     public function assertEachGetterValueIsString($obj, $getters)
     {
         foreach ($getters as $getterName) {
@@ -331,21 +299,21 @@ class TestCase extends \PHPUnit\Framework\TestCase
     public function assertEachGetterValueIsInteger($obj, $getters)
     {
         foreach ($getters as $getterName) {
-            $this->assertIsInteger($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of an integer for property -> ' . $getterName);
+            $this->assertIsInt($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of an integer for property -> ' . $getterName);
         }
     }
 
     public function assertEachGetterValueIsDouble($obj, $getters)
     {
         foreach ($getters as $getterName) {
-            $this->assertIsDouble($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a double for property -> ' . $getterName);
+            $this->assertIsFloat($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a double for property -> ' . $getterName);
         }
     }
 
     public function assertEachGetterValueIsBoolean($obj, $getters)
     {
         foreach ($getters as $getterName) {
-            $this->assertIsBoolean($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a boolean for property -> ' . $getterName);
+            $this->assertIsBool($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a boolean for property -> ' . $getterName);
         }
     }
 }

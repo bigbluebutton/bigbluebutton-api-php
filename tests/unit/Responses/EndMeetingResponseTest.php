@@ -28,7 +28,7 @@ class EndMeetingResponseTest extends TestCase
      */
     private $end;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
