@@ -40,5 +40,8 @@
     "psr-4": {
       "BigBlueButton\\": "src"
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
   }
 }
