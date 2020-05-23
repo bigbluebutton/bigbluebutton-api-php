@@ -3,6 +3,7 @@ language: php
 php:
   - 7.2
   - 7.3
+  - 7.4
   - hhvm
   - nightly
 
@@ -12,11 +13,6 @@ matrix:
     - php: hhvm
     - php: nightly
 
-env:
-  global:
-    - BBB_SECRET=8cd8ef52e8e101574e400365b55e11a6
-    - BBB_SERVER_BASE_URL=https://test-install.blindsidenetworks.com/bigbluebutton/
-
 before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install --dev --no-interaction
@@ -25,6 +21,7 @@ script:
   - mkdir -p build/logs
   - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
   - if [ "$TRAVIS_PHP_VERSION" == "nightly" ]; then vendor/bin/phpunit; fi
+  - vendor/bin/php-cs-fixer fix --dry-run
 
 after_script:
   - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then php vendor/bin/php-coveralls -v; fi
