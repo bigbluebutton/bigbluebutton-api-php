@@ -1,6 +1,5 @@
 composer.phar
 /vendor/
-composer.lock
 .DS_Store
 
 ## Directory-based project format:

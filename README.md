@@ -1,54 +1,274 @@
-# BigBlueButton API for PHP
+# :tada: Best BigBlueButton API for PHP
 
-![Home Image](https://raw.githubusercontent.com/wiki/bigbluebutton/bigbluebutton-api-php/images/header.png)
+The unofficial and easiest to use **BigBlueButton API for PHP**, makes easy for
+developers to use [BigBlueButton API] v2.2 for **PHP 7.2+**.
 
-The official and easy to use **BigBlueButton API for PHP**, makes easy for developers to use [BigBlueButton][bbb] API for **PHP 5.4+**.
+[![Build Status](https://travis-ci.org/littleredbutton/bigbluebutton-api-php.svg?branch=master)](https://travis-ci.org/littleredbutton/bigbluebutton-api-php)
+[![Coverage Status](https://coveralls.io/repos/github/littleredbutton/bigbluebutton-api-php/badge.svg?branch=master)](https://coveralls.io/github/littleredbutton/bigbluebutton-api-php?branch=master)
+![PHP from Travis config](https://img.shields.io/travis/php-v/littleredbutton/bigbluebutton-api-php.svg)
+<!-- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/?branch=master) -->
 
-![Packagist](https://img.shields.io/packagist/v/bigbluebutton/bigbluebutton-api-php.svg?label=release)
-![PHP from Travis config](https://img.shields.io/travis/php-v/bigbluebutton/bigbluebutton-api-php.svg)
-[![Downloads](https://img.shields.io/packagist/dt/bigbluebutton/bigbluebutton-api-php.svg?style=flat-square)](https://packagist.org/packages/bigbluebutton/bigbluebutton-api-php)
+**This API uses BigBlueButton and is not endorsed or certified by BigBlueButton
+Inc. BigBlueButton and the BigBlueButton Logo are trademarks of BigBlueButton
+Inc.**
 
-[![Build Status](https://travis-ci.org/bigbluebutton/bigbluebutton-api-php.svg?branch=master)](https://travis-ci.org/bigbluebutton/bigbluebutton-api-php)
-[![Coverage Status](https://coveralls.io/repos/github/bigbluebutton/bigbluebutton-api-php/badge.svg?branch=master)](https://coveralls.io/github/bigbluebutton/bigbluebutton-api-php?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/?branch=master)
+#### Table of Contents
+* [Why should I use a fork?](#question-why-should-i-use-a-fork)
+* [Installation and usage](#gear-installation-and-usage)
+    * [Requirements](#requirements)
+    * [Installation](#installation)
+    * [Basic usage](#basic-usage)
+    * [Test if API url and secret are valid](#test-if-api-url-and-secret-are-valid)
+* [Documentation](#closed_book-documentation)
+    * [Administration](#administration)
+        * [Get API version](#get-api-version)
+        * [Create a meeting](#create-a-meeting)
+        * [Join a meeting](#join-a-meeting)
+        * [End a meeting](#end-a-meeting)
+        * [Get default config](#get-default-config)
+        * [Set default config](#set-default-config)
+    * [Monitoring](#monitoring)
+        * [Get a list of meetings](#get-a-list-of-meetings)
+        * [Is a meeting running?](#is-a-meeting-running)
+        * [Get meeting info](#get-meeting-info)
+    * [Recording](#recording)
+        * [Get recordings](#get-recordings)
+        * [Publish recordings](#publish-recordings)
+        * [Delete recordings](#delete-recordings)
+* [Submitting bugs and feature requests](#submitting-bugs-and-feature-requests)
 
-[![@bigbluebutton on Twitter](https://img.shields.io/badge/twitter-%40bigbluebutton-blue.svg?style=flat)](https://twitter.com/bigbluebutton)
-![Website](https://img.shields.io/website-up-down-green-red/http/bigbluebutton.org.svg?label=BigBlueButton.org)
 
-[![PHP 5.5](https://img.shields.io/badge/php-5.5-f33.svg?style=flat-square)](https://php.net/)
-[![PHP 5.6](https://img.shields.io/badge/php-5.6-f33.svg?style=flat-square)](https://php.net/)
-[![PHP 7.0](https://img.shields.io/badge/php-7.0-f33.svg?style=flat-square)](https://php.net/)
-[![PHP 7.1](https://img.shields.io/badge/php-7.1-f93.svg?style=flat-square)](https://php.net/)
-[![PHP 7.2](https://img.shields.io/badge/php-7.2-9c9.svg?style=flat-square)](https://php.net/)
-[![PHP 7.3](https://img.shields.io/badge/php-7.3-9c9.svg?style=flat-square)](https://php.net/)
+## :question: Why should I use a fork?
+To explain why you should use a fork, we have to explain why we created our own
+fork. While BigBlueButton is a great product, contributing as an external
+developer is often cumbersome. Bug fixes and features are not merged. Modern
+enhancements are postponed or not allowed. Therefore 4 people from different
+companies and universities decided to create a open minded alternative to the
+existing PHP API. While we are still backwards compatible, this fork has the
+following advantages:
 
-## Installation and usage
+- Don't require unsecure environment variables
+- Tests are split into unit and integration tests and therefore working
+- Development is simplified through git hooks and contributor guidelines
+- Documentation is up-to-date and complete
+- API is fixed and extended to exploit the full potential
+- Require at least PHP 7.2, which allows to make the code more efficient and
+  readable
 
-The [wiki] contains all the documentation related to the PHP library. We have also written a samples to show a full
-install and usage example.
+## :gear: Installation and usage
+### Requirements
+In order to use this library you have to make sure to meet the following
+requirements:
+
+- PHP 5.4 or above.
+- curl library installed.
+- mbstring library installed.
+- xml library installed.
+
+### Installation
+We are using composer to manage and install all libraries, so you need to use it
+too. If you setup composer for your project, you just have to add this API to
+your required section via
+
+```
+composer require littleredbutton/bigbluebutton-api-php:dev-master
+```
+
+### Basic usage
+To make any requests to your BigBlueButton instance, you have to create an API object:
+
+```php
+use BigBlueButton/BigBlueButton;
+
+$bbb = new BigBlueButton($apiUrl, $apiSecret);
+```
+
+If you didn't use composer before, make sure that you include `vendor/autoload.php`.
+
+#### Test if API url and secret are valid
+```php
+use BigBlueButton\Parameters\IsMeetingRunningParameters;
+
+$meetingParams = new IsMeetingRunningParameters('foobar');
+
+try {
+	$response = $bbb->isMeetingRunning($meetingParams);
+
+	if (!$response->success() && !$response->failed()) {
+		// invalid url
+	}
+
+	if (!$response->success()) {
+		// invalid secret
+	}
+
+	// url and secret are valid
+} catch (\Exception $e) {
+	// invalid url
+}
+```
+
+## :closed_book: Documentation
+### Administration
+#### Get API version
+```php
+$version = $bbb->getApiVersion()->getVersion();
+```
+
+#### Create a meeting
+```php
+use BigBlueButton\Parameters\CreateMeetingParameters;
+
+$createMeetingParams = new CreateMeetingParameters($meetingID, $meetingName);
+$createMeetingParams->setAttendeePassword($attendee_password);
+$createMeetingParams->setModeratorPassword($moderator_password);
+
+$createMeetingResponse = $bbb->createMeeting($createMeetingParams);
+
+if ($createMeetingResponse->success()) {
+    // process after room created
+}
+```
+
+#### Join a meeting
+```php
+use BigBlueButton\Parameters\JoinMeetingParameters;
+
+$joinMeetingParams = new JoinMeetingParameters($room->uid, $displayname, $password);
+$joinMeetingParams->setCreationTime($createMeetingResponse->getCreationTime());
+$joinMeetingParams->setJoinViaHtml5(true);
+$joinMeetingParams->setRedirect(true);
+
+$joinUrl = $bbb->getJoinMeetingURL($joinMeetingParams);
+
+// e.g. header('Location:' . $joinUrl);
+```
+
+#### End a meeting
+```php
+use BigBlueButton\Parameters\EndMeetingParameters;
+
+$endMeetingParams = new EndMeetingParameters($meetingID, $moderator_password);
+$response = $bbb->endMeeting($endMeetingParams);
+```
+
+#### Get default config
+```php
+$response = $bbb->getDefaultConfigXML();
+
+if ($response->failed()) {
+    // error handling
+}
+
+$response->getRawXml();
+```
+
+#### Set default config
+```php
+use BigBlueButton\Parameters\SetConfigXMLParameters;
+
+$setConfigXmlParams = new SetConfigXMLParameters($meetingId);
+$setConfigXmlParams->setRawXml($rawXml);
+
+$response = $bbb->setConfigXML($setConfigXmlParams);
+
+if ($response->failed()) {
+    // error handling
+}
+
+$response->getToken();
+```
+
+### Monitoring
+#### Get a list of meetings
+```php
+$response = $bbb->getMeetings();
+
+if ($response->failed()) {
+    // error handling
+}
+
+$meetings = $response->getMeetings();
+
+// e.g. $meetings[0]->getMeetingName();
+```
+
+#### Is a meeting running?
+```php
+use BigBlueButton\Parameters\IsMeetingRunningParameters;
+
+$isMeetingRunningParams = new IsMeetingRunningParameters($meetingId);
+
+$response = $bbb->isMeetingRunning($isMeetingRunningParams);
+
+if ($response->success() && $response->isRunning()) {
+    // meeting is running
+}
+```
+
+#### Get meeting info
+```php
+use BigBlueButton\Parameters\GetMeetingInfoParameters;
+
+$getMeetingInfoParams = new GetMeetingInfoParameters($meetingID, $moderator_password);
+
+$response = $bbb->getMeetingInfo($getMeetingInfoParams);
+
+if ($response->failed()) {
+    // error handling
+}
+
+// process $response->getRawXml();
+```
+
+### Recording
+#### Get recordings
+```php
+use BigBlueButton\Parameters\GetRecordingsParameters;
+
+$recordingParams = new GetRecordingsParameters();
+$recordingParams->setRecordId($recordId); // omit to get a list of all recordings
+$recordingParams->setState('any');
+
+$response = $bbb->getRecordings($recordingParams);
+
+if (!$response->success()) {
+    // handle error
+}
+
+$records = $response->getRecords();
+
+// e.g. $records[0]->getParticipantCount();
+```
+
+#### Publish recordings
+```php
+use BigBlueButton\Parameters\PublishRecordingsParameters;
+
+$publishRecordingsParams = new PublishRecordingsParameters($recordingId, $publish);
+
+$response = $bbb->publishRecordings($publishRecordingsParams);
+
+if ($response->success() && $response->isPublished()) {
+    // record was published
+}
+```
+
+#### Delete recordings
+```php
+use BigBlueButton\Parameters\DeleteRecordingsParameters;
+
+$deleteRecordingsParams= new DeleteRecordingsParameters($recordingID);
+
+$response = $bbb->deleteRecordings($deleteRecordingsParams);
+
+if ($response->success()) {
+    // meeting was deleted
+}
+```
 
 ## Submitting bugs and feature requests
 
-Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
+Bugs and feature request are tracked on [GitHub](https://github.com/littleredbutton/bigbluebutton-api-php/issues)
 
-## Contributing guidelines
-### Code style
-
-Make sure the code style configuration is applied by running PHPCS-Fixer.
-
-```
-./vendor/bin/php-cs-fixer fix --allow-risky yes
-```
-
-### Running tests
-
-For every implemented feature add unit tests and check all is green by running the command below.
-
-```
-./vendor/bin/phpunit
-```
-
-[bbb]: http://bigbluebutton.org
-[composer]: https://getcomposer.org
-[INSTALL]: samples/README.md
-[wiki]: https://github.com/bigbluebutton/bigbluebutton-api-php/wiki
+[BigBlueButton API]: https://docs.bigbluebutton.org/dev/api.html
