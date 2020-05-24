@@ -24,6 +24,7 @@ use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
@@ -38,6 +39,7 @@ use BigBlueButton\Responses\GetDefaultConfigXMLResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
+use BigBlueButton\Responses\GetRecordingTextTracksResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
@@ -366,6 +368,29 @@ class BigBlueButton
         return new UpdateRecordingsResponse($xml);
     }
 
+    /**
+     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
+     *
+     * @return string
+     */
+    public function getRecordingTextTracksUrl($getRecordingTextTracksParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDING_TEXT_TRACKS, $getRecordingTextTracksParams->getHTTPQuery());
+    }
+
+    /**
+     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
+     *
+     * @return GetRecordingTextTracksResponse
+     * @throws \RuntimeException
+     */
+    public function getRecordingTextTracks($getRecordingTextTracksParams)
+    {
+        return new GetRecordingTextTracksResponse(
+            $this->processJsonResponse($this->getRecordingTextTracksUrl($getRecordingTextTracksParams))
+        );
+    }
+
     /* ____________________ WEB HOOKS METHODS ___________________ */
 
     /**
@@ -444,6 +469,41 @@ class BigBlueButton
     }
 
     /* ____________________ INTERNAL CLASS METHODS ___________________ */
+
+    /**
+     * A private utility method used by other public methods to process JSON responses.
+     *
+     * @param string $url
+     *
+     * @return string
+     * @throws \RuntimeException
+     */
+    private function processJsonResponse($url)
+    {
+        if (extension_loaded('curl')) {
+            $ch = curl_init();
+            if (!$ch) {
+                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+            }
+
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+            curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+
+            $data = curl_exec($ch);
+            if ($data === false) {
+                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+            }
+            curl_close($ch);
+
+            return $data;
+        } else {
+            throw new \RuntimeException('Post JSON data set but curl PHP module is not installed or not enabled.');
+        }
+    }
 
     /**
      * A private utility method used by other public methods to process XML responses.
