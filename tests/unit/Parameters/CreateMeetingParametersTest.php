@@ -50,6 +50,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['logo'], $createMeetingParams->getLogo());
         $this->assertEquals($params['copyright'], $createMeetingParams->getCopyright());
         $this->assertEquals($params['muteOnStart'], $createMeetingParams->isMuteOnStart());
+        $this->assertEquals($params['guestPolicy'], $createMeetingParams->getGuestPolicy());
         $this->assertEquals($params['lockSettingsDisableCam'], $createMeetingParams->isLockSettingsDisableCam());
         $this->assertEquals($params['lockSettingsDisableMic'], $createMeetingParams->isLockSettingsDisableMic());
         $this->assertEquals($params['lockSettingsDisablePrivateChat'], $createMeetingParams->isLockSettingsDisablePrivateChat());
