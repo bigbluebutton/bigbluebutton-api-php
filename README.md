@@ -60,7 +60,7 @@ following advantages:
 In order to use this library you have to make sure to meet the following
 requirements:
 
-- PHP 5.4 or above.
+- PHP 7.2 or above.
 - curl library installed.
 - mbstring library installed.
 - xml library installed.
