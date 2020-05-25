@@ -55,7 +55,8 @@
       "pre-push": [
         "vendor/bin/phpunit"
       ],
-      "post-merge": "composer install"
+      "post-merge": "composer install",
+      "post-checkout": "composer install"
     }
   }
 }
