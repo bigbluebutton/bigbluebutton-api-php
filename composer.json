@@ -34,6 +34,11 @@
       "name": "Pablo Ogando",
       "email": "pablo.ogando@teltek.es",
       "role": "Developer"
+    },
+    {
+      "name": "Alfonso Rodríguez",
+      "email": "arodriguez@teltek.es",
+      "role": "Developer"
     }
   ],
   "repositories": {
