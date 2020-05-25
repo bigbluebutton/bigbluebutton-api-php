@@ -32,7 +32,7 @@ class Hook
     protected $rawXml;
 
     /**
-     * @var string
+     * @var int
      */
     private $hookId;
 
@@ -71,7 +71,7 @@ class Hook
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getHookId()
     {
