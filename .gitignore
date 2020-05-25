@@ -8,3 +8,5 @@ composer.phar
 
 # PHP CS Fixer cache file
 .php_cs.cache
+cghooks.lock
+
