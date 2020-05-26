@@ -24,6 +24,7 @@ use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
@@ -38,6 +39,7 @@ use BigBlueButton\Responses\GetDefaultConfigXMLResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
+use BigBlueButton\Responses\GetRecordingTextTracksResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
@@ -430,6 +432,29 @@ class BigBlueButton
         return new UpdateRecordingsResponse($xml);
     }
 
+    /**
+     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
+     *
+     * @return string
+     */
+    public function getRecordingTextTracksUrl($getRecordingTextTracksParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDING_TEXT_TRACKS, $getRecordingTextTracksParams->getHTTPQuery());
+    }
+
+    /**
+     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
+     *
+     * @return GetRecordingTextTracksResponse
+     * @throws \RuntimeException
+     */
+    public function getRecordingTextTracks($getRecordingTextTracksParams)
+    {
+        return new GetRecordingTextTracksResponse(
+            $this->processJsonResponse($this->getRecordingTextTracksUrl($getRecordingTextTracksParams))
+        );
+    }
+
     /* ____________________ WEB HOOKS METHODS ___________________ */
 
     /**
@@ -525,50 +550,80 @@ class BigBlueButton
      */
     private function processXmlResponse($url, $payload = '', $contentType = 'application/xml')
     {
-        if (extension_loaded('curl')) {
-            $ch = curl_init();
-            if (!$ch) {
-                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
-            }
-            $timeout = 10;
+        return new SimpleXMLElement($this->requestUrl($url, $payload, $contentType));
+    }
 
-            // Needed to store the JSESSIONID
-            $cookiefile     = tmpfile();
-            $cookiefilepath = stream_get_meta_data($cookiefile)['uri'];
+    /**
+     * A private utility method used by other public methods to process json responses.
+     *
+     * @param string $url
+     * @param string $payload
+     * @param string $contentType
+     *
+     * @return string
+     * @throws \RuntimeException
+     */
+    private function processJsonResponse($url, $payload = '', $contentType = 'application/json')
+    {
+        return $this->requestUrl($url, $payload, $contentType);
+    }
 
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-            curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiefilepath);
-            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiefilepath);
-            if (!empty($payload)) {
-                curl_setopt($ch, CURLOPT_HEADER, 0);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Content-type: ' . $contentType,
-                    'Content-length: ' . mb_strlen($payload),
-                ]);
-            }
-            $data = curl_exec($ch);
-            if ($data === false) {
-                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
-            }
-            curl_close($ch);
-
-            $cookies = file_get_contents($cookiefilepath);
-            if (strpos($cookies, 'JSESSIONID') !== false) {
-                preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
-                $this->setJSessionId($output_array['JSESSIONID']);
-            }
-
-            return new SimpleXMLElement($data);
-        } else {
-            throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
+    /**
+     * A private utility method used by other public methods to request from the api.
+     *
+     * @param string $url
+     * @param string $payload
+     * @param string $contentType
+     *
+     * @return string            Response body
+     * @throws \RuntimeException
+     */
+    private function requestUrl($url, $payload = '', $contentType = 'application/xml')
+    {
+        if (!extension_loaded('curl')) {
+            throw new \RuntimeException('Curl PHP module is not installed or not enabled.');
         }
+
+        $ch = curl_init();
+        if (!$ch) {
+            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+        }
+        $timeout = 10;
+
+        // Needed to store the JSESSIONID
+        $cookiefile     = tmpfile();
+        $cookiefilepath = stream_get_meta_data($cookiefile)['uri'];
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiefilepath);
+        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiefilepath);
+        if (!empty($payload)) {
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-type: ' . $contentType,
+                'Content-length: ' . mb_strlen($payload),
+            ]);
+        }
+        $data = curl_exec($ch);
+        if ($data === false) {
+            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+        }
+        curl_close($ch);
+
+        $cookies = file_get_contents($cookiefilepath);
+        if (strpos($cookies, 'JSESSIONID') !== false) {
+            preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
+            $this->setJSessionId($output_array['JSESSIONID']);
+        }
+
+        return $data;
     }
 }

@@ -284,6 +284,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return simplexml_load_string(file_get_contents(($path)));
     }
 
+    protected function loadJsonFile($path)
+    {
+        return file_get_contents($path);
+    }
+
     protected function minifyString($string)
     {
         return str_replace(["\r\n", "\r", "\n", "\t", ' '], '', $string);

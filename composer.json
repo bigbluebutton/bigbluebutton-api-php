@@ -56,7 +56,8 @@
     "php": "^7.2",
     "ext-curl": "*",
     "ext-simplexml": "*",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "ext-json": "*"
   },
   "require-dev": {
     "composer/composer": "^1.10.0",
