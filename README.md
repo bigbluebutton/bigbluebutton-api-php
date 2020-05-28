@@ -71,7 +71,7 @@ too. If you setup composer for your project, you just have to add this API to
 your required section via
 
 ```
-composer require littleredbutton/bigbluebutton-api-php:dev-master
+composer require littleredbutton/bigbluebutton-api-php
 ```
 
 ### Basic usage
