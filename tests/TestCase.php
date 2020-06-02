@@ -125,18 +125,36 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         $createMeetingParams = new CreateMeetingParameters($params['meetingId'], $params['meetingName']);
 
-        return $createMeetingParams->setAttendeePassword($params['attendeePassword'])->setModeratorPassword($params['moderatorPassword'])
-            ->setDialNumber($params['dialNumber'])->setVoiceBridge($params['voiceBridge'])->setWebVoice($params['webVoice'])
-            ->setLogoutUrl($params['logoutUrl'])->setMaxParticipants($params['maxParticipants'])->setRecord($params['record'])
-            ->setDuration($params['duration'])->setWelcomeMessage($params['welcomeMessage'])->setAutoStartRecording($params['autoStartRecording'])
-            ->setAllowStartStopRecording($params['allowStartStopRecording'])->setModeratorOnlyMessage($params['moderatorOnlyMessage'])
-            ->setWebcamsOnlyForModerator($params['webcamsOnlyForModerator'])->setLogo($params['logo'])->setCopyright($params['copyright'])
-            ->setEndCallbackUrl($params['meta_endCallbackUrl'])->setMuteOnStart($params['muteOnStart'])->setLockSettingsDisableCam($params['lockSettingsDisableCam'])
-            ->setLockSettingsDisableMic($params['lockSettingsDisableMic'])->setLockSettingsDisablePrivateChat($params['lockSettingsDisablePrivateChat'])
-            ->setLockSettingsDisablePublicChat($params['lockSettingsDisablePublicChat'])->setLockSettingsDisableNote($params['lockSettingsDisableNote'])
-            ->setLockSettingsHideUserList($params['lockSettingsHideUserList'])->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
-            ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoin'])
-            ->addMeta('presenter', $params['meta_presenter']);
+        return $createMeetingParams
+            ->setAttendeePassword($params['attendeePassword'])
+            ->setModeratorPassword($params['moderatorPassword'])
+            ->setDialNumber($params['dialNumber'])
+            ->setVoiceBridge($params['voiceBridge'])
+            ->setWebVoice($params['webVoice'])
+            ->setLogoutUrl($params['logoutUrl'])
+            ->setMaxParticipants($params['maxParticipants'])
+            ->setRecord($params['record'])
+            ->setDuration($params['duration'])
+            ->setWelcomeMessage($params['welcomeMessage'])
+            ->setAutoStartRecording($params['autoStartRecording'])
+            ->setAllowStartStopRecording($params['allowStartStopRecording'])
+            ->setModeratorOnlyMessage($params['moderatorOnlyMessage'])
+            ->setWebcamsOnlyForModerator($params['webcamsOnlyForModerator'])
+            ->setLogo($params['logo'])
+            ->setCopyright($params['copyright'])
+            ->setEndCallbackUrl($params['meta_endCallbackUrl'])
+            ->setMuteOnStart($params['muteOnStart'])
+            ->setLockSettingsDisableCam($params['lockSettingsDisableCam'])
+            ->setLockSettingsDisableMic($params['lockSettingsDisableMic'])
+            ->setLockSettingsDisablePrivateChat($params['lockSettingsDisablePrivateChat'])
+            ->setLockSettingsDisablePublicChat($params['lockSettingsDisablePublicChat'])
+            ->setLockSettingsDisableNote($params['lockSettingsDisableNote'])
+            ->setLockSettingsHideUserList($params['lockSettingsHideUserList'])
+            ->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
+            ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])
+            ->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoinConfigurable'])
+            ->addMeta('presenter', $params['meta_presenter'])
+            ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url']);
     }
 
     /**
