@@ -152,6 +152,11 @@ class Meeting
     private $metas;
 
     /**
+     * @var bool
+     */
+    private $isBreakout;
+
+    /**
      * Meeting constructor.
      * @param $xml \SimpleXMLElement
      */
@@ -180,6 +185,7 @@ class Meeting
         $this->endTime               = (float) $xml->endTime;
         $this->maxUsers              = (int) $xml->maxUsers->__toString();
         $this->moderatorCount        = (int) $xml->moderatorCount->__toString();
+        $this->isBreakout            = $xml->isBreakout->__toString() === 'true';
     }
 
     /**
@@ -386,5 +392,10 @@ class Meeting
         }
 
         return $this->metas;
+    }
+
+    public function isBreakout(): bool
+    {
+        return $this->isBreakout;
     }
 }
