@@ -63,6 +63,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals(20, $info->getMaxUsers());
         $this->assertEquals(2, $info->getModeratorCount());
         $this->assertEquals(10, sizeof($info->getMetas()));
+        $this->assertEquals(true, $info->isBreakout());
     }
 
     public function testMeetingAttendeeContent()
