@@ -15,12 +15,12 @@ The official and easy to use **BigBlueButton API for PHP**, makes easy for devel
 [![@bigbluebutton on Twitter](https://img.shields.io/badge/twitter-%40bigbluebutton-blue.svg?style=flat)](https://twitter.com/bigbluebutton)
 ![Website](https://img.shields.io/website-up-down-green-red/http/bigbluebutton.org.svg?label=BigBlueButton.org)
 
-[![PHP 5.5](https://img.shields.io/badge/php-5.5-f33.svg?style=flat-square)](https://php.net/)
 [![PHP 5.6](https://img.shields.io/badge/php-5.6-f33.svg?style=flat-square)](https://php.net/)
 [![PHP 7.0](https://img.shields.io/badge/php-7.0-f33.svg?style=flat-square)](https://php.net/)
-[![PHP 7.1](https://img.shields.io/badge/php-7.1-f93.svg?style=flat-square)](https://php.net/)
-[![PHP 7.2](https://img.shields.io/badge/php-7.2-9c9.svg?style=flat-square)](https://php.net/)
+[![PHP 7.1](https://img.shields.io/badge/php-7.1-f33.svg?style=flat-square)](https://php.net/)
+[![PHP 7.2](https://img.shields.io/badge/php-7.2-f93.svg?style=flat-square)](https://php.net/)
 [![PHP 7.3](https://img.shields.io/badge/php-7.3-9c9.svg?style=flat-square)](https://php.net/)
+[![PHP 7.4](https://img.shields.io/badge/php-7.4-9c9.svg?style=flat-square)](https://php.net/)
 
 ## Installation and usage
 
@@ -44,8 +44,14 @@ Make sure the code style configuration is applied by running PHPCS-Fixer.
 
 For every implemented feature add unit tests and check all is green by running the command below.
 
-```
+```bash
 ./vendor/bin/phpunit
+```
+
+To run a single test
+
+```bash
+./vendor/bin/phpunit --filter "BigBlueButtonTest::testApiVersion"
 ```
 
 [bbb]: http://bigbluebutton.org

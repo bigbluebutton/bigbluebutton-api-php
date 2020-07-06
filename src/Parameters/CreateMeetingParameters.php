@@ -164,6 +164,11 @@ class CreateMeetingParameters extends MetaParameters
     private $lockSettingsLockOnJoinConfigurable;
 
     /**
+     * @var bool
+     */
+    private $allowModsToUnmuteUsers;
+
+    /**
      * @var array
      */
     private $presentations = [];
@@ -748,6 +753,25 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return bool
+     */
+    public function isAllowModsToUnmuteUsers()
+    {
+        return $this->allowModsToUnmuteUsers;
+    }
+
+    /**
+     * @param  bool                    $allowModsToUnmuteUsers
+     * @return CreateMeetingParameters
+     */
+    public function setAllowModsToUnmuteUsers($allowModsToUnmuteUsers)
+    {
+        $this->allowModsToUnmuteUsers = $allowModsToUnmuteUsers;
+
+        return $this;
+    }
+
+    /**
      * @param $endCallbackUrl
      * @return CreateMeetingParameters
      */
@@ -926,7 +950,7 @@ class CreateMeetingParameters extends MetaParameters
             'webcamsOnlyForModerator'            => $this->webcamsOnlyForModerator ? 'true' : 'false',
             'logo'                               => $this->logo,
             'copyright'                          => $this->copyright,
-            'muteOnStart'                        => $this->muteOnStart,
+            'muteOnStart'                        => $this->muteOnStart ? 'true' : 'false',
             'lockSettingsDisableCam'             => $this->isLockSettingsDisableCam() ? 'true' : 'false',
             'lockSettingsDisableMic'             => $this->isLockSettingsDisableMic() ? 'true' : 'false',
             'lockSettingsDisablePrivateChat'     => $this->isLockSettingsDisablePrivateChat() ? 'true' : 'false',
@@ -936,6 +960,7 @@ class CreateMeetingParameters extends MetaParameters
             'lockSettingsLockedLayout'           => $this->isLockSettingsLockedLayout() ? 'true' : 'false',
             'lockSettingsLockOnJoin'             => $this->isLockSettingsLockOnJoin() ? 'true' : 'false',
             'lockSettingsLockOnJoinConfigurable' => $this->isLockSettingsLockOnJoinConfigurable() ? 'true' : 'false',
+            'allowModsToUnmuteUsers'             => $this->isAllowModsToUnmuteUsers() ? 'true' : 'false',
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room
