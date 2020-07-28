@@ -130,6 +130,22 @@ if ($createMeetingResponse->success()) {
 }
 ```
 
+##### Experimental features
+> :warning: ** Not officially supported by bbb**, but possible with the current bbb-api.
+
+**Guest policy**
+Beside the guest policies ALWAYS_ACCEPT, ALWAYS_DENY, and ASK_MODERATOR there is also the option ALWAYS_ACCEPT_AUTH. [sourcecode](https://github.com/bigbluebutton/bigbluebutton/blob/41f19a2cd1bc7dae76cbd805cdc3ddfbf1e6ab18/bbb-common-web/src/main/java/org/bigbluebutton/api/domain/GuestPolicy.java#L7)
+
+ASK_MODERATOR is asking the moderator(s) to accept or decline the join of a user or guest. When using our api guest users are by default marked as 'unauthorized' users.
+
+By using the option ALWAYS_ACCEPT_AUTH all authorized users (non-guests) can directly join the meeting and the moderators approval is only required for unauthorized users, like guests.
+
+
+```php
+$createMeetingParams->setGuestPolicyAlwaysAcceptAuth();
+```
+
+
 #### Join a meeting
 ```php
 use BigBlueButton\Parameters\JoinMeetingParameters;

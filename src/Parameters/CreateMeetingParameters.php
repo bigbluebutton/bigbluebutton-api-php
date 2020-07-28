@@ -23,9 +23,10 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    const ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
-    const ALWAYS_DENY   = 'ALWAYS_DENY';
-    const ASK_MODERATOR = 'ASK_MODERATOR';
+    const ALWAYS_ACCEPT      = 'ALWAYS_ACCEPT';
+    const ALWAYS_DENY        = 'ALWAYS_DENY';
+    const ASK_MODERATOR      = 'ASK_MODERATOR';
+    const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
 
     /**
      * @var string
@@ -925,11 +926,31 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * Ask moderator on join of non-moderators if user/guest is allowed to enter the meeting
      * @return CreateMeetingParameters
      */
     public function setGuestPolicyAskModerator()
     {
         $this->guestPolicy = self::ASK_MODERATOR;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGuestPolicyAlwaysAcceptAuth()
+    {
+        return $this->guestPolicy === self::ALWAYS_ACCEPT_AUTH;
+    }
+
+    /**
+     * Ask moderator on join of guests is allowed to enter the meeting, user are allowed to join directly
+     * @return CreateMeetingParameters
+     */
+    public function setGuestPolicyAlwaysAcceptAuth()
+    {
+        $this->guestPolicy = self::ALWAYS_ACCEPT_AUTH;
 
         return $this;
     }
