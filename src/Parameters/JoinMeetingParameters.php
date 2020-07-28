@@ -350,8 +350,9 @@ class JoinMeetingParameters extends UserDataParameters
             'clientURL'    => $this->clientURL,
         ];
 
-        if($this->guest)
+        if ($this->guest) {
             $queries['guest'] = 'true';
+        }
 
         $this->buildUserData($queries);
 
