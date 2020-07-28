@@ -348,8 +348,12 @@ class JoinMeetingParameters extends UserDataParameters
             'redirect'     => $this->redirect ? 'true' : 'false',
             'joinViaHtml5' => $this->joinViaHtml5 ? 'true' : 'false',
             'clientURL'    => $this->clientURL,
-            'guest'        => $this->guest ? 'true' : 'false',
         ];
+
+        if ($this->guest) {
+            $queries['guest'] = 'true';
+        }
+
         $this->buildUserData($queries);
 
         return $this->buildHTTPQuery($queries);

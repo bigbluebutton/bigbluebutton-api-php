@@ -167,11 +167,12 @@ class BigBlueButtonTest extends TestCase
     /* Join Meeting */
 
     /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage String could not be parsed as XML
      */
     public function testJoinMeeting()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('String could not be parsed as XML');
+
         $joinMeetingParams = $this->generateJoinMeetingParams();
         $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
         $joinMeetingMock->setRedirect(false);
