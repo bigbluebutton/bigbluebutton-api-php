@@ -131,7 +131,7 @@ if ($createMeetingResponse->success()) {
 ```
 
 ##### Experimental features
-> :warning: **Not officially supported by bbb**, but possible with the current bbb-api.
+> :warning:  **Not officially supported by bbb**
 
 **Guest policy**
 Beside the guest policies ALWAYS_ACCEPT, ALWAYS_DENY, and ASK_MODERATOR there is also the option ALWAYS_ACCEPT_AUTH. [sourcecode](https://github.com/bigbluebutton/bigbluebutton/blob/41f19a2cd1bc7dae76cbd805cdc3ddfbf1e6ab18/bbb-common-web/src/main/java/org/bigbluebutton/api/domain/GuestPolicy.java#L7)
