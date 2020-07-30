@@ -19,7 +19,7 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
-use BigBlueButton\Exceptions\BadResponseException;
+use BigBlueButton\Exceptions\NetworkException;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -617,10 +617,12 @@ class BigBlueButton
         if ($data === false) {
             throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
         }
+
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($httpcode < 200 || $httpcode >= 300) {
-            throw new BadResponseException('Bad response, HTTP code: ' . $httpcode);
+            throw new NetworkException('Bad response', $httpcode);
         }
+
         curl_close($ch);
 
         $cookies = file_get_contents($cookiefilepath);

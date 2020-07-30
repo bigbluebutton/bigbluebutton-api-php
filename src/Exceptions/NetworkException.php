@@ -2,6 +2,6 @@
 
 namespace BigBlueButton\Exceptions;
 
-class BadResponseException extends \Exception
+class NetworkException extends BaseException
 {
 }
