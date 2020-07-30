@@ -19,7 +19,10 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Exceptions\ConfigException;
 use BigBlueButton\Exceptions\NetworkException;
+use BigBlueButton\Exceptions\ParsingException;
+use BigBlueButton\Exceptions\RuntimeException;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -80,7 +83,7 @@ class BigBlueButton
         $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL');
 
         if (empty($this->bbbServerBaseUrl)) {
-            throw new \Exception('Base url required');
+            throw new ConfigException('Base url required');
         }
 
         $this->urlBuilder = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
@@ -89,7 +92,7 @@ class BigBlueButton
     /**
      * @return ApiVersionResponse
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getApiVersion()
     {
@@ -165,7 +168,7 @@ class BigBlueButton
      * @param CreateMeetingParameters $createMeetingParams
      *
      * @return CreateMeetingResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function createMeeting($createMeetingParams)
     {
@@ -184,7 +187,7 @@ class BigBlueButton
 
     /**
      * @return GetDefaultConfigXMLResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getDefaultConfigXML()
     {
@@ -205,7 +208,7 @@ class BigBlueButton
      * @param  $setConfigXMLParams
      *
      * @return SetConfigXMLResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function setConfigXML($setConfigXMLParams)
     {
@@ -230,7 +233,7 @@ class BigBlueButton
      * @param $joinMeetingParams JoinMeetingParameters
      *
      * @return JoinMeetingResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function joinMeeting($joinMeetingParams)
     {
@@ -253,7 +256,7 @@ class BigBlueButton
      * @param $endParams EndMeetingParameters
      *
      * @return EndMeetingResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * */
     public function endMeeting($endParams)
     {
@@ -283,7 +286,7 @@ class BigBlueButton
      * @param $meetingParams
      *
      * @return IsMeetingRunningResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function isMeetingRunning($meetingParams)
     {
@@ -302,7 +305,7 @@ class BigBlueButton
 
     /**
      * @return GetMeetingsResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getMeetings()
     {
@@ -325,7 +328,7 @@ class BigBlueButton
      * @param $meetingParams GetMeetingInfoParameters
      *
      * @return GetMeetingInfoResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getMeetingInfo($meetingParams)
     {
@@ -355,7 +358,7 @@ class BigBlueButton
      * @param $recordingParams
      *
      * @return GetRecordingsResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getRecordings($recordingParams)
     {
@@ -378,7 +381,7 @@ class BigBlueButton
      * @param $recordingParams PublishRecordingsParameters
      *
      * @return PublishRecordingsResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function publishRecordings($recordingParams)
     {
@@ -401,7 +404,7 @@ class BigBlueButton
      * @param $recordingParams DeleteRecordingsParameters
      *
      * @return DeleteRecordingsResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function deleteRecordings($recordingParams)
     {
@@ -424,7 +427,7 @@ class BigBlueButton
      * @param $recordingParams UpdateRecordingsParameters
      *
      * @return UpdateRecordingsResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function updateRecordings($recordingParams)
     {
@@ -447,7 +450,7 @@ class BigBlueButton
      * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
      *
      * @return GetRecordingTextTracksResponse
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function getRecordingTextTracks($getRecordingTextTracksParams)
     {
@@ -547,11 +550,15 @@ class BigBlueButton
      * @param string $contentType
      *
      * @return SimpleXMLElement
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function processXmlResponse($url, $payload = '', $contentType = 'application/xml')
     {
-        return new SimpleXMLElement($this->requestUrl($url, $payload, $contentType));
+        try {
+            return new SimpleXMLElement($this->requestUrl($url, $payload, $contentType));
+        } catch (\Exception $e) {
+            throw new ParsingException('Could not parse payload as XML', 0, $e);
+        }
     }
 
     /**
@@ -562,7 +569,7 @@ class BigBlueButton
      * @param string $contentType
      *
      * @return string
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function processJsonResponse($url, $payload = '', $contentType = 'application/json')
     {
@@ -576,18 +583,18 @@ class BigBlueButton
      * @param string $payload
      * @param string $contentType
      *
-     * @return string            Response body
-     * @throws \RuntimeException
+     * @return string           Response body
+     * @throws RuntimeException
      */
     private function requestUrl($url, $payload = '', $contentType = 'application/xml')
     {
         if (!extension_loaded('curl')) {
-            throw new \RuntimeException('Curl PHP module is not installed or not enabled.');
+            throw new RuntimeException('Curl PHP module is not installed or not enabled.');
         }
 
         $ch = curl_init();
         if (!$ch) {
-            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+            throw new RuntimeException('Could not create curl instance. Error: ' . curl_error($ch));
         }
         $timeout = 10;
 
@@ -615,7 +622,7 @@ class BigBlueButton
         }
         $data = curl_exec($ch);
         if ($data === false) {
-            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+            throw new NetworkException('Error during curl_exec. Error: ' . curl_error($ch));
         }
 
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
