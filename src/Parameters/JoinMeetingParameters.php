@@ -79,6 +79,11 @@ class JoinMeetingParameters extends UserDataParameters
     private $joinViaHtml5;
 
     /**
+     * @var array
+     */
+    private $customParameters;
+
+    /**
      * JoinMeetingParametersTest constructor.
      *
      * @param $meetingId
@@ -90,6 +95,7 @@ class JoinMeetingParameters extends UserDataParameters
         $this->meetingId = $meetingId;
         $this->username  = $username;
         $this->password  = $password;
+        $this->customParameters = array();
     }
 
     /**
@@ -308,6 +314,18 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
+     * @param  string $paramName
+     * @param  string $paramValue
+     * @return JoinMeetingParameters
+     */
+    public function setCustomParameter($paramName, $paramValue)
+    {
+        $this->customParameters[$paramName] = $paramValue;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getHTTPQuery()
@@ -325,6 +343,11 @@ class JoinMeetingParameters extends UserDataParameters
             'joinViaHtml5' => $this->joinViaHtml5 ? 'true' : 'false',
             'clientURL'    => $this->clientURL
         ];
+
+        foreach( $this->customParameters as $key => $value ) {
+            $queries[$key] = $value;
+        }
+
         $this->buildUserData($queries);
 
         return $this->buildHTTPQuery($queries);
