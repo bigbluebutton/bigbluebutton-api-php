@@ -100,6 +100,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'meta_presenter'                     => $this->faker->name,
             'meta_endCallbackUrl'                => $this->faker->url,
             'meta_bbb-recording-ready-url'       => $this->faker->url,
+            'bannerText'                         => $this->faker->sentence,
+            'bannerColor'                        => $this->faker->hexcolor,
         ];
     }
 
@@ -156,7 +158,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoinConfigurable'])
             ->setAllowModsToUnmuteUsers($params['allowModsToUnmuteUsers'])
             ->setGuestPolicyAlwaysAccept()
-            ->addMeta('presenter', $params['meta_presenter']);
+            ->addMeta('presenter', $params['meta_presenter'])
+            ->setBannerText($params['bannerText'])
+            ->setBannerColor($params['bannerColor']);
     }
 
     /**

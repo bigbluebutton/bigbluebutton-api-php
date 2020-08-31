@@ -204,6 +204,16 @@ class CreateMeetingParameters extends MetaParameters
     private $guestPolicy = self::ALWAYS_ACCEPT;
 
     /**
+     * @var string
+     */
+    private $bannerText;
+
+    /**
+     * @var string
+     */
+    private $bannerColor;
+
+    /**
      * CreateMeetingParameters constructor.
      *
      * @param $meetingId
@@ -981,6 +991,30 @@ class CreateMeetingParameters extends MetaParameters
         return $this->guestPolicy;
     }
 
+    public function setBannerText(string $bannerText)
+    {
+        $this->bannerText = $bannerText;
+
+        return $this;
+    }
+
+    public function getBannerText(): string
+    {
+        return $this->bannerText;
+    }
+
+    public function setBannerColor(string $bannerColor)
+    {
+        $this->bannerColor = $bannerColor;
+
+        return $this;
+    }
+
+    public function getBannerColor(): string
+    {
+        return $this->bannerColor;
+    }
+
     /**
      * @return array
      */
@@ -1074,6 +1108,8 @@ class CreateMeetingParameters extends MetaParameters
             'lockSettingsLockOnJoin'             => $this->isLockSettingsLockOnJoin() ? 'true' : 'false',
             'lockSettingsLockOnJoinConfigurable' => $this->isLockSettingsLockOnJoinConfigurable() ? 'true' : 'false',
             'allowModsToUnmuteUsers'             => $this->isAllowModsToUnmuteUsers() ? 'true' : 'false',
+            'bannerText'                         => $this->bannerText,
+            'bannerColor'                        => $this->bannerColor,
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room
