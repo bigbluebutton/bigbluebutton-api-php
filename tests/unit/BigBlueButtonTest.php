@@ -19,6 +19,7 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Exceptions\ConfigException;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
@@ -42,6 +43,13 @@ class BigBlueButtonTest extends TestCase
         parent::setUp();
 
         $this->bbb = new BigBlueButton('http://localhost/');
+    }
+
+    public function testMissingUrl()
+    {
+        $this->expectException(ConfigException::class);
+
+        new BigBlueButton('');
     }
 
     /* Create Meeting */
