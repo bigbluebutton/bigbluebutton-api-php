@@ -24,46 +24,36 @@ class HooksDestroyParameters extends BaseParameters
     /**
      * @var string
      */
-    private $hookId;
+    protected $hookID;
 
     /**
      * HooksDestroyParameters constructor.
      *
      * @param $hookId
      */
-    public function __construct($hookId)
+    public function __construct($hookID)
     {
-        $this->hookId  = $hookId;
+        $this->hookID  = $hookID;
     }
 
     /**
+     * @deprecated use getHookID() instead
      * @return string
      */
     public function getHookId()
     {
-        return $this->hookId;
+        return $this->hookID;
     }
 
     /**
+     * @deprecated use setHookID() instead
      * @param  string                 $hookId
      * @return HooksDestroyParameters
      */
-    public function setHookId($hookId)
+    public function setHookId($hookID)
     {
-        $this->hookId = $hookId;
+        $this->hookID = $hookID;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        $queries = [
-            'hookID' => $this->hookId
-        ];
-
-        return $this->buildHTTPQuery($queries);
     }
 }

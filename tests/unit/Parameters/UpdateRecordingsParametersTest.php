@@ -27,7 +27,7 @@ class UpdateRecordingsParametersTest extends TestCase
         $params                 = $this->generateUpdateRecordingsParams();
         $updateRecordingsParams = $this->getUpdateRecordingsParamsMock($params);
 
-        $this->assertEquals($params['recordingId'], $updateRecordingsParams->getRecordingId());
+        $this->assertEquals($params['recordID'], $updateRecordingsParams->getRecordingId());
         $this->assertEquals($params['meta_presenter'], $updateRecordingsParams->getMeta('presenter'));
 
         // Test setters that are ignored by the constructor

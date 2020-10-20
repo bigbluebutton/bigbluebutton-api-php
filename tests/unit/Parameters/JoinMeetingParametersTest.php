@@ -27,15 +27,15 @@ class JoinMeetingParametersTest extends TestCase
         $params            = $this->generateJoinMeetingParams();
         $joinMeetingParams = $this->getJoinMeetingMock($params);
 
-        $this->assertEquals($params['meetingId'], $joinMeetingParams->getMeetingId());
-        $this->assertEquals($params['userName'], $joinMeetingParams->getUsername());
+        $this->assertEquals($params['meetingID'], $joinMeetingParams->getMeetingId());
+        $this->assertEquals($params['fullName'], $joinMeetingParams->getUsername());
         $this->assertEquals($params['password'], $joinMeetingParams->getPassword());
-        $this->assertEquals($params['userId'], $joinMeetingParams->getUserId());
+        $this->assertEquals($params['userID'], $joinMeetingParams->getUserId());
         $this->assertEquals($params['webVoiceConf'], $joinMeetingParams->getWebVoiceConf());
         $this->assertEquals($params['creationTime'], $joinMeetingParams->getCreationTime());
-        $this->assertEquals($params['userdata_countrycode'], $joinMeetingParams->getUserData('countrycode'));
-        $this->assertEquals($params['userdata_email'], $joinMeetingParams->getUserData('email'));
-        $this->assertEquals($params['userdata_commercial'], $joinMeetingParams->getUserData('commercial'));
+        $this->assertEquals($params['userdata-countrycode'], $joinMeetingParams->getUserData('countrycode'));
+        $this->assertEquals($params['userdata-email'], $joinMeetingParams->getUserData('email'));
+        $this->assertEquals($params['userdata-commercial'], $joinMeetingParams->getUserData('commercial'));
 
         // Test setters that are ignored by the constructor
         $joinMeetingParams->setMeetingId($newId = $this->faker->uuid);

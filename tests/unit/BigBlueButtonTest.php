@@ -65,7 +65,7 @@ class BigBlueButtonTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
+            $this->assertStringContainsString(\urlencode($key) . '=' . urlencode($value), $url);
         }
     }
 
@@ -85,7 +85,7 @@ class BigBlueButtonTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
+            $this->assertStringContainsString(\urlencode($key) . '=' . urlencode($value), $url);
         }
     }
 
@@ -110,7 +110,7 @@ class BigBlueButtonTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
+            $this->assertStringContainsString(\urlencode($key) . '=' . urlencode($value), $url);
         }
     }
 
@@ -150,7 +150,7 @@ class BigBlueButtonTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
+            $this->assertStringContainsString(\urlencode($key) . '=' . urlencode($value), $url);
         }
     }
 }

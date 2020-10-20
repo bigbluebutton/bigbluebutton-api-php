@@ -32,7 +32,7 @@ class CreateMeetingParametersTest extends TestCase
         $createMeetingParams = $this->getCreateMock($params);
 
         $this->assertEquals($params['meetingName'], $createMeetingParams->getMeetingName());
-        $this->assertEquals($params['meetingId'], $createMeetingParams->getMeetingId());
+        $this->assertEquals($params['meetingID'], $createMeetingParams->getMeetingId());
         $this->assertEquals($params['attendeePassword'], $createMeetingParams->getAttendeePassword());
         $this->assertEquals($params['moderatorPassword'], $createMeetingParams->getModeratorPassword());
         $this->assertEquals($params['autoStartRecording'], $createMeetingParams->isAutoStartRecording());

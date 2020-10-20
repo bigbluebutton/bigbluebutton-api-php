@@ -27,48 +27,36 @@ class UpdateRecordingsParameters extends MetaParameters
     /**
      * @var string
      */
-    private $recordingId;
+    protected $recordID;
 
     /**
      * UpdateRecordingsParameters constructor.
      *
-     * @param $recordingId
+     * @param $recordID
      */
-    public function __construct($recordingId)
+    public function __construct($recordID)
     {
-        $this->recordingId = $recordingId;
+        $this->recordID = $recordID;
     }
 
     /**
+     * @deprecated use getRecordID() instead
      * @return string
      */
     public function getRecordingId()
     {
-        return $this->recordingId;
+        return $this->recordID;
     }
 
     /**
+     * @deprecated use setRecordID() instead
      * @param  string                     $recordingId
      * @return UpdateRecordingsParameters
      */
-    public function setRecordingId($recordingId)
+    public function setRecordingId($recordID)
     {
-        $this->recordingId = $recordingId;
+        $this->recordID = $recordID;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        $queries = [
-            'recordID'                    => $this->recordingId,
-        ];
-
-        $this->buildMeta($queries);
-
-        return $this->buildHTTPQuery($queries);
     }
 }

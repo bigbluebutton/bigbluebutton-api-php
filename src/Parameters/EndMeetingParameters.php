@@ -26,12 +26,12 @@ class EndMeetingParameters extends BaseParameters
     /**
      * @var string
      */
-    private $meetingId;
+    protected $meetingID;
 
     /**
      * @var string
      */
-    private $password;
+    protected $password;
 
     /**
      * EndMeetingParameters constructor.
@@ -39,60 +39,31 @@ class EndMeetingParameters extends BaseParameters
      * @param $meetingId
      * @param $password
      */
-    public function __construct($meetingId, $password)
+    public function __construct($meetingID, $password)
     {
         $this->password  = $password;
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
     }
 
     /**
+     * @deprecated use getMeetingID()
      * @return string
      */
     public function getMeetingId()
     {
-        return $this->meetingId;
+        return $this->meetingID;
     }
 
     /**
-     * @param  string               $meetingId
-     * @return EndMeetingParameters
+     * @deprecated use setMeetingID()
+     * @param string $meetingId
+     *
+     * @return CreateMeetingParameters
      */
-    public function setMeetingId($meetingId)
+    public function setMeetingId($meetingID)
     {
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param  string               $password
-     * @return EndMeetingParameters
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-                'password'  => $this->password,
-            ]
-        );
     }
 }

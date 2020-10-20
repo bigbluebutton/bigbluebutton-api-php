@@ -27,38 +27,40 @@ class SetConfigXMLParameters extends BaseParameters
     /**
      * @var string
      */
-    private $meetingId;
+    protected $meetingID;
 
     /**
      * @var \SimpleXMLElement
      */
-    private $rawXml;
+    private $_rawXml;
 
     /**
      * SetConfigXMLParameters constructor.
      *
      * @param $meetingId
      */
-    public function __construct($meetingId)
+    public function __construct($meetingID)
     {
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
     }
 
     /**
+     * @deprecated use getMeetingID() instead
      * @return string
      */
     public function getMeetingId()
     {
-        return $this->meetingId;
+        return $this->meetingID;
     }
 
     /**
+     * @deprecated use setMeetingID() instead
      * @param  string                 $meetingId
      * @return SetConfigXMLParameters
      */
-    public function setMeetingId($meetingId)
+    public function setMeetingId($meetingID)
     {
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
 
         return $this;
     }
@@ -68,7 +70,7 @@ class SetConfigXMLParameters extends BaseParameters
      */
     public function getRawXml()
     {
-        return $this->rawXml;
+        return $this->_rawXml;
     }
 
     /**
@@ -77,7 +79,7 @@ class SetConfigXMLParameters extends BaseParameters
      */
     public function setRawXml($rawXml)
     {
-        $this->rawXml = $rawXml;
+        $this->_rawXml = $rawXml;
 
         return $this;
     }
@@ -87,11 +89,10 @@ class SetConfigXMLParameters extends BaseParameters
      */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(
-            [
-                'configXML' => urlencode($this->rawXml->asXML()),
-                'meetingID' => $this->meetingId,
-            ]
-        );
+        $queries = $this->getHTTPQueryArray();
+
+        $queries['configXML'] = urlencode($this->rawXml->asXML());
+
+        return \http_build_query($queries);
     }
 }

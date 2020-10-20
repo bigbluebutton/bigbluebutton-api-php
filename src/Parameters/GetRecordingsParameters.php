@@ -27,88 +27,15 @@ class GetRecordingsParameters extends MetaParameters
     /**
      * @var string
      */
-    private $meetingId;
+    protected $meetingId;
 
     /**
      * @var string
      */
-    private $recordId;
+    protected $recordId;
 
     /**
      * @var string
      */
-    private $state;
-
-    /**
-     * @return string
-     */
-    public function getMeetingId()
-    {
-        return $this->meetingId;
-    }
-
-    /**
-     * @param  string                  $meetingId
-     * @return GetRecordingsParameters
-     */
-    public function setMeetingId($meetingId)
-    {
-        $this->meetingId = $meetingId;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRecordId()
-    {
-        return $this->recordId;
-    }
-
-    /**
-     * @param  string                  $recordId
-     * @return GetRecordingsParameters
-     */
-    public function setRecordId($recordId)
-    {
-        $this->recordId = $recordId;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param  string                  $state
-     * @return GetRecordingsParameters
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        $queries = [
-            'meetingID' => $this->meetingId,
-            'recordID'  => $this->recordId,
-            'state'     => $this->state
-        ];
-
-        $this->buildMeta($queries);
-
-        return $this->buildHTTPQuery($queries);
-    }
+    protected $state;
 }

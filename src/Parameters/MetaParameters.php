@@ -51,16 +51,18 @@ abstract class MetaParameters extends BaseParameters
         return $this;
     }
 
-    protected function buildMeta(&$queries)
+    protected function getHTTPQueryArray(): array
     {
-        if (count($this->meta) !== 0) {
-            foreach ($this->meta as $k => $v) {
-                if (!is_bool($v)) {
-                    $queries['meta_' . $k] = $v;
-                } else {
-                    $queries['meta_' . $k] = $v ? 'true' : 'false';
-                }
+        $properties = parent::getHTTPQueryArray();
+
+        foreach ($this->meta as $k => $v) {
+            if (!is_bool($v)) {
+                $properties['meta_' . $k] = $v;
+            } else {
+                $properties['meta_' . $k] = $v ? 'true' : 'false';
             }
         }
+
+        return $properties;
     }
 }
