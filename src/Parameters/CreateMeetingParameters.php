@@ -206,12 +206,12 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var string
      */
-    protected string $bannerText = '';
+    protected $bannerText;
 
     /**
      * @var string
      */
-    protected string $bannerColor = '';
+    protected $bannerColor;
 
     /**
      * CreateMeetingParameters constructor.
