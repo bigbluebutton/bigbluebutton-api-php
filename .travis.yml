@@ -19,7 +19,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
+  - if [ "$TRAVIS_PHP_VERSION" != "nightly" ]; then XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
   - if [ "$TRAVIS_PHP_VERSION" == "nightly" ]; then vendor/bin/phpunit; fi
   - vendor/bin/php-cs-fixer fix --dry-run
 
