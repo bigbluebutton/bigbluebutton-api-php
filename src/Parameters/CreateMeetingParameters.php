@@ -326,7 +326,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @deprecated
+     * @deprecated use isRecord()
      * @return bool
      */
     public function isRecorded()
