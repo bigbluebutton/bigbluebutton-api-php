@@ -32,7 +32,7 @@ class JoinMeetingParametersTest extends TestCase
         $this->assertEquals($params['password'], $joinMeetingParams->getPassword());
         $this->assertEquals($params['userID'], $joinMeetingParams->getUserId());
         $this->assertEquals($params['webVoiceConf'], $joinMeetingParams->getWebVoiceConf());
-        $this->assertEquals($params['creationTime'], $joinMeetingParams->getCreationTime());
+        $this->assertEquals($params['createTime'], $joinMeetingParams->getCreationTime());
         $this->assertEquals($params['userdata-countrycode'], $joinMeetingParams->getUserData('countrycode'));
         $this->assertEquals($params['userdata-email'], $joinMeetingParams->getUserData('email'));
         $this->assertEquals($params['userdata-commercial'], $joinMeetingParams->getUserData('commercial'));

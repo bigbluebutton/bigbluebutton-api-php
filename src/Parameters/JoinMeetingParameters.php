@@ -26,17 +26,22 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @var string
      */
-    protected $meetingID;
-
-    /**
-     * @var string
-     */
     protected $fullName;
 
     /**
      * @var string
      */
+    protected $meetingID;
+
+    /**
+     * @var string
+     */
     protected $password;
+
+    /**
+     * @var string
+     */
+    protected $createTime;
 
     /**
      * @var string
@@ -51,12 +56,12 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @var string
      */
-    protected $creationTime;
+    protected $configToken;
 
     /**
      * @var string
      */
-    protected $configToken;
+    protected $defaultLayout;
 
     /**
      * @var string
@@ -69,7 +74,7 @@ class JoinMeetingParameters extends UserDataParameters
     protected $redirect;
 
     /**
-     * @var
+     * @var string
      */
     protected $clientURL;
 
@@ -115,6 +120,28 @@ class JoinMeetingParameters extends UserDataParameters
     public function setMeetingId($meetingID)
     {
         $this->meetingID = $meetingID;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated use getCreateTime()
+     * @return string
+     */
+    public function getCreationTime()
+    {
+        return $this->createTime;
+    }
+
+    /**
+     * @deprecated use setCreateTime()
+     * @param int $createTime
+     *
+     * @return JoinMeetingParameters
+     */
+    public function setCreationTime($createTime)
+    {
+        $this->createTime = $createTime;
 
         return $this;
     }
