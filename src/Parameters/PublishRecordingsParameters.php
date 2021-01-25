@@ -60,7 +60,7 @@ class PublishRecordingsParameters extends BaseParameters
      * @param  string                      $recordingId
      * @return PublishRecordingsParameters
      */
-    public function setRecordingID($recordID)
+    public function setRecordingId($recordID)
     {
         $this->recordID = $recordID;
 
