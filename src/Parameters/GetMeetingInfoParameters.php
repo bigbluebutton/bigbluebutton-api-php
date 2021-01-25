@@ -27,22 +27,37 @@ class GetMeetingInfoParameters extends BaseParameters
     /**
      * @var string
      */
-    protected $meetingId;
-
-    /**
-     * @var string
-     */
-    protected $password;
+    protected $meetingID;
 
     /**
      * GetMeetingInfoParameters constructor.
      *
-     * @param $meetingId
-     * @param $password
+     * @param $meetingID
      */
-    public function __construct($meetingId, $password)
+    public function __construct($meetingID)
     {
-        $this->password  = $password;
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
+    }
+
+    /**
+     * @deprecated use getMeetingID()
+     * @return string
+     */
+    public function getMeetingId()
+    {
+        return $this->meetingID;
+    }
+
+    /**
+     * @deprecated use setMeetingID()
+     * @param string $meetingId
+     *
+     * @return GetMeetingInfoParameters
+     */
+    public function setMeetingId($meetingID)
+    {
+        $this->meetingID = $meetingID;
+
+        return $this;
     }
 }
