@@ -32,15 +32,17 @@ class SetConfigXMLParameters extends BaseParameters
     /**
      * @var \SimpleXMLElement
      */
-    private $_rawXml;
+    protected $rawXml;
 
     /**
      * SetConfigXMLParameters constructor.
      *
-     * @param $meetingId
+     * @param $meetingID
      */
     public function __construct($meetingID)
     {
+        $this->ignoreProperties = ['rawXml'];
+
         $this->meetingID = $meetingID;
     }
 
@@ -61,25 +63,6 @@ class SetConfigXMLParameters extends BaseParameters
     public function setMeetingId($meetingID)
     {
         $this->meetingID = $meetingID;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRawXml()
-    {
-        return $this->_rawXml;
-    }
-
-    /**
-     * @param  \SimpleXMLElement      $rawXml
-     * @return SetConfigXMLParameters
-     */
-    public function setRawXml($rawXml)
-    {
-        $this->_rawXml = $rawXml;
 
         return $this;
     }

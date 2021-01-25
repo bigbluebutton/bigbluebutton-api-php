@@ -23,6 +23,8 @@ namespace BigBlueButton\Parameters;
  */
 abstract class BaseParameters
 {
+    protected $ignoreProperties = [];
+
     public function __call(string $name, array $arguments)
     {
         if (strpos($name, 'get') === 0) {
@@ -70,7 +72,7 @@ abstract class BaseParameters
     protected function getProperties(): array
     {
         return array_filter(get_object_vars($this), function ($name) {
-            return strpos($name, '_') !== 0;
+            return $name !== 'ignoreProperties' && !\in_array($name, $this->ignoreProperties);
         }, ARRAY_FILTER_USE_KEY);
     }
 
