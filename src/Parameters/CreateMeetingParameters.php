@@ -31,22 +31,27 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var string
      */
+    protected $name;
+
+    /**
+     * @var string
+     */
     protected $meetingID;
 
     /**
      * @var string
      */
-    protected $meetingName;
+    protected $attendeePW;
 
     /**
      * @var string
      */
-    protected $attendeePassword;
+    protected $moderatorPW;
 
     /**
      * @var string
      */
-    protected $moderatorPassword;
+    protected $welcome;
 
     /**
      * @var string
@@ -54,19 +59,9 @@ class CreateMeetingParameters extends MetaParameters
     protected $dialNumber;
 
     /**
-     * @var int
+     * @var string
      */
     protected $voiceBridge;
-
-    /**
-     * @var string
-     */
-    protected $webVoice;
-
-    /**
-     * @var string
-     */
-    protected $logoutUrl;
 
     /**
      * @var int
@@ -74,9 +69,44 @@ class CreateMeetingParameters extends MetaParameters
     protected $maxParticipants;
 
     /**
+     * @var string
+     */
+    protected $logoutUrl;
+
+    /**
      * @var bool
      */
     protected $record;
+
+    /**
+     * @var int
+     */
+    protected $duration;
+
+    /**
+     * @var boolean
+     */
+    protected $isBreakout;
+
+    /**
+     * @var string
+     */
+    protected $parentMeetingID;
+
+    /**
+     * @var int
+     */
+    protected $sequence;
+
+    /**
+     * @var boolean
+     */
+    protected $freeJoin;
+
+    /**
+     * @var string
+     */
+    protected $moderatorOnlyMessage;
 
     /**
      * @var bool
@@ -87,21 +117,6 @@ class CreateMeetingParameters extends MetaParameters
      * @var bool
      */
     protected $allowStartStopRecording;
-
-    /**
-     * @var int
-     */
-    protected $duration;
-
-    /**
-     * @var string
-     */
-    protected $welcomeMessage;
-
-    /**
-     * @var string
-     */
-    protected $moderatorOnlyMessage;
 
     /**
      * @var bool
@@ -116,12 +131,27 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var string
      */
+    protected $bannerText;
+
+    /**
+     * @var string
+     */
+    protected $bannerColor;
+
+    /**
+     * @var string
+     */
     protected $copyright;
 
     /**
      * @var bool
      */
     protected $muteOnStart;
+
+    /**
+     * @var bool
+     */
+    protected $allowModsToUnmuteUsers;
 
     /**
      * @var bool
@@ -151,11 +181,6 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var bool
      */
-    protected $lockSettingsHideUserList;
-
-    /**
-     * @var bool
-     */
     protected $lockSettingsLockedLayout;
 
     /**
@@ -169,60 +194,47 @@ class CreateMeetingParameters extends MetaParameters
     protected $lockSettingsLockOnJoinConfigurable;
 
     /**
-     * @var bool
-     */
-    protected $allowModsToUnmuteUsers;
-
-    /**
-     * @var array
-     */
-    protected $presentations = [];
-
-    /**
-     * @var boolean
-     */
-    protected $isBreakout;
-
-    /**
-     * @var string
-     */
-    protected $parentMeetingID;
-
-    /**
-     * @var int
-     */
-    protected $sequence;
-
-    /**
-     * @var boolean
-     */
-    protected $freeJoin;
-
-    /**
      * @var string
      */
     protected $guestPolicy = self::ALWAYS_ACCEPT;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $bannerText;
-
-    /**
-     * @var string
-     */
-    protected $bannerColor;
+    private $presentations = [];
 
     /**
      * CreateMeetingParameters constructor.
      *
      * @param $meetingId
-     * @param $meetingName
+     * @param $name
      */
-    public function __construct($meetingID, $meetingName)
+    public function __construct($meetingID, $name)
     {
         $this->meetingID   = $meetingID;
-        $this->meetingName = $meetingName;
+        $this->name        = $name;
+    }
+
+    /**
+     * @deprecated use getName()
+     * @return string
+     */
+    public function getMeetingName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @deprecated use setName()
+     * @param string $name
+     *
+     * @return JoinMeetingParameters
+     */
+    public function setMeetingName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -243,6 +255,72 @@ class CreateMeetingParameters extends MetaParameters
     public function setMeetingId($meetingID)
     {
         $this->meetingID = $meetingID;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated use getAttendeePW()
+     * @return string
+     */
+    public function getAttendeePassword()
+    {
+        return $this->attendeePW;
+    }
+
+    /**
+     * @deprecated use setAttendeePW()
+     * @param string $password
+     *
+     * @return JoinMeetingParameters
+     */
+    public function setAttendeePassword($password)
+    {
+        $this->attendeePW = $password;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated use getModeratorPW()
+     * @return string
+     */
+    public function getModeratorPassword()
+    {
+        return $this->moderatorPW;
+    }
+
+    /**
+     * @deprecated use setModeratorPW()
+     * @param string $password
+     *
+     * @return JoinMeetingParameters
+     */
+    public function setModeratorPassword($password)
+    {
+        $this->moderatorPW = $password;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated use getWelcome()
+     * @return string
+     */
+    public function getWelcomeMessage()
+    {
+        return $this->welcome;
+    }
+
+    /**
+     * @deprecated use setWelcome()
+     * @param string $welcome
+     *
+     * @return CreateMeetingParameters
+     */
+    public function setWelcomeMessage($welcome)
+    {
+        $this->welcome = $welcome;
 
         return $this;
     }

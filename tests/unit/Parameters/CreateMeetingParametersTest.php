@@ -31,19 +31,18 @@ class CreateMeetingParametersTest extends TestCase
         $params              = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
 
-        $this->assertEquals($params['meetingName'], $createMeetingParams->getMeetingName());
+        $this->assertEquals($params['name'], $createMeetingParams->getMeetingName());
         $this->assertEquals($params['meetingID'], $createMeetingParams->getMeetingId());
-        $this->assertEquals($params['attendeePassword'], $createMeetingParams->getAttendeePassword());
-        $this->assertEquals($params['moderatorPassword'], $createMeetingParams->getModeratorPassword());
+        $this->assertEquals($params['attendeePW'], $createMeetingParams->getAttendeePassword());
+        $this->assertEquals($params['moderatorPW'], $createMeetingParams->getModeratorPassword());
         $this->assertEquals($params['autoStartRecording'], $createMeetingParams->isAutoStartRecording());
         $this->assertEquals($params['dialNumber'], $createMeetingParams->getDialNumber());
         $this->assertEquals($params['voiceBridge'], $createMeetingParams->getVoiceBridge());
-        $this->assertEquals($params['webVoice'], $createMeetingParams->getWebVoice());
         $this->assertEquals($params['logoutUrl'], $createMeetingParams->getLogoutUrl());
         $this->assertEquals($params['maxParticipants'], $createMeetingParams->getMaxParticipants());
         $this->assertEquals($params['record'], $createMeetingParams->isRecorded());
         $this->assertEquals($params['duration'], $createMeetingParams->getDuration());
-        $this->assertEquals($params['welcomeMessage'], $createMeetingParams->getWelcomeMessage());
+        $this->assertEquals($params['welcome'], $createMeetingParams->getWelcomeMessage());
         $this->assertEquals($params['allowStartStopRecording'], $createMeetingParams->isAllowStartStopRecording());
         $this->assertEquals($params['moderatorOnlyMessage'], $createMeetingParams->getModeratorOnlyMessage());
         $this->assertEquals($params['webcamsOnlyForModerator'], $createMeetingParams->isWebcamsOnlyForModerator());
@@ -56,7 +55,6 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['lockSettingsDisablePrivateChat'], $createMeetingParams->isLockSettingsDisablePrivateChat());
         $this->assertEquals($params['lockSettingsDisablePublicChat'], $createMeetingParams->isLockSettingsDisablePublicChat());
         $this->assertEquals($params['lockSettingsDisableNote'], $createMeetingParams->isLockSettingsDisableNote());
-        $this->assertEquals($params['lockSettingsHideUserList'], $createMeetingParams->isLockSettingsHideUserList());
         $this->assertEquals($params['lockSettingsLockedLayout'], $createMeetingParams->isLockSettingsLockedLayout());
         $this->assertEquals($params['lockSettingsLockOnJoin'], $createMeetingParams->isLockSettingsLockOnJoin());
         $this->assertEquals($params['lockSettingsLockOnJoinConfigurable'], $createMeetingParams->isLockSettingsLockOnJoinConfigurable());
