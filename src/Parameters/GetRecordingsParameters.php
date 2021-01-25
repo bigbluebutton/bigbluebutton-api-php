@@ -27,15 +27,59 @@ class GetRecordingsParameters extends MetaParameters
     /**
      * @var string
      */
-    protected $meetingId;
+    protected $meetingID;
 
     /**
      * @var string
      */
-    protected $recordId;
+    protected $recordID;
 
     /**
      * @var string
      */
     protected $state;
+
+    /**
+     * @deprecated use getMeetingID()
+     * @return string
+     */
+    public function getMeetingId()
+    {
+        return $this->meetingID;
+    }
+
+    /**
+     * @deprecated use setMeetingID()
+     * @param string $meetingId
+     *
+     * @return GetRecordingsParameters
+     */
+    public function setMeetingId($meetingID)
+    {
+        $this->meetingID = $meetingID;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated use getRecordID()
+     * @return string
+     */
+    public function getRecordId()
+    {
+        return $this->recordID;
+    }
+
+    /**
+     * @deprecated use setRecordID()
+     * @param string $recordID
+     *
+     * @return GetRecordingsParameters
+     */
+    public function setRecordId($recordID)
+    {
+        $this->recordID = $recordID;
+
+        return $this;
+    }
 }
