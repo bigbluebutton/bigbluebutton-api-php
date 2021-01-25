@@ -29,6 +29,7 @@ use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
+use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
@@ -44,6 +45,7 @@ use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\GetRecordingTextTracksResponse;
+use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
@@ -456,6 +458,29 @@ class BigBlueButton
     {
         return new GetRecordingTextTracksResponse(
             $this->processJsonResponse($this->getRecordingTextTracksUrl($getRecordingTextTracksParams))
+        );
+    }
+
+    /**
+     * @param $putRecordingTextTrackParams PutRecordingTextTrackParameters
+     *
+     * @return string
+     */
+    public function getPutRecordingTextTrackUrl($putRecordingTextTrackParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::PUT_RECORDING_TEXT_TRACK, $putRecordingTextTrackParams->getHTTPQuery());
+    }
+
+    /**
+     * @param $putRecordingTextTrackParams PutRecordingTextTrackParameters
+     *
+     * @return PutRecordingTextTrackResponse
+     * @throws RuntimeException
+     */
+    public function putRecordingTextTrack($putRecordingTextTrackParams)
+    {
+        return new PutRecordingTextTrackResponse(
+            $this->processJsonResponse($this->getPutRecordingTextTrackUrl($putRecordingTextTrackParams))
         );
     }
 
