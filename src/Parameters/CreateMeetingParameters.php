@@ -19,7 +19,73 @@
 namespace BigBlueButton\Parameters;
 
 /**
- * Class CreateMeetingParameters.
+ * @method string getName()
+ * @method CreateMeetingParameters setName(string $name)
+ * @method string getMeetingID()
+ * @method CreateMeetingParameters setMeetingID(string $id)
+ * @method string getAttendeePW()
+ * @method CreateMeetingParameters setAttendeePW(string $password)
+ * @method string getModeratorPW()
+ * @method CreateMeetingParameters setPassword(string $password)
+ * @method string getWelcome()
+ * @method CreateMeetingParameters setWelcome(string $welcome)
+ * @method string getDialNumber()
+ * @method CreateMeetingParameters setDialNumber(string $dialNumber)
+ * @method string getVoiceBridge()
+ * @method CreateMeetingParameters setVoiceBridge(string $voiceBridge)
+ * @method int getMaxParticipants()
+ * @method CreateMeetingParameters setMaxParticipants(int $maxParticipants)
+ * @method string getLogoutUrl()
+ * @method CreateMeetingParameters setLogoutUrl(string $logoutUrl)
+ * @method bool|null isRecord()
+ * @method CreateMeetingParameters setRecord(bool $isRecord)
+ * @method int getDuration()
+ * @method CreateMeetingParameters setDuration(int $duration)
+ * @method string getParentMeetingID()
+ * @method CreateMeetingParameters setParentMeetingID(string $parentMeetingID)
+ * @method int getSequence()
+ * @method CreateMeetingParameters setSequence(int $sequence)
+ * @method bool|null isFreeJoin()
+ * @method CreateMeetingParameters setFreeJoin(bool $isFreeJoin)
+ * @method string getModeratorOnlyMessage()
+ * @method CreateMeetingParameters setModeratorOnlyMessage(string $message)
+ * @method bool|null isAutoStartRecording()
+ * @method CreateMeetingParameters setAutoStartRecording(bool $isAutoStartRecording)
+ * @method bool|null isAllowStartStopRecording()
+ * @method CreateMeetingParameters setAllowStartStopRecording(bool $isAllow)
+ * @method bool|null isWebcamsOnlyForModerator()
+ * @method CreateMeetingParameters setWebcamsOnlyForModerator(bool $isWebcamsOnlyForModerator)
+ * @method string getLogo()
+ * @method CreateMeetingParameters setLogo(string $logo)
+ * @method string getBannerText()
+ * @method CreateMeetingParameters setBannerText(string $bannerText)
+ * @method string getBannerColor()
+ * @method CreateMeetingParameters setBannerColor(string $bannerColor)
+ * @method string getCopyright()
+ * @method CreateMeetingParameters setCopyright(string $copyright)
+ * @method bool|null isMuteOnStart()
+ * @method CreateMeetingParameters setMuteOnStart(bool $isMuteOnStart)
+ * @method bool|null isAllowModsToUnmuteUsers()
+ * @method CreateMeetingParameters setAllowModsToUnmuteUsers(bool $isAllowModsToUnmuteUsers)
+ * @method bool|null isLockSettingsDisableCam()
+ * @method CreateMeetingParameters setLockSettingsDisableCam(bool $isLockSettingsDisableCam)
+ * @method bool|null isLockSettingsDisableMic()
+ * @method CreateMeetingParameters setLockSettingsDisableMic(bool $isLockSettingsDisableMic)
+ * @method bool|null isLockSettingsDisablePrivateChat()
+ * @method CreateMeetingParameters setLockSettingsDisablePrivateChat(bool $isLockSettingsDisablePrivateChat)
+ * @method bool|null isLockSettingsDisablePublicChat()
+ * @method CreateMeetingParameters setLockSettingsDisablePublicChat(bool $isLockSettingsDisablePublicChat)
+ * @method bool|null isLockSettingsDisableNote()
+ * @method CreateMeetingParameters setLockSettingsDisableNote(bool $isLockSettingsDisableNote)
+ * @method bool|null isLockSettingsLockedLayout()
+ * @method CreateMeetingParameters setLockSettingsLockedLayout(bool $isLockSettingsLockedLayout)
+ * @method bool|null isLockSettingsLockOnJoin()
+ * @method CreateMeetingParameters setLockSettingsLockOnJoin(bool $isLockSettingsLockOnJoin)
+ * @method bool|null isLockSettingsLockOnJoinConfigurable()
+ * @method CreateMeetingParameters setLockSettingsLockOnJoinConfigurable(bool $isLockSettingsLockOnJoinConfigurable)
+ * @method string getGuestPolicy()
+ * @method CreateMeetingParameters setGuestPolicy(string $guestPolicy)
+ *
  */
 class CreateMeetingParameters extends MetaParameters
 {
@@ -184,12 +250,12 @@ class CreateMeetingParameters extends MetaParameters
     protected $lockSettingsLockedLayout;
 
     /**
-     * @var bool Default true
+     * @var bool
      */
     protected $lockSettingsLockOnJoin;
 
     /**
-     * @var bool Default false
+     * @var bool
      */
     protected $lockSettingsLockOnJoinConfigurable;
 
