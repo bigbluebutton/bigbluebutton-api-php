@@ -597,7 +597,9 @@ class CreateMeetingParameters extends MetaParameters
         $queries = $this->getHTTPQueryArray();
 
         if ($this->isBreakout()) {
-            //@TODO throw error if parentMeetingID or sequence is missing
+            if ($this->parentMeetingID === null || $this->sequence === null) {
+                trigger_error('Breakout rooms require a parentMeetingID and sequence number.', E_USER_WARNING);
+            }
         } else {
             $queries = $this->filterBreakoutRelatedQueries($queries);
         }
