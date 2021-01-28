@@ -3,7 +3,7 @@
 The unofficial and easiest to use **BigBlueButton API for PHP**, makes easy for
 developers to use [BigBlueButton API] v2.2 for **PHP 7.2+**.
 
-[![Build Status](https://travis-ci.org/littleredbutton/bigbluebutton-api-php.svg?branch=master)](https://travis-ci.org/littleredbutton/bigbluebutton-api-php)
+![Build Status](https://github.com/littleredbutton/bigbluebutton-api-php/workflows/CI/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/littleredbutton/bigbluebutton-api-php/badge.svg?branch=master)](https://coveralls.io/github/littleredbutton/bigbluebutton-api-php?branch=master)
 ![PHP from Travis config](https://img.shields.io/travis/php-v/littleredbutton/bigbluebutton-api-php.svg)
 <!-- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/?branch=master) -->
