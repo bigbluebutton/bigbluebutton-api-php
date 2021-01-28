@@ -20,7 +20,9 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class GetMeetingInfoParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getMeetingID()
+ * @method GetMeetingInfoParameters setMeetingID(string $id)
  */
 class GetMeetingInfoParameters extends BaseParameters
 {

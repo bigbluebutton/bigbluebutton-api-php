@@ -20,7 +20,11 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class PublishRecordingsParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getRecordID()
+ * @method PublishRecordingsParameters setRecordID(string $recordID)
+ * @method bool|null isPublish()
+ * @method PublishRecordingsParameters setPublish(bool $publish)
  */
 class PublishRecordingsParameters extends BaseParameters
 {
@@ -65,21 +69,5 @@ class PublishRecordingsParameters extends BaseParameters
         $this->recordID = $recordID;
 
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPublish()
-    {
-        return $this->publish;
-    }
-
-    /**
-     * @param bool $publish
-     */
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
     }
 }

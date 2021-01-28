@@ -20,6 +20,33 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class JoinMeetingParametersTest.
+ *
+ * @method string getFullName()
+ * @method $this setFullName(string $fullName)
+ * @method string getMeetingID()
+ * @method JoinMeetingParameters setMeetingID(string $id)
+ * @method string getPassword()
+ * @method JoinMeetingParameters setPassword(string $password)
+ * @method string getCreateTime()
+ * @method JoinMeetingParameters setCreateTime(string $createTime)
+ * @method string getUserID()
+ * @method JoinMeetingParameters setUserID(string $userID)
+ * @method string getWebVoiceConf()
+ * @method JoinMeetingParameters setWebVoiceConf(string $webVoiceConf)
+ * @method string getConfigToken()
+ * @method JoinMeetingParameters setConfigToken(string $configToken)
+ * @method string getDefaultLayout()
+ * @method JoinMeetingParameters setDefaultLayout(string $defaultLayout)
+ * @method string getAvatarURL()
+ * @method JoinMeetingParameters setAvatarURL(string $avatarURL)
+ * @method bool|null isRedirect()
+ * @method CreateMeetingParameters setRedirect(bool $redirect)
+ * @method string getClientURL()
+ * @method JoinMeetingParameters setClientURL(string $clientURL)
+ * @method bool|null isJoinViaHtml5()
+ * @method CreateMeetingParameters setJoinViaHtml(bool $joinViaHtml)
+ * @method bool|null isGuest()
+ * @method CreateMeetingParameters setGuest(bool $guest)
  */
 class JoinMeetingParameters extends UserDataParameters
 {
@@ -91,9 +118,9 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * JoinMeetingParametersTest constructor.
      *
-     * @param $meetingId
-     * @param $fullName
-     * @param $password
+     * @param string $meetingId
+     * @param string $fullName
+     * @param string $password
      */
     public function __construct($meetingID, $fullName, $password)
     {

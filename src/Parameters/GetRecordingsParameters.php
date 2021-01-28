@@ -20,7 +20,13 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class GetRecordingsParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getMeetingID()
+ * @method GetRecordingsParameters setMeetingID(string $id)
+ * @method string getRecordID()
+ * @method GetRecordingsParameters setRecordID(string $recordID)
+ * @method string getState()
+ * @method GetRecordingsParameters setState(string $state)
  */
 class GetRecordingsParameters extends MetaParameters
 {

@@ -26,7 +26,7 @@ namespace BigBlueButton\Parameters;
  * @method string getAttendeePW()
  * @method CreateMeetingParameters setAttendeePW(string $password)
  * @method string getModeratorPW()
- * @method CreateMeetingParameters setPassword(string $password)
+ * @method CreateMeetingParameters setModeratorPW(string $password)
  * @method string getWelcome()
  * @method CreateMeetingParameters setWelcome(string $welcome)
  * @method string getDialNumber()

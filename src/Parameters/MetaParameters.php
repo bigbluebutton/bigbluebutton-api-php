@@ -30,7 +30,7 @@ abstract class MetaParameters extends BaseParameters
     private $meta = [];
 
     /**
-     * @param $key
+     * @param  string $key
      * @return mixed
      */
     public function getMeta($key)

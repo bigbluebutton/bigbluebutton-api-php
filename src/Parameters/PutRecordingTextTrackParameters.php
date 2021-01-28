@@ -20,7 +20,19 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class GetRecordingTextTracksParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getRecordID()
+ * @method PutRecordingTextTrackParameters setRecordID(string $recordID)
+ * @method string getKind()
+ * @method PutRecordingTextTrackParameters setKind(string $kind)
+ * @method string getLang()
+ * @method PutRecordingTextTrackParameters setLang(string $lang)
+ * @method string getLabel()
+ * @method PutRecordingTextTrackParameters setLabel(string $label)
+ * @method string getContentType()
+ * @method PutRecordingTextTrackParameters set(string $contentType)
+ * @method mixed getFile()
+ * @method PutRecordingTextTrackParameters setFile(mixed $file)
  */
 class PutRecordingTextTrackParameters extends BaseParameters
 {
@@ -50,6 +62,9 @@ class PutRecordingTextTrackParameters extends BaseParameters
      */
     protected $contentType;
 
+    /**
+     * @var mixed
+     */
     protected $file;
 
     /**

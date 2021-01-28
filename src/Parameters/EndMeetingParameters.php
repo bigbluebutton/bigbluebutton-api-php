@@ -20,6 +20,11 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class EndMeetingParameters.
+ *
+ * @method string getMeetingID()
+ * @method EndMeetingParameters setMeetingID(string $id)
+ * @method string getPassword()
+ * @method EndMeetingParameters setPassword(string $password)
  */
 class EndMeetingParameters extends BaseParameters
 {
