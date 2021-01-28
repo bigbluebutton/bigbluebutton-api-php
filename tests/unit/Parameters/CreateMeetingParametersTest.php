@@ -19,6 +19,7 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase as TestCase;
+use PHPUnit\Framework\Error\Warning;
 
 /**
  * Class CreateMeetingParametersTest
@@ -93,6 +94,23 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertStringContainsString('parentMeetingID=' . urlencode($createBreakoutMeetingParams->getParentMeetingId()), $params);
         $this->assertStringContainsString('sequence=' . urlencode($createBreakoutMeetingParams->getSequence()), $params);
         $this->assertStringContainsString('freeJoin=' . urlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
+    }
+
+    public function testCreateBreakoutMeetingWithMissingParams()
+    {
+        $this->expectException(Warning::class);
+
+        $params = new CreateMeetingParameters($this->faker->uuid, $this->faker->name);
+        $params->setBreakout(true);
+        $params->getHTTPQuery();
+    }
+
+    public function testNonExistingProperty()
+    {
+        $this->expectException(\BadFunctionCallException::class);
+
+        $params = new CreateMeetingParameters($this->faker->uuid, $this->faker->name);
+        $params->getFoobar();
     }
 
     public function testGetPresentationsAsXMLWithUrl()
