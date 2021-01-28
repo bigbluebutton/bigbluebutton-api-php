@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  PHP:
+    name: PHP ${{ matrix.php-versions }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.2','7.3','7.4']
+        experimental: [false]
+        include:
+          - php-versions: '8.1'
+            experimental: true
+        
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup PHP, with composer and extensions
+      uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+      with:
+        php-version: ${{ matrix.php-versions }}
+        extensions: bcmath, ctype, fileinfo, json, mbstring, dom, ldap, pdo, tokenizer, xml, mysql, sqlite
+        coverage: xdebug
+    - name: Install php dependencies
+      run: composer install --dev --no-interaction
+      continue-on-error: ${{ matrix.experimental }}
+    - name: Execute code style check via php-cs-fixer
+      run: vendor/bin/php-cs-fixer fix --dry-run
+      continue-on-error: ${{ matrix.experimental }}
+    - name: Execute tests with coverage
+      if: ${{ !matrix.experimental }}
+      run: |
+        mkdir -p build/logs
+        vendor/bin/phpunit --coverage-clover=build/logs/coverage.xml
+    - name: Execute tests without coverage
+      if: ${{ matrix.experimental }}
+      run: vendor/bin/phpunit
+      continue-on-error: true
+    - name: Coveralls
+      if: matrix.php-versions == '7.2'
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+      run: vendor/bin/php-coveralls --coverage_clover=build/logs/coverage.xml -v
+    
+    
+  HHVM:
+    name: HHVM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azjezz/setup-hhvm@v1
+        with:
+          version: 'latest'
+      - run: composer install --dev --no-interaction
+        continue-on-error: true
+      - run: hhvm vendor/bin/phpunit
+        continue-on-error: true
