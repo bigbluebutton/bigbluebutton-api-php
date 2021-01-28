@@ -479,8 +479,13 @@ class BigBlueButton
      */
     public function putRecordingTextTrack($putRecordingTextTrackParams)
     {
+        $url  = $this->getPutRecordingTextTrackUrl($putRecordingTextTrackParams);
+        $file = $putRecordingTextTrackParams->getFile();
+
         return new PutRecordingTextTrackResponse(
-            $this->processJsonResponse($this->getPutRecordingTextTrackUrl($putRecordingTextTrackParams))
+            $file === null ?
+                $this->processJsonResponse($url) :
+                $this->processJsonResponse($url, $file, $putRecordingTextTrackParams->getContentType())
         );
     }
 
