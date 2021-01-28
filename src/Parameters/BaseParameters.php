@@ -27,14 +27,15 @@ abstract class BaseParameters
 
     public function __call(string $name, array $arguments)
     {
+        if (!preg_match('/^(get|is|set)[A-Z]/', $name)) {
+            throw new \BadFunctionCallException($name . ' does not exist');
+        }
         if (strpos($name, 'get') === 0) {
             return $this->getter(\lcfirst(substr($name, 3)));
         } elseif (strpos($name, 'is') === 0) {
             return $this->booleanGetter(\lcfirst(substr($name, 2)));
         } elseif (strpos($name, 'set') === 0) {
             return $this->setter(lcfirst(substr($name, 3)), $arguments);
-        } else {
-            throw new \BadFunctionCallException($name . ' does not exist');
         }
     }
 

@@ -113,6 +113,14 @@ class CreateMeetingParametersTest extends TestCase
         $params->getFoobar();
     }
 
+    public function testWrongMethodName()
+    {
+        $this->expectException(\BadFunctionCallException::class);
+
+        $params = new CreateMeetingParameters($this->faker->uuid, $this->faker->name);
+        $params->getname();
+    }
+
     public function testGetPresentationsAsXMLWithUrl()
     {
         $params              = $this->generateCreateParams();
