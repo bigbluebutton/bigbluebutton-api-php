@@ -75,6 +75,8 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit",
+    "cs:fix": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+    "cs:test": "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes",
     "post-install-cmd": "vendor/bin/cghooks add --ignore-lock",
     "post-update-cmd": "vendor/bin/cghooks update"
   },
