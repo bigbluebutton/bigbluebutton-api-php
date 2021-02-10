@@ -79,6 +79,8 @@ namespace BigBlueButton\Parameters;
  * @method CreateMeetingParameters setLockSettingsDisableNote(bool $isLockSettingsDisableNote)
  * @method bool|null isLockSettingsLockedLayout()
  * @method CreateMeetingParameters setLockSettingsLockedLayout(bool $isLockSettingsLockedLayout)
+ * @method bool|null isLockSettingsHideUserList()
+ * @method CreateMeetingParameters setLockSettingsHideUserList(bool $isLockSettingsHideUserList)
  * @method bool|null isLockSettingsLockOnJoin()
  * @method CreateMeetingParameters setLockSettingsLockOnJoin(bool $isLockSettingsLockOnJoin)
  * @method bool|null isLockSettingsLockOnJoinConfigurable()
@@ -248,6 +250,11 @@ class CreateMeetingParameters extends MetaParameters
      * @var bool
      */
     protected $lockSettingsLockedLayout;
+
+    /**
+     * @var bool
+     */
+    protected $lockSettingsHideUserList;
 
     /**
      * @var bool

@@ -91,6 +91,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsDisablePrivateChat'     => $this->faker->boolean(50),
             'lockSettingsDisablePublicChat'      => $this->faker->boolean(50),
             'lockSettingsDisableNote'            => $this->faker->boolean(50),
+            'lockSettingsHideUserList'           => $this->faker->boolean(50),
             'lockSettingsLockedLayout'           => $this->faker->boolean(50),
             'lockSettingsLockOnJoin'             => $this->faker->boolean(50),
             'lockSettingsLockOnJoinConfigurable' => $this->faker->boolean(50),
@@ -149,6 +150,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setLockSettingsDisablePrivateChat($params['lockSettingsDisablePrivateChat'])
             ->setLockSettingsDisablePublicChat($params['lockSettingsDisablePublicChat'])
             ->setLockSettingsDisableNote($params['lockSettingsDisableNote'])
+            ->setLockSettingsHideUserList($params['lockSettingsHideUserList'])
             ->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
             ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])
             ->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoinConfigurable'])
