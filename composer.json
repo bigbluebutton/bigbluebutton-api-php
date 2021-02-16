@@ -8,7 +8,7 @@
     "api"
   ],
   "homepage": "http://bigbluebutton.org/",
-  "license": "GPL-3.0",
+  "license": "LGPL-3.0-only",
   "authors": [
     {
       "name": "Ghazi Triki",
