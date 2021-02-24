@@ -35,8 +35,8 @@ namespace BigBlueButton\Parameters;
  * @method CreateMeetingParameters setVoiceBridge(string $voiceBridge)
  * @method int getMaxParticipants()
  * @method CreateMeetingParameters setMaxParticipants(int $maxParticipants)
- * @method string getLogoutUrl()
- * @method CreateMeetingParameters setLogoutUrl(string $logoutUrl)
+ * @method string getLogoutURL()
+ * @method CreateMeetingParameters setLogoutURL(string $logoutURL)
  * @method bool|null isRecord()
  * @method CreateMeetingParameters setRecord(bool $isRecord)
  * @method int getDuration()
@@ -139,7 +139,7 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var string
      */
-    protected $logoutUrl;
+    protected $logoutURL;
 
     /**
      * @var bool
@@ -394,6 +394,28 @@ class CreateMeetingParameters extends MetaParameters
     public function setWelcomeMessage($welcome)
     {
         $this->welcome = $welcome;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated use getLogoutURL()
+     * @return string
+     */
+    public function getLogoutUrl()
+    {
+        return $this->logoutURL;
+    }
+
+    /**
+     * @deprecated use setLogoutURL()
+     * @param string $logoutUrl
+     *
+     * @return CreateMeetingParameters
+     */
+    public function setLogoutUrl($logoutURL)
+    {
+        $this->logoutURL = $logoutURL;
 
         return $this;
     }

@@ -74,7 +74,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'autoStartRecording'                 => $this->faker->boolean(50),
             'dialNumber'                         => $this->faker->phoneNumber,
             'voiceBridge'                        => $this->faker->randomNumber(5),
-            'logoutUrl'                          => $this->faker->url,
+            'logoutURL'                          => $this->faker->url,
             'maxParticipants'                    => $this->faker->numberBetween(2, 100),
             'record'                             => $this->faker->boolean(50),
             'duration'                           => $this->faker->numberBetween(0, 6000),
@@ -131,7 +131,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setModeratorPassword($params['moderatorPW'])
             ->setDialNumber($params['dialNumber'])
             ->setVoiceBridge($params['voiceBridge'])
-            ->setLogoutUrl($params['logoutUrl'])
+            ->setLogoutUrl($params['logoutURL'])
             ->setMaxParticipants($params['maxParticipants'])
             ->setRecord($params['record'])
             ->setDuration($params['duration'])

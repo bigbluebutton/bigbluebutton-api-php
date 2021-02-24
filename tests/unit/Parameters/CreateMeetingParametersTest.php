@@ -39,7 +39,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['autoStartRecording'], $createMeetingParams->isAutoStartRecording());
         $this->assertEquals($params['dialNumber'], $createMeetingParams->getDialNumber());
         $this->assertEquals($params['voiceBridge'], $createMeetingParams->getVoiceBridge());
-        $this->assertEquals($params['logoutUrl'], $createMeetingParams->getLogoutUrl());
+        $this->assertEquals($params['logoutURL'], $createMeetingParams->getLogoutUrl());
         $this->assertEquals($params['maxParticipants'], $createMeetingParams->getMaxParticipants());
         $this->assertEquals($params['record'], $createMeetingParams->isRecorded());
         $this->assertEquals($params['duration'], $createMeetingParams->getDuration());
