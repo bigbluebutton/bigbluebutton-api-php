@@ -603,6 +603,14 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return array
+     */
+    public function getPresentations(): array
+    {
+        return $this->presentations;
+    }
+
+    /**
      * @return mixed
      */
     public function getPresentationsAsXML()
