@@ -172,6 +172,21 @@ class CreateMeetingParameters extends MetaParameters
     protected $freeJoin;
 
     /**
+     * @var boolean
+     */
+    protected $breakoutRoomsEnabled;
+
+    /**
+     * @var boolean
+     */
+    protected $breakoutRoomsPrivateChatEnabled;
+
+    /**
+     * @var boolean
+     */
+    protected $breakoutRoomsRecord;
+
+    /**
      * @var string
      */
     protected $moderatorOnlyMessage;
