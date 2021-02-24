@@ -80,6 +80,8 @@ class SetConfigXMLParameters extends BaseParameters
 
         $queries['configXML'] = urlencode($this->rawXml->asXML());
 
+        \ksort($queries);
+
         return \http_build_query($queries);
     }
 }
