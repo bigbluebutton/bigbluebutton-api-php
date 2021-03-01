@@ -22,9 +22,9 @@ namespace BigBlueButton\Parameters;
  * Class PublishRecordingsParameters
  *
  * @method string getRecordID()
- * @method PublishRecordingsParameters setRecordID(string $recordID)
+ * @method $this setRecordID(string $recordID)
  * @method bool|null isPublish()
- * @method PublishRecordingsParameters setPublish(bool $publish)
+ * @method $this setPublish(bool $publish)
  */
 class PublishRecordingsParameters extends BaseParameters
 {

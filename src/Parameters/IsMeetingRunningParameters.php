@@ -22,7 +22,7 @@ namespace BigBlueButton\Parameters;
  * Class IsMeetingRunningParameters
  *
  * @method string getMeetingID()
- * @method IsMeetingRunningParameters setMeetingID(string $id)
+ * @method $this setMeetingID(string $id)
  */
 class IsMeetingRunningParameters extends BaseParameters
 {

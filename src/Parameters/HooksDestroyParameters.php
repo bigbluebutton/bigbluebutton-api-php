@@ -20,7 +20,7 @@ namespace BigBlueButton\Parameters;
 
 /**
  * @method string getHookID()
- * @method HooksDestroyParameters setHookID(string $hookID)
+ * @method $this setHookID(string $hookID)
  */
 class HooksDestroyParameters extends BaseParameters
 {

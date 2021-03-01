@@ -22,7 +22,7 @@ namespace BigBlueButton\Parameters;
  * Class UpdateRecordingsParameters
  *
  * @method string getRecordID()
- * @method UpdateRecordingsParameters setRecordID(string $recordID)
+ * @method $this setRecordID(string $recordID)
  */
 class UpdateRecordingsParameters extends MetaParameters
 {

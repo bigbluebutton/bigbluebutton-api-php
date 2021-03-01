@@ -22,17 +22,17 @@ namespace BigBlueButton\Parameters;
  * Class GetRecordingTextTracksParameters
  *
  * @method string getRecordID()
- * @method PutRecordingTextTrackParameters setRecordID(string $recordID)
+ * @method $this setRecordID(string $recordID)
  * @method string getKind()
- * @method PutRecordingTextTrackParameters setKind(string $kind)
+ * @method $this setKind(string $kind)
  * @method string getLang()
- * @method PutRecordingTextTrackParameters setLang(string $lang)
+ * @method $this setLang(string $lang)
  * @method string getLabel()
- * @method PutRecordingTextTrackParameters setLabel(string $label)
+ * @method $this setLabel(string $label)
  * @method string getContentType()
- * @method PutRecordingTextTrackParameters set(string $contentType)
+ * @method $this set(string $contentType)
  * @method mixed getFile()
- * @method PutRecordingTextTrackParameters setFile(mixed $file)
+ * @method $this setFile(mixed $file)
  */
 class PutRecordingTextTrackParameters extends BaseParameters
 {

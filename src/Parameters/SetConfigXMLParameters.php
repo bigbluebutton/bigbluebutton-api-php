@@ -22,9 +22,9 @@ namespace BigBlueButton\Parameters;
  * Class SetConfigXMLParameters
  *
  * @method string getMeetingID()
- * @method SetConfigXMLParameters setMeetingID(string $id)
+ * @method $this setMeetingID(string $id)
  * @method \SimpleXMLElement getRawXml()
- * @method SetConfigXMLParameters setRawXml(\SimpleXMLElement $rawXml)
+ * @method $this setRawXml(\SimpleXMLElement $rawXml)
  */
 class SetConfigXMLParameters extends BaseParameters
 {

@@ -22,7 +22,7 @@ namespace BigBlueButton\Parameters;
  * Class DeleteRecordingsParameters
  *
  * @method string getRecordID()
- * @method DeleteRecordingsParameters setRecordID(string $recordID)
+ * @method $this setRecordID(string $recordID)
  */
 class DeleteRecordingsParameters extends BaseParameters
 {
