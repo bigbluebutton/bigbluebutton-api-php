@@ -29,11 +29,13 @@ use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
+use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Parameters\SetConfigXMLParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
@@ -44,6 +46,7 @@ use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\GetRecordingTextTracksResponse;
+use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
@@ -205,7 +208,7 @@ class BigBlueButton
     }
 
     /**
-     * @param  $setConfigXMLParams
+     * @param SetConfigXMLParameters $setConfigXMLParams
      *
      * @return SetConfigXMLResponse
      * @throws RuntimeException
@@ -220,7 +223,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $joinMeetingParams JoinMeetingParameters
+     * @param JoinMeetingParameters $joinMeetingParams
      *
      * @return string
      */
@@ -230,7 +233,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $joinMeetingParams JoinMeetingParameters
+     * @param JoinMeetingParameters $joinMeetingParams
      *
      * @return JoinMeetingResponse
      * @throws RuntimeException
@@ -243,7 +246,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $endParams EndMeetingParameters
+     * @param EndMeetingParameters $endParams
      *
      * @return string
      */
@@ -253,7 +256,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $endParams EndMeetingParameters
+     * @param EndMeetingParameters $endParams
      *
      * @return EndMeetingResponse
      * @throws RuntimeException
@@ -265,15 +268,8 @@ class BigBlueButton
         return new EndMeetingResponse($xml);
     }
 
-    /* __________________ BBB MONITORING METHODS _________________ */
-    /* The methods in the following section support the following categories of the BBB API:
-    -- isMeetingRunning
-    -- getMeetings
-    -- getMeetingInfo
-    */
-
     /**
-     * @param $meetingParams IsMeetingRunningParameters
+     * @param IsMeetingRunningParameters $meetingParams
      *
      * @return string
      */
@@ -283,7 +279,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $meetingParams
+     * @param IsMeetingRunningParameters $meetingParams
      *
      * @return IsMeetingRunningResponse
      * @throws RuntimeException
@@ -315,7 +311,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $meetingParams GetMeetingInfoParameters
+     * @param GetMeetingInfoParameters $meetingParams
      *
      * @return string
      */
@@ -325,7 +321,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $meetingParams GetMeetingInfoParameters
+     * @param GetMeetingInfoParameters $meetingParams
      *
      * @return GetMeetingInfoResponse
      * @throws RuntimeException
@@ -337,15 +333,8 @@ class BigBlueButton
         return new GetMeetingInfoResponse($xml);
     }
 
-    /* __________________ BBB RECORDING METHODS _________________ */
-    /* The methods in the following section support the following categories of the BBB API:
-    -- getRecordings
-    -- publishRecordings
-    -- deleteRecordings
-    */
-
     /**
-     * @param $recordingsParams GetRecordingsParameters
+     * @param GetRecordingsParameters $recordingsParams
      *
      * @return string
      */
@@ -355,7 +344,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $recordingParams
+     * @param GetRecordingsParameters $recordingParams
      *
      * @return GetRecordingsResponse
      * @throws RuntimeException
@@ -368,7 +357,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $recordingParams PublishRecordingsParameters
+     * @param PublishRecordingsParameters $recordingParams
      *
      * @return string
      */
@@ -378,7 +367,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $recordingParams PublishRecordingsParameters
+     * @param PublishRecordingsParameters $recordingParams
      *
      * @return PublishRecordingsResponse
      * @throws RuntimeException
@@ -391,7 +380,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $recordingParams DeleteRecordingsParameters
+     * @param DeleteRecordingsParameters $recordingParams
      *
      * @return string
      */
@@ -401,7 +390,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $recordingParams DeleteRecordingsParameters
+     * @param DeleteRecordingsParameters $recordingParams
      *
      * @return DeleteRecordingsResponse
      * @throws RuntimeException
@@ -414,7 +403,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $recordingParams UpdateRecordingsParameters
+     * @param UpdateRecordingsParameters $recordingParams
      *
      * @return string
      */
@@ -424,7 +413,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $recordingParams UpdateRecordingsParameters
+     * @param UpdateRecordingsParameters $recordingParams
      *
      * @return UpdateRecordingsResponse
      * @throws RuntimeException
@@ -437,7 +426,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
+     * @param GetRecordingTextTracksParameters $getRecordingTextTracksParams
      *
      * @return string
      */
@@ -447,7 +436,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
+     * @param GetRecordingTextTracksParameters $getRecordingTextTracksParams
      *
      * @return GetRecordingTextTracksResponse
      * @throws RuntimeException
@@ -459,10 +448,36 @@ class BigBlueButton
         );
     }
 
-    /* ____________________ WEB HOOKS METHODS ___________________ */
+    /**
+     * @param PutRecordingTextTrackParameters $putRecordingTextTrackParams
+     *
+     * @return string
+     */
+    public function getPutRecordingTextTrackUrl($putRecordingTextTrackParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::PUT_RECORDING_TEXT_TRACK, $putRecordingTextTrackParams->getHTTPQuery());
+    }
 
     /**
-     * @param $hookCreateParams HooksCreateParameters
+     * @param PutRecordingTextTrackParameters $putRecordingTextTrackParams
+     *
+     * @return PutRecordingTextTrackResponse
+     * @throws RuntimeException
+     */
+    public function putRecordingTextTrack($putRecordingTextTrackParams)
+    {
+        $url  = $this->getPutRecordingTextTrackUrl($putRecordingTextTrackParams);
+        $file = $putRecordingTextTrackParams->getFile();
+
+        return new PutRecordingTextTrackResponse(
+            $file === null ?
+                $this->processJsonResponse($url) :
+                $this->processJsonResponse($url, $file, $putRecordingTextTrackParams->getContentType())
+        );
+    }
+
+    /**
+     * @param HooksCreateParameters $hookCreateParams
      *
      * @return string
      */
@@ -472,7 +487,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $hookCreateParams
+     * @param HooksCreateParameters $hookCreateParams
      *
      * @return HooksCreateResponse
      */
@@ -502,7 +517,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $hooksDestroyParams HooksDestroyParameters
+     * @param HooksDestroyParameters $hooksDestroyParams
      *
      * @return string
      */
@@ -512,7 +527,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $hooksDestroyParams
+     * @param HooksDestroyParameters $hooksDestroyParams
      *
      * @return HooksDestroyResponse
      */

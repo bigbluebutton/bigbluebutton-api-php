@@ -20,64 +20,53 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class SetConfigXMLParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getMeetingID()
+ * @method $this setMeetingID(string $id)
+ * @method \SimpleXMLElement getRawXml()
+ * @method $this setRawXml(\SimpleXMLElement $rawXml)
  */
 class SetConfigXMLParameters extends BaseParameters
 {
     /**
      * @var string
      */
-    private $meetingId;
+    protected $meetingID;
 
     /**
      * @var \SimpleXMLElement
      */
-    private $rawXml;
+    protected $rawXml;
 
     /**
      * SetConfigXMLParameters constructor.
      *
-     * @param $meetingId
+     * @param $meetingID
      */
-    public function __construct($meetingId)
+    public function __construct($meetingID)
     {
-        $this->meetingId = $meetingId;
+        $this->ignoreProperties = ['rawXml'];
+
+        $this->meetingID = $meetingID;
     }
 
     /**
+     * @deprecated use getMeetingID() instead
      * @return string
      */
     public function getMeetingId()
     {
-        return $this->meetingId;
+        return $this->meetingID;
     }
 
     /**
+     * @deprecated use setMeetingID() instead
      * @param  string                 $meetingId
      * @return SetConfigXMLParameters
      */
-    public function setMeetingId($meetingId)
+    public function setMeetingId($meetingID)
     {
-        $this->meetingId = $meetingId;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRawXml()
-    {
-        return $this->rawXml;
-    }
-
-    /**
-     * @param  \SimpleXMLElement      $rawXml
-     * @return SetConfigXMLParameters
-     */
-    public function setRawXml($rawXml)
-    {
-        $this->rawXml = $rawXml;
+        $this->meetingID = $meetingID;
 
         return $this;
     }
@@ -87,11 +76,12 @@ class SetConfigXMLParameters extends BaseParameters
      */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(
-            [
-                'configXML' => urlencode($this->rawXml->asXML()),
-                'meetingID' => $this->meetingId,
-            ]
-        );
+        $queries = $this->getHTTPQueryArray();
+
+        $queries['configXML'] = urlencode($this->rawXml->asXML());
+
+        \ksort($queries);
+
+        return \http_build_query($queries);
     }
 }

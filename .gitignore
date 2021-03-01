@@ -10,3 +10,4 @@ composer.phar
 .php_cs.cache
 cghooks.lock
 
+.phpunit.result.cache

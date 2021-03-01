@@ -51,16 +51,18 @@ abstract class UserDataParameters extends BaseParameters
         return $this;
     }
 
-    protected function buildUserData(&$queries)
+    protected function getHTTPQueryArray(): array
     {
-        if (count($this->userData) !== 0) {
-            foreach ($this->userData as $k => $v) {
-                if (!is_bool($v)) {
-                    $queries['userdata-' . $k] = $v;
-                } else {
-                    $queries['userdata-' . $k] = $v ? 'true' : 'false';
-                }
+        $properties = parent::getHTTPQueryArray();
+
+        foreach ($this->userData as $k => $v) {
+            if (!is_bool($v)) {
+                $properties['userdata-' . $k] = $v;
+            } else {
+                $properties['userdata-' . $k] = $v ? 'true' : 'false';
             }
         }
+
+        return $properties;
     }
 }

@@ -29,7 +29,7 @@ abstract class BaseResponseAsJson
     const CHECKSUM_ERROR = 'checksumError';
 
     /**
-     * @var string
+     * @var mixed
      */
     protected $data;
 

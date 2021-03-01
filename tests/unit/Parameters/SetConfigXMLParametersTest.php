@@ -31,7 +31,7 @@ class SetConfigXMLParametersTest extends TestCase
         $params             = $this->generateSetConfigXMLParams();
         $setConfigXMLParams = $this->getSetConfigXMLMock($params);
 
-        $this->assertEquals($params['meetingId'], $setConfigXMLParams->getMeetingId());
+        $this->assertEquals($params['meetingID'], $setConfigXMLParams->getMeetingId());
 
         // Test setters that are ignored by the constructor
         $setConfigXMLParams->setMeetingId($newId = $this->faker->uuid);

@@ -16,49 +16,19 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Responses;
 
 /**
- * Class UpdateRecordingsParameters
- *
- * @method string getRecordID()
- * @method $this setRecordID(string $recordID)
+ * Class PutRecordingTextTracksResponse
+ * @package BigBlueButton\Responses
  */
-class UpdateRecordingsParameters extends MetaParameters
+class PutRecordingTextTrackResponse extends BaseResponseAsJson
 {
     /**
-     * @var string
-     */
-    protected $recordID;
-
-    /**
-     * UpdateRecordingsParameters constructor.
-     *
-     * @param $recordID
-     */
-    public function __construct($recordID)
-    {
-        $this->recordID = $recordID;
-    }
-
-    /**
-     * @deprecated use getRecordID() instead
      * @return string
      */
-    public function getRecordingId()
+    public function getRecordID()
     {
-        return $this->recordID;
-    }
-
-    /**
-     * @deprecated use setRecordID() instead
-     * @param  string                     $recordingId
-     * @return UpdateRecordingsParameters
-     */
-    public function setRecordingId($recordID)
-    {
-        $this->recordID = $recordID;
-
-        return $this;
+        return $this->data->response->recordId;
     }
 }
