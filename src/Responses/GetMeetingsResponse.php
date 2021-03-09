@@ -39,7 +39,7 @@ class GetMeetingsResponse extends BaseResponse
         if ($this->meetings === null) {
             $this->meetings = [];
 
-            if ($this->getMessageKey() != 'noMeetings') {
+            if (isset($this->rawXml->meetings)) {
                 foreach ($this->rawXml->meetings->children() as $meetingXml) {
                     $this->meetings[] = new Meeting($meetingXml);
                 }
