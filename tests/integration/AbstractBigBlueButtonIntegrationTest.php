@@ -18,6 +18,7 @@
  */
 namespace BigBlueButton;
 
+use BigBlueButton\Http\Transport\TransportInterface;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
@@ -27,10 +28,10 @@ use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 
 /**
- * Class BigBlueButtonTest
+ * Class BigBlueButtonIntegrationTest
  * @package BigBlueButton
  */
-class BigBlueButtonTest extends TestCase
+abstract class AbstractBigBlueButtonIntegrationTest extends TestCase
 {
     /**
      * @var BigBlueButton
@@ -44,8 +45,13 @@ class BigBlueButtonTest extends TestCase
     {
         parent::setUp();
 
-        $this->bbb = new BigBlueButton();
+        $this->bbb = new BigBlueButton(null, null, static::createTransport());
     }
+
+    /**
+     * @return TransportInterface
+     */
+    abstract protected static function createTransport(): TransportInterface;
 
     /* Check Connection */
 
