@@ -598,7 +598,8 @@ class BigBlueButton
      * @param string $payload
      * @param string $contentType
      *
-     * @return string           Response body
+     * @return string Response body
+     *
      * @throws RuntimeException
      */
     private function requestUrl($url, $payload = '', $contentType = 'application/xml')

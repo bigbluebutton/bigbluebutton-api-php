@@ -314,11 +314,12 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setName()
+     *
      * @param string $name
      *
-     * @return JoinMeetingParameters
+     * @return static
      */
-    public function setMeetingName($name)
+    public function setMeetingName($name): self
     {
         $this->name = $name;
 
@@ -358,11 +359,12 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setAttendeePW()
+     *
      * @param string $password
      *
-     * @return JoinMeetingParameters
+     * @return static
      */
-    public function setAttendeePassword($password)
+    public function setAttendeePassword($password): self
     {
         $this->attendeePW = $password;
 
@@ -380,11 +382,12 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setModeratorPW()
+     *
      * @param string $password
      *
-     * @return JoinMeetingParameters
+     * @return static
      */
-    public function setModeratorPassword($password)
+    public function setModeratorPassword($password): self
     {
         $this->moderatorPW = $password;
 
@@ -659,7 +662,7 @@ class CreateMeetingParameters extends MetaParameters
         return \http_build_query($queries);
     }
 
-    private function filterBreakoutRelatedQueries($queries)
+    private function filterBreakoutRelatedQueries(array $queries)
     {
         return array_filter($queries, function ($query) {
             return !\in_array($query, ['isBreakout', 'parentMeetingID', 'sequence', 'freeJoin']);

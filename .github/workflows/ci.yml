@@ -16,7 +16,7 @@ jobs:
         include:
           - php-versions: '8.1'
             experimental: true
-        
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -26,6 +26,9 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: bcmath, ctype, fileinfo, json, mbstring, dom, ldap, pdo, tokenizer, xml, mysql, sqlite
         coverage: xdebug
+    - name: Downgrade phpunit for php7.2
+      if: ${{ matrix.php-versions == '7.2' }}
+      run: composer update phpunit/phpunit -W
     - name: Install php dependencies
       run: composer install --dev --no-interaction
       continue-on-error: ${{ matrix.experimental }}
@@ -46,8 +49,8 @@ jobs:
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
       run: vendor/bin/php-coveralls --coverage_clover=build/logs/coverage.xml -v
-    
-    
+
+
   HHVM:
     name: HHVM
     runs-on: ubuntu-latest

@@ -39,7 +39,7 @@ abstract class BaseParameters
         }
     }
 
-    protected function getter($name)
+    protected function getter(string $name)
     {
         if (property_exists($this, $name)) {
             return $this->$name;
@@ -48,7 +48,7 @@ abstract class BaseParameters
         }
     }
 
-    protected function booleanGetter($name)
+    protected function booleanGetter(string $name)
     {
         $value = $this->getter($name);
 
@@ -59,7 +59,7 @@ abstract class BaseParameters
         return $value;
     }
 
-    protected function setter($name, $arguments)
+    protected function setter(string $name, array $arguments)
     {
         if (!property_exists($this, $name)) {
             throw new \BadFunctionCallException($name . ' is not a valid property');

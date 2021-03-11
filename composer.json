@@ -66,7 +66,8 @@
     "friendsofphp/php-cs-fixer": "2.*",
     "squizlabs/php_codesniffer": "3.*",
     "php-coveralls/php-coveralls": "~2.2.0",
-    "brainmaestro/composer-git-hooks": "^2.8"
+    "brainmaestro/composer-git-hooks": "^2.8",
+    "vimeo/psalm": "^4.5"
   },
   "autoload": {
     "psr-4": {
@@ -77,6 +78,9 @@
     "test": "vendor/bin/phpunit",
     "cs-fix": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
     "cs-test": "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes",
+    "psalm": "psalm --threads=1",
+    "psalm-clear": "psalm --clear-cache && psalm --clear-global-cache",
+    "psalm-fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType",
     "post-install-cmd": "vendor/bin/cghooks add --ignore-lock",
     "post-update-cmd": "vendor/bin/cghooks update"
   },
@@ -86,7 +90,8 @@
         "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
       ],
       "pre-push": [
-        "vendor/bin/phpunit"
+        "vendor/bin/phpunit",
+        "vendor/bin/psalm --threads=1"
       ],
       "post-merge": "composer install",
       "post-checkout": "composer install"
