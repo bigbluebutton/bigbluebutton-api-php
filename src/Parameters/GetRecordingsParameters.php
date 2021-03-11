@@ -20,95 +20,72 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class GetRecordingsParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getMeetingID()
+ * @method $this setMeetingID(string $id)
+ * @method string getRecordID()
+ * @method $this setRecordID(string $recordID)
+ * @method string getState()
+ * @method $this setState(string $state)
  */
 class GetRecordingsParameters extends MetaParameters
 {
     /**
      * @var string
      */
-    private $meetingId;
+    protected $meetingID;
 
     /**
      * @var string
      */
-    private $recordId;
+    protected $recordID;
 
     /**
      * @var string
      */
-    private $state;
+    protected $state;
 
     /**
+     * @deprecated use getMeetingID()
      * @return string
      */
     public function getMeetingId()
     {
-        return $this->meetingId;
+        return $this->meetingID;
     }
 
     /**
-     * @param  string                  $meetingId
+     * @deprecated use setMeetingID()
+     * @param string $meetingId
+     *
      * @return GetRecordingsParameters
      */
-    public function setMeetingId($meetingId)
+    public function setMeetingId($meetingID)
     {
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
 
         return $this;
     }
 
     /**
+     * @deprecated use getRecordID()
      * @return string
      */
     public function getRecordId()
     {
-        return $this->recordId;
+        return $this->recordID;
     }
 
     /**
-     * @param  string                  $recordId
+     * @deprecated use setRecordID()
+     * @param string $recordID
+     *
      * @return GetRecordingsParameters
      */
-    public function setRecordId($recordId)
+    public function setRecordId($recordID)
     {
-        $this->recordId = $recordId;
+        $this->recordID = $recordID;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param  string                  $state
-     * @return GetRecordingsParameters
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        $queries = [
-            'meetingID' => $this->meetingId,
-            'recordID'  => $this->recordId,
-            'state'     => $this->state
-        ];
-
-        $this->buildMeta($queries);
-
-        return $this->buildHTTPQuery($queries);
     }
 }

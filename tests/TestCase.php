@@ -67,19 +67,18 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function generateCreateParams()
     {
         return [
-            'meetingName'                        => $this->faker->name,
-            'meetingId'                          => $this->faker->uuid,
-            'attendeePassword'                   => $this->faker->password,
-            'moderatorPassword'                  => $this->faker->password,
+            'name'                               => $this->faker->name,
+            'meetingID'                          => $this->faker->uuid,
+            'attendeePW'                         => $this->faker->password,
+            'moderatorPW'                        => $this->faker->password,
             'autoStartRecording'                 => $this->faker->boolean(50),
             'dialNumber'                         => $this->faker->phoneNumber,
             'voiceBridge'                        => $this->faker->randomNumber(5),
-            'webVoice'                           => $this->faker->word,
-            'logoutUrl'                          => $this->faker->url,
+            'logoutURL'                          => $this->faker->url,
             'maxParticipants'                    => $this->faker->numberBetween(2, 100),
             'record'                             => $this->faker->boolean(50),
             'duration'                           => $this->faker->numberBetween(0, 6000),
-            'welcomeMessage'                     => $this->faker->sentence,
+            'welcome'                            => $this->faker->sentence,
             'allowStartStopRecording'            => $this->faker->boolean(50),
             'moderatorOnlyMessage'               => $this->faker->sentence,
             'webcamsOnlyForModerator'            => $this->faker->boolean(50),
@@ -126,18 +125,17 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function getCreateMock($params)
     {
-        $createMeetingParams = new CreateMeetingParameters($params['meetingId'], $params['meetingName']);
+        $createMeetingParams = new CreateMeetingParameters($params['meetingID'], $params['name']);
 
-        return $createMeetingParams->setAttendeePassword($params['attendeePassword'])
-            ->setModeratorPassword($params['moderatorPassword'])
+        return $createMeetingParams->setAttendeePassword($params['attendeePW'])
+            ->setModeratorPassword($params['moderatorPW'])
             ->setDialNumber($params['dialNumber'])
             ->setVoiceBridge($params['voiceBridge'])
-            ->setWebVoice($params['webVoice'])
-            ->setLogoutUrl($params['logoutUrl'])
+            ->setLogoutUrl($params['logoutURL'])
             ->setMaxParticipants($params['maxParticipants'])
             ->setRecord($params['record'])
             ->setDuration($params['duration'])
-            ->setWelcomeMessage($params['welcomeMessage'])
+            ->setWelcomeMessage($params['welcome'])
             ->setAutoStartRecording($params['autoStartRecording'])
             ->setAllowStartStopRecording($params['allowStartStopRecording'])
             ->setModeratorOnlyMessage($params['moderatorOnlyMessage'])
@@ -181,15 +179,15 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function generateJoinMeetingParams()
     {
-        return ['meetingId'            => $this->faker->uuid,
-                'userName'             => $this->faker->name,
+        return ['meetingID'            => $this->faker->uuid,
+                'fullName'             => $this->faker->name,
                 'password'             => $this->faker->password,
-                'userId'               => $this->faker->numberBetween(1, 1000),
+                'userID'               => $this->faker->numberBetween(1, 1000),
                 'webVoiceConf'         => $this->faker->word,
-                'creationTime'         => $this->faker->unixTime,
-                'userdata_countrycode' => $this->faker->countryCode,
-                'userdata_email'       => $this->faker->email,
-                'userdata_commercial'  => false
+                'createTime'           => $this->faker->unixTime,
+                'userdata-countrycode' => $this->faker->countryCode,
+                'userdata-email'       => $this->faker->email,
+                'userdata-commercial'  => false
         ];
     }
 
@@ -200,11 +198,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function getJoinMeetingMock($params)
     {
-        $joinMeetingParams = new JoinMeetingParameters($params['meetingId'], $params['userName'], $params['password']);
+        $joinMeetingParams = new JoinMeetingParameters($params['meetingID'], $params['fullName'], $params['password']);
 
-        return $joinMeetingParams->setUserId($params['userId'])->setWebVoiceConf($params['webVoiceConf'])
-            ->setCreationTime($params['creationTime'])->addUserData('countrycode', $params['userdata_countrycode'])
-            ->addUserData('email', $params['userdata_email'])->addUserData('commercial', $params['userdata_commercial']);
+        return $joinMeetingParams->setUserId($params['userID'])->setWebVoiceConf($params['webVoiceConf'])
+            ->setCreationTime($params['createTime'])->addUserData('countrycode', $params['userdata-countrycode'])
+            ->addUserData('email', $params['userdata-email'])->addUserData('commercial', $params['userdata-commercial']);
     }
 
     /**
@@ -212,7 +210,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function generateEndMeetingParams()
     {
-        return ['meetingId' => $this->faker->uuid,
+        return ['meetingID' => $this->faker->uuid,
                 'password'  => $this->faker->password];
     }
 
@@ -223,7 +221,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function getEndMeetingMock($params)
     {
-        return new EndMeetingParameters($params['meetingId'], $params['password']);
+        return new EndMeetingParameters($params['meetingID'], $params['password']);
     }
 
     /**
@@ -244,7 +242,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function generateUpdateRecordingsParams()
     {
         return [
-            'recordingId'    => $this->faker->uuid,
+            'recordID'       => $this->faker->uuid,
             'meta_presenter' => $this->faker->name,
         ];
     }
@@ -256,7 +254,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function getUpdateRecordingsParamsMock($params)
     {
-        $updateRecordingsParams = new UpdateRecordingsParameters($params['recordingId']);
+        $updateRecordingsParams = new UpdateRecordingsParameters($params['recordID']);
 
         return $updateRecordingsParams->addMeta('presenter', $params['meta_presenter']);
     }
@@ -267,7 +265,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function generateSetConfigXMLParams()
     {
         return [
-            'meetingId' => $this->faker->uuid,
+            'meetingID' => $this->faker->uuid,
         ];
     }
 
@@ -278,7 +276,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function getSetConfigXMLMock($params)
     {
-        return new SetConfigXMLParameters($params['meetingId']);
+        return new SetConfigXMLParameters($params['meetingID']);
     }
 
     // Load fixtures

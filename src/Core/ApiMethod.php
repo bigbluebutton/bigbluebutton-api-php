@@ -36,6 +36,7 @@ abstract class ApiMethod
     const DELETE_RECORDINGS         = 'deleteRecordings';
     const UPDATE_RECORDINGS         = 'updateRecordings';
     const GET_RECORDING_TEXT_TRACKS = 'getRecordingTextTracks';
+    const PUT_RECORDING_TEXT_TRACK  = 'putRecordingTextTrack';
     const HOOKS_CREATE              = 'hooks/create';
     const HOOKS_LIST                = 'hooks/list';
     const HOOKS_DESTROY             = 'hooks/destroy';

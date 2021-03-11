@@ -24,15 +24,12 @@ class GetMeetingInfoParametersTest extends TestCase
 {
     public function testGetMeetingInfoParameters()
     {
-        $getMeetingInfoParams = new GetMeetingInfoParameters($meetingId = $this->faker->uuid, $password = $this->faker->password());
+        $getMeetingInfoParams = new GetMeetingInfoParameters($meetingId = $this->faker->uuid);
 
         $this->assertEquals($meetingId, $getMeetingInfoParams->getMeetingId());
-        $this->assertEquals($password, $getMeetingInfoParams->getPassword());
 
         // Test setters that are ignored by the constructor
         $getMeetingInfoParams->setMeetingId($newId = $this->faker->uuid);
-        $getMeetingInfoParams->setPassword($newPassword = $this->faker->password);
         $this->assertEquals($newId, $getMeetingInfoParams->getMeetingId());
-        $this->assertEquals($newPassword, $getMeetingInfoParams->getPassword());
     }
 }

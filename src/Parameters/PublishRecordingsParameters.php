@@ -20,77 +20,54 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class PublishRecordingsParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getRecordID()
+ * @method $this setRecordID(string $recordID)
+ * @method bool|null isPublish()
+ * @method $this setPublish(bool $publish)
  */
 class PublishRecordingsParameters extends BaseParameters
 {
     /**
      * @var string
      */
-    private $recordingId;
+    protected $recordID;
 
     /**
      * @var bool
      */
-    private $publish;
+    protected $publish;
 
     /**
      * PublishRecordingsParameters constructor.
      *
-     * @param $recordingId
+     * @param $recordID
      * @param $publish
      */
-    public function __construct($recordingId, $publish)
+    public function __construct($recordID, $publish)
     {
-        $this->recordingId = $recordingId;
+        $this->recordID    = $recordID;
         $this->publish     = $publish;
     }
 
     /**
+     * @deprecated use getRecordID() instead
      * @return string
      */
     public function getRecordingId()
     {
-        return $this->recordingId;
+        return $this->recordID;
     }
 
     /**
+     * @deprecated use setRecordID() instead
      * @param  string                      $recordingId
      * @return PublishRecordingsParameters
      */
-    public function setRecordingId($recordingId)
+    public function setRecordingId($recordID)
     {
-        $this->recordingId = $recordingId;
+        $this->recordID = $recordID;
 
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPublish()
-    {
-        return $this->publish;
-    }
-
-    /**
-     * @param bool $publish
-     */
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        return $this->buildHTTPQuery(
-            [
-                'recordID' => $this->recordingId,
-                'publish'  => $this->publish ? 'true' : 'false'
-            ]
-        );
     }
 }

@@ -18,102 +18,89 @@
  */
 namespace BigBlueButton\Parameters;
 
+/**
+ * @method string getCallbackURL()
+ * @method $this setCallbackURL(string $url)
+ * @method string getMeetingID()
+ * @method $this setMeetingID(string $id)
+ * @method bool|null isGetRaw()
+ * @method $this setGetRaw(bool $getRaw)
+ */
 class HooksCreateParameters extends BaseParameters
 {
 
     /**
      * @var string
      */
-    private $callbackUrl;
+    protected $callbackURL;
 
     /**
      * @var string
      */
-    private $meetingId;
+    protected $meetingID;
 
     /**
      * @var boolean
      */
-    private $getRaw;
+    protected $getRaw;
 
     /**
      * HooksCreateParameters constructor.
      *
      * @param $callbackUrl
      */
-    public function __construct($callbackUrl)
+    public function __construct($callbackURL)
     {
-        $this->callbackUrl = $callbackUrl;
+        $this->callbackURL = $callbackURL;
     }
 
     /**
+     * @deprecated use getCallbackURL() instead
      * @return string
      */
     public function getCallbackUrl()
     {
-        return $this->callbackUrl;
+        return $this->callbackURL;
     }
 
     /**
+     * @deprecated use setCallbackURL() instead
      * @param  string                $callbackUrl
      * @return HooksCreateParameters
      */
-    public function setCallbackUrl($callbackUrl)
+    public function setCallbackUrl($callbackURL)
     {
-        $this->callbackUrl = $callbackUrl;
+        $this->callbackURL = $callbackURL;
 
         return $this;
     }
 
     /**
+     * @deprecated use getMeetingID() instead
      * @return string
      */
     public function getMeetingId()
     {
-        return $this->meetingId;
+        return $this->meetingID;
     }
 
     /**
+     * @deprecated use setMeetingID() instead
      * @param  string                $meetingId
      * @return HooksCreateParameters
      */
-    public function setMeetingId($meetingId)
+    public function setMeetingId($meetingID)
     {
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
 
         return $this;
     }
 
     /**
-     * @return boolean
+     * @deprecated use isGetRaw()
      */
     public function getRaw()
     {
         return $this->getRaw;
-    }
-
-    /**
-     * @param  boolean               $getRaw
-     * @return HooksCreateParameters
-     */
-    public function setGetRaw($getRaw)
-    {
-        $this->getRaw = $getRaw;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        $queries = [
-            'callbackURL' => $this->callbackUrl,
-            'meetingID'   => $this->meetingId,
-            'getRaw'      => $this->getRaw ? 'true' : 'false'
-        ];
-
-        return $this->buildHTTPQuery($queries);
     }
 }

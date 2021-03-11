@@ -101,9 +101,9 @@ class CreateMeetingResponse extends BaseResponse
     }
 
     /**
-     * @return true
+     * @return bool
      */
-    public function hasUserJoined()
+    public function hasUserJoined(): bool
     {
         return $this->rawXml->hasUserJoined->__toString() === 'true';
     }

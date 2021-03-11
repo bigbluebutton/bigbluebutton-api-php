@@ -1,4 +1,5 @@
 <?php
+
 /**
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
@@ -18,49 +19,25 @@
  */
 namespace BigBlueButton\Parameters;
 
-/**
- * Class GetRecordingTextTracksParameters
- *
- * @method string getRecordID()
- * @method $this setRecordID(string $recordID)
- */
-class GetRecordingTextTracksParameters extends MetaParameters
+use BigBlueButton\TestCase;
+
+class PutRecordingTextTracksParametersTest extends TestCase
 {
-
-    /**
-     * @var string
-     */
-    protected $recordID;
-
-    /**
-     * GetRecordingTextTracksParameters constructor.
-     *
-     * @param $recordID
-     */
-    public function __construct($recordID)
+    public function testPutRecordingTextTracksParameters()
     {
-        $this->recordID = $recordID;
-    }
+        $getRecordingTextTracksParams = new PutRecordingTextTrackParameters(
+            $recordId = $this->faker->uuid,
+            $kind = $this->faker->word,
+            $lang = $this->faker->languageCode,
+            $label = $this->faker->name
+        );
 
-    /**
-     * @deprecated use getRecordID()
-     * @return string
-     */
-    public function getRecordId()
-    {
-        return $this->recordID;
-    }
+        $this->assertEquals($recordId, $getRecordingTextTracksParams->getRecordID());
+        $this->assertEquals($kind, $getRecordingTextTracksParams->getKind());
+        $this->assertEquals($lang, $getRecordingTextTracksParams->getLang());
+        $this->assertEquals($label, $getRecordingTextTracksParams->getLabel());
 
-    /**
-     * @deprecated use setRecordID()
-     * @param string $recordID
-     *
-     * @return GetRecordingTextTracksParameters
-     */
-    public function setRecordId($recordID)
-    {
-        $this->recordID = $recordID;
-
-        return $this;
+        $getRecordingTextTracksParams->setRecordID($newRecordId = $this->faker->uuid);
+        $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordID());
     }
 }

@@ -23,6 +23,7 @@ use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
+use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 
 /**
@@ -170,15 +171,18 @@ class BigBlueButtonTest extends TestCase
      */
     public function testJoinMeeting()
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('String could not be parsed as XML');
+        $params = $this->generateCreateParams();
+        $result = $this->bbb->createMeeting($this->getCreateMock($params));
+        $this->assertEquals('SUCCESS', $result->getReturnCode(), 'Create meeting');
+        $creationTime = $result->getCreationTime();
 
         $joinMeetingParams = $this->generateJoinMeetingParams();
-        $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
-        $joinMeetingMock->setRedirect(false);
+        $joinMeetingParams = new JoinMeetingParameters($result->getMeetingId(), 'Foobar', $result->getAttendeePassword());
+        $joinMeetingParams->setRedirect(false);
+        $joinMeetingParams->setCreateTime(sprintf('%.0f', $creationTime));
 
-        $joinMeeting = $this->bbb->joinMeeting($joinMeetingMock);
-        $this->assertEquals('SUCCESS', $joinMeeting->getReturnCode());
+        $joinMeeting = $this->bbb->joinMeeting($joinMeetingParams);
+        $this->assertEquals('SUCCESS', $joinMeeting->getReturnCode(), 'Join meeting');
         $this->assertTrue($joinMeeting->success());
         $this->assertNotEmpty($joinMeeting->getAuthToken());
         $this->assertNotEmpty($joinMeeting->getUserId());
@@ -209,13 +213,13 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($createMeetingResponse->success());
 
         // Execute setConfigXML request
-        $params             = ['meetingId' => $createMeetingResponse->getMeetingId()];
+        $params             = ['meetingID' => $createMeetingResponse->getMeetingId()];
         $setConfigXMLParams = $this->getSetConfigXMLMock($params);
         $setConfigXMLParams = $setConfigXMLParams->setRawXml($defaultConfigXMLResponse->getRawXml());
         $this->assertEquals($setConfigXMLParams->getRawXml(), $defaultConfigXMLResponse->getRawXml());
 
         $result = $this->bbb->setConfigXML($setConfigXMLParams);
-        $this->assertEquals('SUCCESS', $result->getReturnCode());
+        $this->assertEquals('SUCCESS', $result->getReturnCode(), $result->getMessage());
         $this->assertTrue($result->success());
         $this->assertNotEmpty($result->getToken());
     }

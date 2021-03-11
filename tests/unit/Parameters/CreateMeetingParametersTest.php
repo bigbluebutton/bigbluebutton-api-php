@@ -19,6 +19,7 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase as TestCase;
+use PHPUnit\Framework\Error\Warning;
 
 /**
  * Class CreateMeetingParametersTest
@@ -31,19 +32,18 @@ class CreateMeetingParametersTest extends TestCase
         $params              = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
 
-        $this->assertEquals($params['meetingName'], $createMeetingParams->getMeetingName());
-        $this->assertEquals($params['meetingId'], $createMeetingParams->getMeetingId());
-        $this->assertEquals($params['attendeePassword'], $createMeetingParams->getAttendeePassword());
-        $this->assertEquals($params['moderatorPassword'], $createMeetingParams->getModeratorPassword());
+        $this->assertEquals($params['name'], $createMeetingParams->getMeetingName());
+        $this->assertEquals($params['meetingID'], $createMeetingParams->getMeetingId());
+        $this->assertEquals($params['attendeePW'], $createMeetingParams->getAttendeePassword());
+        $this->assertEquals($params['moderatorPW'], $createMeetingParams->getModeratorPassword());
         $this->assertEquals($params['autoStartRecording'], $createMeetingParams->isAutoStartRecording());
         $this->assertEquals($params['dialNumber'], $createMeetingParams->getDialNumber());
         $this->assertEquals($params['voiceBridge'], $createMeetingParams->getVoiceBridge());
-        $this->assertEquals($params['webVoice'], $createMeetingParams->getWebVoice());
-        $this->assertEquals($params['logoutUrl'], $createMeetingParams->getLogoutUrl());
+        $this->assertEquals($params['logoutURL'], $createMeetingParams->getLogoutUrl());
         $this->assertEquals($params['maxParticipants'], $createMeetingParams->getMaxParticipants());
         $this->assertEquals($params['record'], $createMeetingParams->isRecorded());
         $this->assertEquals($params['duration'], $createMeetingParams->getDuration());
-        $this->assertEquals($params['welcomeMessage'], $createMeetingParams->getWelcomeMessage());
+        $this->assertEquals($params['welcome'], $createMeetingParams->getWelcomeMessage());
         $this->assertEquals($params['allowStartStopRecording'], $createMeetingParams->isAllowStartStopRecording());
         $this->assertEquals($params['moderatorOnlyMessage'], $createMeetingParams->getModeratorOnlyMessage());
         $this->assertEquals($params['webcamsOnlyForModerator'], $createMeetingParams->isWebcamsOnlyForModerator());
@@ -56,8 +56,8 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['lockSettingsDisablePrivateChat'], $createMeetingParams->isLockSettingsDisablePrivateChat());
         $this->assertEquals($params['lockSettingsDisablePublicChat'], $createMeetingParams->isLockSettingsDisablePublicChat());
         $this->assertEquals($params['lockSettingsDisableNote'], $createMeetingParams->isLockSettingsDisableNote());
-        $this->assertEquals($params['lockSettingsHideUserList'], $createMeetingParams->isLockSettingsHideUserList());
         $this->assertEquals($params['lockSettingsLockedLayout'], $createMeetingParams->isLockSettingsLockedLayout());
+        $this->assertEquals($params['lockSettingsHideUserList'], $createMeetingParams->isLockSettingsHideUserList());
         $this->assertEquals($params['lockSettingsLockOnJoin'], $createMeetingParams->isLockSettingsLockOnJoin());
         $this->assertEquals($params['lockSettingsLockOnJoinConfigurable'], $createMeetingParams->isLockSettingsLockOnJoinConfigurable());
         $this->assertEquals($params['allowModsToUnmuteUsers'], $createMeetingParams->isAllowModsToUnmuteUsers());
@@ -95,6 +95,31 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertStringContainsString('parentMeetingID=' . urlencode($createBreakoutMeetingParams->getParentMeetingId()), $params);
         $this->assertStringContainsString('sequence=' . urlencode($createBreakoutMeetingParams->getSequence()), $params);
         $this->assertStringContainsString('freeJoin=' . urlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
+    }
+
+    public function testCreateBreakoutMeetingWithMissingParams()
+    {
+        $this->expectException(Warning::class);
+
+        $params = new CreateMeetingParameters($this->faker->uuid, $this->faker->name);
+        $params->setBreakout(true);
+        $params->getHTTPQuery();
+    }
+
+    public function testNonExistingProperty()
+    {
+        $this->expectException(\BadFunctionCallException::class);
+
+        $params = new CreateMeetingParameters($this->faker->uuid, $this->faker->name);
+        $params->getFoobar();
+    }
+
+    public function testWrongMethodName()
+    {
+        $this->expectException(\BadFunctionCallException::class);
+
+        $params = new CreateMeetingParameters($this->faker->uuid, $this->faker->name);
+        $params->getname();
     }
 
     public function testGetPresentationsAsXMLWithUrl()

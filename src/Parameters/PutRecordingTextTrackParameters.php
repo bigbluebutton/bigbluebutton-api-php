@@ -23,8 +23,18 @@ namespace BigBlueButton\Parameters;
  *
  * @method string getRecordID()
  * @method $this setRecordID(string $recordID)
+ * @method string getKind()
+ * @method $this setKind(string $kind)
+ * @method string getLang()
+ * @method $this setLang(string $lang)
+ * @method string getLabel()
+ * @method $this setLabel(string $label)
+ * @method string getContentType()
+ * @method $this set(string $contentType)
+ * @method mixed getFile()
+ * @method $this setFile(mixed $file)
  */
-class GetRecordingTextTracksParameters extends MetaParameters
+class PutRecordingTextTrackParameters extends BaseParameters
 {
 
     /**
@@ -33,34 +43,42 @@ class GetRecordingTextTracksParameters extends MetaParameters
     protected $recordID;
 
     /**
+     * @var string
+     */
+    protected $kind;
+
+    /**
+     * @var string
+     */
+    protected $lang;
+
+    /**
+     * @var string
+     */
+    protected $label;
+
+    /**
+     * @var string
+     */
+    protected $contentType;
+
+    /**
+     * @var mixed
+     */
+    protected $file;
+
+    /**
      * GetRecordingTextTracksParameters constructor.
      *
      * @param $recordID
      */
-    public function __construct($recordID)
+    public function __construct(string $recordID, string $kind, string $lang, string $label)
     {
+        $this->ignoreProperties = ['contentType', 'file'];
+
         $this->recordID = $recordID;
-    }
-
-    /**
-     * @deprecated use getRecordID()
-     * @return string
-     */
-    public function getRecordId()
-    {
-        return $this->recordID;
-    }
-
-    /**
-     * @deprecated use setRecordID()
-     * @param string $recordID
-     *
-     * @return GetRecordingTextTracksParameters
-     */
-    public function setRecordId($recordID)
-    {
-        $this->recordID = $recordID;
-
-        return $this;
+        $this->kind     = $kind;
+        $this->lang     = $lang;
+        $this->label    = $label;
     }
 }

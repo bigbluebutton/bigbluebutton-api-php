@@ -23,18 +23,81 @@ namespace BigBlueButton\Parameters;
  */
 abstract class BaseParameters
 {
-    /**
-     * @param $array
-     *
-     * @return string
-     */
-    protected function buildHTTPQuery($array)
+    protected $ignoreProperties = [];
+
+    public function __call(string $name, array $arguments)
     {
-        return http_build_query(array_filter($array));
+        if (!preg_match('/^(get|is|set)[A-Z]/', $name)) {
+            throw new \BadFunctionCallException($name . ' does not exist');
+        }
+        if (strpos($name, 'get') === 0) {
+            return $this->getter(\lcfirst(substr($name, 3)));
+        } elseif (strpos($name, 'is') === 0) {
+            return $this->booleanGetter(\lcfirst(substr($name, 2)));
+        } elseif (strpos($name, 'set') === 0) {
+            return $this->setter(lcfirst(substr($name, 3)), $arguments);
+        }
+    }
+
+    protected function getter(string $name)
+    {
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        } else {
+            throw new \BadFunctionCallException($name . ' is not a valid property');
+        }
+    }
+
+    protected function booleanGetter(string $name)
+    {
+        $value = $this->getter($name);
+
+        if (!\is_bool($this->$name) && $this->$name !== null) {
+            throw new \BadFunctionCallException($name . ' is not a boolean property');
+        }
+
+        return $value;
+    }
+
+    protected function setter(string $name, array $arguments)
+    {
+        if (!property_exists($this, $name)) {
+            throw new \BadFunctionCallException($name . ' is not a valid property');
+        }
+
+        $this->$name = $arguments[0];
+
+        return $this;
+    }
+
+    protected function getProperties(): array
+    {
+        return array_filter(get_object_vars($this), function ($name) {
+            return $name !== 'ignoreProperties' && !\in_array($name, $this->ignoreProperties);
+        }, ARRAY_FILTER_USE_KEY);
+    }
+
+    protected function getHTTPQueryArray(): array
+    {
+        $properties = $this->getProperties();
+        $properties = array_filter($properties, function ($value) {
+            return $value !== null;
+        });
+
+        return array_map(function ($value) {
+            if (\is_bool($value)) {
+                return $value ? 'true' : 'false';
+            }
+
+            return $value;
+        }, $properties);
     }
 
     /**
      * @return string
      */
-    abstract public function getHTTPQuery();
+    public function getHTTPQuery() //: string
+    {
+        return \http_build_query($this->getHTTPQueryArray());
+    }
 }
