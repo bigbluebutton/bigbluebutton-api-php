@@ -23,9 +23,9 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    const = ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
-    const = ALWAYS_DENY = 'ALWAYS_DENY';
-    const = ASK_MODERATOR = 'ASK_MODERATOR';
+    const ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
+    const ALWAYS_DENY = 'ALWAYS_DENY';
+    const ASK_MODERATOR = 'ASK_MODERATOR';
     
     /**
      * @var string
