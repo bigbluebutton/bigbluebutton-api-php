@@ -168,6 +168,11 @@ class CreateMeetingParameters extends MetaParameters
     private $lockSettingsLockOnJoinConfigurable;
 
     /**
+     * @var bool
+     */
+    private $allowModsToUnmuteUsers;
+
+    /**
      * @var array
      */
     private $presentations = [];
@@ -757,12 +762,31 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return bool
+     */
+    public function isAllowModsToUnmuteUsers()
+    {
+        return $this->allowModsToUnmuteUsers;
+    }
+
+    /**
+     * @param  bool                    $allowModsToUnmuteUsers
+     * @return CreateMeetingParameters
+     */
+    public function setAllowModsToUnmuteUsers($allowModsToUnmuteUsers)
+    {
+        $this->allowModsToUnmuteUsers = $allowModsToUnmuteUsers;
+
+        return $this;
+    }
+
+    /**
      * @param $endCallbackUrl
      * @return CreateMeetingParameters
      */
     public function setEndCallbackUrl($endCallbackUrl)
     {
-        $this->addMeta('endCallbackUrl', urlencode($endCallbackUrl));
+        $this->addMeta('endCallbackUrl', $endCallbackUrl);
 
         return $this;
     }
@@ -773,7 +797,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function setRecordingReadyCallbackUrl($recordingReadyCallbackUrl)
     {
-        $this->addMeta('bbb-recording-ready-url', urlencode($recordingReadyCallbackUrl));
+        $this->addMeta('bbb-recording-ready-url', $recordingReadyCallbackUrl);
 
         return $this;
     }
@@ -954,7 +978,7 @@ class CreateMeetingParameters extends MetaParameters
             'webcamsOnlyForModerator'            => $this->webcamsOnlyForModerator ? 'true' : 'false',
             'logo'                               => $this->logo,
             'copyright'                          => $this->copyright,
-            'muteOnStart'                        => $this->muteOnStart,
+            'muteOnStart'                        => $this->muteOnStart ? 'true' : 'false',
             'guestPolicy'                        => $this->guestPolicy,
             'lockSettingsDisableCam'             => $this->isLockSettingsDisableCam() ? 'true' : 'false',
             'lockSettingsDisableMic'             => $this->isLockSettingsDisableMic() ? 'true' : 'false',
@@ -965,6 +989,7 @@ class CreateMeetingParameters extends MetaParameters
             'lockSettingsLockedLayout'           => $this->isLockSettingsLockedLayout() ? 'true' : 'false',
             'lockSettingsLockOnJoin'             => $this->isLockSettingsLockOnJoin() ? 'true' : 'false',
             'lockSettingsLockOnJoinConfigurable' => $this->isLockSettingsLockOnJoinConfigurable() ? 'true' : 'false',
+            'allowModsToUnmuteUsers'             => $this->isAllowModsToUnmuteUsers() ? 'true' : 'false',
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room
