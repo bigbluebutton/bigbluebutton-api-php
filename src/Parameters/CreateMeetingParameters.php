@@ -890,7 +890,7 @@ class CreateMeetingParameters extends MetaParameters
      * @param  bool                    $guestPolicy
      * @return CreateMeetingParameters
      */
-    public function setFreeJoin($guestPolicy)
+    public function setGuestPolicy($guestPolicy)
     {
         $this->guestPolicy = $guestPolicy;
 
