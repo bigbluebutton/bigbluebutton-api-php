@@ -45,9 +45,9 @@ jobs:
       run: vendor/bin/phpunit
       continue-on-error: true
     - name: Coveralls
-      if: matrix.php-versions == '7.2'
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+      if: ${{ matrix.php-versions == '7.2' && env.COVERALLS_REPO_TOKEN != null }}
       run: vendor/bin/php-coveralls --coverage_clover=build/logs/coverage.xml -v
 
 
