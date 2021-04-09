@@ -78,7 +78,7 @@ composer require littleredbutton/bigbluebutton-api-php
 To make any requests to your BigBlueButton instance, you have to create an API object:
 
 ```php
-use BigBlueButton/BigBlueButton;
+use BigBlueButton\BigBlueButton;
 
 $bbb = new BigBlueButton($apiUrl, $apiSecret);
 ```
