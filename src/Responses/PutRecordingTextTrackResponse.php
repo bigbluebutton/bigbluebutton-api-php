@@ -24,11 +24,48 @@ namespace BigBlueButton\Responses;
  */
 class PutRecordingTextTrackResponse extends BaseResponseAsJson
 {
+    const KEY_SUCCESS     = 'upload_text_track_success';
+    const KEY_FAILED      = 'upload_text_track_failed';
+    const KEY_EMPTY       = 'empty_uploaded_text_track';
+    const KEY_PARAM_ERROR = 'paramError';
+
     /**
      * @return string
      */
     public function getRecordID()
     {
         return $this->data->response->recordId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUploadTrackSuccess(): bool
+    {
+        return $this->getMessageKey() === self::KEY_SUCCESS;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUploadTrackFailed(): bool
+    {
+        return $this->getMessageKey() === self::KEY_FAILED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUploadTrackEmpty(): bool
+    {
+        return $this->getMessageKey() === self::KEY_EMPTY;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isKeyParamError(): bool
+    {
+        return $this->getMessageKey() === self::KEY_PARAM_ERROR;
     }
 }

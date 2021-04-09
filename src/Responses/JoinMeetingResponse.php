@@ -24,6 +24,11 @@ namespace BigBlueButton\Responses;
  */
 class JoinMeetingResponse extends BaseResponse
 {
+    const KEY_SUCCESSFULLY_JOINED = 'successfullyJoined';
+    const KEY_INVALID_SESSION     = 'InvalidSession';
+    const KEY_SERVER_ERROR        = 'BigBlueButtonServerError';
+    const KEY_GUEST_DENY          = 'guestDeny';
+
     /**
      * @return string
      */
@@ -70,5 +75,37 @@ class JoinMeetingResponse extends BaseResponse
     public function getUrl()
     {
         return $this->rawXml->url->__toString();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuccessfullyJoined(): bool
+    {
+        return $this->getMessageKey() === self::KEY_SUCCESSFULLY_JOINED;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSessionInvalid(): bool
+    {
+        return $this->getMessageKey() === self::KEY_INVALID_SESSION;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isServerError(): bool
+    {
+        return $this->getMessageKey() === self::KEY_SERVER_ERROR;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGuestDeny(): bool
+    {
+        return $this->getMessageKey() === self::KEY_GUEST_DENY;
     }
 }
