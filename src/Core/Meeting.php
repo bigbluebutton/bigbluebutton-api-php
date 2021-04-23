@@ -377,11 +377,12 @@ class Meeting
      * Moderators of Meeting - Subset of Attendees
      * @return Attendee[]
      */
-    public function getModerators() {
+    public function getModerators()
+    {
         $attendees = $this->getAttendees();
 
         $moderators = array_filter($attendees, function ($attendee) {
-            return ($attendee->getRole() === "MODERATOR");
+            return $attendee->getRole() === 'MODERATOR';
         });
 
         return array_values($moderators);
@@ -391,11 +392,12 @@ class Meeting
      * Viewers of Meeting - Subset of Attendees
      * @return Attendee[]
      */
-    public function getViewers() {
+    public function getViewers()
+    {
         $attendees = $this->getAttendees();
 
         $viewers = array_filter($attendees, function ($attendee) {
-            return ($attendee->getRole() === "VIEWER");
+            return $attendee->getRole() === 'VIEWER';
         });
 
         return array_values($viewers);
