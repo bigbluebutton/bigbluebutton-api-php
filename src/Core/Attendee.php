@@ -80,7 +80,7 @@ class Attendee
         $this->hasVideo        = $xml->hasVideo->__toString() === 'true';
         $this->clientType      = $xml->clientType->__toString();
 
-        if ($xml->customData) {
+        if ($xml->customdata) {
             foreach ($xml->customdata->children() as $data) {
                 $this->customData[$data->getName()] = $data->__toString();
             }

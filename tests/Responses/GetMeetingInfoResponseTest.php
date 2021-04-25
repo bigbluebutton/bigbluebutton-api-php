@@ -36,7 +36,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
     public function testGetMeetingInfoResponseContent()
     {
         $this->assertInstanceOf('BigBlueButton\Core\Meeting', $this->meetingInfo->getMeeting());
-        $this->assertCount(2, $this->meetingInfo->getMeeting()->getAttendees());
+        $this->assertCount(4, $this->meetingInfo->getMeeting()->getAttendees());
         $this->assertEquals('SUCCESS', $this->meetingInfo->getReturnCode());
 
         $info = $this->meetingInfo->getMeeting();
@@ -67,6 +67,8 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
     public function testMeetingAttendeeContent()
     {
+        $this->assertCount(4, $this->meetingInfo->getMeeting()->getAttendees());
+
         $anAttendee = $this->meetingInfo->getMeeting()->getAttendees()[1];
 
         $this->assertEquals('xi7y7gpmyq1g', $anAttendee->getUserId());
@@ -77,13 +79,42 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals(true, $anAttendee->hasJoinedVoice());
         $this->assertEquals(false, $anAttendee->hasVideo());
         $this->assertEquals('FLASH', $anAttendee->getClientType());
-        $this->assertCount(2, $this->meetingInfo->getMeeting()->getAttendees());
 
         $customData = $anAttendee->getCustomData();
         $this->assertEquals(3, sizeof($customData));
         $this->assertEquals('true', $customData['skipCheck']);
         $this->assertEquals('#FF0033', $customData['backgroundColor']);
         $this->assertEquals('a:focus{color:#0181eb}', $customData['customStyle']);
+    }
+
+    public function testMeetingModerators()
+    {
+        $moderators = $this->meetingInfo->getMeeting()->getModerators();
+
+        $this->assertCount(2, $moderators);
+
+        $firstModerator = $moderators[0];
+        $this->assertEquals('Ernie Abernathy', $firstModerator->getFullName());
+        $this->assertEquals('MODERATOR', $firstModerator->getRole());
+
+        $secondModerator = $moderators[1];
+        $this->assertEquals('Barrett Kutch', $secondModerator->getFullName());
+        $this->assertEquals('MODERATOR', $secondModerator->getRole());
+    }
+
+    public function testMeetingViewers()
+    {
+        $viewers = $this->meetingInfo->getMeeting()->getViewers();
+
+        $this->assertCount(2, $viewers);
+
+        $firstViewer = $viewers[0];
+        $this->assertEquals('Peter Parker', $firstViewer->getFullName());
+        $this->assertEquals('VIEWER', $firstViewer->getRole());
+
+        $secondViewer = $viewers[1];
+        $this->assertEquals('Bruce Wayne', $secondViewer->getFullName());
+        $this->assertEquals('VIEWER', $secondViewer->getRole());
     }
 
     public function testGetMeetingInfoResponseTypes()

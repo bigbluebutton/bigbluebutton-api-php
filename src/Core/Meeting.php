@@ -374,6 +374,36 @@ class Meeting
     }
 
     /**
+     * Moderators of Meeting - Subset of Attendees
+     * @return Attendee[]
+     */
+    public function getModerators()
+    {
+        $attendees = $this->getAttendees();
+
+        $moderators = array_filter($attendees, function ($attendee) {
+            return $attendee->getRole() === 'MODERATOR';
+        });
+
+        return array_values($moderators);
+    }
+
+    /**
+     * Viewers of Meeting - Subset of Attendees
+     * @return Attendee[]
+     */
+    public function getViewers()
+    {
+        $attendees = $this->getAttendees();
+
+        $viewers = array_filter($attendees, function ($attendee) {
+            return $attendee->getRole() === 'VIEWER';
+        });
+
+        return array_values($viewers);
+    }
+
+    /**
      * @return array
      */
     public function getMetas()
