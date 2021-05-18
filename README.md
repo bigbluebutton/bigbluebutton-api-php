@@ -18,7 +18,7 @@ Inc.**
     * [Requirements](#requirements)
     * [Installation](#installation)
     * [Basic usage](#basic-usage)
-    * [Test if API url and secret are valid](#test-if-api-url-and-secret-are-valid)
+        * [Test if API url and secret are valid](#test-if-api-url-and-secret-are-valid)
 * [Documentation](#closed_book-documentation)
     * [Administration](#administration)
         * [Get API version](#get-api-version)
@@ -35,6 +35,12 @@ Inc.**
         * [Get recordings](#get-recordings)
         * [Publish recordings](#publish-recordings)
         * [Delete recordings](#delete-recordings)
+    * [Use HTTP Transports](#use-http-transports)
+        * [Available transports](#available-transports)
+            * [CurlTransport (default)](#curltransport-default)
+            * [PsrHttpClientTransport](#psrhttpclienttransport)
+            * [SymfonyHttpClientTransport](#symfonyhttpclienttransport)
+        * [Implementing your own transport (advanced)](#implementing-your-own-transport-advanced)
 * [Submitting bugs and feature requests](#submitting-bugs-and-feature-requests)
 
 
@@ -282,6 +288,190 @@ if ($response->success()) {
     // meeting was deleted
 }
 ```
+
+### Use HTTP transports
+
+This library allows you to replace the complete HTTP transport layer used to communicate with BigBlueButton with so called *HTTP transports*.
+
+This can be useful if you want to manipulate the HTTP requests before being sent to BigBlueButton or to perform integration tests with this library where no real HTTP requests are desired.
+
+Additionally, the transports allows adjusting the options for the underlying backend in a detailed way.
+
+#### Available transports
+
+##### CurlTransport (default)
+
+The `CurlTransport` uses the plain `curl` extension of PHP and requires no additional libraries except for the extension.
+If no explicit transport if configured while constructing the API object, the `CurlTransport` is created using some recommended default options.
+
+Nevertheless, there may be reasons to create the CurlTransport manually. For example, to set customized cURL options.
+See the following examples for usage:
+
+This creates the `CurlTransport` with the default options as done by the `BigBlueButton` class internally if no transport given:
+
+~~~php
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Http\Transport\CurlTransport;
+
+$transport = CurlTransport::createWithDefaultOptions();
+$bbb = new BigBlueButton('https://bbb.example.com/bigbluebutton/', 'S3cr3t', $transport);
+// [...]
+~~~
+
+To set custom cURL options - like additional HTTP headers to be sent and custom timeouts:
+
+~~~php
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Http\Transport\CurlTransport;
+
+$transport = CurlTransport::createWithDefaultOptions([
+    CURLOPT_CONNECTTIMEOUT => 5,
+    CURLOPT_TIMEOUT => 10,
+    CURLOPT_HTTPHEADER => [
+        'X-Custom-Header: custom-header-value',
+    ],
+]);
+$bbb = new BigBlueButton('https://bbb.example.com/bigbluebutton/', 'S3cr3t', $transport);
+// [...]
+~~~
+
+See [PHP documentation](https://www.php.net/manual/en/function.curl-setopt.php) for a full list of cURL options.
+
+> :warning:  Avoid creating the `CurlTransport` directly with new `new CurlTransport();` unless you exactly know what you are doing.
+> This will completely avoid adding the recommended default cURL options.
+
+##### PsrHttpClientTransport
+
+This transport allows you to use any HTTP client built on top of [PSR-7](https://www.php-fig.org/psr/psr-7/), [PSR-17](https://www.php-fig.org/psr/psr-17/) and [PSR-18](https://www.php-fig.org/psr/psr-18/).
+As PSR-17 especially is very factory-driven, this transport requires a request factory and a stream factory.
+
+This transport requires the composer packages `psr/http-client`,  `psr/http-factory` and `psr/http-message` to be installed manually.
+This almost will be done by requiring package(s) providing PSR-7, PSR-17 and PSR-18.
+
+To discover proper packages, see packagist.org:
+
+* [psr/http-client-implementation](https://packagist.org/providers/psr/http-client-implementation)
+* [psr/http-factory-implementation](https://packagist.org/providers/psr/http-factory-implementation)
+* [psr/http-message-implementation](https://packagist.org/providers/psr/http-message-implementation)
+
+A quick example with the [Symfony HTTP client](https://github.com/symfony/http-client) PSR-18 adapter and [nyholm/psr7](https://github.com/nyholm/psr7).
+
+~~~php
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Http\Transport\Bridge\PsrHttpClient\PsrHttpClientTransport;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Symfony\Component\HttpClient\Psr18Client;
+
+$psr18Client = new Psr18Client();
+$psr17Factory = new Psr17Factory();
+// Optional: Default headers sent with each request, argument can be left out.
+$defaultHeaders = [
+    'X-Custom-Header' => 'custom-header-value',
+];
+
+// The $psr17Factory acts both as request and stream factory
+$transport = new PsrHttpClientTransport($psr18Client, $psr17Factory, $psr17Factory, $defaultHeaders);
+$bbb = new BigBlueButton('https://bbb.example.com/bigbluebutton/', 'S3cr3t', $transport);
+// [...]
+~~~
+
+Another alternative is to use [php-http/discovery](https://github.com/php-http/discovery) which will find a proper PSR-17 and PSR-18 implementation based on installed packages.
+This is for example desirable if you are embedding this library in an own library-styled project which should not force any vendor.
+
+~~~php
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Http\Transport\Bridge\PsrHttpClient\PsrHttpClientTransport;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
+
+$transport = new PsrHttpClientTransport(
+    Psr18ClientDiscovery::find(),
+    Psr17FactoryDiscovery::findRequestFactory(),
+    Psr17FactoryDiscovery::findStreamFactory(),
+    $defaultHeaders // see previous example for details
+);
+$bbb = new BigBlueButton('https://bbb.example.com/bigbluebutton/', 'S3cr3t', $transport);
+// [...]
+~~~
+
+##### SymfonyHttpClientTransport
+
+This transport directly allows to use the [Symfony HTTP client](https://github.com/symfony/http-client) without the detour via PSR-17 and PSR-18.
+
+To use this transport you must install at least `symfony/http-client-contracts` and a proper implementation.
+Usually it is enough to require `symfony/http-client` via Composer.
+
+For standalone environments you can create the transport easily using the factory method.
+This will pick the correct Symfony HTTP client suitable for your environment automatically in background:
+
+~~~php
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Http\Transport\Bridge\SymfonyHttpClient\SymfonyHttpClientTransport;
+
+// Optional: Default headers sent with each request, argument can be left out.
+$defaultHeaders = [
+    'X-Custom-Header' => 'custom-header-value',
+];
+// Optional: Default options for each request, argument can be left out.
+// See https://symfony.com/doc/current/http_client.html for details.
+$defaultOptions = [
+    'timeout' => 5,
+    'max_duration' => 10,
+];
+
+$transport = SymfonyHttpClientTransport::create($defaultHeaders, $defaultOptions);
+$bbb = new BigBlueButton('https://bbb.example.com/bigbluebutton/', 'S3cr3t', $transport);
+// [...]
+~~~
+
+You can also pass a preconfigured instance of `Symfony\Contracts\HttpClient\HttpClientInterface` manually if desired:
+
+~~~php
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Http\Transport\Bridge\SymfonyHttpClient\SymfonyHttpClientTransport;
+use Symfony\Component\HttpClient\CurlHttpClient;
+
+$httpClient = new CurlHttpClient();
+
+$transport = new SymfonyHttpClientTransport(
+    $httpClient,
+    $defaultHeaders, // see previous example for details
+    $defaultOptions // see previous example for details
+);
+$bbb = new BigBlueButton('https://bbb.example.com/bigbluebutton/', 'S3cr3t', $transport);
+// [...]
+~~~
+
+#### Implementing your own transport (advanced)
+
+If the transports inside this library are not suitable for you, you can implement your own custom transport for fulfilling custom requirements:
+
+~~~php
+use BigBlueButton\Http\Transport\TransportInterface;
+use BigBlueButton\Http\Transport\TransportRequest;
+use BigBlueButton\Http\Transport\TransportResponse;
+
+final class CustomTransport implements TransportInterface
+{
+    /**
+     * {@inheritDoc}
+     */
+     public function request(TransportRequest $request) : TransportResponse
+     {
+        $url = $request->getUrl();
+        $contentType = $request->getContentType();
+        // aka request body
+        $payload = $request->getPayload();
+        
+        // [...]
+        
+        return new TransportResponse($reponseBody, $jsessionId);
+     } 
+ } 
+~~~
+
+Your `TranportInterface` implementation must use all values provided by the `TransportRequest` object passed (currently content type, URL and payload (body)).
+Based on the response by the backend you are using you must construct a proper `TransportResponse` object containing response body and the JSESSION cookie when passed by BBB.
 
 ## Submitting bugs and feature requests
 
