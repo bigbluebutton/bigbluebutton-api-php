@@ -41,8 +41,8 @@ Inc.**
             * [PsrHttpClientTransport](#psrhttpclienttransport)
             * [SymfonyHttpClientTransport](#symfonyhttpclienttransport)
         * [Implementing your own transport (advanced)](#implementing-your-own-transport-advanced)
+* [Run tests of this library](#run-tests-of-this-library)
 * [Submitting bugs and feature requests](#submitting-bugs-and-feature-requests)
-
 
 ## :question: Why should I use a fork?
 To explain why you should use a fork, we have to explain why we created our own
@@ -473,8 +473,40 @@ final class CustomTransport implements TransportInterface
 Your `TranportInterface` implementation must use all values provided by the `TransportRequest` object passed (currently content type, URL and payload (body)).
 Based on the response by the backend you are using you must construct a proper `TransportResponse` object containing response body and the JSESSION cookie when passed by BBB.
 
+## Run tests of this library
+
+Before running the tests, please ensure that all development dependencies of this package are installed.
+Depending on the version of composer you possibly need to run
+
+```shell
+composer install --dev
+```
+
+To run the unit tests of this library simply type
+
+```shell
+composer test tests/unit
+```
+
+The integration requires additional setup as there are using a real BigBlueButton server.
+You need to create a `.env.local` file to configure which server to use and the proper credentials:
+
+```shell
+echo "BBB_SERVER_BASE_URL=https://bbb.example/bigbluebutton/" > env.local
+echo "BBB_SECRET=S3cr3t" >> .env.local
+```
+
+It is also possible to pass both variables as real environment variables by using e.g. `export` in your shell.
+
+To run the integration tests of this library then type
+
+```shell
+composer test tests/integration
+```
+
 ## Submitting bugs and feature requests
 
 Bugs and feature request are tracked on [GitHub](https://github.com/littleredbutton/bigbluebutton-api-php/issues)
 
 [BigBlueButton API]: https://docs.bigbluebutton.org/dev/api.html
+

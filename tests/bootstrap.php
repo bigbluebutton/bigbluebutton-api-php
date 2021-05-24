@@ -16,9 +16,23 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
+use Symfony\Component\Dotenv\Dotenv;
+
 error_reporting(-1);
 date_default_timezone_set('UTC');
+
 // Include the composer autoloader
-$loader = require_once __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
+
+// Load environment
+$dotenv = new Dotenv();
+// usePutenv was not available in version 3.4 und early 4.x versions of symfony/dotenv, so make it optional here
+if (method_exists($dotenv, 'usePutenv')) {
+    $dotenv->usePutenv(true);
+}
+
+$dotenv->loadEnv(dirname(__DIR__) . '/.env');
+
 // Include custom test class
 require_once __DIR__.'/TestCase.php';

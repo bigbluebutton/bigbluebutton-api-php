@@ -49,7 +49,14 @@ class BigBlueButtonTest extends TestCase
     {
         $this->expectException(ConfigException::class);
 
-        new BigBlueButton('');
+        $previousEnvironmentValue = getenv('BBB_SERVER_BASE_URL');
+        putenv('BBB_SERVER_BASE_URL=');
+
+        try {
+            new BigBlueButton('');
+        } finally {
+            putenv('BBB_SERVER_BASE_URL=' . $previousEnvironmentValue);
+        }
     }
 
     /* Create Meeting */
