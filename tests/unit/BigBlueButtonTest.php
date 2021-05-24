@@ -65,7 +65,7 @@ class BigBlueButtonTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString(\urlencode($key) . '=' . urlencode($value), $url);
+            $this->assertStringContainsString(\rawurlencode($key) . '=' . \rawurlencode($value), $url);
         }
     }
 
@@ -85,7 +85,7 @@ class BigBlueButtonTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString(\urlencode($key) . '=' . urlencode($value), $url);
+            $this->assertStringContainsString(\rawurlencode($key) . '=' . rawurlencode($value), $url);
         }
     }
 
@@ -110,7 +110,7 @@ class BigBlueButtonTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString(\urlencode($key) . '=' . urlencode($value), $url);
+            $this->assertStringContainsString(\rawurlencode($key) . '=' . rawurlencode($value), $url);
         }
     }
 
@@ -135,7 +135,6 @@ class BigBlueButtonTest extends TestCase
         $url = $this->bbb->getPublishRecordingsUrl(new PublishRecordingsParameters($this->faker->sha1, true));
         $this->assertStringContainsString(ApiMethod::PUBLISH_RECORDINGS, $url);
     }
-
     public function testDeleteRecordingsUrl()
     {
         $url = $this->bbb->getDeleteRecordingsUrl(new DeleteRecordingsParameters($this->faker->sha1));
@@ -150,7 +149,7 @@ class BigBlueButtonTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString(\urlencode($key) . '=' . urlencode($value), $url);
+            $this->assertStringContainsString(\rawurlencode($key) . '=' . rawurlencode($value), $url);
         }
     }
 }

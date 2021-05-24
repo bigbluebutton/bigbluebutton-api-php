@@ -78,10 +78,10 @@ class SetConfigXMLParameters extends BaseParameters
     {
         $queries = $this->getHTTPQueryArray();
 
-        $queries['configXML'] = urlencode($this->rawXml->asXML());
+        $queries['configXML'] = rawurlencode($this->rawXml->asXML());
 
         \ksort($queries);
 
-        return \http_build_query($queries);
+        return \http_build_query($queries, '', '&', PHP_QUERY_RFC3986);
     }
 }

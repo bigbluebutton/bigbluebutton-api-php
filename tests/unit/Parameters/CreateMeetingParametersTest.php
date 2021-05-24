@@ -91,10 +91,10 @@ class CreateMeetingParametersTest extends TestCase
 
         $params = $createBreakoutMeetingParams->getHTTPQuery();
 
-        $this->assertStringContainsString('isBreakout=' . urlencode($createBreakoutMeetingParams->isBreakout() ? 'true' : 'false'), $params);
-        $this->assertStringContainsString('parentMeetingID=' . urlencode($createBreakoutMeetingParams->getParentMeetingId()), $params);
-        $this->assertStringContainsString('sequence=' . urlencode($createBreakoutMeetingParams->getSequence()), $params);
-        $this->assertStringContainsString('freeJoin=' . urlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
+        $this->assertStringContainsString('isBreakout=' . rawurlencode($createBreakoutMeetingParams->isBreakout() ? 'true' : 'false'), $params);
+        $this->assertStringContainsString('parentMeetingID=' . rawurlencode($createBreakoutMeetingParams->getParentMeetingId()), $params);
+        $this->assertStringContainsString('sequence=' . rawurlencode($createBreakoutMeetingParams->getSequence()), $params);
+        $this->assertStringContainsString('freeJoin=' . rawurlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
     }
 
     public function testCreateBreakoutMeetingWithMissingParams()

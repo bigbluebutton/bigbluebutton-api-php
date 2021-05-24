@@ -98,6 +98,6 @@ abstract class BaseParameters
      */
     public function getHTTPQuery() //: string
     {
-        return \http_build_query($this->getHTTPQueryArray());
+        return \http_build_query($this->getHTTPQueryArray(), '', '&', PHP_QUERY_RFC3986);
     }
 }
