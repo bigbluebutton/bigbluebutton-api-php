@@ -69,6 +69,13 @@ class UrlBuilder
      */
     public function buildQs($method = '', $params = '')
     {
-        return $params . '&checksum=' . sha1($method . $params . $this->securitySalt);
+        // Avoid extra & if we have no params at all
+        if ('' !== $params) {
+            $checksumParam = '&checksum=';
+        } else {
+            $checksumParam = 'checksum=';
+        }
+
+        return $params . $checksumParam . sha1($method . $params . $this->securitySalt);
     }
 }
