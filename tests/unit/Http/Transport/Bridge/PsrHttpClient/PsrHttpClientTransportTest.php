@@ -35,7 +35,7 @@ use Psr\Http\Message\StreamInterface;
 
 /**
  * @covers \BigBlueButton\Http\Transport\Bridge\PsrHttpClient\PsrHttpClientTransport
- * @uses \BigBlueButton\Http\SetCookie
+ * @uses \BigBlueButton\Http\Transport\Cookie
  * @uses \BigBlueButton\Http\Transport\TransportRequest
  * @uses \BigBlueButton\Http\Transport\TransportResponse
  */

@@ -48,7 +48,7 @@ final class Header
                 }
 
                 $splitHeader = explode(': ', $header, 2);
-                if (!isset($splitHeader[0]) || !isset($splitHeader[1])) {
+                if (!isset($splitHeader[0], $splitHeader[1])) {
                     throw new \InvalidArgumentException(sprintf('Header value "%s" is invalid. Expected format is "Header-Name: value".', $header));
                 }
 

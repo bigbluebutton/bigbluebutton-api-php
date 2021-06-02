@@ -35,7 +35,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * @covers \BigBlueButton\Http\Transport\Bridge\SymfonyHttpClient\SymfonyHttpClientTransport
- * @uses \BigBlueButton\Http\SetCookie
+ * @uses \BigBlueButton\Http\Transport\Cookie
  * @uses \BigBlueButton\Http\Transport\TransportRequest
  * @uses \BigBlueButton\Http\Transport\TransportResponse
  * @uses \BigBlueButton\Util\ArrayHelper
