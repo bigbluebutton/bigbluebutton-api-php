@@ -405,6 +405,12 @@ final class SetCookieTest extends TestCase
      */
     public function testParseCookie($cookie, array $parsed): void
     {
+        if (\PHP_VERSION_ID >= 80000) {
+            self::markTestSkipped('This test is possibly using incorrect code and is broken starting from PHP 8. ' .
+                'See https://github.com/littleredbutton/bigbluebutton-api-php/pull/70#discussion_r637602067 and ' .
+                'https://github.com/guzzle/guzzle/issues/2894 for details.');
+        }
+
         foreach ((array) $cookie as $v) {
             $c = SetCookie::fromString($v);
             $p = $c->toArray();
