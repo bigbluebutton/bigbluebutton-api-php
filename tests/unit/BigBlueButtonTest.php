@@ -98,6 +98,9 @@ class BigBlueButtonTest extends TestCase
 
     /* Get Default Config XML */
 
+    /**
+     * @group legacy
+     */
     public function testGetDefaultConfigXMLUrl()
     {
         $url = $this->bbb->getDefaultConfigXMLUrl();

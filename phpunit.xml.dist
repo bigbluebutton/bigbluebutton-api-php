@@ -18,8 +18,11 @@
     </filter>
 
     <testsuites>
-        <testsuite name="BigBlueButton test suit">
+        <testsuite name="BigBlueButton test suite">
             <directory>./tests/unit/</directory>
+        </testsuite>
+        <testsuite name="BigBlueButton integration test suite">
+            <directory>./tests/integration/</directory>
         </testsuite>
     </testsuites>
 

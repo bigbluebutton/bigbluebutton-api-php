@@ -21,6 +21,9 @@ namespace BigBlueButton\Parameters;
 use BigBlueButton\Responses\SetConfigXMLResponse;
 use BigBlueButton\TestCase;
 
+/**
+ * @group legacy
+ */
 class SetConfigXMLResponseTest extends TestCase
 {
     /**

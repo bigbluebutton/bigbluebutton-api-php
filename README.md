@@ -175,6 +175,8 @@ $response = $bbb->endMeeting($endMeetingParams);
 ```
 
 #### Get default config
+> :warning:  This API call does not have any effect since BBB 2.2 and was removed from BBB 2.3. Deprecated starting from version 4.0 of this library and to be removed in 4.1.
+
 ```php
 $response = $bbb->getDefaultConfigXML();
 
@@ -186,6 +188,8 @@ $response->getRawXml();
 ```
 
 #### Set default config
+> :warning:  This API call does not have any effect since BBB 2.2 and was removed from BBB 2.3. Deprecated starting from version 4.0 of this library and to be removed in 4.1.
+
 ```php
 use BigBlueButton\Parameters\SetConfigXMLParameters;
 
@@ -485,7 +489,7 @@ composer install --dev
 To run the unit tests of this library simply type
 
 ```shell
-composer test tests/unit
+composer test
 ```
 
 The integration requires additional setup as there are using a real BigBlueButton server.
@@ -501,7 +505,7 @@ It is also possible to pass both variables as real environment variables by usin
 To run the integration tests of this library then type
 
 ```shell
-composer test tests/integration
+composer test-integration
 ```
 
 ## Submitting bugs and feature requests
