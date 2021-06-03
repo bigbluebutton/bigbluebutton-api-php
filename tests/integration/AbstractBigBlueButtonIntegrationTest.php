@@ -199,12 +199,18 @@ abstract class AbstractBigBlueButtonIntegrationTest extends TestCase
 
     /* Get Default Config XML */
 
+    /**
+     * @group integration-legacy
+     */
     public function testGetDefaultConfigXML()
     {
         $result = $this->bbb->getDefaultConfigXML();
         $this->assertNotEmpty($result->getRawXml());
     }
 
+    /**
+     * @group integration-legacy
+     */
     public function testSetConfigXML()
     {
         // Fetch the Default Config XML file

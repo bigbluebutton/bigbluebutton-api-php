@@ -96,6 +96,7 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit",
+    "test-integration": "vendor/bin/phpunit --testsuite=\"BigBlueButton integration test suite\" --exclude-group=integration-legacy",
     "cs-fix": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
     "cs-test": "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes",
     "psalm": "psalm --threads=1",
@@ -110,7 +111,7 @@
         "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
       ],
       "pre-push": [
-        "vendor/bin/phpunit",
+        "vendor/bin/phpunit --testsuite=\"BigBlueButton test suite\"",
         "vendor/bin/psalm --threads=1"
       ],
       "post-merge": "composer install",
