@@ -156,11 +156,7 @@ class Meeting
      */
     private $isBreakout;
 
-    /**
-     * Meeting constructor.
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->rawXml                = $xml;
         $this->meetingId             = $xml->meetingID->__toString();

@@ -74,8 +74,7 @@ final class CurlTransport implements TransportInterface
     }
 
     /**
-     * @param  string[] $additionalCurlOptions A list of additional cURL options to pass to the cURL handle. Option name as key, option value as value.
-     * @return self
+     * @param string[] $additionalCurlOptions A list of additional cURL options to pass to the cURL handle. Option name as key, option value as value.
      */
     public static function createWithDefaultOptions(array $additionalCurlOptions = []): self
     {
@@ -148,10 +147,6 @@ final class CurlTransport implements TransportInterface
         return new TransportResponse($data, $sessionId);
     }
 
-    /**
-     * @param  string  $cookieFilePath
-     * @return mixed[]
-     */
     private static function buildCookieOptions(string $cookieFilePath): array
     {
         return [
@@ -160,10 +155,6 @@ final class CurlTransport implements TransportInterface
         ];
     }
 
-    /**
-     * @param  TransportRequest $request
-     * @return mixed[]
-     */
     private static function buildPostOptions(TransportRequest $request): array
     {
         $options = [];
@@ -182,10 +173,6 @@ final class CurlTransport implements TransportInterface
         return $options;
     }
 
-    /**
-     * @param  TransportRequest $request
-     * @return array
-     */
     private static function buildUrlOptions(TransportRequest $request): array
     {
         return [

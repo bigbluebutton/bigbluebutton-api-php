@@ -56,11 +56,9 @@ class GetRecordingsParameters extends MetaParameters
 
     /**
      * @deprecated use setMeetingID()
-     * @param string $meetingId
-     *
      * @return GetRecordingsParameters
      */
-    public function setMeetingId($meetingID)
+    public function setMeetingId(string $meetingID)
     {
         $this->meetingID = $meetingID;
 
@@ -82,7 +80,7 @@ class GetRecordingsParameters extends MetaParameters
      *
      * @return GetRecordingsParameters
      */
-    public function setRecordId($recordID)
+    public function setRecordId(string $recordID)
     {
         $this->recordID = $recordID;
 

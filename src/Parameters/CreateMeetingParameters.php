@@ -91,10 +91,10 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    const ALWAYS_ACCEPT      = 'ALWAYS_ACCEPT';
-    const ALWAYS_DENY        = 'ALWAYS_DENY';
-    const ASK_MODERATOR      = 'ASK_MODERATOR';
-    const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
+    public const ALWAYS_ACCEPT      = 'ALWAYS_ACCEPT';
+    public const ALWAYS_DENY        = 'ALWAYS_DENY';
+    public const ASK_MODERATOR      = 'ASK_MODERATOR';
+    public const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
 
     /**
      * @var string
@@ -167,22 +167,22 @@ class CreateMeetingParameters extends MetaParameters
     protected $sequence;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $freeJoin;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $breakoutRoomsEnabled;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $breakoutRoomsPrivateChatEnabled;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $breakoutRoomsRecord;
 
@@ -291,13 +291,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     private $presentations = [];
 
-    /**
-     * CreateMeetingParameters constructor.
-     *
-     * @param $meetingId
-     * @param $name
-     */
-    public function __construct($meetingID, $name)
+    public function __construct(string $meetingID, string $name)
     {
         $this->meetingID   = $meetingID;
         $this->name        = $name;
@@ -314,12 +308,9 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setName()
-     *
-     * @param string $name
-     *
      * @return static
      */
-    public function setMeetingName($name): self
+    public function setMeetingName(string $name): self
     {
         $this->name = $name;
 
@@ -337,11 +328,9 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setMeetingID()
-     * @param string $meetingId
-     *
-     * @return JoinMeetingParameters
+     * @return CreateMeetingParameters
      */
-    public function setMeetingId($meetingID)
+    public function setMeetingId(string $meetingID)
     {
         $this->meetingID = $meetingID;
 
@@ -359,12 +348,9 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setAttendeePW()
-     *
-     * @param string $password
-     *
      * @return static
      */
-    public function setAttendeePassword($password): self
+    public function setAttendeePassword(string $password): self
     {
         $this->attendeePW = $password;
 
@@ -382,12 +368,9 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setModeratorPW()
-     *
-     * @param string $password
-     *
      * @return static
      */
-    public function setModeratorPassword($password): self
+    public function setModeratorPassword(string $password): self
     {
         $this->moderatorPW = $password;
 
@@ -405,11 +388,9 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setWelcome()
-     * @param string $welcome
-     *
      * @return CreateMeetingParameters
      */
-    public function setWelcomeMessage($welcome)
+    public function setWelcomeMessage(string $welcome)
     {
         $this->welcome = $welcome;
 
@@ -427,13 +408,11 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setLogoutURL()
-     * @param string $logoutUrl
-     *
      * @return CreateMeetingParameters
      */
-    public function setLogoutUrl($logoutURL)
+    public function setLogoutUrl(string $logoutUrl)
     {
-        $this->logoutURL = $logoutURL;
+        $this->logoutURL = $logoutUrl;
 
         return $this;
     }
@@ -448,11 +427,9 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param $endCallbackUrl
-     *
      * @return CreateMeetingParameters
      */
-    public function setEndCallbackUrl($endCallbackUrl)
+    public function setEndCallbackUrl(string $endCallbackUrl)
     {
         $this->addMeta('endCallbackUrl', $endCallbackUrl);
 
@@ -460,11 +437,9 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param $recordingReadyCallbackUrl
-     *
      * @return CreateMeetingParameters
      */
-    public function setRecordingReadyCallbackUrl($recordingReadyCallbackUrl)
+    public function setRecordingReadyCallbackUrl(string $recordingReadyCallbackUrl)
     {
         $this->addMeta('bbb-recording-ready-url', $recordingReadyCallbackUrl);
 
@@ -480,11 +455,9 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $isBreakout
-     *
      * @return CreateMeetingParameters
      */
-    public function setBreakout($isBreakout)
+    public function setBreakout(bool $isBreakout)
     {
         $this->isBreakout = $isBreakout;
 
@@ -502,11 +475,10 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setParentMeetingID()
-     * @param string $parentMeetingID
      *
      * @return CreateMeetingParameters
      */
-    public function setParentMeetingId($parentMeetingID)
+    public function setParentMeetingId(string $parentMeetingID)
     {
         $this->parentMeetingID = $parentMeetingID;
 
@@ -588,13 +560,9 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param      $nameOrUrl
-     * @param null $content
-     * @param null $filename
-     *
      * @return CreateMeetingParameters
      */
-    public function addPresentation($nameOrUrl, $content = null, $filename = null)
+    public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null)
     {
         if (!$filename) {
             $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);

@@ -31,12 +31,7 @@ class GetMeetingInfoParameters extends BaseParameters
      */
     protected $meetingID;
 
-    /**
-     * GetMeetingInfoParameters constructor.
-     *
-     * @param $meetingID
-     */
-    public function __construct($meetingID)
+    public function __construct(string $meetingID)
     {
         $this->meetingID = $meetingID;
     }
@@ -52,11 +47,9 @@ class GetMeetingInfoParameters extends BaseParameters
 
     /**
      * @deprecated use setMeetingID()
-     * @param string $meetingId
-     *
      * @return GetMeetingInfoParameters
      */
-    public function setMeetingId($meetingID)
+    public function setMeetingId(string $meetingID)
     {
         $this->meetingID = $meetingID;
 

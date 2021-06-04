@@ -29,8 +29,6 @@ use BigBlueButton\Exceptions\RuntimeException;
 interface TransportInterface
 {
     /**
-     * @param  TransportRequest  $request
-     * @return TransportResponse
      * @throws NetworkException
      * @throws RuntimeException
      */

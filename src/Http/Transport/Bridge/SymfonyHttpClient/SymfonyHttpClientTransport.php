@@ -68,9 +68,8 @@ final class SymfonyHttpClientTransport implements TransportInterface
     private $defaultOptions;
 
     /**
-     * @param HttpClientInterface $httpClient
-     * @param string[]            $defaultHeaders Additional HTTP headers to pass on each request.
-     * @param mixed[]             $defaultOptions Options for Symfony HTTP client passed on every request. See {@link https://symfony.com/doc/current/http_client.html} for details.
+     * @param string[] $defaultHeaders Additional HTTP headers to pass on each request.
+     * @param mixed[]  $defaultOptions Options for Symfony HTTP client passed on every request. See {@link https://symfony.com/doc/current/http_client.html} for details.
      */
     public function __construct(HttpClientInterface $httpClient, array $defaultHeaders = [], array $defaultOptions = [])
     {
@@ -141,8 +140,6 @@ final class SymfonyHttpClientTransport implements TransportInterface
     }
 
     /**
-     * @param  ResponseInterface             $symfonyResponse
-     * @return string|null
      * @throws TransportExceptionInterface
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface

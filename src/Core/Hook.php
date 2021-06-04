@@ -56,11 +56,7 @@ class Hook
      */
     private $rawData;
 
-    /**
-     * Meeting constructor.
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->rawXml        = $xml;
         $this->hookId        = (int) $xml->hookID->__toString();
