@@ -60,7 +60,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
 
         $this->assertSame('Hi Marty!', $response->getBody(), 'body is OK');
         $this->assertSame('MartyMcFlySession', $response->getSessionId(), 'session ID is OK');
-        $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        if (method_exists($mockHttpClient, 'getRequestsCount')) {
+            $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        }
     }
 
     public function testRequestWithPayload(): void
@@ -82,7 +84,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
 
         $this->assertSame('Hi Marty!', $response->getBody(), 'body is OK');
         $this->assertSame('MartyMcFlySession', $response->getSessionId(), 'session ID is OK');
-        $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        if (method_exists($mockHttpClient, 'getRequestsCount')) {
+            $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        }
     }
 
     public function testRequestWithoutCookie(): void
@@ -103,7 +107,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
 
         $this->assertSame('Hi Marty!', $response->getBody(), 'body is OK');
         $this->assertNull($response->getSessionId(), 'session ID is OK');
-        $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        if (method_exists($mockHttpClient, 'getRequestsCount')) {
+            $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        }
     }
 
     public function testRequestWithEmptyCookie(): void
@@ -124,7 +130,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
 
         $this->assertSame('Hi Marty!', $response->getBody(), 'body is OK');
         $this->assertNull($response->getSessionId(), 'session ID is OK');
-        $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        if (method_exists($mockHttpClient, 'getRequestsCount')) {
+            $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        }
     }
 
     public function testRequestWithDefaultHeaders(): void
@@ -152,7 +160,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
 
         $this->assertSame('Hi Marty!', $response->getBody(), 'body is OK');
         $this->assertSame('MartyMcFlySession', $response->getSessionId(), 'session ID is OK');
-        $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        if (method_exists($mockHttpClient, 'getRequestsCount')) {
+            $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        }
     }
 
     public function testRequestWithDefaultOptions(): void
@@ -183,7 +193,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
 
         $this->assertSame('Hi Marty!', $response->getBody(), 'body is OK');
         $this->assertSame('MartyMcFlySession', $response->getSessionId(), 'session ID is OK');
-        $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        if (method_exists($mockHttpClient, 'getRequestsCount')) {
+            $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+        }
     }
 
     public function provideBadResponseCodes(): iterable
@@ -223,7 +235,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
         try {
             $transport->request($request);
         } finally {
-            $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+            if (method_exists($mockHttpClient, 'getRequestsCount')) {
+                $this->assertSame(1, $mockHttpClient->getRequestsCount(), 'one request was made');
+            }
         }
     }
 
@@ -261,7 +275,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
         try {
             $transport->request($request);
         } finally {
-            $this->assertSame(0, $mockHttpClient->getRequestsCount(), 'no full request was made');
+            if (method_exists($mockHttpClient, 'getRequestsCount')) {
+                $this->assertSame(0, $mockHttpClient->getRequestsCount(), 'no full request was made');
+            }
         }
     }
 
@@ -286,7 +302,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
         try {
             $transport->request($request);
         } finally {
-            $this->assertSame(0, $mockHttpClient->getRequestsCount(), 'no full request was made');
+            if (method_exists($mockHttpClient, 'getRequestsCount')) {
+                $this->assertSame(0, $mockHttpClient->getRequestsCount(), 'no full request was made');
+            }
         }
     }
 }

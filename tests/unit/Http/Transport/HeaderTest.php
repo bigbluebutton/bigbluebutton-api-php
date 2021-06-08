@@ -62,7 +62,7 @@ final class HeaderTest extends TestCase
     public function testMergeCurlHeadersWithBadHeaders(string $badHeader): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectDeprecationMessage(sprintf('Header value "%s" is invalid. Expected format is "Header-Name: value".', $badHeader));
+        $this->expectExceptionMessage(sprintf('Header value "%s" is invalid. Expected format is "Header-Name: value".', $badHeader));
 
         Header::mergeCurlHeaders([$badHeader]);
     }
@@ -85,7 +85,7 @@ final class HeaderTest extends TestCase
     public function testMergeCurlHeadersWithNonStringHeaders($badHeader): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectDeprecationMessage(sprintf(
+        $this->expectExceptionMessage(sprintf(
             'Non-string header with type "%s" passed.',
             is_object($badHeader) ? get_class($badHeader) : gettype($badHeader)
         ));
