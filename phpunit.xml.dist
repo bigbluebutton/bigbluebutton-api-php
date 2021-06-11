@@ -9,8 +9,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false">
+         stopOnFailure="false">
 
     <php>
         <!-- Specify the value of your BigBlueButton secret -->
