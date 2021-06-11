@@ -92,10 +92,10 @@ class JoinMeetingParameters extends UserDataParameters
      */
     public function __construct($meetingId, $username, $password)
     {
-        $this->meetingId = $meetingId;
-        $this->username  = $username;
-        $this->password  = $password;
-        $this->customParameters = array();
+        $this->meetingId        = $meetingId;
+        $this->username         = $username;
+        $this->password         = $password;
+        $this->customParameters = [];
     }
 
     /**
@@ -314,8 +314,8 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
-     * @param  string $paramName
-     * @param  string $paramValue
+     * @param  string                $paramName
+     * @param  string                $paramValue
      * @return JoinMeetingParameters
      */
     public function setCustomParameter($paramName, $paramValue)
@@ -344,7 +344,7 @@ class JoinMeetingParameters extends UserDataParameters
             'clientURL'    => $this->clientURL
         ];
 
-        foreach( $this->customParameters as $key => $value ) {
+        foreach ( $this->customParameters as $key => $value ) {
             $queries[$key] = $value;
         }
 
