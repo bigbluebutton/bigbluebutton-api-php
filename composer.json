@@ -29,7 +29,6 @@
     "ext-mbstring": "*"
   },
   "require-dev": {
-    "php": ">=8.0",
     "ext-mbstring": "*",
     "composer/composer": "^1.10.0",
     "phpunit/phpunit": "^8",
