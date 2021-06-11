@@ -28,7 +28,7 @@ class DeleteRecordingsResponseTest extends TestCase
      */
     private $delete;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

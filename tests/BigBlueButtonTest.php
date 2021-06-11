@@ -40,7 +40,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Setup test class
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -28,7 +28,7 @@ class IsMeetingRunningResponseTest extends TestCase
      */
     private $running;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

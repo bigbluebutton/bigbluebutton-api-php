@@ -28,7 +28,7 @@ class PublishRecordingsResponseTest extends TestCase
      */
     private $publish;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

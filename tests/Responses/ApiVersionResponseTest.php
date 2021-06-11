@@ -28,7 +28,7 @@ class ApiVersionResponseTest extends TestCase
      */
     private $version;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
