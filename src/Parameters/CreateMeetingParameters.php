@@ -87,6 +87,12 @@ namespace BigBlueButton\Parameters;
  * @method $this setLockSettingsLockOnJoinConfigurable(bool $isLockSettingsLockOnJoinConfigurable)
  * @method string getGuestPolicy()
  * @method $this setGuestPolicy(string $guestPolicy)
+ * @method bool|null isMeetingKeepEvents()
+ * @method $this setMeetingKeepEvents(bool $isMeetingKeepEvents)
+ * @method bool|null isEndWhenNoModerator()
+ * @method $this setEndWhenNoModerator(bool $isEndWhenNoModerator)
+ * @method int getEndWhenNoModeratorDelayInMinutes()
+ * @method $this setEndWhenNoModeratorDelayInMinutes(int $endWhenNoModeratorDelayInMinutes)
  *
  */
 class CreateMeetingParameters extends MetaParameters
@@ -285,6 +291,21 @@ class CreateMeetingParameters extends MetaParameters
      * @var string
      */
     protected $guestPolicy = self::ALWAYS_ACCEPT;
+
+    /**
+     * @var bool
+     */
+    protected $meetingKeepEvents;
+
+    /**
+     * @var bool
+     */
+    protected $endWhenNoModerator;
+
+    /**
+     * @var int
+     */
+    protected $endWhenNoModeratorDelayInMinutes;
 
     /**
      * @var array

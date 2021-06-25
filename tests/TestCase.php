@@ -101,6 +101,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'meta_bbb-recording-ready-url'       => $this->faker->url,
             'bannerText'                         => $this->faker->sentence,
             'bannerColor'                        => $this->faker->hexcolor,
+            'meetingKeepEvents'                  => $this->faker->boolean(50),
+            'endWhenNoModerator'                 => $this->faker->boolean(50),
+            'endWhenNoModeratorDelayInMinutes'   => $this->faker->numberBetween(1, 100),
         ];
     }
 
@@ -158,7 +161,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setGuestPolicyAlwaysAccept()
             ->addMeta('presenter', $params['meta_presenter'])
             ->setBannerText($params['bannerText'])
-            ->setBannerColor($params['bannerColor']);
+            ->setBannerColor($params['bannerColor'])
+            ->setMeetingKeepEvents($params['meetingKeepEvents'])
+            ->setEndWhenNoModerator($params['endWhenNoModerator'])
+            ->setEndWhenNoModeratorDelayInMinutes($params['endWhenNoModeratorDelayInMinutes']);
     }
 
     /**
