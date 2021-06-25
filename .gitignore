@@ -11,3 +11,7 @@ composer.phar
 cghooks.lock
 
 .phpunit.result.cache
+
+# Local environment variables
+/.env.local
+/.env.*.local

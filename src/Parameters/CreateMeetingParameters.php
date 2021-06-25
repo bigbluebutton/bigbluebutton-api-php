@@ -659,7 +659,7 @@ class CreateMeetingParameters extends MetaParameters
             $queries = $this->filterBreakoutRelatedQueries($queries);
         }
 
-        return \http_build_query($queries);
+        return \http_build_query($queries, '', '&', PHP_QUERY_RFC3986);
     }
 
     private function filterBreakoutRelatedQueries(array $queries)

@@ -21,6 +21,7 @@ namespace BigBlueButton\Responses;
 /**
  * Class GetDefaultConfigXMLUrlResponse
  * @package BigBlueButton\Responses
+ * @deprecated since 4.0. Will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
  */
 class GetDefaultConfigXMLResponse
 {
@@ -36,6 +37,8 @@ class GetDefaultConfigXMLResponse
      */
     public function __construct(\SimpleXMLElement $xml)
     {
+        @trigger_error(sprintf('"%s" is deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.', self::class), E_USER_DEPRECATED);
+
         $this->rawXml = $xml;
     }
 

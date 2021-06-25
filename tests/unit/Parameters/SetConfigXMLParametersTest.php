@@ -23,6 +23,7 @@ use BigBlueButton\TestCase as TestCase;
 /**
  * Class SetConfigXMLParametersTest
  * @package BigBlueButton\Parameters
+ * @group legacy
  */
 class SetConfigXMLParametersTest extends TestCase
 {

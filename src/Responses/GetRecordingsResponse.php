@@ -26,6 +26,8 @@ use BigBlueButton\Core\Record;
  */
 class GetRecordingsResponse extends BaseResponse
 {
+    const KEY_NO_RECORDINGS = 'noRecordings';
+
     /**
      * @var Record[]
      */
@@ -44,5 +46,13 @@ class GetRecordingsResponse extends BaseResponse
         }
 
         return $this->records;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasNoRecordings(): bool
+    {
+        return $this->getMessageKey() === self::KEY_NO_RECORDINGS;
     }
 }

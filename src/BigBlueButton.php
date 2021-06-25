@@ -20,9 +20,11 @@ namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
 use BigBlueButton\Exceptions\ConfigException;
-use BigBlueButton\Exceptions\NetworkException;
 use BigBlueButton\Exceptions\ParsingException;
 use BigBlueButton\Exceptions\RuntimeException;
+use BigBlueButton\Http\Transport\CurlTransport;
+use BigBlueButton\Http\Transport\TransportInterface;
+use BigBlueButton\Http\Transport\TransportRequest;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -74,12 +76,17 @@ class BigBlueButton
     const CONNECTION_ERROR_SECRET  = 2;
 
     /**
-     * @param string $baseUrl (optional)
-     * @param string $secret  (optional)
-     *
-     * @throws \Exception
+     * @var TransportInterface
      */
-    public function __construct($baseUrl = null, $secret = null)
+    private $transport;
+
+    /**
+     * @param  string|null             $baseUrl   (optional) If not given, it will be retrieved from the environment.
+     * @param  string|null             $secret    (optional) If not given, it will be retrieved from the environment.
+     * @param  TransportInterface|null $transport (optional) Use a custom transport for all HTTP requests. Will fallback to default CurlTransport.
+     * @throws ConfigException
+     */
+    public function __construct(?string $baseUrl = null, ?string $secret = null, ?TransportInterface $transport = null)
     {
         // Keeping backward compatibility with older deployed versions
         $this->securitySecret   = $secret ?: getenv('BBB_SECURITY_SALT') ?: getenv('BBB_SECRET');
@@ -90,6 +97,7 @@ class BigBlueButton
         }
 
         $this->urlBuilder = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
+        $this->transport  = $transport ?? CurlTransport::createWithDefaultOptions();
     }
 
     /**
@@ -182,18 +190,24 @@ class BigBlueButton
 
     /**
      * @return string
+     * @deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
      */
     public function getDefaultConfigXMLUrl()
     {
+        @trigger_error(sprintf('"%s()" is deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->urlBuilder->buildUrl(ApiMethod::GET_DEFAULT_CONFIG_XML);
     }
 
     /**
      * @return GetDefaultConfigXMLResponse
      * @throws RuntimeException
+     * @deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
      */
     public function getDefaultConfigXML()
     {
+        @trigger_error(sprintf('"%s()" is deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.', __METHOD__), E_USER_DEPRECATED);
+
         $xml = $this->processXmlResponse($this->getDefaultConfigXMLUrl());
 
         return new GetDefaultConfigXMLResponse($xml);
@@ -201,9 +215,12 @@ class BigBlueButton
 
     /**
      * @return string
+     * @deprecated since 4.0 and will be removed in 4.1. The setConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
      */
     public function setConfigXMLUrl()
     {
+        @trigger_error(sprintf('"%s()" is deprecated since 4.0 and will be removed in 4.1. The setConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->urlBuilder->buildUrl(ApiMethod::SET_CONFIG_XML, '', false);
     }
 
@@ -212,9 +229,12 @@ class BigBlueButton
      *
      * @return SetConfigXMLResponse
      * @throws RuntimeException
+     * @deprecated since 4.0 and will be removed in 4.1. The setConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
      */
     public function setConfigXML($setConfigXMLParams)
     {
+        @trigger_error(sprintf('"%s()" is deprecated since 4.0 and will be removed in 4.1. The setConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.', __METHOD__), E_USER_DEPRECATED);
+
         $setConfigXMLPayload = $this->urlBuilder->buildQs(ApiMethod::SET_CONFIG_XML, $setConfigXMLParams->getHTTPQuery());
 
         $xml = $this->processXmlResponse($this->setConfigXMLUrl(), $setConfigXMLPayload, 'application/x-www-form-urlencoded');
@@ -602,58 +622,14 @@ class BigBlueButton
      *
      * @throws RuntimeException
      */
-    private function requestUrl($url, $payload = '', $contentType = 'application/xml')
+    private function requestUrl(string $url, string $payload = '', string $contentType = 'application/xml'): string
     {
-        if (!extension_loaded('curl')) {
-            throw new RuntimeException('Curl PHP module is not installed or not enabled.');
+        $response = $this->transport->request(new TransportRequest($url, $payload, $contentType));
+
+        if (null !== $sessionId = $response->getSessionId()) {
+            $this->setJSessionId($sessionId);
         }
 
-        $ch = curl_init();
-        if (!$ch) {
-            throw new RuntimeException('Could not create curl instance. Error: ' . curl_error($ch));
-        }
-        $timeout = 10;
-
-        // Needed to store the JSESSIONID
-        $cookiefile     = tmpfile();
-        $cookiefilepath = stream_get_meta_data($cookiefile)['uri'];
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-        curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiefilepath);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiefilepath);
-        if (!empty($payload)) {
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-type: ' . $contentType,
-                'Content-length: ' . mb_strlen($payload),
-            ]);
-        }
-        $data = curl_exec($ch);
-        if ($data === false) {
-            throw new NetworkException('Error during curl_exec. Error: ' . curl_error($ch));
-        }
-
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($httpcode < 200 || $httpcode >= 300) {
-            throw new NetworkException('Bad response', $httpcode);
-        }
-
-        curl_close($ch);
-
-        $cookies = file_get_contents($cookiefilepath);
-        if (strpos($cookies, 'JSESSIONID') !== false) {
-            preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
-            $this->setJSessionId($output_array['JSESSIONID']);
-        }
-
-        return $data;
+        return $response->getBody();
     }
 }
