@@ -30,7 +30,7 @@ jobs:
     - name: Install php dependencies
       run: composer install --dev --no-interaction
     - name: Execute tests without coverage
-      run: vendor/bin/phpunit --testsuite="BigBlueButton test suite"
+      run: vendor/bin/phpunit --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
    
   PHP:
     name: PHP ${{ matrix.php-versions }}
@@ -66,7 +66,7 @@ jobs:
       if: ${{ !matrix.experimental }}
       run: |
         mkdir -p build/logs
-        vendor/bin/phpunit --coverage-clover=build/logs/coverage.xml --testsuite="BigBlueButton test suite"
+        vendor/bin/phpunit --coverage-clover=build/logs/coverage.xml --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
     - name: Execute tests without coverage
       if: ${{ matrix.experimental }}
       run: vendor/bin/phpunit --testsuite="BigBlueButton test suite"
