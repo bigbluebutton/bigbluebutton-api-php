@@ -88,7 +88,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals('a:focus{color:#0181eb}', $customData['customStyle']);
     }
 
-    public function testMeetingModerators()
+    public function testMeetingModerators(): void
     {
         $moderators = $this->meetingInfo->getMeeting()->getModerators();
 
@@ -103,7 +103,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals('MODERATOR', $secondModerator->getRole());
     }
 
-    public function testMeetingViewers()
+    public function testMeetingViewers(): void
     {
         $viewers = $this->meetingInfo->getMeeting()->getViewers();
 
