@@ -25,6 +25,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \BigBlueButton\Http\Transport\CurlTransport
+ * @uses \BigBlueButton\Http\Transport\Cookie
  * @uses \BigBlueButton\Http\Transport\TransportRequest
  * @uses \BigBlueButton\Http\Transport\TransportResponse
  * @uses \BigBlueButton\Util\ArrayHelper
@@ -121,10 +122,6 @@ final class CurlTransportTest extends TestCase
 
     public function testRequestWithCookie(): void
     {
-        if (\PHP_VERSION_ID >= 80000) {
-            self::markTestSkipped('Broken on PHP 8. To be fixed in https://github.com/littleredbutton/bigbluebutton-api-php/pull/78.');
-        }
-
         $request   = new TransportRequest('http://localhost:8057/cookie.php', '', 'application/xml');
         $transport = new CurlTransport();
 
@@ -158,5 +155,15 @@ final class CurlTransportTest extends TestCase
 
         $this->assertSame('FOO', $dump['input'], 'input echo is correct');
         $this->assertSame('3', $dump['vars']['HTTP_CONTENT_LENGTH'], 'Content-Length echo is correct');
+    }
+
+    public function testRequestWithDoubleNewLine(): void
+    {
+        $request   = new TransportRequest('http://localhost:8057/double-newline.php', '', 'application/xml');
+        $transport = new CurlTransport();
+
+        $response = $transport->request($request);
+
+        $this->assertSame("Foo\r\n\r\nBar\r\n", $response->getBody(), 'body is correct');
     }
 }
