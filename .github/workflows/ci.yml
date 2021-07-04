@@ -76,17 +76,3 @@ jobs:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: ${{ matrix.php-versions == '7.2' && env.COVERALLS_REPO_TOKEN != null }}
       run: vendor/bin/php-coveralls --coverage_clover=build/logs/coverage.xml -v
-
-
-  HHVM:
-    name: HHVM
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: azjezz/setup-hhvm@v1
-        with:
-          version: 'latest'
-      - run: composer install --dev --no-interaction
-        continue-on-error: true
-      - run: hhvm vendor/bin/phpunit
-        continue-on-error: true
