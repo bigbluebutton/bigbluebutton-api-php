@@ -50,6 +50,28 @@
                 <customStyle>a:focus{color:#0181eb}</customStyle>
             </customdata>
         </attendee>
+        <attendee>
+            <userID>srfd2uad4x9s</userID>
+            <fullName>Peter Parker</fullName>
+            <role>VIEWER</role>
+            <isPresenter>false</isPresenter>
+            <isListeningOnly>false</isListeningOnly>
+            <hasJoinedVoice>true</hasJoinedVoice>
+            <hasVideo>true</hasVideo>
+            <clientType>HTML5</clientType>
+            <customdata></customdata>
+        </attendee>
+        <attendee>
+            <userID>6ntb564ibhnq</userID>
+            <fullName>Bruce Wayne</fullName>
+            <role>VIEWER</role>
+            <isPresenter>false</isPresenter>
+            <isListeningOnly>true</isListeningOnly>
+            <hasJoinedVoice>false</hasJoinedVoice>
+            <hasVideo>false</hasVideo>
+            <clientType>HTML5</clientType>
+            <customdata></customdata>
+        </attendee>
     </attendees>
     <isBreakout>true</isBreakout>
     <parentMeetingID>b97b512f2c92c0ffe7a3476152525807daa1c676-1524213151782</parentMeetingID>
