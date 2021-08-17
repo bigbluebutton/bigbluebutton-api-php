@@ -58,8 +58,8 @@ class BigBlueButton
 {
     protected $securitySecret;
     protected $bbbServerBaseUrl;
-    protected $urlBuilder;
     protected $jSessionId;
+    public $urlBuilder;
 
     /**
      * BigBlueButton constructor.
