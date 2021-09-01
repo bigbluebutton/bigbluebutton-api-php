@@ -491,6 +491,7 @@ class BigBlueButton
                 throw new BadResponseException('Bad response, HTTP code: ' . $httpcode);
             }
             curl_close($ch);
+            unset($ch);
 
             $cookies = file_get_contents($cookiefilepath);
             if (strpos($cookies, 'JSESSIONID') !== false) {
