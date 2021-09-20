@@ -44,7 +44,7 @@ namespace BigBlueButton\Parameters;
  * @method string getClientURL()
  * @method $this setClientURL(string $clientURL)
  * @method bool|null isJoinViaHtml5()
- * @method $this setJoinViaHtml(bool $joinViaHtml)
+ * @method $this setJoinViaHtml5(bool $joinViaHtml)
  * @method bool|null isGuest()
  * @method $this setGuest(bool $guest)
  */
