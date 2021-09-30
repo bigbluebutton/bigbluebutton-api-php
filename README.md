@@ -498,7 +498,7 @@ The integration requires additional setup as there are using a real BigBlueButto
 You need to create a `.env.local` file to configure which server to use and the proper credentials:
 
 ```shell
-echo "BBB_SERVER_BASE_URL=https://bbb.example/bigbluebutton/" > env.local
+echo "BBB_SERVER_BASE_URL=https://bbb.example/bigbluebutton/" > .env.local
 echo "BBB_SECRET=S3cr3t" >> .env.local
 ```
 
