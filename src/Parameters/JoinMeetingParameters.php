@@ -74,11 +74,6 @@ class JoinMeetingParameters extends UserDataParameters
     private $clientURL;
 
     /**
-     * @var boolean
-     */
-    private $joinViaHtml5;
-
-    /**
      * @var array
      */
     private $customParameters;
@@ -295,25 +290,6 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
-     * @return boolean
-     */
-    public function isJoinViaHtml5()
-    {
-        return $this->joinViaHtml5;
-    }
-
-    /**
-     * @param  boolean               $joinViaHtml5
-     * @return JoinMeetingParameters
-     */
-    public function setJoinViaHtml5($joinViaHtml5)
-    {
-        $this->joinViaHtml5 = $joinViaHtml5;
-
-        return $this;
-    }
-
-    /**
      * @param  string                $paramName
      * @param  string                $paramValue
      * @return JoinMeetingParameters
@@ -340,7 +316,6 @@ class JoinMeetingParameters extends UserDataParameters
             'configToken'  => $this->configToken,
             'avatarURL'    => $this->avatarURL,
             'redirect'     => $this->redirect ? 'true' : 'false',
-            'joinViaHtml5' => $this->joinViaHtml5 ? 'true' : 'false',
             'clientURL'    => $this->clientURL
         ];
 
