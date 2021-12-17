@@ -60,6 +60,7 @@ class BigBlueButton
     protected $bbbServerBaseUrl;
     protected $urlBuilder;
     protected $jSessionId;
+    protected $timeOut = 10;
 
     /**
      * BigBlueButton constructor.
@@ -503,5 +504,16 @@ class BigBlueButton
         } else {
             throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
         }
+    }
+    
+    /**
+     * Set Curl Timeout (Optional), Default 10 Seconds
+     * @param   int $TimeOutInSeconds
+     * @return  static
+     */
+    public function setTimeOut($TimeOutInSeconds)
+    {
+        $this->timeOut = $TimeOutInSeconds;
+        return $this;
     }
 }
