@@ -47,9 +47,16 @@ namespace BigBlueButton\Parameters;
  * @method $this setJoinViaHtml5(bool $joinViaHtml)
  * @method bool|null isGuest()
  * @method $this setGuest(bool $guest)
+ * @method string getRole()
+ * @method $this setRole(string $role)
+ * @method bool|null isExcludeFromDashboard()
+ * @method $this setExcludeFromDashboard(bool $excludeFromDashboard)
  */
 class JoinMeetingParameters extends UserDataParameters
 {
+    const MODERATOR = 'MODERATOR';
+    const VIEWER    = 'VIEWER';
+
     /**
      * @var string
      */
@@ -114,6 +121,16 @@ class JoinMeetingParameters extends UserDataParameters
      * @var boolean
      */
     protected $guest;
+
+    /**
+     * @var string
+     */
+    protected $role;
+
+    /**
+     * @var boolean
+     */
+    protected $excludeFromDashboard;
 
     /**
      * JoinMeetingParametersTest constructor.
