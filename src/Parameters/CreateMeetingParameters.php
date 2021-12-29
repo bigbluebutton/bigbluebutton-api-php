@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
@@ -23,10 +24,7 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    const ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
-    const ALWAYS_DENY   = 'ALWAYS_DENY';
-    const ASK_MODERATOR = 'ASK_MODERATOR';
-    
+
     /**
      * @var string
      */
@@ -173,6 +171,11 @@ class CreateMeetingParameters extends MetaParameters
     private $allowModsToUnmuteUsers;
 
     /**
+     * @var bool
+     */
+    private $allowModsToEjectCameras;
+
+    /**
      * @var array
      */
     private $presentations = [];
@@ -196,11 +199,71 @@ class CreateMeetingParameters extends MetaParameters
      * @var boolean
      */
     private $freeJoin;
-    
+
     /**
      * @var string
      */
-    private $guestPolicy = self::ALWAYS_ACCEPT;
+    private $guestPolicy;
+
+    /**
+     * @var string
+     */
+    private $bannerText;
+
+    /**
+     * @var string
+     */
+    private $bannerColor;
+
+    /**
+     * @var boolean
+     */
+    private $learningDashboardEnabled;
+
+    /**
+     * @var int
+     */
+    private $learningDashboardCleanupDelayInMinutes;
+
+    /**
+     * @var int
+     */
+    private $endWhenNoModeratorDelayInMinutes;
+
+    /**
+     * @var boolean
+     */
+    private $endWhenNoModerator;
+
+    /**
+     * @var boolean
+     */
+    private $meetingKeepEvents;
+
+    /**
+     * @var boolean
+     */
+    private $breakoutRoomsEnabled;
+
+    /**
+     * @var boolean
+     */
+    private $breakoutRoomsRecord;
+
+    /**
+     * @var boolean
+     */
+    private $breakoutRoomsPrivateChatEnabled;
+
+    /**
+     * @var string
+     */
+    private $meetingEndedURL;
+
+    /**
+     * @var string
+     */
+    private $meetingLayout;
 
     /**
      * CreateMeetingParameters constructor.
@@ -555,6 +618,139 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @return string
      */
+    public function getBannerText()
+    {
+        return $this->bannerText;
+    }
+
+    /**
+     * @param  string                  $bannerText
+     * @return CreateMeetingParameters
+     */
+    public function setBannerText($bannerText)
+    {
+        $this->bannerText = $bannerText;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBannerColor()
+    {
+        return $this->bannerColor;
+    }
+
+    /**
+     * @param  string                  $bannerColor
+     * @return CreateMeetingParameters
+     */
+    public function setBannerColor($bannerColor)
+    {
+        $this->bannerColor = $bannerColor;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isLearningDashboardEnabled()
+    {
+        return $this->learningDashboardEnabled;
+    }
+
+    /**
+     * @param  bool                    $learningDashboardEnabled
+     * @return CreateMeetingParameters
+     */
+    public function setLearningDashboardEnabled($learningDashboardEnabled)
+    {
+        $this->learningDashboardEnabled = $learningDashboardEnabled;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLearningDashboardCleanupDelayInMinutes()
+    {
+        return $this->learningDashboardCleanupDelayInMinutes;
+    }
+
+    /**
+     * @param  int                     $learningDashboardCleanupDelayInMinutes
+     * @return CreateMeetingParameters
+     */
+    public function setLearningDashboardCleanupDelayInMinutes($learningDashboardCleanupDelayInMinutes)
+    {
+        $this->learningDashboardCleanupDelayInMinutes = $learningDashboardCleanupDelayInMinutes;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEndWhenNoModeratorDelayInMinutes()
+    {
+        return $this->endWhenNoModeratorDelayInMinutes;
+    }
+
+    /**
+     * @param  int                     $endWhenNoModeratorDelayInMinutes
+     * @return CreateMeetingParameters
+     */
+    public function setEndWhenNoModeratorDelayInMinutes($endWhenNoModeratorDelayInMinutes)
+    {
+        $this->endWhenNoModeratorDelayInMinutes = $endWhenNoModeratorDelayInMinutes;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEndWhenNoModerator()
+    {
+        return $this->endWhenNoModerator;
+    }
+
+    /**
+     * @param  bool                    $endWhenNoModerator
+     * @return CreateMeetingParameters
+     */
+    public function setEndWhenNoModerator($endWhenNoModerator)
+    {
+        $this->endWhenNoModerator = $endWhenNoModerator;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMeetingKeepEvents()
+    {
+        return $this->meetingKeepEvents;
+    }
+
+    /**
+     * @param  bool                    $meetingKeepEvents
+     * @return CreateMeetingParameters
+     */
+    public function setMeetingKeepEvents($meetingKeepEvents)
+    {
+        $this->meetingKeepEvents = $meetingKeepEvents;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getCopyright()
     {
         return $this->copyright;
@@ -675,7 +871,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param  bool                    $lockSettingsDisableNote
+     * $learningDashboardCleanupDelayInMinutesbool                    $lockSettingsDisableNote
      * @return CreateMeetingParameters
      */
     public function setLockSettingsDisableNote($lockSettingsDisableNote)
@@ -781,6 +977,25 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return bool
+     */
+    public function isAllowModsToEjectCameras(): bool
+    {
+        return $this->allowModsToEjectCameras;
+    }
+
+    /**
+     * @param  bool                    $allowModsToEjectCameras
+     * @return CreateMeetingParameters
+     */
+    public function setAllowModsToEjectCameras(bool $allowModsToEjectCameras): self
+    {
+        $this->allowModsToEjectCameras = $allowModsToEjectCameras;
+
+        return $this;
+    }
+
+    /**
      * @param $endCallbackUrl
      * @return CreateMeetingParameters
      */
@@ -790,7 +1005,7 @@ class CreateMeetingParameters extends MetaParameters
 
         return $this;
     }
-    
+
     /**
      * @param $recordingReadyCallbackUrl
      * @return CreateMeetingParameters
@@ -896,7 +1111,102 @@ class CreateMeetingParameters extends MetaParameters
 
         return $this;
     }
-    
+
+    /**
+     * @return bool
+     */
+    public function isBreakoutRoomsEnabled(): bool
+    {
+        return $this->breakoutRoomsEnabled;
+    }
+
+    /**
+     * @param  bool                    $breakoutRoomsEnabled
+     * @return CreateMeetingParameters
+     */
+    public function setBreakoutRoomsEnabled(bool $breakoutRoomsEnabled): self
+    {
+        $this->breakoutRoomsEnabled = $breakoutRoomsEnabled;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBreakoutRoomsRecord(): bool
+    {
+        return $this->breakoutRoomsRecord;
+    }
+
+    /**
+     * @param  bool                    $breakoutRoomsRecord
+     * @return CreateMeetingParameters
+     */
+    public function setBreakoutRoomsRecord(bool $breakoutRoomsRecord): self
+    {
+        $this->breakoutRoomsRecord = $breakoutRoomsRecord;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBreakoutRoomsPrivateChatEnabled(): bool
+    {
+        return $this->breakoutRoomsPrivateChatEnabled;
+    }
+
+    /**
+     * @param  bool                    $breakoutRoomsPrivateChatEnabled
+     * @return CreateMeetingParameters
+     */
+    public function setBreakoutRoomsPrivateChatEnabled(bool $breakoutRoomsPrivateChatEnabled): self
+    {
+        $this->breakoutRoomsPrivateChatEnabled = $breakoutRoomsPrivateChatEnabled;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMeetingEndedURL(): string
+    {
+        return $this->meetingEndedURL;
+    }
+
+    /**
+     * @param  string                  $meetingEndedURL
+     * @return CreateMeetingParameters
+     */
+    public function setMeetingEndedURL(string $meetingEndedURL): self
+    {
+        $this->meetingEndedURL = $meetingEndedURL;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMeetingLayout(): string
+    {
+        return $this->meetingLayout;
+    }
+
+    /**
+     * @param  string                  $meetingLayout
+     * @return CreateMeetingParameters
+     */
+    public function setMeetingLayout(string $meetingLayout): self
+    {
+        $this->meetingLayout = $meetingLayout;
+
+        return $this;
+    }
+
     /**
      * @return array
      */
@@ -960,36 +1270,49 @@ class CreateMeetingParameters extends MetaParameters
     public function getHTTPQuery()
     {
         $queries = [
-            'name'                               => $this->meetingName,
-            'meetingID'                          => $this->meetingId,
-            'attendeePW'                         => $this->attendeePassword,
-            'moderatorPW'                        => $this->moderatorPassword,
-            'dialNumber'                         => $this->dialNumber,
-            'voiceBridge'                        => $this->voiceBridge,
-            'webVoice'                           => $this->webVoice,
-            'logoutURL'                          => $this->logoutUrl,
-            'record'                             => $this->record ? 'true' : 'false',
-            'duration'                           => $this->duration,
-            'maxParticipants'                    => $this->maxParticipants,
-            'autoStartRecording'                 => $this->autoStartRecording ? 'true' : 'false',
-            'allowStartStopRecording'            => $this->allowStartStopRecording ? 'true' : 'false',
-            'welcome'                            => trim($this->welcomeMessage),
-            'moderatorOnlyMessage'               => trim($this->moderatorOnlyMessage),
-            'webcamsOnlyForModerator'            => $this->webcamsOnlyForModerator ? 'true' : 'false',
-            'logo'                               => $this->logo,
-            'copyright'                          => $this->copyright,
-            'muteOnStart'                        => $this->muteOnStart ? 'true' : 'false',
-            'guestPolicy'                        => $this->guestPolicy,
-            'lockSettingsDisableCam'             => $this->isLockSettingsDisableCam() ? 'true' : 'false',
-            'lockSettingsDisableMic'             => $this->isLockSettingsDisableMic() ? 'true' : 'false',
-            'lockSettingsDisablePrivateChat'     => $this->isLockSettingsDisablePrivateChat() ? 'true' : 'false',
-            'lockSettingsDisablePublicChat'      => $this->isLockSettingsDisablePublicChat() ? 'true' : 'false',
-            'lockSettingsDisableNote'            => $this->isLockSettingsDisableNote() ? 'true' : 'false',
-            'lockSettingsHideUserList'           => $this->isLockSettingsHideUserList() ? 'true' : 'false',
-            'lockSettingsLockedLayout'           => $this->isLockSettingsLockedLayout() ? 'true' : 'false',
-            'lockSettingsLockOnJoin'             => $this->isLockSettingsLockOnJoin() ? 'true' : 'false',
-            'lockSettingsLockOnJoinConfigurable' => $this->isLockSettingsLockOnJoinConfigurable() ? 'true' : 'false',
-            'allowModsToUnmuteUsers'             => $this->isAllowModsToUnmuteUsers() ? 'true' : 'false',
+            'name'                                   => $this->meetingName,
+            'meetingID'                              => $this->meetingId,
+            'attendeePW'                             => $this->attendeePassword,
+            'moderatorPW'                            => $this->moderatorPassword,
+            'dialNumber'                             => $this->dialNumber,
+            'voiceBridge'                            => $this->voiceBridge,
+            'webVoice'                               => $this->webVoice,
+            'logoutURL'                              => $this->logoutUrl,
+            'record'                                 => $this->record ? 'true' : 'false',
+            'duration'                               => $this->duration,
+            'maxParticipants'                        => $this->maxParticipants,
+            'autoStartRecording'                     => $this->autoStartRecording ? 'true' : 'false',
+            'allowStartStopRecording'                => $this->allowStartStopRecording ? 'true' : 'false',
+            'welcome'                                => trim($this->welcomeMessage),
+            'moderatorOnlyMessage'                   => trim($this->moderatorOnlyMessage),
+            'webcamsOnlyForModerator'                => $this->webcamsOnlyForModerator ? 'true' : 'false',
+            'logo'                                   => $this->logo,
+            'copyright'                              => $this->copyright,
+            'muteOnStart'                            => $this->muteOnStart ? 'true' : 'false',
+            'guestPolicy'                            => $this->guestPolicy,
+            'lockSettingsDisableCam'                 => $this->isLockSettingsDisableCam() ? 'true' : 'false',
+            'lockSettingsDisableMic'                 => $this->isLockSettingsDisableMic() ? 'true' : 'false',
+            'lockSettingsDisablePrivateChat'         => $this->isLockSettingsDisablePrivateChat() ? 'true' : 'false',
+            'lockSettingsDisablePublicChat'          => $this->isLockSettingsDisablePublicChat() ? 'true' : 'false',
+            'lockSettingsDisableNote'                => $this->isLockSettingsDisableNote() ? 'true' : 'false',
+            'lockSettingsHideUserList'               => $this->isLockSettingsHideUserList() ? 'true' : 'false',
+            'lockSettingsLockedLayout'               => $this->isLockSettingsLockedLayout() ? 'true' : 'false',
+            'lockSettingsLockOnJoin'                 => $this->isLockSettingsLockOnJoin() ? 'true' : 'false',
+            'lockSettingsLockOnJoinConfigurable'     => $this->isLockSettingsLockOnJoinConfigurable() ? 'true' : 'false',
+            'allowModsToUnmuteUsers'                 => $this->isAllowModsToUnmuteUsers() ? 'true' : 'false',
+            'allowModsToEjectCameras'                => $this->isAllowModsToEjectCameras() ? 'true' : 'false',
+            'bannerText'                             => trim($this->bannerText),
+            'bannerColor'                            => trim($this->bannerColor),
+            'learningDashboardEnabled'               => $this->isLearningDashboardEnabled() ? 'true' : 'false',
+            'learningDashboardCleanupDelayInMinutes' => $this->learningDashboardCleanupDelayInMinutes,
+            'endWhenNoModeratorDelayInMinutes'       => $this->endWhenNoModeratorDelayInMinutes,
+            'meetingEndedURL'                        => $this->meetingEndedURL,
+            'breakoutRoomsEnabled'                   => $this->isBreakoutRoomsEnabled() ? 'true' : 'false',
+            'breakoutRoomsRecord'                    => $this->isBreakoutRoomsRecord() ? 'true' : 'false',
+            'breakoutRoomsPrivateChatEnabled('       => $this->isBreakoutRoomsPrivateChatEnabled() ? 'true' : 'false',
+            'endWhenNoModerator'                     => $this->isEndWhenNoModerator() ? 'true' : 'false',
+            'meetingKeepEvents'                      => $this->isMeetingKeepEvents() ? 'true' : 'false',
+            'meetingLayout'                          => $this->getMeetingLayout() ,
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room

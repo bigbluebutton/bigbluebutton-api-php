@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Responses;
 
 /**
@@ -30,5 +31,21 @@ class ApiVersionResponse extends BaseResponse
     public function getVersion()
     {
         return $this->rawXml->version->__toString();
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiVersion()
+    {
+        return $this->rawXml->apiVersion->__toString();
+    }
+
+    /**
+     * @return string
+     */
+    public function getBbbVersion()
+    {
+        return $this->rawXml->bbbVersion->__toString();
     }
 }

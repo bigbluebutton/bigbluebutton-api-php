@@ -45,7 +45,6 @@ class JoinMeetingParametersTest extends TestCase
         $joinMeetingParams->setAvatarURL($avatarUrl = $this->faker->url);
         $joinMeetingParams->setRedirect($redirect = $this->faker->boolean(50));
         $joinMeetingParams->setClientURL($clientUrl = $this->faker->url);
-        $joinMeetingParams->setJoinViaHtml5($joinViaHtml5 = $this->faker->boolean(50));
         $this->assertEquals($newId, $joinMeetingParams->getMeetingId());
         $this->assertEquals($newName, $joinMeetingParams->getUsername());
         $this->assertEquals($newPassword, $joinMeetingParams->getPassword());
@@ -53,6 +52,5 @@ class JoinMeetingParametersTest extends TestCase
         $this->assertEquals($avatarUrl, $joinMeetingParams->getAvatarURL());
         $this->assertEquals($redirect, $joinMeetingParams->isRedirect());
         $this->assertEquals($clientUrl, $joinMeetingParams->getClientURL());
-        $this->assertEquals($joinViaHtml5, $joinMeetingParams->isJoinViaHtml5());
     }
 }

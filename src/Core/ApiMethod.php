@@ -27,9 +27,6 @@ abstract class ApiMethod
     const IS_MEETING_RUNNING     = 'isMeetingRunning';
     const GET_MEETING_INFO       = 'getMeetingInfo';
     const GET_MEETINGS           = 'getMeetings';
-    const GET_DEFAULT_CONFIG_XML = 'getDefaultConfigXML';
-    const SET_CONFIG_XML         = 'setConfigXML';
-    const CONFIG_XML             = 'configXML';
     const SIGN_OUT               = 'signOut';
     const GET_RECORDINGS         = 'getRecordings';
     const PUBLISH_RECORDINGS     = 'publishRecordings';
