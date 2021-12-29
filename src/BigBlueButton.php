@@ -504,4 +504,17 @@ class BigBlueButton
             throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
         }
     }
+    
+    /**
+     * Public accessor for buildUrl
+     * @param   string $method
+     * @param   string $params
+     * @param   bool   $append
+     * @return  string
+     */
+    public function buildUrl($method = '', $params = '', $append = TRUE)
+    {
+        return $this->urlBuilder->buildUrl($method, $params, $append);
+    }
+   
 }
