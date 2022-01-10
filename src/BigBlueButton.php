@@ -65,13 +65,14 @@ class BigBlueButton
      * @param null $baseUrl
      * @param null $secret
      */
-    public function __construct($baseUrl = null, $secret = null)
+    public function __construct($baseUrl = null, $secret = null, $opts = null)
     {
         // Keeping backward compatibility with older deployed versions
         // BBB_SECRET is the new variable name and have higher priority against the old named BBB_SECURITY_SALT
         $this->securitySecret   = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT');
         $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL');
         $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
+        $this->curlopts         = $opts['curl'] ?? [];
     }
 
     /**
@@ -394,6 +395,14 @@ class BigBlueButton
     public function setJSessionId($jSessionId)
     {
         $this->jSessionId = $jSessionId;
+    }
+
+     /**
+     * @param array $curlopts
+     */
+    public function setCurlOpts($curlopts)
+    {
+        $this->curlopts = $curlopts;
     }
 
     /* ____________________ INTERNAL CLASS METHODS ___________________ */
