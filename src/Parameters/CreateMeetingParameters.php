@@ -93,6 +93,14 @@ namespace BigBlueButton\Parameters;
  * @method $this setEndWhenNoModerator(bool $isEndWhenNoModerator)
  * @method int getEndWhenNoModeratorDelayInMinutes()
  * @method $this setEndWhenNoModeratorDelayInMinutes(int $endWhenNoModeratorDelayInMinutes)
+ * @method string getMeetingLayout()
+ * @method $this setMeetingLayout(string $meetingLayout)
+ * @method bool|null isLearningDashboardEnabled()
+ * @method $this setLearningDashboardEnabled(bool $isLearningDashboardEnabled)
+ * @method int getLearningDashboardCleanupDelayInMinutes()
+ * @method $this setLearningDashboardCleanupDelayInMinutes(int $learningDashboardCleanupDelayInMinutes)
+ * @method bool|null isAllowModsToEjectCameras()
+ * @method $this setAllowModsToEjectCameras(bool $isAllowModsToEjectCameras)
  *
  */
 class CreateMeetingParameters extends MetaParameters
@@ -101,6 +109,11 @@ class CreateMeetingParameters extends MetaParameters
     const ALWAYS_DENY        = 'ALWAYS_DENY';
     const ASK_MODERATOR      = 'ASK_MODERATOR';
     const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
+
+    const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
+    const SMART_LAYOUT       = 'SMART_LAYOUT';
+    const PRESENTATION_FOCUS = 'PRESENTATION_FOCUS';
+    const VIDEO_FOCUS        = 'VIDEO_FOCUS';
 
     /**
      * @var string
@@ -306,6 +319,26 @@ class CreateMeetingParameters extends MetaParameters
      * @var int
      */
     protected $endWhenNoModeratorDelayInMinutes;
+
+    /**
+     * @var string
+     */
+    protected $meetingLayout;
+
+    /**
+     * @var bool
+     */
+    protected $learningDashboardEnabled;
+
+    /**
+     * @var int
+     */
+    protected $learningDashboardCleanupDelayInMinutes;
+
+    /**
+     * @var bool
+     */
+    protected $allowModsToEjectCameras;
 
     /**
      * @var array
