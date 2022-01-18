@@ -96,17 +96,6 @@ class BigBlueButtonTest extends TestCase
         }
     }
 
-    /* Get Default Config XML */
-
-    /**
-     * @group legacy
-     */
-    public function testGetDefaultConfigXMLUrl()
-    {
-        $url = $this->bbb->getDefaultConfigXMLUrl();
-        $this->assertStringContainsString(ApiMethod::GET_DEFAULT_CONFIG_XML, $url);
-    }
-
     /* End Meeting */
 
     /**
