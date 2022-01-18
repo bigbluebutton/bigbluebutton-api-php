@@ -18,27 +18,18 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton;
+namespace BigBlueButton\Tests\Functional;
 
-use BigBlueButton\Http\Transport\Bridge\PsrHttpClient\PsrHttpClientTransport;
+use BigBlueButton\Http\Transport\Bridge\SymfonyHttpClient\SymfonyHttpClientTransport;
 use BigBlueButton\Http\Transport\TransportInterface;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use Symfony\Component\HttpClient\CurlHttpClient;
-use Symfony\Component\HttpClient\Psr18Client;
 
-final class BigBlueButtonWithPsrHttpClientTransport extends AbstractBigBlueButtonIntegrationTest
+final class BigBlueButtonWithSymfonyHttpClientTransportTest extends AbstractBigBlueButtonFunctionalTest
 {
     /**
      * {@inheritDoc}
      */
     protected static function createTransport(): TransportInterface
     {
-        $psr17Factory = new Psr17Factory();
-
-        return new PsrHttpClientTransport(
-            new Psr18Client(new CurlHttpClient()),
-            $psr17Factory,
-            $psr17Factory
-        );
+        return SymfonyHttpClientTransport::create();
     }
 }

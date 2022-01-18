@@ -94,9 +94,15 @@
       "BigBlueButton\\": ["src", "tests/integration"]
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "BigBlueButton\\Tests\\Functional\\": ["tests/functional"]
+    }
+  },
   "scripts": {
-    "test": "vendor/bin/phpunit",
-    "test-integration": "vendor/bin/phpunit --testsuite=\"BigBlueButton integration test suite\" --exclude-group=integration-legacy",
+    "test": "vendor/bin/phpunit  --testsuite=\"BigBlueButton unit test suite\"",
+    "test-integration": "vendor/bin/phpunit  --testsuite=\"BigBlueButton integration test suite\"",
+    "test-functional": "vendor/bin/phpunit --testsuite=\"BigBlueButton functional test suite\" --exclude-group=functional-legacy",
     "cs-fix": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
     "cs-test": "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes",
     "psalm": "psalm --threads=1",
@@ -111,7 +117,7 @@
         "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
       ],
       "pre-push": [
-        "vendor/bin/phpunit --testsuite=\"BigBlueButton test suite\"",
+        "vendor/bin/phpunit --testsuite=\"BigBlueButton unit test suite,BigBlueButton integration test suite\"",
         "vendor/bin/psalm --threads=1"
       ],
       "post-merge": "composer install",

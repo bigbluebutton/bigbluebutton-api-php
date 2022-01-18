@@ -87,6 +87,20 @@ namespace BigBlueButton\Parameters;
  * @method $this setLockSettingsLockOnJoinConfigurable(bool $isLockSettingsLockOnJoinConfigurable)
  * @method string getGuestPolicy()
  * @method $this setGuestPolicy(string $guestPolicy)
+ * @method bool|null isMeetingKeepEvents()
+ * @method $this setMeetingKeepEvents(bool $isMeetingKeepEvents)
+ * @method bool|null isEndWhenNoModerator()
+ * @method $this setEndWhenNoModerator(bool $isEndWhenNoModerator)
+ * @method int getEndWhenNoModeratorDelayInMinutes()
+ * @method $this setEndWhenNoModeratorDelayInMinutes(int $endWhenNoModeratorDelayInMinutes)
+ * @method string getMeetingLayout()
+ * @method $this setMeetingLayout(string $meetingLayout)
+ * @method bool|null isLearningDashboardEnabled()
+ * @method $this setLearningDashboardEnabled(bool $isLearningDashboardEnabled)
+ * @method int getLearningDashboardCleanupDelayInMinutes()
+ * @method $this setLearningDashboardCleanupDelayInMinutes(int $learningDashboardCleanupDelayInMinutes)
+ * @method bool|null isAllowModsToEjectCameras()
+ * @method $this setAllowModsToEjectCameras(bool $isAllowModsToEjectCameras)
  *
  */
 class CreateMeetingParameters extends MetaParameters
@@ -95,6 +109,11 @@ class CreateMeetingParameters extends MetaParameters
     public const ALWAYS_DENY        = 'ALWAYS_DENY';
     public const ASK_MODERATOR      = 'ASK_MODERATOR';
     public const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
+
+    const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
+    const SMART_LAYOUT       = 'SMART_LAYOUT';
+    const PRESENTATION_FOCUS = 'PRESENTATION_FOCUS';
+    const VIDEO_FOCUS        = 'VIDEO_FOCUS';
 
     /**
      * @var string
@@ -285,6 +304,41 @@ class CreateMeetingParameters extends MetaParameters
      * @var string
      */
     protected $guestPolicy = self::ALWAYS_ACCEPT;
+
+    /**
+     * @var bool
+     */
+    protected $meetingKeepEvents;
+
+    /**
+     * @var bool
+     */
+    protected $endWhenNoModerator;
+
+    /**
+     * @var int
+     */
+    protected $endWhenNoModeratorDelayInMinutes;
+
+    /**
+     * @var string
+     */
+    protected $meetingLayout;
+
+    /**
+     * @var bool
+     */
+    protected $learningDashboardEnabled;
+
+    /**
+     * @var int
+     */
+    protected $learningDashboardCleanupDelayInMinutes;
+
+    /**
+     * @var bool
+     */
+    protected $allowModsToEjectCameras;
 
     /**
      * @var array

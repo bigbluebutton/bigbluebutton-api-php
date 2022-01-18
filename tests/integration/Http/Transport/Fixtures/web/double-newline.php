@@ -18,18 +18,10 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton;
-
-use BigBlueButton\Http\Transport\CurlTransport;
-use BigBlueButton\Http\Transport\TransportInterface;
-
-final class BigBlueButtonWithCurlTransportTest extends AbstractBigBlueButtonIntegrationTest
-{
-    /**
-     * {@inheritDoc}
-     */
-    protected static function createTransport(): TransportInterface
-    {
-        return CurlTransport::createWithDefaultOptions();
-    }
+if ('cli-server' !== \PHP_SAPI) {
+    // safe guard against unwanted execution
+    throw new \Exception("You cannot run this script directly, it's a fixture for TestHttpServer.");
 }
+
+echo "Foo\r\n\r\n";
+echo "Bar\r\n";

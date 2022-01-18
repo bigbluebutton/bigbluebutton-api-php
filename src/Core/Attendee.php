@@ -58,7 +58,7 @@ class Attendee
     /**
      * @var array
      */
-    private $customData;
+    private $customData = [];
 
     /**
      * @var string

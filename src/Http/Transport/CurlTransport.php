@@ -101,17 +101,7 @@ final class CurlTransport implements TransportInterface
         }
         // @codeCoverageIgnoreEnd
 
-        // Needed to store the JSESSIONID
-        $cookieFile = @tmpfile(); // Silenced as tmpfile can throw notices like "creating file in system temporary directory".
-        // @codeCoverageIgnoreStart
-        if (false === $cookieFile) {
-            throw new RuntimeException('Could not create temporary file for cookies.');
-        }
-        // @codeCoverageIgnoreEnd
-        $cookieFilePath = stream_get_meta_data($cookieFile)['uri'];
-
         $options = self::mergeCurlOptions(
-            self::buildCookieOptions($cookieFilePath),
             self::buildUrlOptions($request),
             self::buildPostOptions($request),
             self::INTERNAL_CURL_OPTIONS,
@@ -122,12 +112,7 @@ final class CurlTransport implements TransportInterface
             curl_setopt($ch, $option, $value);
         }
 
-        $data = curl_exec($ch);
-        // @codeCoverageIgnoreStart
-        if ($data === false) {
-            throw new NetworkException('Error during curl_exec. Error: ' . curl_error($ch));
-        }
-        // @codeCoverageIgnoreEnd
+        [$headers, $data] = self::getHeadersAndContentFromCurlHandle($ch);
 
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($httpCode < 200 || $httpCode >= 300) {
@@ -136,12 +121,9 @@ final class CurlTransport implements TransportInterface
 
         curl_close($ch);
 
-        $cookies   = file_get_contents($cookieFilePath);
         $sessionId = null;
-
-        if (strpos($cookies, 'JSESSIONID') !== false) {
-            preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output);
-            $sessionId = $output['JSESSIONID'];
+        if (isset($headers['set-cookie'])) {
+            $sessionId = Cookie::extractJsessionId($headers['set-cookie']);
         }
 
         return new TransportResponse($data, $sessionId);
@@ -160,7 +142,6 @@ final class CurlTransport implements TransportInterface
         $options = [];
 
         if ('' !== $payload = $request->getPayload()) {
-            $options[CURLOPT_HEADER]        = 0;
             $options[CURLOPT_CUSTOMREQUEST] = 'POST';
             $options[CURLOPT_POST]          = 1;
             $options[CURLOPT_POSTFIELDS]    = $payload;
@@ -208,5 +189,66 @@ final class CurlTransport implements TransportInterface
         ];
 
         return ArrayHelper::mergeRecursive(true, $headerOptions, ...$options);
+    }
+
+    /**
+     * A raw response as returned from cURL will contain the headers followed by "\r\n\r\n" and the content.
+     *
+     * @param  \CurlHandle|resource $curlHandle
+     * @return array{0:             string, 1: string[]} First key headers, second key is content
+     * @throws NetworkException
+     * @link https://stackoverflow.com/questions/10589889/returning-header-as-array-using-curl
+     */
+    private static function getHeadersAndContentFromCurlHandle($curlHandle): array
+    {
+        /** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+        // @codeCoverageIgnoreStart
+        if (\PHP_VERSION_ID >= 80000 && !$curlHandle instanceof \CurlHandle) {
+            /** @noinspection PhpElementIsNotAvailableInCurrentPhpVersionInspection */
+            throw new \InvalidArgumentException(sprintf('$curlHandle must be "%s". "%s" given.', \CurlHandle::class, get_debug_type($curlHandle)));
+        } elseif (\PHP_VERSION_ID < 80000 && !is_resource($curlHandle)) {
+            throw new \InvalidArgumentException(sprintf('$curlHandle must be resource. "%s" given.', is_object($curlHandle) ? get_class($curlHandle) : gettype($curlHandle)));
+        }
+        // @codeCoverageIgnoreEnd
+
+        $headers = [];
+
+        curl_setopt($curlHandle, CURLOPT_HEADER, 1);
+        $responseContent = curl_exec($curlHandle);
+
+        // @codeCoverageIgnoreStart
+        if (false === $responseContent) {
+            throw new NetworkException('Error during curl_exec. Error: ' . curl_error($curlHandle));
+        }
+        // @codeCoverageIgnoreEnd
+
+        $headerSize    = curl_getinfo($curlHandle, CURLINFO_HEADER_SIZE);
+        $headerContent = substr($responseContent, 0, $headerSize);
+
+        // Split the string on every "double" new line.
+        $headerParts = explode("\r\n\r\n", $headerContent, 2); // only split once to mitigate scrapping content if it contains newlines with carriage return
+
+        // Loop of response headers. The "count() -1" is to avoid an empty row for the extra line break before the body of the response.
+        for ($index = 0; $index < count($headerParts) - 1; $index++) {
+            foreach (explode("\r\n", $headerParts[$index]) as $i => $line) {
+                if (0 === $i) {
+                    // HTTP code
+                    continue;
+                }
+
+                $splitHeader = explode(': ', $line, 2);
+                // @codeCoverageIgnoreStart
+                if (!isset($splitHeader[0], $splitHeader[1])) {
+                    throw new \InvalidArgumentException(sprintf('Header value "%s" is invalid. Expected format is "Header-Name: value".', $line));
+                }
+                // @codeCoverageIgnoreEnd
+
+                [$header, $value] = $splitHeader;
+                // Use lower case to have an always predictable result
+                $headers[strtolower($header)][] = $value;
+            }
+        }
+
+        return [$headers, substr($responseContent, $headerSize)];
     }
 }

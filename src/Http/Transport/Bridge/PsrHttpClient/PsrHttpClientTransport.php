@@ -22,7 +22,7 @@ namespace BigBlueButton\Http\Transport\Bridge\PsrHttpClient;
 
 use BigBlueButton\Exceptions\NetworkException;
 use BigBlueButton\Exceptions\RuntimeException;
-use BigBlueButton\Http\SetCookie;
+use BigBlueButton\Http\Transport\Cookie;
 use BigBlueButton\Http\Transport\TransportInterface;
 use BigBlueButton\Http\Transport\TransportRequest;
 use BigBlueButton\Http\Transport\TransportResponse;
@@ -130,23 +130,8 @@ final class PsrHttpClientTransport implements TransportInterface
             throw new NetworkException('Bad response.', $psrResponse->getStatusCode());
         }
 
-        $jsessionCookie = null;
-
-        foreach ($psrResponse->getHeader('Set-Cookie') as $headerValue) {
-            $cookie = SetCookie::fromString($headerValue);
-
-            if ($cookie->getName() === 'JSESSIONID') {
-                $value = $cookie->getValue();
-
-                if ('' === $value) {
-                    break;
-                }
-
-                $jsessionCookie = $value;
-
-                break;
-            }
-        }
+        $headerValues   = $psrResponse->getHeader('Set-Cookie');
+        $jsessionCookie = Cookie::extractJsessionId($headerValues);
 
         return new TransportResponse($psrResponse->getBody()->getContents(), $jsessionCookie);
     }

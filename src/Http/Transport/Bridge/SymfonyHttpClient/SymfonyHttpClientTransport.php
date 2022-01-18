@@ -22,7 +22,7 @@ namespace BigBlueButton\Http\Transport\Bridge\SymfonyHttpClient;
 
 use BigBlueButton\Exceptions\NetworkException;
 use BigBlueButton\Exceptions\RuntimeException;
-use BigBlueButton\Http\SetCookie;
+use BigBlueButton\Http\Transport\Cookie;
 use BigBlueButton\Http\Transport\TransportInterface;
 use BigBlueButton\Http\Transport\TransportRequest;
 use BigBlueButton\Http\Transport\TransportResponse;
@@ -150,19 +150,7 @@ final class SymfonyHttpClientTransport implements TransportInterface
         $responseHeaders = $symfonyResponse->getHeaders();
 
         if (isset($responseHeaders['set-cookie'])) {
-            foreach ($responseHeaders['set-cookie'] as $headerValue) {
-                $cookie = SetCookie::fromString($headerValue);
-
-                if ($cookie->getName() === 'JSESSIONID') {
-                    $value = $cookie->getValue();
-
-                    if ('' === $value) {
-                        return null;
-                    }
-
-                    return $value;
-                }
-            }
+            return Cookie::extractJsessionId($responseHeaders['set-cookie']);
         }
 
         return null;

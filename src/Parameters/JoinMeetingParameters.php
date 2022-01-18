@@ -44,12 +44,19 @@ namespace BigBlueButton\Parameters;
  * @method string getClientURL()
  * @method $this setClientURL(string $clientURL)
  * @method bool|null isJoinViaHtml5()
- * @method $this setJoinViaHtml(bool $joinViaHtml)
+ * @method $this setJoinViaHtml5(bool $joinViaHtml)
  * @method bool|null isGuest()
  * @method $this setGuest(bool $guest)
+ * @method string getRole()
+ * @method $this setRole(string $role)
+ * @method bool|null isExcludeFromDashboard()
+ * @method $this setExcludeFromDashboard(bool $excludeFromDashboard)
  */
 class JoinMeetingParameters extends UserDataParameters
 {
+    const MODERATOR = 'MODERATOR';
+    const VIEWER    = 'VIEWER';
+
     /**
      * @var string
      */
@@ -115,6 +122,23 @@ class JoinMeetingParameters extends UserDataParameters
      */
     protected $guest;
 
+    /**
+     * @var string
+     */
+    protected $role;
+
+    /**
+     * @var boolean
+     */
+    protected $excludeFromDashboard;
+
+    /**
+     * JoinMeetingParametersTest constructor.
+     *
+     * @param string $meetingId
+     * @param string $fullName
+     * @param string $password
+     */
     public function __construct(string $meetingID, string $fullName, string $password)
     {
         $this->meetingID = $meetingID;

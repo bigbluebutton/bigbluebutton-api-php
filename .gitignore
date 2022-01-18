@@ -10,6 +10,10 @@ composer.phar
 .php_cs.cache
 cghooks.lock
 
+# PHPUnit reports (for convenience when working locally)
+reports
+
+# PHPUnit result cache
 .phpunit.result.cache
 
 # Local environment variables

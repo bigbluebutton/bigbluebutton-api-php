@@ -1,11 +1,11 @@
 # :tada: Best BigBlueButton API for PHP
 
 The unofficial and easiest to use **BigBlueButton API for PHP**, makes easy for
-developers to use [BigBlueButton API] v2.2 for **PHP 7.2+**.
+developers to use [BigBlueButton API] v2.2+ for **PHP 7.2+**.
 
 ![Build Status](https://github.com/littleredbutton/bigbluebutton-api-php/workflows/CI/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/littleredbutton/bigbluebutton-api-php/badge.svg?branch=master)](https://coveralls.io/github/littleredbutton/bigbluebutton-api-php?branch=master)
-![PHP from Travis config](https://img.shields.io/travis/php-v/littleredbutton/bigbluebutton-api-php.svg)
+![PHP from Packagist](https://img.shields.io/packagist/php-v/littleredbutton/bigbluebutton-api-php)
 <!-- [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/littleredbutton/bigbluebutton-api-php/?branch=master) -->
 
 **This API uses BigBlueButton and is not endorsed or certified by BigBlueButton
@@ -91,6 +91,8 @@ $bbb = new BigBlueButton($apiUrl, $apiSecret);
 
 If you didn't use composer before, make sure that you include `vendor/autoload.php`.
 
+In general the usage is closly related to the official [API description](https://docs.bigbluebutton.org/dev/api.html). This means to create a room, you have to create a `CreateMeetingParameters` object and set all required parameters via the related setter method. This means to set the `attendeePW`, you have to call `setAttendeePW` and so on.
+
 #### Test if API url and secret are valid
 ```php
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
@@ -126,8 +128,8 @@ $version = $bbb->getApiVersion()->getVersion();
 use BigBlueButton\Parameters\CreateMeetingParameters;
 
 $createMeetingParams = new CreateMeetingParameters($meetingID, $meetingName);
-$createMeetingParams->setAttendeePassword($attendee_password);
-$createMeetingParams->setModeratorPassword($moderator_password);
+$createMeetingParams->setAttendeePW($attendee_password);
+$createMeetingParams->setModeratorPW($moderator_password);
 
 $createMeetingResponse = $bbb->createMeeting($createMeetingParams);
 
@@ -157,7 +159,7 @@ $createMeetingParams->setGuestPolicyAlwaysAcceptAuth();
 use BigBlueButton\Parameters\JoinMeetingParameters;
 
 $joinMeetingParams = new JoinMeetingParameters($room->uid, $displayname, $password);
-$joinMeetingParams->setCreationTime($createMeetingResponse->getCreationTime());
+$joinMeetingParams->setCreateTime($createMeetingResponse->getCreationTime());
 $joinMeetingParams->setJoinViaHtml5(true);
 $joinMeetingParams->setRedirect(true);
 
@@ -253,7 +255,7 @@ if ($response->failed()) {
 use BigBlueButton\Parameters\GetRecordingsParameters;
 
 $recordingParams = new GetRecordingsParameters();
-$recordingParams->setRecordId($recordId); // omit to get a list of all recordings
+$recordingParams->setRecordID($recordId); // omit to get a list of all recordings
 $recordingParams->setState('any');
 
 $response = $bbb->getRecordings($recordingParams);
@@ -496,7 +498,7 @@ The integration requires additional setup as there are using a real BigBlueButto
 You need to create a `.env.local` file to configure which server to use and the proper credentials:
 
 ```shell
-echo "BBB_SERVER_BASE_URL=https://bbb.example/bigbluebutton/" > env.local
+echo "BBB_SERVER_BASE_URL=https://bbb.example/bigbluebutton/" > .env.local
 echo "BBB_SECRET=S3cr3t" >> .env.local
 ```
 
