@@ -188,6 +188,37 @@ class BigBlueButtonTest extends TestCase
         }
     }
 
+    public function testJoinMeeting()
+    {
+        $joinMeetingParams = $this->generateJoinMeetingParams();
+        $params            = $this->getJoinMeetingMock($joinMeetingParams);
+        $xml               = "<response>
+            <returncode>SUCCESS</returncode>
+            <messageKey>successfullyJoined</messageKey>
+            <message>You have joined successfully.</message>
+            <meeting_id>{$params->getMeetingID()}</meeting_id>
+            <user_id>{$params->getUserID()}</user_id>
+            <auth_token>14mm5y3eurjw</auth_token>
+            <session_token>ai1wqj8wb6s7rnk0</session_token>
+            <url>https://yourserver.com/client/BigBlueButton.html?sessionToken=ai1wqj8wb6s7rnk0</url>
+        </response>";
+
+        $this->transport->method('request')->willReturn(new TransportResponse($xml, null));
+
+        $response = $this->bbb->joinMeeting($params);
+
+        $this->assertEquals($params->getMeetingID(), $response->getMeetingId());
+        $this->assertEquals($params->getUserID(), $response->getUserId());
+        $this->assertEquals('14mm5y3eurjw', $response->getAuthToken());
+        $this->assertEquals('ai1wqj8wb6s7rnk0', $response->getSessionToken());
+        $this->assertEquals('', $response->getGuestStatus());
+        $this->assertEquals('https://yourserver.com/client/BigBlueButton.html?sessionToken=ai1wqj8wb6s7rnk0', $response->getUrl());
+        $this->assertTrue($response->isSuccessfullyJoined());
+        $this->assertFalse($response->isSessionInvalid());
+        $this->assertFalse($response->isServerError());
+        $this->assertFalse($response->isGuestDeny());
+    }
+
     /* End Meeting */
 
     /**
@@ -203,6 +234,24 @@ class BigBlueButtonTest extends TestCase
             }
             $this->assertStringContainsString(\rawurlencode($key) . '=' . rawurlencode($value), $url);
         }
+    }
+
+    public function testEndMeeting()
+    {
+        $data   = $this->generateEndMeetingParams();
+        $params = $this->getEndMeetingMock($data);
+        $xml    = '<response>
+            <returncode>SUCCESS</returncode>
+            <messageKey>sentEndMeetingRequest</messageKey>
+            <message>foobar</message>
+        </response>';
+
+        $this->transport->method('request')->willReturn(new TransportResponse($xml, null));
+
+        $response = $this->bbb->endMeeting($params);
+
+        $this->assertEquals('foobar', $response->getMessage());
+        $this->assertTrue($response->isEndMeetingRequestSent());
     }
 
     /* Get Meetings */
