@@ -89,10 +89,7 @@ final class PsrHttpClientTransport implements TransportInterface
     private $defaultHeaders;
 
     /**
-     * @param ClientInterface         $httpClient
-     * @param RequestFactoryInterface $requestFactory
-     * @param StreamFactoryInterface  $streamFactory
-     * @param string[]                $defaultHeaders Additional headers to pass on each request.
+     * @param string[] $defaultHeaders Additional headers to pass on each request.
      */
     public function __construct(
         ClientInterface $httpClient,

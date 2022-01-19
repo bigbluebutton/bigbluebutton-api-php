@@ -31,12 +31,7 @@ class DeleteRecordingsParameters extends BaseParameters
      */
     protected $recordID;
 
-    /**
-     * DeleteRecordingsParameters constructor.
-     *
-     * @param $recordingId
-     */
-    public function __construct($recordID)
+    public function __construct(string $recordID)
     {
         $this->recordID = $recordID;
     }
@@ -52,10 +47,9 @@ class DeleteRecordingsParameters extends BaseParameters
 
     /**
      * @deprecated use setRecordID() instead
-     * @param  string                     $recordingId
      * @return DeleteRecordingsParameters
      */
-    public function setRecordingId($recordID)
+    public function setRecordingId(string $recordID)
     {
         $this->recordID = $recordID;
 

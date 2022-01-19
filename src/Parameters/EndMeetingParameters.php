@@ -38,13 +38,7 @@ class EndMeetingParameters extends BaseParameters
      */
     protected $password;
 
-    /**
-     * EndMeetingParameters constructor.
-     *
-     * @param $meetingId
-     * @param $password
-     */
-    public function __construct($meetingID, $password)
+    public function __construct(string $meetingID, string $password)
     {
         $this->password  = $password;
         $this->meetingID = $meetingID;
@@ -61,11 +55,9 @@ class EndMeetingParameters extends BaseParameters
 
     /**
      * @deprecated use setMeetingID()
-     * @param string $meetingId
-     *
-     * @return CreateMeetingParameters
+     * @return EndMeetingParameters
      */
-    public function setMeetingId($meetingID)
+    public function setMeetingId(string $meetingID)
     {
         $this->meetingID = $meetingID;
 

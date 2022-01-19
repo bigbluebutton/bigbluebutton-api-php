@@ -35,27 +35,17 @@ class TransportResponse
      */
     private $sessionId;
 
-    /**
-     * @param string      $body
-     * @param string|null $sessionId
-     */
     public function __construct(string $body, ?string $sessionId)
     {
         $this->body      = $body;
         $this->sessionId = $sessionId;
     }
 
-    /**
-     * @return string
-     */
     public function getBody(): string
     {
         return $this->body;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSessionId(): ?string
     {
         return $this->sessionId;

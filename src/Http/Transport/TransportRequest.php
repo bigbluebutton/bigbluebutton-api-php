@@ -40,11 +40,6 @@ class TransportRequest
      */
     private $contentType;
 
-    /**
-     * @param string $url
-     * @param string $payload
-     * @param string $contentType
-     */
     public function __construct(string $url, string $payload, string $contentType)
     {
         $this->url         = $url;
@@ -52,25 +47,16 @@ class TransportRequest
         $this->contentType = $contentType;
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @return string
-     */
     public function getPayload(): string
     {
         return $this->payload;
     }
 
-    /**
-     * @return string
-     */
     public function getContentType(): string
     {
         return $this->contentType;

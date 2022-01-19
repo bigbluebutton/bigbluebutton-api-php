@@ -113,6 +113,6 @@ abstract class BaseResponseAsJson
      */
     public function hasChecksumError(): bool
     {
-        return $this->failed() && $this->getMessageKey() == self::CHECKSUM_ERROR;
+        return $this->failed() && $this->getMessageKey() === self::CHECKSUM_ERROR;
     }
 }

@@ -38,13 +38,7 @@ class PublishRecordingsParameters extends BaseParameters
      */
     protected $publish;
 
-    /**
-     * PublishRecordingsParameters constructor.
-     *
-     * @param $recordID
-     * @param $publish
-     */
-    public function __construct($recordID, $publish)
+    public function __construct(string $recordID, bool $publish)
     {
         $this->recordID    = $recordID;
         $this->publish     = $publish;
@@ -61,10 +55,9 @@ class PublishRecordingsParameters extends BaseParameters
 
     /**
      * @deprecated use setRecordID() instead
-     * @param  string                      $recordingId
      * @return PublishRecordingsParameters
      */
-    public function setRecordingId($recordID)
+    public function setRecordingId(string $recordID)
     {
         $this->recordID = $recordID;
 
