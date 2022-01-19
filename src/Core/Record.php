@@ -37,11 +37,7 @@ class Record
     private $playbackLength;
     private $metas;
 
-    /**
-     * Record constructor.
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->recordId           = $xml->recordID->__toString();
         $this->meetingId          = $xml->meetingID->__toString();

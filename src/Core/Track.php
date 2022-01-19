@@ -49,12 +49,7 @@ class Track
      */
     private $source;
 
-    /**
-     * Track constructor.
-     *
-     * @param $track
-     */
-    public function __construct($track)
+    public function __construct(object $track)
     {
         $this->href   = $track->href;
         $this->kind   = $track->kind;

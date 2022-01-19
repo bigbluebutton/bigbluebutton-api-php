@@ -30,12 +30,7 @@ class HooksDestroyParameters extends BaseParameters
      */
     protected $hookID;
 
-    /**
-     * HooksDestroyParameters constructor.
-     *
-     * @param $hookId
-     */
-    public function __construct($hookID)
+    public function __construct(string $hookID)
     {
         $this->hookID  = $hookID;
     }
@@ -51,10 +46,9 @@ class HooksDestroyParameters extends BaseParameters
 
     /**
      * @deprecated use setHookID() instead
-     * @param  string                 $hookId
      * @return HooksDestroyParameters
      */
-    public function setHookId($hookID)
+    public function setHookId(string $hookID)
     {
         $this->hookID = $hookID;
 

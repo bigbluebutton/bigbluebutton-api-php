@@ -73,7 +73,7 @@ class JoinMeetingParameters extends UserDataParameters
     protected $password;
 
     /**
-     * @var string
+     * @var int
      */
     protected $createTime;
 
@@ -139,7 +139,7 @@ class JoinMeetingParameters extends UserDataParameters
      * @param string $fullName
      * @param string $password
      */
-    public function __construct($meetingID, $fullName, $password)
+    public function __construct(string $meetingID, string $fullName, string $password)
     {
         $this->meetingID = $meetingID;
         $this->fullName  = $fullName;
@@ -157,11 +157,9 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use setMeetingID()
-     * @param string $meetingId
-     *
      * @return JoinMeetingParameters
      */
-    public function setMeetingId($meetingID)
+    public function setMeetingId(string $meetingID)
     {
         $this->meetingID = $meetingID;
 
@@ -170,7 +168,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use getCreateTime()
-     * @return string
+     * @return int
      */
     public function getCreationTime()
     {
@@ -179,11 +177,9 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use setCreateTime()
-     * @param int $createTime
-     *
      * @return JoinMeetingParameters
      */
-    public function setCreationTime($createTime)
+    public function setCreationTime(int $createTime)
     {
         $this->createTime = $createTime;
 
@@ -201,11 +197,9 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use setFullName()
-     * @param string $username
-     *
      * @return JoinMeetingParameters
      */
-    public function setUsername($fullName)
+    public function setUsername(string $fullName)
     {
         $this->fullName = $fullName;
 
@@ -223,11 +217,9 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use setUserID()
-     * @param string $userId
-     *
      * @return JoinMeetingParameters
      */
-    public function setUserId($userID)
+    public function setUserId(string $userID)
     {
         $this->userID = $userID;
 

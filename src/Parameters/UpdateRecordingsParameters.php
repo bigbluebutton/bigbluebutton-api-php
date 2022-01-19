@@ -31,12 +31,7 @@ class UpdateRecordingsParameters extends MetaParameters
      */
     protected $recordID;
 
-    /**
-     * UpdateRecordingsParameters constructor.
-     *
-     * @param $recordID
-     */
-    public function __construct($recordID)
+    public function __construct(string $recordID)
     {
         $this->recordID = $recordID;
     }
@@ -52,10 +47,9 @@ class UpdateRecordingsParameters extends MetaParameters
 
     /**
      * @deprecated use setRecordID() instead
-     * @param  string                     $recordingId
      * @return UpdateRecordingsParameters
      */
-    public function setRecordingId($recordID)
+    public function setRecordingId(string $recordID)
     {
         $this->recordID = $recordID;
 

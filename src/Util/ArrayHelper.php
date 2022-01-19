@@ -29,9 +29,7 @@ final class ArrayHelper
      * Replacement for the original array_merge_recursive which does not preserve keys when numeric (like the cURL options).
      *
      * @link https://www.php.net/manual/en/function.array-merge-recursive.php
-     * @param  bool  $reorderNested Reorder nested array starting from the second level instead of merging them.
-     * @param  array ...$arrays
-     * @return array
+     * @param bool $reorderNested Reorder nested array starting from the second level instead of merging them.
      */
     public static function mergeRecursive(bool $reorderNested, array ...$arrays): array
     {

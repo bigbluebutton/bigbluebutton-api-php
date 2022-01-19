@@ -65,11 +65,7 @@ class Attendee
      */
     private $clientType;
 
-    /**
-     * Attendee constructor.
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->userId          = $xml->userID->__toString();
         $this->fullName        = $xml->fullName->__toString();

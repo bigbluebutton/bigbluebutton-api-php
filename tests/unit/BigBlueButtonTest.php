@@ -20,9 +20,14 @@ namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
 use BigBlueButton\Exceptions\ConfigException;
+use BigBlueButton\Exceptions\NetworkException;
+use BigBlueButton\Exceptions\ParsingException;
+use BigBlueButton\Http\Transport\TransportInterface;
+use BigBlueButton\Http\Transport\TransportResponse;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class BigBlueButtonTest
@@ -30,6 +35,9 @@ use BigBlueButton\Parameters\PublishRecordingsParameters;
  */
 class BigBlueButtonTest extends TestCase
 {
+    /** @var MockObject */
+    private $transport;
+
     /**
      * @var BigBlueButton
      */
@@ -42,7 +50,8 @@ class BigBlueButtonTest extends TestCase
     {
         parent::setUp();
 
-        $this->bbb = new BigBlueButton('http://localhost/');
+        $this->transport = $this->createMock(TransportInterface::class);
+        $this->bbb       = new BigBlueButton('http://localhost/', null, $this->transport);
     }
 
     public function testMissingUrl()
@@ -57,6 +66,89 @@ class BigBlueButtonTest extends TestCase
         } finally {
             putenv('BBB_SERVER_BASE_URL=' . $previousEnvironmentValue);
         }
+    }
+
+    public function testNetworkFailure()
+    {
+        $this->expectException(NetworkException::class);
+
+        $this->transport->method('request')->willThrowException(new NetworkException());
+
+        $params = $this->generateCreateParams();
+
+        $this->bbb->createMeeting($this->getCreateMock($params));
+    }
+
+    public function testInvalidXMLResponse()
+    {
+        $this->expectException(ParsingException::class);
+
+        $this->transport->method('request')->willReturn(new TransportResponse('foobar', null));
+
+        $params = $this->generateCreateParams();
+
+        $this->bbb->createMeeting($this->getCreateMock($params));
+    }
+
+    public function testJSessionId()
+    {
+        $id = 'foobar';
+        $this->transport->method('request')->willReturn(new TransportResponse('<x></x>', $id));
+
+        $params = $this->generateCreateParams();
+
+        $this->bbb->createMeeting($this->getCreateMock($params));
+
+        $this->assertEquals($id, $this->bbb->getJSessionId());
+    }
+
+    public function testApiVersion()
+    {
+        $apiVersion = '2.0';
+        $xml        = "<response>
+            <returncode>SUCCESS</returncode>
+            <version>2.0</version>
+            <apiVersion>$apiVersion</apiVersion>
+            <bbbVersion/>
+        </response>";
+        $this->transport->method('request')->willReturn(new TransportResponse($xml, null));
+
+        $response = $this->bbb->getApiVersion();
+
+        $this->assertEquals($apiVersion, $response->getVersion());
+    }
+
+    public function testIsConnectionWorking()
+    {
+        $xmlSuccess = '<response>
+            <returncode>SUCCESS</returncode>
+            <running>false</running>
+        </response>';
+        $xmlFailure = '<response>
+            <returncode>FAILED</returncode>
+            <running>false</running>
+        </response>';
+        $xmlChecksumError = '<response>
+            <returncode>FAILED</returncode>
+            <messageKey>checksumError</messageKey>
+        </response>';
+
+        $this->transport->method('request')->willReturnOnConsecutiveCalls(
+            new TransportResponse($xmlSuccess, null),
+            new TransportResponse($xmlFailure, null),
+            new TransportResponse($xmlChecksumError, null),
+            new TransportResponse('', null)
+        );
+
+        $this->assertTrue($this->bbb->isConnectionWorking(), 'Connection is working');
+
+        $this->assertFalse($this->bbb->isConnectionWorking(), 'Connection is not working, because failure is returned');
+
+        $this->assertFalse($this->bbb->isConnectionWorking(), 'Connection is not working, because checksum error');
+        $this->assertEquals(BigBlueButton::CONNECTION_ERROR_SECRET, $this->bbb->getConnectionError());
+
+        $this->assertFalse($this->bbb->isConnectionWorking(), 'Connection is not working, because XML is invalid');
+        $this->assertEquals(BigBlueButton::CONNECTION_ERROR_BASEURL, $this->bbb->getConnectionError());
     }
 
     /* Create Meeting */

@@ -25,6 +25,9 @@ abstract class BaseParameters
 {
     protected $ignoreProperties = [];
 
+    /**
+     * @return $this|bool|mixed|null
+     */
     public function __call(string $name, array $arguments)
     {
         if (!preg_match('/^(get|is|set)[A-Z]/', $name)) {
@@ -37,8 +40,13 @@ abstract class BaseParameters
         } elseif (strpos($name, 'set') === 0) {
             return $this->setter(lcfirst(substr($name, 3)), $arguments);
         }
+
+        return null;
     }
 
+    /**
+     * @return mixed
+     */
     protected function getter(string $name)
     {
         if (property_exists($this, $name)) {
@@ -48,7 +56,7 @@ abstract class BaseParameters
         }
     }
 
-    protected function booleanGetter(string $name)
+    protected function booleanGetter(string $name): ?bool
     {
         $value = $this->getter($name);
 
@@ -59,6 +67,9 @@ abstract class BaseParameters
         return $value;
     }
 
+    /**
+     * @return static
+     */
     protected function setter(string $name, array $arguments)
     {
         if (!property_exists($this, $name)) {

@@ -40,16 +40,11 @@ class HooksCreateParameters extends BaseParameters
     protected $meetingID;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $getRaw;
 
-    /**
-     * HooksCreateParameters constructor.
-     *
-     * @param $callbackUrl
-     */
-    public function __construct($callbackURL)
+    public function __construct(string $callbackURL)
     {
         $this->callbackURL = $callbackURL;
     }
@@ -65,10 +60,9 @@ class HooksCreateParameters extends BaseParameters
 
     /**
      * @deprecated use setCallbackURL() instead
-     * @param  string                $callbackUrl
      * @return HooksCreateParameters
      */
-    public function setCallbackUrl($callbackURL)
+    public function setCallbackUrl(string $callbackURL)
     {
         $this->callbackURL = $callbackURL;
 
@@ -86,10 +80,9 @@ class HooksCreateParameters extends BaseParameters
 
     /**
      * @deprecated use setMeetingID() instead
-     * @param  string                $meetingId
      * @return HooksCreateParameters
      */
-    public function setMeetingId($meetingID)
+    public function setMeetingId(string $meetingID)
     {
         $this->meetingID = $meetingID;
 
@@ -98,6 +91,7 @@ class HooksCreateParameters extends BaseParameters
 
     /**
      * @deprecated use isGetRaw()
+     * @return bool
      */
     public function getRaw()
     {

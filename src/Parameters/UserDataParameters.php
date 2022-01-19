@@ -30,21 +30,18 @@ abstract class UserDataParameters extends BaseParameters
     private $userData = [];
 
     /**
-     * @param $key
-     * @return mixed
+     * @return string|bool
      */
-    public function getUserData($key)
+    public function getUserData(string $key)
     {
         return $this->userData[$key];
     }
 
     /**
-     * @param string $key
-     * @param string $value
-     *
+     * @param  string|bool $value
      * @return $this
      */
-    public function addUserData($key, $value)
+    public function addUserData(string $key, $value)
     {
         $this->userData[$key] = $value;
 
