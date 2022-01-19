@@ -129,14 +129,6 @@ final class CurlTransport implements TransportInterface
         return new TransportResponse($data, $sessionId);
     }
 
-    private static function buildCookieOptions(string $cookieFilePath): array
-    {
-        return [
-            CURLOPT_COOKIEFILE => $cookieFilePath,
-            CURLOPT_COOKIEJAR  => $cookieFilePath,
-        ];
-    }
-
     private static function buildPostOptions(TransportRequest $request): array
     {
         $options = [];
