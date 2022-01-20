@@ -21,7 +21,6 @@ namespace BigBlueButton;
 use BigBlueButton\Parameters\CreateMeetingParameters as CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters as JoinMeetingParameters;
-use BigBlueButton\Parameters\SetConfigXMLParameters as SetConfigXMLParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters as UpdateRecordingsParameters;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
@@ -263,26 +262,6 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $updateRecordingsParams = new UpdateRecordingsParameters($params['recordID']);
 
         return $updateRecordingsParams->addMeta('presenter', $params['meta_presenter']);
-    }
-
-    /**
-     * @return array
-     */
-    protected function generateSetConfigXMLParams()
-    {
-        return [
-            'meetingID' => $this->faker->uuid,
-        ];
-    }
-
-    /**
-     * @param $params array
-     *
-     * @return SetConfigXMLParameters
-     */
-    protected function getSetConfigXMLMock($params)
-    {
-        return new SetConfigXMLParameters($params['meetingID']);
     }
 
     // Load fixtures

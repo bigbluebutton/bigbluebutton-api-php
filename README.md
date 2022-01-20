@@ -25,8 +25,6 @@ Inc.**
         * [Create a meeting](#create-a-meeting)
         * [Join a meeting](#join-a-meeting)
         * [End a meeting](#end-a-meeting)
-        * [Get default config](#get-default-config)
-        * [Set default config](#set-default-config)
     * [Monitoring](#monitoring)
         * [Get a list of meetings](#get-a-list-of-meetings)
         * [Is a meeting running?](#is-a-meeting-running)
@@ -176,36 +174,6 @@ $endMeetingParams = new EndMeetingParameters($meetingID, $moderator_password);
 $response = $bbb->endMeeting($endMeetingParams);
 ```
 
-#### Get default config
-> :warning:  This API call does not have any effect since BBB 2.2 and was removed from BBB 2.3. Deprecated starting from version 4.0 of this library and to be removed in 4.1.
-
-```php
-$response = $bbb->getDefaultConfigXML();
-
-if ($response->failed()) {
-    // error handling
-}
-
-$response->getRawXml();
-```
-
-#### Set default config
-> :warning:  This API call does not have any effect since BBB 2.2 and was removed from BBB 2.3. Deprecated starting from version 4.0 of this library and to be removed in 4.1.
-
-```php
-use BigBlueButton\Parameters\SetConfigXMLParameters;
-
-$setConfigXmlParams = new SetConfigXMLParameters($meetingId);
-$setConfigXmlParams->setRawXml($rawXml);
-
-$response = $bbb->setConfigXML($setConfigXmlParams);
-
-if ($response->failed()) {
-    // error handling
-}
-
-$response->getToken();
-```
 
 ### Monitoring
 #### Get a list of meetings
@@ -468,12 +436,12 @@ final class CustomTransport implements TransportInterface
         $contentType = $request->getContentType();
         // aka request body
         $payload = $request->getPayload();
-        
+
         // [...]
-        
+
         return new TransportResponse($reponseBody, $jsessionId);
-     } 
- } 
+     }
+ }
 ~~~
 
 Your `TranportInterface` implementation must use all values provided by the `TransportRequest` object passed (currently content type, URL and payload (body)).

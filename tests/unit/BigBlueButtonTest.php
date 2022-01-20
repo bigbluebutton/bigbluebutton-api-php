@@ -188,15 +188,35 @@ class BigBlueButtonTest extends TestCase
         }
     }
 
-    /* Get Default Config XML */
-
-    /**
-     * @group legacy
-     */
-    public function testGetDefaultConfigXMLUrl()
+    public function testJoinMeeting()
     {
-        $url = $this->bbb->getDefaultConfigXMLUrl();
-        $this->assertStringContainsString(ApiMethod::GET_DEFAULT_CONFIG_XML, $url);
+        $joinMeetingParams = $this->generateJoinMeetingParams();
+        $params            = $this->getJoinMeetingMock($joinMeetingParams);
+        $xml               = "<response>
+            <returncode>SUCCESS</returncode>
+            <messageKey>successfullyJoined</messageKey>
+            <message>You have joined successfully.</message>
+            <meeting_id>{$params->getMeetingID()}</meeting_id>
+            <user_id>{$params->getUserID()}</user_id>
+            <auth_token>14mm5y3eurjw</auth_token>
+            <session_token>ai1wqj8wb6s7rnk0</session_token>
+            <url>https://yourserver.com/client/BigBlueButton.html?sessionToken=ai1wqj8wb6s7rnk0</url>
+        </response>";
+
+        $this->transport->method('request')->willReturn(new TransportResponse($xml, null));
+
+        $response = $this->bbb->joinMeeting($params);
+
+        $this->assertEquals($params->getMeetingID(), $response->getMeetingId());
+        $this->assertEquals($params->getUserID(), $response->getUserId());
+        $this->assertEquals('14mm5y3eurjw', $response->getAuthToken());
+        $this->assertEquals('ai1wqj8wb6s7rnk0', $response->getSessionToken());
+        $this->assertEquals('', $response->getGuestStatus());
+        $this->assertEquals('https://yourserver.com/client/BigBlueButton.html?sessionToken=ai1wqj8wb6s7rnk0', $response->getUrl());
+        $this->assertTrue($response->isSuccessfullyJoined());
+        $this->assertFalse($response->isSessionInvalid());
+        $this->assertFalse($response->isServerError());
+        $this->assertFalse($response->isGuestDeny());
     }
 
     /* End Meeting */
@@ -216,12 +236,84 @@ class BigBlueButtonTest extends TestCase
         }
     }
 
+    public function testEndMeeting()
+    {
+        $data   = $this->generateEndMeetingParams();
+        $params = $this->getEndMeetingMock($data);
+        $xml    = '<response>
+            <returncode>SUCCESS</returncode>
+            <messageKey>sentEndMeetingRequest</messageKey>
+            <message>foobar</message>
+        </response>';
+
+        $this->transport->method('request')->willReturn(new TransportResponse($xml, null));
+
+        $response = $this->bbb->endMeeting($params);
+
+        $this->assertEquals('foobar', $response->getMessage());
+        $this->assertTrue($response->isEndMeetingRequestSent());
+    }
+
     /* Get Meetings */
 
     public function testGetMeetingsUrl()
     {
         $url = $this->bbb->getMeetingsUrl();
         $this->assertStringContainsString(ApiMethod::GET_MEETINGS, $url);
+    }
+
+    public function testGetMeetings()
+    {
+        $xml    = '<response>
+            <returncode>SUCCESS</returncode>
+            <meetings>
+                <meeting>
+                    <meetingName>Demo Meeting</meetingName>
+                    <meetingID>Demo Meeting ID</meetingID>
+                    <internalMeetingID>12345</internalMeetingID>
+                    <createTime>1531241258036</createTime>
+                    <createDate>Tue Jul 10 16:47:38 UTC 2018</createDate>
+                    <voiceBridge>70066</voiceBridge>
+                    <dialNumber>613-555-1234</dialNumber>
+                    <attendeePW>ap</attendeePW>
+                    <moderatorPW>mp</moderatorPW>
+                    <running>false</running>
+                    <duration>0</duration>
+                    <hasUserJoined>false</hasUserJoined>
+                    <recording>false</recording>
+                    <hasBeenForciblyEnded>false</hasBeenForciblyEnded>
+                    <startTime>1531241258074</startTime>
+                    <endTime>0</endTime>
+                    <participantCount>0</participantCount>
+                    <listenerCount>0</listenerCount>
+                    <voiceParticipantCount>0</voiceParticipantCount>
+                    <videoCount>0</videoCount>
+                    <maxUsers>0</maxUsers>
+                    <moderatorCount>0</moderatorCount>
+                    <attendees />
+                    <metadata />
+                    <isBreakout>false</isBreakout>
+                </meeting>
+            </meetings>
+        </response>';
+
+        $this->transport->method('request')->willReturn(new TransportResponse($xml, null));
+
+        $response = $this->bbb->getMeetings();
+
+        $this->assertCount(1, $response->getMeetings());
+        $this->assertEquals('Demo Meeting', $response->getMeetings()[0]->getMeetingName());
+        $this->assertEquals('Demo Meeting ID', $response->getMeetings()[0]->getMeetingId());
+        $this->assertEquals('12345', $response->getMeetings()[0]->getInternalMeetingId());
+        $this->assertEquals(1531241258036, $response->getMeetings()[0]->getCreationTime());
+        $this->assertEquals('Tue Jul 10 16:47:38 UTC 2018', $response->getMeetings()[0]->getCreationDate());
+        $this->assertEquals('70066', $response->getMeetings()[0]->getVoiceBridge());
+        $this->assertEquals('613-555-1234', $response->getMeetings()[0]->getDialNumber());
+        $this->assertEquals('ap', $response->getMeetings()[0]->getAttendeePassword());
+        $this->assertEquals('mp', $response->getMeetings()[0]->getModeratorPassword());
+        $this->assertEquals(false, $response->getMeetings()[0]->isRunning());
+        $this->assertEquals(0, $response->getMeetings()[0]->getDuration());
+        $this->assertEquals(false, $response->getMeetings()[0]->hasUserJoined());
     }
 
     /* Get meeting info */

@@ -30,20 +30,6 @@ class ApiMethod
     public const IS_MEETING_RUNNING        = 'isMeetingRunning';
     public const GET_MEETING_INFO          = 'getMeetingInfo';
     public const GET_MEETINGS              = 'getMeetings';
-    /**
-     * @deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
-     */
-    public const GET_DEFAULT_CONFIG_XML    = 'getDefaultConfigXML';
-    /**
-     * @deprecated since 4.0 and will be removed in 4.1. The setConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
-     */
-    public const SET_CONFIG_XML            = 'setConfigXML';
-    /**
-     * Note: Unused in the whole project.
-     *
-     * @deprecated since 4.0 and will be removed in 4.1. The configXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
-     */
-    public const CONFIG_XML                = 'configXML';
     public const SIGN_OUT                  = 'signOut';
     public const GET_RECORDINGS            = 'getRecordings';
     public const PUBLISH_RECORDINGS        = 'publishRecordings';

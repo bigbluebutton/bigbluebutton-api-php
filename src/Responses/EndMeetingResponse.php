@@ -27,22 +27,6 @@ class EndMeetingResponse extends BaseResponse
     const KEY_SET_END_MEETING_REQUEST = 'sentEndMeetingRequest';
 
     /**
-     * @return string
-     */
-    public function getMessageKey()
-    {
-        return $this->rawXml->messageKey->__toString();
-    }
-
-    /**
-     * @return string
-     */
-    public function getMessage()
-    {
-        return $this->rawXml->message->__toString();
-    }
-
-    /**
      * @return bool
      */
     public function isEndMeetingRequestSent(): bool

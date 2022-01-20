@@ -38,13 +38,11 @@ use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
-use BigBlueButton\Parameters\SetConfigXMLParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\DeleteRecordingsResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
-use BigBlueButton\Responses\GetDefaultConfigXMLResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
@@ -56,7 +54,6 @@ use BigBlueButton\Responses\HooksListResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
-use BigBlueButton\Responses\SetConfigXMLResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 use SimpleXMLElement;
@@ -182,8 +179,6 @@ class BigBlueButton
     /* __________________ BBB ADMINISTRATION METHODS _________________ */
     /* The methods in the following section support the following categories of the BBB API:
     -- create
-    -- getDefaultConfigXML
-    -- setConfigXML
     -- join
     -- end
     */
@@ -210,62 +205,8 @@ class BigBlueButton
     }
 
     /**
-     * @return string
-     * @deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
-     */
-    public function getDefaultConfigXMLUrl()
-    {
-        @trigger_error(sprintf('"%s()" is deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->urlBuilder->buildUrl(ApiMethod::GET_DEFAULT_CONFIG_XML);
-    }
-
-    /**
-     * @return GetDefaultConfigXMLResponse
-     * @throws NetworkException
-     * @throws ParsingException
-     * @throws RuntimeException
-     * @deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
-     */
-    public function getDefaultConfigXML()
-    {
-        @trigger_error(sprintf('"%s()" is deprecated since 4.0 and will be removed in 4.1. The getDefaultConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.', __METHOD__), E_USER_DEPRECATED);
-
-        $xml = $this->processXmlResponse($this->getDefaultConfigXMLUrl());
-
-        return new GetDefaultConfigXMLResponse($xml);
-    }
-
-    /**
-     * @return string
-     * @deprecated since 4.0 and will be removed in 4.1. The setConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
-     */
-    public function setConfigXMLUrl()
-    {
-        @trigger_error(sprintf('"%s()" is deprecated since 4.0 and will be removed in 4.1. The setConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->urlBuilder->buildUrl(ApiMethod::SET_CONFIG_XML, '', false);
-    }
-
-    /**
-     * @return SetConfigXMLResponse
-     * @throws NetworkException
-     * @throws ParsingException
-     * @throws RuntimeException
-     * @deprecated since 4.0 and will be removed in 4.1. The setConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.
-     */
-    public function setConfigXML(SetConfigXMLParameters $setConfigXMLParams)
-    {
-        @trigger_error(sprintf('"%s()" is deprecated since 4.0 and will be removed in 4.1. The setConfigXML API was related to the old Flash client which is no longer available since BigBlueButton 2.2. In BigBlueButton 2.3 the whole API call was removed.', __METHOD__), E_USER_DEPRECATED);
-
-        $setConfigXMLPayload = $this->urlBuilder->buildQs(ApiMethod::SET_CONFIG_XML, $setConfigXMLParams->getHTTPQuery());
-
-        $xml = $this->processXmlResponse($this->setConfigXMLUrl(), $setConfigXMLPayload, 'application/x-www-form-urlencoded');
-
-        return new SetConfigXMLResponse($xml);
-    }
-
-    /**
+     * @param JoinMeetingParameters $joinMeetingParams
+     *
      * @return string
      */
     public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams)

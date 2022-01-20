@@ -199,45 +199,6 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
         $this->assertNotEmpty($joinMeeting->getUrl());
     }
 
-    /* Get Default Config XML */
-
-    /**
-     * @group functional-legacy
-     */
-    public function testGetDefaultConfigXML()
-    {
-        $result = $this->bbb->getDefaultConfigXML();
-        $this->assertNotEmpty($result->getRawXml());
-    }
-
-    /**
-     * @group functional-legacy
-     */
-    public function testSetConfigXML()
-    {
-        // Fetch the Default Config XML file
-        $defaultConfigXMLResponse = $this->bbb->getDefaultConfigXML();
-
-        // Modify the XML file if required
-
-        // Create a meeting
-        $params                = $this->generateCreateParams();
-        $createMeetingResponse = $this->bbb->createMeeting($this->getCreateMock($params));
-        $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
-        $this->assertTrue($createMeetingResponse->success());
-
-        // Execute setConfigXML request
-        $params             = ['meetingID' => $createMeetingResponse->getMeetingId()];
-        $setConfigXMLParams = $this->getSetConfigXMLMock($params);
-        $setConfigXMLParams = $setConfigXMLParams->setRawXml($defaultConfigXMLResponse->getRawXml());
-        $this->assertEquals($setConfigXMLParams->getRawXml(), $defaultConfigXMLResponse->getRawXml());
-
-        $result = $this->bbb->setConfigXML($setConfigXMLParams);
-        $this->assertEquals('SUCCESS', $result->getReturnCode(), $result->getMessage());
-        $this->assertTrue($result->success());
-        $this->assertNotEmpty($result->getToken());
-    }
-
     /* End Meeting */
 
     public function testEndMeeting()
