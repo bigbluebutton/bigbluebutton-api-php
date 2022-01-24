@@ -1309,7 +1309,7 @@ class CreateMeetingParameters extends MetaParameters
             'meetingEndedURL'                        => $this->meetingEndedURL,
             'breakoutRoomsEnabled'                   => $this->isBreakoutRoomsEnabled() ? 'true' : 'false',
             'breakoutRoomsRecord'                    => $this->isBreakoutRoomsRecord() ? 'true' : 'false',
-            'breakoutRoomsPrivateChatEnabled('       => $this->isBreakoutRoomsPrivateChatEnabled() ? 'true' : 'false',
+            'breakoutRoomsPrivateChatEnabled'        => $this->isBreakoutRoomsPrivateChatEnabled() ? 'true' : 'false',
             'endWhenNoModerator'                     => $this->isEndWhenNoModerator() ? 'true' : 'false',
             'meetingKeepEvents'                      => $this->isMeetingKeepEvents() ? 'true' : 'false',
             'meetingLayout'                          => $this->getMeetingLayout() ,
