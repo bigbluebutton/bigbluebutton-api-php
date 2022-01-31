@@ -979,7 +979,7 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @return bool
      */
-    public function isAllowModsToEjectCameras(): bool
+    public function isAllowModsToEjectCameras()
     {
         return $this->allowModsToEjectCameras;
     }
