@@ -107,6 +107,10 @@ namespace BigBlueButton\Parameters;
  * @method $this setLearningDashboardCleanupDelayInMinutes(int $learningDashboardCleanupDelayInMinutes)
  * @method bool|null isAllowModsToEjectCameras()
  * @method $this setAllowModsToEjectCameras(bool $isAllowModsToEjectCameras)
+ * @method bool|null isAllowRequestsWithoutSession()
+ * @method $this setAllowRequestsWithoutSession(bool $isAllowRequestsWithoutSession)
+ * @method bool|null isVirtualBackgroundsDisabled()
+ * @method $this setVirtualBackgroundsDisabled(bool $isVirtualBackgroundsDisabled)
  *
  */
 class CreateMeetingParameters extends MetaParameters
@@ -345,6 +349,16 @@ class CreateMeetingParameters extends MetaParameters
      * @var bool
      */
     protected $allowModsToEjectCameras;
+
+    /**
+     * @var bool
+     */
+    protected $allowRequestsWithoutSession;
+
+    /**
+     * @var bool
+     */
+    protected $virtualBackgroundsDisabled;
 
     /**
      * @var array
