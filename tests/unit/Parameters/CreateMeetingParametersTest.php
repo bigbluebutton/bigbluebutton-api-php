@@ -76,6 +76,8 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['breakoutRoomsEnabled'], $createMeetingParams->isBreakoutRoomsEnabled());
         $this->assertEquals($params['breakoutRoomsPrivateChatEnabled'], $createMeetingParams->isBreakoutRoomsPrivateChatEnabled());
         $this->assertEquals($params['breakoutRoomsRecord'], $createMeetingParams->isBreakoutRoomsRecord());
+        $this->assertEquals($params['allowRequestsWithoutSession'], $createMeetingParams->isAllowRequestsWithoutSession());
+        $this->assertEquals($params['virtualBackgroundsDisabled'], $createMeetingParams->isVirtualBackgroundsDisabled());
 
         // Check values are empty of this is not a breakout room
         $this->assertNull($createMeetingParams->isBreakout());
