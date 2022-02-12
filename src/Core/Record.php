@@ -35,7 +35,10 @@ class Record
     private $playbackType;
     private $playbackUrl;
     private $playbackLength;
-    private $metas;
+    private $metas = [];
+
+    /** @var PlaybackFormat[] */
+    private $playbackFormats = [];
 
     public function __construct(\SimpleXMLElement $xml)
     {
@@ -50,6 +53,10 @@ class Record
         $this->playbackType       = $xml->playback->format->type->__toString();
         $this->playbackUrl        = $xml->playback->format->url->__toString();
         $this->playbackLength     = (int) $xml->playback->format->length->__toString();
+
+        foreach ($xml->playback->children() as $format) {
+            $this->playbackFormats[] = new PlaybackFormat($format);
+        }
 
         foreach ($xml->metadata->children() as $meta) {
             $this->metas[$meta->getName()] = $meta->__toString();
@@ -150,5 +157,13 @@ class Record
     public function getMetas()
     {
         return $this->metas;
+    }
+
+    /**
+     * @return PlaybackFormat[]
+     */
+    public function getPlaybackFormats(): array
+    {
+        return $this->playbackFormats;
     }
 }

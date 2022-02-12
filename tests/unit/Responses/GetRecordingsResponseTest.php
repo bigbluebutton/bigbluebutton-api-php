@@ -41,7 +41,7 @@ class GetRecordingsResponseTest extends TestCase
     {
         $this->assertEquals('SUCCESS', $this->records->getReturnCode());
 
-        $this->assertCount(6, $this->records->getRecords());
+        $this->assertCount(7, $this->records->getRecords());
 
         $aRecord = $this->records->getRecords()[4];
 
@@ -56,6 +56,8 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals('http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getPlaybackUrl());
         $this->assertEquals(86, $aRecord->getPlaybackLength());
         $this->assertEquals(9, sizeof($aRecord->getMetas()));
+
+        $this->assertEquals($aRecord->getPlaybackUrl(), $aRecord->getPlaybackFormats()[0]->getUrl(), 'The default plackback is the first playback child');
     }
 
     public function testRecordMetadataContent()
@@ -79,5 +81,38 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEachGetterValueIsBoolean($aRecord, ['isPublished']);
 
         $this->assertEachGetterValueIsDouble($aRecord, ['getStartTime', 'getEndTime']);
+    }
+
+    public function testMultiplePlaybackFormats()
+    {
+        $record  = $this->records->getRecords()[6];
+        $formats = $record->getPlaybackFormats();
+
+        $this->assertCount(2, $formats);
+
+        $this->assertEquals('podcast', $formats[0]->getType());
+        $this->assertEquals('https://demo.bigbluebutton.org/podcast/ffbfc4cc24428694e8b53a4e144f414052431693-1530718721124/audio.ogg', $formats[0]->getUrl());
+        $this->assertEquals(0, $formats[0]->getProcessingTime());
+        $this->assertEquals(0, $formats[0]->getLength());
+
+        $this->assertEquals('presentation', $formats[1]->getType());
+        $this->assertEquals('https://demo.bigbluebutton.org/playback/presentation/2.0/playback.html?meetingId=ffbfc4cc24428694e8b53a4e144f414052431693-1530718721124', $formats[1]->getUrl());
+        $this->assertEquals(7177, $formats[1]->getProcessingTime());
+        $this->assertEquals(0, $formats[1]->getLength());
+    }
+
+    public function testImagePreviews()
+    {
+        $record  = $this->records->getRecords()[6];
+        $formats = $record->getPlaybackFormats();
+
+        $this->assertTrue($formats[1]->hasImagePreviews());
+
+        $previews = $formats[1]->getImagePreviews();
+
+        $this->assertCount(3, $previews);
+
+        $this->assertEquals('Welcome to', $previews[0]['alt']);
+        $this->assertEquals('https://demo.bigbluebutton.org/presentation/ffbfc4cc24428694e8b53a4e144f414052431693-1530718721124/presentation/d2d9a672040fbde2a47a10bf6c37b6a4b5ae187f-1530718721134/thumbnails/thumb-1.png', $previews[0]['url']);
     }
 }
