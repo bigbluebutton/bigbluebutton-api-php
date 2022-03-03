@@ -96,7 +96,7 @@ class BigBlueButton
     /**
      * @var TransportInterface
      */
-    private $transport;
+    protected $transport;
 
     /**
      * @param  string|null             $baseUrl   (optional) If not given, it will be retrieved from the environment.
