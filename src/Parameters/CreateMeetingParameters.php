@@ -111,6 +111,8 @@ namespace BigBlueButton\Parameters;
  * @method $this setAllowRequestsWithoutSession(bool $isAllowRequestsWithoutSession)
  * @method bool|null isVirtualBackgroundsDisabled()
  * @method $this setVirtualBackgroundsDisabled(bool $isVirtualBackgroundsDisabled)
+ * @method int getUserCameraCap()
+ * @method $this setUserCameraCap(int $cap)
  *
  */
 class CreateMeetingParameters extends MetaParameters
@@ -361,6 +363,11 @@ class CreateMeetingParameters extends MetaParameters
     protected $virtualBackgroundsDisabled;
 
     /**
+     * @var int
+     */
+    protected $userCameraCap;
+
+    /**
      * @var array
      */
     private $presentations = [];
@@ -526,6 +533,24 @@ class CreateMeetingParameters extends MetaParameters
     public function isBreakout()
     {
         return $this->isBreakout;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUserCameraCapDisabled()
+    {
+        return $this->userCameraCap === 0;
+    }
+
+    /**
+     * @return CreateMeetingParameters
+     */
+    public function disableUserCameraCap()
+    {
+        $this->userCameraCap = 0;
+
+        return $this;
     }
 
     /**
