@@ -117,6 +117,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'breakoutRoomsRecord'                       => $this->faker->boolean(50),
             'allowRequestsWithoutSession'               => $this->faker->boolean(50),
             'virtualBackgroundsDisabled'                => $this->faker->boolean(50),
+            'userCameraCap'                             => $this->faker->numberBetween(1, 5),
         ];
     }
 
@@ -186,7 +187,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setBreakoutRoomsPrivateChatEnabled($params['breakoutRoomsPrivateChatEnabled'])
             ->setBreakoutRoomsRecord($params['breakoutRoomsRecord'])
             ->setAllowRequestsWithoutSession($params['allowRequestsWithoutSession'])
-            ->setVirtualBackgroundsDisabled($params['virtualBackgroundsDisabled']);
+            ->setVirtualBackgroundsDisabled($params['virtualBackgroundsDisabled'])
+            ->setUserCameraCap($params['userCameraCap']);
     }
 
     /**
