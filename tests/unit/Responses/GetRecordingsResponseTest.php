@@ -101,7 +101,7 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals(0, $formats[1]->getLength());
     }
 
-    public function testImagePreviews()
+    public function testImagePreviews(): void
     {
         $record  = $this->records->getRecords()[6];
         $formats = $record->getPlaybackFormats();
