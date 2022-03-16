@@ -158,7 +158,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
-    public function testUserCameraCap()
+    public function testUserCameraCap(): void
     {
         $params              = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);

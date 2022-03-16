@@ -538,7 +538,7 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @return bool
      */
-    public function isUserCameraCapDisabled()
+    public function isUserCameraCapDisabled(): bool
     {
         return $this->userCameraCap === 0;
     }
@@ -546,7 +546,7 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @return CreateMeetingParameters
      */
-    public function disableUserCameraCap()
+    public function disableUserCameraCap(): self
     {
         $this->userCameraCap = 0;
 
