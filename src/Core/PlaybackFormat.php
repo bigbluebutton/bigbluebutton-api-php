@@ -35,7 +35,7 @@ class PlaybackFormat
     /** @var int */
     private $length;
 
-    /** @var array */
+    /** @var ImagePreview[] */
     private $imagePreviews;
 
     /** @var \SimpleXMLElement */
@@ -78,7 +78,7 @@ class PlaybackFormat
 
     /**
      *
-     * @return array<int, array{width: int, height: int, alt: string, url: string}>
+     * @return ImagePreview[]
      */
     public function getImagePreviews(): array
     {
@@ -91,12 +91,12 @@ class PlaybackFormat
             foreach ($this->imagePreviewsRaw->children() as $image) {
                 $attributes = $image->attributes();
 
-                $this->imagePreviews[] = [
-                    'width'  => (int) $attributes->width->__toString(),
-                    'height' => (int) $attributes->height->__toString(),
-                    'alt'    => $attributes->alt->__toString(),
-                    'url'    => $image->__toString(),
-                ];
+                $this->imagePreviews[] = new ImagePreview(
+                    (int) $attributes->width->__toString(),
+                    (int) $attributes->height->__toString(),
+                    $attributes->alt->__toString(),
+                    $image->__toString()
+                );
             }
         }
 

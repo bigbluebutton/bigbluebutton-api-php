@@ -112,7 +112,7 @@ class GetRecordingsResponseTest extends TestCase
 
         $this->assertCount(3, $previews);
 
-        $this->assertEquals('Welcome to', $previews[0]['alt']);
-        $this->assertEquals('https://demo.bigbluebutton.org/presentation/ffbfc4cc24428694e8b53a4e144f414052431693-1530718721124/presentation/d2d9a672040fbde2a47a10bf6c37b6a4b5ae187f-1530718721134/thumbnails/thumb-1.png', $previews[0]['url']);
+        $this->assertEquals('Welcome to', $previews[0]->getAlt());
+        $this->assertEquals('https://demo.bigbluebutton.org/presentation/ffbfc4cc24428694e8b53a4e144f414052431693-1530718721124/presentation/d2d9a672040fbde2a47a10bf6c37b6a4b5ae187f-1530718721134/thumbnails/thumb-1.png', $previews[0]->getUrl());
     }
 }
