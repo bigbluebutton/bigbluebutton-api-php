@@ -83,7 +83,7 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEachGetterValueIsDouble($aRecord, ['getStartTime', 'getEndTime']);
     }
 
-    public function testMultiplePlaybackFormats()
+    public function testMultiplePlaybackFormats(): void
     {
         $record  = $this->records->getRecords()[6];
         $formats = $record->getPlaybackFormats();
