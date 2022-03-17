@@ -20,7 +20,6 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Core\GuestPolicy;
-use BigBlueButton\Core\MeetingLayout;
 use BigBlueButton\Parameters\CreateMeetingParameters as CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters as JoinMeetingParameters;

@@ -347,7 +347,6 @@ class CreateMeetingParameters extends MetaParameters
      */
     protected $meetingLayout;
 
-
     /**
      * @var string
      */
@@ -644,7 +643,6 @@ class CreateMeetingParameters extends MetaParameters
     {
         return $this->guestPolicy === self::ALWAYS_ACCEPT_AUTH;
     }
-
 
     /**
      * Ask moderator on join of guests is allowed to enter the meeting, user are allowed to join directly
