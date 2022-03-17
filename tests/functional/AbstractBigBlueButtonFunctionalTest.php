@@ -105,7 +105,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
     /**
      * Test create meeting URL
      */
-    public function testCreateMeetingUrl()
+    public function testCreateMeetingUrl(): void
     {
         $params = $this->generateCreateParams();
         $url    = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
@@ -194,7 +194,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
     /**
      * Test create join meeting URL
      */
-    public function testCreateJoinMeetingUrl()
+    public function testCreateJoinMeetingUrl(): void
     {
         $joinMeetingParams = $this->generateJoinMeetingParams();
         $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
@@ -236,7 +236,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
     /**
      * Test generate end meeting URL
      */
-    public function testCreateEndMeetingUrl()
+    public function testCreateEndMeetingUrl(): void
     {
         $params = $this->generateEndMeetingParams();
         $url    = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
@@ -278,7 +278,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
 
     /* Get Meetings */
 
-    public function testGetMeetingsUrl()
+    public function testGetMeetingsUrl(): void
     {
         $url = $this->bbb->getMeetingsUrl();
         $this->assertStringContainsString(ApiMethod::GET_MEETINGS, $url);
@@ -292,7 +292,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
 
     /* Get meeting info */
 
-    public function testGetMeetingInfoUrl()
+    public function testGetMeetingInfoUrl(): void
     {
         $meeting = $this->createRealMeeting($this->bbb);
 
@@ -309,7 +309,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
         $this->assertTrue($result->success());
     }
 
-    public function testGetRecordingsUrl()
+    public function testGetRecordingsUrl(): void
     {
         $url = $this->bbb->getRecordingsUrl(new GetRecordingsParameters());
         $this->assertStringContainsString(ApiMethod::GET_RECORDINGS, $url);
@@ -322,7 +322,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
         $this->assertTrue($result->success());
     }
 
-    public function testPublishRecordingsUrl()
+    public function testPublishRecordingsUrl(): void
     {
         $url = $this->bbb->getPublishRecordingsUrl(new PublishRecordingsParameters($this->faker->sha1, true));
         $this->assertStringContainsString(ApiMethod::PUBLISH_RECORDINGS, $url);
@@ -335,7 +335,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
         $this->assertTrue($result->failed());
     }
 
-    public function testDeleteRecordingsUrl()
+    public function testDeleteRecordingsUrl(): void
     {
         $url = $this->bbb->getDeleteRecordingsUrl(new DeleteRecordingsParameters($this->faker->sha1));
         $this->assertStringContainsString(ApiMethod::DELETE_RECORDINGS, $url);
@@ -348,7 +348,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
         $this->assertTrue($result->failed());
     }
 
-    public function testUpdateRecordingsUrl()
+    public function testUpdateRecordingsUrl(): void
     {
         $params = $this->generateUpdateRecordingsParams();
         $url    = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));

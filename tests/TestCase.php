@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace BigBlueButton;
 
 use BigBlueButton\Core\GuestPolicy;
+use BigBlueButton\Core\MeetingLayout;
 use BigBlueButton\Parameters\CreateMeetingParameters as CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters as JoinMeetingParameters;
@@ -108,10 +108,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'endWhenNoModerator'                        => $this->faker->boolean(50),
             'endWhenNoModeratorDelayInMinutes'          => $this->faker->numberBetween(1, 100),
             'meetingLayout'                             => $this->faker->randomElement([
-                                                                CreateMeetingParameters::CUSTOM_LAYOUT,
-                                                                CreateMeetingParameters::SMART_LAYOUT,
-                                                                CreateMeetingParameters::PRESENTATION_FOCUS,
-                                                                CreateMeetingParameters::VIDEO_FOCUS
+                                                                MeetingLayout::CUSTOM_LAYOUT,
+                                                                MeetingLayout::SMART_LAYOUT,
+                                                                MeetingLayout::PRESENTATION_FOCUS,
+                                                                MeetingLayout::VIDEO_FOCUS
                                                            ]),
             'learningDashboardEnabled'                  => $this->faker->boolean(50),
             'learningDashboardCleanupDelayInMinutes'    => $this->faker->numberBetween(1, 100),

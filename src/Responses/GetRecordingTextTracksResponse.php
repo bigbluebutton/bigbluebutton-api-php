@@ -22,7 +22,6 @@ use BigBlueButton\Core\Track;
 
 /**
  * Class GetRecordingTextTracksResponse
- *
  * @package BigBlueButton\Responses
  */
 class GetRecordingTextTracksResponse extends BaseResponseAsJson

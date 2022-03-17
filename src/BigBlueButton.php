@@ -566,14 +566,7 @@ class BigBlueButton
         return $response->getBody();
     }
 
-    /**
-     * Public accessor for buildUrl
-     * @param  string $method
-     * @param  string $params
-     * @param  bool   $append
-     * @return string
-     */
-    public function buildUrl($method = '', $params = '', $append = true)
+    public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {
         return $this->urlBuilder->buildUrl($method, $params, $append);
     }

@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace BigBlueButton\Parameters;
+
+use BigBlueButton\Core\GuestPolicy;
+use BigBlueButton\Core\MeetingLayout;
 
 /**
  * @method string getName()
@@ -122,15 +124,39 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    public const ALWAYS_ACCEPT      = 'ALWAYS_ACCEPT';
-    public const ALWAYS_DENY        = 'ALWAYS_DENY';
-    public const ASK_MODERATOR      = 'ASK_MODERATOR';
-    public const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
+    /**
+     * @deprecated Use GuestPolicy::ALWAYS_ACCEPT instead.
+     */
+    public const ALWAYS_ACCEPT      = GuestPolicy::ALWAYS_ACCEPT;
+    /**
+     * @deprecated Use GuestPolicy::ALWAYS_DENY instead.
+     */
+    public const ALWAYS_DENY        = GuestPolicy::ALWAYS_DENY;
+    /**
+     * @deprecated Use GuestPolicy::ASK_MODERATOR instead.
+     */
+    public const ASK_MODERATOR      = GuestPolicy::ASK_MODERATOR;
+    /**
+     * @deprecated Use GuestPolicy::ALWAYS_ACCEPT_AUTH instead.
+     */
+    public const ALWAYS_ACCEPT_AUTH = GuestPolicy::ALWAYS_ACCEPT_AUTH;
 
-    const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
-    const SMART_LAYOUT       = 'SMART_LAYOUT';
-    const PRESENTATION_FOCUS = 'PRESENTATION_FOCUS';
-    const VIDEO_FOCUS        = 'VIDEO_FOCUS';
+    /**
+     * @deprecated Use MeetingLayout::CUSTOM_LAYOUT instead.
+     */
+    public const CUSTOM_LAYOUT      = MeetingLayout::CUSTOM_LAYOUT;
+    /**
+     * @deprecated Use MeetingLayout::SMART_LAYOUT instead.
+     */
+    public const SMART_LAYOUT       = MeetingLayout::SMART_LAYOUT;
+    /**
+     * @deprecated Use MeetingLayout::PRESENTATION_FOCUS instead.
+     */
+    public const PRESENTATION_FOCUS = MeetingLayout::PRESENTATION_FOCUS;
+    /**
+     * @deprecated Use MeetingLayout::VIDEO_FOCUS instead.
+     */
+    public const VIDEO_FOCUS        = MeetingLayout::VIDEO_FOCUS;
 
     /**
      * @var string
@@ -325,7 +351,7 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var string
      */
-    protected $guestPolicy = self::ALWAYS_ACCEPT;
+    protected $guestPolicy = GuestPolicy::ALWAYS_ACCEPT;
 
     /**
      * @var bool
@@ -604,7 +630,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function isGuestPolicyAlwaysDeny()
     {
-        return $this->guestPolicy === self::ALWAYS_DENY;
+        return $this->guestPolicy === GuestPolicy::ALWAYS_DENY;
     }
 
     /**
@@ -612,7 +638,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function setGuestPolicyAlwaysDeny()
     {
-        $this->guestPolicy = self::ALWAYS_DENY;
+        $this->guestPolicy = GuestPolicy::ALWAYS_DENY;
 
         return $this;
     }
@@ -622,7 +648,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function isGuestPolicyAskModerator()
     {
-        return $this->guestPolicy === self::ASK_MODERATOR;
+        return $this->guestPolicy === GuestPolicy::ASK_MODERATOR;
     }
 
     /**
@@ -631,7 +657,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function setGuestPolicyAskModerator()
     {
-        $this->guestPolicy = self::ASK_MODERATOR;
+        $this->guestPolicy = GuestPolicy::ASK_MODERATOR;
 
         return $this;
     }
@@ -641,15 +667,16 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function isGuestPolicyAlwaysAcceptAuth()
     {
-        return $this->guestPolicy === self::ALWAYS_ACCEPT_AUTH;
+        return $this->guestPolicy === GuestPolicy::ALWAYS_ACCEPT_AUTH;
     }
 
     /**
      * Ask moderator on join of guests is allowed to enter the meeting, user are allowed to join directly
+     * @return CreateMeetingParameters
      */
     public function setGuestPolicyAlwaysAcceptAuth()
     {
-        $this->guestPolicy = self::ALWAYS_ACCEPT_AUTH;
+        $this->guestPolicy = GuestPolicy::ALWAYS_ACCEPT_AUTH;
 
         return $this;
     }

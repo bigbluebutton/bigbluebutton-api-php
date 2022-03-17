@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
@@ -18,7 +21,7 @@
  */
 namespace BigBlueButton\Core;
 
-class MeetingLayout
+final class MeetingLayout
 {
     public const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
     public const SMART_LAYOUT       = 'SMART_LAYOUT';
