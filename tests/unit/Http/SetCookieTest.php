@@ -170,10 +170,6 @@ final class SetCookieTest extends TestCase
 
     /**
      * @dataProvider pathMatchProvider
-     *
-     * @param string $cookiePath
-     * @param string $requestPath
-     * @param bool   $isMatch
      */
     public function testMatchesPath(string $cookiePath, string $requestPath, bool $isMatch): void
     {
@@ -199,9 +195,6 @@ final class SetCookieTest extends TestCase
     /**
      * @dataProvider cookieValidateProvider
      *
-     * @param string      $name
-     * @param string|null $value
-     * @param string      $domain
      * @param bool|string $result
      */
     public function testValidatesCookies(string $name, ?string $value, string $domain, $result): void
@@ -401,26 +394,19 @@ final class SetCookieTest extends TestCase
      * @dataProvider cookieParserDataProvider
      *
      * @param string|array $cookie
-     * @param array        $parsed
      */
     public function testParseCookie($cookie, array $parsed): void
     {
-        if (\PHP_VERSION_ID >= 80000) {
-            self::markTestSkipped('This test is possibly using incorrect code and is broken starting from PHP 8. ' .
-                'See https://github.com/littleredbutton/bigbluebutton-api-php/pull/70#discussion_r637602067 and ' .
-                'https://github.com/guzzle/guzzle/issues/2894 for details.');
-        }
-
         foreach ((array) $cookie as $v) {
             $c = SetCookie::fromString($v);
             $p = $c->toArray();
 
             if (isset($p['Expires'])) {
-                // Remove expires values from the assertion if they are relatively equal
-                if (\abs($p['Expires'] != \strtotime((string) $parsed['Expires'])) < 40) {
-                    unset($p['Expires']);
-                    unset($parsed['Expires']);
-                }
+                $delta         = 40;
+                $parsedExpires = \is_numeric($parsed['Expires']) ? $parsed['Expires'] : \strtotime($parsed['Expires']);
+                self::assertLessThan($delta, \abs($p['Expires'] - $parsedExpires), 'Comparing Expires ' . \var_export($p['Expires'], true) . ' : ' . \var_export($parsed, true) . ' | ' . \var_export($p, true));
+                unset($p['Expires']);
+                unset($parsed['Expires']);
             }
 
             if (!empty($parsed)) {
@@ -479,9 +465,6 @@ final class SetCookieTest extends TestCase
 
     /**
      * @dataProvider isExpiredProvider
-     *
-     * @param string $cookie
-     * @param bool   $expired
      */
     public function testIsExpired(string $cookie, bool $expired): void
     {
