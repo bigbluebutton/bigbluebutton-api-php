@@ -11,16 +11,6 @@
          processIsolation="false"
          stopOnFailure="false">
 
-    <php>
-        <!-- Specify the value of your BigBlueButton secret -->
-        <env name="BBB_SECRET" value="8cd8ef52e8e101574e400365b55e11a6"/>
-        <!-- Specify the Server Base URL of your BigBlueButton -->
-        <env name="BBB_SERVER_BASE_URL" value="https://test-install.blindsidenetworks.com/bigbluebutton/"/>
-    </php>
-
-    <log type="coverage-html" target="./coverage"
-         charset='UTF-8' yui='true'/>
-
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src/</directory>
@@ -28,8 +18,14 @@
     </filter>
 
     <testsuites>
-        <testsuite name="BigBlueButton test suit">
-            <directory>./tests/</directory>
+        <testsuite name="BigBlueButton unit test suite">
+            <directory>./tests/unit/</directory>
+        </testsuite>
+        <testsuite name="BigBlueButton integration test suite">
+            <directory>./tests/integration/</directory>
+        </testsuite>
+        <testsuite name="BigBlueButton functional test suite">
+            <directory>./tests/functional/</directory>
         </testsuite>
     </testsuites>
 

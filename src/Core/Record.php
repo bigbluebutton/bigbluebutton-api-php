@@ -31,27 +31,32 @@ class Record
     private $state;
     private $startTime;
     private $endTime;
+    private $participantCount;
     private $playbackType;
     private $playbackUrl;
     private $playbackLength;
-    private $metas;
+    private $metas = [];
 
-    /**
-     * Record constructor.
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    /** @var PlaybackFormat[] */
+    private $playbackFormats = [];
+
+    public function __construct(\SimpleXMLElement $xml)
     {
-        $this->recordId       = $xml->recordID->__toString();
-        $this->meetingId      = $xml->meetingID->__toString();
-        $this->name           = $xml->name->__toString();
-        $this->isPublished    = $xml->published->__toString() === 'true';
-        $this->state          = $xml->state->__toString();
-        $this->startTime      = (float) $xml->startTime->__toString();
-        $this->endTime        = (float) $xml->endTime->__toString();
-        $this->playbackType   = $xml->playback->format->type->__toString();
-        $this->playbackUrl    = $xml->playback->format->url->__toString();
-        $this->playbackLength = (int) $xml->playback->format->length->__toString();
+        $this->recordId           = $xml->recordID->__toString();
+        $this->meetingId          = $xml->meetingID->__toString();
+        $this->name               = $xml->name->__toString();
+        $this->isPublished        = $xml->published->__toString() === 'true';
+        $this->state              = $xml->state->__toString();
+        $this->startTime          = (float) $xml->startTime->__toString();
+        $this->endTime            = (float) $xml->endTime->__toString();
+        $this->participantCount   = (int) $xml->participants->__toString();
+        $this->playbackType       = $xml->playback->format->type->__toString();
+        $this->playbackUrl        = $xml->playback->format->url->__toString();
+        $this->playbackLength     = (int) $xml->playback->format->length->__toString();
+
+        foreach ($xml->playback->children() as $format) {
+            $this->playbackFormats[] = new PlaybackFormat($format);
+        }
 
         foreach ($xml->metadata->children() as $meta) {
             $this->metas[$meta->getName()] = $meta->__toString();
@@ -115,6 +120,15 @@ class Record
     }
 
     /**
+     * @return int Number of participants
+     */
+    public function getParticipantCount()
+    {
+        return $this->participantCount;
+    }
+
+    /**
+     * @deprecated since 4.2. Use getPlaybackFormats() instead.
      * @return string
      */
     public function getPlaybackType()
@@ -123,6 +137,7 @@ class Record
     }
 
     /**
+     * @deprecated since 4.2. Use getPlaybackFormats() instead.
      * @return string
      */
     public function getPlaybackUrl()
@@ -131,6 +146,7 @@ class Record
     }
 
     /**
+     * @deprecated since 4.2. Use getPlaybackFormats() instead.
      * @return string
      */
     public function getPlaybackLength()
@@ -144,5 +160,13 @@ class Record
     public function getMetas()
     {
         return $this->metas;
+    }
+
+    /**
+     * @return PlaybackFormat[]
+     */
+    public function getPlaybackFormats(): array
+    {
+        return $this->playbackFormats;
     }
 }

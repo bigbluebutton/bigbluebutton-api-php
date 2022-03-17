@@ -21,6 +21,9 @@ namespace BigBlueButton\Util;
 /**
  * Class UrlBuilder
  * @package BigBlueButton\Util
+ *
+ * @final since 4.0.
+ * @internal
  */
 class UrlBuilder
 {
@@ -33,13 +36,7 @@ class UrlBuilder
      */
     private $bbbServerBaseUrl;
 
-    /**
-     * UrlBuilder constructor.
-     *
-     * @param $secret
-     * @param $serverBaseUrl
-     */
-    public function __construct($secret, $serverBaseUrl)
+    public function __construct(string $secret, string $serverBaseUrl)
     {
         $this->securitySalt     = $secret;
         $this->bbbServerBaseUrl = $serverBaseUrl;
@@ -48,13 +45,9 @@ class UrlBuilder
     /**
      * Builds an API method URL that includes the url + params + its generated checksum.
      *
-     * @param string  $method
-     * @param string  $params
-     * @param boolean $append
-     *
      * @return string
      */
-    public function buildUrl($method = '', $params = '', $append = true)
+    public function buildUrl(string $method = '', string $params = '', bool $append = true)
     {
         return $this->bbbServerBaseUrl . 'api/' . $method . ($append ? '?' . $this->buildQs($method, $params) : '');
     }
@@ -62,13 +55,17 @@ class UrlBuilder
     /**
      * Builds a query string for an API method URL that includes the params + its generated checksum.
      *
-     * @param string $method
-     * @param string $params
-     *
      * @return string
      */
-    public function buildQs($method = '', $params = '')
+    public function buildQs(string $method = '', string $params = '')
     {
-        return $params . '&checksum=' . sha1($method . $params . $this->securitySalt);
+        // Avoid extra & if we have no params at all
+        if ('' !== $params) {
+            $checksumParam = '&checksum=';
+        } else {
+            $checksumParam = 'checksum=';
+        }
+
+        return $params . $checksumParam . sha1($method . $params . $this->securitySalt);
     }
 }

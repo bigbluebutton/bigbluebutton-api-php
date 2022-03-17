@@ -156,11 +156,7 @@ class Meeting
      */
     private $isBreakout;
 
-    /**
-     * Meeting constructor.
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->rawXml                = $xml;
         $this->meetingId             = $xml->meetingID->__toString();
@@ -383,7 +379,7 @@ class Meeting
      * Moderators of Meeting - Subset of Attendees
      * @return Attendee[]
      */
-    public function getModerators()
+    public function getModerators(): array
     {
         $attendees = $this->getAttendees();
 
@@ -398,7 +394,7 @@ class Meeting
      * Viewers of Meeting - Subset of Attendees
      * @return Attendee[]
      */
-    public function getViewers()
+    public function getViewers(): array
     {
         $attendees = $this->getAttendees();
 

@@ -1,5 +1,5 @@
 {
-  "name": "bigbluebutton/bigbluebutton-api-php",
+  "name": "littleredbutton/bigbluebutton-api-php",
   "type": "library",
   "description": "BigBlueButton PHP API Library for PHP",
   "keywords": [
@@ -14,6 +14,36 @@
       "name": "Ghazi Triki",
       "email": "ghazi.triki@riadvice.tn",
       "role": "Developer"
+    },
+    {
+      "name": "Klaus Herberth",
+      "email": "klaus@jsxc.org",
+      "role": "Developer"
+    },
+    {
+      "name": "Samuel Weirich",
+      "email": "samuel@coding-space.de",
+      "role": "Developer"
+    },
+    {
+      "name": "Jignesh Joisar",
+      "email": "jigneshjoisar@gmail.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Pablo Ogando",
+      "email": "pablo.ogando@teltek.es",
+      "role": "Developer"
+    },
+    {
+      "name": "Alfonso Rodríguez",
+      "email": "arodriguez@teltek.es",
+      "role": "Developer"
+    },
+    {
+      "name": "Felix Jacobi",
+      "email": "felix@jacobi-hamburg.net",
+      "role": "Developer"
     }
   ],
   "repositories": {
@@ -22,27 +52,76 @@
       "type": "composer"
     }
   },
+  "support": {
+    "issues": "https://github.com/littleredbutton/bigbluebutton-api-php/issues",
+    "source": "https://github.com/littleredbutton/bigbluebutton-api-php/",
+    "docs": "https://github.com/littleredbutton/bigbluebutton-api-php/blob/master/README.md"
+  },
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.2",
     "ext-curl": "*",
     "ext-simplexml": "*",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "ext-json": "*"
+  },
+  "suggest": {
+    "psr/http-client-implementation": "To use the PsrHttpClientTransport.",
+    "psr/http-factory-implementation": "To use the PsrHttpClientTransport.",
+    "psr/http-message": "To use the PsrClientHttpTransport.",
+    "symfony/http-client-contracts": "To use the SymfonyHttpClientTransport.",
+    "symfony/http-client": "To use the SymfonyHttpClientTransport."
   },
   "require-dev": {
-    "ext-mbstring": "*",
-    "composer/composer": "^1.10.24",
-    "phpunit/phpunit": "^8.5",
-    "fakerphp/faker": "^1.17",
-    "friendsofphp/php-cs-fixer": "^2.19",
-    "squizlabs/php_codesniffer": "^3.6",
-    "php-coveralls/php-coveralls": "^2.5.2"
-  },
-  "options": {
-    "symlink": false
+    "composer/composer": "^1.10.0",
+    "phpunit/phpunit": "^8",
+    "friendsofphp/php-cs-fixer": "2.*",
+    "squizlabs/php_codesniffer": "3.*",
+    "php-coveralls/php-coveralls": "^2.4.0",
+    "brainmaestro/composer-git-hooks": "^2.8",
+    "vimeo/psalm": "^4.5",
+    "psr/http-client": "^1.0",
+    "psr/http-factory": "^1.0",
+    "psr/http-message": "^1.0",
+    "symfony/dotenv": "^3.4|^4.0|^5.0",
+    "symfony/http-client-contracts": "^1.1|^2.0",
+    "symfony/http-client": "^4.4|^5.0",
+    "symfony/process": "^3.4|^4.0|^5.0",
+    "nyholm/psr7": "^1.4",
+    "fakerphp/faker": "^1.14"
   },
   "autoload": {
     "psr-4": {
-      "BigBlueButton\\": "src"
+      "BigBlueButton\\": ["src", "tests/integration"]
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BigBlueButton\\Tests\\Functional\\": ["tests/functional"]
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit  --testsuite=\"BigBlueButton unit test suite\"",
+    "test-integration": "vendor/bin/phpunit  --testsuite=\"BigBlueButton integration test suite\"",
+    "test-functional": "vendor/bin/phpunit --testsuite=\"BigBlueButton functional test suite\" --exclude-group=functional-legacy",
+    "cs-fix": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+    "cs-test": "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes",
+    "psalm": "psalm --threads=1",
+    "psalm-clear": "psalm --clear-cache && psalm --clear-global-cache",
+    "psalm-fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType",
+    "post-install-cmd": "vendor/bin/cghooks add --ignore-lock",
+    "post-update-cmd": "vendor/bin/cghooks update"
+  },
+  "extra": {
+    "hooks": {
+      "pre-commit": [
+        "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
+      ],
+      "pre-push": [
+        "vendor/bin/phpunit --testsuite=\"BigBlueButton unit test suite,BigBlueButton integration test suite\"",
+        "vendor/bin/psalm --threads=1"
+      ],
+      "post-merge": "composer install",
+      "post-checkout": "composer install"
     }
   }
 }

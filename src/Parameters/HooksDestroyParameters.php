@@ -18,52 +18,40 @@
  */
 namespace BigBlueButton\Parameters;
 
+/**
+ * @method string getHookID()
+ * @method $this setHookID(string $hookID)
+ */
 class HooksDestroyParameters extends BaseParameters
 {
 
     /**
      * @var string
      */
-    private $hookId;
+    protected $hookID;
 
-    /**
-     * HooksDestroyParameters constructor.
-     *
-     * @param $hookId
-     */
-    public function __construct($hookId)
+    public function __construct(string $hookID)
     {
-        $this->hookId  = $hookId;
+        $this->hookID  = $hookID;
     }
 
     /**
+     * @deprecated use getHookID() instead
      * @return string
      */
     public function getHookId()
     {
-        return $this->hookId;
+        return $this->hookID;
     }
 
     /**
-     * @param  string                 $hookId
+     * @deprecated use setHookID() instead
      * @return HooksDestroyParameters
      */
-    public function setHookId($hookId)
+    public function setHookId(string $hookID)
     {
-        $this->hookId = $hookId;
+        $this->hookID = $hookID;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        $queries = [
-            'hookID' => $this->hookId
-        ];
-
-        return $this->buildHTTPQuery($queries);
     }
 }

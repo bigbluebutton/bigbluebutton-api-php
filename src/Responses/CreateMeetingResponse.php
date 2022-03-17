@@ -24,6 +24,9 @@ namespace BigBlueButton\Responses;
  */
 class CreateMeetingResponse extends BaseResponse
 {
+    const KEY_DUPLICATE_WARNING = 'duplicateWarning';
+    const KEY_ID_NOT_UNIQUE     = 'idNotUnique';
+
     /**
      * @return string
      */
@@ -67,11 +70,11 @@ class CreateMeetingResponse extends BaseResponse
     /**
      * Creation timestamp.
      *
-     * @return double
+     * @return float|int
      */
-    public function getCreationTime()
+    public function getCreationTime(bool $milliseconds = true)
     {
-        return (float) $this->rawXml->createTime;
+        return $milliseconds ? (float) $this->rawXml->createTime : (int) ($this->rawXml->createTime / 1000);
     }
 
     /**
@@ -101,9 +104,9 @@ class CreateMeetingResponse extends BaseResponse
     }
 
     /**
-     * @return true
+     * @return bool
      */
-    public function hasUserJoined()
+    public function hasUserJoined(): bool
     {
         return $this->rawXml->hasUserJoined->__toString() === 'true';
     }
@@ -122,5 +125,21 @@ class CreateMeetingResponse extends BaseResponse
     public function hasBeenForciblyEnded()
     {
         return $this->rawXml->hasBeenForciblyEnded->__toString() === 'true';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDuplicate(): bool
+    {
+        return $this->getMessageKey() === self::KEY_DUPLICATE_WARNING;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIdNotUnique(): bool
+    {
+        return $this->getMessageKey() === self::KEY_ID_NOT_UNIQUE;
     }
 }

@@ -20,49 +20,39 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class DeleteRecordingsParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getRecordID()
+ * @method $this setRecordID(string $recordID)
  */
 class DeleteRecordingsParameters extends BaseParameters
 {
     /**
      * @var string
      */
-    private $recordingId;
+    protected $recordID;
 
-    /**
-     * DeleteRecordingsParameters constructor.
-     *
-     * @param $recordingId
-     */
-    public function __construct($recordingId)
+    public function __construct(string $recordID)
     {
-        $this->recordingId = $recordingId;
+        $this->recordID = $recordID;
     }
 
     /**
+     * @deprecated use getRecordID() instead
      * @return string
      */
     public function getRecordingId()
     {
-        return $this->recordingId;
+        return $this->recordID;
     }
 
     /**
-     * @param  string                     $recordingId
+     * @deprecated use setRecordID() instead
      * @return DeleteRecordingsParameters
      */
-    public function setRecordingId($recordingId)
+    public function setRecordingId(string $recordID)
     {
-        $this->recordingId = $recordingId;
+        $this->recordID = $recordID;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        return $this->buildHTTPQuery(['recordID' => $this->recordingId]);
     }
 }

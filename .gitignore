@@ -1,6 +1,5 @@
 composer.phar
 /vendor/
-composer.lock
 .DS_Store
 
 ## Directory-based project format:
@@ -9,3 +8,14 @@ composer.lock
 
 # PHP CS Fixer cache file
 .php_cs.cache
+cghooks.lock
+
+# PHPUnit reports (for convenience when working locally)
+reports
+
+# PHPUnit result cache
+.phpunit.result.cache
+
+# Local environment variables
+/.env.local
+/.env.*.local

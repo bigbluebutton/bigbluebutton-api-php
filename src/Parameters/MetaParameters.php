@@ -30,41 +30,44 @@ abstract class MetaParameters extends BaseParameters
     private $meta = [];
 
     /**
-     * @param $key
-     * @return mixed
+     * @return string|bool
      */
-    public function getMeta($key)
+    public function getMeta(string $key)
     {
         return $this->meta[$key];
     }
 
     /**
-     * @param string $key
-     * @param string $value
-     *
+     * @param  string|bool $value
      * @return $this
      */
-    public function addMeta($key, $value)
+    public function addMeta(string $key, $value)
     {
         $this->meta[$key] = $value;
 
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * @param $queries
      * @return void
      */
     protected function buildMeta(&$queries)
+=======
+    protected function getHTTPQueryArray(): array
+>>>>>>> origin/master
     {
-        if (count($this->meta) !== 0) {
-            foreach ($this->meta as $k => $v) {
-                if (!is_bool($v)) {
-                    $queries['meta_' . $k] = $v;
-                } else {
-                    $queries['meta_' . $k] = $v ? 'true' : 'false';
-                }
+        $properties = parent::getHTTPQueryArray();
+
+        foreach ($this->meta as $k => $v) {
+            if (!is_bool($v)) {
+                $properties['meta_' . $k] = $v;
+            } else {
+                $properties['meta_' . $k] = $v ? 'true' : 'false';
             }
         }
+
+        return $properties;
     }
 }

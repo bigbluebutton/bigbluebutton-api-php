@@ -24,19 +24,13 @@ namespace BigBlueButton\Responses;
  */
 class EndMeetingResponse extends BaseResponse
 {
-    /**
-     * @return string
-     */
-    public function getMessageKey()
-    {
-        return $this->rawXml->messageKey->__toString();
-    }
+    const KEY_SET_END_MEETING_REQUEST = 'sentEndMeetingRequest';
 
     /**
-     * @return string
+     * @return bool
      */
-    public function getMessage()
+    public function isEndMeetingRequestSent(): bool
     {
-        return $this->rawXml->message->__toString();
+        return $this->getMessageKey() === self::KEY_SET_END_MEETING_REQUEST;
     }
 }

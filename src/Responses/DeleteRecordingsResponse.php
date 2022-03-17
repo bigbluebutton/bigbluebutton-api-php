@@ -24,11 +24,21 @@ namespace BigBlueButton\Responses;
  */
 class DeleteRecordingsResponse extends BaseResponse
 {
+    const KEY_INVALID_ID = 'InvalidRecordingId';
+
     /**
      * @return bool
      */
     public function isDeleted()
     {
         return $this->rawXml->deleted->__toString() == 'true';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInvalidId(): bool
+    {
+        return $this->getMessageKey() === self::KEY_INVALID_ID;
     }
 }

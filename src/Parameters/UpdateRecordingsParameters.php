@@ -20,55 +20,39 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class UpdateRecordingsParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getRecordID()
+ * @method $this setRecordID(string $recordID)
  */
 class UpdateRecordingsParameters extends MetaParameters
 {
     /**
      * @var string
      */
-    private $recordingId;
+    protected $recordID;
 
-    /**
-     * UpdateRecordingsParameters constructor.
-     *
-     * @param $recordingId
-     */
-    public function __construct($recordingId)
+    public function __construct(string $recordID)
     {
-        $this->recordingId = $recordingId;
+        $this->recordID = $recordID;
     }
 
     /**
+     * @deprecated use getRecordID() instead
      * @return string
      */
     public function getRecordingId()
     {
-        return $this->recordingId;
+        return $this->recordID;
     }
 
     /**
-     * @param  string                     $recordingId
+     * @deprecated use setRecordID() instead
      * @return UpdateRecordingsParameters
      */
-    public function setRecordingId($recordingId)
+    public function setRecordingId(string $recordID)
     {
-        $this->recordingId = $recordingId;
+        $this->recordID = $recordID;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        $queries = [
-            'recordID'                    => $this->recordingId,
-        ];
-
-        $this->buildMeta($queries);
-
-        return $this->buildHTTPQuery($queries);
     }
 }

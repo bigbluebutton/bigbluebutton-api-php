@@ -20,49 +20,39 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class IsMeetingRunningParameters
- * @package BigBlueButton\Parameters
+ *
+ * @method string getMeetingID()
+ * @method $this setMeetingID(string $id)
  */
 class IsMeetingRunningParameters extends BaseParameters
 {
     /**
      * @var string
      */
-    private $meetingId;
+    protected $meetingID;
 
-    /**
-     * IsMeetingRunningParameters constructor.
-     *
-     * @param $meetingId
-     */
-    public function __construct($meetingId)
+    public function __construct(string $meetingID)
     {
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
     }
 
     /**
+     * @deprecated getMeetingID() instead
      * @return string
      */
     public function getMeetingId()
     {
-        return $this->meetingId;
+        return $this->meetingID;
     }
 
     /**
-     * @param  string                     $meetingId
+     * @deprecated use setMeetingID() instead
      * @return IsMeetingRunningParameters
      */
-    public function setMeetingId($meetingId)
+    public function setMeetingId(string $meetingID)
     {
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        return $this->buildHTTPQuery(['meetingID' => $this->meetingId]);
     }
 }

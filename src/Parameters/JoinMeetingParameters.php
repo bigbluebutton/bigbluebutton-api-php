@@ -20,311 +20,209 @@ namespace BigBlueButton\Parameters;
 
 /**
  * Class JoinMeetingParametersTest.
+ *
+ * @method string getFullName()
+ * @method $this setFullName(string $fullName)
+ * @method string getMeetingID()
+ * @method $this setMeetingID(string $id)
+ * @method string getPassword()
+ * @method $this setPassword(string $password)
+ * @method string getCreateTime()
+ * @method $this setCreateTime(string $createTime)
+ * @method string getUserID()
+ * @method $this setUserID(string $userID)
+ * @method string getWebVoiceConf()
+ * @method $this setWebVoiceConf(string $webVoiceConf)
+ * @method string getConfigToken()
+ * @method $this setConfigToken(string $configToken)
+ * @method string getDefaultLayout()
+ * @method $this setDefaultLayout(string $defaultLayout)
+ * @method string getAvatarURL()
+ * @method $this setAvatarURL(string $avatarURL)
+ * @method bool|null isRedirect()
+ * @method $this setRedirect(bool $redirect)
+ * @method string getClientURL()
+ * @method $this setClientURL(string $clientURL)
+ * @method bool|null isJoinViaHtml5()
+ * @method $this setJoinViaHtml5(bool $joinViaHtml)
+ * @method bool|null isGuest()
+ * @method $this setGuest(bool $guest)
+ * @method string getRole()
+ * @method $this setRole(string $role)
+ * @method bool|null isExcludeFromDashboard()
+ * @method $this setExcludeFromDashboard(bool $excludeFromDashboard)
  */
 class JoinMeetingParameters extends UserDataParameters
 {
-    /**
-     * @var string
-     */
-    private $meetingId;
+    const MODERATOR = 'MODERATOR';
+    const VIEWER    = 'VIEWER';
 
     /**
      * @var string
      */
-    private $username;
+    protected $fullName;
 
     /**
      * @var string
      */
-    private $password;
+    protected $meetingID;
 
     /**
      * @var string
      */
-    private $userId;
+    protected $password;
+
+    /**
+     * @var int
+     */
+    protected $createTime;
 
     /**
      * @var string
      */
-    private $webVoiceConf;
+    protected $userID;
 
     /**
      * @var string
      */
-    private $creationTime;
+    protected $webVoiceConf;
 
     /**
      * @var string
      */
-    private $configToken;
+    protected $configToken;
 
     /**
      * @var string
      */
-    private $avatarURL;
+    protected $defaultLayout;
+
+    /**
+     * @var string
+     */
+    protected $avatarURL;
 
     /**
      * @var boolean
      */
-    private $redirect;
+    protected $redirect;
 
     /**
-     * @var
+     * @var string
      */
-    private $clientURL;
+    protected $clientURL;
 
     /**
-     * @var array
+     * @var boolean
      */
-    private $customParameters;
+    protected $joinViaHtml5;
+
+    /**
+     * @var boolean
+     */
+    protected $guest;
+
+    /**
+     * @var string
+     */
+    protected $role;
+
+    /**
+     * @var boolean
+     */
+    protected $excludeFromDashboard;
 
     /**
      * JoinMeetingParametersTest constructor.
      *
-     * @param $meetingId
-     * @param $username
-     * @param $password
+     * @param string $meetingId
+     * @param string $fullName
+     * @param string $password
      */
-    public function __construct($meetingId, $username, $password)
+    public function __construct(string $meetingID, string $fullName, string $password)
     {
-        $this->meetingId        = $meetingId;
-        $this->username         = $username;
-        $this->password         = $password;
-        $this->customParameters = [];
+        $this->meetingID = $meetingID;
+        $this->fullName  = $fullName;
+        $this->password  = $password;
     }
 
     /**
+     * @deprecated use getMeetingID()
      * @return string
      */
     public function getMeetingId()
     {
-        return $this->meetingId;
+        return $this->meetingID;
     }
 
     /**
-     * @param string $meetingId
-     *
+     * @deprecated use setMeetingID()
      * @return JoinMeetingParameters
      */
-    public function setMeetingId($meetingId)
+    public function setMeetingId(string $meetingID)
     {
-        $this->meetingId = $meetingId;
+        $this->meetingID = $meetingID;
 
         return $this;
     }
 
     /**
+     * @deprecated use getCreateTime()
+     * @return int
+     */
+    public function getCreationTime()
+    {
+        return $this->createTime;
+    }
+
+    /**
+     * @deprecated use setCreateTime()
+     * @return JoinMeetingParameters
+     */
+    public function setCreationTime(int $createTime)
+    {
+        $this->createTime = $createTime;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated use getFullName()
      * @return string
      */
     public function getUsername()
     {
-        return $this->username;
+        return $this->fullName;
     }
 
     /**
-     * @param string $username
-     *
+     * @deprecated use setFullName()
      * @return JoinMeetingParameters
      */
-    public function setUsername($username)
+    public function setUsername(string $fullName)
     {
-        $this->username = $username;
+        $this->fullName = $fullName;
 
         return $this;
     }
 
     /**
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     *
-     * @return JoinMeetingParameters
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
+     * @deprecated use getUserID()
      * @return string
      */
     public function getUserId()
     {
-        return $this->userId;
+        return $this->userID;
     }
 
     /**
-     * @param string $userId
-     *
+     * @deprecated use setUserID()
      * @return JoinMeetingParameters
      */
-    public function setUserId($userId)
+    public function setUserId(string $userID)
     {
-        $this->userId = $userId;
+        $this->userID = $userID;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getWebVoiceConf()
-    {
-        return $this->webVoiceConf;
-    }
-
-    /**
-     * @param string $webVoiceConf
-     *
-     * @return JoinMeetingParameters
-     */
-    public function setWebVoiceConf($webVoiceConf)
-    {
-        $this->webVoiceConf = $webVoiceConf;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCreationTime()
-    {
-        return $this->creationTime;
-    }
-
-    /**
-     * @param int $creationTime
-     *
-     * @return JoinMeetingParameters
-     */
-    public function setCreationTime($creationTime)
-    {
-        $this->creationTime = $creationTime;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getConfigToken()
-    {
-        return $this->configToken;
-    }
-
-    /**
-     * @param  string                $configToken
-     * @return JoinMeetingParameters
-     */
-    public function setConfigToken($configToken)
-    {
-        $this->configToken = $configToken;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAvatarURL()
-    {
-        return $this->avatarURL;
-    }
-
-    /**
-     * @param  string                $avatarURL
-     * @return JoinMeetingParameters
-     */
-    public function setAvatarURL($avatarURL)
-    {
-        $this->avatarURL = $avatarURL;
-
-        return $this;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isRedirect()
-    {
-        return $this->redirect;
-    }
-
-    /**
-     * @param  boolean               $redirect
-     * @return JoinMeetingParameters
-     */
-    public function setRedirect($redirect)
-    {
-        $this->redirect = $redirect;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getClientURL()
-    {
-        return $this->clientURL;
-    }
-
-    /**
-     * @param  mixed                 $clientURL
-     * @return JoinMeetingParameters
-     */
-    public function setClientURL($clientURL)
-    {
-        $this->clientURL = $clientURL;
-
-        return $this;
-    }
-
-    /**
-     * @param  string                $paramName
-     * @param  string                $paramValue
-     * @return JoinMeetingParameters
-     */
-    public function setCustomParameter($paramName, $paramValue)
-    {
-        $this->customParameters[$paramName] = $paramValue;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
-    {
-        $queries = [
-            'meetingID'    => $this->meetingId,
-            'fullName'     => $this->username,
-            'password'     => $this->password,
-            'userID'       => $this->userId,
-            'webVoiceConf' => $this->webVoiceConf,
-            'createTime'   => $this->creationTime,
-            'configToken'  => $this->configToken,
-            'avatarURL'    => $this->avatarURL,
-            'redirect'     => $this->redirect ? 'true' : 'false',
-            'clientURL'    => $this->clientURL
-        ];
-
-        foreach ( $this->customParameters as $key => $value ) {
-            $queries[$key] = $value;
-        }
-
-        $this->buildUserData($queries);
-
-        return $this->buildHTTPQuery($queries);
     }
 }

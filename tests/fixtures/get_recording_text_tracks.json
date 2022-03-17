@@ -1,0 +1,21 @@
+{
+  "response": {
+    "returncode": "SUCCESS",
+    "tracks": [
+      {
+        "href": "https://captions.example.com/textTrack/0ab39e419c9bcb63233168daefe390f232c71343/183f0bf3a0982a127bdb8161e0c44eb696b3e75c-1554230749920/subtitles_en-US.vtt",
+        "kind": "subtitles",
+        "label": "English",
+        "lang": "en-US",
+        "source": "upload"
+      },
+      {
+        "href": "https://captions.example.com/textTrack/95b62d1b762700b9d5366a9e71d5fcc5086f2723/183f0bf3a0982a127bdb8161e0c44eb696b3e75c-1554230749920/subtitles_pt-BR.vtt",
+        "kind": "subtitles",
+        "label": "Brazil",
+        "lang": "pt-BR",
+        "source": "upload"
+      }
+    ]
+  }
+}
