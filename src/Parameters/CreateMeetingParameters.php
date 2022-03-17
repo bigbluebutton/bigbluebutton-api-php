@@ -238,26 +238,6 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var bool
      */
-    private $allowModsToUnmuteUsers;
-
-    /**
-     * @var bool
-     */
-    private $allowModsToEjectCameras;
-
-    /**
-     * @var array
-     */
-    private $presentations = [];
-
-    /**
-     * @var boolean
-     */
-    private $isBreakout;
-
-    /**
-     * @var bool
-     */
     protected $webcamsOnlyForModerator;
 
     /**
