@@ -194,7 +194,7 @@ class CreateMeetingParameters extends MetaParameters
     protected $voiceBridge;
 
     /**
-     * #@var string
+     * @var string
      */
     protected $webVoice;
 
