@@ -205,6 +205,8 @@ class BigBlueButton
     }
 
     /**
+     * @param JoinMeetingParameters $joinMeetingParams
+     *
      * @return string
      */
     public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams)
@@ -510,14 +512,6 @@ class BigBlueButton
     public function setJSessionId(string $jSessionId)
     {
         $this->jSessionId = $jSessionId;
-    }
-
-     /**
-     * @param array $curlopts
-     */
-    public function setCurlOpts($curlopts)
-    {
-        $this->curlopts = $curlopts;
     }
 
     /* ____________________ INTERNAL CLASS METHODS ___________________ */

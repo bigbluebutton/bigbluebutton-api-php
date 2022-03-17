@@ -34,6 +34,8 @@ namespace BigBlueButton\Parameters;
  * @method $this setDialNumber(string $dialNumber)
  * @method string getVoiceBridge()
  * @method $this setVoiceBridge(string $voiceBridge)
+ * @method string getWebVoice()
+ * @method $this setWebVoice(string $webVoice)
  * @method int getMaxParticipants()
  * @method $this setMaxParticipants(int $maxParticipants)
  * @method string getLogoutURL()
@@ -164,6 +166,11 @@ class CreateMeetingParameters extends MetaParameters
      * @var string
      */
     protected $voiceBridge;
+
+    /**
+     * #@var string
+     */
+    protected $webVoice;
 
     /**
      * @var int
@@ -638,24 +645,6 @@ class CreateMeetingParameters extends MetaParameters
         return $this->guestPolicy === self::ALWAYS_ACCEPT_AUTH;
     }
 
-    /**
-     * @return bool
-     */
-    public function isAllowModsToEjectCameras(): bool
-    {
-        return $this->allowModsToEjectCameras;
-    }
-
-    /**
-     * @param  bool                    $allowModsToEjectCameras
-     * @return CreateMeetingParameters
-     */
-    public function setAllowModsToEjectCameras(bool $allowModsToEjectCameras): self
-    {
-        $this->allowModsToEjectCameras = $allowModsToEjectCameras;
-
-        return $this;
-    }
 
     /**
      * Ask moderator on join of guests is allowed to enter the meeting, user are allowed to join directly

@@ -48,15 +48,7 @@ abstract class MetaParameters extends BaseParameters
         return $this;
     }
 
-<<<<<<< HEAD
-    /**
-     * @param $queries
-     * @return void
-     */
-    protected function buildMeta(&$queries)
-=======
     protected function getHTTPQueryArray(): array
->>>>>>> origin/master
     {
         $properties = parent::getHTTPQueryArray();
 

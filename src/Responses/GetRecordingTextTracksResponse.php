@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Core;
+namespace BigBlueButton\Responses;
 
 use BigBlueButton\Core\Track;
 
 /**
  * Class GetRecordingTextTracksResponse
+ *
  * @package BigBlueButton\Responses
  */
 class GetRecordingTextTracksResponse extends BaseResponseAsJson

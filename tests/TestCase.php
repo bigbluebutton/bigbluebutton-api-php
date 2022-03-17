@@ -87,7 +87,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'webcamsOnlyForModerator'                   => $this->faker->boolean(50),
             'logo'                                      => $this->faker->imageUrl(330, 70),
             'copyright'                                 => $this->faker->text,
-            'guestPolicy'                            => $this->faker->randomElement([GuestPolicy::ALWAYS_ACCEPT, GuestPolicy::ALWAYS_DENY, GuestPolicy::ASK_MODERATOR]),
+            'guestPolicy'                               => $this->faker->randomElement([GuestPolicy::ALWAYS_ACCEPT, GuestPolicy::ALWAYS_DENY, GuestPolicy::ASK_MODERATOR]),
             'muteOnStart'                               => $this->faker->boolean(50),
             'lockSettingsDisableCam'                    => $this->faker->boolean(50),
             'lockSettingsDisableMic'                    => $this->faker->boolean(50),
@@ -99,7 +99,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsLockOnJoin'                    => $this->faker->boolean(50),
             'lockSettingsLockOnJoinConfigurable'        => $this->faker->boolean(50),
             'allowModsToUnmuteUsers'                    => $this->faker->boolean(50),
-            'allowModsToEjectCameras'                => $this->faker->boolean(50),
+            'allowModsToEjectCameras'                   => $this->faker->boolean(50),
             'meta_presenter'                            => $this->faker->name,
             'meta_endCallbackUrl'                       => $this->faker->url,
             'meta_bbb-recording-ready-url'              => $this->faker->url,
@@ -116,9 +116,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
                                                            ]),
             'learningDashboardEnabled'                  => $this->faker->boolean(50),
             'learningDashboardCleanupDelayInMinutes'    => $this->faker->numberBetween(1, 100),
-            'allowModsToEjectCameras'                   => $this->faker->boolean(50),
             'breakoutRoomsEnabled'                      => $this->faker->boolean(50),
             'breakoutRoomsPrivateChatEnabled'           => $this->faker->boolean(50),
+            'meetingEndedURL'                           => $this->faker->url,
             'breakoutRoomsRecord'                       => $this->faker->boolean(50),
             'allowRequestsWithoutSession'               => $this->faker->boolean(50),
             'virtualBackgroundsDisabled'                => $this->faker->boolean(50),
@@ -153,11 +153,12 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setModeratorPassword($params['moderatorPW'])
             ->setDialNumber($params['dialNumber'])
             ->setVoiceBridge($params['voiceBridge'])
-            ->setLogoutUrl($params['logoutURL'])
+            ->setWebVoice($params['webVoice'])
+            ->setLogoutURL($params['logoutURL'])
             ->setMaxParticipants($params['maxParticipants'])
             ->setRecord($params['record'])
             ->setDuration($params['duration'])
-            ->setWelcomeMessage($params['welcome'])
+            ->setWelcome($params['welcome'])
             ->setAutoStartRecording($params['autoStartRecording'])
             ->setAllowStartStopRecording($params['allowStartStopRecording'])
             ->setModeratorOnlyMessage($params['moderatorOnlyMessage'])
@@ -177,7 +178,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])
             ->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoinConfigurable'])
             ->setAllowModsToUnmuteUsers($params['allowModsToUnmuteUsers'])
-            ->setGuestPolicyAlwaysAccept()
+            ->setGuestPolicy($params['guestPolicy'])
             ->addMeta('presenter', $params['meta_presenter'])
             ->setBannerText($params['bannerText'])
             ->setBannerColor($params['bannerColor'])

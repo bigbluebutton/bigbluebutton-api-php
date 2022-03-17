@@ -19,6 +19,7 @@
 namespace BigBlueButton\Tests\Functional;
 
 use BigBlueButton\BigBlueButton;
+use BigBlueButton\Core\ApiMethod;
 use BigBlueButton\Http\Transport\TransportInterface;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -112,7 +113,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
+            $this->assertStringContainsString($key . '=' . rawurlencode($value), $url);
         }
     }
 
@@ -204,14 +205,10 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
+            $this->assertStringContainsString('=' . rawurlencode($value), $url);
         }
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage String could not be parsed as XML
-     */
     public function testJoinMeeting()
     {
         $params = $this->generateCreateParams();
@@ -247,7 +244,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
+            $this->assertStringContainsString('=' . rawurlencode($value), $url);
         }
     }
 
@@ -299,9 +296,8 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
     {
         $meeting = $this->createRealMeeting($this->bbb);
 
-        $url = $this->bbb->getMeetingInfoUrl(new GetMeetingInfoParameters($meeting->getMeetingId(), $meeting->getModeratorPassword()));
-        $this->assertStringContainsString('=' . urlencode($meeting->getMeetingId()), $url);
-        $this->assertStringContainsString('=' . urlencode($meeting->getModeratorPassword()), $url);
+        $url = $this->bbb->getMeetingInfoUrl(new GetMeetingInfoParameters($meeting->getMeetingId()));
+        $this->assertStringContainsString('=' . rawurlencode($meeting->getMeetingId()), $url);
     }
 
     public function testGetMeetingInfo()
@@ -360,7 +356,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
+            $this->assertStringContainsString('=' . rawurlencode($value), $url);
         }
     }
 
