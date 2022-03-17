@@ -23,8 +23,8 @@ namespace BigBlueButton\Core;
 
 final class GuestPolicy
 {
-    public const ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
-    public const ALWAYS_DENY   = 'ALWAYS_DENY';
-    public const ASK_MODERATOR = 'ASK_MODERATOR';
+    public const ALWAYS_ACCEPT        = 'ALWAYS_ACCEPT';
+    public const ALWAYS_DENY          = 'ALWAYS_DENY';
+    public const ASK_MODERATOR        = 'ASK_MODERATOR';
     public const ALWAYS_ACCEPT_AUTH   = 'ALWAYS_ACCEPT_AUTH';
 }
