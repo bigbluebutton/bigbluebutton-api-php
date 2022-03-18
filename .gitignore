@@ -19,3 +19,14 @@ reports
 # Local environment variables
 /.env.local
 /.env.*.local
+
+# Composer lock file
+#
+# The library does not locks down the dependencies for several reasons:
+#
+# * In the outer world, the lock is not effective. Only the lock of the requiring application is accounted.
+# * It makes it hard, to run the library with its deps in the CI as when running `composer require` under PHP 8.1,
+#   an incompatible lock file is created which is unsuable unter PHP 7.x.
+#
+# See https://github.com/littleredbutton/bigbluebutton-api-php/pull/115 for the discussion.
+/composer.lock

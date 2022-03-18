@@ -23,8 +23,7 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: bcmath, ctype, fileinfo, json, mbstring, dom, ldap, pdo, tokenizer, xml, mysql, sqlite
         coverage: xdebug
-    - name: Downgrade phpunit for php7.2
-      run: composer update phpunit/phpunit -W
+
     - name: Update to lowest php dependencies
       run: composer update --prefer-lowest
     - name: Install php dependencies
@@ -53,9 +52,6 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: bcmath, ctype, fileinfo, json, mbstring, dom, ldap, pdo, tokenizer, xml, mysql, sqlite
         coverage: xdebug
-    - name: Downgrade phpunit for php7.2
-      if: ${{ matrix.php-versions == '7.2' }}
-      run: composer update phpunit/phpunit -W
     - name: Install php dependencies
       run: composer install --dev --no-interaction
       continue-on-error: ${{ matrix.experimental }}
