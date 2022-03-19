@@ -22,7 +22,7 @@ namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
 
-class InsertDocumentParametersTest extends TestCase
+final class InsertDocumentParametersTest extends TestCase
 {
     public function testIsMeetingRunningParameters(): void
     {
