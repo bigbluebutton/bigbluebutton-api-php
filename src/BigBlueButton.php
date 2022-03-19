@@ -505,7 +505,7 @@ class BigBlueButton
     /**
      * @return string
      */
-    public function getInsertDocumentUrl(InsertDocumentParameters $insertDocumentParams)
+    public function getInsertDocumentUrl(InsertDocumentParameters $insertDocumentParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::INSERT_DOCUMENT, $insertDocumentParams->getHTTPQuery());
     }
