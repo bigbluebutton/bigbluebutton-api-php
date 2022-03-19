@@ -24,7 +24,7 @@ namespace BigBlueButton\Parameters;
  * @method string getMeetingID()
  * @method $this setMeetingID(string $id)
  */
-class InsertDocumentParameters extends MetaParameters
+final class InsertDocumentParameters extends MetaParameters
 {
     /**
      * @var string
