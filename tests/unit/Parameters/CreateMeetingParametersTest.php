@@ -18,6 +18,7 @@
  */
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Core\GuestPolicy;
 use BigBlueButton\TestCase as TestCase;
 use PHPUnit\Framework\Error\Warning;
 
@@ -179,5 +180,45 @@ class CreateMeetingParametersTest extends TestCase
         $createMeetingParams->disableUserCameraCap();
         $this->assertEquals(0, $createMeetingParams->getUserCameraCap());
         $this->assertTrue($createMeetingParams->isUserCameraCapDisabled());
+    }
+
+    public function testGuestPolicyAlwaysAccept(): void
+    {
+        $params              = $this->generateCreateParams();
+        $createMeetingParams = $this->getCreateMock($params);
+
+        $createMeetingParams->setGuestPolicyAlwaysAccept();
+        $this->assertSame(GuestPolicy::ALWAYS_ACCEPT, $createMeetingParams->getGuestPolicy());
+        $this->assertTrue($createMeetingParams->isGuestPolicyAlwaysAccept());
+    }
+
+    public function testGuestPolicyAlwaysAcceptAuth(): void
+    {
+        $params              = $this->generateCreateParams();
+        $createMeetingParams = $this->getCreateMock($params);
+
+        $createMeetingParams->setGuestPolicyAlwaysAcceptAuth();
+        $this->assertSame(GuestPolicy::ALWAYS_ACCEPT_AUTH, $createMeetingParams->getGuestPolicy());
+        $this->assertTrue($createMeetingParams->isGuestPolicyAlwaysAcceptAuth());
+    }
+
+    public function testGuestPolicyAlwaysDeny(): void
+    {
+        $params              = $this->generateCreateParams();
+        $createMeetingParams = $this->getCreateMock($params);
+        
+        $createMeetingParams->setGuestPolicyAlwaysDeny();
+        $this->assertSame(GuestPolicy::ALWAYS_DENY, $createMeetingParams->getGuestPolicy());
+        $this->assertTrue($createMeetingParams->isGuestPolicyAlwaysDeny());
+    }
+
+    public function testGuestPolicyAskModerator(): void
+    {
+        $params              = $this->generateCreateParams();
+        $createMeetingParams = $this->getCreateMock($params);
+
+        $createMeetingParams->setGuestPolicyAskModerator();
+        $this->assertSame(GuestPolicy::ASK_MODERATOR, $createMeetingParams->getGuestPolicy());
+        $this->assertTrue($createMeetingParams->isGuestPolicyAskModerator());
     }
 }
