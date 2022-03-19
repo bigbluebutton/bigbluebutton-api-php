@@ -44,7 +44,7 @@ final class InsertDocumentParameters extends MetaParameters
     /**
      * @return CreateMeetingParameters
      */
-    public function addPresentation(string $url, string $filename, ?bool $downloadable = null, ?bool $removable = null)
+    public function addPresentation(string $url, string $filename, ?bool $downloadable = null, ?bool $removable = null): self
     {
         $this->presentations[$url] = [
             'filename'     => $filename,
