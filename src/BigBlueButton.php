@@ -516,7 +516,7 @@ class BigBlueButton
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function insertDocument(InsertDocumentParameters $insertDocumentParams)
+    public function insertDocument(InsertDocumentParameters $insertDocumentParams): InsertDocumentReponse
     {
         $xml = $this->processXmlResponse($this->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
 
