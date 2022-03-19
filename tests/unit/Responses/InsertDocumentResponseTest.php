@@ -23,7 +23,7 @@ namespace BigBlueButton\Parameters;
 use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\TestCase;
 
-class InsertDocumentResponse extends TestCase
+class InsertDocumentResponseTest extends TestCase
 {
     /**
      * @var \BigBlueButton\Responses\IsMeetingRunningResponse
@@ -36,7 +36,7 @@ class InsertDocumentResponse extends TestCase
 
         $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'insert_document.xml');
 
-        $this->running = new self($xml);
+        $this->running = new InsertDocumentResponse($xml);
     }
 
     public function testIsMeetingRunningResponseContent(): void
