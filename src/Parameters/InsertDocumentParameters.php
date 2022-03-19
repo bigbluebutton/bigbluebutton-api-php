@@ -34,16 +34,13 @@ final class InsertDocumentParameters extends MetaParameters
     /**
      * @var array
      */
-    protected $presentations = [];
+    private $presentations = [];
 
     public function __construct(string $meetingID)
     {
         $this->meetingID   = $meetingID;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
     public function addPresentation(string $url, string $filename, ?bool $downloadable = null, ?bool $removable = null): self
     {
         $this->presentations[$url] = [
@@ -55,12 +52,9 @@ final class InsertDocumentParameters extends MetaParameters
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getPresentations(): array
+    public function removePresentation(string $url): void
     {
-        return $this->presentations;
+        unset($this->presentations[$url]);
     }
 
     /**

@@ -511,12 +511,11 @@ class BigBlueButton
     }
 
     /**
-     * @return CreateMeetingResponse
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function insertDocument(InsertDocumentParameters $insertDocumentParams): InsertDocumentReponse
+    public function insertDocument(InsertDocumentParameters $insertDocumentParams): InsertDocumentResponse
     {
         $xml = $this->processXmlResponse($this->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
 
