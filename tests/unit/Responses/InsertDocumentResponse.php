@@ -39,7 +39,7 @@ class InsertDocumentResponse extends TestCase
         $this->running = new self($xml);
     }
 
-    public function testIsMeetingRunningResponseContent()
+    public function testIsMeetingRunningResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->running->getReturnCode());
 
