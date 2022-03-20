@@ -32,18 +32,18 @@ class CreateMeetingParametersTest extends TestCase
         $params              = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
 
-        $this->assertEquals($params['name'], $createMeetingParams->getMeetingName());
-        $this->assertEquals($params['meetingID'], $createMeetingParams->getMeetingId());
-        $this->assertEquals($params['attendeePW'], $createMeetingParams->getAttendeePassword());
-        $this->assertEquals($params['moderatorPW'], $createMeetingParams->getModeratorPassword());
+        $this->assertEquals($params['name'], $createMeetingParams->getName());
+        $this->assertEquals($params['meetingID'], $createMeetingParams->getMeetingID());
+        $this->assertEquals($params['attendeePW'], $createMeetingParams->getAttendeePW());
+        $this->assertEquals($params['moderatorPW'], $createMeetingParams->getModeratorPW());
         $this->assertEquals($params['autoStartRecording'], $createMeetingParams->isAutoStartRecording());
         $this->assertEquals($params['dialNumber'], $createMeetingParams->getDialNumber());
         $this->assertEquals($params['voiceBridge'], $createMeetingParams->getVoiceBridge());
-        $this->assertEquals($params['logoutURL'], $createMeetingParams->getLogoutUrl());
+        $this->assertEquals($params['logoutURL'], $createMeetingParams->getLogoutURL());
         $this->assertEquals($params['maxParticipants'], $createMeetingParams->getMaxParticipants());
-        $this->assertEquals($params['record'], $createMeetingParams->isRecorded());
+        $this->assertEquals($params['record'], $createMeetingParams->isRecord());
         $this->assertEquals($params['duration'], $createMeetingParams->getDuration());
-        $this->assertEquals($params['welcome'], $createMeetingParams->getWelcomeMessage());
+        $this->assertEquals($params['welcome'], $createMeetingParams->getWelcome());
         $this->assertEquals($params['allowStartStopRecording'], $createMeetingParams->isAllowStartStopRecording());
         $this->assertEquals($params['moderatorOnlyMessage'], $createMeetingParams->getModeratorOnlyMessage());
         $this->assertEquals($params['webcamsOnlyForModerator'], $createMeetingParams->isWebcamsOnlyForModerator());
@@ -81,15 +81,15 @@ class CreateMeetingParametersTest extends TestCase
 
         // Check values are empty of this is not a breakout room
         $this->assertNull($createMeetingParams->isBreakout());
-        $this->assertNull($createMeetingParams->getParentMeetingId());
+        $this->assertNull($createMeetingParams->getParentMeetingID());
         $this->assertNull($createMeetingParams->getSequence());
         $this->assertNull($createMeetingParams->isFreeJoin());
 
         // Test setters that are ignored by the constructor
-        $createMeetingParams->setMeetingId($newId = $this->faker->uuid);
-        $createMeetingParams->setMeetingName($newName = $this->faker->name);
-        $this->assertEquals($newName, $createMeetingParams->getMeetingName());
-        $this->assertEquals($newId, $createMeetingParams->getMeetingId());
+        $createMeetingParams->setMeetingID($newId = $this->faker->uuid);
+        $createMeetingParams->setName($newName = $this->faker->name);
+        $this->assertEquals($newName, $createMeetingParams->getName());
+        $this->assertEquals($newId, $createMeetingParams->getMeetingID());
     }
 
     public function testCreateBreakoutMeeting()
@@ -97,14 +97,14 @@ class CreateMeetingParametersTest extends TestCase
         $params                      = $this->generateBreakoutCreateParams($this->generateCreateParams());
         $createBreakoutMeetingParams = $this->getBreakoutCreateMock($params);
         $this->assertEquals($params['isBreakout'], $createBreakoutMeetingParams->isBreakout());
-        $this->assertEquals($params['parentMeetingId'], $createBreakoutMeetingParams->getParentMeetingId());
+        $this->assertEquals($params['parentMeetingId'], $createBreakoutMeetingParams->getParentMeetingID());
         $this->assertEquals($params['sequence'], $createBreakoutMeetingParams->getSequence());
         $this->assertEquals($params['freeJoin'], $createBreakoutMeetingParams->isFreeJoin());
 
         $params = $createBreakoutMeetingParams->getHTTPQuery();
 
         $this->assertStringContainsString('isBreakout=' . rawurlencode($createBreakoutMeetingParams->isBreakout() ? 'true' : 'false'), $params);
-        $this->assertStringContainsString('parentMeetingID=' . rawurlencode($createBreakoutMeetingParams->getParentMeetingId()), $params);
+        $this->assertStringContainsString('parentMeetingID=' . rawurlencode($createBreakoutMeetingParams->getParentMeetingID()), $params);
         $this->assertStringContainsString('sequence=' . rawurlencode($createBreakoutMeetingParams->getSequence()), $params);
         $this->assertStringContainsString('freeJoin=' . rawurlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
     }

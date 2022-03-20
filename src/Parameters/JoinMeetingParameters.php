@@ -132,97 +132,10 @@ class JoinMeetingParameters extends UserDataParameters
      */
     protected $excludeFromDashboard;
 
-    /**
-     * JoinMeetingParametersTest constructor.
-     *
-     * @param string $meetingId
-     * @param string $fullName
-     * @param string $password
-     */
     public function __construct(string $meetingID, string $fullName, string $password)
     {
         $this->meetingID = $meetingID;
         $this->fullName  = $fullName;
         $this->password  = $password;
-    }
-
-    /**
-     * @deprecated use getMeetingID()
-     * @return string
-     */
-    public function getMeetingId()
-    {
-        return $this->meetingID;
-    }
-
-    /**
-     * @deprecated use setMeetingID()
-     * @return JoinMeetingParameters
-     */
-    public function setMeetingId(string $meetingID)
-    {
-        $this->meetingID = $meetingID;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getCreateTime()
-     * @return int
-     */
-    public function getCreationTime()
-    {
-        return $this->createTime;
-    }
-
-    /**
-     * @deprecated use setCreateTime()
-     * @return JoinMeetingParameters
-     */
-    public function setCreationTime(int $createTime)
-    {
-        $this->createTime = $createTime;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getFullName()
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->fullName;
-    }
-
-    /**
-     * @deprecated use setFullName()
-     * @return JoinMeetingParameters
-     */
-    public function setUsername(string $fullName)
-    {
-        $this->fullName = $fullName;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getUserID()
-     * @return string
-     */
-    public function getUserId()
-    {
-        return $this->userID;
-    }
-
-    /**
-     * @deprecated use setUserID()
-     * @return JoinMeetingParameters
-     */
-    public function setUserId(string $userID)
-    {
-        $this->userID = $userID;
-
-        return $this;
     }
 }

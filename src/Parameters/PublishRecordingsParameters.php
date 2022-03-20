@@ -43,24 +43,4 @@ class PublishRecordingsParameters extends BaseParameters
         $this->recordID    = $recordID;
         $this->publish     = $publish;
     }
-
-    /**
-     * @deprecated use getRecordID() instead
-     * @return string
-     */
-    public function getRecordingId()
-    {
-        return $this->recordID;
-    }
-
-    /**
-     * @deprecated use setRecordID() instead
-     * @return PublishRecordingsParameters
-     */
-    public function setRecordingId(string $recordID)
-    {
-        $this->recordID = $recordID;
-
-        return $this;
-    }
 }

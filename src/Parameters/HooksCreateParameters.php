@@ -28,7 +28,6 @@ namespace BigBlueButton\Parameters;
  */
 class HooksCreateParameters extends BaseParameters
 {
-
     /**
      * @var string
      */
@@ -47,54 +46,5 @@ class HooksCreateParameters extends BaseParameters
     public function __construct(string $callbackURL)
     {
         $this->callbackURL = $callbackURL;
-    }
-
-    /**
-     * @deprecated use getCallbackURL() instead
-     * @return string
-     */
-    public function getCallbackUrl()
-    {
-        return $this->callbackURL;
-    }
-
-    /**
-     * @deprecated use setCallbackURL() instead
-     * @return HooksCreateParameters
-     */
-    public function setCallbackUrl(string $callbackURL)
-    {
-        $this->callbackURL = $callbackURL;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getMeetingID() instead
-     * @return string
-     */
-    public function getMeetingId()
-    {
-        return $this->meetingID;
-    }
-
-    /**
-     * @deprecated use setMeetingID() instead
-     * @return HooksCreateParameters
-     */
-    public function setMeetingId(string $meetingID)
-    {
-        $this->meetingID = $meetingID;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use isGetRaw()
-     * @return bool
-     */
-    public function getRaw()
-    {
-        return $this->getRaw;
     }
 }

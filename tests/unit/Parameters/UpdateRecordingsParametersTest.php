@@ -27,11 +27,11 @@ class UpdateRecordingsParametersTest extends TestCase
         $params                 = $this->generateUpdateRecordingsParams();
         $updateRecordingsParams = $this->getUpdateRecordingsParamsMock($params);
 
-        $this->assertEquals($params['recordID'], $updateRecordingsParams->getRecordingId());
+        $this->assertEquals($params['recordID'], $updateRecordingsParams->getRecordID());
         $this->assertEquals($params['meta_presenter'], $updateRecordingsParams->getMeta('presenter'));
 
         // Test setters that are ignored by the constructor
-        $updateRecordingsParams->setRecordingId($newId = $this->faker->uuid);
-        $this->assertEquals($newId, $updateRecordingsParams->getRecordingId());
+        $updateRecordingsParams->setRecordID($newId = $this->faker->uuid);
+        $this->assertEquals($newId, $updateRecordingsParams->getRecordID());
     }
 }

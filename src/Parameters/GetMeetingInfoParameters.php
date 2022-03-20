@@ -35,24 +35,4 @@ class GetMeetingInfoParameters extends BaseParameters
     {
         $this->meetingID = $meetingID;
     }
-
-    /**
-     * @deprecated use getMeetingID()
-     * @return string
-     */
-    public function getMeetingId()
-    {
-        return $this->meetingID;
-    }
-
-    /**
-     * @deprecated use setMeetingID()
-     * @return GetMeetingInfoParameters
-     */
-    public function setMeetingId(string $meetingID)
-    {
-        $this->meetingID = $meetingID;
-
-        return $this;
-    }
 }

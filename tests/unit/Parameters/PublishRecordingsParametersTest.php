@@ -28,13 +28,13 @@ class PublishRecordingsParametersTest extends TestCase
         $publish          = $this->faker->boolean(50);
         $publishRecording = new PublishRecordingsParameters($recordingId, $publish);
 
-        $this->assertEquals($recordingId, $publishRecording->getRecordingId());
+        $this->assertEquals($recordingId, $publishRecording->getRecordID());
         $this->assertEquals($publish, $publishRecording->isPublish());
 
         // Test setters that are ignored by the constructor
-        $publishRecording->setRecordingId($newRecordingId = !$this->faker->uuid);
+        $publishRecording->setRecordID($newRecordingId = !$this->faker->uuid);
         $publishRecording->setPublish($publish = !$publish);
-        $this->assertEquals($newRecordingId, $publishRecording->getRecordingId());
+        $this->assertEquals($newRecordingId, $publishRecording->getRecordID());
         $this->assertEquals($publish, $publishRecording->isPublish());
     }
 }

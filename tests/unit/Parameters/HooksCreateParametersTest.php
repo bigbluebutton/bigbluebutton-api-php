@@ -26,12 +26,12 @@ class HooksCreateParametersTest extends TestCase
     {
         $hooksCreateParameters = new HooksCreateParameters($callBackUrl = $this->faker->url);
 
-        $this->assertEquals($callBackUrl, $hooksCreateParameters->getCallbackUrl());
+        $this->assertEquals($callBackUrl, $hooksCreateParameters->getCallbackURL());
 
         // Test setters that are ignored by the constructor
-        $hooksCreateParameters->setMeetingId($meetingId = $this->faker->uuid);
+        $hooksCreateParameters->setMeetingID($meetingId = $this->faker->uuid);
         $hooksCreateParameters->setGetRaw($getRaw = $this->faker->boolean);
-        $this->assertEquals($meetingId, $hooksCreateParameters->getMeetingId());
-        $this->assertEquals($getRaw, $hooksCreateParameters->getRaw());
+        $this->assertEquals($meetingId, $hooksCreateParameters->getMeetingID());
+        $this->assertEquals($getRaw, $hooksCreateParameters->isGetRaw());
     }
 }

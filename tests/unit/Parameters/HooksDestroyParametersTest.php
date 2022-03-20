@@ -22,10 +22,10 @@ use BigBlueButton\TestCase;
 
 class HooksDestroyParametersTest extends TestCase
 {
-    public function testHooksDestroyParameters()
+    public function testHooksDestroyParameters(): void
     {
         $hooksCreateParameters = new HooksDestroyParameters($hookId = $this->faker->numberBetween(1, 50));
 
-        $this->assertEquals($hookId, $hooksCreateParameters->getHookId());
+        $this->assertEquals($hookId, $hooksCreateParameters->getHookID());
     }
 }

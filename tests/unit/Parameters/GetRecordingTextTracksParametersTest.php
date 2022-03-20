@@ -27,10 +27,10 @@ class GetRecordingTextTracksParametersTest extends TestCase
     {
         $getRecordingTextTracksParams = new GetRecordingTextTracksParameters($recordId = $this->faker->uuid);
 
-        $this->assertEquals($recordId, $getRecordingTextTracksParams->getRecordId());
+        $this->assertEquals($recordId, $getRecordingTextTracksParams->getRecordID());
 
         // Test setters that are ignored by the constructor
-        $getRecordingTextTracksParams->setRecordId($newRecordId = $this->faker->uuid);
-        $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordId());
+        $getRecordingTextTracksParams->setRecordID($newRecordId = $this->faker->uuid);
+        $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordID());
     }
 }
