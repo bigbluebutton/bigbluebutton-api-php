@@ -58,7 +58,7 @@
     "docs": "https://github.com/littleredbutton/bigbluebutton-api-php/blob/master/README.md"
   },
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.4",
     "ext-curl": "*",
     "ext-simplexml": "*",
     "ext-mbstring": "*",
