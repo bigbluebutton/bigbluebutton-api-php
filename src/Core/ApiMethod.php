@@ -40,4 +40,5 @@ class ApiMethod
     public const HOOKS_CREATE              = 'hooks/create';
     public const HOOKS_LIST                = 'hooks/list';
     public const HOOKS_DESTROY             = 'hooks/destroy';
+    public const INSERT_DOCUMENT           = 'insertDocument';
 }

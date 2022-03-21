@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules>
+    <module name="presentation">
+        <document url="http://localhost/foobar.png" filename="Foobar.png"/>
+        <document url="http://localhost/foobar.pdf" filename="Foobar.pdf" downloadable="true"/>
+        <document url="http://localhost/foobar.svg" filename="Foobar.svg" downloadable="true" removable="false"/>
+    </module>
+</modules>

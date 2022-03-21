@@ -26,6 +26,7 @@ use BigBlueButton\Http\Transport\TransportInterface;
 use BigBlueButton\Http\Transport\TransportResponse;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -345,5 +346,18 @@ class BigBlueButtonTest extends TestCase
             }
             $this->assertStringContainsString(\rawurlencode($key) . '=' . rawurlencode($value), $url);
         }
+    }
+
+    public function testGetInsertDocument()
+    {
+        $params = new InsertDocumentParameters('foobar');
+
+        $this->assertStringContainsString('http://localhost/api/insertDocument?meetingID=foobar', $this->bbb->getInsertDocumentUrl($params));
+
+        $this->transport->method('request')->willReturn(new TransportResponse('<response><returncode>SUCCESS</returncode></response>', null));
+
+        $response = $this->bbb->insertDocument($params);
+
+        $this->assertTrue($response->success());
     }
 }
