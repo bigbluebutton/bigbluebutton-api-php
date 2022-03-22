@@ -43,8 +43,6 @@ namespace BigBlueButton\Parameters;
  * @method $this setRedirect(bool $redirect)
  * @method string getClientURL()
  * @method $this setClientURL(string $clientURL)
- * @method bool|null isJoinViaHtml5()
- * @method $this setJoinViaHtml5(bool $joinViaHtml)
  * @method bool|null isGuest()
  * @method $this setGuest(bool $guest)
  * @method string getRole()
@@ -224,5 +222,35 @@ class JoinMeetingParameters extends UserDataParameters
         $this->userID = $userID;
 
         return $this;
+    }
+
+    /**
+     * @deprecated since version 4.3 and will be removed in version 5.0. The API parameter was removed from BigBlueButton and has no effect anymore.
+     *
+     * @return $this
+     */
+    public function setJoinViaHtml5(bool $joinViaHtml5): self
+    {
+        @trigger_error(
+            sprintf('Using "%s()" is deprecated since version 4.3 and will be removed in version 5.0. The API parameter was removed from BigBlueButton and has no effect anymore.', __METHOD__),
+            E_USER_DEPRECATED
+        );
+
+        $this->joinViaHtml5 = $joinViaHtml5;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated since version 4.3 and will be removed in version 5.0. The API parameter was removed from BigBlueButton and has no effect anymore.
+     */
+    public function isJoinViaHtml5(): bool
+    {
+        @trigger_error(
+            sprintf('Using "%s()" is deprecated since version 4.3 and will be removed in version 5.0. The API parameter was removed from BigBlueButton and has no effect anymore.', __METHOD__),
+            E_USER_DEPRECATED
+        );
+
+        return $this->joinViaHtml5;
     }
 }
