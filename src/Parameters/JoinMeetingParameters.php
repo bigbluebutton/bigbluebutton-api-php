@@ -43,8 +43,6 @@ namespace BigBlueButton\Parameters;
  * @method $this setRedirect(bool $redirect)
  * @method string getClientURL()
  * @method $this setClientURL(string $clientURL)
- * @method bool|null isJoinViaHtml5()
- * @method $this setJoinViaHtml5(bool $joinViaHtml)
  * @method bool|null isGuest()
  * @method $this setGuest(bool $guest)
  * @method string getRole()
