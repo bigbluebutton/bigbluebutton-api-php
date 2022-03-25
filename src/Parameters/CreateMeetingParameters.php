@@ -19,6 +19,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Core\MeetingLayout;
+
 /**
  * Class CreateMeetingParameters.
  */
@@ -173,7 +175,7 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var bool
      */
-    private $allowModsToEjectCameras;
+    private $allowModsToEjectCameras = true;
 
     /**
      * @var array
@@ -243,27 +245,27 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var boolean
      */
-    private $breakoutRoomsEnabled;
+    private $breakoutRoomsEnabled = true;
 
     /**
      * @var boolean
      */
-    private $breakoutRoomsRecord;
+    private $breakoutRoomsRecord = true;
 
     /**
      * @var boolean
      */
-    private $breakoutRoomsPrivateChatEnabled;
+    private $breakoutRoomsPrivateChatEnabled = true;
 
     /**
      * @var string
      */
-    private $meetingEndedURL;
+    private $meetingEndedURL = '';
 
     /**
      * @var string
      */
-    private $meetingLayout;
+    private $meetingLayout = MeetingLayout::SMART_LAYOUT;
 
     /**
      * CreateMeetingParameters constructor.
