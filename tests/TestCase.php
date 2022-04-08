@@ -18,8 +18,6 @@
  */
 namespace BigBlueButton;
 
-use BigBlueButton\Core\GuestPolicy;
-use BigBlueButton\Core\MeetingLayout;
 use BigBlueButton\Parameters\CreateMeetingParameters as CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters as JoinMeetingParameters;
@@ -75,7 +73,6 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'autoStartRecording'                        => $this->faker->boolean(50),
             'dialNumber'                                => $this->faker->phoneNumber,
             'voiceBridge'                               => $this->faker->randomNumber(5),
-            'webVoice'                                  => $this->faker->word,
             'logoutURL'                                 => $this->faker->url,
             'maxParticipants'                           => $this->faker->numberBetween(2, 100),
             'record'                                    => $this->faker->boolean(50),
@@ -86,7 +83,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'webcamsOnlyForModerator'                   => $this->faker->boolean(50),
             'logo'                                      => $this->faker->imageUrl(330, 70),
             'copyright'                                 => $this->faker->text,
-            'guestPolicy'                               => $this->faker->randomElement([GuestPolicy::ALWAYS_ACCEPT, GuestPolicy::ALWAYS_DENY, GuestPolicy::ASK_MODERATOR]),
+            'guestPolicy'                               => CreateMeetingParameters::ALWAYS_ACCEPT,
             'muteOnStart'                               => $this->faker->boolean(50),
             'lockSettingsDisableCam'                    => $this->faker->boolean(50),
             'lockSettingsDisableMic'                    => $this->faker->boolean(50),
@@ -98,7 +95,6 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsLockOnJoin'                    => $this->faker->boolean(50),
             'lockSettingsLockOnJoinConfigurable'        => $this->faker->boolean(50),
             'allowModsToUnmuteUsers'                    => $this->faker->boolean(50),
-            'allowModsToEjectCameras'                   => $this->faker->boolean(50),
             'meta_presenter'                            => $this->faker->name,
             'meta_endCallbackUrl'                       => $this->faker->url,
             'meta_bbb-recording-ready-url'              => $this->faker->url,
@@ -108,16 +104,16 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'endWhenNoModerator'                        => $this->faker->boolean(50),
             'endWhenNoModeratorDelayInMinutes'          => $this->faker->numberBetween(1, 100),
             'meetingLayout'                             => $this->faker->randomElement([
-                                                                MeetingLayout::CUSTOM_LAYOUT,
-                                                                MeetingLayout::SMART_LAYOUT,
-                                                                MeetingLayout::PRESENTATION_FOCUS,
-                                                                MeetingLayout::VIDEO_FOCUS
+                                                                CreateMeetingParameters::CUSTOM_LAYOUT,
+                                                                CreateMeetingParameters::SMART_LAYOUT,
+                                                                CreateMeetingParameters::PRESENTATION_FOCUS,
+                                                                CreateMeetingParameters::VIDEO_FOCUS
                                                            ]),
             'learningDashboardEnabled'                  => $this->faker->boolean(50),
             'learningDashboardCleanupDelayInMinutes'    => $this->faker->numberBetween(1, 100),
+            'allowModsToEjectCameras'                   => $this->faker->boolean(50),
             'breakoutRoomsEnabled'                      => $this->faker->boolean(50),
             'breakoutRoomsPrivateChatEnabled'           => $this->faker->boolean(50),
-            'meetingEndedURL'                           => $this->faker->url,
             'breakoutRoomsRecord'                       => $this->faker->boolean(50),
             'allowRequestsWithoutSession'               => $this->faker->boolean(50),
             'virtualBackgroundsDisabled'                => $this->faker->boolean(50),
@@ -152,12 +148,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setModeratorPassword($params['moderatorPW'])
             ->setDialNumber($params['dialNumber'])
             ->setVoiceBridge($params['voiceBridge'])
-            ->setWebVoice($params['webVoice'])
-            ->setLogoutURL($params['logoutURL'])
+            ->setLogoutUrl($params['logoutURL'])
             ->setMaxParticipants($params['maxParticipants'])
             ->setRecord($params['record'])
             ->setDuration($params['duration'])
-            ->setWelcome($params['welcome'])
+            ->setWelcomeMessage($params['welcome'])
             ->setAutoStartRecording($params['autoStartRecording'])
             ->setAllowStartStopRecording($params['allowStartStopRecording'])
             ->setModeratorOnlyMessage($params['moderatorOnlyMessage'])
@@ -177,17 +172,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])
             ->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoinConfigurable'])
             ->setAllowModsToUnmuteUsers($params['allowModsToUnmuteUsers'])
-            ->setGuestPolicy($params['guestPolicy'])
+            ->setGuestPolicyAlwaysAccept()
             ->addMeta('presenter', $params['meta_presenter'])
             ->setBannerText($params['bannerText'])
             ->setBannerColor($params['bannerColor'])
             ->setMeetingKeepEvents($params['meetingKeepEvents'])
             ->setEndWhenNoModerator($params['endWhenNoModerator'])
             ->setEndWhenNoModeratorDelayInMinutes($params['endWhenNoModeratorDelayInMinutes'])
-            ->setAllowModsToEjectCameras($params['allowModsToEjectCameras'])
-            ->setMeetingEndedURL($params['meetingEndedURL'])
             ->setMeetingLayout($params['meetingLayout'])
-            ->setMeetingKeepEvents($params['meetingKeepEvents'])
             ->setLearningDashboardEnabled($params['learningDashboardEnabled'])
             ->setLearningDashboardCleanupDelayInMinutes($params['learningDashboardCleanupDelayInMinutes'])
             ->setAllowModsToEjectCameras($params['allowModsToEjectCameras'])

@@ -587,9 +587,4 @@ class BigBlueButton
 
         return $response->getBody();
     }
-
-    public function buildUrl(string $method = '', string $params = '', bool $append = true): string
-    {
-        return $this->urlBuilder->buildUrl($method, $params, $append);
-    }
 }

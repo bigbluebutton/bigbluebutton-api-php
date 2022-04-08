@@ -19,7 +19,6 @@
 namespace BigBlueButton\Tests\Functional;
 
 use BigBlueButton\BigBlueButton;
-use BigBlueButton\Core\ApiMethod;
 use BigBlueButton\Http\Transport\TransportInterface;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -103,21 +102,6 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
     /* Create Meeting */
 
     /**
-     * Test create meeting URL
-     */
-    public function testCreateMeetingUrl(): void
-    {
-        $params = $this->generateCreateParams();
-        $url    = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
-        foreach ($params as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
-            $this->assertStringContainsString($key . '=' . rawurlencode($value), $url);
-        }
-    }
-
-    /**
      * Test create meeting
      */
     public function testCreateMeeting()
@@ -192,23 +176,7 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
     /* Join Meeting */
 
     /**
-     * Test create join meeting URL
      */
-    public function testCreateJoinMeetingUrl(): void
-    {
-        $joinMeetingParams = $this->generateJoinMeetingParams();
-        $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
-
-        $url = $this->bbb->getJoinMeetingURL($joinMeetingMock);
-
-        foreach ($joinMeetingParams as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
-            $this->assertStringContainsString('=' . rawurlencode($value), $url);
-        }
-    }
-
     public function testJoinMeeting()
     {
         $params = $this->generateCreateParams();
@@ -232,21 +200,6 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
     }
 
     /* End Meeting */
-
-    /**
-     * Test generate end meeting URL
-     */
-    public function testCreateEndMeetingUrl(): void
-    {
-        $params = $this->generateEndMeetingParams();
-        $url    = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
-        foreach ($params as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
-            $this->assertStringContainsString('=' . rawurlencode($value), $url);
-        }
-    }
 
     public function testEndMeeting()
     {
@@ -278,12 +231,6 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
 
     /* Get Meetings */
 
-    public function testGetMeetingsUrl(): void
-    {
-        $url = $this->bbb->getMeetingsUrl();
-        $this->assertStringContainsString(ApiMethod::GET_MEETINGS, $url);
-    }
-
     public function testGetMeetings()
     {
         $result = $this->bbb->getMeetings();
@@ -291,14 +238,6 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
     }
 
     /* Get meeting info */
-
-    public function testGetMeetingInfoUrl(): void
-    {
-        $meeting = $this->createRealMeeting($this->bbb);
-
-        $url = $this->bbb->getMeetingInfoUrl(new GetMeetingInfoParameters($meeting->getMeetingId()));
-        $this->assertStringContainsString('=' . rawurlencode($meeting->getMeetingId()), $url);
-    }
 
     public function testGetMeetingInfo()
     {
@@ -309,23 +248,11 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
         $this->assertTrue($result->success());
     }
 
-    public function testGetRecordingsUrl(): void
-    {
-        $url = $this->bbb->getRecordingsUrl(new GetRecordingsParameters());
-        $this->assertStringContainsString(ApiMethod::GET_RECORDINGS, $url);
-    }
-
     public function testGetRecordings()
     {
         $result = $this->bbb->getRecordings(new GetRecordingsParameters());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
         $this->assertTrue($result->success());
-    }
-
-    public function testPublishRecordingsUrl(): void
-    {
-        $url = $this->bbb->getPublishRecordingsUrl(new PublishRecordingsParameters($this->faker->sha1, true));
-        $this->assertStringContainsString(ApiMethod::PUBLISH_RECORDINGS, $url);
     }
 
     public function testPublishRecordings()
@@ -335,29 +262,11 @@ abstract class AbstractBigBlueButtonFunctionalTest extends TestCase
         $this->assertTrue($result->failed());
     }
 
-    public function testDeleteRecordingsUrl(): void
-    {
-        $url = $this->bbb->getDeleteRecordingsUrl(new DeleteRecordingsParameters($this->faker->sha1));
-        $this->assertStringContainsString(ApiMethod::DELETE_RECORDINGS, $url);
-    }
-
     public function testDeleteRecordings()
     {
         $result = $this->bbb->deleteRecordings(new DeleteRecordingsParameters('non-existing-id-' . $this->faker->sha1));
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
-    }
-
-    public function testUpdateRecordingsUrl(): void
-    {
-        $params = $this->generateUpdateRecordingsParams();
-        $url    = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
-        foreach ($params as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
-            $this->assertStringContainsString('=' . rawurlencode($value), $url);
-        }
     }
 
     public function testUpdateRecordings()
