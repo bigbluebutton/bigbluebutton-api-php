@@ -35,6 +35,7 @@ use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
 use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
+use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
@@ -51,6 +52,7 @@ use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
+use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
@@ -498,6 +500,26 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getHooksDestroyUrl($hooksDestroyParams));
 
         return new HooksDestroyResponse($xml);
+    }
+
+    /**
+     * @return string
+     */
+    public function getInsertDocumentUrl(InsertDocumentParameters $insertDocumentParams): string
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::INSERT_DOCUMENT, $insertDocumentParams->getHTTPQuery());
+    }
+
+    /**
+     * @throws NetworkException
+     * @throws ParsingException
+     * @throws RuntimeException
+     */
+    public function insertDocument(InsertDocumentParameters $insertDocumentParams): InsertDocumentResponse
+    {
+        $xml = $this->processXmlResponse($this->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
+
+        return new InsertDocumentResponse($xml);
     }
 
     /* ____________________ SPECIAL METHODS ___________________ */

@@ -23,14 +23,13 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: bcmath, ctype, fileinfo, json, mbstring, dom, ldap, pdo, tokenizer, xml, mysql, sqlite
         coverage: xdebug
-    - name: Downgrade phpunit for php7.2
-      run: composer update phpunit/phpunit -W
+
     - name: Update to lowest php dependencies
       run: composer update --prefer-lowest
     - name: Install php dependencies
       run: composer install --dev --no-interaction
     - name: Execute tests without coverage
-      run: vendor/bin/phpunit --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
+      run: tools/phpunit --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
    
   PHP:
     name: PHP ${{ matrix.php-versions }}
@@ -53,26 +52,23 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         extensions: bcmath, ctype, fileinfo, json, mbstring, dom, ldap, pdo, tokenizer, xml, mysql, sqlite
         coverage: xdebug
-    - name: Downgrade phpunit for php7.2
-      if: ${{ matrix.php-versions == '7.2' }}
-      run: composer update phpunit/phpunit -W
     - name: Install php dependencies
       run: composer install --dev --no-interaction
       continue-on-error: ${{ matrix.experimental }}
     - name: Execute code style check via php-cs-fixer
-      run: vendor/bin/php-cs-fixer fix --dry-run
+      run: tools/php-cs-fixer fix --dry-run
       continue-on-error: ${{ matrix.experimental }}
     - name: Execute tests with coverage
       if: ${{ !matrix.experimental }}
       run: |
         mkdir -p build/logs
-        vendor/bin/phpunit --coverage-clover=build/logs/coverage.xml --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
+        tools/phpunit --coverage-clover=build/logs/coverage.xml --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
     - name: Execute tests without coverage
       if: ${{ matrix.experimental }}
-      run: vendor/bin/phpunit --testsuite="BigBlueButton test suite"
+      run: tools/phpunit --testsuite="BigBlueButton test suite"
       continue-on-error: true
     - name: Coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: ${{ matrix.php-versions == '7.2' && env.COVERALLS_REPO_TOKEN != null }}
-      run: vendor/bin/php-coveralls --coverage_clover=build/logs/coverage.xml -v
+      run: tools/php-coveralls --coverage_clover=build/logs/coverage.xml -v
