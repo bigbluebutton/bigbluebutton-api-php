@@ -1,6 +1,6 @@
 <?php
 
-namespace unit\Responses;
+namespace BigBlueButton\Tests\Unit\Responses;
 
 use BigBlueButton\Responses\GetRecordingTextTracksResponse;
 use BigBlueButton\TestCase;
