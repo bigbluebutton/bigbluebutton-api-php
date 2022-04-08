@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class GetRecordingTextTracksParameters
+ * Class GetRecordingTextTracksParameters.
  *
  * @method string getRecordID()
- * @method $this setRecordID(string $recordID)
+ * @method $this  setRecordID(string $recordID)
  */
 class GetRecordingTextTracksParameters extends MetaParameters
 {
-
     /**
      * @var string
      */
@@ -39,6 +39,7 @@ class GetRecordingTextTracksParameters extends MetaParameters
 
     /**
      * @deprecated use getRecordID()
+     *
      * @return string
      */
     public function getRecordId()
@@ -48,6 +49,7 @@ class GetRecordingTextTracksParameters extends MetaParameters
 
     /**
      * @deprecated use setRecordID()
+     *
      * @return GetRecordingTextTracksParameters
      */
     public function setRecordId(string $recordID)

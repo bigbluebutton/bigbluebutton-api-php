@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
@@ -32,13 +33,13 @@ use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
-use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
@@ -48,7 +49,6 @@ use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\GetRecordingTextTracksResponse;
-use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
@@ -56,19 +56,20 @@ use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
+use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 use SimpleXMLElement;
 
 /**
- * Class BigBlueButton
+ * Class BigBlueButton.
+ *
  * @final since 4.0.
- * @package BigBlueButton
  */
 class BigBlueButton
 {
     public const CONNECTION_ERROR_BASEURL = 1;
-    public const CONNECTION_ERROR_SECRET  = 2;
+    public const CONNECTION_ERROR_SECRET = 2;
 
     /**
      * @var string
@@ -101,15 +102,16 @@ class BigBlueButton
     protected $transport;
 
     /**
-     * @param  string|null             $baseUrl   (optional) If not given, it will be retrieved from the environment.
-     * @param  string|null             $secret    (optional) If not given, it will be retrieved from the environment.
-     * @param  TransportInterface|null $transport (optional) Use a custom transport for all HTTP requests. Will fallback to default CurlTransport.
+     * @param string|null             $baseUrl   (optional) If not given, it will be retrieved from the environment
+     * @param string|null             $secret    (optional) If not given, it will be retrieved from the environment
+     * @param TransportInterface|null $transport (optional) Use a custom transport for all HTTP requests. Will fallback to default CurlTransport.
+     *
      * @throws ConfigException
      */
     public function __construct(?string $baseUrl = null, ?string $secret = null, ?TransportInterface $transport = null)
     {
         // Keeping backward compatibility with older deployed versions
-        $this->securitySecret   = $secret ?: getenv('BBB_SECURITY_SALT') ?: getenv('BBB_SECRET');
+        $this->securitySecret = $secret ?: getenv('BBB_SECURITY_SALT') ?: getenv('BBB_SECRET');
         $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL');
 
         if (empty($this->bbbServerBaseUrl)) {
@@ -117,11 +119,12 @@ class BigBlueButton
         }
 
         $this->urlBuilder = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
-        $this->transport  = $transport ?? CurlTransport::createWithDefaultOptions();
+        $this->transport = $transport ?? CurlTransport::createWithDefaultOptions();
     }
 
     /**
      * @return ApiVersionResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -134,7 +137,8 @@ class BigBlueButton
     }
 
     /**
-     * Check if connection to api can be established with the baseurl and secret
+     * Check if connection to api can be established with the baseurl and secret.
+     *
      * @return bool connection successful
      */
     public function isConnectionWorking(): bool
@@ -169,7 +173,7 @@ class BigBlueButton
     }
 
     /**
-     * Return connection error type
+     * Return connection error type.
      *
      * @return int|null Connection error (const CONNECTION_ERROR_BASEURL or CONNECTION_ERROR_SECRET)
      */
@@ -195,6 +199,7 @@ class BigBlueButton
 
     /**
      * @return CreateMeetingResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -207,8 +212,6 @@ class BigBlueButton
     }
 
     /**
-     * @param JoinMeetingParameters $joinMeetingParams
-     *
      * @return string
      */
     public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams)
@@ -218,6 +221,7 @@ class BigBlueButton
 
     /**
      * @return JoinMeetingResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -239,6 +243,7 @@ class BigBlueButton
 
     /**
      * @return EndMeetingResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -260,6 +265,7 @@ class BigBlueButton
 
     /**
      * @return IsMeetingRunningResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -281,6 +287,7 @@ class BigBlueButton
 
     /**
      * @return GetMeetingsResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -302,6 +309,7 @@ class BigBlueButton
 
     /**
      * @return GetMeetingInfoResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -323,6 +331,7 @@ class BigBlueButton
 
     /**
      * @return GetRecordingsResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -344,6 +353,7 @@ class BigBlueButton
 
     /**
      * @return PublishRecordingsResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -365,6 +375,7 @@ class BigBlueButton
 
     /**
      * @return DeleteRecordingsResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -386,6 +397,7 @@ class BigBlueButton
 
     /**
      * @return UpdateRecordingsResponse
+     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
@@ -407,6 +419,7 @@ class BigBlueButton
 
     /**
      * @return GetRecordingTextTracksResponse
+     *
      * @throws NetworkException
      * @throws RuntimeException
      */
@@ -427,12 +440,13 @@ class BigBlueButton
 
     /**
      * @return PutRecordingTextTrackResponse
+     *
      * @throws NetworkException
      * @throws RuntimeException
      */
     public function putRecordingTextTrack(PutRecordingTextTrackParameters $putRecordingTextTrackParams)
     {
-        $url  = $this->getPutRecordingTextTrackUrl($putRecordingTextTrackParams);
+        $url = $this->getPutRecordingTextTrackUrl($putRecordingTextTrackParams);
         $file = $putRecordingTextTrackParams->getFile();
 
         return new PutRecordingTextTrackResponse(
@@ -452,6 +466,7 @@ class BigBlueButton
 
     /**
      * @return HooksCreateResponse
+     *
      * @throws NetworkException
      * @throws RuntimeException
      * @throws ParsingException
@@ -491,6 +506,7 @@ class BigBlueButton
 
     /**
      * @return HooksDestroyResponse
+     *
      * @throws NetworkException
      * @throws RuntimeException
      * @throws ParsingException
@@ -502,9 +518,6 @@ class BigBlueButton
         return new HooksDestroyResponse($xml);
     }
 
-    /**
-     * @return string
-     */
     public function getInsertDocumentUrl(InsertDocumentParameters $insertDocumentParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::INSERT_DOCUMENT, $insertDocumentParams->getHTTPQuery());
@@ -549,7 +562,7 @@ class BigBlueButton
     {
         try {
             return new SimpleXMLElement($this->requestUrl($url, $payload, $contentType));
-        } catch (NetworkException | RuntimeException $e) {
+        } catch (NetworkException|RuntimeException $e) {
             throw $e;
         } catch (\Throwable $e) {
             throw new ParsingException('Could not parse payload as XML', 0, $e);
@@ -568,10 +581,6 @@ class BigBlueButton
 
     /**
      * A private utility method used by other public methods to request from the api.
-     *
-     * @param string $url
-     * @param string $payload
-     * @param string $contentType
      *
      * @return string Response body
      *

@@ -20,6 +20,7 @@ namespace BigBlueButton\Http;
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http;
 
 use BigBlueButton\Http\Transport\Header;
@@ -56,8 +57,6 @@ final class HeaderTest extends TestCase
 
     /**
      * @dataProvider provideBadlyFormattedHeaders
-     *
-     * @param string $badHeader
      */
     public function testMergeCurlHeadersWithBadHeaders(string $badHeader): void
     {
@@ -87,7 +86,7 @@ final class HeaderTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(sprintf(
             'Non-string header with type "%s" passed.',
-            is_object($badHeader) ? get_class($badHeader) : gettype($badHeader)
+            \is_object($badHeader) ? \get_class($badHeader) : \gettype($badHeader)
         ));
 
         Header::mergeCurlHeaders([$badHeader]);

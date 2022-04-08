@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\HooksListResponse;
@@ -28,11 +29,11 @@ class HooksListResponseTest extends TestCase
      */
     private $listResponse;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_list.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'hooks_list.xml');
 
         $this->listResponse = new HooksListResponse($xml);
     }
@@ -47,8 +48,8 @@ class HooksListResponseTest extends TestCase
         $this->assertEquals('my-meeting', $aHook->getMeetingId());
         $this->assertEquals('http://postcatcher.in/catchers/abcdefghijk', $aHook->getCallbackUrl());
         $this->assertEquals(1, $aHook->getHookId());
-        $this->assertEquals(false, $aHook->isPermanentHook());
-        $this->assertEquals(false, $aHook->hasRawData());
+        $this->assertFalse($aHook->isPermanentHook());
+        $this->assertFalse($aHook->hasRawData());
     }
 
     public function testHooksListResponseTypes()
@@ -57,8 +58,8 @@ class HooksListResponseTest extends TestCase
 
         $aHook = $this->listResponse->getHooks()[0];
 
-        $this->assertEachGetterValueIsString($aHook, ['getCallbackUrl','getMeetingId']);
+        $this->assertEachGetterValueIsString($aHook, ['getCallbackUrl', 'getMeetingId']);
         $this->assertEachGetterValueIsInteger($aHook, ['getHookId']);
-        $this->assertEachGetterValueIsBoolean($aHook, ['hasRawData','isPermanentHook']);
+        $this->assertEachGetterValueIsBoolean($aHook, ['hasRawData', 'isPermanentHook']);
     }
 }

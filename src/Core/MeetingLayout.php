@@ -19,12 +19,13 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 final class MeetingLayout
 {
-    public const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
-    public const SMART_LAYOUT       = 'SMART_LAYOUT';
+    public const CUSTOM_LAYOUT = 'CUSTOM_LAYOUT';
+    public const SMART_LAYOUT = 'SMART_LAYOUT';
     public const PRESENTATION_FOCUS = 'PRESENTATION_FOCUS';
-    public const VIDEO_FOCUS        = 'VIDEO_FOCUS';
+    public const VIDEO_FOCUS = 'VIDEO_FOCUS';
 }

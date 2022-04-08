@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 /**
- * Class Record
- * @package BigBlueButton\Core
+ * Class Record.
  */
 class Record
 {
@@ -42,17 +42,17 @@ class Record
 
     public function __construct(\SimpleXMLElement $xml)
     {
-        $this->recordId           = $xml->recordID->__toString();
-        $this->meetingId          = $xml->meetingID->__toString();
-        $this->name               = $xml->name->__toString();
-        $this->isPublished        = $xml->published->__toString() === 'true';
-        $this->state              = $xml->state->__toString();
-        $this->startTime          = (float) $xml->startTime->__toString();
-        $this->endTime            = (float) $xml->endTime->__toString();
-        $this->participantCount   = (int) $xml->participants->__toString();
-        $this->playbackType       = $xml->playback->format->type->__toString();
-        $this->playbackUrl        = $xml->playback->format->url->__toString();
-        $this->playbackLength     = (int) $xml->playback->format->length->__toString();
+        $this->recordId = $xml->recordID->__toString();
+        $this->meetingId = $xml->meetingID->__toString();
+        $this->name = $xml->name->__toString();
+        $this->isPublished = $xml->published->__toString() === 'true';
+        $this->state = $xml->state->__toString();
+        $this->startTime = (float) $xml->startTime->__toString();
+        $this->endTime = (float) $xml->endTime->__toString();
+        $this->participantCount = (int) $xml->participants->__toString();
+        $this->playbackType = $xml->playback->format->type->__toString();
+        $this->playbackUrl = $xml->playback->format->url->__toString();
+        $this->playbackLength = (int) $xml->playback->format->length->__toString();
 
         foreach ($xml->playback->children() as $format) {
             $this->playbackFormats[] = new PlaybackFormat($format);
@@ -88,7 +88,7 @@ class Record
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isPublished()
     {
@@ -129,6 +129,7 @@ class Record
 
     /**
      * @deprecated since 4.2. Use getPlaybackFormats() instead.
+     *
      * @return string
      */
     public function getPlaybackType()
@@ -138,6 +139,7 @@ class Record
 
     /**
      * @deprecated since 4.2. Use getPlaybackFormats() instead.
+     *
      * @return string
      */
     public function getPlaybackUrl()
@@ -147,6 +149,7 @@ class Record
 
     /**
      * @deprecated since 4.2. Use getPlaybackFormats() instead.
+     *
      * @return string
      */
     public function getPlaybackLength()

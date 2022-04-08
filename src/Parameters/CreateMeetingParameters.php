@@ -16,147 +16,147 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Core\GuestPolicy;
 use BigBlueButton\Core\MeetingLayout;
 
 /**
- * @method string getName()
- * @method $this setName(string $name)
- * @method string getMeetingID()
- * @method $this setMeetingID(string $id)
- * @method string getAttendeePW()
- * @method $this setAttendeePW(string $password)
- * @method string getModeratorPW()
- * @method $this setModeratorPW(string $password)
- * @method string getWelcome()
- * @method $this setWelcome(string $welcome)
- * @method string getDialNumber()
- * @method $this setDialNumber(string $dialNumber)
- * @method string getVoiceBridge()
- * @method $this setVoiceBridge(string $voiceBridge)
- * @method string getWebVoice()
- * @method $this setWebVoice(string $webVoice)
- * @method int getMaxParticipants()
- * @method $this setMaxParticipants(int $maxParticipants)
- * @method string getLogoutURL()
- * @method $this setLogoutURL(string $logoutURL)
+ * @method string    getName()
+ * @method $this     setName(string $name)
+ * @method string    getMeetingID()
+ * @method $this     setMeetingID(string $id)
+ * @method string    getAttendeePW()
+ * @method $this     setAttendeePW(string $password)
+ * @method string    getModeratorPW()
+ * @method $this     setModeratorPW(string $password)
+ * @method string    getWelcome()
+ * @method $this     setWelcome(string $welcome)
+ * @method string    getDialNumber()
+ * @method $this     setDialNumber(string $dialNumber)
+ * @method string    getVoiceBridge()
+ * @method $this     setVoiceBridge(string $voiceBridge)
+ * @method string    getWebVoice()
+ * @method $this     setWebVoice(string $webVoice)
+ * @method int       getMaxParticipants()
+ * @method $this     setMaxParticipants(int $maxParticipants)
+ * @method string    getLogoutURL()
+ * @method $this     setLogoutURL(string $logoutURL)
  * @method bool|null isRecord()
- * @method $this setRecord(bool $isRecord)
- * @method int getDuration()
- * @method $this setDuration(int $duration)
- * @method string getParentMeetingID()
- * @method $this setParentMeetingID(string $parentMeetingID)
- * @method int getSequence()
- * @method $this setSequence(int $sequence)
+ * @method $this     setRecord(bool $isRecord)
+ * @method int       getDuration()
+ * @method $this     setDuration(int $duration)
+ * @method string    getParentMeetingID()
+ * @method $this     setParentMeetingID(string $parentMeetingID)
+ * @method int       getSequence()
+ * @method $this     setSequence(int $sequence)
  * @method bool|null isFreeJoin()
- * @method $this setFreeJoin(bool $isFreeJoin)
+ * @method $this     setFreeJoin(bool $isFreeJoin)
  * @method bool|null isBreakoutRoomsEnabled()
- * @method $this setBreakoutRoomsEnabled(bool $isBreakoutRoomsEnabled)
+ * @method $this     setBreakoutRoomsEnabled(bool $isBreakoutRoomsEnabled)
  * @method bool|null isBreakoutRoomsPrivateChatEnabled()
- * @method $this setBreakoutRoomsPrivateChatEnabled(bool $isBreakoutRoomsPrivateChatEnabled)
+ * @method $this     setBreakoutRoomsPrivateChatEnabled(bool $isBreakoutRoomsPrivateChatEnabled)
  * @method bool|null isBreakoutRoomsRecord()
- * @method $this setBreakoutRoomsRecord(bool $isBreakoutRoomsRecord)
- * @method string getModeratorOnlyMessage()
- * @method $this setModeratorOnlyMessage(string $message)
+ * @method $this     setBreakoutRoomsRecord(bool $isBreakoutRoomsRecord)
+ * @method string    getModeratorOnlyMessage()
+ * @method $this     setModeratorOnlyMessage(string $message)
  * @method bool|null isAutoStartRecording()
- * @method $this setAutoStartRecording(bool $isAutoStartRecording)
+ * @method $this     setAutoStartRecording(bool $isAutoStartRecording)
  * @method bool|null isAllowStartStopRecording()
- * @method $this setAllowStartStopRecording(bool $isAllow)
+ * @method $this     setAllowStartStopRecording(bool $isAllow)
  * @method bool|null isWebcamsOnlyForModerator()
- * @method $this setWebcamsOnlyForModerator(bool $isWebcamsOnlyForModerator)
- * @method string getLogo()
- * @method $this setLogo(string $logo)
- * @method string getBannerText()
- * @method $this setBannerText(string $bannerText)
- * @method string getBannerColor()
- * @method $this setBannerColor(string $bannerColor)
- * @method string getCopyright()
- * @method $this setCopyright(string $copyright)
+ * @method $this     setWebcamsOnlyForModerator(bool $isWebcamsOnlyForModerator)
+ * @method string    getLogo()
+ * @method $this     setLogo(string $logo)
+ * @method string    getBannerText()
+ * @method $this     setBannerText(string $bannerText)
+ * @method string    getBannerColor()
+ * @method $this     setBannerColor(string $bannerColor)
+ * @method string    getCopyright()
+ * @method $this     setCopyright(string $copyright)
  * @method bool|null isMuteOnStart()
- * @method $this setMuteOnStart(bool $isMuteOnStart)
+ * @method $this     setMuteOnStart(bool $isMuteOnStart)
  * @method bool|null isAllowModsToUnmuteUsers()
- * @method $this setAllowModsToUnmuteUsers(bool $isAllowModsToUnmuteUsers)
+ * @method $this     setAllowModsToUnmuteUsers(bool $isAllowModsToUnmuteUsers)
  * @method bool|null isLockSettingsDisableCam()
- * @method $this setLockSettingsDisableCam(bool $isLockSettingsDisableCam)
+ * @method $this     setLockSettingsDisableCam(bool $isLockSettingsDisableCam)
  * @method bool|null isLockSettingsDisableMic()
- * @method $this setLockSettingsDisableMic(bool $isLockSettingsDisableMic)
+ * @method $this     setLockSettingsDisableMic(bool $isLockSettingsDisableMic)
  * @method bool|null isLockSettingsDisablePrivateChat()
- * @method $this setLockSettingsDisablePrivateChat(bool $isLockSettingsDisablePrivateChat)
+ * @method $this     setLockSettingsDisablePrivateChat(bool $isLockSettingsDisablePrivateChat)
  * @method bool|null isLockSettingsDisablePublicChat()
- * @method $this setLockSettingsDisablePublicChat(bool $isLockSettingsDisablePublicChat)
+ * @method $this     setLockSettingsDisablePublicChat(bool $isLockSettingsDisablePublicChat)
  * @method bool|null isLockSettingsDisableNote()
- * @method $this setLockSettingsDisableNote(bool $isLockSettingsDisableNote)
+ * @method $this     setLockSettingsDisableNote(bool $isLockSettingsDisableNote)
  * @method bool|null isLockSettingsLockedLayout()
- * @method $this setLockSettingsLockedLayout(bool $isLockSettingsLockedLayout)
+ * @method $this     setLockSettingsLockedLayout(bool $isLockSettingsLockedLayout)
  * @method bool|null isLockSettingsHideUserList()
- * @method $this setLockSettingsHideUserList(bool $isLockSettingsHideUserList)
+ * @method $this     setLockSettingsHideUserList(bool $isLockSettingsHideUserList)
  * @method bool|null isLockSettingsLockOnJoin()
- * @method $this setLockSettingsLockOnJoin(bool $isLockSettingsLockOnJoin)
+ * @method $this     setLockSettingsLockOnJoin(bool $isLockSettingsLockOnJoin)
  * @method bool|null isLockSettingsLockOnJoinConfigurable()
- * @method $this setLockSettingsLockOnJoinConfigurable(bool $isLockSettingsLockOnJoinConfigurable)
- * @method string getGuestPolicy()
- * @method $this setGuestPolicy(string $guestPolicy)
+ * @method $this     setLockSettingsLockOnJoinConfigurable(bool $isLockSettingsLockOnJoinConfigurable)
+ * @method string    getGuestPolicy()
+ * @method $this     setGuestPolicy(string $guestPolicy)
  * @method bool|null isMeetingKeepEvents()
- * @method $this setMeetingKeepEvents(bool $isMeetingKeepEvents)
+ * @method $this     setMeetingKeepEvents(bool $isMeetingKeepEvents)
  * @method bool|null isEndWhenNoModerator()
- * @method $this setEndWhenNoModerator(bool $isEndWhenNoModerator)
- * @method int getEndWhenNoModeratorDelayInMinutes()
- * @method $this setEndWhenNoModeratorDelayInMinutes(int $endWhenNoModeratorDelayInMinutes)
- * @method string getMeetingLayout()
- * @method $this setMeetingLayout(string $meetingLayout)
- * @method string getMeetingEndedURL()
- * @method $this setMeetingEndedURL(string $meetingEndedURL)
+ * @method $this     setEndWhenNoModerator(bool $isEndWhenNoModerator)
+ * @method int       getEndWhenNoModeratorDelayInMinutes()
+ * @method $this     setEndWhenNoModeratorDelayInMinutes(int $endWhenNoModeratorDelayInMinutes)
+ * @method string    getMeetingLayout()
+ * @method $this     setMeetingLayout(string $meetingLayout)
+ * @method string    getMeetingEndedURL()
+ * @method $this     setMeetingEndedURL(string $meetingEndedURL)
  * @method bool|null isLearningDashboardEnabled()
- * @method $this setLearningDashboardEnabled(bool $isLearningDashboardEnabled)
- * @method int getLearningDashboardCleanupDelayInMinutes()
- * @method $this setLearningDashboardCleanupDelayInMinutes(int $learningDashboardCleanupDelayInMinutes)
+ * @method $this     setLearningDashboardEnabled(bool $isLearningDashboardEnabled)
+ * @method int       getLearningDashboardCleanupDelayInMinutes()
+ * @method $this     setLearningDashboardCleanupDelayInMinutes(int $learningDashboardCleanupDelayInMinutes)
  * @method bool|null isAllowModsToEjectCameras()
- * @method $this setAllowModsToEjectCameras(bool $isAllowModsToEjectCameras)
+ * @method $this     setAllowModsToEjectCameras(bool $isAllowModsToEjectCameras)
  * @method bool|null isAllowRequestsWithoutSession()
- * @method $this setAllowRequestsWithoutSession(bool $isAllowRequestsWithoutSession)
+ * @method $this     setAllowRequestsWithoutSession(bool $isAllowRequestsWithoutSession)
  * @method bool|null isVirtualBackgroundsDisabled()
- * @method $this setVirtualBackgroundsDisabled(bool $isVirtualBackgroundsDisabled)
- * @method int getUserCameraCap()
- * @method $this setUserCameraCap(int $cap)
- *
+ * @method $this     setVirtualBackgroundsDisabled(bool $isVirtualBackgroundsDisabled)
+ * @method int       getUserCameraCap()
+ * @method $this     setUserCameraCap(int $cap)
  */
 class CreateMeetingParameters extends MetaParameters
 {
     /**
-     * @deprecated Use GuestPolicy::ALWAYS_ACCEPT instead.
+     * @deprecated use GuestPolicy::ALWAYS_ACCEPT instead
      */
-    public const ALWAYS_ACCEPT      = GuestPolicy::ALWAYS_ACCEPT;
+    public const ALWAYS_ACCEPT = GuestPolicy::ALWAYS_ACCEPT;
     /**
-     * @deprecated Use GuestPolicy::ALWAYS_DENY instead.
+     * @deprecated use GuestPolicy::ALWAYS_DENY instead
      */
-    public const ALWAYS_DENY        = GuestPolicy::ALWAYS_DENY;
+    public const ALWAYS_DENY = GuestPolicy::ALWAYS_DENY;
     /**
-     * @deprecated Use GuestPolicy::ASK_MODERATOR instead.
+     * @deprecated use GuestPolicy::ASK_MODERATOR instead
      */
-    public const ASK_MODERATOR      = GuestPolicy::ASK_MODERATOR;
+    public const ASK_MODERATOR = GuestPolicy::ASK_MODERATOR;
     /**
-     * @deprecated Use GuestPolicy::ALWAYS_ACCEPT_AUTH instead.
+     * @deprecated use GuestPolicy::ALWAYS_ACCEPT_AUTH instead
      */
     public const ALWAYS_ACCEPT_AUTH = GuestPolicy::ALWAYS_ACCEPT_AUTH;
 
     /**
-     * @deprecated Use MeetingLayout::CUSTOM_LAYOUT instead.
+     * @deprecated use MeetingLayout::CUSTOM_LAYOUT instead
      */
-    public const CUSTOM_LAYOUT      = MeetingLayout::CUSTOM_LAYOUT;
+    public const CUSTOM_LAYOUT = MeetingLayout::CUSTOM_LAYOUT;
     /**
-     * @deprecated Use MeetingLayout::SMART_LAYOUT instead.
+     * @deprecated use MeetingLayout::SMART_LAYOUT instead
      */
-    public const SMART_LAYOUT       = MeetingLayout::SMART_LAYOUT;
+    public const SMART_LAYOUT = MeetingLayout::SMART_LAYOUT;
     /**
-     * @deprecated Use MeetingLayout::PRESENTATION_FOCUS instead.
+     * @deprecated use MeetingLayout::PRESENTATION_FOCUS instead
      */
     public const PRESENTATION_FOCUS = MeetingLayout::PRESENTATION_FOCUS;
     /**
-     * @deprecated Use MeetingLayout::VIDEO_FOCUS instead.
+     * @deprecated use MeetingLayout::VIDEO_FOCUS instead
      */
-    public const VIDEO_FOCUS        = MeetingLayout::VIDEO_FOCUS;
+    public const VIDEO_FOCUS = MeetingLayout::VIDEO_FOCUS;
 
     /**
      * @var string
@@ -219,7 +219,7 @@ class CreateMeetingParameters extends MetaParameters
     protected $duration;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $isBreakout;
 
@@ -415,12 +415,13 @@ class CreateMeetingParameters extends MetaParameters
 
     public function __construct(string $meetingID, string $name)
     {
-        $this->meetingID   = $meetingID;
-        $this->name        = $name;
+        $this->meetingID = $meetingID;
+        $this->name = $name;
     }
 
     /**
      * @deprecated use getName()
+     *
      * @return string
      */
     public function getMeetingName()
@@ -430,6 +431,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setName()
+     *
      * @return static
      */
     public function setMeetingName(string $name): self
@@ -441,6 +443,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use getMeetingID()
+     *
      * @return string
      */
     public function getMeetingId()
@@ -450,6 +453,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setMeetingID()
+     *
      * @return CreateMeetingParameters
      */
     public function setMeetingId(string $meetingID)
@@ -461,6 +465,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use getAttendeePW()
+     *
      * @return string
      */
     public function getAttendeePassword()
@@ -470,6 +475,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setAttendeePW()
+     *
      * @return static
      */
     public function setAttendeePassword(string $password): self
@@ -481,6 +487,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use getModeratorPW()
+     *
      * @return string
      */
     public function getModeratorPassword()
@@ -490,6 +497,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setModeratorPW()
+     *
      * @return static
      */
     public function setModeratorPassword(string $password): self
@@ -501,6 +509,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use getWelcome()
+     *
      * @return string
      */
     public function getWelcomeMessage()
@@ -510,6 +519,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setWelcome()
+     *
      * @return CreateMeetingParameters
      */
     public function setWelcomeMessage(string $welcome)
@@ -521,6 +531,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use getLogoutURL()
+     *
      * @return string
      */
     public function getLogoutUrl()
@@ -530,6 +541,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use setLogoutURL()
+     *
      * @return CreateMeetingParameters
      */
     public function setLogoutUrl(string $logoutUrl)
@@ -541,6 +553,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use isRecord()
+     *
      * @return bool
      */
     public function isRecorded()
@@ -576,9 +589,6 @@ class CreateMeetingParameters extends MetaParameters
         return $this->isBreakout;
     }
 
-    /**
-     * @return bool
-     */
     public function isUserCameraCapDisabled(): bool
     {
         return $this->userCameraCap === 0;
@@ -606,6 +616,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @deprecated use getParentMeetingID()
+     *
      * @return string
      */
     public function getParentMeetingId()
@@ -652,7 +663,8 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * Ask moderator on join of non-moderators if user/guest is allowed to enter the meeting
+     * Ask moderator on join of non-moderators if user/guest is allowed to enter the meeting.
+     *
      * @return CreateMeetingParameters
      */
     public function setGuestPolicyAskModerator()
@@ -671,7 +683,8 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * Ask moderator on join of guests is allowed to enter the meeting, user are allowed to join directly
+     * Ask moderator on join of guests is allowed to enter the meeting, user are allowed to join directly.
+     *
      * @return CreateMeetingParameters
      */
     public function setGuestPolicyAlwaysAcceptAuth()
@@ -713,9 +726,6 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getPresentations(): array
     {
         return $this->presentations;
@@ -729,7 +739,7 @@ class CreateMeetingParameters extends MetaParameters
         $result = '';
 
         if (!empty($this->presentations)) {
-            $xml    = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><modules/>');
+            $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><modules/>');
             $module = $xml->addChild('module');
             $module->addAttribute('name', 'presentation');
 
@@ -737,7 +747,7 @@ class CreateMeetingParameters extends MetaParameters
                 if (strpos($nameOrUrl, 'http') === 0) {
                     $presentation = $module->addChild('document');
                     $presentation->addAttribute('url', $nameOrUrl);
-                    if (is_string($content)) {
+                    if (\is_string($content)) {
                         $presentation->addAttribute('filename', $content);
                     }
                 } else {
@@ -761,13 +771,13 @@ class CreateMeetingParameters extends MetaParameters
 
         if ($this->isBreakout()) {
             if ($this->parentMeetingID === null || $this->sequence === null) {
-                trigger_error('Breakout rooms require a parentMeetingID and sequence number.', E_USER_WARNING);
+                trigger_error('Breakout rooms require a parentMeetingID and sequence number.', \E_USER_WARNING);
             }
         } else {
             $queries = $this->filterBreakoutRelatedQueries($queries);
         }
 
-        return \http_build_query($queries, '', '&', PHP_QUERY_RFC3986);
+        return http_build_query($queries, '', '&', \PHP_QUERY_RFC3986);
     }
 
     private function filterBreakoutRelatedQueries(array $queries)

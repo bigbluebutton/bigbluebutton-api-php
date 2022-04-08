@@ -12,12 +12,12 @@ class GetRecordingsTextTracksResponseTest extends TestCase
      */
     private $tracks;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $json = $this->loadJsonFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' .
-            DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_recording_text_tracks.json');
+        $json = $this->loadJsonFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.
+            \DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'get_recording_text_tracks.json');
 
         $this->tracks = new GetRecordingTextTracksResponse($json);
     }
@@ -45,7 +45,7 @@ class GetRecordingsTextTracksResponseTest extends TestCase
                 'getKind',
                 'getLabel',
                 'getLang',
-                'getSource'
+                'getSource',
             ]
         );
     }

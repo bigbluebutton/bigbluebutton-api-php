@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http\Transport\Bridge\PsrHttpClient;
 
 use BigBlueButton\Exceptions\NetworkException;
@@ -35,6 +36,7 @@ use Psr\Http\Message\StreamInterface;
 
 /**
  * @covers \BigBlueButton\Http\Transport\Bridge\PsrHttpClient\PsrHttpClientTransport
+ *
  * @uses \BigBlueButton\Http\Transport\Cookie
  * @uses \BigBlueButton\Http\Transport\TransportRequest
  * @uses \BigBlueButton\Http\Transport\TransportResponse
@@ -70,9 +72,9 @@ final class PsrHttpClientTransportTest extends TestCase
 
     public function testRequestWithoutPayload(): void
     {
-        $request            = new TransportRequest('https://example.com/', '', 'application/xml');
-        $requestMock        = $this->createMock(RequestInterface::class);
-        $responseMock       = $this->createMock(ResponseInterface::class);
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
+        $requestMock = $this->createMock(RequestInterface::class);
+        $responseMock = $this->createMock(ResponseInterface::class);
         $responseStreamMock = $this->createMock(StreamInterface::class);
 
         $this->requestFactoryMock->expects($this->once())->method('createRequest')->with('GET', 'https://example.com/')->willReturn($requestMock);
@@ -91,10 +93,10 @@ final class PsrHttpClientTransportTest extends TestCase
 
     public function testRequestWithPayload(): void
     {
-        $request            = new TransportRequest('https://example.com/', 'Hi Doc!', 'application/xml');
-        $requestMock        = $this->createMock(RequestInterface::class);
-        $requestStreamMock  = $this->createMock(StreamInterface::class);
-        $responseMock       = $this->createMock(ResponseInterface::class);
+        $request = new TransportRequest('https://example.com/', 'Hi Doc!', 'application/xml');
+        $requestMock = $this->createMock(RequestInterface::class);
+        $requestStreamMock = $this->createMock(StreamInterface::class);
+        $responseMock = $this->createMock(ResponseInterface::class);
         $responseStreamMock = $this->createMock(StreamInterface::class);
 
         $this->requestFactoryMock->expects($this->once())->method('createRequest')->with('POST', 'https://example.com/')->willReturn($requestMock);
@@ -115,9 +117,9 @@ final class PsrHttpClientTransportTest extends TestCase
 
     public function testRequestWithoutCookie(): void
     {
-        $request            = new TransportRequest('https://example.com/', '', 'application/xml');
-        $requestMock        = $this->createMock(RequestInterface::class);
-        $responseMock       = $this->createMock(ResponseInterface::class);
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
+        $requestMock = $this->createMock(RequestInterface::class);
+        $responseMock = $this->createMock(ResponseInterface::class);
         $responseStreamMock = $this->createMock(StreamInterface::class);
 
         $this->requestFactoryMock->expects($this->once())->method('createRequest')->with('GET', 'https://example.com/')->willReturn($requestMock);
@@ -136,9 +138,9 @@ final class PsrHttpClientTransportTest extends TestCase
 
     public function testRequestWithEmptyCookie(): void
     {
-        $request            = new TransportRequest('https://example.com/', '', 'application/xml');
-        $requestMock        = $this->createMock(RequestInterface::class);
-        $responseMock       = $this->createMock(ResponseInterface::class);
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
+        $requestMock = $this->createMock(RequestInterface::class);
+        $responseMock = $this->createMock(ResponseInterface::class);
         $responseStreamMock = $this->createMock(StreamInterface::class);
 
         $this->requestFactoryMock->expects($this->once())->method('createRequest')->with('GET', 'https://example.com/')->willReturn($requestMock);
@@ -159,10 +161,10 @@ final class PsrHttpClientTransportTest extends TestCase
     {
         $this->transport = $this->createTransport(['X-A-Custom-Header' => 'Foo', 'X-Another-Custom-Header' => 'Bar']);
 
-        $request            = new TransportRequest('https://example.com/', 'Hi Doc!', 'application/xml');
-        $requestMock        = $this->createMock(RequestInterface::class);
-        $requestStreamMock  = $this->createMock(StreamInterface::class);
-        $responseMock       = $this->createMock(ResponseInterface::class);
+        $request = new TransportRequest('https://example.com/', 'Hi Doc!', 'application/xml');
+        $requestMock = $this->createMock(RequestInterface::class);
+        $requestStreamMock = $this->createMock(StreamInterface::class);
+        $responseMock = $this->createMock(ResponseInterface::class);
         $responseStreamMock = $this->createMock(StreamInterface::class);
 
         $this->requestFactoryMock->expects($this->once())->method('createRequest')->with('POST', 'https://example.com/')->willReturn($requestMock);
@@ -187,8 +189,8 @@ final class PsrHttpClientTransportTest extends TestCase
 
     public function testRequestWithClientException(): void
     {
-        $request            = new TransportRequest('https://example.com/', '', 'application/xml');
-        $requestMock        = $this->createMock(RequestInterface::class);
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
+        $requestMock = $this->createMock(RequestInterface::class);
 
         $this->requestFactoryMock->expects($this->once())->method('createRequest')->with('GET', 'https://example.com/')->willReturn($requestMock);
         $requestMock->expects($this->once())->method('withHeader')->with('Content-Type', 'application/xml')->willReturn($requestMock);
@@ -204,24 +206,22 @@ final class PsrHttpClientTransportTest extends TestCase
     public function provideBadResponseCodes(): iterable
     {
         foreach (range(100, 199) as $badCode) {
-            yield 'HTTP code ' . $badCode => [$badCode];
+            yield 'HTTP code '.$badCode => [$badCode];
         }
 
         foreach (range(300, 599) as $badCode) {
-            yield 'HTTP code ' . $badCode => [$badCode];
+            yield 'HTTP code '.$badCode => [$badCode];
         }
     }
 
     /**
      * @dataProvider provideBadResponseCodes
-     *
-     * @param int $badCode
      */
     public function testRequestWithBadResponseCode(int $badCode): void
     {
-        $request            = new TransportRequest('https://example.com/', '', 'application/xml');
-        $requestMock        = $this->createMock(RequestInterface::class);
-        $responseMock       = $this->createMock(ResponseInterface::class);
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
+        $requestMock = $this->createMock(RequestInterface::class);
+        $responseMock = $this->createMock(ResponseInterface::class);
 
         $this->requestFactoryMock->expects($this->once())->method('createRequest')->with('GET', 'https://example.com/')->willReturn($requestMock);
         $requestMock->expects($this->once())->method('withHeader')->with('Content-Type', 'application/xml')->willReturn($requestMock);
@@ -236,8 +236,7 @@ final class PsrHttpClientTransportTest extends TestCase
     }
 
     /**
-     * @param  string[]               $defaultHeaders
-     * @return PsrHttpClientTransport
+     * @param string[] $defaultHeaders
      */
     private function createTransport(array $defaultHeaders = []): PsrHttpClientTransport
     {

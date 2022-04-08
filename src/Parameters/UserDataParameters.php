@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class UserDataParameters
- * @package BigBlueButton\Parameters
+ * Class UserDataParameters.
  */
 abstract class UserDataParameters extends BaseParameters
 {
@@ -38,7 +38,8 @@ abstract class UserDataParameters extends BaseParameters
     }
 
     /**
-     * @param  string|bool $value
+     * @param string|bool $value
+     *
      * @return $this
      */
     public function addUserData(string $key, $value)
@@ -53,10 +54,10 @@ abstract class UserDataParameters extends BaseParameters
         $properties = parent::getHTTPQueryArray();
 
         foreach ($this->userData as $k => $v) {
-            if (!is_bool($v)) {
-                $properties['userdata-' . $k] = $v;
+            if (!\is_bool($v)) {
+                $properties['userdata-'.$k] = $v;
             } else {
-                $properties['userdata-' . $k] = $v ? 'true' : 'false';
+                $properties['userdata-'.$k] = $v ? 'true' : 'false';
             }
         }
 

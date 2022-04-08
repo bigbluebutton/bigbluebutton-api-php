@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http\Transport;
 
 use BigBlueButton\Exceptions\NetworkException;
@@ -25,6 +26,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \BigBlueButton\Http\Transport\CurlTransport
+ *
  * @uses \BigBlueButton\Http\Transport\Cookie
  * @uses \BigBlueButton\Http\Transport\TransportRequest
  * @uses \BigBlueButton\Http\Transport\TransportResponse
@@ -48,18 +50,16 @@ final class CurlTransportTest extends TestCase
 //        }
 
         foreach (range(300, 599) as $badCode) {
-            yield 'HTTP code ' . $badCode => [$badCode];
+            yield 'HTTP code '.$badCode => [$badCode];
         }
     }
 
     /**
      * @dataProvider provideBadResponseCodes
-     *
-     * @param int $badCode
      */
     public function testWithBadHttpCode(int $badCode): void
     {
-        $request   = new TransportRequest('http://localhost:8057/response-code.php?code=' . $badCode, '', 'application/xml');
+        $request = new TransportRequest('http://localhost:8057/response-code.php?code='.$badCode, '', 'application/xml');
         $transport = new CurlTransport();
 
         $this->expectException(NetworkException::class);
@@ -71,14 +71,14 @@ final class CurlTransportTest extends TestCase
 
     public function testRequestWithPayloadAndAdditionalHeader(): void
     {
-        $request   = new TransportRequest('http://localhost:8057/dump.php', 'FOO', 'application/xml');
-        $transport = new CurlTransport([CURLOPT_HTTPHEADER => ['X-Foo: Bar', 'X-Bar: Foo']]);
+        $request = new TransportRequest('http://localhost:8057/dump.php', 'FOO', 'application/xml');
+        $transport = new CurlTransport([\CURLOPT_HTTPHEADER => ['X-Foo: Bar', 'X-Bar: Foo']]);
 
         $response = $transport->request($request);
 
         $dump = [];
         // BEWARE: Never do this in any production code. You have been warned.
-        eval('$dump = ' . $response->getBody() . ';');
+        eval('$dump = '.$response->getBody().';');
 
         $this->assertSame('FOO', $dump['input'], 'input echo is correct');
         $this->assertSame('3', $dump['vars']['HTTP_CONTENT_LENGTH'], 'Content-Length echo is correct');
@@ -90,14 +90,14 @@ final class CurlTransportTest extends TestCase
 
     public function testRequestWithPayload(): void
     {
-        $request   = new TransportRequest('http://localhost:8057/dump.php', 'FOO', 'application/xml');
+        $request = new TransportRequest('http://localhost:8057/dump.php', 'FOO', 'application/xml');
         $transport = new CurlTransport();
 
         $response = $transport->request($request);
 
         $dump = [];
         // BEWARE: Never do this in any production code. You have been warned.
-        eval('$dump = ' . $response->getBody() . ';');
+        eval('$dump = '.$response->getBody().';');
 
         $this->assertSame('FOO', $dump['input'], 'input echo is correct');
         $this->assertSame('3', $dump['vars']['HTTP_CONTENT_LENGTH'], 'Content-Length echo is correct');
@@ -107,14 +107,14 @@ final class CurlTransportTest extends TestCase
 
     public function testRequestWithoutPayload(): void
     {
-        $request   = new TransportRequest('http://localhost:8057/dump.php', '', 'application/xml');
+        $request = new TransportRequest('http://localhost:8057/dump.php', '', 'application/xml');
         $transport = new CurlTransport();
 
         $response = $transport->request($request);
 
         $dump = [];
         // BEWARE: Never do this in any production code. You have been warned.
-        eval('$dump = ' . $response->getBody() . ';');
+        eval('$dump = '.$response->getBody().';');
 
         $this->assertSame('', $dump['input'], 'input echo is correct');
         $this->assertSame('GET', $dump['vars']['REQUEST_METHOD'], 'request method echo is correct');
@@ -122,7 +122,7 @@ final class CurlTransportTest extends TestCase
 
     public function testRequestWithCookie(): void
     {
-        $request   = new TransportRequest('http://localhost:8057/cookie.php', '', 'application/xml');
+        $request = new TransportRequest('http://localhost:8057/cookie.php', '', 'application/xml');
         $transport = new CurlTransport();
 
         $response = $transport->request($request);
@@ -133,7 +133,7 @@ final class CurlTransportTest extends TestCase
 
     public function testRequestWithoutCookie(): void
     {
-        $request   = new TransportRequest('http://localhost:8057/no-cookie.php', '', 'application/xml');
+        $request = new TransportRequest('http://localhost:8057/no-cookie.php', '', 'application/xml');
         $transport = new CurlTransport();
 
         $response = $transport->request($request);
@@ -144,14 +144,14 @@ final class CurlTransportTest extends TestCase
 
     public function testRequestWithDuplicatedHeader(): void
     {
-        $request   = new TransportRequest('http://localhost:8057/dump.php', 'FOO', 'application/xml');
-        $transport = new CurlTransport([CURLOPT_HTTPHEADER => ['Content-Length: 5000']]); // This header should be overwritten by internals of CurlTransport
+        $request = new TransportRequest('http://localhost:8057/dump.php', 'FOO', 'application/xml');
+        $transport = new CurlTransport([\CURLOPT_HTTPHEADER => ['Content-Length: 5000']]); // This header should be overwritten by internals of CurlTransport
 
         $response = $transport->request($request);
 
         $dump = [];
         // BEWARE: Never do this in any production code. You have been warned.
-        eval('$dump = ' . $response->getBody() . ';');
+        eval('$dump = '.$response->getBody().';');
 
         $this->assertSame('FOO', $dump['input'], 'input echo is correct');
         $this->assertSame('3', $dump['vars']['HTTP_CONTENT_LENGTH'], 'Content-Length echo is correct');
@@ -159,7 +159,7 @@ final class CurlTransportTest extends TestCase
 
     public function testRequestWithDoubleNewLine(): void
     {
-        $request   = new TransportRequest('http://localhost:8057/double-newline.php', '', 'application/xml');
+        $request = new TransportRequest('http://localhost:8057/double-newline.php', '', 'application/xml');
         $transport = new CurlTransport();
 
         $response = $transport->request($request);

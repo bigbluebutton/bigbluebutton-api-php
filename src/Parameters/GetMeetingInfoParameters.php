@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class GetMeetingInfoParameters
+ * Class GetMeetingInfoParameters.
  *
  * @method string getMeetingID()
- * @method $this setMeetingID(string $id)
+ * @method $this  setMeetingID(string $id)
  */
 class GetMeetingInfoParameters extends BaseParameters
 {
@@ -38,6 +39,7 @@ class GetMeetingInfoParameters extends BaseParameters
 
     /**
      * @deprecated use getMeetingID()
+     *
      * @return string
      */
     public function getMeetingId()
@@ -47,6 +49,7 @@ class GetMeetingInfoParameters extends BaseParameters
 
     /**
      * @deprecated use setMeetingID()
+     *
      * @return GetMeetingInfoParameters
      */
     public function setMeetingId(string $meetingID)

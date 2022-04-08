@@ -16,19 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Responses;
 
 /**
- * Class EndMeetingResponse
- * @package BigBlueButton\Responses
+ * Class EndMeetingResponse.
  */
 class EndMeetingResponse extends BaseResponse
 {
-    const KEY_SET_END_MEETING_REQUEST = 'sentEndMeetingRequest';
+    public const KEY_SET_END_MEETING_REQUEST = 'sentEndMeetingRequest';
 
-    /**
-     * @return bool
-     */
     public function isEndMeetingRequestSent(): bool
     {
         return $this->getMessageKey() === self::KEY_SET_END_MEETING_REQUEST;

@@ -16,44 +16,45 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
  * Class JoinMeetingParametersTest.
  *
- * @method string getFullName()
- * @method $this setFullName(string $fullName)
- * @method string getMeetingID()
- * @method $this setMeetingID(string $id)
- * @method string getPassword()
- * @method $this setPassword(string $password)
- * @method string getCreateTime()
- * @method $this setCreateTime(string $createTime)
- * @method string getUserID()
- * @method $this setUserID(string $userID)
- * @method string getWebVoiceConf()
- * @method $this setWebVoiceConf(string $webVoiceConf)
- * @method string getConfigToken()
- * @method $this setConfigToken(string $configToken)
- * @method string getDefaultLayout()
- * @method $this setDefaultLayout(string $defaultLayout)
- * @method string getAvatarURL()
- * @method $this setAvatarURL(string $avatarURL)
+ * @method string    getFullName()
+ * @method $this     setFullName(string $fullName)
+ * @method string    getMeetingID()
+ * @method $this     setMeetingID(string $id)
+ * @method string    getPassword()
+ * @method $this     setPassword(string $password)
+ * @method string    getCreateTime()
+ * @method $this     setCreateTime(string $createTime)
+ * @method string    getUserID()
+ * @method $this     setUserID(string $userID)
+ * @method string    getWebVoiceConf()
+ * @method $this     setWebVoiceConf(string $webVoiceConf)
+ * @method string    getConfigToken()
+ * @method $this     setConfigToken(string $configToken)
+ * @method string    getDefaultLayout()
+ * @method $this     setDefaultLayout(string $defaultLayout)
+ * @method string    getAvatarURL()
+ * @method $this     setAvatarURL(string $avatarURL)
  * @method bool|null isRedirect()
- * @method $this setRedirect(bool $redirect)
- * @method string getClientURL()
- * @method $this setClientURL(string $clientURL)
+ * @method $this     setRedirect(bool $redirect)
+ * @method string    getClientURL()
+ * @method $this     setClientURL(string $clientURL)
  * @method bool|null isGuest()
- * @method $this setGuest(bool $guest)
- * @method string getRole()
- * @method $this setRole(string $role)
+ * @method $this     setGuest(bool $guest)
+ * @method string    getRole()
+ * @method $this     setRole(string $role)
  * @method bool|null isExcludeFromDashboard()
- * @method $this setExcludeFromDashboard(bool $excludeFromDashboard)
+ * @method $this     setExcludeFromDashboard(bool $excludeFromDashboard)
  */
 class JoinMeetingParameters extends UserDataParameters
 {
-    const MODERATOR = 'MODERATOR';
-    const VIEWER    = 'VIEWER';
+    public const MODERATOR = 'MODERATOR';
+    public const VIEWER = 'VIEWER';
 
     /**
      * @var string
@@ -101,7 +102,7 @@ class JoinMeetingParameters extends UserDataParameters
     protected $avatarURL;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $redirect;
 
@@ -111,12 +112,12 @@ class JoinMeetingParameters extends UserDataParameters
     protected $clientURL;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $joinViaHtml5;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $guest;
 
@@ -126,7 +127,7 @@ class JoinMeetingParameters extends UserDataParameters
     protected $role;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $excludeFromDashboard;
 
@@ -134,18 +135,17 @@ class JoinMeetingParameters extends UserDataParameters
      * JoinMeetingParametersTest constructor.
      *
      * @param string $meetingId
-     * @param string $fullName
-     * @param string $password
      */
     public function __construct(string $meetingID, string $fullName, string $password)
     {
         $this->meetingID = $meetingID;
-        $this->fullName  = $fullName;
-        $this->password  = $password;
+        $this->fullName = $fullName;
+        $this->password = $password;
     }
 
     /**
      * @deprecated use getMeetingID()
+     *
      * @return string
      */
     public function getMeetingId()
@@ -155,6 +155,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use setMeetingID()
+     *
      * @return JoinMeetingParameters
      */
     public function setMeetingId(string $meetingID)
@@ -166,6 +167,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use getCreateTime()
+     *
      * @return int
      */
     public function getCreationTime()
@@ -175,6 +177,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use setCreateTime()
+     *
      * @return JoinMeetingParameters
      */
     public function setCreationTime(int $createTime)
@@ -186,6 +189,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use getFullName()
+     *
      * @return string
      */
     public function getUsername()
@@ -195,6 +199,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use setFullName()
+     *
      * @return JoinMeetingParameters
      */
     public function setUsername(string $fullName)
@@ -206,6 +211,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use getUserID()
+     *
      * @return string
      */
     public function getUserId()
@@ -215,6 +221,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @deprecated use setUserID()
+     *
      * @return JoinMeetingParameters
      */
     public function setUserId(string $userID)
@@ -233,7 +240,7 @@ class JoinMeetingParameters extends UserDataParameters
     {
         @trigger_error(
             sprintf('Using "%s()" is deprecated since version 4.3 and will be removed in version 5.0. The API parameter was removed from BigBlueButton and has no effect anymore.', __METHOD__),
-            E_USER_DEPRECATED
+            \E_USER_DEPRECATED
         );
 
         $this->joinViaHtml5 = $joinViaHtml5;
@@ -248,7 +255,7 @@ class JoinMeetingParameters extends UserDataParameters
     {
         @trigger_error(
             sprintf('Using "%s()" is deprecated since version 4.3 and will be removed in version 5.0. The API parameter was removed from BigBlueButton and has no effect anymore.', __METHOD__),
-            E_USER_DEPRECATED
+            \E_USER_DEPRECATED
         );
 
         return $this->joinViaHtml5;

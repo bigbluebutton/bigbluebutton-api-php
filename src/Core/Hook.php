@@ -17,15 +17,14 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 /**
- * Class Meeting
- * @package BigBlueButton\Core
+ * Class Meeting.
  */
 class Hook
 {
-
     /**
      * @var \SimpleXMLElement
      */
@@ -58,12 +57,12 @@ class Hook
 
     public function __construct(\SimpleXMLElement $xml)
     {
-        $this->rawXml        = $xml;
-        $this->hookId        = (int) $xml->hookID->__toString();
-        $this->callbackUrl   = $xml->callbackURL->__toString();
-        $this->meetingId     = $xml->meetingID->__toString();
+        $this->rawXml = $xml;
+        $this->hookId = (int) $xml->hookID->__toString();
+        $this->callbackUrl = $xml->callbackURL->__toString();
+        $this->meetingId = $xml->meetingID->__toString();
         $this->permanentHook = $xml->permanentHook->__toString() === 'true';
-        $this->rawData       = $xml->rawData->__toString() === 'true';
+        $this->rawData = $xml->rawData->__toString() === 'true';
     }
 
     /**

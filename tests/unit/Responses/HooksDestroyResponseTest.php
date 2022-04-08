@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\HooksDestroyResponse;
@@ -28,11 +29,11 @@ class HooksDestroyResponseTest extends TestCase
      */
     private $destroyResponse;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_destroy.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'hooks_destroy.xml');
 
         $this->destroyResponse = new HooksDestroyResponse($xml);
     }
@@ -40,7 +41,7 @@ class HooksDestroyResponseTest extends TestCase
     public function testHooksDestroyResponseContent()
     {
         $this->assertEquals('SUCCESS', $this->destroyResponse->getReturnCode());
-        $this->assertEquals(true, $this->destroyResponse->removed());
+        $this->assertTrue($this->destroyResponse->removed());
     }
 
     public function testHooksDestroyResponseTypes()
