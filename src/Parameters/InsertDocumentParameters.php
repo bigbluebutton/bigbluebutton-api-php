@@ -41,6 +41,9 @@ final class InsertDocumentParameters extends MetaParameters
         $this->meetingID   = $meetingID;
     }
 
+    /**
+     * @return $this
+     */
     public function addPresentation(string $url, string $filename, ?bool $downloadable = null, ?bool $removable = null): self
     {
         $this->presentations[$url] = [
@@ -52,9 +55,14 @@ final class InsertDocumentParameters extends MetaParameters
         return $this;
     }
 
-    public function removePresentation(string $url): void
+    /**
+     * @return $this
+     */
+    public function removePresentation(string $url): self
     {
         unset($this->presentations[$url]);
+
+        return $this;
     }
 
     /**

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
@@ -16,33 +19,12 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Responses;
+namespace BigBlueButton\Core;
 
-use BigBlueButton\Core\Track;
-
-/**
- * Class GetRecordingTextTracksResponse
- * @package BigBlueButton\Responses
- */
-class GetRecordingTextTracksResponse extends BaseResponseAsJson
+final class MeetingLayout
 {
-    /**
-     * @var Track[]
-     */
-    private $tracks;
-
-    /**
-     * @return Track[]
-     */
-    public function getTracks()
-    {
-        if ($this->tracks === null) {
-            $this->tracks = [];
-            foreach ($this->data->response->tracks as $track) {
-                $this->tracks[] = new Track($track);
-            }
-        }
-
-        return $this->tracks;
-    }
+    public const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
+    public const SMART_LAYOUT       = 'SMART_LAYOUT';
+    public const PRESENTATION_FOCUS = 'PRESENTATION_FOCUS';
+    public const VIDEO_FOCUS        = 'VIDEO_FOCUS';
 }

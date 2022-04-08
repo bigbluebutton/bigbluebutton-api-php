@@ -29,7 +29,7 @@ jobs:
     - name: Install php dependencies
       run: composer install --dev --no-interaction
     - name: Execute tests without coverage
-      run: vendor/bin/phpunit --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
+      run: tools/phpunit --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
    
   PHP:
     name: PHP ${{ matrix.php-versions }}
@@ -56,19 +56,19 @@ jobs:
       run: composer install --dev --no-interaction
       continue-on-error: ${{ matrix.experimental }}
     - name: Execute code style check via php-cs-fixer
-      run: vendor/bin/php-cs-fixer fix --dry-run
+      run: tools/php-cs-fixer fix --dry-run
       continue-on-error: ${{ matrix.experimental }}
     - name: Execute tests with coverage
       if: ${{ !matrix.experimental }}
       run: |
         mkdir -p build/logs
-        vendor/bin/phpunit --coverage-clover=build/logs/coverage.xml --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
+        tools/phpunit --coverage-clover=build/logs/coverage.xml --testsuite="BigBlueButton unit test suite,BigBlueButton integration test suite"
     - name: Execute tests without coverage
       if: ${{ matrix.experimental }}
-      run: vendor/bin/phpunit --testsuite="BigBlueButton test suite"
+      run: tools/phpunit --testsuite="BigBlueButton test suite"
       continue-on-error: true
     - name: Coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: ${{ matrix.php-versions == '7.4' && env.COVERALLS_REPO_TOKEN != null }}
-      run: vendor/bin/php-coveralls --coverage_clover=build/logs/coverage.xml -v
+      run: tools/php-coveralls --coverage_clover=build/logs/coverage.xml -v

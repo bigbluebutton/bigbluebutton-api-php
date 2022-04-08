@@ -12,7 +12,7 @@
   "authors": [
     {
       "name": "Ghazi Triki",
-      "email": "ghazi.nocturne@gmail.com",
+      "email": "ghazi.triki@riadvice.tn",
       "role": "Developer"
     },
     {
@@ -36,7 +36,7 @@
       "role": "Developer"
     },
     {
-      "name": "Alfonso Rodríguez",
+      "name": "Alfonso Rodr\u00edguez",
       "email": "arodriguez@teltek.es",
       "role": "Developer"
     },
@@ -72,13 +72,6 @@
     "symfony/http-client": "To use the SymfonyHttpClientTransport."
   },
   "require-dev": {
-    "composer/composer": "^1.10.0",
-    "phpunit/phpunit": "^8",
-    "friendsofphp/php-cs-fixer": "2.*",
-    "squizlabs/php_codesniffer": "3.*",
-    "php-coveralls/php-coveralls": "^2.4.0",
-    "brainmaestro/composer-git-hooks": "^2.8",
-    "vimeo/psalm": "^4.5",
     "psr/http-client": "^1.0",
     "psr/http-factory": "^1.0",
     "psr/http-message": "^1.0",
@@ -86,42 +79,58 @@
     "symfony/http-client-contracts": "^1.1|^2.0",
     "symfony/http-client": "^4.4|^5.0",
     "symfony/process": "^3.4|^4.0|^5.0",
-    "nyholm/psr7": "^1.4",
-    "fakerphp/faker": "^1.14"
+    "nyholm/psr7": "^1.4"
   },
   "autoload": {
     "psr-4": {
-      "BigBlueButton\\": ["src", "tests/integration"]
+      "BigBlueButton\\": [
+        "src",
+        "tests/integration"
+      ]
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "BigBlueButton\\Tests\\Functional\\": ["tests/functional"]
+      "BigBlueButton\\Tests\\Functional\\": [
+        "tests/functional"
+      ]
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit  --testsuite=\"BigBlueButton unit test suite\"",
-    "test-integration": "vendor/bin/phpunit  --testsuite=\"BigBlueButton integration test suite\"",
-    "test-functional": "vendor/bin/phpunit --testsuite=\"BigBlueButton functional test suite\" --exclude-group=functional-legacy",
-    "cs-fix": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
-    "cs-test": "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes",
+    "test": "tools/phpunit  --testsuite=\"BigBlueButton unit test suite\"",
+    "test-integration": "tools/phpunit  --testsuite=\"BigBlueButton integration test suite\"",
+    "test-functional": "tools/phpunit --testsuite=\"BigBlueButton functional test suite\" --exclude-group=functional-legacy",
+    "cs-fix": "tools/php-cs-fixer fix --allow-risky=yes",
+    "cs-test": "tools/php-cs-fixer fix --dry-run --allow-risky=yes",
     "psalm": "psalm --threads=1",
     "psalm-clear": "psalm --clear-cache && psalm --clear-global-cache",
     "psalm-fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType",
-    "post-install-cmd": "vendor/bin/cghooks add --ignore-lock",
-    "post-update-cmd": "vendor/bin/cghooks update"
+    "post-install-cmd": "tools/composer-git-hooks add --ignore-lock",
+    "post-update-cmd": "tools/composer-git-hooks update"
   },
   "extra": {
     "hooks": {
       "pre-commit": [
-        "vendor/bin/php-cs-fixer fix --dry-run --allow-risky=yes"
+        "tools/php-cs-fixer fix --dry-run --allow-risky=yes"
       ],
       "pre-push": [
-        "vendor/bin/phpunit --testsuite=\"BigBlueButton unit test suite,BigBlueButton integration test suite\"",
-        "vendor/bin/psalm --threads=1"
+        "tools/phpunit --testsuite=\"BigBlueButton unit test suite,BigBlueButton integration test suite\"",
+        "tools/psalm --threads=1"
       ],
       "post-merge": "composer install",
       "post-checkout": "composer install"
+    },
+    "cotor": {
+      "brainmaestro/composer-git-hooks": "^2.8",
+      "extensions": {
+        "phpunit/phpunit": {
+          "fakerphp/faker": "^1.14"
+        }
+      },
+      "friendsofphp/php-cs-fixer": "^3.7",
+      "php-coveralls/php-coveralls": "^2.4",
+      "phpunit/phpunit": "^8",
+      "vimeo/psalm": "^4.22"
     }
   }
 }

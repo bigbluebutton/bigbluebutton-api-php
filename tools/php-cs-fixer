@@ -1,0 +1,7 @@
+#!/bin/bash
+# This file was created automatically by cotor as a tool wrapper.
+
+DIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
+
+composer install --working-dir=$DIR/.php-cs-fixer --quiet
+exec $DIR/.php-cs-fixer/vendor/bin/php-cs-fixer "$@"
