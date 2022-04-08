@@ -17,6 +17,7 @@ return $config
         '@Symfony:risky' => true,
         'yoda_style' => false,
         'single_line_throw' => false,
+        'increment_style' => false,
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder);

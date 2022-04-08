@@ -224,7 +224,7 @@ final class CurlTransport implements TransportInterface
         $headerParts = explode("\r\n\r\n", $headerContent, 2); // only split once to mitigate scrapping content if it contains newlines with carriage return
 
         // Loop of response headers. The "count() -1" is to avoid an empty row for the extra line break before the body of the response.
-        for ($index = 0; $index < \count($headerParts) - 1; ++$index) {
+        for ($index = 0; $index < \count($headerParts) - 1; $index++) {
             foreach (explode("\r\n", $headerParts[$index]) as $i => $line) {
                 if (0 === $i) {
                     // HTTP code
