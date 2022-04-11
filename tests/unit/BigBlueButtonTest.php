@@ -350,10 +350,10 @@ class BigBlueButtonTest extends TestCase
 
     public function testBuildUrl(): void
     {
-        $bigBlueButton = new BigBlueButton('https://bbb.example/bigbluebutton', 'S3cr3t');
+        $bigBlueButton = new BigBlueButton('https://bbb.example/bigbluebutton/', 'S3cr3t');
 
         $this->assertSame(
-            'https://bbb.example/bigbluebuttonapi/foo?foo=bar&baz=bazinga&checksum=694ad46bc5a79a572bab6c8b9a939527c39ac7f6',
+            'https://bbb.example/bigbluebutton/api/foo?foo=bar&baz=bazinga&checksum=694ad46bc5a79a572bab6c8b9a939527c39ac7f6',
             $bigBlueButton->buildUrl('foo', 'foo=bar&baz=bazinga'),
             'URL is not ok'
         );
