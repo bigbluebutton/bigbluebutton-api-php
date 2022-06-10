@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
@@ -24,7 +25,7 @@ class DeleteRecordingsParametersTest extends TestCase
 {
     public function testDeleteRecordingParameter()
     {
-        $recordingId     = $this->faker->uuid;
+        $recordingId = $this->faker->uuid;
         $deleteRecording = new DeleteRecordingsParameters($recordingId);
 
         $this->assertEquals($recordingId, $deleteRecording->getRecordingId());

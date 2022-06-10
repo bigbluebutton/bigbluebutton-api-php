@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
@@ -31,12 +32,12 @@ abstract class BaseParameters
     public function __call(string $name, array $arguments)
     {
         if (!preg_match('/^(get|is|set)[A-Z]/', $name)) {
-            throw new \BadFunctionCallException($name . ' does not exist');
+            throw new \BadFunctionCallException($name.' does not exist');
         }
         if (strpos($name, 'get') === 0) {
-            return $this->getter(\lcfirst(substr($name, 3)));
+            return $this->getter(lcfirst(substr($name, 3)));
         } elseif (strpos($name, 'is') === 0) {
-            return $this->booleanGetter(\lcfirst(substr($name, 2)));
+            return $this->booleanGetter(lcfirst(substr($name, 2)));
         } elseif (strpos($name, 'set') === 0) {
             return $this->setter(lcfirst(substr($name, 3)), $arguments);
         }
@@ -52,7 +53,7 @@ abstract class BaseParameters
         if (property_exists($this, $name)) {
             return $this->$name;
         } else {
-            throw new \BadFunctionCallException($name . ' is not a valid property');
+            throw new \BadFunctionCallException($name.' is not a valid property');
         }
     }
 
@@ -61,7 +62,7 @@ abstract class BaseParameters
         $value = $this->getter($name);
 
         if (!\is_bool($this->$name) && $this->$name !== null) {
-            throw new \BadFunctionCallException($name . ' is not a boolean property');
+            throw new \BadFunctionCallException($name.' is not a boolean property');
         }
 
         return $value;
@@ -73,7 +74,7 @@ abstract class BaseParameters
     protected function setter(string $name, array $arguments)
     {
         if (!property_exists($this, $name)) {
-            throw new \BadFunctionCallException($name . ' is not a valid property');
+            throw new \BadFunctionCallException($name.' is not a valid property');
         }
 
         $this->$name = $arguments[0];
@@ -85,7 +86,7 @@ abstract class BaseParameters
     {
         return array_filter(get_object_vars($this), function ($name) {
             return $name !== 'ignoreProperties' && !\in_array($name, $this->ignoreProperties);
-        }, ARRAY_FILTER_USE_KEY);
+        }, \ARRAY_FILTER_USE_KEY);
     }
 
     protected function getHTTPQueryArray(): array
@@ -107,8 +108,8 @@ abstract class BaseParameters
     /**
      * @return string
      */
-    public function getHTTPQuery() //: string
+    public function getHTTPQuery() // : string
     {
-        return \http_build_query($this->getHTTPQueryArray(), '', '&', PHP_QUERY_RFC3986);
+        return http_build_query($this->getHTTPQueryArray(), '', '&', \PHP_QUERY_RFC3986);
     }
 }

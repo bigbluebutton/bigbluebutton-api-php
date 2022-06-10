@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Util;
 
 /**
- * Class UrlBuilder
- * @package BigBlueButton\Util
+ * Class UrlBuilder.
  *
  * @final since 4.0.
+ *
  * @internal
  */
 class UrlBuilder
@@ -38,7 +39,7 @@ class UrlBuilder
 
     public function __construct(string $secret, string $serverBaseUrl)
     {
-        $this->securitySalt     = $secret;
+        $this->securitySalt = $secret;
         $this->bbbServerBaseUrl = $serverBaseUrl;
     }
 
@@ -49,7 +50,7 @@ class UrlBuilder
      */
     public function buildUrl(string $method = '', string $params = '', bool $append = true)
     {
-        return $this->bbbServerBaseUrl . 'api/' . $method . ($append ? '?' . $this->buildQs($method, $params) : '');
+        return $this->bbbServerBaseUrl.'api/'.$method.($append ? '?'.$this->buildQs($method, $params) : '');
     }
 
     /**
@@ -66,6 +67,6 @@ class UrlBuilder
             $checksumParam = 'checksum=';
         }
 
-        return $params . $checksumParam . sha1($method . $params . $this->securitySalt);
+        return $params.$checksumParam.sha1($method.$params.$this->securitySalt);
     }
 }

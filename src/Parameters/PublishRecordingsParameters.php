@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class PublishRecordingsParameters
+ * Class PublishRecordingsParameters.
  *
- * @method string getRecordID()
- * @method $this setRecordID(string $recordID)
+ * @method string    getRecordID()
+ * @method $this     setRecordID(string $recordID)
  * @method bool|null isPublish()
- * @method $this setPublish(bool $publish)
+ * @method $this     setPublish(bool $publish)
  */
 class PublishRecordingsParameters extends BaseParameters
 {
@@ -40,12 +41,13 @@ class PublishRecordingsParameters extends BaseParameters
 
     public function __construct(string $recordID, bool $publish)
     {
-        $this->recordID    = $recordID;
-        $this->publish     = $publish;
+        $this->recordID = $recordID;
+        $this->publish = $publish;
     }
 
     /**
      * @deprecated use getRecordID() instead
+     *
      * @return string
      */
     public function getRecordingId()
@@ -55,6 +57,7 @@ class PublishRecordingsParameters extends BaseParameters
 
     /**
      * @deprecated use setRecordID() instead
+     *
      * @return PublishRecordingsParameters
      */
     public function setRecordingId(string $recordID)

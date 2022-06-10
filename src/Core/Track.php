@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 /**
- * Class Track
- * @package BigBlueButton\Core
+ * Class Track.
  */
 class Track
 {
@@ -51,10 +51,10 @@ class Track
 
     public function __construct(object $track)
     {
-        $this->href   = $track->href;
-        $this->kind   = $track->kind;
-        $this->label  = $track->label;
-        $this->lang   = $track->lang;
+        $this->href = $track->href;
+        $this->kind = $track->kind;
+        $this->label = $track->label;
+        $this->lang = $track->lang;
         $this->source = $track->source;
     }
 

@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http\Transport\Bridge\SymfonyHttpClient;
 
 use BigBlueButton\Exceptions\NetworkException;
@@ -38,8 +39,8 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 // @codeCoverageIgnoreStart
 if (!interface_exists(HttpClientInterface::class)) {
     throw new \LogicException(sprintf(
-        'The "%s" interface was not found. ' .
-        'You cannot use "%s" without it.' .
+        'The "%s" interface was not found. '.
+        'You cannot use "%s" without it.'.
         'Try running "composer require" for a package which provides symfony/http-client-implementation.',
         HttpClientInterface::class,
         SymfonyHttpClientTransport::class
@@ -68,12 +69,12 @@ final class SymfonyHttpClientTransport implements TransportInterface
     private $defaultOptions;
 
     /**
-     * @param string[] $defaultHeaders Additional HTTP headers to pass on each request.
+     * @param string[] $defaultHeaders additional HTTP headers to pass on each request
      * @param mixed[]  $defaultOptions Options for Symfony HTTP client passed on every request. See {@link https://symfony.com/doc/current/http_client.html} for details.
      */
     public function __construct(HttpClientInterface $httpClient, array $defaultHeaders = [], array $defaultOptions = [])
     {
-        $this->httpClient     = $httpClient;
+        $this->httpClient = $httpClient;
         $this->defaultHeaders = $defaultHeaders;
         $this->defaultOptions = $defaultOptions;
     }
@@ -81,7 +82,7 @@ final class SymfonyHttpClientTransport implements TransportInterface
     /**
      * Creates an instance of SymfonyHttpClientTransport with default Symfony HttpClient.
      *
-     * @param string[] $defaultHeaders Additional HTTP headers to pass on each request.
+     * @param string[] $defaultHeaders additional HTTP headers to pass on each request
      * @param mixed[]  $defaultOptions Options for Symfony HTTP client passed on every request. See {@link https://symfony.com/doc/current/http_client.html} for details.
      */
     public static function create(array $defaultHeaders = [], array $defaultOptions = []): self
@@ -89,8 +90,8 @@ final class SymfonyHttpClientTransport implements TransportInterface
         // @codeCoverageIgnoreStart
         if (!class_exists(HttpClient::class)) {
             throw new \LogicException(sprintf(
-                'Cannot create an instance of "%s" when Symfony HttpClient is not installed. ' .
-                    'Either instantiate the class by yourself and pass a proper implementation or ' .
+                'Cannot create an instance of "%s" when Symfony HttpClient is not installed. '.
+                    'Either instantiate the class by yourself and pass a proper implementation or '.
                     'try to run "composer require symfony/http-client".',
                 self::class
             ));
@@ -105,7 +106,7 @@ final class SymfonyHttpClientTransport implements TransportInterface
      */
     public function request(TransportRequest $request): TransportResponse
     {
-        $headers                 = $this->defaultHeaders;
+        $headers = $this->defaultHeaders;
         $headers['Content-Type'] = $request->getContentType();
 
         try {
@@ -114,7 +115,7 @@ final class SymfonyHttpClientTransport implements TransportInterface
                     'POST',
                     $request->getUrl(),
                     ArrayHelper::mergeRecursive(false, [
-                        'body'    => $payload,
+                        'body' => $payload,
                         'headers' => $headers,
                     ], $this->defaultOptions)
                 );
@@ -134,7 +135,7 @@ final class SymfonyHttpClientTransport implements TransportInterface
             return new TransportResponse($symfonyResponse->getContent(), self::extractJsessionCookie($symfonyResponse));
         } catch (TransportExceptionInterface $e) {
             throw new RuntimeException(sprintf('HTTP request failed: %s', $e->getMessage()), 0, $e);
-        } catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface $e) {
+        } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface $e) {
             throw new NetworkException('Bad response.', $e->getCode(), $e);
         }
     }

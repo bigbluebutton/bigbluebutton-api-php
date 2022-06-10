@@ -16,19 +16,19 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * @method string getCallbackURL()
- * @method $this setCallbackURL(string $url)
- * @method string getMeetingID()
- * @method $this setMeetingID(string $id)
+ * @method string    getCallbackURL()
+ * @method $this     setCallbackURL(string $url)
+ * @method string    getMeetingID()
+ * @method $this     setMeetingID(string $id)
  * @method bool|null isGetRaw()
- * @method $this setGetRaw(bool $getRaw)
+ * @method $this     setGetRaw(bool $getRaw)
  */
 class HooksCreateParameters extends BaseParameters
 {
-
     /**
      * @var string
      */
@@ -51,6 +51,7 @@ class HooksCreateParameters extends BaseParameters
 
     /**
      * @deprecated use getCallbackURL() instead
+     *
      * @return string
      */
     public function getCallbackUrl()
@@ -60,6 +61,7 @@ class HooksCreateParameters extends BaseParameters
 
     /**
      * @deprecated use setCallbackURL() instead
+     *
      * @return HooksCreateParameters
      */
     public function setCallbackUrl(string $callbackURL)
@@ -71,6 +73,7 @@ class HooksCreateParameters extends BaseParameters
 
     /**
      * @deprecated use getMeetingID() instead
+     *
      * @return string
      */
     public function getMeetingId()
@@ -80,6 +83,7 @@ class HooksCreateParameters extends BaseParameters
 
     /**
      * @deprecated use setMeetingID() instead
+     *
      * @return HooksCreateParameters
      */
     public function setMeetingId(string $meetingID)
@@ -91,6 +95,7 @@ class HooksCreateParameters extends BaseParameters
 
     /**
      * @deprecated use isGetRaw()
+     *
      * @return bool
      */
     public function getRaw()

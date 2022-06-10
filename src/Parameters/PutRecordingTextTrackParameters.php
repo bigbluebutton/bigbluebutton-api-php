@@ -16,27 +16,27 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class GetRecordingTextTracksParameters
+ * Class GetRecordingTextTracksParameters.
  *
  * @method string getRecordID()
- * @method $this setRecordID(string $recordID)
+ * @method $this  setRecordID(string $recordID)
  * @method string getKind()
- * @method $this setKind(string $kind)
+ * @method $this  setKind(string $kind)
  * @method string getLang()
- * @method $this setLang(string $lang)
+ * @method $this  setLang(string $lang)
  * @method string getLabel()
- * @method $this setLabel(string $label)
+ * @method $this  setLabel(string $label)
  * @method string getContentType()
- * @method $this set(string $contentType)
- * @method mixed getFile()
- * @method $this setFile(mixed $file)
+ * @method $this  set(string $contentType)
+ * @method mixed  getFile()
+ * @method $this  setFile(mixed $file)
  */
 class PutRecordingTextTrackParameters extends BaseParameters
 {
-
     /**
      * @var string
      */
@@ -77,8 +77,8 @@ class PutRecordingTextTrackParameters extends BaseParameters
         $this->ignoreProperties = ['contentType', 'file'];
 
         $this->recordID = $recordID;
-        $this->kind     = $kind;
-        $this->lang     = $lang;
-        $this->label    = $label;
+        $this->kind = $kind;
+        $this->lang = $lang;
+        $this->label = $label;
     }
 }

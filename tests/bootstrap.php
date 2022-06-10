@@ -34,10 +34,10 @@ if (method_exists($dotenv, 'usePutenv')) {
 
 // loadEnv was not available in version 3.4 und early 4.x versions of symfony/dotenv, so make it optional here
 if (method_exists($dotenv, 'loadEnv')) {
-    $dotenv->loadEnv(dirname(__DIR__) . '/.env');
+    $dotenv->loadEnv(dirname(__DIR__).'/.env');
 } else {
     $files = [];
-    foreach ([dirname(__DIR__) . '/.env', dirname(__DIR__) . '/.env.local'] as $file) {
+    foreach ([dirname(__DIR__).'/.env', dirname(__DIR__).'/.env.local'] as $file) {
         if (file_exists($file)) {
             $files[] = $file;
         }

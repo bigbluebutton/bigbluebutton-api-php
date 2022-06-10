@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class DeleteRecordingsParameters
+ * Class DeleteRecordingsParameters.
  *
  * @method string getRecordID()
- * @method $this setRecordID(string $recordID)
+ * @method $this  setRecordID(string $recordID)
  */
 class DeleteRecordingsParameters extends BaseParameters
 {
@@ -38,6 +39,7 @@ class DeleteRecordingsParameters extends BaseParameters
 
     /**
      * @deprecated use getRecordID() instead
+     *
      * @return string
      */
     public function getRecordingId()
@@ -47,6 +49,7 @@ class DeleteRecordingsParameters extends BaseParameters
 
     /**
      * @deprecated use setRecordID() instead
+     *
      * @return DeleteRecordingsParameters
      */
     public function setRecordingId(string $recordID)

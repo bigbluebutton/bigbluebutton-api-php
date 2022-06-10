@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http\Transport\Bridge\PsrHttpClient;
 
 use BigBlueButton\Exceptions\NetworkException;
@@ -34,8 +35,8 @@ use Psr\Http\Message\StreamFactoryInterface;
 // @codeCoverageIgnoreStart
 if (!interface_exists(ClientInterface::class)) {
     throw new \LogicException(sprintf(
-        'The "%s" interface was not found. ' .
-            'You cannot use "%s" without it.' .
+        'The "%s" interface was not found. '.
+            'You cannot use "%s" without it.'.
             'Try running "composer require" for a package which provides psr/http-client-implementation.',
         ClientInterface::class,
         PsrHttpClientTransport::class
@@ -44,8 +45,8 @@ if (!interface_exists(ClientInterface::class)) {
 
 if (!interface_exists(RequestFactoryInterface::class)) {
     throw new \LogicException(sprintf(
-        'The "%s" interface was not found. ' .
-            'You cannot use "%s" without it.' .
+        'The "%s" interface was not found. '.
+            'You cannot use "%s" without it.'.
             'Try running "composer require" for a package which provides psr/http-factory-implementation.',
         RequestFactoryInterface::class,
         PsrHttpClientTransport::class
@@ -54,8 +55,8 @@ if (!interface_exists(RequestFactoryInterface::class)) {
 
 if (!interface_exists(StreamFactoryInterface::class)) {
     throw new \LogicException(sprintf(
-        'The "%s" interface was not found. ' .
-        'You cannot use "%s" without it.' .
+        'The "%s" interface was not found. '.
+        'You cannot use "%s" without it.'.
         'Try running "composer require" for a package which provides psr/http-factory-implementation.',
         StreamFactoryInterface::class,
         PsrHttpClientTransport::class
@@ -89,7 +90,7 @@ final class PsrHttpClientTransport implements TransportInterface
     private $defaultHeaders;
 
     /**
-     * @param string[] $defaultHeaders Additional headers to pass on each request.
+     * @param string[] $defaultHeaders additional headers to pass on each request
      */
     public function __construct(
         ClientInterface $httpClient,
@@ -97,10 +98,10 @@ final class PsrHttpClientTransport implements TransportInterface
         StreamFactoryInterface $streamFactory,
         array $defaultHeaders = []
     ) {
-        $this->httpClient        = $httpClient;
-        $this->requestFactory    = $requestFactory;
-        $this->streamFactory     = $streamFactory;
-        $this->defaultHeaders    = $defaultHeaders;
+        $this->httpClient = $httpClient;
+        $this->requestFactory = $requestFactory;
+        $this->streamFactory = $streamFactory;
+        $this->defaultHeaders = $defaultHeaders;
     }
 
     /**
@@ -130,7 +131,7 @@ final class PsrHttpClientTransport implements TransportInterface
             throw new NetworkException('Bad response.', $psrResponse->getStatusCode());
         }
 
-        $headerValues   = $psrResponse->getHeader('Set-Cookie');
+        $headerValues = $psrResponse->getHeader('Set-Cookie');
         $jsessionCookie = Cookie::extractJsessionId($headerValues);
 
         return new TransportResponse($psrResponse->getBody()->getContents(), $jsessionCookie);

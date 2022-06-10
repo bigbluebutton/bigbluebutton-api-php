@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http\Transport;
 
 /**
@@ -37,7 +38,7 @@ class TransportResponse
 
     public function __construct(string $body, ?string $sessionId)
     {
-        $this->body      = $body;
+        $this->body = $body;
         $this->sessionId = $sessionId;
     }
 

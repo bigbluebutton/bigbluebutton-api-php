@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Util;
 
 /**
@@ -28,8 +29,9 @@ final class ArrayHelper
     /**
      * Replacement for the original array_merge_recursive which does not preserve keys when numeric (like the cURL options).
      *
-     * @link https://www.php.net/manual/en/function.array-merge-recursive.php
-     * @param bool $reorderNested Reorder nested array starting from the second level instead of merging them.
+     * @see https://www.php.net/manual/en/function.array-merge-recursive.php
+     *
+     * @param bool $reorderNested reorder nested array starting from the second level instead of merging them
      */
     public static function mergeRecursive(bool $reorderNested, array ...$arrays): array
     {
@@ -38,7 +40,7 @@ final class ArrayHelper
         foreach (array_reverse($arrays) as $array) {
             foreach ($array as $key => $value) {
                 // On top level, we need to preserve keys to ensure the CURLOPT_* (int) are preserved. Below we classically need to append keys (for CURLOPT_HTTPHEADER).
-                if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                if (\is_array($value) && isset($merged[$key]) && \is_array($merged[$key])) {
                     $merged[$key] = $reorderNested ? self::mergeArrays($value, $merged[$key]) : self::mergeRecursive(false, $value, $merged[$key]);
                 } else {
                     $merged[$key] = $value;

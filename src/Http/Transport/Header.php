@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http\Transport;
 
 /**
@@ -31,19 +32,20 @@ final class Header
      * Merges multiple arrays of HTTP headers as passed to CURLOPT_HTTPHEADER. Headers given in later arrays will
      * overwrite the previous one with the same name.
      *
-     * @param  string[] ...$headers
+     * @param string[] ...$headers
+     *
      * @return string[]
      */
-    public static function mergeCurlHeaders(array ...$headers) : array
+    public static function mergeCurlHeaders(array ...$headers): array
     {
         $mergedHeaders = [];
 
         foreach ($headers as $headerSet) {
             foreach ($headerSet as $header) {
-                if (!is_string($header)) {
+                if (!\is_string($header)) {
                     throw new \InvalidArgumentException(sprintf(
                         'Non-string header with type "%s" passed.',
-                        is_object($header) ? get_class($header) : gettype($header)
+                        \is_object($header) ? \get_class($header) : \gettype($header)
                     ));
                 }
 

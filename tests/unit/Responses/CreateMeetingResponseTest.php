@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\CreateMeetingResponse;
@@ -28,11 +29,11 @@ class CreateMeetingResponseTest extends TestCase
      */
     private $meeting;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'create_meeting.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'create_meeting.xml');
 
         $this->meeting = new CreateMeetingResponse($xml);
     }
@@ -49,9 +50,9 @@ class CreateMeetingResponseTest extends TestCase
         $this->assertEquals(76286, $this->meeting->getVoiceBridge());
         $this->assertEquals('Wed Jan 20 04:56:59 EST 2016', $this->meeting->getCreationDate());
         $this->assertEquals('613-555-1234', $this->meeting->getDialNumber());
-        $this->assertEquals(false, $this->meeting->hasUserJoined());
+        $this->assertFalse($this->meeting->hasUserJoined());
         $this->assertEquals(20, $this->meeting->getDuration());
-        $this->assertEquals(false, $this->meeting->hasBeenForciblyEnded());
+        $this->assertFalse($this->meeting->hasBeenForciblyEnded());
         $this->assertEquals('duplicateWarning', $this->meeting->getMessageKey());
         $this->assertEquals('This conference was already in existence and may currently be in progress.', $this->meeting->getMessage());
     }
@@ -59,7 +60,7 @@ class CreateMeetingResponseTest extends TestCase
     public function testCreateMeetingResponseTypes()
     {
         $this->assertEachGetterValueIsString($this->meeting, ['getReturnCode', 'getInternalMeetingId', 'getParentMeetingId',
-                                                              'getAttendeePassword', 'getModeratorPassword', 'getDialNumber', 'getCreationDate']);
+                                                              'getAttendeePassword', 'getModeratorPassword', 'getDialNumber', 'getCreationDate', ]);
         $this->assertEachGetterValueIsDouble($this->meeting, ['getCreationTime']);
         $this->assertEachGetterValueIsInteger($this->meeting, ['getDuration', 'getVoiceBridge']);
         $this->assertEachGetterValueIsBoolean($this->meeting, ['hasUserJoined', 'hasBeenForciblyEnded']);

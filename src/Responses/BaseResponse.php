@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Responses;
 
 /**
- * Class BaseResponse
- * @package BigBlueButton\Responses
+ * Class BaseResponse.
  */
 abstract class BaseResponse
 {
-    const SUCCESS        = 'SUCCESS';
-    const FAILED         = 'FAILED';
-    const CHECKSUM_ERROR = 'checksumError';
+    public const SUCCESS = 'SUCCESS';
+    public const FAILED = 'FAILED';
+    public const CHECKSUM_ERROR = 'checksumError';
 
     /**
      * @var \SimpleXMLElement
@@ -35,8 +35,6 @@ abstract class BaseResponse
 
     /**
      * BaseResponse constructor.
-     *
-     * @param \SimpleXMLElement $xml
      */
     public function __construct(\SimpleXMLElement $xml)
     {
@@ -86,8 +84,7 @@ abstract class BaseResponse
     }
 
     /**
-     * Check is response is checksum error
-     * @return bool
+     * Check is response is checksum error.
      */
     public function hasChecksumError(): bool
     {

@@ -18,11 +18,11 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 class PlaybackFormat
 {
-
     /** @var string */
     private $type;
 
@@ -43,12 +43,12 @@ class PlaybackFormat
 
     public function __construct(\SimpleXMLElement $xml)
     {
-        $this->type               = $xml->type->__toString();
-        $this->url                = $xml->url->__toString();
-        $this->processingTime     = (int) $xml->processingTime->__toString();
-        $this->length             = (int) $xml->length->__toString();
+        $this->type = $xml->type->__toString();
+        $this->url = $xml->url->__toString();
+        $this->processingTime = (int) $xml->processingTime->__toString();
+        $this->length = (int) $xml->length->__toString();
 
-        $this->imagePreviewsRaw   = $xml->preview->images;
+        $this->imagePreviewsRaw = $xml->preview->images;
     }
 
     public function getType(): string
@@ -73,11 +73,10 @@ class PlaybackFormat
 
     public function hasImagePreviews(): bool
     {
-        return !!$this->imagePreviewsRaw;
+        return (bool) $this->imagePreviewsRaw;
     }
 
     /**
-     *
      * @return ImagePreview[]
      */
     public function getImagePreviews(): array

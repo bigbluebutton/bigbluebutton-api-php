@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Util;
 
 use PHPUnit\Framework\TestCase;
@@ -57,11 +58,6 @@ final class ArrayHelperTest extends TestCase
 
     /**
      * @dataProvider provideArrays
-     *
-     * @param array $input1
-     * @param array $input2
-     * @param bool  $reorderNested
-     * @param array $output
      */
     public function testMergeRecursive(array $input1, array $input2, bool $reorderNested, array $output): void
     {

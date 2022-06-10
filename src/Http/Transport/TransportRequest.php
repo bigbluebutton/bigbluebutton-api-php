@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http\Transport;
 
 /**
@@ -42,8 +43,8 @@ class TransportRequest
 
     public function __construct(string $url, string $payload, string $contentType)
     {
-        $this->url         = $url;
-        $this->payload     = $payload;
+        $this->url = $url;
+        $this->payload = $payload;
         $this->contentType = $contentType;
     }
 

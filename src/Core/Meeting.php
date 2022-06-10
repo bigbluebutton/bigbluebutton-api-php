@@ -17,15 +17,14 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 /**
- * Class Meeting
- * @package BigBlueButton\Core
+ * Class Meeting.
  */
 class Meeting
 {
-
     /**
      * @var \SimpleXMLElement
      */
@@ -42,7 +41,7 @@ class Meeting
     private $meetingName;
 
     /**
-     * @var double
+     * @var float
      */
     private $creationTime;
 
@@ -122,12 +121,12 @@ class Meeting
     private $isRecording;
 
     /**
-     * @var double
+     * @var float
      */
     private $startTime;
 
     /**
-     * @var double
+     * @var float
      */
     private $endTime;
 
@@ -158,30 +157,30 @@ class Meeting
 
     public function __construct(\SimpleXMLElement $xml)
     {
-        $this->rawXml                = $xml;
-        $this->meetingId             = $xml->meetingID->__toString();
-        $this->meetingName           = $xml->meetingName->__toString();
-        $this->creationTime          = (float) $xml->createTime;
-        $this->creationDate          = $xml->createDate->__toString();
-        $this->voiceBridge           = (int) $xml->voiceBridge;
-        $this->dialNumber            = $xml->dialNumber->__toString();
-        $this->attendeePassword      = $xml->attendeePW->__toString();
-        $this->moderatorPassword     = $xml->moderatorPW->__toString();
-        $this->hasBeenForciblyEnded  = $xml->hasBeenForciblyEnded->__toString() === 'true';
-        $this->isRunning             = $xml->running->__toString() === 'true';
-        $this->participantCount      = (int) $xml->participantCount;
-        $this->listenerCount         = (int) $xml->listenerCount;
+        $this->rawXml = $xml;
+        $this->meetingId = $xml->meetingID->__toString();
+        $this->meetingName = $xml->meetingName->__toString();
+        $this->creationTime = (float) $xml->createTime;
+        $this->creationDate = $xml->createDate->__toString();
+        $this->voiceBridge = (int) $xml->voiceBridge;
+        $this->dialNumber = $xml->dialNumber->__toString();
+        $this->attendeePassword = $xml->attendeePW->__toString();
+        $this->moderatorPassword = $xml->moderatorPW->__toString();
+        $this->hasBeenForciblyEnded = $xml->hasBeenForciblyEnded->__toString() === 'true';
+        $this->isRunning = $xml->running->__toString() === 'true';
+        $this->participantCount = (int) $xml->participantCount;
+        $this->listenerCount = (int) $xml->listenerCount;
         $this->voiceParticipantCount = (int) $xml->voiceParticipantCount;
-        $this->videoCount            = (int) $xml->videoCount;
-        $this->duration              = (int) $xml->duration;
-        $this->hasUserJoined         = $xml->hasUserJoined->__toString() === 'true';
-        $this->internalMeetingId     = $xml->internalMeetingID->__toString();
-        $this->isRecording           = $xml->recording->__toString() === 'true';
-        $this->startTime             = (float) $xml->startTime;
-        $this->endTime               = (float) $xml->endTime;
-        $this->maxUsers              = (int) $xml->maxUsers->__toString();
-        $this->moderatorCount        = (int) $xml->moderatorCount->__toString();
-        $this->isBreakout            = $xml->isBreakout->__toString() === 'true';
+        $this->videoCount = (int) $xml->videoCount;
+        $this->duration = (int) $xml->duration;
+        $this->hasUserJoined = $xml->hasUserJoined->__toString() === 'true';
+        $this->internalMeetingId = $xml->internalMeetingID->__toString();
+        $this->isRecording = $xml->recording->__toString() === 'true';
+        $this->startTime = (float) $xml->startTime;
+        $this->endTime = (float) $xml->endTime;
+        $this->maxUsers = (int) $xml->maxUsers->__toString();
+        $this->moderatorCount = (int) $xml->moderatorCount->__toString();
+        $this->isBreakout = $xml->isBreakout->__toString() === 'true';
     }
 
     /**
@@ -201,7 +200,7 @@ class Meeting
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function getCreationTime()
     {
@@ -329,7 +328,7 @@ class Meeting
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function getStartTime()
     {
@@ -337,7 +336,7 @@ class Meeting
     }
 
     /**
-     * @return double
+     * @return float
      */
     public function getEndTime()
     {
@@ -376,7 +375,8 @@ class Meeting
     }
 
     /**
-     * Moderators of Meeting - Subset of Attendees
+     * Moderators of Meeting - Subset of Attendees.
+     *
      * @return Attendee[]
      */
     public function getModerators(): array
@@ -391,7 +391,8 @@ class Meeting
     }
 
     /**
-     * Viewers of Meeting - Subset of Attendees
+     * Viewers of Meeting - Subset of Attendees.
+     *
      * @return Attendee[]
      */
     public function getViewers(): array

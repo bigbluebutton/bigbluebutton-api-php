@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\Core\Record;
 
 /**
- * Class GetRecordingsResponse
- * @package BigBlueButton\Responses
+ * Class GetRecordingsResponse.
  */
 class GetRecordingsResponse extends BaseResponse
 {
-    const KEY_NO_RECORDINGS = 'noRecordings';
+    public const KEY_NO_RECORDINGS = 'noRecordings';
 
     /**
      * @var Record[]
@@ -48,9 +48,6 @@ class GetRecordingsResponse extends BaseResponse
         return $this->records;
     }
 
-    /**
-     * @return bool
-     */
     public function hasNoRecordings(): bool
     {
         return $this->getMessageKey() === self::KEY_NO_RECORDINGS;

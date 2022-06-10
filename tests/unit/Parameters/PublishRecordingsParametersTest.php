@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
@@ -24,8 +25,8 @@ class PublishRecordingsParametersTest extends TestCase
 {
     public function testPublishRecordingsParameters()
     {
-        $recordingId      = $this->faker->uuid;
-        $publish          = $this->faker->boolean(50);
+        $recordingId = $this->faker->uuid;
+        $publish = $this->faker->boolean(50);
         $publishRecording = new PublishRecordingsParameters($recordingId, $publish);
 
         $this->assertEquals($recordingId, $publishRecording->getRecordingId());

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2015 Michael Dowling, https://github.com/mtdowling <mtdowling@gmail.com>
+ * Copyright (c) 2015 Michael Dowling, https://github.com/mtdowling <mtdowling@gmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,12 @@ declare(strict_types=1);
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace BigBlueButton\Http;
 
 /**
  * Value object for HTTP cookies,
- * based on https://github.com/guzzle/guzzle/blob/master/src/Cookie/SetCookie.php
+ * based on https://github.com/guzzle/guzzle/blob/master/src/Cookie/SetCookie.php.
  *
  * @internal
  */
@@ -37,15 +38,15 @@ final class SetCookie
      * @var array
      */
     private static $defaults = [
-        'Name'     => null,
-        'Value'    => null,
-        'Domain'   => null,
-        'Path'     => '/',
-        'Max-Age'  => null,
-        'Expires'  => null,
-        'Secure'   => false,
-        'Discard'  => false,
-        'HttpOnly' => false
+        'Name' => null,
+        'Value' => null,
+        'Domain' => null,
+        'Path' => '/',
+        'Max-Age' => null,
+        'Expires' => null,
+        'Secure' => false,
+        'Discard' => false,
+        'HttpOnly' => false,
     ];
 
     /**
@@ -63,27 +64,27 @@ final class SetCookie
         // Create the default return array
         $data = self::$defaults;
         // Explode the cookie string using a series of semicolons
-        $pieces = \array_filter(\array_map('trim', \explode(';', $cookie)));
+        $pieces = array_filter(array_map('trim', explode(';', $cookie)));
         // The name of the cookie (first kvp) must exist and include an equal sign.
-        if (!isset($pieces[0]) || \strpos($pieces[0], '=') === false) {
+        if (!isset($pieces[0]) || strpos($pieces[0], '=') === false) {
             return new self($data);
         }
 
         // Add the cookie pieces into the parsed data array
         foreach ($pieces as $part) {
-            $cookieParts = \explode('=', $part, 2);
-            $key         = \trim($cookieParts[0]);
-            $value       = isset($cookieParts[1])
-                ? \trim($cookieParts[1], " \n\r\t\0\x0B")
+            $cookieParts = explode('=', $part, 2);
+            $key = trim($cookieParts[0]);
+            $value = isset($cookieParts[1])
+                ? trim($cookieParts[1], " \n\r\t\0\x0B")
                 : true;
 
             // Only check for non-cookies when cookies have been found
             if (!isset($data['Name'])) {
-                $data['Name']  = $key;
+                $data['Name'] = $key;
                 $data['Value'] = $value;
             } else {
-                foreach (\array_keys(self::$defaults) as $search) {
-                    if (!\strcasecmp($search, $key)) {
+                foreach (array_keys(self::$defaults) as $search) {
+                    if (!strcasecmp($search, $key)) {
                         $data[$search] = $value;
 
                         continue 2;
@@ -102,7 +103,7 @@ final class SetCookie
     public function __construct(array $data = [])
     {
         /** @var array|null $replaced will be null in case of replace error */
-        $replaced = \array_replace(self::$defaults, $data);
+        $replaced = array_replace(self::$defaults, $data);
         // @codeCoverageIgnoreStart
         if ($replaced === null) {
             throw new \InvalidArgumentException('Unable to replace the default values for the Cookie.');
@@ -113,26 +114,26 @@ final class SetCookie
         // Extract the Expires value and turn it into a UNIX timestamp if needed
         if (!$this->getExpires() && $this->getMaxAge()) {
             // Calculate the Expires date
-            $this->setExpires(\time() + $this->getMaxAge());
-        } elseif (null !== ($expires = $this->getExpires()) && !\is_numeric($expires)) {
+            $this->setExpires(time() + $this->getMaxAge());
+        } elseif (null !== ($expires = $this->getExpires()) && !is_numeric($expires)) {
             $this->setExpires($expires);
         }
     }
 
     public function __toString()
     {
-        $str = $this->data['Name'] . '=' . $this->data['Value'] . '; ';
+        $str = $this->data['Name'].'='.$this->data['Value'].'; ';
         foreach ($this->data as $k => $v) {
             if ($k !== 'Name' && $k !== 'Value' && $v !== null && $v !== false) {
                 if ($k === 'Expires') {
-                    $str .= 'Expires=' . \gmdate('D, d M Y H:i:s \G\M\T', $v) . '; ';
+                    $str .= 'Expires='.gmdate('D, d M Y H:i:s \G\M\T', $v).'; ';
                 } else {
-                    $str .= ($v === true ? $k : "{$k}={$v}") . '; ';
+                    $str .= ($v === true ? $k : "{$k}={$v}").'; ';
                 }
             }
         }
 
-        return \rtrim($str, '; ');
+        return rtrim($str, '; ');
     }
 
     public function toArray(): array
@@ -253,13 +254,13 @@ final class SetCookie
     /**
      * Set the unix timestamp for which the cookie will expire.
      *
-     * @param int|string $timestamp Unix timestamp or any English textual datetime description.
+     * @param int|string $timestamp unix timestamp or any English textual datetime description
      */
     public function setExpires($timestamp): void
     {
-        $this->data['Expires'] = \is_numeric($timestamp)
+        $this->data['Expires'] = is_numeric($timestamp)
             ? (int) $timestamp
-            : \strtotime($timestamp);
+            : strtotime($timestamp);
     }
 
     /**
@@ -347,17 +348,17 @@ final class SetCookie
         }
 
         // Ensure that the cookie-path is a prefix of the request path.
-        if (0 !== \strpos($requestPath, $cookiePath)) {
+        if (0 !== strpos($requestPath, $cookiePath)) {
             return false;
         }
 
         // Match if the last character of the cookie-path is "/"
-        if (\substr($cookiePath, -1, 1) === '/') {
+        if (substr($cookiePath, -1, 1) === '/') {
             return true;
         }
 
         // Match if the first character not included in cookie path is "/"
-        return \substr($requestPath, \strlen($cookiePath), 1) === '/';
+        return substr($requestPath, \strlen($cookiePath), 1) === '/';
     }
 
     /**
@@ -374,20 +375,20 @@ final class SetCookie
 
         // Remove the leading '.' as per spec in RFC 6265.
         // https://tools.ietf.org/html/rfc6265#section-5.2.3
-        $cookieDomain = \ltrim($cookieDomain, '.');
+        $cookieDomain = ltrim($cookieDomain, '.');
 
         // Domain not set or exact match.
-        if (!$cookieDomain || !\strcasecmp($domain, $cookieDomain)) {
+        if (!$cookieDomain || !strcasecmp($domain, $cookieDomain)) {
             return true;
         }
 
         // Matching the subdomain according to RFC 6265.
         // https://tools.ietf.org/html/rfc6265#section-5.1.3
-        if (\filter_var($domain, \FILTER_VALIDATE_IP)) {
+        if (filter_var($domain, \FILTER_VALIDATE_IP)) {
             return false;
         }
 
-        return (bool) \preg_match('/\.' . \preg_quote($cookieDomain, '/') . '$/', $domain);
+        return (bool) preg_match('/\.'.preg_quote($cookieDomain, '/').'$/', $domain);
     }
 
     /**
@@ -395,7 +396,7 @@ final class SetCookie
      */
     public function isExpired(): bool
     {
-        return $this->getExpires() !== null && \time() > $this->getExpires();
+        return $this->getExpires() !== null && time() > $this->getExpires();
     }
 
     /**
@@ -411,13 +412,13 @@ final class SetCookie
         }
 
         // Check if any of the invalid characters are present in the cookie name
-        if (\preg_match(
+        if (preg_match(
             '/[\x00-\x20\x22\x28-\x29\x2c\x2f\x3a-\x40\x5c\x7b\x7d\x7f]/',
             $name
         )) {
             return 'Cookie name must not contain invalid characters: ASCII '
-                . 'Control characters (0-31;127), space, tab and the '
-                . 'following characters: ()<>@,;:\"/?={}';
+                .'Control characters (0-31;127), space, tab and the '
+                .'following characters: ()<>@,;:\"/?={}';
         }
 
         // Value must not be null. 0 and empty string are valid. Empty strings

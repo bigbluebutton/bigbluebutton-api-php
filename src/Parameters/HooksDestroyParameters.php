@@ -16,15 +16,15 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
  * @method string getHookID()
- * @method $this setHookID(string $hookID)
+ * @method $this  setHookID(string $hookID)
  */
 class HooksDestroyParameters extends BaseParameters
 {
-
     /**
      * @var string
      */
@@ -32,11 +32,12 @@ class HooksDestroyParameters extends BaseParameters
 
     public function __construct(string $hookID)
     {
-        $this->hookID  = $hookID;
+        $this->hookID = $hookID;
     }
 
     /**
      * @deprecated use getHookID() instead
+     *
      * @return string
      */
     public function getHookId()
@@ -46,6 +47,7 @@ class HooksDestroyParameters extends BaseParameters
 
     /**
      * @deprecated use setHookID() instead
+     *
      * @return HooksDestroyParameters
      */
     public function setHookId(string $hookID)
