@@ -18,10 +18,7 @@
  */
 namespace BigBlueButton\Core;
 
-/**
- * @final since 4.0.
- */
-class ApiMethod
+final class ApiMethod
 {
     public const CREATE                    = 'create';
     public const JOIN                      = 'join';

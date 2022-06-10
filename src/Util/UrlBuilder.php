@@ -22,10 +22,9 @@ namespace BigBlueButton\Util;
  * Class UrlBuilder
  * @package BigBlueButton\Util
  *
- * @final since 4.0.
  * @internal
  */
-class UrlBuilder
+final class UrlBuilder
 {
     /**
      * @var string

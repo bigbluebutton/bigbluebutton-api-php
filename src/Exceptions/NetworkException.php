@@ -20,9 +20,6 @@ declare(strict_types=1);
  */
 namespace BigBlueButton\Exceptions;
 
-/**
- * @final since 4.0.
- */
-class NetworkException extends BaseException
+final class NetworkException extends BaseException
 {
 }
