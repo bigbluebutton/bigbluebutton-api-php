@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\GetRecordingsResponse;
@@ -63,6 +64,35 @@ class GetRecordingsResponseTest extends TestCase
         $metas = $this->records->getRecords()[4]->getMetas();
 
         $this->assertEquals('moodle-mod_bigbluebuttonbn (2015080611)', $metas['bbb-origin-tag']);
+    }
+
+    public function testRecordingsPlaybackFormats()
+    {
+        $this->assertEquals('SUCCESS', $this->records->getReturnCode());
+
+        $this->assertCount(6, $this->records->getRecords());
+        $aRecord = $this->records->getRecords()[0];
+
+        // Test podcast format
+        $podcastFormat = $aRecord->getFormats()[0]; // without images preview
+        $this->assertEquals('podcast', $podcastFormat->getType());
+        $this->assertEquals('https://test-install.blindsidenetworks.com/podcast/f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120/audio.ogg', $podcastFormat->getUrl());
+        $this->assertEquals('111', $podcastFormat->getProcessingTime());
+        $this->assertEquals('632', $podcastFormat->getLength());
+        $this->assertEquals('10500', $podcastFormat->getSize());
+
+        $presentationFormat = $aRecord->getFormats()[1]; // having images preview
+        $this->assertEquals('presentation', $presentationFormat->getType());
+        $this->assertEquals('http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120', $presentationFormat->getUrl());
+        $this->assertEquals(2973, $presentationFormat->getProcessingTime());
+        $this->assertEquals(532, $presentationFormat->getLength());
+        $this->assertEquals(168019, $presentationFormat->getSize());
+
+        $image = $presentationFormat->getImages()[0];
+        $this->assertEquals('Welcome', $image->getAlt());
+        $this->assertEquals(136, $image->getHeight());
+        $this->assertEquals(176, $image->getWidth());
+        $this->assertEquals('https://test-install.blindsidenetworks.com/presentation/f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120/presentation/d2d9a672040fbde2a47a10bf6c37b6a4b5ae187f-1632646357291/thumbnails/thumb-1.png', $image->getUrl());
     }
 
     public function testGetRecordingResponseTypes()

@@ -22,9 +22,24 @@
             </metadata>
             <playback>
                 <format>
+                    <type>podcast</type>
+                    <url>https://test-install.blindsidenetworks.com/podcast/f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120/audio.ogg</url>
+                    <processingTime>111</processingTime>
+                    <length>632</length>
+                    <size>10500</size>
+                </format>
+                <format>
                     <type>presentation</type>
                     <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120</url>
-                    <length>44</length>
+                    <processingTime>2973</processingTime>
+                    <length>532</length>
+                    <size>168019</size>
+                    <preview>
+                        <images>
+                            <image alt="Welcome" height="136" width="176">https://test-install.blindsidenetworks.com/presentation/f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120/presentation/d2d9a672040fbde2a47a10bf6c37b6a4b5ae187f-1632646357291/thumbnails/thumb-1.png</image>
+                            <image alt="Course" height="136" width="176">https://test-install.blindsidenetworks.com/presentation/f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120/presentation/d2d9a672040fbde2a47a10bf6c37b6a4b5ae187f-1632646357291/thumbnails/thumb-2.png</image>
+                        </images>
+                    </preview>
                 </format>
             </playback>
         </recording>
@@ -50,7 +65,7 @@
             <playback>
                 <format>
                     <type>presentation</type>
-                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1463153001071</url>
+                    <url>https://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1463153001071</url>
                     <length>126</length>
                 </format>
             </playback>
@@ -71,7 +86,8 @@
                 <bbb-origin-server-common-name><![CDATA[]]></bbb-origin-server-common-name>
                 <bbb-origin-server-name><![CDATA[planetinteractive.us]]></bbb-origin-server-name>
                 <bbb-recording-description><![CDATA[]]></bbb-recording-description>
-                <bbb-recording-name><![CDATA[SAT- Polynomials and Inequalities (All participants)]]></bbb-recording-name>
+                <bbb-recording-name>
+                    <![CDATA[SAT- Polynomials and Inequalities (All participants)]]></bbb-recording-name>
                 <bbb-recording-tags><![CDATA[]]></bbb-recording-tags>
             </metadata>
             <playback>
@@ -125,7 +141,8 @@
                 <bbb-origin-server-common-name><![CDATA[]]></bbb-origin-server-common-name>
                 <bbb-origin-server-name><![CDATA[planetinteractive.us]]></bbb-origin-server-name>
                 <bbb-recording-description><![CDATA[]]></bbb-recording-description>
-                <bbb-recording-name><![CDATA[SAT- Writing Section- Social Science and History (All participants)]]></bbb-recording-name>
+                <bbb-recording-name>
+                    <![CDATA[SAT- Writing Section- Social Science and History (All participants)]]></bbb-recording-name>
                 <bbb-recording-tags><![CDATA[]]></bbb-recording-tags>
             </metadata>
             <playback>
