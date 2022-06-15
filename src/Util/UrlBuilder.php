@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Util;
 
 /**
- * Class UrlBuilder
- * @package BigBlueButton\Util
+ * Class UrlBuilder.
  */
 class UrlBuilder
 {
@@ -28,6 +29,7 @@ class UrlBuilder
      * @var string
      */
     private $securitySalt;
+
     /**
      * @var string
      */
@@ -48,9 +50,9 @@ class UrlBuilder
     /**
      * Builds an API method URL that includes the url + params + its generated checksum.
      *
-     * @param string  $method
-     * @param string  $params
-     * @param boolean $append
+     * @param string $method
+     * @param string $params
+     * @param bool   $append
      *
      * @return string
      */

@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,10 +17,15 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class PublishRecordingsParametersTest extends TestCase
 {
     public function testPublishRecordingsParameters()
@@ -33,7 +39,7 @@ class PublishRecordingsParametersTest extends TestCase
 
         // Test setters that are ignored by the constructor
         $publishRecording->setRecordingId($newRecordingId = !$this->faker->uuid);
-        $publishRecording->setPublish($publish = !$publish);
+        $publishRecording->setPublish($publish            = !$publish);
         $this->assertEquals($newRecordingId, $publishRecording->getRecordingId());
         $this->assertEquals($publish, $publishRecording->isPublish());
     }

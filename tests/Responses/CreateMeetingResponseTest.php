@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,16 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CreateMeetingResponseTest extends TestCase
 {
     /**
@@ -59,7 +65,7 @@ class CreateMeetingResponseTest extends TestCase
     public function testCreateMeetingResponseTypes()
     {
         $this->assertEachGetterValueIsString($this->meeting, ['getReturnCode', 'getInternalMeetingId', 'getParentMeetingId',
-                                                              'getAttendeePassword', 'getModeratorPassword', 'getDialNumber', 'getCreationDate']);
+            'getAttendeePassword', 'getModeratorPassword', 'getDialNumber', 'getCreationDate', ]);
         $this->assertEachGetterValueIsDouble($this->meeting, ['getCreationTime']);
         $this->assertEachGetterValueIsInteger($this->meeting, ['getDuration', 'getVoiceBridge']);
         $this->assertEachGetterValueIsBoolean($this->meeting, ['hasUserJoined', 'hasBeenForciblyEnded']);

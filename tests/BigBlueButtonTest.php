@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,6 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
@@ -27,8 +29,10 @@ use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 
 /**
- * Class BigBlueButtonTest
- * @package BigBlueButton
+ * Class BigBlueButtonTest.
+ *
+ * @internal
+ * @coversNothing
  */
 class BigBlueButtonTest extends TestCase
 {
@@ -38,7 +42,7 @@ class BigBlueButtonTest extends TestCase
     private $bbb;
 
     /**
-     * Setup test class
+     * Setup test class.
      */
     public function setUp(): void
     {
@@ -54,10 +58,10 @@ class BigBlueButtonTest extends TestCase
         $this->bbb = new BigBlueButton();
     }
 
-    /* API Version */
+    // API Version
 
     /**
-     * Test API version call
+     * Test API version call.
      */
     public function testApiVersion()
     {
@@ -67,10 +71,10 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($apiVersion->success());
     }
 
-    /* Create Meeting */
+    // Create Meeting
 
     /**
-     * Test create meeting URL
+     * Test create meeting URL.
      */
     public function testCreateMeetingUrl()
     {
@@ -85,7 +89,7 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
-     * Test create meeting
+     * Test create meeting.
      */
     public function testCreateMeeting()
     {
@@ -96,7 +100,7 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
-     * Test create meeting with a document URL
+     * Test create meeting with a document URL.
      */
     public function testCreateMeetingWithDocumentUrl()
     {
@@ -111,7 +115,7 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
-     * Test create meeting with a document URL and filename
+     * Test create meeting with a document URL and filename.
      */
     public function testCreateMeetingWithDocumentUrlAndFileName()
     {
@@ -126,7 +130,7 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
-     * Test create meeting with a document URL
+     * Test create meeting with a document URL.
      */
     public function testCreateMeetingWithDocumentEmbedded()
     {
@@ -141,7 +145,7 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
-     * Test create meeting with a multiple documents
+     * Test create meeting with a multiple documents.
      */
     public function testCreateMeetingWithMultiDocument()
     {
@@ -156,10 +160,10 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($result->success());
     }
 
-    /* Join Meeting */
+    // Join Meeting
 
     /**
-     * Test create join meeting URL
+     * Test create join meeting URL.
      */
     public function testCreateJoinMeetingUrl()
     {
@@ -196,10 +200,10 @@ class BigBlueButtonTest extends TestCase
         $this->assertNotEmpty($joinMeeting->getUrl());
     }
 
-    /* End Meeting */
+    // End Meeting
 
     /**
-     * Test generate end meeting URL
+     * Test generate end meeting URL.
      */
     public function testCreateEndMeetingUrl()
     {
@@ -231,7 +235,7 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($result->failed());
     }
 
-    /* Is Meeting Running */
+    // Is Meeting Running
 
     public function testIsMeetingRunning()
     {
@@ -241,7 +245,7 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals(false, $result->isRunning());
     }
 
-    /* Get Meetings */
+    // Get Meetings
 
     public function testGetMeetingsUrl()
     {
@@ -255,7 +259,7 @@ class BigBlueButtonTest extends TestCase
         $this->assertNotEmpty($result->getMeetings());
     }
 
-    /* Get meeting info */
+    // Get meeting info
 
     public function testGetMeetingInfoUrl()
     {

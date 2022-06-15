@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -21,18 +22,20 @@ namespace BigBlueButton;
 
 use BigBlueButton\Core\GuestPolicy;
 use BigBlueButton\Core\MeetingLayout;
-use BigBlueButton\Parameters\CreateMeetingParameters as CreateMeetingParameters;
+use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
-use BigBlueButton\Parameters\JoinMeetingParameters as JoinMeetingParameters;
-use BigBlueButton\Parameters\UpdateRecordingsParameters as UpdateRecordingsParameters;
+use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use Faker\Factory as Faker;
-use Faker\Generator as Generator;
+use Faker\Generator;
 
 /**
- * Class TestCase
- * @package BigBlueButton
+ * Class TestCase.
+ *
+ * @internal
+ * @coversNothing
  */
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -51,8 +54,63 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->faker = Faker::create();
     }
 
+    // Additional assertions
+
+    public function assertIsInteger($actual, $message = '')
+    {
+        if (empty($message)) {
+            $message = 'Got a ' . gettype($actual) . ' instead of an integer.';
+        }
+        $this->assertTrue(is_integer($actual), $message);
+    }
+
+    public function assertIsDouble($actual, $message = '')
+    {
+        if (empty($message)) {
+            $message = 'Got a ' . gettype($actual) . ' instead of a double.';
+        }
+        $this->assertTrue(is_double($actual), $message);
+    }
+
+    public function assertIsBoolean($actual, $message = '')
+    {
+        if (empty($message)) {
+            $message = 'Got a ' . gettype($actual) . ' instead of a boolean.';
+        }
+        $this->assertTrue(is_bool($actual), $message);
+    }
+
+    public function assertEachGetterValueIsString($obj, $getters)
+    {
+        foreach ($getters as $getterName) {
+            $this->assertIsString($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a string for property -> ' . $getterName);
+        }
+    }
+
+    public function assertEachGetterValueIsInteger($obj, $getters)
+    {
+        foreach ($getters as $getterName) {
+            $this->assertIsInteger($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of an integer for property -> ' . $getterName);
+        }
+    }
+
+    public function assertEachGetterValueIsDouble($obj, $getters)
+    {
+        foreach ($getters as $getterName) {
+            $this->assertIsDouble($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a double for property -> ' . $getterName);
+        }
+    }
+
+    public function assertEachGetterValueIsBoolean($obj, $getters)
+    {
+        foreach ($getters as $getterName) {
+            $this->assertIsBoolean($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a boolean for property -> ' . $getterName);
+        }
+    }
+
     /**
      * @param $bbb BigBlueButton
+     *
      * @return CreateMeetingResponse
      */
     protected function createRealMeeting($bbb)
@@ -120,6 +178,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     /**
      * @param $createParams
+     *
      * @return array
      */
     protected function generateBreakoutCreateParams($createParams)
@@ -128,7 +187,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'isBreakout'      => true,
             'parentMeetingId' => $this->faker->uuid,
             'sequence'        => $this->faker->numberBetween(1, 8),
-            'freeJoin'        => $this->faker->boolean(50)
+            'freeJoin'        => $this->faker->boolean(50),
         ]);
     }
 
@@ -185,7 +244,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setMeetingEndedURL($params['meetingEndedURL'])
             ->setMeetingLayout($params['meetingLayout'])
             ->addMeta('presenter', $params['meta_presenter'])
-            ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url']);
+            ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url'])
+        ;
     }
 
     /**
@@ -214,7 +274,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'creationTime'         => $this->faker->unixTime,
             'userdata_countrycode' => $this->faker->countryCode,
             'userdata_email'       => $this->faker->email,
-            'userdata_commercial'  => false
+            'userdata_commercial'  => false,
         ];
     }
 
@@ -238,7 +298,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function generateEndMeetingParams()
     {
         return ['meetingId' => $this->faker->uuid,
-            'password'      => $this->faker->password];
+            'password'      => $this->faker->password, ];
     }
 
     /**
@@ -253,6 +313,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     /**
      * @param $bbb BigBlueButton
+     *
      * @return UpdateRecordingsResponse
      */
     protected function updateRecordings($bbb)
@@ -296,59 +357,5 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function minifyString($string)
     {
         return str_replace(["\r\n", "\r", "\n", "\t", ' '], '', $string);
-    }
-
-    // Additional assertions
-
-    public function assertIsInteger($actual, $message = '')
-    {
-        if (empty($message)) {
-            $message = 'Got a ' . gettype($actual) . ' instead of an integer.';
-        }
-        $this->assertTrue(is_integer($actual), $message);
-    }
-
-    public function assertIsDouble($actual, $message = '')
-    {
-        if (empty($message)) {
-            $message = 'Got a ' . gettype($actual) . ' instead of a double.';
-        }
-        $this->assertTrue(is_double($actual), $message);
-    }
-
-    public function assertIsBoolean($actual, $message = '')
-    {
-        if (empty($message)) {
-            $message = 'Got a ' . gettype($actual) . ' instead of a boolean.';
-        }
-        $this->assertTrue(is_bool($actual), $message);
-    }
-
-    public function assertEachGetterValueIsString($obj, $getters)
-    {
-        foreach ($getters as $getterName) {
-            $this->assertIsString($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a string for property -> ' . $getterName);
-        }
-    }
-
-    public function assertEachGetterValueIsInteger($obj, $getters)
-    {
-        foreach ($getters as $getterName) {
-            $this->assertIsInteger($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of an integer for property -> ' . $getterName);
-        }
-    }
-
-    public function assertEachGetterValueIsDouble($obj, $getters)
-    {
-        foreach ($getters as $getterName) {
-            $this->assertIsDouble($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a double for property -> ' . $getterName);
-        }
-    }
-
-    public function assertEachGetterValueIsBoolean($obj, $getters)
-    {
-        foreach ($getters as $getterName) {
-            $this->assertIsBoolean($obj->$getterName(), 'Got a ' . gettype($obj->$getterName()) . ' instead of a boolean for property -> ' . $getterName);
-        }
     }
 }

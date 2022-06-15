@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class PublishRecordingsParameters
- * @package BigBlueButton\Parameters
+ * Class PublishRecordingsParameters.
  */
 class PublishRecordingsParameters extends BaseParameters
 {
@@ -55,7 +56,8 @@ class PublishRecordingsParameters extends BaseParameters
     }
 
     /**
-     * @param  string                      $recordingId
+     * @param string $recordingId
+     *
      * @return PublishRecordingsParameters
      */
     public function setRecordingId($recordingId)
@@ -89,7 +91,7 @@ class PublishRecordingsParameters extends BaseParameters
         return $this->buildHTTPQuery(
             [
                 'recordID' => $this->recordingId,
-                'publish'  => $this->publish ? 'true' : 'false'
+                'publish'  => $this->publish ? 'true' : 'false',
             ]
         );
     }

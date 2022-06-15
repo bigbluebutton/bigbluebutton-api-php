@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
  * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
@@ -36,6 +36,7 @@ class Format
 
     /**
      * Record constructor.
+     *
      * @param $xml \SimpleXMLElement
      */
     public function __construct($xml)
@@ -53,7 +54,7 @@ class Format
      */
     public function getImages()
     {
-        if ($this->images === null) {
+        if (null === $this->images) {
             $this->images = [];
             foreach ($this->rawXml->preview->images->image as $imageXml) {
                 $this->images[] = new Image($imageXml);
@@ -63,41 +64,26 @@ class Format
         return $this->images;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    /**
-     * @return int
-     */
     public function getProcessingTime(): int
     {
         return $this->processingTime;
     }
 
-    /**
-     * @return int
-     */
     public function getLength(): int
     {
         return $this->length;
     }
 
-    /**
-     * @return int
-     */
     public function getSize(): int
     {
         return $this->size;

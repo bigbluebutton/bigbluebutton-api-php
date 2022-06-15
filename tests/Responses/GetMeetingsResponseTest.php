@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,16 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class GetMeetingsResponseTest extends TestCase
 {
     /**
@@ -74,10 +80,10 @@ class GetMeetingsResponseTest extends TestCase
         $aMeeting = $this->meetings->getMeetings()[2];
 
         $this->assertEachGetterValueIsString($aMeeting, ['getMeetingId', 'getMeetingName', 'getCreationDate', 'getDialNumber',
-            'getAttendeePassword', 'getModeratorPassword']);
+            'getAttendeePassword', 'getModeratorPassword', ]);
         $this->assertEachGetterValueIsDouble($aMeeting, ['getCreationTime']);
         $this->assertEachGetterValueIsInteger($aMeeting, ['getVoiceBridge', 'getParticipantCount', 'getListenerCount',
-            'getVoiceParticipantCount', 'getVideoCount', 'getDuration']);
+            'getVoiceParticipantCount', 'getVideoCount', 'getDuration', ]);
         $this->assertEachGetterValueIsBoolean($aMeeting, ['hasBeenForciblyEnded', 'isRunning', 'hasUserJoined']);
     }
 }

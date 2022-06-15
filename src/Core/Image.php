@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,8 +21,7 @@
 namespace BigBlueButton\Core;
 
 /**
- * Class Record
- * @package BigBlueButton\Core
+ * Class Record.
  */
 class Image
 {
@@ -32,6 +32,7 @@ class Image
 
     /**
      * Record constructor.
+     *
      * @param $xml \SimpleXMLElement
      */
     public function __construct($xml)
@@ -42,33 +43,21 @@ class Image
         $this->url    = $xml->__toString();
     }
 
-    /**
-     * @return string
-     */
     public function getAlt(): string
     {
         return $this->alt;
     }
 
-    /**
-     * @return int
-     */
     public function getHeight(): int
     {
         return $this->height;
     }
 
-    /**
-     * @return int
-     */
     public function getWidth(): int
     {
         return $this->width;
     }
 
-    /**
-     * @return string
-     */
     public function getUrl(): string
     {
         return $this->url;

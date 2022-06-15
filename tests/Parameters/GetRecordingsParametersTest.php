@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,19 +17,24 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class GetRecordingsParametersTest extends TestCase
 {
     public function testGetRecordingsParameters()
     {
-        $getRecordings = new GetRecordingsParameters();
+        $getRecordings                          = new GetRecordingsParameters();
         $getRecordings->setMeetingId($meetingId = $this->faker->uuid);
-        $getRecordings->setRecordId($recordId = $this->faker->uuid);
-        $getRecordings->setState($state = 'published');
-        $getRecordings->addMeta($meta = 'name', $name = $this->faker->firstName);
+        $getRecordings->setRecordId($recordId   = $this->faker->uuid);
+        $getRecordings->setState($state         = 'published');
+        $getRecordings->addMeta($meta           = 'name', $name           = $this->faker->firstName);
 
         $params = $getRecordings->getHTTPQuery();
 

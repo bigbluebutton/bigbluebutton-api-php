@@ -37,7 +37,7 @@ Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutto
 Make sure the code style configuration is applied by running PHPCS-Fixer.
 
 ```
-./vendor/bin/php-cs-fixer fix --allow-risky yes
+./vendor/bin/php-cs-fixer fix
 ```
 
 ### Running tests

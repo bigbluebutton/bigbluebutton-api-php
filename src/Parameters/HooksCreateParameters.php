@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 class HooksCreateParameters extends BaseParameters
 {
-
     /**
      * @var string
      */
@@ -32,7 +33,7 @@ class HooksCreateParameters extends BaseParameters
     private $meetingId;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $getRaw;
 
@@ -55,7 +56,8 @@ class HooksCreateParameters extends BaseParameters
     }
 
     /**
-     * @param  string                $callbackUrl
+     * @param string $callbackUrl
+     *
      * @return HooksCreateParameters
      */
     public function setCallbackUrl($callbackUrl)
@@ -74,7 +76,8 @@ class HooksCreateParameters extends BaseParameters
     }
 
     /**
-     * @param  string                $meetingId
+     * @param string $meetingId
+     *
      * @return HooksCreateParameters
      */
     public function setMeetingId($meetingId)
@@ -85,7 +88,7 @@ class HooksCreateParameters extends BaseParameters
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getRaw()
     {
@@ -93,7 +96,8 @@ class HooksCreateParameters extends BaseParameters
     }
 
     /**
-     * @param  boolean               $getRaw
+     * @param bool $getRaw
+     *
      * @return HooksCreateParameters
      */
     public function setGetRaw($getRaw)
@@ -111,7 +115,7 @@ class HooksCreateParameters extends BaseParameters
         $queries = [
             'callbackURL' => $this->callbackUrl,
             'meetingID'   => $this->meetingId,
-            'getRaw'      => $this->getRaw ? 'true' : 'false'
+            'getRaw'      => $this->getRaw ? 'true' : 'false',
         ];
 
         return $this->buildHTTPQuery($queries);
