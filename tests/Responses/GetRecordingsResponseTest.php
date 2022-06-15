@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\GetRecordingsResponse;
@@ -65,36 +66,33 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals('moodle-mod_bigbluebuttonbn (2015080611)', $metas['bbb-origin-tag']);
     }
 
-    public function testRecordingsPlayback()
+    public function testRecordingsPlaybackFormats()
     {
         $this->assertEquals('SUCCESS', $this->records->getReturnCode());
 
         $this->assertCount(6, $this->records->getRecords());
-        $aRecord  = $this->records->getRecords()[0];
-        $formatN1 =  $aRecord->getPlaybacks()[0]; // without images preview
-        $this->assertEquals('podcast', $formatN1['type']);
-        $this->assertEquals('https://testurl/podcast/1.ogg', $formatN1['url']);
-        $this->assertEquals('111', $formatN1['processingTime']);
-        $this->assertEquals('222', $formatN1['length']);
-        $this->assertEquals('333', $formatN1['size']);
+        $aRecord = $this->records->getRecords()[0];
 
-        $formatN2 =  $aRecord->getPlaybacks()[1]; // having images preview
-        $this->assertEquals('presentation', $formatN2['type']);
-        $this->assertEquals('https://testurl/podcast/2.ogg', $formatN2['url']);
-        $this->assertEquals('444', $formatN2['processingTime']);
-        $this->assertEquals('555', $formatN2['length']);
-        $this->assertEquals('666', $formatN2['size']);
+        // Test podcast format
+        $podcastFormat = $aRecord->getFormats()[0]; // without images preview
+        $this->assertEquals('podcast', $podcastFormat->getType());
+        $this->assertEquals('https://test-install.blindsidenetworks.com/podcast/f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120/audio.ogg', $podcastFormat->getUrl());
+        $this->assertEquals('111', $podcastFormat->getProcessingTime());
+        $this->assertEquals('632', $podcastFormat->getLength());
+        $this->assertEquals('10500', $podcastFormat->getSize());
 
-        $images = $formatN2['preview'];
-        $this->assertEquals('testurl1', $images[0]->getAlt());
-        $this->assertEquals('136', $images[0]->getHeight());
-        $this->assertEquals('176', $images[0]->getWidth());
-        $this->assertEquals('https://testurl1.png', $images[0]->getLink());
+        $presentationFormat = $aRecord->getFormats()[1]; // having images preview
+        $this->assertEquals('presentation', $presentationFormat->getType());
+        $this->assertEquals('http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120', $presentationFormat->getUrl());
+        $this->assertEquals(2973, $presentationFormat->getProcessingTime());
+        $this->assertEquals(532, $presentationFormat->getLength());
+        $this->assertEquals(168019, $presentationFormat->getSize());
 
-        $this->assertEquals('testurl2', $images[1]->getAlt());
-        $this->assertEquals('136', $images[1]->getHeight());
-        $this->assertEquals('176', $images[1]->getWidth());
-        $this->assertEquals('https://testurl2.png', $images[1]->getLink());
+        $image = $presentationFormat->getImages()[0];
+        $this->assertEquals('Welcome', $image->getAlt());
+        $this->assertEquals(136, $image->getHeight());
+        $this->assertEquals(176, $image->getWidth());
+        $this->assertEquals('https://test-install.blindsidenetworks.com/presentation/f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120/presentation/d2d9a672040fbde2a47a10bf6c37b6a4b5ae187f-1632646357291/thumbnails/thumb-1.png', $image->getUrl());
     }
 
     public function testGetRecordingResponseTypes()

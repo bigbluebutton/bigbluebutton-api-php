@@ -397,7 +397,7 @@ class BigBlueButton
         $this->jSessionId = $jSessionId;
     }
 
-     /**
+    /**
      * @param array $curlopts
      */
     public function setCurlOpts($curlopts)
@@ -429,7 +429,7 @@ class BigBlueButton
             $cookiefile     = tmpfile();
             $cookiefilepath = stream_get_meta_data($cookiefile)['uri'];
 
-            foreach ($this->curlopts as $opt => $value){
+            foreach ($this->curlopts as $opt => $value) {
                 curl_setopt($ch, $opt, $value);
             }
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
@@ -487,12 +487,12 @@ class BigBlueButton
 
     /**
      * Public accessor for buildUrl
-     * @param   string $method
-     * @param   string $params
-     * @param   bool   $append
-     * @return  string
+     * @param  string $method
+     * @param  string $params
+     * @param  bool   $append
+     * @return string
      */
-    public function buildUrl($method = '', $params = '', $append = TRUE)
+    public function buildUrl($method = '', $params = '', $append = true)
     {
         return $this->urlBuilder->buildUrl($method, $params, $append);
     }

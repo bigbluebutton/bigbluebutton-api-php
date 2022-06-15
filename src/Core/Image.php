@@ -25,25 +25,22 @@ namespace BigBlueButton\Core;
  */
 class Image
 {
-    /**
-     * @var string
-     */
     private $alt;
-
-    /**
-     * @var int
-     */
     private $height;
-
-    /**
-     * @var int
-     */
     private $width;
+    private $url;
 
     /**
-     * @var string
+     * Record constructor.
+     * @param $xml \SimpleXMLElement
      */
-    private $link;
+    public function __construct($xml)
+    {
+        $this->alt    = $xml['alt']->__toString();
+        $this->height = (int) $xml['height'];
+        $this->width  = (int) $xml['width'];
+        $this->url    = $xml->__toString();
+    }
 
     /**
      * @return string
@@ -51,14 +48,6 @@ class Image
     public function getAlt(): string
     {
         return $this->alt;
-    }
-
-    /**
-     * @param string $alt
-     */
-    public function setAlt(string $alt): void
-    {
-        $this->alt = $alt;
     }
 
     /**
@@ -70,14 +59,6 @@ class Image
     }
 
     /**
-     * @param int $height
-     */
-    public function setHeight(int $height): void
-    {
-        $this->height = $height;
-    }
-
-    /**
      * @return int
      */
     public function getWidth(): int
@@ -86,26 +67,10 @@ class Image
     }
 
     /**
-     * @param int $width
-     */
-    public function setWidth(int $width): void
-    {
-        $this->width = $width;
-    }
-
-    /**
      * @return string
      */
-    public function getLink(): string
+    public function getUrl(): string
     {
-        return $this->link;
-    }
-
-    /**
-     * @param string $link
-     */
-    public function setLink(string $link): void
-    {
-        $this->link = $link;
+        return $this->url;
     }
 }

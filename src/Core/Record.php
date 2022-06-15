@@ -25,6 +25,12 @@ namespace BigBlueButton\Core;
  */
 class Record
 {
+
+    /**
+     * @var \SimpleXMLElement
+     */
+    protected $rawXml;
+
     private $recordId;
     private $meetingId;
     private $name;
@@ -32,11 +38,20 @@ class Record
     private $state;
     private $startTime;
     private $endTime;
+    /**
+     * @deprecated deprecated since 2.1.2
+     */
     private $playbackType;
+    /**
+     * @deprecated deprecated since 2.1.2
+     */
     private $playbackUrl;
+    /**
+     * @deprecated deprecated since 2.1.2
+     */
     private $playbackLength;
     private $metas;
-    private $playbacks;
+    private $formats;
 
     /**
      * Record constructor.
@@ -44,6 +59,7 @@ class Record
      */
     public function __construct($xml)
     {
+        $this->rawXml         = $xml;
         $this->recordId       = $xml->recordID->__toString();
         $this->meetingId      = $xml->meetingID->__toString();
         $this->name           = $xml->name->__toString();
@@ -58,43 +74,6 @@ class Record
         foreach ($xml->metadata->children() as $meta) {
             $this->metas[$meta->getName()] = $meta->__toString();
         }
-
-        foreach ($xml->playback->children() as $format) {
-            $aFormat = [];
-            foreach ($format->children() as $formAttribut) {
-                // if ($formAttribut != "preview"){ }
-                $aFormat[$formAttribut->getName()] = $formAttribut->__toString();
-            }
-            if (isset($format->preview)) {
-                $images = [];
-                foreach ($format->preview->images->children() as $image) {
-                    $imageObj = new Image();
-                    $imageObj->setAlt( $image['alt']->__toString());
-                    $imageObj->setHeight((int) $image['height']->__toString());
-                    $imageObj->setWidth((int) $image['width']->__toString());
-                    $imageObj->setLink($image->__toString());
-                    $images[] = $imageObj;
-                }
-                $aFormat['preview'] = $images;
-            }
-            $this->playbacks[] = $aFormat;
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function getPlaybacks(): array
-    {
-        return $this->playbacks;
-    }
-
-    /**
-     * @param array $playbacks
-     */
-    public function setPlaybacks(array $playbacks): void
-    {
-        $this->playbacks = $playbacks;
     }
 
     /**
@@ -155,6 +134,7 @@ class Record
 
     /**
      * @return string
+     * @deprecated
      */
     public function getPlaybackType()
     {
@@ -163,6 +143,7 @@ class Record
 
     /**
      * @return string
+     * @deprecated
      */
     public function getPlaybackUrl()
     {
@@ -171,6 +152,7 @@ class Record
 
     /**
      * @return string
+     * @deprecated
      */
     public function getPlaybackLength()
     {
@@ -183,5 +165,20 @@ class Record
     public function getMetas()
     {
         return $this->metas;
+    }
+
+    /**
+     * @return Format[]
+     */
+    public function getFormats()
+    {
+        if ($this->formats === null) {
+            $this->formats = [];
+            foreach ($this->rawXml->playback->format as $formatXml) {
+                $this->formats[] = new Format($formatXml);
+            }
+        }
+
+        return $this->formats;
     }
 }
