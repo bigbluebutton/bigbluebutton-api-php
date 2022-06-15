@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 /**
@@ -35,6 +36,7 @@ class Record
     private $playbackUrl;
     private $playbackLength;
     private $metas;
+    private $playbacks;
 
     /**
      * Record constructor.
@@ -56,6 +58,43 @@ class Record
         foreach ($xml->metadata->children() as $meta) {
             $this->metas[$meta->getName()] = $meta->__toString();
         }
+
+        foreach ($xml->playback->children() as $format) {
+            $aFormat = [];
+            foreach ($format->children() as $formAttribut) {
+                // if ($formAttribut != "preview"){ }
+                $aFormat[$formAttribut->getName()] = $formAttribut->__toString();
+            }
+            if (isset($format->preview)) {
+                $images = [];
+                foreach ($format->preview->images->children() as $image) {
+                    $imageObj = new Image();
+                    $imageObj->setAlt( $image['alt']->__toString());
+                    $imageObj->setHeight((int) $image['height']->__toString());
+                    $imageObj->setWidth((int) $image['width']->__toString());
+                    $imageObj->setLink($image->__toString());
+                    $images[] = $imageObj;
+                }
+                $aFormat['preview'] = $images;
+            }
+            $this->playbacks[] = $aFormat;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getPlaybacks(): array
+    {
+        return $this->playbacks;
+    }
+
+    /**
+     * @param array $playbacks
+     */
+    public function setPlaybacks(array $playbacks): void
+    {
+        $this->playbacks = $playbacks;
     }
 
     /**

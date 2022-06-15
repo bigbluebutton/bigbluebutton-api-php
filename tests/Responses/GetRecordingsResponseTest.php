@@ -65,6 +65,38 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals('moodle-mod_bigbluebuttonbn (2015080611)', $metas['bbb-origin-tag']);
     }
 
+    public function testRecordingsPlayback()
+    {
+        $this->assertEquals('SUCCESS', $this->records->getReturnCode());
+
+        $this->assertCount(6, $this->records->getRecords());
+        $aRecord  = $this->records->getRecords()[0];
+        $formatN1 =  $aRecord->getPlaybacks()[0]; // without images preview
+        $this->assertEquals('podcast', $formatN1['type']);
+        $this->assertEquals('https://testurl/podcast/1.ogg', $formatN1['url']);
+        $this->assertEquals('111', $formatN1['processingTime']);
+        $this->assertEquals('222', $formatN1['length']);
+        $this->assertEquals('333', $formatN1['size']);
+
+        $formatN2 =  $aRecord->getPlaybacks()[1]; // having images preview
+        $this->assertEquals('presentation', $formatN2['type']);
+        $this->assertEquals('https://testurl/podcast/2.ogg', $formatN2['url']);
+        $this->assertEquals('444', $formatN2['processingTime']);
+        $this->assertEquals('555', $formatN2['length']);
+        $this->assertEquals('666', $formatN2['size']);
+
+        $images = $formatN2['preview'];
+        $this->assertEquals('testurl1', $images[0]->getAlt());
+        $this->assertEquals('136', $images[0]->getHeight());
+        $this->assertEquals('176', $images[0]->getWidth());
+        $this->assertEquals('https://testurl1.png', $images[0]->getLink());
+
+        $this->assertEquals('testurl2', $images[1]->getAlt());
+        $this->assertEquals('136', $images[1]->getHeight());
+        $this->assertEquals('176', $images[1]->getWidth());
+        $this->assertEquals('https://testurl2.png', $images[1]->getLink());
+    }
+
     public function testGetRecordingResponseTypes()
     {
         $this->assertEachGetterValueIsString($this->records, ['getReturnCode']);

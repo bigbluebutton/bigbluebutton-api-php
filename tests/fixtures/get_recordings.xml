@@ -22,9 +22,24 @@
             </metadata>
             <playback>
                 <format>
+                    <type>podcast</type>
+                    <url>https://testurl/podcast/1.ogg</url>
+                    <processingTime>111</processingTime>
+                    <length>222</length>
+                    <size>333</size>
+                </format>
+                <format>
                     <type>presentation</type>
-                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120</url>
-                    <length>44</length>
+                    <url>https://testurl/podcast/2.ogg</url>
+                    <processingTime>444</processingTime>
+                    <length>555</length>
+                    <size>666</size>
+                    <preview>
+                        <images>
+                            <image alt="testurl1" height="136" width="176">https://testurl1.png</image>
+                            <image alt="testurl2" height="136" width="176">https://testurl2.png</image>
+                        </images>
+                    </preview>
                 </format>
             </playback>
         </recording>
