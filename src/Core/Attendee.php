@@ -38,22 +38,22 @@ class Attendee
     private $role;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $isPresenter;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $isListeningOnly;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $hasJoinedVoice;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $hasVideo;
 
@@ -115,7 +115,7 @@ class Attendee
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function isPresenter()
     {
@@ -123,7 +123,7 @@ class Attendee
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function isListeningOnly()
     {
@@ -131,7 +131,7 @@ class Attendee
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function hasJoinedVoice()
     {
@@ -139,7 +139,7 @@ class Attendee
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function hasVideo()
     {

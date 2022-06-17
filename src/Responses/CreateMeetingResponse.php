@@ -118,7 +118,7 @@ class CreateMeetingResponse extends BaseResponse
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function hasBeenForciblyEnded()
     {

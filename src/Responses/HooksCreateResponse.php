@@ -34,7 +34,7 @@ class HooksCreateResponse extends BaseResponse
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function isPermanentHook()
     {
@@ -42,7 +42,7 @@ class HooksCreateResponse extends BaseResponse
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function hasRawData()
     {

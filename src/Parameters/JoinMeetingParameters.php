@@ -66,7 +66,7 @@ class JoinMeetingParameters extends UserDataParameters
     private $avatarURL;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $redirect;
 
@@ -256,7 +256,7 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function isRedirect()
     {
@@ -264,7 +264,7 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
-     * @param boolean $redirect
+     * @param bool $redirect
      *
      * @return JoinMeetingParameters
      */

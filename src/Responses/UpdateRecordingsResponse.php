@@ -26,7 +26,7 @@ namespace BigBlueButton\Responses;
 class UpdateRecordingsResponse extends BaseResponse
 {
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function isUpdated()
     {

@@ -46,12 +46,12 @@ class Hook
     private $callbackUrl;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $permanentHook;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $rawData;
 
@@ -95,7 +95,7 @@ class Hook
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function isPermanentHook()
     {
@@ -103,7 +103,7 @@ class Hook
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function hasRawData()
     {
