@@ -33,7 +33,7 @@ class HooksCreateParameters extends BaseParameters
     private $meetingId;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $getRaw;
 
@@ -88,7 +88,7 @@ class HooksCreateParameters extends BaseParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function getRaw()
     {
@@ -96,7 +96,7 @@ class HooksCreateParameters extends BaseParameters
     }
 
     /**
-     * @param bool $getRaw
+     * @param boolean $getRaw
      *
      * @return HooksCreateParameters
      */

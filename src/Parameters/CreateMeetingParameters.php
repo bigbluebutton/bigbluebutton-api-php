@@ -71,17 +71,17 @@ class CreateMeetingParameters extends MetaParameters
     private $maxParticipants;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $record;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $autoStartRecording;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $allowStartStopRecording;
 
@@ -101,7 +101,7 @@ class CreateMeetingParameters extends MetaParameters
     private $moderatorOnlyMessage;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $webcamsOnlyForModerator;
 
@@ -116,62 +116,62 @@ class CreateMeetingParameters extends MetaParameters
     private $copyright;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $muteOnStart;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $lockSettingsDisableCam;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $lockSettingsDisableMic;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $lockSettingsDisablePrivateChat;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $lockSettingsDisablePublicChat;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $lockSettingsDisableNote;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $lockSettingsHideUserList;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $lockSettingsLockedLayout;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $lockSettingsLockOnJoin = true;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $lockSettingsLockOnJoinConfigurable;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $allowModsToUnmuteUsers;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $allowModsToEjectCameras;
 
@@ -181,7 +181,7 @@ class CreateMeetingParameters extends MetaParameters
     private $presentations = [];
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $isBreakout;
 
@@ -196,7 +196,7 @@ class CreateMeetingParameters extends MetaParameters
     private $sequence;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $freeJoin;
 
@@ -216,7 +216,7 @@ class CreateMeetingParameters extends MetaParameters
     private $bannerColor;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $learningDashboardEnabled;
 
@@ -231,27 +231,27 @@ class CreateMeetingParameters extends MetaParameters
     private $endWhenNoModeratorDelayInMinutes;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $endWhenNoModerator;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $meetingKeepEvents;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $breakoutRoomsEnabled;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $breakoutRoomsRecord;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $breakoutRoomsPrivateChatEnabled;
 
@@ -458,7 +458,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isRecorded()
     {
@@ -466,7 +466,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $record
+     * @param boolean $record
      *
      * @return CreateMeetingParameters
      */
@@ -478,7 +478,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isAutoStartRecording()
     {
@@ -486,7 +486,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $autoStartRecording
+     * @param boolean $autoStartRecording
      *
      * @return CreateMeetingParameters
      */
@@ -498,7 +498,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isAllowStartStopRecording()
     {
@@ -506,7 +506,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $allowStartStopRecording
+     * @param boolean $allowStartStopRecording
      *
      * @return CreateMeetingParameters
      */
@@ -578,7 +578,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isWebcamsOnlyForModerator()
     {
@@ -586,7 +586,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $webcamsOnlyForModerator
+     * @param boolean $webcamsOnlyForModerator
      *
      * @return CreateMeetingParameters
      */
@@ -658,7 +658,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLearningDashboardEnabled()
     {
@@ -666,7 +666,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $learningDashboardEnabled
+     * @param boolean $learningDashboardEnabled
      *
      * @return CreateMeetingParameters
      */
@@ -718,7 +718,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isEndWhenNoModerator()
     {
@@ -726,7 +726,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $endWhenNoModerator
+     * @param boolean $endWhenNoModerator
      *
      * @return CreateMeetingParameters
      */
@@ -738,7 +738,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isMeetingKeepEvents()
     {
@@ -746,7 +746,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $meetingKeepEvents
+     * @param boolean $meetingKeepEvents
      *
      * @return CreateMeetingParameters
      */
@@ -778,7 +778,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isMuteOnStart()
     {
@@ -786,7 +786,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $muteOnStart
+     * @param boolean $muteOnStart
      *
      * @return CreateMeetingParameters
      */
@@ -798,7 +798,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLockSettingsDisableCam()
     {
@@ -806,7 +806,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $lockSettingsDisableCam
+     * @param boolean $lockSettingsDisableCam
      *
      * @return CreateMeetingParameters
      */
@@ -818,7 +818,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLockSettingsDisableMic()
     {
@@ -826,7 +826,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $lockSettingsDisableMic
+     * @param boolean $lockSettingsDisableMic
      *
      * @return CreateMeetingParameters
      */
@@ -838,7 +838,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLockSettingsDisablePrivateChat()
     {
@@ -846,7 +846,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $lockSettingsDisablePrivateChat
+     * @param boolean $lockSettingsDisablePrivateChat
      *
      * @return CreateMeetingParameters
      */
@@ -858,7 +858,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLockSettingsDisablePublicChat()
     {
@@ -866,7 +866,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $lockSettingsDisablePublicChat
+     * @param boolean $lockSettingsDisablePublicChat
      *
      * @return CreateMeetingParameters
      */
@@ -878,7 +878,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLockSettingsDisableNote()
     {
@@ -900,7 +900,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLockSettingsHideUserList()
     {
@@ -908,7 +908,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $lockSettingsHideUserList
+     * @param boolean $lockSettingsHideUserList
      *
      * @return CreateMeetingParameters
      */
@@ -920,7 +920,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLockSettingsLockedLayout()
     {
@@ -928,7 +928,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $lockSettingsLockedLayout
+     * @param boolean $lockSettingsLockedLayout
      *
      * @return CreateMeetingParameters
      */
@@ -940,7 +940,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLockSettingsLockOnJoin()
     {
@@ -948,7 +948,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $lockOnJoin
+     * @param boolean $lockOnJoin
      *
      * @return CreateMeetingParameters
      */
@@ -960,7 +960,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isLockSettingsLockOnJoinConfigurable()
     {
@@ -968,7 +968,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $lockOnJoinConfigurable
+     * @param boolean $lockOnJoinConfigurable
      *
      * @return CreateMeetingParameters
      */
@@ -980,7 +980,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isAllowModsToUnmuteUsers()
     {
@@ -988,7 +988,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $allowModsToUnmuteUsers
+     * @param boolean $allowModsToUnmuteUsers
      *
      * @return CreateMeetingParameters
      */
@@ -1039,7 +1039,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isBreakout()
     {
@@ -1047,7 +1047,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $isBreakout
+     * @param boolean $isBreakout
      *
      * @return CreateMeetingParameters
      */
@@ -1099,7 +1099,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isFreeJoin()
     {
@@ -1107,7 +1107,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $freeJoin
+     * @param boolean $freeJoin
      *
      * @return CreateMeetingParameters
      */
@@ -1127,7 +1127,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $guestPolicy
+     * @param boolean $guestPolicy
      *
      * @return CreateMeetingParameters
      */

@@ -26,7 +26,7 @@ namespace BigBlueButton\Responses;
 class PublishRecordingsResponse extends BaseResponse
 {
     /**
-     * @return bool
+     * @return boolean
      */
     public function isPublished()
     {

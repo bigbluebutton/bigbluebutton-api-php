@@ -71,12 +71,12 @@ class Meeting
     private $moderatorPassword;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $hasBeenForciblyEnded;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $isRunning;
 
@@ -106,7 +106,7 @@ class Meeting
     private $duration;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $hasUserJoined;
 
@@ -116,7 +116,7 @@ class Meeting
     private $internalMeetingId;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $isRecording;
 
@@ -151,7 +151,7 @@ class Meeting
     private $metas;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $isBreakout;
 
@@ -253,7 +253,7 @@ class Meeting
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function hasBeenForciblyEnded()
     {
@@ -261,7 +261,7 @@ class Meeting
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isRunning()
     {
@@ -309,7 +309,7 @@ class Meeting
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function hasUserJoined()
     {
@@ -325,7 +325,7 @@ class Meeting
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isRecording()
     {

@@ -31,7 +31,7 @@ class PublishRecordingsParameters extends BaseParameters
     private $recordingId;
 
     /**
-     * @var bool
+     * @var boolean
      */
     private $publish;
 
@@ -68,7 +68,7 @@ class PublishRecordingsParameters extends BaseParameters
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
     public function isPublish()
     {
@@ -76,7 +76,7 @@ class PublishRecordingsParameters extends BaseParameters
     }
 
     /**
-     * @param bool $publish
+     * @param boolean $publish
      */
     public function setPublish($publish)
     {

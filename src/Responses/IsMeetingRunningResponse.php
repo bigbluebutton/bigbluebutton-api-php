@@ -26,7 +26,7 @@ namespace BigBlueButton\Responses;
 class IsMeetingRunningResponse extends BaseResponse
 {
     /**
-     * @return bool
+     * @return boolean
      */
     public function isRunning()
     {

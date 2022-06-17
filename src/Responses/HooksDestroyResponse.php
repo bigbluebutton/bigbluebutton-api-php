@@ -26,7 +26,7 @@ namespace BigBlueButton\Responses;
 class HooksDestroyResponse extends BaseResponse
 {
     /**
-     * @return bool
+     * @return boolean
      */
     public function removed()
     {
