@@ -37,7 +37,7 @@ Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutto
 Make sure the code style configuration is applied by running PHPCS-Fixer.
 
 ```
-./vendor/bin/php-cs-fixer fix
+composer cs-fix
 ```
 
 ### Running tests
@@ -45,7 +45,7 @@ Make sure the code style configuration is applied by running PHPCS-Fixer.
 For every implemented feature add unit tests and check all is green by running the command below.
 
 ```bash
-./vendor/bin/phpunit
+composer test
 ```
 
 To run a single test
