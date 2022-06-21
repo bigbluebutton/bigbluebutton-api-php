@@ -1,5 +1,7 @@
 <?php
 
+namespace BigBlueButton\Responses;
+
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
