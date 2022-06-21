@@ -20,8 +20,8 @@
 
 namespace BigBlueButton;
 
-use BigBlueButton\Core\GuestPolicy;
 use BigBlueButton\Core\MeetingLayout;
+use BigBlueButton\Enum\GuestPolicy;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;

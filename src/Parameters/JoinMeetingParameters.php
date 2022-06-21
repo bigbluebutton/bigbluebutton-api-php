@@ -37,6 +37,8 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @var string
+     *
+     * @deprecated
      */
     private $password;
 
@@ -136,6 +138,8 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
+     * @deprecated
+     *
      * @return string
      */
     public function getPassword()
@@ -145,6 +149,8 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @param string $password
+     *
+     * @deprecated
      *
      * @return JoinMeetingParameters
      */

@@ -25,10 +25,6 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    public const ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
-    public const ALWAYS_DENY   = 'ALWAYS_DENY';
-    public const ASK_MODERATOR = 'ASK_MODERATOR';
-
     /**
      * @var string
      */
@@ -41,11 +37,15 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @var string
+     *
+     * @deprecated
      */
     private $attendeePassword;
 
     /**
      * @var string
+     *
+     * @deprecated
      */
     private $moderatorPassword;
 
@@ -323,6 +323,8 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @return string
+     *
+     * @deprecated
      */
     public function getAttendeePassword()
     {
@@ -331,6 +333,8 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @param string $attendeePassword
+     *
+     * @deprecated
      *
      * @return CreateMeetingParameters
      */
@@ -342,6 +346,8 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @deprecated
+     *
      * @return string
      */
     public function getModeratorPassword()
@@ -351,6 +357,8 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @param string $moderatorPassword
+     *
+     * @deprecated
      *
      * @return CreateMeetingParameters
      */
