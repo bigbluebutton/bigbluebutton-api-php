@@ -5,10 +5,8 @@ build:
         override: true
       environment:
         php:
-          version: 7.4
+          version: 8.1
           compile_options: '--with-openssl --with-curl --enable-mbstring --enable-mbregex --enable-bcmath --with-mhash --with-xmlrpc --enable-opcache --enable-intl --with-pear --enable-fpm --with-zlib-dir --enable-inline-optimization --with-bz2 --with-zlib'
-          pecl_extensions:
-            - xdebug-2.9.8
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
