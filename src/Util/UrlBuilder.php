@@ -52,7 +52,7 @@ class UrlBuilder
      *
      * @param string $method
      * @param string $params
-     * @param boolean   $append
+     * @param bool   $append
      *
      * @return string
      */

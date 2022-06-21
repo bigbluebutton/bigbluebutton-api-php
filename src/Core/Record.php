@@ -104,7 +104,7 @@ class Record
     }
 
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function isPublished()
     {

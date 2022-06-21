@@ -26,7 +26,7 @@ namespace BigBlueButton\Responses;
 class DeleteRecordingsResponse extends BaseResponse
 {
     /**
-     * @return boolean
+     * @return null|bool
      */
     public function isDeleted()
     {
