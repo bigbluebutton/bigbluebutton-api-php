@@ -20,7 +20,6 @@
 
 namespace BigBlueButton\Responses;
 
-use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\TestCase;
 
 /**

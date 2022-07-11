@@ -31,6 +31,8 @@ class EndMeetingParameters extends BaseParameters
     private $meetingId;
 
     /**
+     * @deprecated
+     *
      * @var string
      */
     private $password;
@@ -38,10 +40,10 @@ class EndMeetingParameters extends BaseParameters
     /**
      * EndMeetingParameters constructor.
      *
-     * @param $meetingId
-     * @param $password
+     * @param string $meetingId
+     * @param string $password
      */
-    public function __construct($meetingId, $password)
+    public function __construct($meetingId, $password = '')
     {
         $this->password  = $password;
         $this->meetingId = $meetingId;
@@ -68,6 +70,8 @@ class EndMeetingParameters extends BaseParameters
     }
 
     /**
+     * @deprecated
+     *
      * @return string
      */
     public function getPassword()
@@ -77,6 +81,8 @@ class EndMeetingParameters extends BaseParameters
 
     /**
      * @param string $password
+     *
+     * @deprecated
      *
      * @return EndMeetingParameters
      */

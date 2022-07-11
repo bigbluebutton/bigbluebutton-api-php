@@ -155,6 +155,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsLockedLayout'               => $this->faker->boolean(50),
             'lockSettingsLockOnJoin'                 => $this->faker->boolean(50),
             'lockSettingsLockOnJoinConfigurable'     => $this->faker->boolean(50),
+            'lockSettingsHideViewersCursor'          => $this->faker->boolean(50),
             'allowModsToUnmuteUsers'                 => $this->faker->boolean(50),
             'allowModsToEjectCameras'                => $this->faker->boolean(50),
             'guestPolicy'                            => $this->faker->randomElement([GuestPolicy::ALWAYS_ACCEPT, GuestPolicy::ALWAYS_DENY, GuestPolicy::ASK_MODERATOR]),
@@ -162,7 +163,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'endWhenNoModeratorDelayInMinutes'       => $this->faker->numberBetween(1, 30),
             'meetingKeepEvents'                      => $this->faker->boolean(50),
             'learningDashboardEnabled'               => $this->faker->boolean(50),
+            'virtualBackgroundsDisabled'             => $this->faker->boolean(50),
             'learningDashboardCleanupDelayInMinutes' => $this->faker->numberBetween(1, 30),
+            'allowRequestsWithoutSession'            => $this->faker->boolean(50),
+            'userCameraCap'                          => $this->faker->numberBetween(1, 5),
             'bannerText'                             => $this->faker->sentence,
             'bannerColor'                            => $this->faker->hexColor,
             'breakoutRoomsEnabled'                   => $this->faker->boolean(50),
@@ -218,6 +222,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setLogo($params['logo'])
             ->setCopyright($params['copyright'])
             ->setEndCallbackUrl($params['meta_endCallbackUrl'])
+            ->setRecordingReadyCallbackUrl($params['meta_bbb-recording-ready-url'])
             ->setMuteOnStart($params['muteOnStart'])
             ->setLockSettingsDisableCam($params['lockSettingsDisableCam'])
             ->setLockSettingsDisableMic($params['lockSettingsDisableMic'])
@@ -228,6 +233,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
             ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])
             ->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoinConfigurable'])
+            ->setLockSettingsHideViewersCursor($params['lockSettingsHideViewersCursor'])
             ->setEndWhenNoModerator($params['endWhenNoModerator'])
             ->setEndWhenNoModeratorDelayInMinutes($params['endWhenNoModeratorDelayInMinutes'])
             ->setAllowModsToUnmuteUsers($params['allowModsToUnmuteUsers'])
@@ -235,6 +241,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setGuestPolicy($params['guestPolicy'])
             ->setMeetingKeepEvents($params['meetingKeepEvents'])
             ->setLearningDashboardEnabled($params['learningDashboardEnabled'])
+            ->setVirtualBackgroundsDisabled($params['virtualBackgroundsDisabled'])
             ->setLearningDashboardCleanupDelayInMinutes($params['learningDashboardCleanupDelayInMinutes'])
             ->setBannerColor($params['bannerColor'])
             ->setBannerText($params['bannerText'])
@@ -243,6 +250,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setBreakoutRoomsPrivateChatEnabled($params['breakoutRoomsPrivateChatEnabled'])
             ->setMeetingEndedURL($params['meetingEndedURL'])
             ->setMeetingLayout($params['meetingLayout'])
+            ->setAllowRequestsWithoutSession($params['allowRequestsWithoutSession'])
+            ->setUserCameraCap($params['userCameraCap'])
             ->addMeta('presenter', $params['meta_presenter'])
             ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url'])
         ;

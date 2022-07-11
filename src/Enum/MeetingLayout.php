@@ -18,9 +18,9 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Core;
+namespace BigBlueButton\Enum;
 
-class MeetingLayout
+class MeetingLayout extends \MabeEnum\Enum
 {
     public const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
     public const SMART_LAYOUT       = 'SMART_LAYOUT';

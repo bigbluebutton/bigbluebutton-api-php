@@ -13,7 +13,7 @@
     <env name="BBB_SERVER_BASE_URL" value="https://test-install.blindsidenetworks.com/bigbluebutton/"/>
   </php>
   <testsuites>
-    <testsuite name="BigBlueButton test suit">
+    <testsuite name="BigBlueButton test suite">
       <directory>./tests/</directory>
     </testsuite>
   </testsuites>

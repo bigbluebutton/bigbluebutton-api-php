@@ -20,7 +20,6 @@
 
 namespace BigBlueButton\Responses;
 
-use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\TestCase;
 
 /**
