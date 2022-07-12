@@ -175,6 +175,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'breakoutRoomsPrivateChatEnabled'        => $this->faker->boolean(50),
             'meetingEndedURL'                        => $this->faker->url,
             'meetingLayout'                          => $this->faker->randomElement(MeetingLayout::getValues()),
+            'meetingExpireIfNoUserJoinedInMinutes'   => $this->faker->numberBetween(1, 10),
+            'meetingExpireWhenLastUserLeftInMinutes' => $this->faker->numberBetween(5, 15),
+            'preUploadedPresentationOverrideDefault' => $this->faker->boolean,
             'meta_presenter'                         => $this->faker->name,
             'meta_endCallbackUrl'                    => $this->faker->url,
             'meta_bbb-recording-ready-url'           => $this->faker->url,
@@ -363,7 +366,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function loadXmlFile($path)
     {
-        return simplexml_load_string(file_get_contents(($path)));
+        return simplexml_load_string(file_get_contents($path));
     }
 
     protected function minifyString($string)

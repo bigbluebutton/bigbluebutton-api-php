@@ -296,6 +296,40 @@ class CreateMeetingParameters extends MetaParameters
     private $userCameraCap;
 
     /**
+     * @var int
+     */
+    private $meetingCameraCap;
+
+    /**
+     * @var int
+     */
+    private $meetingExpireIfNoUserJoinedInMinutes;
+
+    /**
+     * @var int
+     */
+    private $meetingExpireWhenLastUserLeftInMinutes;
+
+    /**
+     * @var bool
+     */
+    private $preUploadedPresentationOverrideDefault;
+
+    /**
+     * @var
+     *
+     * @todo
+     */
+    private $disabledFeatures;
+
+    /**
+     * @var
+     *
+     * @todo
+     */
+    private $breakoutRoomsGroups;
+
+    /**
      * CreateMeetingParameters constructor.
      *
      * @param $meetingId
@@ -1219,11 +1253,13 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return CreateMeetingParameters
-     *
      * @deprecated
+     *
+     * @param mixed $breakoutRoomsEnabled
+     *
+     * @return CreateMeetingParameters
      */
-    public function setBreakoutRoomsEnabled(bool $breakoutRoomsEnabled): self
+    public function setBreakoutRoomsEnabled($breakoutRoomsEnabled)
     {
         $this->breakoutRoomsEnabled = $breakoutRoomsEnabled;
 
@@ -1236,16 +1272,18 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return CreateMeetingParameters
+     * @param bool $breakoutRoomsRecord
+     *
+     * @return $this
      */
-    public function setBreakoutRoomsRecord(bool $breakoutRoomsRecord): self
+    public function setBreakoutRoomsRecord($breakoutRoomsRecord)
     {
         $this->breakoutRoomsRecord = $breakoutRoomsRecord;
 
         return $this;
     }
 
-    public function isBreakoutRoomsPrivateChatEnabled(): bool
+    public function isBreakoutRoomsPrivateChatEnabled()
     {
         return $this->breakoutRoomsPrivateChatEnabled;
     }
@@ -1253,7 +1291,7 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @return CreateMeetingParameters
      */
-    public function setBreakoutRoomsPrivateChatEnabled(bool $breakoutRoomsPrivateChatEnabled): self
+    public function setBreakoutRoomsPrivateChatEnabled(bool $breakoutRoomsPrivateChatEnabled)
     {
         $this->breakoutRoomsPrivateChatEnabled = $breakoutRoomsPrivateChatEnabled;
 
@@ -1268,14 +1306,17 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @return CreateMeetingParameters
      */
-    public function setMeetingEndedURL(string $meetingEndedURL): self
+    public function setMeetingEndedURL(string $meetingEndedURL)
     {
         $this->meetingEndedURL = $meetingEndedURL;
 
         return $this;
     }
 
-    public function getMeetingLayout(): string
+    /**
+     * @return string
+     */
+    public function getMeetingLayout()
     {
         return $this->meetingLayout;
     }
@@ -1283,18 +1324,26 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @return CreateMeetingParameters
      */
-    public function setMeetingLayout(string $meetingLayout): self
+    public function setMeetingLayout(string $meetingLayout)
     {
         $this->meetingLayout = $meetingLayout;
 
         return $this;
     }
 
-    public function isAllowRequestsWithoutSession(): bool
+    /**
+     * @return bool
+     */
+    public function isAllowRequestsWithoutSession()
     {
         return $this->allowRequestsWithoutSession;
     }
 
+    /**
+     * @param $allowRequestsWithoutSession
+     *
+     * @return $this
+     */
     public function setAllowRequestsWithoutSession($allowRequestsWithoutSession)
     {
         $this->allowRequestsWithoutSession = $allowRequestsWithoutSession;
@@ -1302,7 +1351,10 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getUserCameraCap(): int
+    /**
+     * @return int
+     */
+    public function getUserCameraCap()
     {
         return $this->userCameraCap;
     }
@@ -1315,6 +1367,54 @@ class CreateMeetingParameters extends MetaParameters
     public function setUserCameraCap($userCameraCap)
     {
         $this->userCameraCap = $userCameraCap;
+
+        return $this;
+    }
+
+    public function getMeetingCameraCap(): int
+    {
+        return $this->meetingCameraCap;
+    }
+
+    public function setMeetingCameraCap(int $meetingCameraCap): CreateMeetingParameters
+    {
+        $this->meetingCameraCap = $meetingCameraCap;
+
+        return $this;
+    }
+
+    public function getMeetingExpireIfNoUserJoinedInMinutes(): int
+    {
+        return $this->meetingExpireIfNoUserJoinedInMinutes;
+    }
+
+    public function setMeetingExpireIfNoUserJoinedInMinutes(int $meetingExpireIfNoUserJoinedInMinutes): CreateMeetingParameters
+    {
+        $this->meetingExpireIfNoUserJoinedInMinutes = $meetingExpireIfNoUserJoinedInMinutes;
+
+        return $this;
+    }
+
+    public function getMeetingExpireWhenLastUserLeftInMinutes(): int
+    {
+        return $this->meetingExpireWhenLastUserLeftInMinutes;
+    }
+
+    public function setMeetingExpireWhenLastUserLeftInMinutes(int $meetingExpireWhenLastUserLeftInMinutes): CreateMeetingParameters
+    {
+        $this->meetingExpireWhenLastUserLeftInMinutes = $meetingExpireWhenLastUserLeftInMinutes;
+
+        return $this;
+    }
+
+    public function isPreUploadedPresentationOverrideDefault(): bool
+    {
+        return $this->preUploadedPresentationOverrideDefault;
+    }
+
+    public function setPreUploadedPresentationOverrideDefault(bool $preUploadedPresentationOverrideDefault): CreateMeetingParameters
+    {
+        $this->preUploadedPresentationOverrideDefault = $preUploadedPresentationOverrideDefault;
 
         return $this;
     }
@@ -1428,6 +1528,10 @@ class CreateMeetingParameters extends MetaParameters
             'endWhenNoModerator'                     => $this->endWhenNoModerator ? 'true' : 'false',
             'meetingKeepEvents'                      => $this->meetingKeepEvents ? 'true' : 'false',
             'meetingLayout'                          => $this->meetingLayout,
+            'meetingCameraCap'                       => $this->meetingCameraCap,
+            'meetingExpireIfNoUserJoinedInMinutes'   => $this->meetingExpireIfNoUserJoinedInMinutes,
+            'meetingExpireWhenLastUserLeftInMinutes' => $this->meetingExpireWhenLastUserLeftInMinutes,
+            'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room
