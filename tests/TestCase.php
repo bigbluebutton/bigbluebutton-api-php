@@ -20,6 +20,7 @@
 
 namespace BigBlueButton;
 
+use BigBlueButton\Enum\Feature;
 use BigBlueButton\Enum\GuestPolicy;
 use BigBlueButton\Enum\MeetingLayout;
 use BigBlueButton\Enum\Role;
@@ -178,6 +179,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'meetingExpireIfNoUserJoinedInMinutes'   => $this->faker->numberBetween(1, 10),
             'meetingExpireWhenLastUserLeftInMinutes' => $this->faker->numberBetween(5, 15),
             'preUploadedPresentationOverrideDefault' => $this->faker->boolean,
+            'disabledFeatures'                       => $this->faker->randomElements(Feature::getValues()),
             'meta_presenter'                         => $this->faker->name,
             'meta_endCallbackUrl'                    => $this->faker->url,
             'meta_bbb-recording-ready-url'           => $this->faker->url,
@@ -256,6 +258,11 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setMeetingLayout($params['meetingLayout'])
             ->setAllowRequestsWithoutSession($params['allowRequestsWithoutSession'])
             ->setUserCameraCap($params['userCameraCap'])
+            ->setMeetingCameraCap($params['meetingCameraCap'])
+            ->setMeetingExpireIfNoUserJoinedInMinutes($params['meetingExpireIfNoUserJoinedInMinutes'])
+            ->setMeetingExpireWhenLastUserLeftInMinutes($params['meetingExpireWhenLastUserLeftInMinutes'])
+            ->setPreUploadedPresentationOverrideDefault($params['preUploadedPresentationOverrideDefault'])
+            ->disabledFeatures($params['disabledFeatures'])
             ->addMeta('presenter', $params['meta_presenter'])
             ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url'])
         ;

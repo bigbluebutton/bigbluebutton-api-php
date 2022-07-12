@@ -82,6 +82,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['meetingEndedURL'], $createMeetingParams->getMeetingEndedURL());
         $this->assertEquals($params['meetingLayout'], $createMeetingParams->getMeetingLayout());
         $this->assertEquals($params['userCameraCap'], $createMeetingParams->getUserCameraCap());
+        $this->assertEquals($params['meetingCameraCap'], $createMeetingParams->getMeetingCameraCap());
         $this->assertEquals($params['meetingExpireIfNoUserJoinedInMinutes'], $createMeetingParams->getMeetingExpireIfNoUserJoinedInMinutes());
         $this->assertEquals($params['meetingExpireWhenLastUserLeftInMinutes'], $createMeetingParams->getMeetingExpireWhenLastUserLeftInMinutes());
         $this->assertEquals($params['preUploadedPresentationOverrideDefault'], $createMeetingParams->isPreUploadedPresentationOverrideDefault());

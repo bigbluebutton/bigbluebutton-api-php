@@ -316,11 +316,9 @@ class CreateMeetingParameters extends MetaParameters
     private $preUploadedPresentationOverrideDefault;
 
     /**
-     * @var
-     *
-     * @todo
+     * @var array
      */
-    private $disabledFeatures;
+    private $disabledFeatures = [];
 
     /**
      * @var
@@ -1419,6 +1417,18 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    public function getDisabledFeatures(): array
+    {
+        return $this->disabledFeatures;
+    }
+
+    public function setDisabledFeatures(array $disabledFeatures): CreateMeetingParameters
+    {
+        $this->disabledFeatures = $disabledFeatures;
+
+        return $this;
+    }
+
     /**
      * @return array
      */
@@ -1532,6 +1542,7 @@ class CreateMeetingParameters extends MetaParameters
             'meetingExpireIfNoUserJoinedInMinutes'   => $this->meetingExpireIfNoUserJoinedInMinutes,
             'meetingExpireWhenLastUserLeftInMinutes' => $this->meetingExpireWhenLastUserLeftInMinutes,
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
+            'disabledFeatures'                       => join(',', $this->disabledFeatures),
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room
