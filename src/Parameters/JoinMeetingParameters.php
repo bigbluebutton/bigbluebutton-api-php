@@ -60,11 +60,6 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @var string
      */
-    private $configToken;
-
-    /**
-     * @var string
-     */
     private $avatarURL;
 
     /**
@@ -234,26 +229,6 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @return string
      */
-    public function getConfigToken()
-    {
-        return $this->configToken;
-    }
-
-    /**
-     * @param string $configToken
-     *
-     * @return JoinMeetingParameters
-     */
-    public function setConfigToken($configToken)
-    {
-        $this->configToken = $configToken;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getAvatarURL()
     {
         return $this->avatarURL;
@@ -366,16 +341,17 @@ class JoinMeetingParameters extends UserDataParameters
     public function getHTTPQuery()
     {
         $queries = [
-            'meetingID'    => $this->meetingId,
-            'fullName'     => $this->username,
-            'password'     => $this->password,
-            'userID'       => $this->userId,
-            'webVoiceConf' => $this->webVoiceConf,
-            'createTime'   => $this->creationTime,
-            'configToken'  => $this->configToken,
-            'avatarURL'    => $this->avatarURL,
-            'redirect'     => $this->redirect ? 'true' : 'false',
-            'clientURL'    => $this->clientURL,
+            'meetingID'            => $this->meetingId,
+            'fullName'             => $this->username,
+            'password'             => $this->password,
+            'userID'               => $this->userId,
+            'webVoiceConf'         => $this->webVoiceConf,
+            'createTime'           => $this->creationTime,
+            'role'                 => $this->role,
+            'excludeFromDashboard' => $this->excludeFromDashboard ? 'true' : 'false',
+            'avatarURL'            => $this->avatarURL,
+            'redirect'             => $this->redirect ? 'true' : 'false',
+            'clientURL'            => $this->clientURL,
         ];
 
         foreach ($this->customParameters as $key => $value) {

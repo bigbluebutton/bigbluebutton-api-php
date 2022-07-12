@@ -51,7 +51,6 @@ class JoinMeetingParametersTest extends TestCase
         $joinMeetingParams->setRole($newRole                              = $this->faker->randomElement(Role::getValues()));
         $joinMeetingParams->setPassword($newPassword                      = $this->faker->password);
         $joinMeetingParams->setExcludeFromDashboard($excludeFromDashboard = $this->faker->boolean);
-        $joinMeetingParams->setConfigToken($configToken                   = $this->faker->md5);
         $joinMeetingParams->setAvatarURL($avatarUrl                       = $this->faker->url);
         $joinMeetingParams->setRedirect($redirect                         = $this->faker->boolean(50));
         $joinMeetingParams->setClientURL($clientUrl                       = $this->faker->url);
@@ -60,7 +59,6 @@ class JoinMeetingParametersTest extends TestCase
         $this->assertEquals($newRole, $joinMeetingParams->getRole());
         $this->assertEquals($newPassword, $joinMeetingParams->getPassword());
         $this->assertEquals($excludeFromDashboard, $joinMeetingParams->isExcludeFromDashboard());
-        $this->assertEquals($configToken, $joinMeetingParams->getConfigToken());
         $this->assertEquals($avatarUrl, $joinMeetingParams->getAvatarURL());
         $this->assertEquals($redirect, $joinMeetingParams->isRedirect());
         $this->assertEquals($clientUrl, $joinMeetingParams->getClientURL());
