@@ -295,7 +295,6 @@ class CreateMeetingParameters extends MetaParameters
      */
     private $userCameraCap;
 
-
     /**
      * CreateMeetingParameters constructor.
      *
@@ -1303,9 +1302,6 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getUserCameraCap(): int
     {
         return $this->userCameraCap;
@@ -1313,11 +1309,13 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @param int $userCameraCap
+     *
      * @return CreateMeetingParameters
      */
     public function setUserCameraCap($userCameraCap)
     {
         $this->userCameraCap = $userCameraCap;
+
         return $this;
     }
 

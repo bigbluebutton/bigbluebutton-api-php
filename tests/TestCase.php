@@ -20,8 +20,9 @@
 
 namespace BigBlueButton;
 
-use BigBlueButton\Core\MeetingLayout;
 use BigBlueButton\Enum\GuestPolicy;
+use BigBlueButton\Enum\MeetingLayout;
+use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
@@ -158,7 +159,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsHideViewersCursor'          => $this->faker->boolean(50),
             'allowModsToUnmuteUsers'                 => $this->faker->boolean(50),
             'allowModsToEjectCameras'                => $this->faker->boolean(50),
-            'guestPolicy'                            => $this->faker->randomElement([GuestPolicy::ALWAYS_ACCEPT, GuestPolicy::ALWAYS_DENY, GuestPolicy::ASK_MODERATOR]),
+            'guestPolicy'                            => $this->faker->randomElement(GuestPolicy::getValues()),
             'endWhenNoModerator'                     => $this->faker->boolean(50),
             'endWhenNoModeratorDelayInMinutes'       => $this->faker->numberBetween(1, 30),
             'meetingKeepEvents'                      => $this->faker->boolean(50),
@@ -173,7 +174,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'breakoutRoomsRecord'                    => $this->faker->boolean(50),
             'breakoutRoomsPrivateChatEnabled'        => $this->faker->boolean(50),
             'meetingEndedURL'                        => $this->faker->url,
-            'meetingLayout'                          => $this->faker->randomElement([MeetingLayout::CUSTOM_LAYOUT, MeetingLayout::SMART_LAYOUT, MeetingLayout::PRESENTATION_FOCUS, MeetingLayout::VIDEO_FOCUS]),
+            'meetingLayout'                          => $this->faker->randomElement(MeetingLayout::getValues()),
             'meta_presenter'                         => $this->faker->name,
             'meta_endCallbackUrl'                    => $this->faker->url,
             'meta_bbb-recording-ready-url'           => $this->faker->url,
@@ -281,6 +282,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'userId'               => $this->faker->numberBetween(1, 1000),
             'webVoiceConf'         => $this->faker->word,
             'creationTime'         => $this->faker->unixTime,
+            'role'                 => $this->faker->randomElement(Role::getValues()),
+            'excludeFromDashboard' => $this->faker->boolean,
             'userdata_countrycode' => $this->faker->countryCode,
             'userdata_email'       => $this->faker->email,
             'userdata_commercial'  => false,

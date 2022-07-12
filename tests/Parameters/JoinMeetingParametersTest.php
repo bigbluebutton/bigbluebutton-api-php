@@ -20,6 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Enum\Role;
 use BigBlueButton\TestCase;
 
 /**
@@ -39,21 +40,26 @@ class JoinMeetingParametersTest extends TestCase
         $this->assertEquals($params['userId'], $joinMeetingParams->getUserId());
         $this->assertEquals($params['webVoiceConf'], $joinMeetingParams->getWebVoiceConf());
         $this->assertEquals($params['creationTime'], $joinMeetingParams->getCreationTime());
+        $this->assertEquals($params['role'], $joinMeetingParams->getRole());
         $this->assertEquals($params['userdata_countrycode'], $joinMeetingParams->getUserData('countrycode'));
         $this->assertEquals($params['userdata_email'], $joinMeetingParams->getUserData('email'));
         $this->assertEquals($params['userdata_commercial'], $joinMeetingParams->getUserData('commercial'));
 
         // Test setters that are ignored by the constructor
-        $joinMeetingParams->setMeetingId($newId         = $this->faker->uuid);
-        $joinMeetingParams->setUsername($newName        = $this->faker->name);
-        $joinMeetingParams->setPassword($newPassword    = $this->faker->password);
-        $joinMeetingParams->setConfigToken($configToken = $this->faker->md5);
-        $joinMeetingParams->setAvatarURL($avatarUrl     = $this->faker->url);
-        $joinMeetingParams->setRedirect($redirect       = $this->faker->boolean(50));
-        $joinMeetingParams->setClientURL($clientUrl     = $this->faker->url);
+        $joinMeetingParams->setMeetingId($newId                           = $this->faker->uuid);
+        $joinMeetingParams->setUsername($newName                          = $this->faker->name);
+        $joinMeetingParams->setRole($newRole                              = $this->faker->randomElement(Role::getValues()));
+        $joinMeetingParams->setPassword($newPassword                      = $this->faker->password);
+        $joinMeetingParams->setExcludeFromDashboard($excludeFromDashboard = $this->faker->boolean);
+        $joinMeetingParams->setConfigToken($configToken                   = $this->faker->md5);
+        $joinMeetingParams->setAvatarURL($avatarUrl                       = $this->faker->url);
+        $joinMeetingParams->setRedirect($redirect                         = $this->faker->boolean(50));
+        $joinMeetingParams->setClientURL($clientUrl                       = $this->faker->url);
         $this->assertEquals($newId, $joinMeetingParams->getMeetingId());
         $this->assertEquals($newName, $joinMeetingParams->getUsername());
+        $this->assertEquals($newRole, $joinMeetingParams->getRole());
         $this->assertEquals($newPassword, $joinMeetingParams->getPassword());
+        $this->assertEquals($excludeFromDashboard, $joinMeetingParams->isExcludeFromDashboard());
         $this->assertEquals($configToken, $joinMeetingParams->getConfigToken());
         $this->assertEquals($avatarUrl, $joinMeetingParams->getAvatarURL());
         $this->assertEquals($redirect, $joinMeetingParams->isRedirect());

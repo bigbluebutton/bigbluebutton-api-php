@@ -73,7 +73,7 @@ class JoinMeetingParameters extends UserDataParameters
     private $redirect;
 
     /**
-     * @var
+     * @var string
      */
     private $clientURL;
 
@@ -81,6 +81,16 @@ class JoinMeetingParameters extends UserDataParameters
      * @var array
      */
     private $customParameters;
+
+    /**
+     * @var string
+     */
+    private $role;
+
+    /**
+     * @var bool
+     */
+    private $excludeFromDashboard;
 
     /**
      * JoinMeetingParametersTest constructor.
@@ -297,6 +307,42 @@ class JoinMeetingParameters extends UserDataParameters
     public function setClientURL($clientURL)
     {
         $this->clientURL = $clientURL;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param string $role
+     */
+    public function setRole($role): JoinMeetingParameters
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExcludeFromDashboard()
+    {
+        return $this->excludeFromDashboard;
+    }
+
+    /**
+     * @param bool $excludeFromDashboard
+     */
+    public function setExcludeFromDashboard($excludeFromDashboard): JoinMeetingParameters
+    {
+        $this->excludeFromDashboard = $excludeFromDashboard;
 
         return $this;
     }
