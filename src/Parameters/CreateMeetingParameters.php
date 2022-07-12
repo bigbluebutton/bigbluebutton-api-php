@@ -321,11 +321,9 @@ class CreateMeetingParameters extends MetaParameters
     private $disabledFeatures = [];
 
     /**
-     * @var
-     *
-     * @todo
+     * @var array
      */
-    private $breakoutRoomsGroups;
+    private $breakoutRoomsGroups = [];
 
     /**
      * CreateMeetingParameters constructor.
@@ -1429,6 +1427,25 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    public function getBreakoutRoomsGroups(): array
+    {
+        return $this->breakoutRoomsGroups;
+    }
+
+    /**
+     * @param $id
+     * @param $name
+     * @param $roster
+     *
+     * @return $this
+     */
+    public function addBreakoutRoomsGroup($id, $name, $roster)
+    {
+        $this->breakoutRoomsGroups[] = ['id' => $id, 'name' => $name, 'roster' => $roster];
+
+        return $this;
+    }
+
     /**
      * @return array
      */
@@ -1528,7 +1545,6 @@ class CreateMeetingParameters extends MetaParameters
             'bannerColor'                            => trim($this->bannerColor),
             'learningDashboardEnabled'               => $this->learningDashboardEnabled ? 'true' : 'false',
             'virtualBackgroundsDisabled'             => $this->virtualBackgroundsDisabled ? 'true' : 'false',
-            'learningDashboardCleanupDelayInMinutes' => $this->learningDashboardCleanupDelayInMinutes,
             'endWhenNoModeratorDelayInMinutes'       => $this->endWhenNoModeratorDelayInMinutes,
             'allowRequestsWithoutSession'            => $this->allowRequestsWithoutSession ? 'true' : 'false',
             'meetingEndedURL'                        => $this->meetingEndedURL,
@@ -1553,6 +1569,17 @@ class CreateMeetingParameters extends MetaParameters
                 'sequence'        => $this->sequence,
                 'freeJoin'        => $this->freeJoin ? 'true' : 'false',
             ]);
+        } else {
+            $queries = array_merge($queries, [
+                'learningDashboardCleanupDelayInMinutes' => $this->learningDashboardCleanupDelayInMinutes,
+            ]);
+
+            // Pre-defined groups to automatically assign the students to a given breakout room
+            if (!empty($this->breakoutRoomsGroups)) {
+                $queries = array_merge($queries, [
+                    'groups' => json_encode($this->breakoutRoomsGroups),
+                ]);
+            }
         }
 
         $this->buildMeta($queries);

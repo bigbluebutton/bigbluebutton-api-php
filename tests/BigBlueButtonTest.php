@@ -265,16 +265,15 @@ class BigBlueButtonTest extends TestCase
     {
         $meeting = $this->createRealMeeting($this->bbb);
 
-        $url = $this->bbb->getMeetingInfoUrl(new GetMeetingInfoParameters($meeting->getMeetingId(), $meeting->getModeratorPassword()));
+        $url = $this->bbb->getMeetingInfoUrl(new GetMeetingInfoParameters($meeting->getMeetingId()));
         $this->assertStringContainsString('=' . urlencode($meeting->getMeetingId()), $url);
-        $this->assertStringContainsString('=' . urlencode($meeting->getModeratorPassword()), $url);
     }
 
     public function testGetMeetingInfo()
     {
         $meeting = $this->createRealMeeting($this->bbb);
 
-        $result = $this->bbb->getMeetingInfo(new GetMeetingInfoParameters($meeting->getMeetingId(), $meeting->getModeratorPassword()));
+        $result = $this->bbb->getMeetingInfo(new GetMeetingInfoParameters($meeting->getMeetingId()));
         $this->assertEquals('SUCCESS', $result->getReturnCode());
         $this->assertTrue($result->success());
     }

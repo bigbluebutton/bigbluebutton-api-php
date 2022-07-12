@@ -176,14 +176,27 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'breakoutRoomsPrivateChatEnabled'        => $this->faker->boolean(50),
             'meetingEndedURL'                        => $this->faker->url,
             'meetingLayout'                          => $this->faker->randomElement(MeetingLayout::getValues()),
+            'meetingCameraCap'                       => $this->faker->numberBetween(1, 3),
             'meetingExpireIfNoUserJoinedInMinutes'   => $this->faker->numberBetween(1, 10),
             'meetingExpireWhenLastUserLeftInMinutes' => $this->faker->numberBetween(5, 15),
             'preUploadedPresentationOverrideDefault' => $this->faker->boolean,
+            'groups'                                 => $this->generateBreakoutRoomsGroups(),
             'disabledFeatures'                       => $this->faker->randomElements(Feature::getValues()),
             'meta_presenter'                         => $this->faker->name,
             'meta_endCallbackUrl'                    => $this->faker->url,
             'meta_bbb-recording-ready-url'           => $this->faker->url,
         ];
+    }
+
+    protected function generateBreakoutRoomsGroups()
+    {
+        $br     = $this->faker->numberBetween(0, 8);
+        $groups = [];
+        for ($i = 0; $i <= $br; ++$i) {
+            $groups[] = ['id' => $this->faker->uuid, 'name' => $this->faker->name, 'roster' => $this->faker->randomElements];
+        }
+
+        return $groups;
     }
 
     /**
@@ -209,6 +222,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function getCreateMock($params)
     {
         $createMeetingParams = new CreateMeetingParameters($params['meetingId'], $params['meetingName']);
+
+        foreach ($params['groups'] as $group) {
+            $createMeetingParams->addBreakoutRoomsGroup($group['id'], $group['name'], $group['roster']);
+        }
 
         return $createMeetingParams
             ->setAttendeePassword($params['attendeePassword'])
@@ -262,7 +279,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setMeetingExpireIfNoUserJoinedInMinutes($params['meetingExpireIfNoUserJoinedInMinutes'])
             ->setMeetingExpireWhenLastUserLeftInMinutes($params['meetingExpireWhenLastUserLeftInMinutes'])
             ->setPreUploadedPresentationOverrideDefault($params['preUploadedPresentationOverrideDefault'])
-            ->disabledFeatures($params['disabledFeatures'])
+            ->setDisabledFeatures($params['disabledFeatures'])
             ->addMeta('presenter', $params['meta_presenter'])
             ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url'])
         ;
@@ -311,7 +328,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         return $joinMeetingParams->setUserId($params['userId'])->setWebVoiceConf($params['webVoiceConf'])
             ->setCreationTime($params['creationTime'])->addUserData('countrycode', $params['userdata_countrycode'])
-            ->addUserData('email', $params['userdata_email'])->addUserData('commercial', $params['userdata_commercial']);
+            ->setRole($params['role'])->addUserData('email', $params['userdata_email'])->addUserData('commercial', $params['userdata_commercial']);
     }
 
     /**
