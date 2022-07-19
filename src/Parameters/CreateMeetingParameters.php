@@ -25,6 +25,8 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
+    use DocumentableTrait;
+
     /**
      * @var string
      */
@@ -188,11 +190,6 @@ class CreateMeetingParameters extends MetaParameters
      * @var bool
      */
     private $allowRequestsWithoutSession;
-
-    /**
-     * @var array
-     */
-    private $presentations = [];
 
     /**
      * @var bool
@@ -1444,63 +1441,6 @@ class CreateMeetingParameters extends MetaParameters
         $this->breakoutRoomsGroups[] = ['id' => $id, 'name' => $name, 'roster' => $roster];
 
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPresentations()
-    {
-        return $this->presentations;
-    }
-
-    /**
-     * @param $nameOrUrl
-     * @param null $content
-     * @param null $filename
-     *
-     * @return CreateMeetingParameters
-     */
-    public function addPresentation($nameOrUrl, $content = null, $filename = null)
-    {
-        if (!$filename) {
-            $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);
-        } else {
-            $this->presentations[$nameOrUrl] = $filename;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPresentationsAsXML()
-    {
-        $result = '';
-
-        if (!empty($this->presentations)) {
-            $xml    = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><modules/>');
-            $module = $xml->addChild('module');
-            $module->addAttribute('name', 'presentation');
-
-            foreach ($this->presentations as $nameOrUrl => $content) {
-                if (0 === mb_strpos($nameOrUrl, 'http')) {
-                    $presentation = $module->addChild('document');
-                    $presentation->addAttribute('url', $nameOrUrl);
-                    if (is_string($content)) {
-                        $presentation->addAttribute('filename', $content);
-                    }
-                } else {
-                    $document = $module->addChild('document');
-                    $document->addAttribute('name', $nameOrUrl);
-                    $document[0] = $content;
-                }
-            }
-            $result = $xml->asXML();
-        }
-
-        return $result;
     }
 
     /**
