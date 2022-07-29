@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 class ImagePreview
@@ -36,10 +37,10 @@ class ImagePreview
 
     public function __construct(int $width, int $height, string $alt, string $url)
     {
-        $this->width  = $width;
+        $this->width = $width;
         $this->height = $height;
-        $this->alt    = $alt;
-        $this->url    = $url;
+        $this->alt = $alt;
+        $this->url = $url;
     }
 
     public function getWidth(): int

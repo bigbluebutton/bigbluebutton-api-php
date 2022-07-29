@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Major portions of this code:
+ * Major portions of this code:.
  *
  * Copyright (c) 2018-2021 Fabien Potencier
  *
@@ -24,8 +24,8 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- *
  */
+
 namespace BigBlueButton\Http\Transport;
 
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -50,7 +50,7 @@ final class TestHttpServer
             });
         }
 
-        $finder  = new PhpExecutableFinder();
+        $finder = new PhpExecutableFinder();
         $process = new Process(array_merge([$finder->find(false)], $finder->findArguments(), ['-dopcache.enable=0', '-dvariables_order=EGPCS', '-S', '127.0.0.1:'.$port]));
         $process->setWorkingDirectory(__DIR__.'/Fixtures/web');
         $process->start();

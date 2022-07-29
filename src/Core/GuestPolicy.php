@@ -19,12 +19,13 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 final class GuestPolicy
 {
-    public const ALWAYS_ACCEPT        = 'ALWAYS_ACCEPT';
-    public const ALWAYS_DENY          = 'ALWAYS_DENY';
-    public const ASK_MODERATOR        = 'ASK_MODERATOR';
-    public const ALWAYS_ACCEPT_AUTH   = 'ALWAYS_ACCEPT_AUTH';
+    public const ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
+    public const ALWAYS_DENY = 'ALWAYS_DENY';
+    public const ASK_MODERATOR = 'ASK_MODERATOR';
+    public const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
 }

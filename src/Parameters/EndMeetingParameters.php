@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
  * Class EndMeetingParameters.
  *
  * @method string getMeetingID()
- * @method $this setMeetingID(string $id)
+ * @method $this  setMeetingID(string $id)
  * @method string getPassword()
- * @method $this setPassword(string $password)
+ * @method $this  setPassword(string $password)
  */
 class EndMeetingParameters extends BaseParameters
 {
@@ -40,7 +41,7 @@ class EndMeetingParameters extends BaseParameters
 
     public function __construct(string $meetingID, string $password)
     {
-        $this->password  = $password;
+        $this->password = $password;
         $this->meetingID = $meetingID;
     }
 }

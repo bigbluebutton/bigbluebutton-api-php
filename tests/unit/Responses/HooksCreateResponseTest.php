@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\HooksCreateResponse;
@@ -28,11 +29,11 @@ class HooksCreateResponseTest extends TestCase
      */
     private $createResponse;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_create.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'hooks_create.xml');
 
         $this->createResponse = new HooksCreateResponse($xml);
     }
@@ -41,14 +42,14 @@ class HooksCreateResponseTest extends TestCase
     {
         $this->assertEquals('SUCCESS', $this->createResponse->getReturnCode());
         $this->assertEquals(1, $this->createResponse->getHookId());
-        $this->assertEquals(false, $this->createResponse->isPermanentHook());
-        $this->assertEquals(false, $this->createResponse->hasRawData());
+        $this->assertFalse($this->createResponse->isPermanentHook());
+        $this->assertFalse($this->createResponse->hasRawData());
     }
 
     public function testHooksCreateResponseTypes()
     {
         $this->assertEachGetterValueIsString($this->createResponse, ['getReturnCode']);
         $this->assertEachGetterValueIsInteger($this->createResponse, ['getHookId']);
-        $this->assertEachGetterValueIsBoolean($this->createResponse, ['isPermanentHook','hasRawData']);
+        $this->assertEachGetterValueIsBoolean($this->createResponse, ['isPermanentHook', 'hasRawData']);
     }
 }

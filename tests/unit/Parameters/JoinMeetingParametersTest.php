@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase as TestCase;
+use BigBlueButton\TestCase;
 
 class JoinMeetingParametersTest extends TestCase
 {
     public function testJoinMeetingParameters()
     {
-        $params            = $this->generateJoinMeetingParams();
+        $params = $this->generateJoinMeetingParams();
         $joinMeetingParams = $this->getJoinMeetingMock($params);
 
         $this->assertEquals($params['meetingID'], $joinMeetingParams->getMeetingID());

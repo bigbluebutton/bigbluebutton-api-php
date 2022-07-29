@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Major portions of this code:
+ * Major portions of this code:.
  *
  * Copyright (c) 2018-2021 Fabien Potencier
  *
@@ -24,7 +24,6 @@ declare(strict_types=1);
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- *
  */
 // Inspired by: https://github.com/symfony/http-client-contracts/blob/main/Test/Fixtures/web/index.php
 
@@ -33,7 +32,7 @@ if ('cli-server' !== \PHP_SAPI) {
     throw new \Exception("You cannot run this script directly, it's a fixture for TestHttpServer.");
 }
 
-$vars  = [];
+$vars = [];
 $input = file_get_contents('php://input');
 
 foreach ($_SERVER as $k => $v) {
@@ -42,7 +41,7 @@ foreach ($_SERVER as $k => $v) {
             if (0 !== strpos($k, 'HTTP_')) {
                 continue 2;
             }
-        // no break
+            // no break
         case 'SERVER_NAME':
         case 'SERVER_PROTOCOL':
         case 'REQUEST_URI':
@@ -53,5 +52,5 @@ foreach ($_SERVER as $k => $v) {
     }
 }
 
-/** @noinspection ForgottenDebugOutputInspection */
+/* @noinspection ForgottenDebugOutputInspection */
 var_export(['input' => $input, 'vars' => $vars]);

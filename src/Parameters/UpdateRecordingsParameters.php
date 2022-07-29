@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class UpdateRecordingsParameters
+ * Class UpdateRecordingsParameters.
  *
  * @method string getRecordID()
- * @method $this setRecordID(string $recordID)
+ * @method $this  setRecordID(string $recordID)
  */
 class UpdateRecordingsParameters extends MetaParameters
 {

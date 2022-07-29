@@ -18,11 +18,12 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
  * @method string getMeetingID()
- * @method $this setMeetingID(string $id)
+ * @method $this  setMeetingID(string $id)
  */
 final class InsertDocumentParameters extends MetaParameters
 {
@@ -38,7 +39,7 @@ final class InsertDocumentParameters extends MetaParameters
 
     public function __construct(string $meetingID)
     {
-        $this->meetingID   = $meetingID;
+        $this->meetingID = $meetingID;
     }
 
     /**
@@ -47,9 +48,9 @@ final class InsertDocumentParameters extends MetaParameters
     public function addPresentation(string $url, string $filename, ?bool $downloadable = null, ?bool $removable = null): self
     {
         $this->presentations[$url] = [
-            'filename'     => $filename,
+            'filename' => $filename,
             'downloadable' => $downloadable,
-            'removable'    => $removable,
+            'removable' => $removable,
         ];
 
         return $this;
@@ -73,7 +74,7 @@ final class InsertDocumentParameters extends MetaParameters
         $result = '';
 
         if (!empty($this->presentations)) {
-            $xml    = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><modules/>');
+            $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><modules/>');
             $module = $xml->addChild('module');
             $module->addAttribute('name', 'presentation');
 
@@ -82,11 +83,11 @@ final class InsertDocumentParameters extends MetaParameters
                 $presentation->addAttribute('url', $url);
                 $presentation->addAttribute('filename', $content['filename']);
 
-                if (is_bool($content['downloadable'])) {
+                if (\is_bool($content['downloadable'])) {
                     $presentation->addAttribute('downloadable', $content['downloadable'] ? 'true' : 'false');
                 }
 
-                if (is_bool($content['removable'])) {
+                if (\is_bool($content['removable'])) {
                     $presentation->addAttribute('removable', $content['removable'] ? 'true' : 'false');
                 }
             }

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\PublishRecordingsResponse;
@@ -28,11 +29,11 @@ class PublishRecordingsResponseTest extends TestCase
      */
     private $publish;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'publish_recordings.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'publish_recordings.xml');
 
         $this->publish = new PublishRecordingsResponse($xml);
     }
@@ -40,7 +41,7 @@ class PublishRecordingsResponseTest extends TestCase
     public function testPublishRecordingsResponseContent()
     {
         $this->assertEquals('SUCCESS', $this->publish->getReturnCode());
-        $this->assertEquals(true, $this->publish->isPublished());
+        $this->assertTrue($this->publish->isPublished());
     }
 
     public function testPublishRecordingsResponseTypes()

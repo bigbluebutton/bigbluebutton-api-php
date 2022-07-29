@@ -16,21 +16,21 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Core\GuestPolicy;
-use BigBlueButton\TestCase as TestCase;
+use BigBlueButton\TestCase;
 use PHPUnit\Framework\Error\Warning;
 
 /**
- * Class CreateMeetingParametersTest
- * @package BigBlueButton\Parameters
+ * Class CreateMeetingParametersTest.
  */
 class CreateMeetingParametersTest extends TestCase
 {
     public function testCreateMeetingParameters()
     {
-        $params              = $this->generateCreateParams();
+        $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
 
         $this->assertEquals($params['name'], $createMeetingParams->getName());
@@ -106,7 +106,7 @@ class CreateMeetingParametersTest extends TestCase
 
     public function testCreateBreakoutMeeting()
     {
-        $params                      = $this->generateBreakoutCreateParams($this->generateCreateParams());
+        $params = $this->generateBreakoutCreateParams($this->generateCreateParams());
         $createBreakoutMeetingParams = $this->getBreakoutCreateMock($params);
         $this->assertEquals($params['isBreakout'], $createBreakoutMeetingParams->isBreakout());
         $this->assertEquals($params['parentMeetingId'], $createBreakoutMeetingParams->getParentMeetingID());
@@ -115,10 +115,10 @@ class CreateMeetingParametersTest extends TestCase
 
         $params = $createBreakoutMeetingParams->getHTTPQuery();
 
-        $this->assertStringContainsString('isBreakout=' . rawurlencode($createBreakoutMeetingParams->isBreakout() ? 'true' : 'false'), $params);
-        $this->assertStringContainsString('parentMeetingID=' . rawurlencode($createBreakoutMeetingParams->getParentMeetingID()), $params);
-        $this->assertStringContainsString('sequence=' . rawurlencode($createBreakoutMeetingParams->getSequence()), $params);
-        $this->assertStringContainsString('freeJoin=' . rawurlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
+        $this->assertStringContainsString('isBreakout='.rawurlencode($createBreakoutMeetingParams->isBreakout() ? 'true' : 'false'), $params);
+        $this->assertStringContainsString('parentMeetingID='.rawurlencode($createBreakoutMeetingParams->getParentMeetingID()), $params);
+        $this->assertStringContainsString('sequence='.rawurlencode($createBreakoutMeetingParams->getSequence()), $params);
+        $this->assertStringContainsString('freeJoin='.rawurlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
     }
 
     public function testCreateBreakoutMeetingWithMissingParams()
@@ -148,31 +148,31 @@ class CreateMeetingParametersTest extends TestCase
 
     public function testGetPresentationsAsXMLWithUrl()
     {
-        $params              = $this->generateCreateParams();
+        $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
         $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf');
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
+        $this->assertXmlStringEqualsXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithUrlAndFilename()
     {
-        $params              = $this->generateCreateParams();
+        $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
         $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf', null, 'presentation.pdf');
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
+        $this->assertXmlStringEqualsXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithFile()
     {
-        $params              = $this->generateCreateParams();
+        $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
-        $createMeetingParams->addPresentation('bbb_logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
+        $createMeetingParams->addPresentation('bbb_logo.png', file_get_contents(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'bbb_logo.png'));
+        $this->assertXmlStringEqualsXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testUserCameraCap(): void
     {
-        $params              = $this->generateCreateParams();
+        $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
         $this->assertEquals($params['userCameraCap'], $createMeetingParams->getUserCameraCap());
         $this->assertFalse($createMeetingParams->isUserCameraCapDisabled());
@@ -184,7 +184,7 @@ class CreateMeetingParametersTest extends TestCase
 
     public function testGuestPolicyAlwaysAccept(): void
     {
-        $params              = $this->generateCreateParams();
+        $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
 
         $createMeetingParams->setGuestPolicyAlwaysAccept();
@@ -194,7 +194,7 @@ class CreateMeetingParametersTest extends TestCase
 
     public function testGuestPolicyAlwaysAcceptAuth(): void
     {
-        $params              = $this->generateCreateParams();
+        $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
 
         $createMeetingParams->setGuestPolicyAlwaysAcceptAuth();
@@ -204,9 +204,9 @@ class CreateMeetingParametersTest extends TestCase
 
     public function testGuestPolicyAlwaysDeny(): void
     {
-        $params              = $this->generateCreateParams();
+        $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
-        
+
         $createMeetingParams->setGuestPolicyAlwaysDeny();
         $this->assertSame(GuestPolicy::ALWAYS_DENY, $createMeetingParams->getGuestPolicy());
         $this->assertTrue($createMeetingParams->isGuestPolicyAlwaysDeny());
@@ -214,7 +214,7 @@ class CreateMeetingParametersTest extends TestCase
 
     public function testGuestPolicyAskModerator(): void
     {
-        $params              = $this->generateCreateParams();
+        $params = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
 
         $createMeetingParams->setGuestPolicyAskModerator();

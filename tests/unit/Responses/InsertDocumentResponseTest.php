@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\InsertDocumentResponse;
@@ -30,11 +31,11 @@ class InsertDocumentResponseTest extends TestCase
      */
     private $running;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'insert_document.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'insert_document.xml');
 
         $this->running = new InsertDocumentResponse($xml);
     }

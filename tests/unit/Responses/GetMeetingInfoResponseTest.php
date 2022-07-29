@@ -24,11 +24,11 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
      */
     private $meetingInfo;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_meeting_info.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'get_meeting_info.xml');
 
         $this->meetingInfo = new \BigBlueButton\Responses\GetMeetingInfoResponse($xml);
     }
@@ -49,11 +49,11 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals('613-555-1234', $info->getDialNumber());
         $this->assertEquals('dbfc7207321527bbb870c82028', $info->getAttendeePassword());
         $this->assertEquals('4bfbbeeb4a65cacaefe3676633', $info->getModeratorPassword());
-        $this->assertEquals(true, $info->isRunning());
+        $this->assertTrue($info->isRunning());
         $this->assertEquals(20, $info->getDuration());
-        $this->assertEquals(true, $info->hasUserJoined());
-        $this->assertEquals(true, $info->isRecording());
-        $this->assertEquals(false, $info->hasBeenForciblyEnded());
+        $this->assertTrue($info->hasUserJoined());
+        $this->assertTrue($info->isRecording());
+        $this->assertFalse($info->hasBeenForciblyEnded());
         $this->assertEquals(1453206317380, $info->getStartTime());
         $this->assertEquals(1453206325002, $info->getEndTime());
         $this->assertEquals(2, $info->getParticipantCount());
@@ -62,8 +62,8 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals(1, $info->getVideoCount());
         $this->assertEquals(20, $info->getMaxUsers());
         $this->assertEquals(2, $info->getModeratorCount());
-        $this->assertEquals(10, sizeof($info->getMetas()));
-        $this->assertEquals(true, $info->isBreakout());
+        $this->assertEquals(10, count($info->getMetas()));
+        $this->assertTrue($info->isBreakout());
     }
 
     public function testMeetingAttendeeContent()
@@ -75,14 +75,14 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals('xi7y7gpmyq1g', $anAttendee->getUserId());
         $this->assertEquals('Barrett Kutch', $anAttendee->getFullName());
         $this->assertEquals('MODERATOR', $anAttendee->getRole());
-        $this->assertEquals(false, $anAttendee->isPresenter());
-        $this->assertEquals(false, $anAttendee->isListeningOnly());
-        $this->assertEquals(true, $anAttendee->hasJoinedVoice());
-        $this->assertEquals(false, $anAttendee->hasVideo());
+        $this->assertFalse($anAttendee->isPresenter());
+        $this->assertFalse($anAttendee->isListeningOnly());
+        $this->assertTrue($anAttendee->hasJoinedVoice());
+        $this->assertFalse($anAttendee->hasVideo());
         $this->assertEquals('FLASH', $anAttendee->getClientType());
 
         $customData = $anAttendee->getCustomData();
-        $this->assertEquals(3, sizeof($customData));
+        $this->assertEquals(3, count($customData));
         $this->assertEquals('true', $customData['skipCheck']);
         $this->assertEquals('#FF0033', $customData['backgroundColor']);
         $this->assertEquals('a:focus{color:#0181eb}', $customData['customStyle']);
@@ -123,10 +123,10 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $info = $this->meetingInfo->getMeeting();
 
         $this->assertEachGetterValueIsString($info, ['getMeetingName', 'getMeetingId', 'getInternalMeetingId',
-            'getModeratorPassword', 'getAttendeePassword', 'getCreationDate', 'getDialNumber']);
+            'getModeratorPassword', 'getAttendeePassword', 'getCreationDate', 'getDialNumber', ]);
 
         $this->assertEachGetterValueIsInteger($info, ['getVoiceBridge', 'getDuration', 'getParticipantCount',
-            'getListenerCount', 'getVoiceParticipantCount', 'getVideoCount', 'getMaxUsers', 'getModeratorCount']);
+            'getListenerCount', 'getVoiceParticipantCount', 'getVideoCount', 'getMaxUsers', 'getModeratorCount', ]);
 
         $this->assertEachGetterValueIsDouble($info, ['getStartTime', 'getEndTime', 'getCreationTime']);
 

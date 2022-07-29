@@ -18,20 +18,20 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http\Transport;
 
 use BigBlueButton\Http\SetCookie;
 
 /**
- * Cookie extraction utils
+ * Cookie extraction utils.
  *
  * @internal
  */
 final class Cookie
 {
     /**
-     * @param  string[]    $headerValues
-     * @return string|null
+     * @param string[] $headerValues
      */
     public static function extractJsessionId(array $headerValues): ?string
     {

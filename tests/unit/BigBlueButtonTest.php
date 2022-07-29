@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
@@ -31,8 +32,7 @@ use BigBlueButton\Parameters\PublishRecordingsParameters;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * Class BigBlueButtonTest
- * @package BigBlueButton
+ * Class BigBlueButtonTest.
  */
 class BigBlueButtonTest extends TestCase
 {
@@ -45,14 +45,14 @@ class BigBlueButtonTest extends TestCase
     private $bbb;
 
     /**
-     * Setup test class
+     * Setup test class.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->transport = $this->createMock(TransportInterface::class);
-        $this->bbb       = new BigBlueButton('http://localhost/', null, $this->transport);
+        $this->bbb = new BigBlueButton('http://localhost/', null, $this->transport);
     }
 
     public function testMissingUrl()
@@ -65,7 +65,7 @@ class BigBlueButtonTest extends TestCase
         try {
             new BigBlueButton('');
         } finally {
-            putenv('BBB_SERVER_BASE_URL=' . $previousEnvironmentValue);
+            putenv('BBB_SERVER_BASE_URL='.$previousEnvironmentValue);
         }
     }
 
@@ -106,7 +106,7 @@ class BigBlueButtonTest extends TestCase
     public function testApiVersion()
     {
         $apiVersion = '2.0';
-        $xml        = "<response>
+        $xml = "<response>
             <returncode>SUCCESS</returncode>
             <version>2.0</version>
             <apiVersion>$apiVersion</apiVersion>
@@ -155,45 +155,45 @@ class BigBlueButtonTest extends TestCase
     /* Create Meeting */
 
     /**
-     * Test create meeting URL
+     * Test create meeting URL.
      */
     public function testCreateMeetingUrl()
     {
         $params = $this->generateCreateParams();
-        $url    = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
+        $url = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
         foreach ($params as $key => $value) {
-            if (is_bool($value)) {
+            if (\is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString(\rawurlencode($key) . '=' . \rawurlencode($value), $url);
+            $this->assertStringContainsString(rawurlencode($key).'='.rawurlencode($value), $url);
         }
     }
 
     /* Join Meeting */
 
     /**
-     * Test create join meeting URL
+     * Test create join meeting URL.
      */
     public function testCreateJoinMeetingUrl()
     {
         $joinMeetingParams = $this->generateJoinMeetingParams();
-        $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
+        $joinMeetingMock = $this->getJoinMeetingMock($joinMeetingParams);
 
         $url = $this->bbb->getJoinMeetingURL($joinMeetingMock);
 
         foreach ($joinMeetingParams as $key => $value) {
-            if (is_bool($value)) {
+            if (\is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString(\rawurlencode($key) . '=' . rawurlencode($value), $url);
+            $this->assertStringContainsString(rawurlencode($key).'='.rawurlencode($value), $url);
         }
     }
 
     public function testJoinMeeting()
     {
         $joinMeetingParams = $this->generateJoinMeetingParams();
-        $params            = $this->getJoinMeetingMock($joinMeetingParams);
-        $xml               = "<response>
+        $params = $this->getJoinMeetingMock($joinMeetingParams);
+        $xml = "<response>
             <returncode>SUCCESS</returncode>
             <messageKey>successfullyJoined</messageKey>
             <message>You have joined successfully.</message>
@@ -223,25 +223,25 @@ class BigBlueButtonTest extends TestCase
     /* End Meeting */
 
     /**
-     * Test generate end meeting URL
+     * Test generate end meeting URL.
      */
     public function testCreateEndMeetingUrl()
     {
         $params = $this->generateEndMeetingParams();
-        $url    = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
+        $url = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
         foreach ($params as $key => $value) {
-            if (is_bool($value)) {
+            if (\is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString(\rawurlencode($key) . '=' . rawurlencode($value), $url);
+            $this->assertStringContainsString(rawurlencode($key).'='.rawurlencode($value), $url);
         }
     }
 
     public function testEndMeeting()
     {
-        $data   = $this->generateEndMeetingParams();
+        $data = $this->generateEndMeetingParams();
         $params = $this->getEndMeetingMock($data);
-        $xml    = '<response>
+        $xml = '<response>
             <returncode>SUCCESS</returncode>
             <messageKey>sentEndMeetingRequest</messageKey>
             <message>foobar</message>
@@ -265,7 +265,7 @@ class BigBlueButtonTest extends TestCase
 
     public function testGetMeetings()
     {
-        $xml    = '<response>
+        $xml = '<response>
             <returncode>SUCCESS</returncode>
             <meetings>
                 <meeting>
@@ -312,9 +312,9 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals('613-555-1234', $response->getMeetings()[0]->getDialNumber());
         $this->assertEquals('ap', $response->getMeetings()[0]->getAttendeePassword());
         $this->assertEquals('mp', $response->getMeetings()[0]->getModeratorPassword());
-        $this->assertEquals(false, $response->getMeetings()[0]->isRunning());
+        $this->assertFalse($response->getMeetings()[0]->isRunning());
         $this->assertEquals(0, $response->getMeetings()[0]->getDuration());
-        $this->assertEquals(false, $response->getMeetings()[0]->hasUserJoined());
+        $this->assertFalse($response->getMeetings()[0]->hasUserJoined());
     }
 
     /* Get meeting info */
@@ -330,6 +330,7 @@ class BigBlueButtonTest extends TestCase
         $url = $this->bbb->getPublishRecordingsUrl(new PublishRecordingsParameters($this->faker->sha1, true));
         $this->assertStringContainsString(ApiMethod::PUBLISH_RECORDINGS, $url);
     }
+
     public function testDeleteRecordingsUrl()
     {
         $url = $this->bbb->getDeleteRecordingsUrl(new DeleteRecordingsParameters($this->faker->sha1));
@@ -339,21 +340,21 @@ class BigBlueButtonTest extends TestCase
     public function testUpdateRecordingsUrl()
     {
         $params = $this->generateUpdateRecordingsParams();
-        $url    = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
+        $url = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
         foreach ($params as $key => $value) {
-            if (is_bool($value)) {
+            if (\is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
-            $this->assertStringContainsString(\rawurlencode($key) . '=' . rawurlencode($value), $url);
+            $this->assertStringContainsString(rawurlencode($key).'='.rawurlencode($value), $url);
         }
     }
 
     public function testBuildUrl(): void
     {
-        $bigBlueButton = new BigBlueButton('https://bbb.example/bigbluebutton', 'S3cr3t');
+        $bigBlueButton = new BigBlueButton('https://bbb.example/bigbluebutton/', 'S3cr3t');
 
         $this->assertSame(
-            'https://bbb.example/bigbluebuttonapi/foo?foo=bar&baz=bazinga&checksum=694ad46bc5a79a572bab6c8b9a939527c39ac7f6',
+            'https://bbb.example/bigbluebutton/api/foo?foo=bar&baz=bazinga&checksum=694ad46bc5a79a572bab6c8b9a939527c39ac7f6',
             $bigBlueButton->buildUrl('foo', 'foo=bar&baz=bazinga'),
             'URL is not ok'
         );

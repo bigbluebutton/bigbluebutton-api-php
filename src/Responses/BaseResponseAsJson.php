@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Responses;
 
 /**
- * Class BaseResponseAsJson
- * @package BigBlueButton\Responses
+ * Class BaseResponseAsJson.
  */
 abstract class BaseResponseAsJson
 {
-    const SUCCESS        = 'SUCCESS';
-    const FAILED         = 'FAILED';
-    const CHECKSUM_ERROR = 'checksumError';
+    public const SUCCESS = 'SUCCESS';
+    public const FAILED = 'FAILED';
+    public const CHECKSUM_ERROR = 'checksumError';
 
     /**
      * @var mixed
@@ -108,8 +108,7 @@ abstract class BaseResponseAsJson
     }
 
     /**
-     * Check is response is checksum error
-     * @return bool
+     * Check is response is checksum error.
      */
     public function hasChecksumError(): bool
     {

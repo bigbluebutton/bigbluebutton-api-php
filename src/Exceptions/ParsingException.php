@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Exceptions;
 
 final class ParsingException extends BaseException

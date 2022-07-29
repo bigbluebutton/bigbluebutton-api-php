@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class MetaParameters
- * @package BigBlueButton\Parameters
+ * Class MetaParameters.
  */
 abstract class MetaParameters extends BaseParameters
 {
@@ -38,7 +38,8 @@ abstract class MetaParameters extends BaseParameters
     }
 
     /**
-     * @param  string|bool $value
+     * @param string|bool $value
+     *
      * @return $this
      */
     public function addMeta(string $key, $value)
@@ -53,10 +54,10 @@ abstract class MetaParameters extends BaseParameters
         $properties = parent::getHTTPQueryArray();
 
         foreach ($this->meta as $k => $v) {
-            if (!is_bool($v)) {
-                $properties['meta_' . $k] = $v;
+            if (!\is_bool($v)) {
+                $properties['meta_'.$k] = $v;
             } else {
-                $properties['meta_' . $k] = $v ? 'true' : 'false';
+                $properties['meta_'.$k] = $v ? 'true' : 'false';
             }
         }
 

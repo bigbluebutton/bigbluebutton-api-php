@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 class Attendee
@@ -67,14 +68,14 @@ class Attendee
 
     public function __construct(\SimpleXMLElement $xml)
     {
-        $this->userId          = $xml->userID->__toString();
-        $this->fullName        = $xml->fullName->__toString();
-        $this->role            = $xml->role->__toString();
-        $this->isPresenter     = $xml->isPresenter->__toString() === 'true';
+        $this->userId = $xml->userID->__toString();
+        $this->fullName = $xml->fullName->__toString();
+        $this->role = $xml->role->__toString();
+        $this->isPresenter = $xml->isPresenter->__toString() === 'true';
         $this->isListeningOnly = $xml->isListeningOnly->__toString() === 'true';
-        $this->hasJoinedVoice  = $xml->hasJoinedVoice->__toString() === 'true';
-        $this->hasVideo        = $xml->hasVideo->__toString() === 'true';
-        $this->clientType      = $xml->clientType->__toString();
+        $this->hasJoinedVoice = $xml->hasJoinedVoice->__toString() === 'true';
+        $this->hasVideo = $xml->hasVideo->__toString() === 'true';
+        $this->clientType = $xml->clientType->__toString();
 
         if ($xml->customdata) {
             foreach ($xml->customdata->children() as $data) {

@@ -18,6 +18,7 @@ declare(strict_types=1);
  * You should have received a copy of the GNU Lesser General Public License
  * along with littleredbutton/bigbluebutton-api-php. If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Http\Transport\Bridge\SymfonyHttpClient;
 
 use BigBlueButton\Exceptions\NetworkException;
@@ -35,6 +36,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * @covers \BigBlueButton\Http\Transport\Bridge\SymfonyHttpClient\SymfonyHttpClientTransport
+ *
  * @uses \BigBlueButton\Http\Transport\Cookie
  * @uses \BigBlueButton\Http\Transport\TransportRequest
  * @uses \BigBlueButton\Http\Transport\TransportResponse
@@ -52,9 +54,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
             return new MockResponse('Hi Marty!', ['response_headers' => ['Set-Cookie' => 'JSESSIONID=MartyMcFlySession']]);
         };
 
-        $request        = new TransportRequest('https://example.com/', '', 'application/xml');
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
         $mockHttpClient = new MockHttpClient($responseFactory);
-        $transport      = new SymfonyHttpClientTransport($mockHttpClient);
+        $transport = new SymfonyHttpClientTransport($mockHttpClient);
 
         $response = $transport->request($request);
 
@@ -76,9 +78,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
             return new MockResponse('Hi Marty!', ['response_headers' => ['Set-Cookie' => 'JSESSIONID=MartyMcFlySession']]);
         };
 
-        $request        = new TransportRequest('https://example.com/', 'Hi Doc!', 'application/xml');
+        $request = new TransportRequest('https://example.com/', 'Hi Doc!', 'application/xml');
         $mockHttpClient = new MockHttpClient($responseFactory);
-        $transport      = new SymfonyHttpClientTransport($mockHttpClient);
+        $transport = new SymfonyHttpClientTransport($mockHttpClient);
 
         $response = $transport->request($request);
 
@@ -99,9 +101,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
             return new MockResponse('Hi Marty!');
         };
 
-        $request        = new TransportRequest('https://example.com/', '', 'application/xml');
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
         $mockHttpClient = new MockHttpClient($responseFactory);
-        $transport      = new SymfonyHttpClientTransport($mockHttpClient);
+        $transport = new SymfonyHttpClientTransport($mockHttpClient);
 
         $response = $transport->request($request);
 
@@ -122,9 +124,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
             return new MockResponse('Hi Marty!', ['response_headers' => ['Set-Cookie' => 'JSESSIONID=']]);
         };
 
-        $request        = new TransportRequest('https://example.com/', '', 'application/xml');
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
         $mockHttpClient = new MockHttpClient($responseFactory);
-        $transport      = new SymfonyHttpClientTransport($mockHttpClient);
+        $transport = new SymfonyHttpClientTransport($mockHttpClient);
 
         $response = $transport->request($request);
 
@@ -148,12 +150,12 @@ final class SymfonyHttpClientTransportTest extends TestCase
             return new MockResponse('Hi Marty!', ['response_headers' => ['Set-Cookie' => 'JSESSIONID=MartyMcFlySession']]);
         };
 
-        $request        = new TransportRequest('https://example.com/', '', 'application/xml');
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
         $mockHttpClient = new MockHttpClient($responseFactory);
-        $transport      = new SymfonyHttpClientTransport($mockHttpClient, [
-            'X-A-Custom-Header'       => 'Foo',
+        $transport = new SymfonyHttpClientTransport($mockHttpClient, [
+            'X-A-Custom-Header' => 'Foo',
             'X-Another-Custom-Header' => 'Bar',
-            'Content-Type'            => 'This will be overwritten anyway',
+            'Content-Type' => 'This will be overwritten anyway',
         ]);
 
         $response = $transport->request($request);
@@ -178,14 +180,14 @@ final class SymfonyHttpClientTransportTest extends TestCase
             return new MockResponse('Hi Marty!', ['response_headers' => ['Set-Cookie' => 'JSESSIONID=MartyMcFlySession']]);
         };
 
-        $request        = new TransportRequest('https://example.com/', '', 'application/xml');
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
         $mockHttpClient = new MockHttpClient($responseFactory);
-        $transport      = new SymfonyHttpClientTransport($mockHttpClient, [], [
-            'headers'      => [
+        $transport = new SymfonyHttpClientTransport($mockHttpClient, [], [
+            'headers' => [
                 'Content-Type' => 'will-be-thrown-away',
-                'X-Foo'        => 'Bar',
+                'X-Foo' => 'Bar',
             ],
-            'timeout'      => 5,
+            'timeout' => 5,
             'max_duration' => 10,
         ]);
 
@@ -201,18 +203,16 @@ final class SymfonyHttpClientTransportTest extends TestCase
     public function provideBadResponseCodes(): iterable
     {
         foreach (range(100, 199) as $badCode) {
-            yield 'HTTP code ' . $badCode => [$badCode];
+            yield 'HTTP code '.$badCode => [$badCode];
         }
 
         foreach (range(300, 599) as $badCode) {
-            yield 'HTTP code ' . $badCode => [$badCode];
+            yield 'HTTP code '.$badCode => [$badCode];
         }
     }
 
     /**
      * @dataProvider provideBadResponseCodes
-     *
-     * @param int $badCode
      */
     public function testRequestWithBadResponseCode(int $badCode): void
     {
@@ -224,9 +224,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
             return new MockResponse('Hi Marty!', ['http_code' => $badCode]);
         };
 
-        $request        = new TransportRequest('https://example.com/', '', 'application/xml');
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
         $mockHttpClient = new MockHttpClient($responseFactory);
-        $transport      = new SymfonyHttpClientTransport($mockHttpClient);
+        $transport = new SymfonyHttpClientTransport($mockHttpClient);
 
         $this->expectException(NetworkException::class);
         $this->expectExceptionMessage('Bad response.');
@@ -250,9 +250,6 @@ final class SymfonyHttpClientTransportTest extends TestCase
 
     /**
      * @dataProvider provideBadResponseExceptions
-     *
-     * @param HttpExceptionInterface $exception
-     * @param int                    $badCode
      */
     public function testRequestWithBadResponseException(HttpExceptionInterface $exception, int $badCode): void
     {
@@ -264,9 +261,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
             throw $exception;
         };
 
-        $request        = new TransportRequest('https://example.com/', '', 'application/xml');
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
         $mockHttpClient = new MockHttpClient($responseFactory);
-        $transport      = new SymfonyHttpClientTransport($mockHttpClient);
+        $transport = new SymfonyHttpClientTransport($mockHttpClient);
 
         $this->expectException(NetworkException::class);
         $this->expectExceptionMessage('Bad response.');
@@ -291,9 +288,9 @@ final class SymfonyHttpClientTransportTest extends TestCase
             throw new TransportException('The transport failed.');
         };
 
-        $request        = new TransportRequest('https://example.com/', '', 'application/xml');
+        $request = new TransportRequest('https://example.com/', '', 'application/xml');
         $mockHttpClient = new MockHttpClient($responseFactory);
-        $transport      = new SymfonyHttpClientTransport($mockHttpClient);
+        $transport = new SymfonyHttpClientTransport($mockHttpClient);
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('HTTP request failed: The transport failed.');

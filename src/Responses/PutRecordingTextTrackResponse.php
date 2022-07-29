@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Responses;
 
 /**
- * Class PutRecordingTextTracksResponse
- * @package BigBlueButton\Responses
+ * Class PutRecordingTextTracksResponse.
  */
 class PutRecordingTextTrackResponse extends BaseResponseAsJson
 {
-    const KEY_SUCCESS     = 'upload_text_track_success';
-    const KEY_FAILED      = 'upload_text_track_failed';
-    const KEY_EMPTY       = 'empty_uploaded_text_track';
-    const KEY_PARAM_ERROR = 'paramError';
+    public const KEY_SUCCESS = 'upload_text_track_success';
+    public const KEY_FAILED = 'upload_text_track_failed';
+    public const KEY_EMPTY = 'empty_uploaded_text_track';
+    public const KEY_PARAM_ERROR = 'paramError';
 
     /**
      * @return string
@@ -37,33 +37,21 @@ class PutRecordingTextTrackResponse extends BaseResponseAsJson
         return $this->data->response->recordId;
     }
 
-    /**
-     * @return bool
-     */
     public function isUploadTrackSuccess(): bool
     {
         return $this->getMessageKey() === self::KEY_SUCCESS;
     }
 
-    /**
-     * @return bool
-     */
     public function isUploadTrackFailed(): bool
     {
         return $this->getMessageKey() === self::KEY_FAILED;
     }
 
-    /**
-     * @return bool
-     */
     public function isUploadTrackEmpty(): bool
     {
         return $this->getMessageKey() === self::KEY_EMPTY;
     }
 
-    /**
-     * @return bool
-     */
     public function isKeyParamError(): bool
     {
         return $this->getMessageKey() === self::KEY_PARAM_ERROR;

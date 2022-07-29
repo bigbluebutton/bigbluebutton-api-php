@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\GetRecordingsResponse;
@@ -28,11 +29,11 @@ class GetRecordingsResponseTest extends TestCase
      */
     private $records;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_recordings.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'get_recordings.xml');
 
         $this->records = new GetRecordingsResponse($xml);
     }
@@ -48,7 +49,7 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals('9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]', $aRecord->getMeetingId());
         $this->assertEquals('f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getRecordId());
         $this->assertEquals('SAT- Writing Section- Social Science and History (All participants)', $aRecord->getName());
-        $this->assertEquals(true, $aRecord->isPublished());
+        $this->assertTrue($aRecord->isPublished());
         $this->assertEquals('published', $aRecord->getState());
         $this->assertEquals(1462980100026, $aRecord->getStartTime());
         $this->assertEquals(1462986640649, $aRecord->getEndTime());
@@ -56,7 +57,7 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals('presentation', $aRecord->getPlaybackFormats()[0]->getType());
         $this->assertEquals('http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getPlaybackFormats()[0]->getUrl());
         $this->assertEquals(86, $aRecord->getPlaybackFormats()[0]->getLength());
-        $this->assertEquals(9, sizeof($aRecord->getMetas()));
+        $this->assertEquals(9, \count($aRecord->getMetas()));
     }
 
     public function testRecordMetadataContent()
@@ -81,7 +82,7 @@ class GetRecordingsResponseTest extends TestCase
 
     public function testMultiplePlaybackFormats(): void
     {
-        $record  = $this->records->getRecords()[6];
+        $record = $this->records->getRecords()[6];
         $formats = $record->getPlaybackFormats();
 
         $this->assertCount(2, $formats);
@@ -99,7 +100,7 @@ class GetRecordingsResponseTest extends TestCase
 
     public function testImagePreviews(): void
     {
-        $record  = $this->records->getRecords()[6];
+        $record = $this->records->getRecords()[6];
         $formats = $record->getPlaybackFormats();
 
         $this->assertTrue($formats[1]->hasImagePreviews());

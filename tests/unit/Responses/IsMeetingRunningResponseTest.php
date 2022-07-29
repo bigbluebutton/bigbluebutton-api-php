@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\IsMeetingRunningResponse;
@@ -28,11 +29,11 @@ class IsMeetingRunningResponseTest extends TestCase
      */
     private $running;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'is_meeting_running.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'is_meeting_running.xml');
 
         $this->running = new IsMeetingRunningResponse($xml);
     }
@@ -40,7 +41,7 @@ class IsMeetingRunningResponseTest extends TestCase
     public function testIsMeetingRunningResponseContent()
     {
         $this->assertEquals('SUCCESS', $this->running->getReturnCode());
-        $this->assertEquals(true, $this->running->isRunning());
+        $this->assertTrue($this->running->isRunning());
 
         $this->assertEquals('<?xmlversion="1.0"?><response><returncode>SUCCESS</returncode><running>true</running></response>', $this->minifyString($this->running->getRawXml()->asXML()));
     }

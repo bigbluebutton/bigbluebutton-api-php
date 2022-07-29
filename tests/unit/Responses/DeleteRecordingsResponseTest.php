@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Responses\DeleteRecordingsResponse;
@@ -28,11 +29,11 @@ class DeleteRecordingsResponseTest extends TestCase
      */
     private $delete;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'delete_recordings.xml');
+        $xml = $this->loadXmlFile(__DIR__.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'..'.\DIRECTORY_SEPARATOR.'fixtures'.\DIRECTORY_SEPARATOR.'delete_recordings.xml');
 
         $this->delete = new DeleteRecordingsResponse($xml);
     }
@@ -40,7 +41,7 @@ class DeleteRecordingsResponseTest extends TestCase
     public function testDeleteRecordingsResponseContent()
     {
         $this->assertEquals('SUCCESS', $this->delete->getReturnCode());
-        $this->assertEquals(true, $this->delete->isDeleted());
+        $this->assertTrue($this->delete->isDeleted());
     }
 
     public function testDeleteRecordingsResponseTypes()

@@ -16,16 +16,16 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Responses;
 
 /**
- * Class CreateMeetingResponse
- * @package BigBlueButton\Responses
+ * Class CreateMeetingResponse.
  */
 class CreateMeetingResponse extends BaseResponse
 {
-    const KEY_DUPLICATE_WARNING = 'duplicateWarning';
-    const KEY_ID_NOT_UNIQUE     = 'idNotUnique';
+    public const KEY_DUPLICATE_WARNING = 'duplicateWarning';
+    public const KEY_ID_NOT_UNIQUE = 'idNotUnique';
 
     /**
      * @return string
@@ -103,9 +103,6 @@ class CreateMeetingResponse extends BaseResponse
         return $this->rawXml->createDate->__toString();
     }
 
-    /**
-     * @return bool
-     */
     public function hasUserJoined(): bool
     {
         return $this->rawXml->hasUserJoined->__toString() === 'true';
@@ -127,17 +124,11 @@ class CreateMeetingResponse extends BaseResponse
         return $this->rawXml->hasBeenForciblyEnded->__toString() === 'true';
     }
 
-    /**
-     * @return bool
-     */
     public function isDuplicate(): bool
     {
         return $this->getMessageKey() === self::KEY_DUPLICATE_WARNING;
     }
 
-    /**
-     * @return bool
-     */
     public function isIdNotUnique(): bool
     {
         return $this->getMessageKey() === self::KEY_ID_NOT_UNIQUE;

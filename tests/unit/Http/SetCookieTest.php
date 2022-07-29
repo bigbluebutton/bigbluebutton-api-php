@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Copyright (c) 2015 Michael Dowling, https://github.com/mtdowling <mtdowling@gmail.com>
+ * Copyright (c) 2015 Michael Dowling, https://github.com/mtdowling <mtdowling@gmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,14 @@ declare(strict_types=1);
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace BigBlueButton\Http;
 
 use PHPUnit\Framework\TestCase;
 
 /**
  * Test of Value object for HTTP cookies,
- * based on https://github.com/guzzle/guzzle/blob/master/tests/Cookie/SetCookieTest.php
+ * based on https://github.com/guzzle/guzzle/blob/master/tests/Cookie/SetCookieTest.php.
  *
  * @covers \BigBlueButton\Http\SetCookie
  */
@@ -49,26 +50,26 @@ final class SetCookieTest extends TestCase
 
     public function testAddsExpiresBasedOnMaxAge(): void
     {
-        $t      = \time();
+        $t = time();
         $cookie = new SetCookie(['Max-Age' => 100]);
         self::assertEquals($t + 100, $cookie->getExpires());
     }
 
     public function testHoldsValues(): void
     {
-        $t    = \time();
+        $t = time();
         $data = [
-            'Name'     => 'foo',
-            'Value'    => 'baz',
-            'Path'     => '/bar',
-            'Domain'   => 'baz.com',
-            'Expires'  => $t,
-            'Max-Age'  => 100,
-            'Secure'   => true,
-            'Discard'  => true,
+            'Name' => 'foo',
+            'Value' => 'baz',
+            'Path' => '/bar',
+            'Domain' => 'baz.com',
+            'Expires' => $t,
+            'Max-Age' => 100,
+            'Secure' => true,
+            'Discard' => true,
             'HttpOnly' => true,
-            'foo'      => 'baz',
-            'bar'      => 'bam'
+            'foo' => 'baz',
+            'bar' => 'bam',
         ];
 
         $cookie = new SetCookie($data);
@@ -112,7 +113,7 @@ final class SetCookieTest extends TestCase
         $c = new SetCookie();
         $c->setExpires(10);
         self::assertTrue($c->isExpired());
-        $c->setExpires(\time() + 10000);
+        $c->setExpires(time() + 10000);
         self::assertFalse($c->isExpired());
     }
 
@@ -200,8 +201,8 @@ final class SetCookieTest extends TestCase
     public function testValidatesCookies(string $name, ?string $value, string $domain, $result): void
     {
         $cookie = new SetCookie([
-            'Name'   => $name,
-            'Value'  => $value,
+            'Name' => $name,
+            'Value' => $value,
             'Domain' => $domain,
         ]);
         self::assertSame($result, $cookie->validate());
@@ -215,15 +216,15 @@ final class SetCookieTest extends TestCase
 
     public function testConvertsToString(): void
     {
-        $t      = 1382916008;
+        $t = 1382916008;
         $cookie = new SetCookie([
-            'Name'     => 'test',
-            'Value'    => '123',
-            'Domain'   => 'foo.com',
-            'Expires'  => $t,
-            'Path'     => '/abc',
+            'Name' => 'test',
+            'Value' => '123',
+            'Domain' => 'foo.com',
+            'Expires' => $t,
+            'Path' => '/abc',
             'HttpOnly' => true,
-            'Secure'   => true
+            'Secure' => true,
         ]);
         self::assertSame(
             'test=123; Domain=foo.com; Path=/abc; Expires=Sun, 27 Oct 2013 23:20:08 GMT; Secure; HttpOnly',
@@ -232,9 +233,7 @@ final class SetCookieTest extends TestCase
     }
 
     /**
-     * Provides the parsed information from a cookie
-     *
-     * @return array
+     * Provides the parsed information from a cookie.
      */
     public function cookieParserDataProvider(): array
     {
@@ -242,17 +241,17 @@ final class SetCookieTest extends TestCase
             [
                 'ASIHTTPRequestTestCookie=This+is+the+value; expires=Sat, 26-Jul-2008 17:00:42 GMT; path=/tests; domain=allseeing-i.com; PHPSESSID=6c951590e7a9359bcedde25cda73e43c; path=/;',
                 [
-                    'Domain'    => 'allseeing-i.com',
-                    'Path'      => '/',
+                    'Domain' => 'allseeing-i.com',
+                    'Path' => '/',
                     'PHPSESSID' => '6c951590e7a9359bcedde25cda73e43c',
-                    'Max-Age'   => null,
-                    'Expires'   => 'Sat, 26-Jul-2008 17:00:42 GMT',
-                    'Secure'    => null,
-                    'Discard'   => null,
-                    'Name'      => 'ASIHTTPRequestTestCookie',
-                    'Value'     => 'This+is+the+value',
-                    'HttpOnly'  => false
-                ]
+                    'Max-Age' => null,
+                    'Expires' => 'Sat, 26-Jul-2008 17:00:42 GMT',
+                    'Secure' => null,
+                    'Discard' => null,
+                    'Name' => 'ASIHTTPRequestTestCookie',
+                    'Value' => 'This+is+the+value',
+                    'HttpOnly' => false,
+                ],
             ],
             ['', []],
             ['foo', []],
@@ -260,132 +259,132 @@ final class SetCookieTest extends TestCase
             [
                 'foo="bar"',
                 [
-                    'Name'     => 'foo',
-                    'Value'    => '"bar"',
-                    'Discard'  => null,
-                    'Domain'   => null,
-                    'Expires'  => null,
-                    'Max-Age'  => null,
-                    'Path'     => '/',
-                    'Secure'   => null,
-                    'HttpOnly' => false
-                ]
+                    'Name' => 'foo',
+                    'Value' => '"bar"',
+                    'Discard' => null,
+                    'Domain' => null,
+                    'Expires' => null,
+                    'Max-Age' => null,
+                    'Path' => '/',
+                    'Secure' => null,
+                    'HttpOnly' => false,
+                ],
             ],
             // Test setting a blank value for a cookie
             [[
-                'foo=', 'foo =', 'foo =;', 'foo= ;', 'foo =', 'foo= '],
+                'foo=', 'foo =', 'foo =;', 'foo= ;', 'foo =', 'foo= ', ],
                 [
-                    'Name'     => 'foo',
-                    'Value'    => '',
-                    'Discard'  => null,
-                    'Domain'   => null,
-                    'Expires'  => null,
-                    'Max-Age'  => null,
-                    'Path'     => '/',
-                    'Secure'   => null,
-                    'HttpOnly' => false
-                ]
+                    'Name' => 'foo',
+                    'Value' => '',
+                    'Discard' => null,
+                    'Domain' => null,
+                    'Expires' => null,
+                    'Max-Age' => null,
+                    'Path' => '/',
+                    'Secure' => null,
+                    'HttpOnly' => false,
+                ],
             ],
             // Test setting a value and removing quotes
             [[
-                'foo=1', 'foo =1', 'foo =1;', 'foo=1 ;', 'foo =1', 'foo= 1', 'foo = 1 ;'],
+                'foo=1', 'foo =1', 'foo =1;', 'foo=1 ;', 'foo =1', 'foo= 1', 'foo = 1 ;', ],
                 [
-                    'Name'     => 'foo',
-                    'Value'    => '1',
-                    'Discard'  => null,
-                    'Domain'   => null,
-                    'Expires'  => null,
-                    'Max-Age'  => null,
-                    'Path'     => '/',
-                    'Secure'   => null,
-                    'HttpOnly' => false
-                ]
+                    'Name' => 'foo',
+                    'Value' => '1',
+                    'Discard' => null,
+                    'Domain' => null,
+                    'Expires' => null,
+                    'Max-Age' => null,
+                    'Path' => '/',
+                    'Secure' => null,
+                    'HttpOnly' => false,
+                ],
             ],
             // Some of the following tests are based on https://github.com/zendframework/zf1/blob/master/tests/Zend/Http/CookieTest.php
             [
                 'justacookie=foo; domain=example.com',
                 [
-                    'Name'     => 'justacookie',
-                    'Value'    => 'foo',
-                    'Domain'   => 'example.com',
-                    'Discard'  => null,
-                    'Expires'  => null,
-                    'Max-Age'  => null,
-                    'Path'     => '/',
-                    'Secure'   => null,
-                    'HttpOnly' => false
-                ]
+                    'Name' => 'justacookie',
+                    'Value' => 'foo',
+                    'Domain' => 'example.com',
+                    'Discard' => null,
+                    'Expires' => null,
+                    'Max-Age' => null,
+                    'Path' => '/',
+                    'Secure' => null,
+                    'HttpOnly' => false,
+                ],
             ],
             [
                 'expires=tomorrow; secure; path=/Space Out/; expires=Tue, 21-Nov-2006 08:33:44 GMT; domain=.example.com',
                 [
-                    'Name'     => 'expires',
-                    'Value'    => 'tomorrow',
-                    'Domain'   => '.example.com',
-                    'Path'     => '/Space Out/',
-                    'Expires'  => 'Tue, 21-Nov-2006 08:33:44 GMT',
-                    'Discard'  => null,
-                    'Secure'   => true,
-                    'Max-Age'  => null,
-                    'HttpOnly' => false
-                ]
+                    'Name' => 'expires',
+                    'Value' => 'tomorrow',
+                    'Domain' => '.example.com',
+                    'Path' => '/Space Out/',
+                    'Expires' => 'Tue, 21-Nov-2006 08:33:44 GMT',
+                    'Discard' => null,
+                    'Secure' => true,
+                    'Max-Age' => null,
+                    'HttpOnly' => false,
+                ],
             ],
             [
                 'domain=unittests; expires=Tue, 21-Nov-2006 08:33:44 GMT; domain=example.com; path=/some value/',
                 [
-                    'Name'     => 'domain',
-                    'Value'    => 'unittests',
-                    'Domain'   => 'example.com',
-                    'Path'     => '/some value/',
-                    'Expires'  => 'Tue, 21-Nov-2006 08:33:44 GMT',
-                    'Secure'   => false,
-                    'Discard'  => null,
-                    'Max-Age'  => null,
-                    'HttpOnly' => false
-                ]
+                    'Name' => 'domain',
+                    'Value' => 'unittests',
+                    'Domain' => 'example.com',
+                    'Path' => '/some value/',
+                    'Expires' => 'Tue, 21-Nov-2006 08:33:44 GMT',
+                    'Secure' => false,
+                    'Discard' => null,
+                    'Max-Age' => null,
+                    'HttpOnly' => false,
+                ],
             ],
             [
                 'path=indexAction; path=/; domain=.foo.com; expires=Tue, 21-Nov-2006 08:33:44 GMT',
                 [
-                    'Name'     => 'path',
-                    'Value'    => 'indexAction',
-                    'Domain'   => '.foo.com',
-                    'Path'     => '/',
-                    'Expires'  => 'Tue, 21-Nov-2006 08:33:44 GMT',
-                    'Secure'   => false,
-                    'Discard'  => null,
-                    'Max-Age'  => null,
-                    'HttpOnly' => false
-                ]
+                    'Name' => 'path',
+                    'Value' => 'indexAction',
+                    'Domain' => '.foo.com',
+                    'Path' => '/',
+                    'Expires' => 'Tue, 21-Nov-2006 08:33:44 GMT',
+                    'Secure' => false,
+                    'Discard' => null,
+                    'Max-Age' => null,
+                    'HttpOnly' => false,
+                ],
             ],
             [
                 'secure=sha1; secure; SECURE; domain=some.really.deep.domain.com; version=1; Max-Age=86400',
                 [
-                    'Name'     => 'secure',
-                    'Value'    => 'sha1',
-                    'Domain'   => 'some.really.deep.domain.com',
-                    'Path'     => '/',
-                    'Secure'   => true,
-                    'Discard'  => null,
-                    'Expires'  => \time() + 86400,
-                    'Max-Age'  => 86400,
+                    'Name' => 'secure',
+                    'Value' => 'sha1',
+                    'Domain' => 'some.really.deep.domain.com',
+                    'Path' => '/',
+                    'Secure' => true,
+                    'Discard' => null,
+                    'Expires' => time() + 86400,
+                    'Max-Age' => 86400,
                     'HttpOnly' => false,
-                    'version'  => '1'
-                ]
+                    'version' => '1',
+                ],
             ],
             [
                 'PHPSESSID=123456789+abcd%2Cef; secure; discard; domain=.localdomain; path=/foo/baz; expires=Tue, 21-Nov-2006 08:33:44 GMT;',
                 [
-                    'Name'     => 'PHPSESSID',
-                    'Value'    => '123456789+abcd%2Cef',
-                    'Domain'   => '.localdomain',
-                    'Path'     => '/foo/baz',
-                    'Expires'  => 'Tue, 21-Nov-2006 08:33:44 GMT',
-                    'Secure'   => true,
-                    'Discard'  => true,
-                    'Max-Age'  => null,
-                    'HttpOnly' => false
-                ]
+                    'Name' => 'PHPSESSID',
+                    'Value' => '123456789+abcd%2Cef',
+                    'Domain' => '.localdomain',
+                    'Path' => '/foo/baz',
+                    'Expires' => 'Tue, 21-Nov-2006 08:33:44 GMT',
+                    'Secure' => true,
+                    'Discard' => true,
+                    'Max-Age' => null,
+                    'HttpOnly' => false,
+                ],
             ],
         ];
     }
@@ -402,30 +401,30 @@ final class SetCookieTest extends TestCase
             $p = $c->toArray();
 
             if (isset($p['Expires'])) {
-                $delta         = 40;
-                $parsedExpires = \is_numeric($parsed['Expires']) ? $parsed['Expires'] : \strtotime($parsed['Expires']);
-                self::assertLessThan($delta, \abs($p['Expires'] - $parsedExpires), 'Comparing Expires ' . \var_export($p['Expires'], true) . ' : ' . \var_export($parsed, true) . ' | ' . \var_export($p, true));
+                $delta = 40;
+                $parsedExpires = is_numeric($parsed['Expires']) ? $parsed['Expires'] : strtotime($parsed['Expires']);
+                self::assertLessThan($delta, abs($p['Expires'] - $parsedExpires), 'Comparing Expires '.var_export($p['Expires'], true).' : '.var_export($parsed, true).' | '.var_export($p, true));
                 unset($p['Expires']);
                 unset($parsed['Expires']);
             }
 
             if (!empty($parsed)) {
                 foreach ($parsed as $key => $value) {
-                    self::assertEquals($parsed[$key], $p[$key], 'Comparing ' . $key . ' ' . \var_export($value, true) . ' : ' . \var_export($parsed, true) . ' | ' . \var_export($p, true));
+                    self::assertEquals($parsed[$key], $p[$key], 'Comparing '.$key.' '.var_export($value, true).' : '.var_export($parsed, true).' | '.var_export($p, true));
                 }
                 foreach ($p as $key => $value) {
-                    self::assertEquals($p[$key], $parsed[$key], 'Comparing ' . $key . ' ' . \var_export($value, true) . ' : ' . \var_export($parsed, true) . ' | ' . \var_export($p, true));
+                    self::assertEquals($p[$key], $parsed[$key], 'Comparing '.$key.' '.var_export($value, true).' : '.var_export($parsed, true).' | '.var_export($p, true));
                 }
             } else {
                 self::assertSame([
-                    'Name'     => null,
-                    'Value'    => null,
-                    'Domain'   => null,
-                    'Path'     => '/',
-                    'Max-Age'  => null,
-                    'Expires'  => null,
-                    'Secure'   => false,
-                    'Discard'  => false,
+                    'Name' => null,
+                    'Value' => null,
+                    'Domain' => null,
+                    'Path' => '/',
+                    'Max-Age' => null,
+                    'Expires' => null,
+                    'Secure' => false,
+                    'Discard' => false,
                     'HttpOnly' => false,
                 ], $p);
             }
@@ -433,9 +432,7 @@ final class SetCookieTest extends TestCase
     }
 
     /**
-     * Provides the data for testing isExpired
-     *
-     * @return array
+     * Provides the data for testing isExpired.
      */
     public function isExpiredProvider(): array
     {
@@ -449,11 +446,11 @@ final class SetCookieTest extends TestCase
                 true,
             ],
             [
-                'FOO=bar; expires=' . \date(\DateTime::RFC1123, \time() + 10) . ';',
+                'FOO=bar; expires='.date(\DateTime::RFC1123, time() + 10).';',
                 false,
             ],
             [
-                'FOO=bar; expires=' . \date(\DateTime::RFC1123, \time() - 10) . ';',
+                'FOO=bar; expires='.date(\DateTime::RFC1123, time() - 10).';',
                 true,
             ],
             [
