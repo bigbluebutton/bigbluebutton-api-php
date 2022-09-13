@@ -18,11 +18,12 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Core;
+namespace BigBlueButton\Enum;
 
-class GuestPolicy
+use MabeEnum\Enum;
+
+class Role extends Enum
 {
-    public const ALWAYS_ACCEPT = 'ALWAYS_ACCEPT';
-    public const ALWAYS_DENY   = 'ALWAYS_DENY';
-    public const ASK_MODERATOR = 'ASK_MODERATOR';
+    public const MODERATOR = 'MODERATOR';
+    public const VIEWER    = 'VIEWER';
 }

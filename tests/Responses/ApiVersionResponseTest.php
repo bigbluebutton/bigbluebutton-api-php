@@ -18,9 +18,8 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Responses;
 
-use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\TestCase;
 
 /**

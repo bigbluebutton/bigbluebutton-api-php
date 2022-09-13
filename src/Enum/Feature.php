@@ -18,24 +18,20 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Enum;
 
-use BigBlueButton\TestCase;
+use MabeEnum\Enum;
 
-/**
- * @internal
- * @coversNothing
- */
-class GetMeetingInfoParametersTest extends TestCase
+class Feature extends Enum
 {
-    public function testGetMeetingInfoParameters()
-    {
-        $getMeetingInfoParams = new GetMeetingInfoParameters($meetingId = $this->faker->uuid, $password = $this->faker->password());
-
-        $this->assertEquals($meetingId, $getMeetingInfoParams->getMeetingId());
-
-        // Test setters that are ignored by the constructor
-        $getMeetingInfoParams->setMeetingId($newId = $this->faker->uuid);
-        $this->assertEquals($newId, $getMeetingInfoParams->getMeetingId());
-    }
+    public const BREAKOUT_ROOMS      = 'breakoutRooms';
+    public const CAPTIONS            = 'captions';
+    public const CHAT                = 'chat';
+    public const EXTERNAL_VIDEOS     = 'externalVideos';
+    public const LAYOUTS             = 'layouts';
+    public const LEARNING_DASHBOARD  = 'learningDashboard';
+    public const POLLS               = 'polls';
+    public const SCREENSHARE         = 'screenshare';
+    public const SHARED_NOTES        = 'sharedNotes';
+    public const VIRTUAL_BACKGROUNDS = 'virtualBackgrounds';
 }

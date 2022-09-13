@@ -37,6 +37,8 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @var string
+     *
+     * @deprecated
      */
     private $password;
 
@@ -58,11 +60,6 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @var string
      */
-    private $configToken;
-
-    /**
-     * @var string
-     */
     private $avatarURL;
 
     /**
@@ -71,7 +68,7 @@ class JoinMeetingParameters extends UserDataParameters
     private $redirect;
 
     /**
-     * @var
+     * @var string
      */
     private $clientURL;
 
@@ -79,6 +76,16 @@ class JoinMeetingParameters extends UserDataParameters
      * @var array
      */
     private $customParameters;
+
+    /**
+     * @var string
+     */
+    private $role;
+
+    /**
+     * @var bool
+     */
+    private $excludeFromDashboard;
 
     /**
      * JoinMeetingParametersTest constructor.
@@ -136,6 +143,8 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
+     * @deprecated
+     *
      * @return string
      */
     public function getPassword()
@@ -145,6 +154,8 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      * @param string $password
+     *
+     * @deprecated
      *
      * @return JoinMeetingParameters
      */
@@ -218,26 +229,6 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @return string
      */
-    public function getConfigToken()
-    {
-        return $this->configToken;
-    }
-
-    /**
-     * @param string $configToken
-     *
-     * @return JoinMeetingParameters
-     */
-    public function setConfigToken($configToken)
-    {
-        $this->configToken = $configToken;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getAvatarURL()
     {
         return $this->avatarURL;
@@ -296,6 +287,42 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param string $role
+     */
+    public function setRole($role): JoinMeetingParameters
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExcludeFromDashboard()
+    {
+        return $this->excludeFromDashboard;
+    }
+
+    /**
+     * @param bool $excludeFromDashboard
+     */
+    public function setExcludeFromDashboard($excludeFromDashboard): JoinMeetingParameters
+    {
+        $this->excludeFromDashboard = $excludeFromDashboard;
+
+        return $this;
+    }
+
+    /**
      * @param string $paramName
      * @param string $paramValue
      *
@@ -314,16 +341,17 @@ class JoinMeetingParameters extends UserDataParameters
     public function getHTTPQuery()
     {
         $queries = [
-            'meetingID'    => $this->meetingId,
-            'fullName'     => $this->username,
-            'password'     => $this->password,
-            'userID'       => $this->userId,
-            'webVoiceConf' => $this->webVoiceConf,
-            'createTime'   => $this->creationTime,
-            'configToken'  => $this->configToken,
-            'avatarURL'    => $this->avatarURL,
-            'redirect'     => $this->redirect ? 'true' : 'false',
-            'clientURL'    => $this->clientURL,
+            'meetingID'            => $this->meetingId,
+            'fullName'             => $this->username,
+            'password'             => $this->password,
+            'userID'               => $this->userId,
+            'webVoiceConf'         => $this->webVoiceConf,
+            'createTime'           => $this->creationTime,
+            'role'                 => $this->role,
+            'excludeFromDashboard' => $this->excludeFromDashboard ? 'true' : 'false',
+            'avatarURL'            => $this->avatarURL,
+            'redirect'             => $this->redirect ? 'true' : 'false',
+            'clientURL'            => $this->clientURL,
         ];
 
         foreach ($this->customParameters as $key => $value) {

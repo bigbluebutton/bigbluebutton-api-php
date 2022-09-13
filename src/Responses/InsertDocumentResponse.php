@@ -18,12 +18,8 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Core;
+namespace BigBlueButton\Responses;
 
-class MeetingLayout
+class InsertDocumentResponse extends BaseResponse
 {
-    public const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
-    public const SMART_LAYOUT       = 'SMART_LAYOUT';
-    public const PRESENTATION_FOCUS = 'PRESENTATION_FOCUS';
-    public const VIDEO_FOCUS        = 'VIDEO_FOCUS';
 }

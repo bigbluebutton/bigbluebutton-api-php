@@ -20,8 +20,10 @@
 
 namespace BigBlueButton;
 
-use BigBlueButton\Core\GuestPolicy;
-use BigBlueButton\Core\MeetingLayout;
+use BigBlueButton\Enum\Feature;
+use BigBlueButton\Enum\GuestPolicy;
+use BigBlueButton\Enum\MeetingLayout;
+use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
@@ -155,25 +157,46 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsLockedLayout'               => $this->faker->boolean(50),
             'lockSettingsLockOnJoin'                 => $this->faker->boolean(50),
             'lockSettingsLockOnJoinConfigurable'     => $this->faker->boolean(50),
+            'lockSettingsHideViewersCursor'          => $this->faker->boolean(50),
             'allowModsToUnmuteUsers'                 => $this->faker->boolean(50),
             'allowModsToEjectCameras'                => $this->faker->boolean(50),
-            'guestPolicy'                            => $this->faker->randomElement([GuestPolicy::ALWAYS_ACCEPT, GuestPolicy::ALWAYS_DENY, GuestPolicy::ASK_MODERATOR]),
+            'guestPolicy'                            => $this->faker->randomElement(GuestPolicy::getValues()),
             'endWhenNoModerator'                     => $this->faker->boolean(50),
             'endWhenNoModeratorDelayInMinutes'       => $this->faker->numberBetween(1, 30),
             'meetingKeepEvents'                      => $this->faker->boolean(50),
             'learningDashboardEnabled'               => $this->faker->boolean(50),
+            'virtualBackgroundsDisabled'             => $this->faker->boolean(50),
             'learningDashboardCleanupDelayInMinutes' => $this->faker->numberBetween(1, 30),
+            'allowRequestsWithoutSession'            => $this->faker->boolean(50),
+            'userCameraCap'                          => $this->faker->numberBetween(1, 5),
             'bannerText'                             => $this->faker->sentence,
             'bannerColor'                            => $this->faker->hexColor,
             'breakoutRoomsEnabled'                   => $this->faker->boolean(50),
             'breakoutRoomsRecord'                    => $this->faker->boolean(50),
             'breakoutRoomsPrivateChatEnabled'        => $this->faker->boolean(50),
             'meetingEndedURL'                        => $this->faker->url,
-            'meetingLayout'                          => $this->faker->randomElement([MeetingLayout::CUSTOM_LAYOUT, MeetingLayout::SMART_LAYOUT, MeetingLayout::PRESENTATION_FOCUS, MeetingLayout::VIDEO_FOCUS]),
+            'meetingLayout'                          => $this->faker->randomElement(MeetingLayout::getValues()),
+            'meetingCameraCap'                       => $this->faker->numberBetween(1, 3),
+            'meetingExpireIfNoUserJoinedInMinutes'   => $this->faker->numberBetween(1, 10),
+            'meetingExpireWhenLastUserLeftInMinutes' => $this->faker->numberBetween(5, 15),
+            'preUploadedPresentationOverrideDefault' => $this->faker->boolean,
+            'groups'                                 => $this->generateBreakoutRoomsGroups(),
+            'disabledFeatures'                       => $this->faker->randomElements(Feature::getValues()),
             'meta_presenter'                         => $this->faker->name,
             'meta_endCallbackUrl'                    => $this->faker->url,
             'meta_bbb-recording-ready-url'           => $this->faker->url,
         ];
+    }
+
+    protected function generateBreakoutRoomsGroups()
+    {
+        $br     = $this->faker->numberBetween(0, 8);
+        $groups = [];
+        for ($i = 0; $i <= $br; ++$i) {
+            $groups[] = ['id' => $this->faker->uuid, 'name' => $this->faker->name, 'roster' => $this->faker->randomElements];
+        }
+
+        return $groups;
     }
 
     /**
@@ -200,6 +223,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         $createMeetingParams = new CreateMeetingParameters($params['meetingId'], $params['meetingName']);
 
+        foreach ($params['groups'] as $group) {
+            $createMeetingParams->addBreakoutRoomsGroup($group['id'], $group['name'], $group['roster']);
+        }
+
         return $createMeetingParams
             ->setAttendeePassword($params['attendeePassword'])
             ->setModeratorPassword($params['moderatorPassword'])
@@ -218,6 +245,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setLogo($params['logo'])
             ->setCopyright($params['copyright'])
             ->setEndCallbackUrl($params['meta_endCallbackUrl'])
+            ->setRecordingReadyCallbackUrl($params['meta_bbb-recording-ready-url'])
             ->setMuteOnStart($params['muteOnStart'])
             ->setLockSettingsDisableCam($params['lockSettingsDisableCam'])
             ->setLockSettingsDisableMic($params['lockSettingsDisableMic'])
@@ -228,6 +256,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
             ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])
             ->setLockSettingsLockOnJoinConfigurable($params['lockSettingsLockOnJoinConfigurable'])
+            ->setLockSettingsHideViewersCursor($params['lockSettingsHideViewersCursor'])
             ->setEndWhenNoModerator($params['endWhenNoModerator'])
             ->setEndWhenNoModeratorDelayInMinutes($params['endWhenNoModeratorDelayInMinutes'])
             ->setAllowModsToUnmuteUsers($params['allowModsToUnmuteUsers'])
@@ -235,6 +264,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setGuestPolicy($params['guestPolicy'])
             ->setMeetingKeepEvents($params['meetingKeepEvents'])
             ->setLearningDashboardEnabled($params['learningDashboardEnabled'])
+            ->setVirtualBackgroundsDisabled($params['virtualBackgroundsDisabled'])
             ->setLearningDashboardCleanupDelayInMinutes($params['learningDashboardCleanupDelayInMinutes'])
             ->setBannerColor($params['bannerColor'])
             ->setBannerText($params['bannerText'])
@@ -243,6 +273,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setBreakoutRoomsPrivateChatEnabled($params['breakoutRoomsPrivateChatEnabled'])
             ->setMeetingEndedURL($params['meetingEndedURL'])
             ->setMeetingLayout($params['meetingLayout'])
+            ->setAllowRequestsWithoutSession($params['allowRequestsWithoutSession'])
+            ->setUserCameraCap($params['userCameraCap'])
+            ->setMeetingCameraCap($params['meetingCameraCap'])
+            ->setMeetingExpireIfNoUserJoinedInMinutes($params['meetingExpireIfNoUserJoinedInMinutes'])
+            ->setMeetingExpireWhenLastUserLeftInMinutes($params['meetingExpireWhenLastUserLeftInMinutes'])
+            ->setPreUploadedPresentationOverrideDefault($params['preUploadedPresentationOverrideDefault'])
+            ->setDisabledFeatures($params['disabledFeatures'])
             ->addMeta('presenter', $params['meta_presenter'])
             ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url'])
         ;
@@ -272,6 +309,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'userId'               => $this->faker->numberBetween(1, 1000),
             'webVoiceConf'         => $this->faker->word,
             'creationTime'         => $this->faker->unixTime,
+            'role'                 => $this->faker->randomElement(Role::getValues()),
+            'excludeFromDashboard' => $this->faker->boolean,
             'userdata_countrycode' => $this->faker->countryCode,
             'userdata_email'       => $this->faker->email,
             'userdata_commercial'  => false,
@@ -289,7 +328,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         return $joinMeetingParams->setUserId($params['userId'])->setWebVoiceConf($params['webVoiceConf'])
             ->setCreationTime($params['creationTime'])->addUserData('countrycode', $params['userdata_countrycode'])
-            ->addUserData('email', $params['userdata_email'])->addUserData('commercial', $params['userdata_commercial']);
+            ->setRole($params['role'])->addUserData('email', $params['userdata_email'])->addUserData('commercial', $params['userdata_commercial']);
     }
 
     /**
@@ -351,7 +390,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function loadXmlFile($path)
     {
-        return simplexml_load_string(file_get_contents(($path)));
+        return simplexml_load_string(file_get_contents($path));
     }
 
     protected function minifyString($string)

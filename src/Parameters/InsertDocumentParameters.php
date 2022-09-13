@@ -23,19 +23,9 @@ namespace BigBlueButton\Parameters;
 /**
  * Class EndMeetingParameters.
  */
-class EndMeetingParameters extends BaseParameters
+class InsertDocumentParameters extends BaseParameters
 {
-    /**
-     * @var string
-     */
-    private $meetingId;
-
-    /**
-     * @deprecated
-     *
-     * @var string
-     */
-    private $password;
+    use DocumentableTrait;
 
     /**
      * EndMeetingParameters constructor.

@@ -9,8 +9,8 @@ The official and easy to use **BigBlueButton API for PHP**, makes easy for devel
 ![PHP from Travis config](https://img.shields.io/travis/php-v/bigbluebutton/bigbluebutton-api-php.svg)
 [![Downloads](https://img.shields.io/packagist/dt/bigbluebutton/bigbluebutton-api-php.svg?style=flat-square)](https://packagist.org/packages/bigbluebutton/bigbluebutton-api-php)
 
-[![Build Status](https://travis-ci.org/bigbluebutton/bigbluebutton-api-php.svg?branch=master)](https://travis-ci.org/bigbluebutton/bigbluebutton-api-php)
-[![Coverage Status](https://coveralls.io/repos/github/bigbluebutton/bigbluebutton-api-php/badge.svg?branch=master)](https://coveralls.io/github/bigbluebutton/bigbluebutton-api-php?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/?branch=master)
 
 [![@bigbluebutton on Twitter](https://img.shields.io/badge/twitter-%40bigbluebutton-blue.svg?style=flat)](https://twitter.com/bigbluebutton)
@@ -37,7 +37,7 @@ Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutto
 Make sure the code style configuration is applied by running PHPCS-Fixer.
 
 ```
-./vendor/bin/php-cs-fixer fix
+composer cs-fix
 ```
 
 ### Running tests
@@ -45,7 +45,7 @@ Make sure the code style configuration is applied by running PHPCS-Fixer.
 For every implemented feature add unit tests and check all is green by running the command below.
 
 ```bash
-./vendor/bin/phpunit
+composer test
 ```
 
 To run a single test

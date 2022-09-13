@@ -29,6 +29,7 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
+use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
@@ -95,6 +96,7 @@ class BigBlueButton
     -- create
     -- join
     -- end
+    -- insertDocument
     */
 
     /**
@@ -167,6 +169,30 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getEndMeetingURL($endParams));
 
         return new EndMeetingResponse($xml);
+    }
+
+    /**
+     * @param CreateMeetingParameters $createMeetingParams
+     *
+     * @return string
+     */
+    public function getInsertDocumentUrl($createMeetingParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::INSERT_DOCUMENT, $createMeetingParams->getHTTPQuery());
+    }
+
+    /**
+     * @param InsertDocumentParameters $insertDocumentParams
+     *
+     * @throws \RuntimeException
+     *
+     * @return InsertDocumentResponse
+     */
+    public function insertDocument($insertDocumentParams)
+    {
+        $xml = $this->processXmlResponse($this->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
+
+        return new CreateMeetingResponse($xml);
     }
 
     // __________________ BBB MONITORING METHODS _________________

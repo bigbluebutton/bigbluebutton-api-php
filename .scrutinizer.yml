@@ -1,0 +1,31 @@
+build:
+  nodes:
+    analysis:
+      project_setup:
+        override: true
+      environment:
+        php:
+          version: 8.1
+          compile_options: '--with-openssl --with-curl --enable-mbstring --enable-mbregex --enable-bcmath --with-mhash --with-xmlrpc --enable-opcache --enable-intl --with-pear --enable-fpm --with-zlib-dir --enable-inline-optimization --with-bz2 --with-zlib'
+      tests:
+        override:
+          - php-scrutinizer-run --enable-security-analysis
+filter:
+  excluded_paths:
+    - 'tests/*'
+checks:
+  php:
+    uppercase_constants: true
+    remove_extra_empty_lines: true
+    function_in_camel_caps: true
+    avoid_fixme_comments: true
+    avoid_todo_comments: true
+
+coding_style:
+  php:
+    indentation:
+      general:
+        size: 1
+    spaces:
+      around_operators:
+        concatenation: false

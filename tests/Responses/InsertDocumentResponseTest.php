@@ -26,31 +26,31 @@ use BigBlueButton\TestCase;
  * @internal
  * @coversNothing
  */
-class DeleteRecordingsResponseTest extends TestCase
+class InsertDocumentResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\DeleteRecordingsResponse
+     * @var \BigBlueButton\Responses\InsertDocumentResponse
      */
-    private $delete;
+    private $insertDocument;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'delete_recordings.xml');
+        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'insert_document.xml');
 
-        $this->delete = new DeleteRecordingsResponse($xml);
+        $this->insertDocument = new InsertDocumentResponse($xml);
     }
 
-    public function testDeleteRecordingsResponseContent()
+    public function testInsertDocumentResponseContent()
     {
-        $this->assertEquals('SUCCESS', $this->delete->getReturnCode());
-        $this->assertEquals(true, $this->delete->isDeleted());
+        $this->assertEquals('SUCCESS', $this->insertDocument->getReturnCode());
+        $this->assertEquals('Presentation is being uploaded', $this->insertDocument->getMessage());
     }
 
-    public function testDeleteRecordingsResponseTypes()
+    public function testIsMeetingRunningResponseTypes()
     {
-        $this->assertEachGetterValueIsString($this->delete, ['getReturnCode']);
-        $this->assertEachGetterValueIsBoolean($this->delete, ['isDeleted']);
+        $this->assertEachGetterValueIsString($this->insertDocument, ['getReturnCode']);
+        $this->assertEachGetterValueIsBoolean($this->insertDocument, ['getMessage']);
     }
 }

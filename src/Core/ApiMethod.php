@@ -24,6 +24,7 @@ abstract class ApiMethod
 {
     public const CREATE             = 'create';
     public const JOIN               = 'join';
+    public const INSERT_DOCUMENT    = 'insertDocument';
     public const ENTER              = 'enter';
     public const END                = 'end';
     public const IS_MEETING_RUNNING = 'isMeetingRunning';
