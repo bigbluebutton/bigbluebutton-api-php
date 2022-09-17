@@ -20,7 +20,6 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Core\GuestPolicy;
-use BigBlueButton\Core\MeetingLayout;
 
 /**
  * @method string    getName()
@@ -124,40 +123,6 @@ use BigBlueButton\Core\MeetingLayout;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    /**
-     * @deprecated use GuestPolicy::ALWAYS_ACCEPT instead
-     */
-    public const ALWAYS_ACCEPT = GuestPolicy::ALWAYS_ACCEPT;
-    /**
-     * @deprecated use GuestPolicy::ALWAYS_DENY instead
-     */
-    public const ALWAYS_DENY = GuestPolicy::ALWAYS_DENY;
-    /**
-     * @deprecated use GuestPolicy::ASK_MODERATOR instead
-     */
-    public const ASK_MODERATOR = GuestPolicy::ASK_MODERATOR;
-    /**
-     * @deprecated use GuestPolicy::ALWAYS_ACCEPT_AUTH instead
-     */
-    public const ALWAYS_ACCEPT_AUTH = GuestPolicy::ALWAYS_ACCEPT_AUTH;
-
-    /**
-     * @deprecated use MeetingLayout::CUSTOM_LAYOUT instead
-     */
-    public const CUSTOM_LAYOUT = MeetingLayout::CUSTOM_LAYOUT;
-    /**
-     * @deprecated use MeetingLayout::SMART_LAYOUT instead
-     */
-    public const SMART_LAYOUT = MeetingLayout::SMART_LAYOUT;
-    /**
-     * @deprecated use MeetingLayout::PRESENTATION_FOCUS instead
-     */
-    public const PRESENTATION_FOCUS = MeetingLayout::PRESENTATION_FOCUS;
-    /**
-     * @deprecated use MeetingLayout::VIDEO_FOCUS instead
-     */
-    public const VIDEO_FOCUS = MeetingLayout::VIDEO_FOCUS;
-
     /**
      * @var string
      */
@@ -462,9 +427,6 @@ class CreateMeetingParameters extends MetaParameters
         return $this->userCameraCap === 0;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
     public function disableUserCameraCap(): self
     {
         $this->userCameraCap = 0;
@@ -535,7 +497,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function isGuestPolicyAlwaysAccept()
     {
-        return $this->guestPolicy === self::ALWAYS_ACCEPT;
+        return $this->guestPolicy === GuestPolicy::ALWAYS_ACCEPT;
     }
 
     /**
@@ -543,7 +505,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function setGuestPolicyAlwaysAccept()
     {
-        $this->guestPolicy = self::ALWAYS_ACCEPT;
+        $this->guestPolicy = GuestPolicy::ALWAYS_ACCEPT;
 
         return $this;
     }
