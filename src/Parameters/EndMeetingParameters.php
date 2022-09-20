@@ -44,26 +44,4 @@ class EndMeetingParameters extends BaseParameters
         $this->password = $password;
         $this->meetingID = $meetingID;
     }
-
-    /**
-     * @deprecated use getMeetingID()
-     *
-     * @return string
-     */
-    public function getMeetingId()
-    {
-        return $this->meetingID;
-    }
-
-    /**
-     * @deprecated use setMeetingID()
-     *
-     * @return EndMeetingParameters
-     */
-    public function setMeetingId(string $meetingID)
-    {
-        $this->meetingID = $meetingID;
-
-        return $this;
-    }
 }

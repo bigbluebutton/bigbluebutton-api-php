@@ -150,8 +150,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         $createMeetingParams = new CreateMeetingParameters($params['meetingID'], $params['name']);
 
-        return $createMeetingParams->setAttendeePassword($params['attendeePW'])
-            ->setModeratorPassword($params['moderatorPW'])
+        return $createMeetingParams->setAttendeePW($params['attendeePW'])
+            ->setModeratorPW($params['moderatorPW'])
             ->setDialNumber($params['dialNumber'])
             ->setVoiceBridge($params['voiceBridge'])
             ->setWebVoice($params['webVoice'])
@@ -210,7 +210,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         $createMeetingParams = $this->getCreateMock($params);
 
-        return $createMeetingParams->setBreakout($params['isBreakout'])->setParentMeetingId($params['parentMeetingId'])->
+        return $createMeetingParams->setBreakout($params['isBreakout'])->setParentMeetingID($params['parentMeetingId'])->
         setSequence($params['sequence'])->setFreeJoin($params['freeJoin']);
     }
 
@@ -240,8 +240,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         $joinMeetingParams = new JoinMeetingParameters($params['meetingID'], $params['fullName'], $params['password']);
 
-        return $joinMeetingParams->setUserId($params['userID'])->setWebVoiceConf($params['webVoiceConf'])
-            ->setCreationTime($params['createTime'])->addUserData('countrycode', $params['userdata-countrycode'])
+        return $joinMeetingParams->setUserID($params['userID'])->setWebVoiceConf($params['webVoiceConf'])
+            ->setCreateTime($params['createTime'])->addUserData('countrycode', $params['userdata-countrycode'])
             ->addUserData('email', $params['userdata-email'])->addUserData('commercial', $params['userdata-commercial']);
     }
 
@@ -304,7 +304,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function loadXmlFile($path)
     {
-        return simplexml_load_string(file_get_contents(($path)));
+        return simplexml_load_string(file_get_contents($path));
     }
 
     protected function loadJsonFile($path)

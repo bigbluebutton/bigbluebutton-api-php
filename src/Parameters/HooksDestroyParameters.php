@@ -34,26 +34,4 @@ class HooksDestroyParameters extends BaseParameters
     {
         $this->hookID = $hookID;
     }
-
-    /**
-     * @deprecated use getHookID() instead
-     *
-     * @return string
-     */
-    public function getHookId()
-    {
-        return $this->hookID;
-    }
-
-    /**
-     * @deprecated use setHookID() instead
-     *
-     * @return HooksDestroyParameters
-     */
-    public function setHookId(string $hookID)
-    {
-        $this->hookID = $hookID;
-
-        return $this;
-    }
 }

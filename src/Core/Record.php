@@ -32,9 +32,6 @@ class Record
     private $startTime;
     private $endTime;
     private $participantCount;
-    private $playbackType;
-    private $playbackUrl;
-    private $playbackLength;
     private $metas = [];
 
     /** @var PlaybackFormat[] */
@@ -125,36 +122,6 @@ class Record
     public function getParticipantCount()
     {
         return $this->participantCount;
-    }
-
-    /**
-     * @deprecated since 4.2. Use getPlaybackFormats() instead.
-     *
-     * @return string
-     */
-    public function getPlaybackType()
-    {
-        return $this->playbackType;
-    }
-
-    /**
-     * @deprecated since 4.2. Use getPlaybackFormats() instead.
-     *
-     * @return string
-     */
-    public function getPlaybackUrl()
-    {
-        return $this->playbackUrl;
-    }
-
-    /**
-     * @deprecated since 4.2. Use getPlaybackFormats() instead.
-     *
-     * @return string
-     */
-    public function getPlaybackLength()
-    {
-        return $this->playbackLength;
     }
 
     /**

@@ -36,26 +36,4 @@ class IsMeetingRunningParameters extends BaseParameters
     {
         $this->meetingID = $meetingID;
     }
-
-    /**
-     * @deprecated getMeetingID() instead
-     *
-     * @return string
-     */
-    public function getMeetingId()
-    {
-        return $this->meetingID;
-    }
-
-    /**
-     * @deprecated use setMeetingID() instead
-     *
-     * @return IsMeetingRunningParameters
-     */
-    public function setMeetingId(string $meetingID)
-    {
-        $this->meetingID = $meetingID;
-
-        return $this;
-    }
 }

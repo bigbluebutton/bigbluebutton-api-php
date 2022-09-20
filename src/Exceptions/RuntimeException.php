@@ -21,9 +21,6 @@ declare(strict_types=1);
 
 namespace BigBlueButton\Exceptions;
 
-/**
- * @final since 4.0.
- */
-class RuntimeException extends BaseException
+final class RuntimeException extends BaseException
 {
 }

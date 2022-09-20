@@ -1,7 +1,7 @@
 # :tada: Best BigBlueButton API for PHP
 
 The unofficial and easiest to use **BigBlueButton API for PHP**, makes easy for
-developers to use [BigBlueButton API] v2.2+ for **PHP 7.2+**.
+developers to use [BigBlueButton API] v2.2+ for **PHP 7.4+**.
 
 ![Build Status](https://github.com/littleredbutton/bigbluebutton-api-php/workflows/CI/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/littleredbutton/bigbluebutton-api-php/badge.svg?branch=master)](https://coveralls.io/github/littleredbutton/bigbluebutton-api-php?branch=master)
@@ -56,7 +56,7 @@ following advantages:
 - Development is simplified through git hooks and contributor guidelines
 - Documentation is up-to-date and complete
 - API is fixed and extended to exploit the full potential
-- Require at least PHP 7.2, which allows to make the code more efficient and
+- Require at least PHP 7.4, which allows to make the code more efficient and
   readable
 
 ## :gear: Installation and usage
@@ -64,7 +64,7 @@ following advantages:
 In order to use this library you have to make sure to meet the following
 requirements:
 
-- PHP 7.2 or above.
+- PHP 7.4 or above.
 - curl library installed.
 - mbstring library installed.
 - xml library installed.

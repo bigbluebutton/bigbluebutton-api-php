@@ -20,7 +20,6 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Core\GuestPolicy;
-use BigBlueButton\Core\MeetingLayout;
 
 /**
  * @method string    getName()
@@ -124,40 +123,6 @@ use BigBlueButton\Core\MeetingLayout;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    /**
-     * @deprecated use GuestPolicy::ALWAYS_ACCEPT instead
-     */
-    public const ALWAYS_ACCEPT = GuestPolicy::ALWAYS_ACCEPT;
-    /**
-     * @deprecated use GuestPolicy::ALWAYS_DENY instead
-     */
-    public const ALWAYS_DENY = GuestPolicy::ALWAYS_DENY;
-    /**
-     * @deprecated use GuestPolicy::ASK_MODERATOR instead
-     */
-    public const ASK_MODERATOR = GuestPolicy::ASK_MODERATOR;
-    /**
-     * @deprecated use GuestPolicy::ALWAYS_ACCEPT_AUTH instead
-     */
-    public const ALWAYS_ACCEPT_AUTH = GuestPolicy::ALWAYS_ACCEPT_AUTH;
-
-    /**
-     * @deprecated use MeetingLayout::CUSTOM_LAYOUT instead
-     */
-    public const CUSTOM_LAYOUT = MeetingLayout::CUSTOM_LAYOUT;
-    /**
-     * @deprecated use MeetingLayout::SMART_LAYOUT instead
-     */
-    public const SMART_LAYOUT = MeetingLayout::SMART_LAYOUT;
-    /**
-     * @deprecated use MeetingLayout::PRESENTATION_FOCUS instead
-     */
-    public const PRESENTATION_FOCUS = MeetingLayout::PRESENTATION_FOCUS;
-    /**
-     * @deprecated use MeetingLayout::VIDEO_FOCUS instead
-     */
-    public const VIDEO_FOCUS = MeetingLayout::VIDEO_FOCUS;
-
     /**
      * @var string
      */
@@ -420,148 +385,6 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @deprecated use getName()
-     *
-     * @return string
-     */
-    public function getMeetingName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @deprecated use setName()
-     *
-     * @return static
-     */
-    public function setMeetingName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getMeetingID()
-     *
-     * @return string
-     */
-    public function getMeetingId()
-    {
-        return $this->meetingID;
-    }
-
-    /**
-     * @deprecated use setMeetingID()
-     *
-     * @return CreateMeetingParameters
-     */
-    public function setMeetingId(string $meetingID)
-    {
-        $this->meetingID = $meetingID;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getAttendeePW()
-     *
-     * @return string
-     */
-    public function getAttendeePassword()
-    {
-        return $this->attendeePW;
-    }
-
-    /**
-     * @deprecated use setAttendeePW()
-     *
-     * @return static
-     */
-    public function setAttendeePassword(string $password): self
-    {
-        $this->attendeePW = $password;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getModeratorPW()
-     *
-     * @return string
-     */
-    public function getModeratorPassword()
-    {
-        return $this->moderatorPW;
-    }
-
-    /**
-     * @deprecated use setModeratorPW()
-     *
-     * @return static
-     */
-    public function setModeratorPassword(string $password): self
-    {
-        $this->moderatorPW = $password;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getWelcome()
-     *
-     * @return string
-     */
-    public function getWelcomeMessage()
-    {
-        return $this->welcome;
-    }
-
-    /**
-     * @deprecated use setWelcome()
-     *
-     * @return CreateMeetingParameters
-     */
-    public function setWelcomeMessage(string $welcome)
-    {
-        $this->welcome = $welcome;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getLogoutURL()
-     *
-     * @return string
-     */
-    public function getLogoutUrl()
-    {
-        return $this->logoutURL;
-    }
-
-    /**
-     * @deprecated use setLogoutURL()
-     *
-     * @return CreateMeetingParameters
-     */
-    public function setLogoutUrl(string $logoutUrl)
-    {
-        $this->logoutURL = $logoutUrl;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use isRecord()
-     *
-     * @return bool
-     */
-    public function isRecorded()
-    {
-        return $this->record;
-    }
-
-    /**
      * @return CreateMeetingParameters
      */
     public function setEndCallbackUrl(string $endCallbackUrl)
@@ -582,6 +405,16 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return CreateMeetingParameters
+     */
+    public function setBreakout(bool $isBreakout)
+    {
+        $this->isBreakout = $isBreakout;
+
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function isBreakout()
@@ -594,44 +427,9 @@ class CreateMeetingParameters extends MetaParameters
         return $this->userCameraCap === 0;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
     public function disableUserCameraCap(): self
     {
         $this->userCameraCap = 0;
-
-        return $this;
-    }
-
-    /**
-     * @return CreateMeetingParameters
-     */
-    public function setBreakout(bool $isBreakout)
-    {
-        $this->isBreakout = $isBreakout;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated use getParentMeetingID()
-     *
-     * @return string
-     */
-    public function getParentMeetingId()
-    {
-        return $this->parentMeetingID;
-    }
-
-    /**
-     * @deprecated use setParentMeetingID()
-     *
-     * @return CreateMeetingParameters
-     */
-    public function setParentMeetingId(string $parentMeetingID)
-    {
-        $this->parentMeetingID = $parentMeetingID;
 
         return $this;
     }
@@ -699,7 +497,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function isGuestPolicyAlwaysAccept()
     {
-        return $this->guestPolicy === self::ALWAYS_ACCEPT;
+        return $this->guestPolicy === GuestPolicy::ALWAYS_ACCEPT;
     }
 
     /**
@@ -707,7 +505,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function setGuestPolicyAlwaysAccept()
     {
-        $this->guestPolicy = self::ALWAYS_ACCEPT;
+        $this->guestPolicy = GuestPolicy::ALWAYS_ACCEPT;
 
         return $this;
     }

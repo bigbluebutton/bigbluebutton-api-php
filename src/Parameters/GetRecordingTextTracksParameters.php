@@ -36,26 +36,4 @@ class GetRecordingTextTracksParameters extends MetaParameters
     {
         $this->recordID = $recordID;
     }
-
-    /**
-     * @deprecated use getRecordID()
-     *
-     * @return string
-     */
-    public function getRecordId()
-    {
-        return $this->recordID;
-    }
-
-    /**
-     * @deprecated use setRecordID()
-     *
-     * @return GetRecordingTextTracksParameters
-     */
-    public function setRecordId(string $recordID)
-    {
-        $this->recordID = $recordID;
-
-        return $this;
-    }
 }

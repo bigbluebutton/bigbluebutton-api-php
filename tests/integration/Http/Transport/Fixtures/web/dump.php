@@ -41,7 +41,7 @@ foreach ($_SERVER as $k => $v) {
             if (0 !== strpos($k, 'HTTP_')) {
                 continue 2;
             }
-        // no break
+            // no break
         case 'SERVER_NAME':
         case 'SERVER_PROTOCOL':
         case 'REQUEST_URI':

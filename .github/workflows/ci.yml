@@ -6,12 +6,12 @@ on:
 
 jobs:
   PHP_Lowest:
-    name: PHP wth lowest dependencies
+    name: PHP ${{ matrix.php-versions }} wth lowest dependencies
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.2']
+        php-versions: ['7.4', '8.0']
         experimental: [false]
 
     steps:
@@ -37,7 +37,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['7.2','7.3','7.4','8.0']
+        php-versions: ['7.4','8.0']
         experimental: [false]
         include:
           - php-versions: '8.1'
@@ -70,5 +70,5 @@ jobs:
     - name: Coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      if: ${{ matrix.php-versions == '7.2' && env.COVERALLS_REPO_TOKEN != null }}
+      if: ${{ matrix.php-versions == '7.4' && env.COVERALLS_REPO_TOKEN != null }}
       run: tools/php-coveralls --coverage_clover=build/logs/coverage.xml -v

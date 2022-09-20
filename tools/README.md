@@ -25,3 +25,7 @@ We don't want to enforce our tools as a `dev` dependency of the library as this 
 
 Example: We're using PHPUnit 8, as PHPUnit 9 does not support all PHP versions we're supporting.
 If we had a dependency in the main `composer.json`, every consumer of the library is forced to use PHPUnit 8, too, even this has no relevance at all as the tests of the library are never executed by the consumer (and also not delivered).
+
+## Manage tools
+
+Use [IServ-GmbH/cotor: The Composer Tools Installer](https://github.com/IServ-GmbH/cotor) to add new tools or to update/extend existing tools.
