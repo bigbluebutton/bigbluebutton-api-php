@@ -143,10 +143,8 @@ final class SetCookie
 
     /**
      * Get the cookie name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->data['Name'];
     }
@@ -163,10 +161,8 @@ final class SetCookie
 
     /**
      * Get the cookie value.
-     *
-     * @return string|null
      */
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->data['Value'];
     }
@@ -183,10 +179,8 @@ final class SetCookie
 
     /**
      * Get the domain.
-     *
-     * @return string|null
      */
-    public function getDomain()
+    public function getDomain(): ?string
     {
         return $this->data['Domain'];
     }
@@ -203,10 +197,8 @@ final class SetCookie
 
     /**
      * Get the path.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->data['Path'];
     }
@@ -223,10 +215,8 @@ final class SetCookie
 
     /**
      * Maximum lifetime of the cookie in seconds.
-     *
-     * @return int|null
      */
-    public function getMaxAge()
+    public function getMaxAge(): ?int
     {
         return $this->data['Max-Age'];
     }
@@ -265,10 +255,8 @@ final class SetCookie
 
     /**
      * Get whether or not this is a secure cookie.
-     *
-     * @return bool|null
      */
-    public function getSecure()
+    public function getSecure(): ?bool
     {
         return $this->data['Secure'];
     }
@@ -285,10 +273,8 @@ final class SetCookie
 
     /**
      * Get whether or not this is a session cookie.
-     *
-     * @return bool|null
      */
-    public function getDiscard()
+    public function getDiscard(): ?bool
     {
         return $this->data['Discard'];
     }
@@ -305,10 +291,8 @@ final class SetCookie
 
     /**
      * Get whether or not this is an HTTP only cookie.
-     *
-     * @return bool
      */
-    public function getHttpOnly()
+    public function getHttpOnly(): bool
     {
         return $this->data['HttpOnly'];
     }

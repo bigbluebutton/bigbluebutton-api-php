@@ -29,10 +29,7 @@ class PutRecordingTextTrackResponse extends BaseResponseAsJson
     public const KEY_EMPTY = 'empty_uploaded_text_track';
     public const KEY_PARAM_ERROR = 'paramError';
 
-    /**
-     * @return string
-     */
-    public function getRecordID()
+    public function getRecordID(): string
     {
         return $this->data->response->recordId;
     }

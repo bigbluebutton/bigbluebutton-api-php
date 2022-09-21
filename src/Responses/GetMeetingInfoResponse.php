@@ -31,10 +31,7 @@ class GetMeetingInfoResponse extends BaseResponse
      */
     private $meeting;
 
-    /**
-     * @return Meeting
-     */
-    public function getMeeting()
+    public function getMeeting(): Meeting
     {
         if ($this->meeting === null) {
             $this->meeting = new Meeting($this->rawXml);

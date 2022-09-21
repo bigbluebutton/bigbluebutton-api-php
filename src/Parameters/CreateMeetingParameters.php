@@ -384,40 +384,28 @@ class CreateMeetingParameters extends MetaParameters
         $this->name = $name;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
-    public function setEndCallbackUrl(string $endCallbackUrl)
+    public function setEndCallbackUrl(string $endCallbackUrl): self
     {
         $this->addMeta('endCallbackUrl', $endCallbackUrl);
 
         return $this;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
-    public function setRecordingReadyCallbackUrl(string $recordingReadyCallbackUrl)
+    public function setRecordingReadyCallbackUrl(string $recordingReadyCallbackUrl): self
     {
         $this->addMeta('bbb-recording-ready-url', $recordingReadyCallbackUrl);
 
         return $this;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
-    public function setBreakout(bool $isBreakout)
+    public function setBreakout(bool $isBreakout): self
     {
         $this->isBreakout = $isBreakout;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isBreakout()
+    public function isBreakout(): bool
     {
         return $this->isBreakout;
     }
@@ -434,86 +422,61 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isGuestPolicyAlwaysDeny()
+    public function isGuestPolicyAlwaysDeny(): bool
     {
         return $this->guestPolicy === GuestPolicy::ALWAYS_DENY;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
-    public function setGuestPolicyAlwaysDeny()
+    public function setGuestPolicyAlwaysDeny(): self
     {
         $this->guestPolicy = GuestPolicy::ALWAYS_DENY;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isGuestPolicyAskModerator()
+    public function isGuestPolicyAskModerator(): bool
     {
         return $this->guestPolicy === GuestPolicy::ASK_MODERATOR;
     }
 
     /**
      * Ask moderator on join of non-moderators if user/guest is allowed to enter the meeting.
-     *
-     * @return CreateMeetingParameters
      */
-    public function setGuestPolicyAskModerator()
+    public function setGuestPolicyAskModerator(): self
     {
         $this->guestPolicy = GuestPolicy::ASK_MODERATOR;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isGuestPolicyAlwaysAcceptAuth()
+    public function isGuestPolicyAlwaysAcceptAuth(): bool
     {
         return $this->guestPolicy === GuestPolicy::ALWAYS_ACCEPT_AUTH;
     }
 
     /**
      * Ask moderator on join of guests is allowed to enter the meeting, user are allowed to join directly.
-     *
-     * @return CreateMeetingParameters
      */
-    public function setGuestPolicyAlwaysAcceptAuth()
+    public function setGuestPolicyAlwaysAcceptAuth(): self
     {
         $this->guestPolicy = GuestPolicy::ALWAYS_ACCEPT_AUTH;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isGuestPolicyAlwaysAccept()
+    public function isGuestPolicyAlwaysAccept(): bool
     {
         return $this->guestPolicy === GuestPolicy::ALWAYS_ACCEPT;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
-    public function setGuestPolicyAlwaysAccept()
+    public function setGuestPolicyAlwaysAccept(): self
     {
         $this->guestPolicy = GuestPolicy::ALWAYS_ACCEPT;
 
         return $this;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
-    public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null)
+    public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null): self
     {
         if (!$filename) {
             $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);
@@ -560,10 +523,7 @@ class CreateMeetingParameters extends MetaParameters
         return $result;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         $queries = $this->getHTTPQueryArray();
 
@@ -578,7 +538,7 @@ class CreateMeetingParameters extends MetaParameters
         return http_build_query($queries, '', '&', \PHP_QUERY_RFC3986);
     }
 
-    private function filterBreakoutRelatedQueries(array $queries)
+    private function filterBreakoutRelatedQueries(array $queries): array
     {
         return array_filter($queries, function ($query) {
             return !\in_array($query, ['isBreakout', 'parentMeetingID', 'sequence', 'freeJoin']);

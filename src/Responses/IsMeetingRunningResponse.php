@@ -24,10 +24,7 @@ namespace BigBlueButton\Responses;
  */
 class IsMeetingRunningResponse extends BaseResponse
 {
-    /**
-     * @return bool
-     */
-    public function isRunning()
+    public function isRunning(): bool
     {
         return $this->rawXml->running->__toString() === 'true';
     }

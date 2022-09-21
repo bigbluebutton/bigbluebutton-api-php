@@ -34,7 +34,7 @@ class GetRecordingTextTracksResponse extends BaseResponseAsJson
     /**
      * @return Track[]
      */
-    public function getTracks()
+    public function getTracks(): array
     {
         if ($this->tracks === null) {
             $this->tracks = [];

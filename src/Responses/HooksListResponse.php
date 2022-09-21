@@ -34,7 +34,7 @@ class HooksListResponse extends BaseResponse
     /**
      * @return Hook[]
      */
-    public function getHooks()
+    public function getHooks(): array
     {
         if ($this->hooks === null) {
             $this->hooks = [];

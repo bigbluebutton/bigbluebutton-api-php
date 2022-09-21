@@ -24,10 +24,7 @@ namespace BigBlueButton\Responses;
  */
 class UpdateRecordingsResponse extends BaseResponse
 {
-    /**
-     * @return bool
-     */
-    public function isUpdated()
+    public function isUpdated(): bool
     {
         return $this->rawXml->updated->__toString() === 'true';
     }

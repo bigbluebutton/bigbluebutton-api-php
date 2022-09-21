@@ -41,34 +41,22 @@ abstract class BaseResponse
         $this->rawXml = $xml;
     }
 
-    /**
-     * @return \SimpleXMLElement
-     */
-    public function getRawXml()
+    public function getRawXml(): \SimpleXMLElement
     {
         return $this->rawXml;
     }
 
-    /**
-     * @return string
-     */
-    public function getReturnCode()
+    public function getReturnCode(): string
     {
         return $this->rawXml->returncode->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getMessageKey()
+    public function getMessageKey(): string
     {
         return $this->rawXml->messageKey->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->rawXml->message->__toString();
     }

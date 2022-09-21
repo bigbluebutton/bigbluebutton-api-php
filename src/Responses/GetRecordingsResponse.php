@@ -36,7 +36,7 @@ class GetRecordingsResponse extends BaseResponse
     /**
      * @return Record[]
      */
-    public function getRecords()
+    public function getRecords(): array
     {
         if ($this->records === null) {
             $this->records = [];

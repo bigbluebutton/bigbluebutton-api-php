@@ -58,42 +58,27 @@ class Track
         $this->source = $track->source;
     }
 
-    /**
-     * @return string
-     */
-    public function getHref()
+    public function getHref(): string
     {
         return $this->href;
     }
 
-    /**
-     * @return string
-     */
-    public function getKind()
+    public function getKind(): string
     {
         return $this->kind;
     }
 
-    /**
-     * @return string
-     */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    /**
-     * @return string
-     */
-    public function getLang()
+    public function getLang(): string
     {
         return $this->lang;
     }
 
-    /**
-     * @return string
-     */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }

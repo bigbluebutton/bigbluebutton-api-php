@@ -43,20 +43,16 @@ final class UrlBuilder
 
     /**
      * Builds an API method URL that includes the url + params + its generated checksum.
-     *
-     * @return string
      */
-    public function buildUrl(string $method = '', string $params = '', bool $append = true)
+    public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {
         return $this->bbbServerBaseUrl.'api/'.$method.($append ? '?'.$this->buildQs($method, $params) : '');
     }
 
     /**
      * Builds a query string for an API method URL that includes the params + its generated checksum.
-     *
-     * @return string
      */
-    public function buildQs(string $method = '', string $params = '')
+    public function buildQs(string $method = '', string $params = ''): string
     {
         // Avoid extra & if we have no params at all
         if ('' !== $params) {

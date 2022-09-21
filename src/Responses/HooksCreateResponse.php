@@ -24,26 +24,17 @@ namespace BigBlueButton\Responses;
  */
 class HooksCreateResponse extends BaseResponse
 {
-    /**
-     * @return int
-     */
-    public function getHookId()
+    public function getHookId(): int
     {
         return (int) $this->rawXml->hookID->__toString();
     }
 
-    /**
-     * @return bool
-     */
-    public function isPermanentHook()
+    public function isPermanentHook(): bool
     {
         return $this->rawXml->permanentHook->__toString() === 'true';
     }
 
-    /**
-     * @return bool
-     */
-    public function hasRawData()
+    public function hasRawData(): bool
     {
         return $this->rawXml->rawData->__toString() === 'true';
     }

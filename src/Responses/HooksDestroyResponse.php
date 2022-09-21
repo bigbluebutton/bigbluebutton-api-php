@@ -24,10 +24,7 @@ namespace BigBlueButton\Responses;
  */
 class HooksDestroyResponse extends BaseResponse
 {
-    /**
-     * @return bool
-     */
-    public function removed()
+    public function removed(): bool
     {
         return $this->rawXml->removed->__toString() === 'true';
     }

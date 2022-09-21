@@ -29,50 +29,32 @@ class JoinMeetingResponse extends BaseResponse
     public const KEY_SERVER_ERROR = 'BigBlueButtonServerError';
     public const KEY_GUEST_DENY = 'guestDeny';
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): string
     {
         return $this->rawXml->meeting_id->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getUserId()
+    public function getUserId(): string
     {
         return $this->rawXml->user_id->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getAuthToken()
+    public function getAuthToken(): string
     {
         return $this->rawXml->auth_token->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getSessionToken()
+    public function getSessionToken(): string
     {
         return $this->rawXml->session_token->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getGuestStatus()
+    public function getGuestStatus(): string
     {
         return $this->rawXml->guestStatus->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->rawXml->url->__toString();
     }

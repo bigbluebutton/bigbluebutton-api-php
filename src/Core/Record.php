@@ -60,74 +60,47 @@ class Record
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getRecordId()
+    public function getRecordId(): string
     {
         return $this->recordId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPublished()
+    public function isPublished(): bool
     {
         return $this->isPublished;
     }
 
-    /**
-     * @return string
-     */
-    public function getState()
+    public function getState(): string
     {
         return $this->state;
     }
 
-    /**
-     * @return string
-     */
-    public function getStartTime()
+    public function getStartTime(): float
     {
         return $this->startTime;
     }
 
-    /**
-     * @return string
-     */
-    public function getEndTime()
+    public function getEndTime(): float
     {
         return $this->endTime;
     }
 
-    /**
-     * @return int Number of participants
-     */
-    public function getParticipantCount()
+    public function getParticipantCount(): int
     {
         return $this->participantCount;
     }
 
-    /**
-     * @return array
-     */
-    public function getMetas()
+    public function getMetas(): array
     {
         return $this->metas;
     }

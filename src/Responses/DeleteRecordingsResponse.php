@@ -26,10 +26,7 @@ class DeleteRecordingsResponse extends BaseResponse
 {
     public const KEY_INVALID_ID = 'InvalidRecordingId';
 
-    /**
-     * @return bool
-     */
-    public function isDeleted()
+    public function isDeleted(): bool
     {
         return $this->rawXml->deleted->__toString() == 'true';
     }

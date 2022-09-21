@@ -65,42 +65,27 @@ class Hook
         $this->rawData = $xml->rawData->__toString() === 'true';
     }
 
-    /**
-     * @return int
-     */
-    public function getHookId()
+    public function getHookId(): int
     {
         return $this->hookId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getCallbackUrl()
+    public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPermanentHook()
+    public function isPermanentHook(): bool
     {
         return $this->permanentHook;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasRawData()
+    public function hasRawData(): bool
     {
         return $this->rawData;
     }
