@@ -405,7 +405,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function isBreakout(): bool
+    public function isBreakout(): ?bool
     {
         return $this->isBreakout;
     }
