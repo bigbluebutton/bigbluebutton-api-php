@@ -180,6 +180,13 @@ class BigBlueButton
         return $this->connectionError;
     }
 
+    /* __________________ BBB ADMINISTRATION METHODS _________________ */
+    /* The methods in the following section support the following categories of the BBB API:
+    -- create
+    -- join
+    -- end
+    */
+
     public function getCreateMeetingUrl(CreateMeetingParameters $createMeetingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::CREATE, $createMeetingParams->getHTTPQuery());
@@ -449,6 +456,8 @@ class BigBlueButton
 
         return new InsertDocumentResponse($xml);
     }
+
+    /* ____________________ SPECIAL METHODS ___________________ */
 
     public function getJSessionId(): ?string
     {
