@@ -216,7 +216,7 @@ final class SetCookie
      */
     public function getMaxAge(): ?int
     {
-        return $this->data['Max-Age'];
+        return $this->data['Max-Age'] == null ? null : (int) $this->data['Max-Age'];
     }
 
     /**
@@ -292,7 +292,7 @@ final class SetCookie
      */
     public function getHttpOnly(): bool
     {
-        return $this->data['HttpOnly'];
+        return (bool) $this->data['HttpOnly'];
     }
 
     /**
