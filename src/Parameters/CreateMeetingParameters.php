@@ -321,6 +321,21 @@ class CreateMeetingParameters extends MetaParameters
      * @var array
      */
     private $breakoutRoomsGroups = [];
+    
+    /**
+     * @var bool
+     */
+    private $notifyRecordingIsOn;
+    
+    /**
+     * @var string
+     */
+    private $uploadExternalUrl;
+    
+    /**
+     * @var string
+     */
+    private $uploadExternalDescription;
 
     /**
      * CreateMeetingParameters constructor.
@@ -1442,6 +1457,57 @@ class CreateMeetingParameters extends MetaParameters
 
         return $this;
     }
+    
+    public function getNotifyRecordingIsOn(): bool
+    {
+        return $this->notifyRecordingIsOn;
+    }
+
+    /**
+     * @param $notifyRecordingIsOn
+     *
+     * @return $this
+     */
+    public function setNotifyRecordingIsOn(bool $notifyRecordingIsOn): CreateMeetingParameters
+    {
+        $this->notifyRecordingIsOn = $notifyRecordingIsOn;
+
+        return $this;
+    }
+    
+    public function getUploadExternalUrl(): string
+    {
+        return $this->uploadExternalUrl;
+    }
+
+    /**
+     * @param $uploadExternalUrl
+     *
+     * @return $this
+     */
+    public function setUploadExternalUrl(string $uploadExternalUrl): CreateMeetingParameters
+    {
+        $this->uploadExternalUrl = $uploadExternalUrl;
+
+        return $this;
+    }
+    
+    public function getUploadExternalDescription(): string
+    {
+        return $this->uploadExternalDescription;
+    }
+
+    /**
+     * @param $uploadExternalDescription
+     *
+     * @return $this
+     */
+    public function setUploadExternalDescription(string $uploadExternalDescription): CreateMeetingParameters
+    {
+        $this->uploadExternalDescription = $uploadExternalDescription;
+
+        return $this;
+    }
 
     /**
      * @return string
@@ -1499,6 +1565,9 @@ class CreateMeetingParameters extends MetaParameters
             'meetingExpireWhenLastUserLeftInMinutes' => $this->meetingExpireWhenLastUserLeftInMinutes,
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
             'disabledFeatures'                       => join(',', $this->disabledFeatures),
+            'notifyRecordingIsOn'                    => $this->notifyRecordingIsOn ? 'true' : 'false',
+            'uploadExternalUrl'                      => $this->uploadExternalUrl,
+            'uploadExternalDescription'              => $this->uploadExternalDescription,
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room
