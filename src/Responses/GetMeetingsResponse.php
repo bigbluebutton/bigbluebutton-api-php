@@ -34,7 +34,7 @@ class GetMeetingsResponse extends BaseResponse
     /**
      * @return Meeting[]
      */
-    public function getMeetings()
+    public function getMeetings(): array
     {
         if ($this->meetings === null) {
             $this->meetings = [];

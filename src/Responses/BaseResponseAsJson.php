@@ -43,26 +43,17 @@ abstract class BaseResponseAsJson
         $this->data = json_decode($rawJson);
     }
 
-    /**
-     * @return string
-     */
-    public function getRawJson()
+    public function getRawJson(): string
     {
         return json_encode($this->data);
     }
 
-    /**
-     * @return array
-     */
-    public function getRawArray()
+    public function getRawArray(): array
     {
         return json_decode(json_encode($this->data), true);
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         if ($this->failed()) {
             return $this->data->response->message;
@@ -71,10 +62,7 @@ abstract class BaseResponseAsJson
         return null;
     }
 
-    /**
-     * @return string
-     */
-    public function getMessageKey()
+    public function getMessageKey(): ?string
     {
         if ($this->failed()) {
             return $this->data->response->messageKey;
@@ -83,26 +71,17 @@ abstract class BaseResponseAsJson
         return null;
     }
 
-    /**
-     * @return string
-     */
-    public function getReturnCode()
+    public function getReturnCode(): string
     {
         return $this->data->response->returncode;
     }
 
-    /**
-     * @return bool
-     */
-    public function success()
+    public function success(): bool
     {
         return $this->getReturnCode() === self::SUCCESS;
     }
 
-    /**
-     * @return bool
-     */
-    public function failed()
+    public function failed(): bool
     {
         return $this->getReturnCode() === self::FAILED;
     }

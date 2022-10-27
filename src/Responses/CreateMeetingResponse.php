@@ -27,42 +27,27 @@ class CreateMeetingResponse extends BaseResponse
     public const KEY_DUPLICATE_WARNING = 'duplicateWarning';
     public const KEY_ID_NOT_UNIQUE = 'idNotUnique';
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): string
     {
         return $this->rawXml->meetingID->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getInternalMeetingId()
+    public function getInternalMeetingId(): string
     {
         return $this->rawXml->internalMeetingID->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getParentMeetingId()
+    public function getParentMeetingId(): string
     {
         return $this->rawXml->parentMeetingID->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getAttendeePassword()
+    public function getAttendeePassword(): string
     {
         return $this->rawXml->attendeePW->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getModeratorPassword()
+    public function getModeratorPassword(): string
     {
         return $this->rawXml->moderatorPW->__toString();
     }
@@ -77,28 +62,20 @@ class CreateMeetingResponse extends BaseResponse
         return $milliseconds ? (float) $this->rawXml->createTime : (int) ($this->rawXml->createTime / 1000);
     }
 
-    /**
-     * @return int
-     */
-    public function getVoiceBridge()
+    public function getVoiceBridge(): int
     {
         return (int) $this->rawXml->voiceBridge;
     }
 
-    /**
-     * @return string
-     */
-    public function getDialNumber()
+    public function getDialNumber(): string
     {
         return $this->rawXml->dialNumber->__toString();
     }
 
     /**
      * Creation date at the format "Sun Jan 17 18:20:07 EST 2016".
-     *
-     * @return string
      */
-    public function getCreationDate()
+    public function getCreationDate(): string
     {
         return $this->rawXml->createDate->__toString();
     }
@@ -108,18 +85,12 @@ class CreateMeetingResponse extends BaseResponse
         return $this->rawXml->hasUserJoined->__toString() === 'true';
     }
 
-    /**
-     * @return int
-     */
-    public function getDuration()
+    public function getDuration(): int
     {
         return (int) $this->rawXml->duration;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasBeenForciblyEnded()
+    public function hasBeenForciblyEnded(): bool
     {
         return $this->rawXml->hasBeenForciblyEnded->__toString() === 'true';
     }

@@ -68,10 +68,7 @@ abstract class BaseParameters
         return $value;
     }
 
-    /**
-     * @return static
-     */
-    protected function setter(string $name, array $arguments)
+    protected function setter(string $name, array $arguments): self
     {
         if (!property_exists($this, $name)) {
             throw new \BadFunctionCallException($name.' is not a valid property');
@@ -105,10 +102,7 @@ abstract class BaseParameters
         }, $properties);
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery() // : string
+    public function getHTTPQuery(): string
     {
         return http_build_query($this->getHTTPQueryArray(), '', '&', \PHP_QUERY_RFC3986);
     }

@@ -123,13 +123,11 @@ class BigBlueButton
     }
 
     /**
-     * @return ApiVersionResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function getApiVersion()
+    public function getApiVersion(): ApiVersionResponse
     {
         $xml = $this->processXmlResponse($this->urlBuilder->buildUrl());
 
@@ -189,262 +187,202 @@ class BigBlueButton
     -- end
     */
 
-    /**
-     * @return string
-     */
-    public function getCreateMeetingUrl(CreateMeetingParameters $createMeetingParams)
+    public function getCreateMeetingUrl(CreateMeetingParameters $createMeetingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::CREATE, $createMeetingParams->getHTTPQuery());
     }
 
     /**
-     * @return CreateMeetingResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function createMeeting(CreateMeetingParameters $createMeetingParams)
+    public function createMeeting(CreateMeetingParameters $createMeetingParams): CreateMeetingResponse
     {
         $xml = $this->processXmlResponse($this->getCreateMeetingUrl($createMeetingParams), $createMeetingParams->getPresentationsAsXML());
 
         return new CreateMeetingResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams)
+    public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::JOIN, $joinMeetingParams->getHTTPQuery());
     }
 
     /**
-     * @return JoinMeetingResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function joinMeeting(JoinMeetingParameters $joinMeetingParams)
+    public function joinMeeting(JoinMeetingParameters $joinMeetingParams): JoinMeetingResponse
     {
         $xml = $this->processXmlResponse($this->getJoinMeetingURL($joinMeetingParams));
 
         return new JoinMeetingResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getEndMeetingURL(EndMeetingParameters $endParams)
+    public function getEndMeetingURL(EndMeetingParameters $endParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::END, $endParams->getHTTPQuery());
     }
 
     /**
-     * @return EndMeetingResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function endMeeting(EndMeetingParameters $endParams)
+    public function endMeeting(EndMeetingParameters $endParams): EndMeetingResponse
     {
         $xml = $this->processXmlResponse($this->getEndMeetingURL($endParams));
 
         return new EndMeetingResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getIsMeetingRunningUrl(IsMeetingRunningParameters $meetingParams)
+    public function getIsMeetingRunningUrl(IsMeetingRunningParameters $meetingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::IS_MEETING_RUNNING, $meetingParams->getHTTPQuery());
     }
 
     /**
-     * @return IsMeetingRunningResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function isMeetingRunning(IsMeetingRunningParameters $meetingParams)
+    public function isMeetingRunning(IsMeetingRunningParameters $meetingParams): IsMeetingRunningResponse
     {
         $xml = $this->processXmlResponse($this->getIsMeetingRunningUrl($meetingParams));
 
         return new IsMeetingRunningResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingsUrl()
+    public function getMeetingsUrl(): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_MEETINGS);
     }
 
     /**
-     * @return GetMeetingsResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function getMeetings()
+    public function getMeetings(): GetMeetingsResponse
     {
         $xml = $this->processXmlResponse($this->getMeetingsUrl());
 
         return new GetMeetingsResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingInfoUrl(GetMeetingInfoParameters $meetingParams)
+    public function getMeetingInfoUrl(GetMeetingInfoParameters $meetingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_MEETING_INFO, $meetingParams->getHTTPQuery());
     }
 
     /**
-     * @return GetMeetingInfoResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function getMeetingInfo(GetMeetingInfoParameters $meetingParams)
+    public function getMeetingInfo(GetMeetingInfoParameters $meetingParams): GetMeetingInfoResponse
     {
         $xml = $this->processXmlResponse($this->getMeetingInfoUrl($meetingParams));
 
         return new GetMeetingInfoResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getRecordingsUrl(GetRecordingsParameters $recordingsParams)
+    public function getRecordingsUrl(GetRecordingsParameters $recordingsParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDINGS, $recordingsParams->getHTTPQuery());
     }
 
     /**
-     * @return GetRecordingsResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function getRecordings(GetRecordingsParameters $recordingParams)
+    public function getRecordings(GetRecordingsParameters $recordingParams): GetRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getRecordingsUrl($recordingParams));
 
         return new GetRecordingsResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getPublishRecordingsUrl(PublishRecordingsParameters $recordingParams)
+    public function getPublishRecordingsUrl(PublishRecordingsParameters $recordingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::PUBLISH_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
     /**
-     * @return PublishRecordingsResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function publishRecordings(PublishRecordingsParameters $recordingParams)
+    public function publishRecordings(PublishRecordingsParameters $recordingParams): PublishRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getPublishRecordingsUrl($recordingParams));
 
         return new PublishRecordingsResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getDeleteRecordingsUrl(DeleteRecordingsParameters $recordingParams)
+    public function getDeleteRecordingsUrl(DeleteRecordingsParameters $recordingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::DELETE_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
     /**
-     * @return DeleteRecordingsResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function deleteRecordings(DeleteRecordingsParameters $recordingParams)
+    public function deleteRecordings(DeleteRecordingsParameters $recordingParams): DeleteRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getDeleteRecordingsUrl($recordingParams));
 
         return new DeleteRecordingsResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getUpdateRecordingsUrl(UpdateRecordingsParameters $recordingParams)
+    public function getUpdateRecordingsUrl(UpdateRecordingsParameters $recordingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::UPDATE_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
     /**
-     * @return UpdateRecordingsResponse
-     *
      * @throws NetworkException
      * @throws ParsingException
      * @throws RuntimeException
      */
-    public function updateRecordings(UpdateRecordingsParameters $recordingParams)
+    public function updateRecordings(UpdateRecordingsParameters $recordingParams): UpdateRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getUpdateRecordingsUrl($recordingParams));
 
         return new UpdateRecordingsResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getRecordingTextTracksUrl(GetRecordingTextTracksParameters $getRecordingTextTracksParams)
+    public function getRecordingTextTracksUrl(GetRecordingTextTracksParameters $getRecordingTextTracksParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDING_TEXT_TRACKS, $getRecordingTextTracksParams->getHTTPQuery());
     }
 
     /**
-     * @return GetRecordingTextTracksResponse
-     *
      * @throws NetworkException
      * @throws RuntimeException
      */
-    public function getRecordingTextTracks(GetRecordingTextTracksParameters $getRecordingTextTracksParams)
+    public function getRecordingTextTracks(GetRecordingTextTracksParameters $getRecordingTextTracksParams): GetRecordingTextTracksResponse
     {
         return new GetRecordingTextTracksResponse(
             $this->processJsonResponse($this->getRecordingTextTracksUrl($getRecordingTextTracksParams))
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getPutRecordingTextTrackUrl(PutRecordingTextTrackParameters $putRecordingTextTrackParams)
+    public function getPutRecordingTextTrackUrl(PutRecordingTextTrackParameters $putRecordingTextTrackParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::PUT_RECORDING_TEXT_TRACK, $putRecordingTextTrackParams->getHTTPQuery());
     }
 
     /**
-     * @return PutRecordingTextTrackResponse
-     *
      * @throws NetworkException
      * @throws RuntimeException
      */
-    public function putRecordingTextTrack(PutRecordingTextTrackParameters $putRecordingTextTrackParams)
+    public function putRecordingTextTrack(PutRecordingTextTrackParameters $putRecordingTextTrackParams): PutRecordingTextTrackResponse
     {
         $url = $this->getPutRecordingTextTrackUrl($putRecordingTextTrackParams);
         $file = $putRecordingTextTrackParams->getFile();
@@ -456,62 +394,46 @@ class BigBlueButton
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getHooksCreateUrl(HooksCreateParameters $hookCreateParams)
+    public function getHooksCreateUrl(HooksCreateParameters $hookCreateParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::HOOKS_CREATE, $hookCreateParams->getHTTPQuery());
     }
 
     /**
-     * @return HooksCreateResponse
-     *
      * @throws NetworkException
      * @throws RuntimeException
      * @throws ParsingException
      */
-    public function hooksCreate(HooksCreateParameters $hookCreateParams)
+    public function hooksCreate(HooksCreateParameters $hookCreateParams): HooksCreateResponse
     {
         $xml = $this->processXmlResponse($this->getHooksCreateUrl($hookCreateParams));
 
         return new HooksCreateResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getHooksListUrl()
+    public function getHooksListUrl(): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::HOOKS_LIST);
     }
 
-    /**
-     * @return HooksListResponse
-     */
-    public function hooksList()
+    public function hooksList(): HooksListResponse
     {
         $xml = $this->processXmlResponse($this->getHooksListUrl());
 
         return new HooksListResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getHooksDestroyUrl(HooksDestroyParameters $hooksDestroyParams)
+    public function getHooksDestroyUrl(HooksDestroyParameters $hooksDestroyParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::HOOKS_DESTROY, $hooksDestroyParams->getHTTPQuery());
     }
 
     /**
-     * @return HooksDestroyResponse
-     *
      * @throws NetworkException
      * @throws RuntimeException
      * @throws ParsingException
      */
-    public function hooksDestroy(HooksDestroyParameters $hooksDestroyParams)
+    public function hooksDestroy(HooksDestroyParameters $hooksDestroyParams): HooksDestroyResponse
     {
         $xml = $this->processXmlResponse($this->getHooksDestroyUrl($hooksDestroyParams));
 
@@ -536,15 +458,13 @@ class BigBlueButton
     }
 
     /* ____________________ SPECIAL METHODS ___________________ */
-    /**
-     * @return string
-     */
-    public function getJSessionId()
+
+    public function getJSessionId(): ?string
     {
         return $this->jSessionId;
     }
 
-    public function setJSessionId(string $jSessionId)
+    public function setJSessionId(string $jSessionId): void
     {
         $this->jSessionId = $jSessionId;
     }

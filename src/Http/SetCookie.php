@@ -143,10 +143,8 @@ final class SetCookie
 
     /**
      * Get the cookie name.
-     *
-     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->data['Name'];
     }
@@ -156,17 +154,15 @@ final class SetCookie
      *
      * @param string $name Cookie name
      */
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->data['Name'] = $name;
     }
 
     /**
      * Get the cookie value.
-     *
-     * @return string|null
      */
-    public function getValue()
+    public function getValue(): ?string
     {
         return $this->data['Value'];
     }
@@ -176,37 +172,31 @@ final class SetCookie
      *
      * @param string $value Cookie value
      */
-    public function setValue($value): void
+    public function setValue(string $value): void
     {
         $this->data['Value'] = $value;
     }
 
     /**
      * Get the domain.
-     *
-     * @return string|null
      */
-    public function getDomain()
+    public function getDomain(): ?string
     {
         return $this->data['Domain'];
     }
 
     /**
      * Set the domain of the cookie.
-     *
-     * @param string $domain
      */
-    public function setDomain($domain): void
+    public function setDomain(string $domain): void
     {
         $this->data['Domain'] = $domain;
     }
 
     /**
      * Get the path.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->data['Path'];
     }
@@ -216,19 +206,17 @@ final class SetCookie
      *
      * @param string $path Path of the cookie
      */
-    public function setPath($path): void
+    public function setPath(string $path): void
     {
         $this->data['Path'] = $path;
     }
 
     /**
      * Maximum lifetime of the cookie in seconds.
-     *
-     * @return int|null
      */
-    public function getMaxAge()
+    public function getMaxAge(): ?int
     {
-        return $this->data['Max-Age'];
+        return $this->data['Max-Age'] == null ? null : (int) $this->data['Max-Age'];
     }
 
     /**
@@ -236,7 +224,7 @@ final class SetCookie
      *
      * @param int $maxAge Max age of the cookie in seconds
      */
-    public function setMaxAge($maxAge): void
+    public function setMaxAge(int $maxAge): void
     {
         $this->data['Max-Age'] = $maxAge;
     }
@@ -265,10 +253,8 @@ final class SetCookie
 
     /**
      * Get whether or not this is a secure cookie.
-     *
-     * @return bool|null
      */
-    public function getSecure()
+    public function getSecure(): ?bool
     {
         return $this->data['Secure'];
     }
@@ -278,17 +264,15 @@ final class SetCookie
      *
      * @param bool $secure Set to true or false if secure
      */
-    public function setSecure($secure): void
+    public function setSecure(bool $secure): void
     {
         $this->data['Secure'] = $secure;
     }
 
     /**
      * Get whether or not this is a session cookie.
-     *
-     * @return bool|null
      */
-    public function getDiscard()
+    public function getDiscard(): ?bool
     {
         return $this->data['Discard'];
     }
@@ -298,19 +282,17 @@ final class SetCookie
      *
      * @param bool $discard Set to true or false if this is a session cookie
      */
-    public function setDiscard($discard): void
+    public function setDiscard(bool $discard): void
     {
         $this->data['Discard'] = $discard;
     }
 
     /**
      * Get whether or not this is an HTTP only cookie.
-     *
-     * @return bool
      */
-    public function getHttpOnly()
+    public function getHttpOnly(): bool
     {
-        return $this->data['HttpOnly'];
+        return (bool) $this->data['HttpOnly'];
     }
 
     /**
@@ -318,7 +300,7 @@ final class SetCookie
      *
      * @param bool $httpOnly Set to true or false if this is HTTP only
      */
-    public function setHttpOnly($httpOnly): void
+    public function setHttpOnly(bool $httpOnly): void
     {
         $this->data['HttpOnly'] = $httpOnly;
     }

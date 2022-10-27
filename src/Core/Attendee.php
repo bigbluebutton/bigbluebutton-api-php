@@ -84,74 +84,47 @@ class Attendee
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getUserId()
+    public function getUserId(): string
     {
         return $this->userId;
     }
 
-    /**
-     * @return string
-     */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->fullName;
     }
 
-    /**
-     * @return string
-     */
-    public function getRole()
+    public function getRole(): string
     {
         return $this->role;
     }
 
-    /**
-     * @return bool
-     */
-    public function isPresenter()
+    public function isPresenter(): bool
     {
         return $this->isPresenter;
     }
 
-    /**
-     * @return bool
-     */
-    public function isListeningOnly()
+    public function isListeningOnly(): bool
     {
         return $this->isListeningOnly;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasJoinedVoice()
+    public function hasJoinedVoice(): bool
     {
         return $this->hasJoinedVoice;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasVideo()
+    public function hasVideo(): bool
     {
         return $this->hasVideo;
     }
 
-    /**
-     * @return string
-     */
-    public function getClientType()
+    public function getClientType(): string
     {
         return $this->clientType;
     }
 
-    /**
-     * @return array
-     */
-    public function getCustomData()
+    public function getCustomData(): array
     {
         return $this->customData;
     }
