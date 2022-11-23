@@ -60,6 +60,7 @@ class BigBlueButton
     protected $bbbServerBaseUrl;
     protected $urlBuilder;
     protected $jSessionId;
+    protected $curlopts = [];
     protected $timeOut = 10;
 
     /**
