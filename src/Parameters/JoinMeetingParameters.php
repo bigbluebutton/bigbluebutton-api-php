@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Enum\Role;
+
 /**
  * Class JoinMeetingParametersTest.
  */
@@ -92,13 +94,17 @@ class JoinMeetingParameters extends UserDataParameters
      *
      * @param $meetingId
      * @param $username
-     * @param $password
+     * @param $passwordOrRole
      */
-    public function __construct($meetingId, $username, $password)
+    public function __construct($meetingId, $username, $passworOrRole)
     {
         $this->meetingId        = $meetingId;
         $this->username         = $username;
-        $this->password         = $password;
+        if ($passworOrRole ===  Role::MODERATOR || $passworOrRole === Role::VIEWER){
+            $this->role = $passworOrRole;
+        } else {
+            $this->password         = $passworOrRole;
+        }
         $this->customParameters = [];
     }
 
