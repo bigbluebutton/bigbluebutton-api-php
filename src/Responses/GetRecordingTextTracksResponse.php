@@ -18,15 +18,32 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Enum;
+namespace BigBlueButton\Responses;
 
-use MabeEnum\Enum;
+use BigBlueButton\Core\Track;
 
-// @ref : https://github.com/bigbluebutton/bigbluebutton/blob/5189abb225247290d1954e10827853d5fc022b66/bbb-common-web/src/main/java/org/bigbluebutton/api/domain/GuestPolicy.java
-class GuestPolicy extends Enum
+/**
+ * Class GetRecordingTextTracksResponse.
+ */
+class GetRecordingTextTracksResponse extends BaseJsonResponse
 {
-    public const ALWAYS_ACCEPT      = 'ALWAYS_ACCEPT';
-    public const ALWAYS_DENY        = 'ALWAYS_DENY';
-    public const ASK_MODERATOR      = 'ASK_MODERATOR';
-    public const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
+    /**
+     * @var Track[]
+     */
+    private $tracks;
+
+    /**
+     * @return Track[]
+     */
+    public function getTracks()
+    {
+        if (null === $this->tracks) {
+            $this->tracks = [];
+            foreach ($this->data->response->tracks as $track) {
+                $this->tracks[] = new Track($track);
+            }
+        }
+
+        return $this->tracks;
+    }
 }

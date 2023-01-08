@@ -18,54 +18,40 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Responses;
 
 /**
- * Class EndMeetingParameters.
+ * Class PutRecordingTextTracksResponse.
  */
-class InsertDocumentParameters extends BaseParameters
+class PutRecordingTextTrackResponse extends BaseJsonResponse
 {
-    use DocumentableTrait;
+    public const KEY_SUCCESS     = 'upload_text_track_success';
+    public const KEY_FAILED      = 'upload_text_track_failed';
+    public const KEY_EMPTY       = 'empty_uploaded_text_track';
+    public const KEY_PARAM_ERROR = 'paramError';
 
-    /**
-     * EndMeetingParameters constructor.
-     *
-     * @param string $meetingId
-     */
-    public function __construct($meetingId)
+    public function getRecordId(): string
     {
-        $this->meetingId = $meetingId;
+        return $this->data->response->recordId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function isUploadTrackSuccess(): bool
     {
-        return $this->meetingId;
+        return self::KEY_SUCCESS === $this->getMessageKey();
     }
 
-    /**
-     * @param string $meetingId
-     *
-     * @return EndMeetingParameters
-     */
-    public function setMeetingId($meetingId)
+    public function isUploadTrackFailed(): bool
     {
-        $this->meetingId = $meetingId;
-
-        return $this;
+        return self::KEY_FAILED === $this->getMessageKey();
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function isUploadTrackEmpty(): bool
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-            ]
-        );
+        return self::KEY_EMPTY === $this->getMessageKey();
+    }
+
+    public function isKeyParamError(): bool
+    {
+        return self::KEY_PARAM_ERROR === $this->getMessageKey();
     }
 }

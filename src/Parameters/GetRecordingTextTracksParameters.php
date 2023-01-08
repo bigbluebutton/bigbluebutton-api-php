@@ -21,38 +21,39 @@
 namespace BigBlueButton\Parameters;
 
 /**
- * Class EndMeetingParameters.
+ * Class GetRecordingTextTracksParameters.
  */
-class InsertDocumentParameters extends BaseParameters
+class GetRecordingTextTracksParameters extends MetaParameters
 {
-    use DocumentableTrait;
+    /**
+     * @var string
+     */
+    private $recordId;
 
     /**
-     * EndMeetingParameters constructor.
-     *
-     * @param string $meetingId
+     * GetRecordingTextTracksParameters constructor.
      */
-    public function __construct($meetingId)
+    public function __construct($recordId)
     {
-        $this->meetingId = $meetingId;
+        $this->recordId = $recordId;
     }
 
     /**
      * @return string
      */
-    public function getMeetingId()
+    public function getRecordId()
     {
-        return $this->meetingId;
+        return $this->recordId;
     }
 
     /**
-     * @param string $meetingId
+     * @param string $recordId
      *
-     * @return EndMeetingParameters
+     * @return GetRecordingTextTracksParameters
      */
-    public function setMeetingId($meetingId)
+    public function setRecordId($recordId)
     {
-        $this->meetingId = $meetingId;
+        $this->recordId = $recordId;
 
         return $this;
     }
@@ -62,10 +63,12 @@ class InsertDocumentParameters extends BaseParameters
      */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-            ]
-        );
+        $queries = [
+            'recordID' => $this->recordId,
+        ];
+
+        $this->buildMeta($queries);
+
+        return $this->buildHTTPQuery($queries);
     }
 }

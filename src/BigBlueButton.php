@@ -27,12 +27,14 @@ use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
@@ -41,12 +43,15 @@ use BigBlueButton\Responses\EndMeetingResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
+use BigBlueButton\Responses\GetRecordingTextTracksResponseResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
+use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
+use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 
@@ -183,7 +188,7 @@ class BigBlueButton
     }
 
     /**
-     * @param InsertDocumentParameters $insertDocumentParams
+     * @param $insertDocumentParams InsertDocumentParameters
      *
      * @return InsertDocumentResponse
      *
@@ -260,8 +265,6 @@ class BigBlueButton
     /**
      * @param $meetingParams GetMeetingInfoParameters
      *
-     * @return GetMeetingInfoResponse
-     *
      * @throws \RuntimeException
      */
     public function getMeetingInfo($meetingParams)
@@ -291,8 +294,6 @@ class BigBlueButton
     /**
      * @param mixed $recordingParams
      *
-     * @return GetRecordingsResponse
-     *
      * @throws \RuntimeException
      */
     public function getRecordings($recordingParams)
@@ -314,8 +315,6 @@ class BigBlueButton
 
     /**
      * @param $recordingParams PublishRecordingsParameters
-     *
-     * @return PublishRecordingsResponse
      *
      * @throws \RuntimeException
      */
@@ -363,8 +362,6 @@ class BigBlueButton
     /**
      * @param $recordingParams UpdateRecordingsParameters
      *
-     * @return UpdateRecordingsResponse
-     *
      * @throws \RuntimeException
      */
     public function updateRecordings($recordingParams)
@@ -372,6 +369,50 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUpdateRecordingsUrl($recordingParams));
 
         return new UpdateRecordingsResponse($xml);
+    }
+
+    /**
+     * @param $getRecordingTextTracksParameters GetRecordingTextTracksParameters
+     *
+     * @return string
+     */
+    public function getRecordingTextTracksUrl($getRecordingTextTracksParameters)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDING_TEXT_TRACKS, $getRecordingTextTracksParameters->getHTTPQuery());
+    }
+
+    /**
+     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
+     *
+     * @return GetRecordingTextTracksResponseResponse
+     */
+    public function getRecordingTextTracks($getRecordingTextTracksParams)
+    {
+        $json = $this->processJsonResponse($this->getRecordingTextTracksUrl($getRecordingTextTracksParams));
+
+        return new GetRecordingTextTracksResponseResponse($json);
+    }
+
+    /**
+     * @param $putRecordingTextTrackParams PutRecordingTextTrackParameters
+     *
+     * @return string
+     */
+    public function getPutRecordingTextTrackUrl(PutRecordingTextTrackParameters $putRecordingTextTrackParams)
+    {
+        return $this->urlBuilder->buildUrl(ApiMethod::PUT_RECORDING_TEXT_TRACK, $putRecordingTextTrackParams->getHTTPQuery());
+    }
+
+    /**
+     * @param $putRecordingTextTrackParams PutRecordingTextTrackParameters
+     *
+     * @return PutRecordingTextTrackResponse
+     */
+    public function putRecordingTextTrack($putRecordingTextTrackParams)
+    {
+        $json = $this->processJsonResponse($this->getPutRecordingTextTrackUrl($putRecordingTextTrackParams));
+
+        return new PutRecordingTextTrackResponse($json);
     }
 
     // ____________________ WEB HOOKS METHODS ___________________
@@ -494,17 +535,17 @@ class BigBlueButton
     // ____________________ INTERNAL CLASS METHODS ___________________
 
     /**
-     * A private utility method used by other public methods to process XML responses.
+     * A private utility method used by other public methods to request HTTP responses.
      *
      * @param string $url
      * @param string $payload
      * @param string $contentType
      *
-     * @return \SimpleXMLElement
+     * @return string
      *
      * @throws \RuntimeException
      */
-    private function processXmlResponse($url, $payload = '', $contentType = 'application/xml')
+    private function sendRequest($url, $payload = '', $contentType = 'application/xml')
     {
         if (extension_loaded('curl')) {
             $ch = curl_init();
@@ -554,9 +595,31 @@ class BigBlueButton
                 $this->setJSessionId($output_array['JSESSIONID']);
             }
 
-            return new \SimpleXMLElement($data);
+            return $data;
         }
 
         throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
+    }
+
+    /**
+     * A private utility method used by other public methods to process XML responses.
+     *
+     * @param string $url
+     * @param string $payload
+     * @param string $contentType
+     *
+     * @return \SimpleXMLElement
+     */
+    private function processXmlResponse($url, $payload = '', $contentType = 'application/xml')
+    {
+        return new \SimpleXMLElement($this->sendRequest($url, $payload, $contentType));
+    }
+
+    /**
+     * A private utility method used by other public methods to process json responses.
+     */
+    private function processJsonResponse(string $url, string $payload = '', string $contentType = 'application/json')
+    {
+        return $this->sendRequest($url, $payload, $contentType);
     }
 }

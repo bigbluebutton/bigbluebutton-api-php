@@ -18,15 +18,25 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Enum;
+namespace BigBlueButton\Parameters;
 
-use MabeEnum\Enum;
+use BigBlueButton\TestCase;
 
-// @ref : https://github.com/bigbluebutton/bigbluebutton/blob/5189abb225247290d1954e10827853d5fc022b66/bbb-common-web/src/main/java/org/bigbluebutton/api/domain/GuestPolicy.java
-class GuestPolicy extends Enum
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+class GetRecordingTextTracksParametersTest extends TestCase
 {
-    public const ALWAYS_ACCEPT      = 'ALWAYS_ACCEPT';
-    public const ALWAYS_DENY        = 'ALWAYS_DENY';
-    public const ASK_MODERATOR      = 'ASK_MODERATOR';
-    public const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
+    public function testGetRecordingTextTracksParameters()
+    {
+        $getRecordingTextTracksParams = new GetRecordingTextTracksParameters($recordId = $this->faker->uuid);
+
+        $this->assertEquals($recordId, $getRecordingTextTracksParams->getRecordId());
+
+        // Test setters that are ignored by the constructor
+        $getRecordingTextTracksParams->setRecordId($newRecordId = $this->faker->uuid);
+        $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordId());
+    }
 }

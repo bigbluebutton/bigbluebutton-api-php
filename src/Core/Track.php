@@ -18,54 +18,69 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Core;
 
 /**
- * Class EndMeetingParameters.
+ * Class Track.
  */
-class InsertDocumentParameters extends BaseParameters
+class Track
 {
-    use DocumentableTrait;
+    /**
+     * @var string
+     */
+    private $href;
 
     /**
-     * EndMeetingParameters constructor.
-     *
-     * @param string $meetingId
+     * @var string
      */
-    public function __construct($meetingId)
+    private $kind;
+
+    /**
+     * @var string
+     */
+    private $label;
+
+    /**
+     * @var string
+     */
+    private $lang;
+
+    /**
+     * @var string
+     */
+    private $source;
+
+    public function __construct($track)
     {
-        $this->meetingId = $meetingId;
+        $this->href   = $track->href;
+        $this->kind   = $track->kind;
+        $this->label  = $track->label;
+        $this->lang   = $track->lang;
+        $this->source = $track->source;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getHref()
     {
-        return $this->meetingId;
+        return $this->href;
     }
 
-    /**
-     * @param string $meetingId
-     *
-     * @return EndMeetingParameters
-     */
-    public function setMeetingId($meetingId)
+    public function getKind()
     {
-        $this->meetingId = $meetingId;
-
-        return $this;
+        return $this->kind;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getLabel()
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-            ]
-        );
+        return $this->label;
+    }
+
+    public function getLang()
+    {
+        return $this->lang;
+    }
+
+    public function getSource()
+    {
+        return $this->source;
     }
 }
