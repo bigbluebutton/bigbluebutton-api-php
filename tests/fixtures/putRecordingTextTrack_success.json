@@ -1,8 +1,0 @@
-{
-  "response": {
-    "messageKey": "upload_text_track_success",
-    "message": "Text track uploaded successfully",
-    "recordId": "baz",
-    "returncode": "SUCCESS"
-  }
-}
