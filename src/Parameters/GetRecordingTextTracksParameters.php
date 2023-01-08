@@ -32,8 +32,6 @@ class GetRecordingTextTracksParameters extends MetaParameters
 
     /**
      * GetRecordingTextTracksParameters constructor.
-     *
-     * @param $recordId
      */
     public function __construct($recordId)
     {
@@ -49,7 +47,8 @@ class GetRecordingTextTracksParameters extends MetaParameters
     }
 
     /**
-     * @param  string                           $recordId
+     * @param string $recordId
+     *
      * @return GetRecordingTextTracksParameters
      */
     public function setRecordId($recordId)
