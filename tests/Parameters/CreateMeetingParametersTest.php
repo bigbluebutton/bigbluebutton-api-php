@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -26,6 +26,7 @@ use BigBlueButton\TestCase;
  * Class CreateMeetingParametersTest.
  *
  * @internal
+ *
  * @coversNothing
  */
 class CreateMeetingParametersTest extends TestCase
@@ -91,7 +92,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['meta_presenter'], $createMeetingParams->getMeta('presenter'));
         $this->assertEquals($params['meta_endCallbackUrl'], $createMeetingParams->getMeta('endCallbackUrl'));
         $this->assertEquals($params['meta_bbb-recording-ready-url'], $createMeetingParams->getMeta('bbb-recording-ready-url'));
-        
+
         $this->assertEquals($params['notifyRecordingIsOn'], $createMeetingParams->getNotifyRecordingIsOn());
         $this->assertEquals($params['uploadExternalUrl'], $createMeetingParams->getUploadExternalUrl());
         $this->assertEquals($params['uploadExternalDescription'], $createMeetingParams->getUploadExternalDescription());
@@ -103,7 +104,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertNull($createMeetingParams->isFreeJoin());
 
         // Test setters that are ignored by the constructor
-        $createMeetingParams->setMeetingId($newId     = $this->faker->uuid);
+        $createMeetingParams->setMeetingId($newId = $this->faker->uuid);
         $createMeetingParams->setMeetingName($newName = $this->faker->name);
         $this->assertEquals($newName, $createMeetingParams->getMeetingName());
         $this->assertEquals($newId, $createMeetingParams->getMeetingId());

@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -37,6 +37,7 @@ use Faker\Generator;
  * Class TestCase.
  *
  * @internal
+ *
  * @coversNothing
  */
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -203,7 +204,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $createParams
+     * @param mixed $createParams
      *
      * @return array
      */
@@ -284,7 +285,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setPreUploadedPresentationOverrideDefault($params['preUploadedPresentationOverrideDefault'])
             ->setDisabledFeatures($params['disabledFeatures'])
             ->addMeta('presenter', $params['meta_presenter'])
-            ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url'])     
+            ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url'])
             ->setNotifyRecordingIsOn($params['notifyRecordingIsOn'])
             ->setUploadExternalUrl($params['uploadExternalUrl'])
             ->setUploadExternalDescription($params['uploadExternalDescription'])
@@ -292,7 +293,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $params
+     * @param mixed $params
      *
      * @return CreateMeetingParameters
      */

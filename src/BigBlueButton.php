@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -49,7 +49,6 @@ use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
-use SimpleXMLElement;
 
 /**
  * Class BigBlueButton.
@@ -61,7 +60,7 @@ class BigBlueButton
     protected $urlBuilder;
     protected $jSessionId;
     protected $curlopts = [];
-    protected $timeOut = 10;
+    protected $timeOut  = 10;
 
     /**
      * BigBlueButton constructor.
@@ -81,9 +80,9 @@ class BigBlueButton
     }
 
     /**
-     * @throws \RuntimeException
-     *
      * @return ApiVersionResponse
+     *
+     * @throws \RuntimeException
      */
     public function getApiVersion()
     {
@@ -113,9 +112,9 @@ class BigBlueButton
     /**
      * @param CreateMeetingParameters $createMeetingParams
      *
-     * @throws \RuntimeException
-     *
      * @return CreateMeetingResponse
+     *
+     * @throws \RuntimeException
      */
     public function createMeeting($createMeetingParams)
     {
@@ -137,9 +136,9 @@ class BigBlueButton
     /**
      * @param $joinMeetingParams JoinMeetingParameters
      *
-     * @throws \RuntimeException
-     *
      * @return JoinMeetingResponse
+     *
+     * @throws \RuntimeException
      */
     public function joinMeeting($joinMeetingParams)
     {
@@ -161,9 +160,10 @@ class BigBlueButton
     /**
      * @param $endParams EndMeetingParameters
      *
+     * @return EndMeetingResponse
+     *
      * @throws \RuntimeException
      *
-     * @return EndMeetingResponse
      * */
     public function endMeeting($endParams)
     {
@@ -185,9 +185,9 @@ class BigBlueButton
     /**
      * @param InsertDocumentParameters $insertDocumentParams
      *
-     * @throws \RuntimeException
-     *
      * @return InsertDocumentResponse
+     *
+     * @throws \RuntimeException
      */
     public function insertDocument($insertDocumentParams)
     {
@@ -214,11 +214,11 @@ class BigBlueButton
     }
 
     /**
-     * @param $meetingParams
-     *
-     * @throws \RuntimeException
+     * @param mixed $meetingParams
      *
      * @return IsMeetingRunningResponse
+     *
+     * @throws \RuntimeException
      */
     public function isMeetingRunning($meetingParams)
     {
@@ -236,9 +236,9 @@ class BigBlueButton
     }
 
     /**
-     * @throws \RuntimeException
-     *
      * @return GetMeetingsResponse
+     *
+     * @throws \RuntimeException
      */
     public function getMeetings()
     {
@@ -260,9 +260,9 @@ class BigBlueButton
     /**
      * @param $meetingParams GetMeetingInfoParameters
      *
-     * @throws \RuntimeException
-     *
      * @return GetMeetingInfoResponse
+     *
+     * @throws \RuntimeException
      */
     public function getMeetingInfo($meetingParams)
     {
@@ -289,11 +289,11 @@ class BigBlueButton
     }
 
     /**
-     * @param $recordingParams
-     *
-     * @throws \RuntimeException
+     * @param mixed $recordingParams
      *
      * @return GetRecordingsResponse
+     *
+     * @throws \RuntimeException
      */
     public function getRecordings($recordingParams)
     {
@@ -315,9 +315,9 @@ class BigBlueButton
     /**
      * @param $recordingParams PublishRecordingsParameters
      *
-     * @throws \RuntimeException
-     *
      * @return PublishRecordingsResponse
+     *
+     * @throws \RuntimeException
      */
     public function publishRecordings($recordingParams)
     {
@@ -339,9 +339,9 @@ class BigBlueButton
     /**
      * @param $recordingParams DeleteRecordingsParameters
      *
-     * @throws \RuntimeException
-     *
      * @return DeleteRecordingsResponse
+     *
+     * @throws \RuntimeException
      */
     public function deleteRecordings($recordingParams)
     {
@@ -363,9 +363,9 @@ class BigBlueButton
     /**
      * @param $recordingParams UpdateRecordingsParameters
      *
-     * @throws \RuntimeException
-     *
      * @return UpdateRecordingsResponse
+     *
+     * @throws \RuntimeException
      */
     public function updateRecordings($recordingParams)
     {
@@ -387,7 +387,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $hookCreateParams
+     * @param mixed $hookCreateParams
      *
      * @return HooksCreateResponse
      */
@@ -427,7 +427,7 @@ class BigBlueButton
     }
 
     /**
-     * @param $hooksDestroyParams
+     * @param mixed $hooksDestroyParams
      *
      * @return HooksDestroyResponse
      */
@@ -500,9 +500,9 @@ class BigBlueButton
      * @param string $payload
      * @param string $contentType
      *
-     * @throws \RuntimeException
+     * @return \SimpleXMLElement
      *
-     * @return SimpleXMLElement
+     * @throws \RuntimeException
      */
     private function processXmlResponse($url, $payload = '', $contentType = 'application/xml')
     {
@@ -554,7 +554,7 @@ class BigBlueButton
                 $this->setJSessionId($output_array['JSESSIONID']);
             }
 
-            return new SimpleXMLElement($data);
+            return new \SimpleXMLElement($data);
         }
 
         throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');

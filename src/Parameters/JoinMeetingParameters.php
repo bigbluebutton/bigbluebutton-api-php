@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -92,18 +92,19 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * JoinMeetingParametersTest constructor.
      *
-     * @param $meetingId
-     * @param $username
      * @param $passwordOrRole
+     * @param mixed $passworOrRole
+     * @param mixed $meetingId
+     * @param mixed $username
      */
     public function __construct($meetingId, $username, $passworOrRole)
     {
-        $this->meetingId        = $meetingId;
-        $this->username         = $username;
-        if ($passworOrRole ===  Role::MODERATOR || $passworOrRole === Role::VIEWER){
+        $this->meetingId = $meetingId;
+        $this->username  = $username;
+        if (Role::MODERATOR === $passworOrRole || Role::VIEWER === $passworOrRole) {
             $this->role = $passworOrRole;
         } else {
-            $this->password         = $passworOrRole;
+            $this->password = $passworOrRole;
         }
         $this->customParameters = [];
     }

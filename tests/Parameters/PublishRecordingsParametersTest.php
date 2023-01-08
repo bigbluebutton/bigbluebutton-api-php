@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -24,6 +24,7 @@ use BigBlueButton\TestCase;
 
 /**
  * @internal
+ *
  * @coversNothing
  */
 class PublishRecordingsParametersTest extends TestCase
@@ -39,7 +40,7 @@ class PublishRecordingsParametersTest extends TestCase
 
         // Test setters that are ignored by the constructor
         $publishRecording->setRecordingId($newRecordingId = !$this->faker->uuid);
-        $publishRecording->setPublish($publish            = !$publish);
+        $publishRecording->setPublish($publish = !$publish);
         $this->assertEquals($newRecordingId, $publishRecording->getRecordingId());
         $this->assertEquals($publish, $publishRecording->isPublish());
     }

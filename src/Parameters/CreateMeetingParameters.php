@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -321,17 +321,17 @@ class CreateMeetingParameters extends MetaParameters
      * @var array
      */
     private $breakoutRoomsGroups = [];
-    
+
     /**
      * @var bool
      */
     private $notifyRecordingIsOn;
-    
+
     /**
      * @var string
      */
     private $uploadExternalUrl;
-    
+
     /**
      * @var string
      */
@@ -340,8 +340,8 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * CreateMeetingParameters constructor.
      *
-     * @param $meetingId
-     * @param $meetingName
+     * @param mixed $meetingId
+     * @param mixed $meetingName
      */
     public function __construct($meetingId, $meetingName)
     {
@@ -1118,9 +1118,6 @@ class CreateMeetingParameters extends MetaParameters
         return $this->allowModsToEjectCameras;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
     public function setAllowModsToEjectCameras(bool $allowModsToEjectCameras): self
     {
         $this->allowModsToEjectCameras = $allowModsToEjectCameras;
@@ -1129,7 +1126,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param $endCallbackUrl
+     * @param mixed $endCallbackUrl
      *
      * @return CreateMeetingParameters
      */
@@ -1141,7 +1138,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param $recordingReadyCallbackUrl
+     * @param mixed $recordingReadyCallbackUrl
      *
      * @return CreateMeetingParameters
      */
@@ -1348,7 +1345,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param $allowRequestsWithoutSession
+     * @param mixed $allowRequestsWithoutSession
      *
      * @return $this
      */
@@ -1445,9 +1442,9 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param $id
-     * @param $name
-     * @param $roster
+     * @param mixed $id
+     * @param mixed $name
+     * @param mixed $roster
      *
      * @return $this
      */
@@ -1457,15 +1454,13 @@ class CreateMeetingParameters extends MetaParameters
 
         return $this;
     }
-    
+
     public function getNotifyRecordingIsOn(): bool
     {
         return $this->notifyRecordingIsOn;
     }
 
     /**
-     * @param $notifyRecordingIsOn
-     *
      * @return $this
      */
     public function setNotifyRecordingIsOn(bool $notifyRecordingIsOn): CreateMeetingParameters
@@ -1474,15 +1469,13 @@ class CreateMeetingParameters extends MetaParameters
 
         return $this;
     }
-    
+
     public function getUploadExternalUrl(): string
     {
         return $this->uploadExternalUrl;
     }
 
     /**
-     * @param $uploadExternalUrl
-     *
      * @return $this
      */
     public function setUploadExternalUrl(string $uploadExternalUrl): CreateMeetingParameters
@@ -1491,15 +1484,13 @@ class CreateMeetingParameters extends MetaParameters
 
         return $this;
     }
-    
+
     public function getUploadExternalDescription(): string
     {
         return $this->uploadExternalDescription;
     }
 
     /**
-     * @param $uploadExternalDescription
-     *
      * @return $this
      */
     public function setUploadExternalDescription(string $uploadExternalDescription): CreateMeetingParameters
