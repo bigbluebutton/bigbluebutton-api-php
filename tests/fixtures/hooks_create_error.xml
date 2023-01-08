@@ -1,0 +1,5 @@
+<response>
+    <returncode>FAILED</returncode>
+    <messageKey>createHookError</messageKey>
+    <message>An error happened while creating your hook. Check the logs.</message>
+</response>

@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Responses;
 
 /**
- * Class ApiVersionResponse
- * @package BigBlueButton\Responses
+ * Class ApiVersionResponse.
  */
 class ApiVersionResponse extends BaseResponse
 {
@@ -30,5 +31,21 @@ class ApiVersionResponse extends BaseResponse
     public function getVersion()
     {
         return $this->rawXml->version->__toString();
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiVersion()
+    {
+        return $this->rawXml->apiVersion->__toString();
+    }
+
+    /**
+     * @return string
+     */
+    public function getBbbVersion()
+    {
+        return $this->rawXml->bbbVersion->__toString();
     }
 }

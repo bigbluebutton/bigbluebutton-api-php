@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Responses;
 
 /**
- * Class CreateMeetingResponse
- * @package BigBlueButton\Responses
+ * Class CreateMeetingResponse.
  */
 class CreateMeetingResponse extends BaseResponse
 {
@@ -67,7 +68,7 @@ class CreateMeetingResponse extends BaseResponse
     /**
      * Creation timestamp.
      *
-     * @return double
+     * @return float
      */
     public function getCreationTime()
     {
@@ -105,7 +106,7 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function hasUserJoined()
     {
-        return $this->rawXml->hasUserJoined->__toString() === 'true';
+        return 'true' === $this->rawXml->hasUserJoined->__toString();
     }
 
     /**
@@ -117,10 +118,10 @@ class CreateMeetingResponse extends BaseResponse
     }
 
     /**
-     * @return bool
+     * @return null|bool
      */
     public function hasBeenForciblyEnded()
     {
-        return $this->rawXml->hasBeenForciblyEnded->__toString() === 'true';
+        return 'true' === $this->rawXml->hasBeenForciblyEnded->__toString();
     }
 }

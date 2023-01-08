@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules>
+    <module name="presentation">
+        <document url="http://demo.bigbluebutton.org/bigbluebutton.png" filename="bigbluebutton.png"/>
+        <document url="http://demo.bigbluebutton.org/bigbluebutton.pdf" filename="bigbluebutton.pdf"
+                  downloadable="true"/>
+        <document url="http://demo.bigbluebutton.org/bigbluebutton.svg" filename="bigbluebutton.svg" downloadable="true"
+                  removable="false"/>
+    </module>
+</modules>

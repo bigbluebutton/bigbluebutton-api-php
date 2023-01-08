@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,6 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
@@ -29,6 +31,8 @@ class EndMeetingParameters extends BaseParameters
     private $meetingId;
 
     /**
+     * @deprecated
+     *
      * @var string
      */
     private $password;
@@ -36,10 +40,10 @@ class EndMeetingParameters extends BaseParameters
     /**
      * EndMeetingParameters constructor.
      *
-     * @param $meetingId
-     * @param $password
+     * @param string $meetingId
+     * @param string $password
      */
-    public function __construct($meetingId, $password)
+    public function __construct($meetingId, $password = '')
     {
         $this->password  = $password;
         $this->meetingId = $meetingId;
@@ -54,7 +58,8 @@ class EndMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param  string               $meetingId
+     * @param string $meetingId
+     *
      * @return EndMeetingParameters
      */
     public function setMeetingId($meetingId)
@@ -65,6 +70,8 @@ class EndMeetingParameters extends BaseParameters
     }
 
     /**
+     * @deprecated
+     *
      * @return string
      */
     public function getPassword()
@@ -73,7 +80,10 @@ class EndMeetingParameters extends BaseParameters
     }
 
     /**
-     * @param  string               $password
+     * @param string $password
+     *
+     * @deprecated
+     *
      * @return EndMeetingParameters
      */
     public function setPassword($password)

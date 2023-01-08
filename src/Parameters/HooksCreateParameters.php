@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,32 +17,54 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
-/**
- * Class SetConfigXMLParameters
- * @package BigBlueButton\Parameters
- */
-class SetConfigXMLParameters extends BaseParameters
+class HooksCreateParameters extends BaseParameters
 {
+    /**
+     * @var string
+     */
+    private $callbackUrl;
+
     /**
      * @var string
      */
     private $meetingId;
 
     /**
-     * @var \SimpleXMLElement
+     * @var bool
      */
-    private $rawXml;
+    private $getRaw;
 
     /**
-     * SetConfigXMLParameters constructor.
+     * HooksCreateParameters constructor.
      *
-     * @param $meetingId
+     * @param mixed $callbackUrl
      */
-    public function __construct($meetingId)
+    public function __construct($callbackUrl)
     {
-        $this->meetingId = $meetingId;
+        $this->callbackUrl = $callbackUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCallbackUrl()
+    {
+        return $this->callbackUrl;
+    }
+
+    /**
+     * @param string $callbackUrl
+     *
+     * @return HooksCreateParameters
+     */
+    public function setCallbackUrl($callbackUrl)
+    {
+        $this->callbackUrl = $callbackUrl;
+
+        return $this;
     }
 
     /**
@@ -53,8 +76,9 @@ class SetConfigXMLParameters extends BaseParameters
     }
 
     /**
-     * @param  string                 $meetingId
-     * @return SetConfigXMLParameters
+     * @param string $meetingId
+     *
+     * @return HooksCreateParameters
      */
     public function setMeetingId($meetingId)
     {
@@ -64,20 +88,21 @@ class SetConfigXMLParameters extends BaseParameters
     }
 
     /**
-     * @return string
+     * @return null|bool
      */
-    public function getRawXml()
+    public function getRaw()
     {
-        return $this->rawXml;
+        return $this->getRaw;
     }
 
     /**
-     * @param  \SimpleXMLElement      $rawXml
-     * @return SetConfigXMLParameters
+     * @param bool $getRaw
+     *
+     * @return HooksCreateParameters
      */
-    public function setRawXml($rawXml)
+    public function setGetRaw($getRaw)
     {
-        $this->rawXml = $rawXml;
+        $this->getRaw = $getRaw;
 
         return $this;
     }
@@ -87,11 +112,12 @@ class SetConfigXMLParameters extends BaseParameters
      */
     public function getHTTPQuery()
     {
-        return $this->buildHTTPQuery(
-            [
-                'configXML' => urlencode($this->rawXml->asXML()),
-                'meetingID' => $this->meetingId,
-            ]
-        );
+        $queries = [
+            'callbackURL' => $this->callbackUrl,
+            'meetingID'   => $this->meetingId,
+            'getRaw'      => $this->getRaw ? 'true' : 'false',
+        ];
+
+        return $this->buildHTTPQuery($queries);
     }
 }

@@ -8,11 +8,11 @@
     "api"
   ],
   "homepage": "http://bigbluebutton.org/",
-  "license": "GPL-3.0",
+  "license": "LGPL-3.0-or-later",
   "authors": [
     {
       "name": "Ghazi Triki",
-      "email": "ghazi.nocturne@gmail.com",
+      "email": "ghazi.triki@riadvice.tn",
       "role": "Developer"
     }
   ],
@@ -23,24 +23,53 @@
     }
   },
   "require": {
-    "php": ">=5.4",
+    "php": ">=7.1",
     "ext-curl": "*",
     "ext-simplexml": "*",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "marc-mabe/php-enum": "^4.7"
   },
   "require-dev": {
-    "php": ">=7.0",
-    "ext-mbstring": "*",
-    "composer/composer": "1.7.*@dev",
-    "phpunit/phpunit": "6.*",
-    "fzaninotto/faker": "~1.8.0",
-    "friendsofphp/php-cs-fixer": "2.*",
-    "squizlabs/php_codesniffer": "3.*",
-    "php-coveralls/php-coveralls": "2.1.*"
+    "phpunit/phpunit": "^9.5",
+    "fakerphp/faker": "^1.21",
+    "friendsofphp/php-cs-fixer": "^3.13.2",
+    "squizlabs/php_codesniffer": "^3.7.1",
+    "phploc/phploc": "^7.0.2",
+    "nunomaduro/phpinsights": "^v2.6.1",
+    "bmitch/churn-php": "^1.7.1",
+    "phpmetrics/phpmetrics": "^v2.8",
+    "wapmorgan/php-deprecation-detector": "^2.0"
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit",
+    "test-cov": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html coverage",
+    "cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --allow-risky yes",
+    "sniffer": "./vendor/bin/phpcs src/",
+    "phploc": "./vendor/bin/phploc src/",
+    "phpinsights": "./vendor/bin/phpinsights",
+    "phpdd": "./vendor/bin/phpdd --target 7.4 src/",
+    "phpmetrics": "./vendor/bin/phpmetrics --report-html=metrics src/",
+    "churn": "./vendor/bin/churn run src/"
+  },
+  "options": {
+    "symlink": false
   },
   "autoload": {
     "psr-4": {
       "BigBlueButton\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BigBlueButton\\": [
+        "src",
+        "tests"
+      ]
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }

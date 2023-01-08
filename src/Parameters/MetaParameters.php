@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class MetaParameters
- * @package BigBlueButton\Parameters
+ * Class MetaParameters.
  */
 abstract class MetaParameters extends BaseParameters
 {
@@ -30,7 +31,8 @@ abstract class MetaParameters extends BaseParameters
     private $meta = [];
 
     /**
-     * @param $key
+     * @param mixed $key
+     *
      * @return mixed
      */
     public function getMeta($key)
@@ -53,7 +55,7 @@ abstract class MetaParameters extends BaseParameters
 
     protected function buildMeta(&$queries)
     {
-        if (count($this->meta) !== 0) {
+        if (0 !== count($this->meta)) {
             foreach ($this->meta as $k => $v) {
                 if (!is_bool($v)) {
                     $queries['meta_' . $k] = $v;

@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,6 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Core;
 
 class Attendee
@@ -58,7 +60,7 @@ class Attendee
     /**
      * @var array
      */
-    private $customData;
+    private $customData = [];
 
     /**
      * @var string
@@ -67,6 +69,7 @@ class Attendee
 
     /**
      * Attendee constructor.
+     *
      * @param $xml \SimpleXMLElement
      */
     public function __construct($xml)
@@ -74,14 +77,16 @@ class Attendee
         $this->userId          = $xml->userID->__toString();
         $this->fullName        = $xml->fullName->__toString();
         $this->role            = $xml->role->__toString();
-        $this->isPresenter     = $xml->isPresenter->__toString() === 'true';
-        $this->isListeningOnly = $xml->isListeningOnly->__toString() === 'true';
-        $this->hasJoinedVoice  = $xml->hasJoinedVoice->__toString() === 'true';
-        $this->hasVideo        = $xml->hasVideo->__toString() === 'true';
+        $this->isPresenter     = 'true' === $xml->isPresenter->__toString();
+        $this->isListeningOnly = 'true' === $xml->isListeningOnly->__toString();
+        $this->hasJoinedVoice  = 'true' === $xml->hasJoinedVoice->__toString();
+        $this->hasVideo        = 'true' === $xml->hasVideo->__toString();
         $this->clientType      = $xml->clientType->__toString();
 
-        foreach ($xml->customdata->children() as $data) {
-            $this->customData[$data->getName()] = $data->__toString();
+        if ($xml->customdata) {
+            foreach ($xml->customdata->children() as $data) {
+                $this->customData[$data->getName()] = $data->__toString();
+            }
         }
     }
 
@@ -110,7 +115,7 @@ class Attendee
     }
 
     /**
-     * @return bool
+     * @return null|bool
      */
     public function isPresenter()
     {
@@ -118,7 +123,7 @@ class Attendee
     }
 
     /**
-     * @return bool
+     * @return null|bool
      */
     public function isListeningOnly()
     {
@@ -126,7 +131,7 @@ class Attendee
     }
 
     /**
-     * @return bool
+     * @return null|bool
      */
     public function hasJoinedVoice()
     {
@@ -134,7 +139,7 @@ class Attendee
     }
 
     /**
-     * @return bool
+     * @return null|bool
      */
     public function hasVideo()
     {

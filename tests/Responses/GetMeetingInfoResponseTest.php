@@ -1,5 +1,43 @@
 <?php
 
+/*
+ * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
+ *
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ *
+ * This program is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ */
+
+namespace BigBlueButton\Responses;
+
+/*
+ * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
+ *
+ * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
+ *
+ * This program is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free Software
+ * Foundation; either version 3.0 of the License, or (at your option) any later
+ * version.
+ *
+ * BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License along
+ * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ */
+
 /**
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
@@ -16,6 +54,10 @@
  *
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ *
+ * @internal
+ *
+ * @coversNothing
  */
 class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 {
@@ -24,7 +66,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
      */
     private $meetingInfo;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -36,7 +78,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
     public function testGetMeetingInfoResponseContent()
     {
         $this->assertInstanceOf('BigBlueButton\Core\Meeting', $this->meetingInfo->getMeeting());
-        $this->assertCount(2, $this->meetingInfo->getMeeting()->getAttendees());
+        $this->assertCount(4, $this->meetingInfo->getMeeting()->getAttendees());
         $this->assertEquals('SUCCESS', $this->meetingInfo->getReturnCode());
 
         $info = $this->meetingInfo->getMeeting();
@@ -67,6 +109,8 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
     public function testMeetingAttendeeContent()
     {
+        $this->assertCount(4, $this->meetingInfo->getMeeting()->getAttendees());
+
         $anAttendee = $this->meetingInfo->getMeeting()->getAttendees()[1];
 
         $this->assertEquals('xi7y7gpmyq1g', $anAttendee->getUserId());
@@ -77,7 +121,6 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals(true, $anAttendee->hasJoinedVoice());
         $this->assertEquals(false, $anAttendee->hasVideo());
         $this->assertEquals('FLASH', $anAttendee->getClientType());
-        $this->assertCount(2, $this->meetingInfo->getMeeting()->getAttendees());
 
         $customData = $anAttendee->getCustomData();
         $this->assertEquals(3, sizeof($customData));
@@ -86,15 +129,45 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
         $this->assertEquals('a:focus{color:#0181eb}', $customData['customStyle']);
     }
 
+    public function testMeetingModerators()
+    {
+        $moderators = $this->meetingInfo->getMeeting()->getModerators();
+
+        $this->assertCount(2, $moderators);
+
+        $firstModerator = $moderators[0];
+        $this->assertEquals('Ernie Abernathy', $firstModerator->getFullName());
+        $this->assertEquals('MODERATOR', $firstModerator->getRole());
+
+        $secondModerator = $moderators[1];
+        $this->assertEquals('Barrett Kutch', $secondModerator->getFullName());
+        $this->assertEquals('MODERATOR', $secondModerator->getRole());
+    }
+
+    public function testMeetingViewers()
+    {
+        $viewers = $this->meetingInfo->getMeeting()->getViewers();
+
+        $this->assertCount(2, $viewers);
+
+        $firstViewer = $viewers[0];
+        $this->assertEquals('Peter Parker', $firstViewer->getFullName());
+        $this->assertEquals('VIEWER', $firstViewer->getRole());
+
+        $secondViewer = $viewers[1];
+        $this->assertEquals('Bruce Wayne', $secondViewer->getFullName());
+        $this->assertEquals('VIEWER', $secondViewer->getRole());
+    }
+
     public function testGetMeetingInfoResponseTypes()
     {
         $info = $this->meetingInfo->getMeeting();
 
         $this->assertEachGetterValueIsString($info, ['getMeetingName', 'getMeetingId', 'getInternalMeetingId',
-            'getModeratorPassword', 'getAttendeePassword', 'getCreationDate', 'getDialNumber']);
+            'getModeratorPassword', 'getAttendeePassword', 'getCreationDate', 'getDialNumber', ]);
 
         $this->assertEachGetterValueIsInteger($info, ['getVoiceBridge', 'getDuration', 'getParticipantCount',
-            'getListenerCount', 'getVoiceParticipantCount', 'getVideoCount', 'getMaxUsers', 'getModeratorCount']);
+            'getListenerCount', 'getVoiceParticipantCount', 'getVideoCount', 'getMaxUsers', 'getModeratorCount', ]);
 
         $this->assertEachGetterValueIsDouble($info, ['getStartTime', 'getEndTime', 'getCreationTime']);
 

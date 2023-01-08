@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class UpdateRecordingsParameters
- * @package BigBlueButton\Parameters
+ * Class UpdateRecordingsParameters.
  */
 class UpdateRecordingsParameters extends MetaParameters
 {
@@ -32,7 +33,7 @@ class UpdateRecordingsParameters extends MetaParameters
     /**
      * UpdateRecordingsParameters constructor.
      *
-     * @param $recordingId
+     * @param mixed $recordingId
      */
     public function __construct($recordingId)
     {
@@ -48,7 +49,8 @@ class UpdateRecordingsParameters extends MetaParameters
     }
 
     /**
-     * @param  string                     $recordingId
+     * @param string $recordingId
+     *
      * @return UpdateRecordingsParameters
      */
     public function setRecordingId($recordingId)
@@ -64,7 +66,7 @@ class UpdateRecordingsParameters extends MetaParameters
     public function getHTTPQuery()
     {
         $queries = [
-            'recordID'                    => $this->recordingId,
+            'recordID' => $this->recordingId,
         ];
 
         $this->buildMeta($queries);

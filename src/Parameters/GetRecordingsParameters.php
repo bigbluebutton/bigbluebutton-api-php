@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class GetRecordingsParameters
- * @package BigBlueButton\Parameters
+ * Class GetRecordingsParameters.
  */
 class GetRecordingsParameters extends MetaParameters
 {
@@ -48,7 +49,8 @@ class GetRecordingsParameters extends MetaParameters
     }
 
     /**
-     * @param  string                  $meetingId
+     * @param string $meetingId
+     *
      * @return GetRecordingsParameters
      */
     public function setMeetingId($meetingId)
@@ -67,7 +69,8 @@ class GetRecordingsParameters extends MetaParameters
     }
 
     /**
-     * @param  string                  $recordId
+     * @param string $recordId
+     *
      * @return GetRecordingsParameters
      */
     public function setRecordId($recordId)
@@ -86,7 +89,8 @@ class GetRecordingsParameters extends MetaParameters
     }
 
     /**
-     * @param  string                  $state
+     * @param string $state
+     *
      * @return GetRecordingsParameters
      */
     public function setState($state)
@@ -104,7 +108,7 @@ class GetRecordingsParameters extends MetaParameters
         $queries = [
             'meetingID' => $this->meetingId,
             'recordID'  => $this->recordId,
-            'state'     => $this->state
+            'state'     => $this->state,
         ];
 
         $this->buildMeta($queries);

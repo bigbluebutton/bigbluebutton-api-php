@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,11 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace BigBlueButton\Parameters;
 
 /**
- * Class UserDataParameters
- * @package BigBlueButton\Parameters
+ * Class UserDataParameters.
  */
 abstract class UserDataParameters extends BaseParameters
 {
@@ -30,7 +31,8 @@ abstract class UserDataParameters extends BaseParameters
     private $userData = [];
 
     /**
-     * @param $key
+     * @param mixed $key
+     *
      * @return mixed
      */
     public function getUserData($key)
@@ -53,7 +55,7 @@ abstract class UserDataParameters extends BaseParameters
 
     protected function buildUserData(&$queries)
     {
-        if (count($this->userData) !== 0) {
+        if (0 !== count($this->userData)) {
             foreach ($this->userData as $k => $v) {
                 if (!is_bool($v)) {
                     $queries['userdata-' . $k] = $v;

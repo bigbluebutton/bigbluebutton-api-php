@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,28 +17,21 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Responses;
 
-use BigBlueButton\TestCase;
+namespace BigBlueButton\Enum;
 
-class GetDefaultConfigXMLResponseTest extends TestCase
+use MabeEnum\Enum;
+
+class Feature extends Enum
 {
-    /**
-     * @var \BigBlueButton\Responses\GetDefaultConfigXMLResponse
-     */
-    private $configXml;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'default_config_xml.xml');
-
-        $this->configXml = new GetDefaultConfigXMLResponse($xml);
-    }
-
-    public function testEndMeetingResponseContent()
-    {
-        $this->assertNotEmpty('SUCCESS', $this->configXml->getRawXml()->asXML());
-    }
+    public const BREAKOUT_ROOMS      = 'breakoutRooms';
+    public const CAPTIONS            = 'captions';
+    public const CHAT                = 'chat';
+    public const EXTERNAL_VIDEOS     = 'externalVideos';
+    public const LAYOUTS             = 'layouts';
+    public const LEARNING_DASHBOARD  = 'learningDashboard';
+    public const POLLS               = 'polls';
+    public const SCREENSHARE         = 'screenshare';
+    public const SHARED_NOTES        = 'sharedNotes';
+    public const VIRTUAL_BACKGROUNDS = 'virtualBackgrounds';
 }

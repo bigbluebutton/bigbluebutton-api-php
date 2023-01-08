@@ -1,0 +1,28 @@
+{
+  "response": {
+    "returncode": "SUCCESS",
+    "tracks": [
+      {
+        "href": "http://captions.example.com/foo.json",
+        "kind": "captions",
+        "label": "English",
+        "lang": "en-US",
+        "source": "live"
+      },
+      {
+        "href": "http://captions.example.com/foo.json",
+        "kind": "captions",
+        "label": "English",
+        "lang": "en-US",
+        "source": "live"
+      },
+      {
+        "href": "http://captions.example.com/foo.json",
+        "kind": "captions",
+        "label": "English",
+        "lang": "en-US",
+        "source": "live"
+      }
+    ]
+  }
+}

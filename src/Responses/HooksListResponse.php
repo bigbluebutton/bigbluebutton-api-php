@@ -1,8 +1,9 @@
 <?php
-/**
+
+/*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -16,25 +17,33 @@
  * You should have received a copy of the GNU Lesser General Public License along
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
-namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase as TestCase;
+namespace BigBlueButton\Responses;
+
+use BigBlueButton\Core\Hook;
 
 /**
- * Class SetConfigXMLParametersTest
- * @package BigBlueButton\Parameters
+ * Class GetRecordingsResponse.
  */
-class SetConfigXMLParametersTest extends TestCase
+class HooksListResponse extends BaseResponse
 {
-    public function testSetConfigXMLParameters()
+    /**
+     * @var Hook[]
+     */
+    private $hooks;
+
+    /**
+     * @return Hook[]
+     */
+    public function getHooks()
     {
-        $params             = $this->generateSetConfigXMLParams();
-        $setConfigXMLParams = $this->getSetConfigXMLMock($params);
+        if (null === $this->hooks) {
+            $this->hooks = [];
+            foreach ($this->rawXml->hooks->children() as $hookXml) {
+                $this->hooks[] = new Hook($hookXml);
+            }
+        }
 
-        $this->assertEquals($params['meetingId'], $setConfigXMLParams->getMeetingId());
-
-        // Test setters that are ignored by the constructor
-        $setConfigXMLParams->setMeetingId($newId = $this->faker->uuid);
-        $this->assertEquals($newId, $setConfigXMLParams->getMeetingId());
+        return $this->hooks;
     }
 }
