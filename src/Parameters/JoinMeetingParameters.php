@@ -393,7 +393,7 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
-     * @param bool $defaultLayout
+     * @param string $defaultLayout
      *
      * @return JoinMeetingParameters
      */
