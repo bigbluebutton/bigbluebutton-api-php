@@ -100,7 +100,7 @@ class JoinMeetingParameters extends UserDataParameters
     private $guest;
     
     /**
-     * @var bool
+     * @var string
      */
     private $defaultLayout;
 
