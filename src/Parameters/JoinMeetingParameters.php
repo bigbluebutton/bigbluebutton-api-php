@@ -88,6 +88,21 @@ class JoinMeetingParameters extends UserDataParameters
      * @var bool
      */
     private $excludeFromDashboard;
+    
+    /**
+     * @var string
+     */
+    private $configToken;
+    
+    /**
+     * @var bool
+     */
+    private $guest;
+    
+    /**
+     * @var bool
+     */
+    private $defaultLayout;
 
     /**
      * JoinMeetingParametersTest constructor.
@@ -328,6 +343,66 @@ class JoinMeetingParameters extends UserDataParameters
 
         return $this;
     }
+    
+    /**
+     * @return string
+     */
+    public function getConfigToken()
+    {
+        return $this->configToken;
+    }
+
+    /**
+     * @param string $configToken
+     *
+     * @return JoinMeetingParameters
+     */
+    public function setConfigToken($configToken)
+    {
+        $this->configToken = $configToken;
+
+        return $this;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isGuest()
+    {
+        return $this->guest;
+    }
+
+    /**
+     * @param bool $guest
+     *
+     * @return JoinMeetingParameters
+     */
+    public function setGuest($guest)
+    {
+        $this->guest = $guest;
+
+        return $this;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getDefaultLayout()
+    {
+        return $this->defaultLayout;
+    }
+
+    /**
+     * @param bool $defaultLayout
+     *
+     * @return JoinMeetingParameters
+     */
+    public function setDefaultLayout($defaultLayout)
+    {
+        $this->defaultLayout = $defaultLayout;
+
+        return $this;
+    }
 
     /**
      * @param string $paramName
@@ -359,6 +434,9 @@ class JoinMeetingParameters extends UserDataParameters
             'avatarURL'            => $this->avatarURL,
             'redirect'             => $this->redirect ? 'true' : 'false',
             'clientURL'            => $this->clientURL,
+            'configToken'           => $this->configToken,
+            'guest'                 => $this->guest ? 'true' : 'false',
+            'defaultLayout'         => $this->defaultLayout,
         ];
 
         foreach ($this->customParameters as $key => $value) {
