@@ -1552,6 +1552,7 @@ class CreateMeetingParameters extends MetaParameters
             'meetingKeepEvents'                      => $this->meetingKeepEvents ? 'true' : 'false',
             'meetingLayout'                          => $this->meetingLayout,
             'meetingCameraCap'                       => $this->meetingCameraCap,
+            'userCameraCap'                          => $this->userCameraCap,
             'meetingExpireIfNoUserJoinedInMinutes'   => $this->meetingExpireIfNoUserJoinedInMinutes,
             'meetingExpireWhenLastUserLeftInMinutes' => $this->meetingExpireWhenLastUserLeftInMinutes,
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
