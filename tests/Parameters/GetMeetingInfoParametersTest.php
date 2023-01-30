@@ -31,7 +31,7 @@ class GetMeetingInfoParametersTest extends TestCase
 {
     public function testGetMeetingInfoParameters()
     {
-        $getMeetingInfoParams = new GetMeetingInfoParameters($meetingId = $this->faker->uuid, $password = $this->faker->password());
+        $getMeetingInfoParams = new GetMeetingInfoParameters($meetingId = $this->faker->uuid);
 
         $this->assertEquals($meetingId, $getMeetingInfoParams->getMeetingId());
 
