@@ -27,18 +27,18 @@
     "ext-curl": "*",
     "ext-simplexml": "*",
     "ext-mbstring": "*",
-    "marc-mabe/php-enum": "^4.7"
+    "marc-mabe/php-enum": "^4.7.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.5",
+    "phpunit/phpunit": "^9.6.4",
     "fakerphp/faker": "^1.21",
-    "friendsofphp/php-cs-fixer": "^3.13.2",
-    "squizlabs/php_codesniffer": "^3.7.1",
+    "friendsofphp/php-cs-fixer": "^3.13.4",
+    "squizlabs/php_codesniffer": "^3.7.2",
     "phploc/phploc": "^7.0.2",
-    "nunomaduro/phpinsights": "^v2.6.1",
+    "nunomaduro/phpinsights": "^v2.7.0",
     "bmitch/churn-php": "^1.7.1",
-    "phpmetrics/phpmetrics": "^v2.8",
-    "wapmorgan/php-deprecation-detector": "^2.0"
+    "phpmetrics/phpmetrics": "^v2.8.1",
+    "wapmorgan/php-deprecation-detector": "^2.0.29"
   },
   "scripts": {
     "test": "./vendor/bin/phpunit",
