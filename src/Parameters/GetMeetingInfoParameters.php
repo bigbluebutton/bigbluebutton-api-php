@@ -31,6 +31,16 @@ class GetMeetingInfoParameters extends BaseParameters
     private $meetingId;
 
     /**
+     * @var int
+     */
+    private $offset;
+
+    /**
+     * @var int
+     */
+    private $limit;
+
+    /**
      * GetMeetingInfoParameters constructor.
      *
      * @param mixed $meetingId
@@ -60,6 +70,30 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
+    public function getOffset(): int
+    {
+        return $this->offset;
+    }
+
+    public function setOffset(int $offset): GetMeetingInfoParameters
+    {
+        $this->offset = $offset;
+
+        return $this;
+    }
+
+    public function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+    public function setLimit(int $limit): GetMeetingInfoParameters
+    {
+        $this->limit = $limit;
+
+        return $this;
+    }
+
     /**
      * @return string
      */
@@ -68,6 +102,8 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this->buildHTTPQuery(
             [
                 'meetingID' => $this->meetingId,
+                'offset'    => $this->offset,
+                'limit'     => $this->limit,
             ]
         );
     }

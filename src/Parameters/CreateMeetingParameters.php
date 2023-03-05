@@ -330,12 +330,12 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var string
      */
-    private $uploadExternalUrl;
+    private $presentationUploadExternalUrl;
 
     /**
      * @var string
      */
-    private $uploadExternalDescription;
+    private $presentationUploadExternalDescription;
 
     /**
      * CreateMeetingParameters constructor.
@@ -1470,32 +1470,32 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getUploadExternalUrl(): string
+    public function getPresentationUploadExternalUrl(): string
     {
-        return $this->uploadExternalUrl;
+        return $this->presentationUploadExternalUrl;
     }
 
     /**
      * @return $this
      */
-    public function setUploadExternalUrl(string $uploadExternalUrl): CreateMeetingParameters
+    public function setPresentationUploadExternalUrl(string $presentationUploadExternalUrl): CreateMeetingParameters
     {
-        $this->uploadExternalUrl = $uploadExternalUrl;
+        $this->presentationUploadExternalUrl = $presentationUploadExternalUrl;
 
         return $this;
     }
 
-    public function getUploadExternalDescription(): string
+    public function getPresentationUploadExternalDescription(): string
     {
-        return $this->uploadExternalDescription;
+        return $this->presentationUploadExternalDescription;
     }
 
     /**
      * @return $this
      */
-    public function setUploadExternalDescription(string $uploadExternalDescription): CreateMeetingParameters
+    public function setPresentationUploadExternalDescription(string $presentationUploadExternalDescription): CreateMeetingParameters
     {
-        $this->uploadExternalDescription = $uploadExternalDescription;
+        $this->presentationUploadExternalDescription = $presentationUploadExternalDescription;
 
         return $this;
     }
@@ -1558,8 +1558,8 @@ class CreateMeetingParameters extends MetaParameters
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
             'disabledFeatures'                       => join(',', $this->disabledFeatures),
             'notifyRecordingIsOn'                    => $this->notifyRecordingIsOn ? 'true' : 'false',
-            'uploadExternalUrl'                      => $this->uploadExternalUrl,
-            'uploadExternalDescription'              => $this->uploadExternalDescription,
+            'presentationUploadExternalUrl'          => $this->presentationUploadExternalUrl,
+            'presentationUploadExternalDescription'  => $this->presentationUploadExternalDescription,
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room

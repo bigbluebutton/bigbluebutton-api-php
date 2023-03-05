@@ -187,8 +187,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'meta_endCallbackUrl'                    => $this->faker->url,
             'meta_bbb-recording-ready-url'           => $this->faker->url,
             'notifyRecordingIsOn'                    => $this->faker->boolean(50),
-            'uploadExternalUrl'                      => $this->faker->url,
-            'uploadExternalDescription'              => $this->faker->text,
+            'presentationUploadExternalUrl'          => $this->faker->url,
+            'presentationUploadExternalDescription'  => $this->faker->text,
         ];
     }
 
@@ -287,8 +287,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->addMeta('presenter', $params['meta_presenter'])
             ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url'])
             ->setNotifyRecordingIsOn($params['notifyRecordingIsOn'])
-            ->setUploadExternalUrl($params['uploadExternalUrl'])
-            ->setUploadExternalDescription($params['uploadExternalDescription'])
+            ->setPresentationUploadExternalUrl($params['presentationUploadExternalUrl'])
+            ->setPresentationUploadExternalDescription($params['presentationUploadExternalDescription'])
         ;
     }
 

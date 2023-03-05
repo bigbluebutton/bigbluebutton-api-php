@@ -37,6 +37,10 @@ class GetMeetingInfoParametersTest extends TestCase
 
         // Test setters that are ignored by the constructor
         $getMeetingInfoParams->setMeetingId($newId = $this->faker->uuid);
+        $getMeetingInfoParams->setMeetingId($limit = $this->faker->numberBetween(1, 99));
+        $getMeetingInfoParams->setMeetingId($offset = $this->faker->numberBetween(1, 99));
         $this->assertEquals($newId, $getMeetingInfoParams->getMeetingId());
+        $this->assertEquals($limit, $getMeetingInfoParams->getLimit());
+        $this->assertEquals($offset, $getMeetingInfoParams->getOffset());
     }
 }

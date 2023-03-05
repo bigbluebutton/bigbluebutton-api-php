@@ -34,4 +34,6 @@ class Feature extends Enum
     public const SCREENSHARE         = 'screenshare';
     public const SHARED_NOTES        = 'sharedNotes';
     public const VIRTUAL_BACKGROUNDS = 'virtualBackgrounds';
+    public const LIVE_TRANSCRIPTION  = 'liveTranscription';
+    public const PRESENTATION        = 'presentation';
 }

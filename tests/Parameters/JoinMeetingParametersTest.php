@@ -20,8 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Enum\Role;
 use BigBlueButton\Enum\MeetingLayout;
+use BigBlueButton\Enum\Role;
 use BigBlueButton\TestCase;
 
 /**

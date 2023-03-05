@@ -88,17 +88,17 @@ class JoinMeetingParameters extends UserDataParameters
      * @var bool
      */
     private $excludeFromDashboard;
-    
+
     /**
      * @var string
      */
     private $configToken;
-    
+
     /**
      * @var bool
      */
     private $guest;
-    
+
     /**
      * @var string
      */
@@ -343,7 +343,7 @@ class JoinMeetingParameters extends UserDataParameters
 
         return $this;
     }
-    
+
     /**
      * @return string
      */
@@ -363,7 +363,7 @@ class JoinMeetingParameters extends UserDataParameters
 
         return $this;
     }
-    
+
     /**
      * @return bool
      */
@@ -383,7 +383,7 @@ class JoinMeetingParameters extends UserDataParameters
 
         return $this;
     }
-    
+
     /**
      * @return string
      */
@@ -434,9 +434,9 @@ class JoinMeetingParameters extends UserDataParameters
             'avatarURL'            => $this->avatarURL,
             'redirect'             => $this->redirect ? 'true' : 'false',
             'clientURL'            => $this->clientURL,
-            'configToken'           => $this->configToken,
-            'guest'                 => $this->guest ? 'true' : 'false',
-            'defaultLayout'         => $this->defaultLayout,
+            'configToken'          => $this->configToken,
+            'guest'                => $this->guest ? 'true' : 'false',
+            'defaultLayout'        => $this->defaultLayout,
         ];
 
         foreach ($this->customParameters as $key => $value) {
