@@ -49,7 +49,7 @@ class InsertDocumentResponseTest extends TestCase
         $this->assertEquals('Presentation is being uploaded', $this->insertDocument->getMessage());
     }
 
-    public function testIsMeetingRunningResponseTypes()
+    public function testInsertDocumentResponseTypes()
     {
         $this->assertEachGetterValueIsString($this->insertDocument, ['getReturnCode']);
         $this->assertEachGetterValueIsBoolean($this->insertDocument, ['getMessage']);

@@ -31,7 +31,7 @@ use BigBlueButton\TestCase;
  */
 final class InsertDocumentParametersTest extends TestCase
 {
-    public function testIsMeetingRunningParameters(): void
+    public function testInsertDocumentParameters(): void
     {
         $meetingId = $this->faker->uuid;
         $params    = new InsertDocumentParameters($meetingId);
