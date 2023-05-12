@@ -443,9 +443,7 @@ class JoinMeetingParameters extends UserDataParameters
             $queries[$key] = $value;
         }
 		
-      if(!$this->guest){
-		  unset($queries['guest']);
-	  }
+       unset($queries['guest']);
         $this->buildUserData($queries);
 
         return $this->buildHTTPQuery($queries);
