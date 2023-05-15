@@ -442,7 +442,10 @@ class JoinMeetingParameters extends UserDataParameters
         foreach ($this->customParameters as $key => $value) {
             $queries[$key] = $value;
         }
-
+		
+      if(!$this->guest){
+		  unset($queries['guest']);
+	  }
         $this->buildUserData($queries);
 
         return $this->buildHTTPQuery($queries);
