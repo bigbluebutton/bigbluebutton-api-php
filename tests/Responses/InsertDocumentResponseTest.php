@@ -52,6 +52,6 @@ class InsertDocumentResponseTest extends TestCase
     public function testInsertDocumentResponseTypes()
     {
         $this->assertEachGetterValueIsString($this->insertDocument, ['getReturnCode']);
-        $this->assertEachGetterValueIsBoolean($this->insertDocument, ['getMessage']);
+        $this->assertEachGetterValueIsString($this->insertDocument, ['getMessage']);
     }
 }
