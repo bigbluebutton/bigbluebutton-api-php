@@ -21,6 +21,7 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Enum\HashingAlgorithm;
 use BigBlueButton\Exceptions\BadResponseException;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
@@ -64,6 +65,9 @@ class BigBlueButton
     protected $bbbServerBaseUrl;
     protected $urlBuilder;
     protected $jSessionId;
+
+    protected $hashingAlgorithm;
+
     protected $curlopts = [];
     protected $timeOut  = 10;
 
@@ -80,8 +84,15 @@ class BigBlueButton
         // BBB_SECRET is the new variable name and have higher priority against the old named BBB_SECURITY_SALT
         $this->securitySecret   = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT');
         $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL');
-        $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl);
+        $this->hashingAlgorithm = HashingAlgorithm::SHA_256;
+        $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl, $this->hashingAlgorithm);
         $this->curlopts         = $opts['curl'] ?? [];
+    }
+
+    public function setHashingAlgorithm(string $hashingAlgorithm): void
+    {
+        $this->hashingAlgorithm = $hashingAlgorithm;
+        $this->urlBuilder->setHashingAlgorithm($hashingAlgorithm);
     }
 
     /**

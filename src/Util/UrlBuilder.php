@@ -25,6 +25,8 @@ namespace BigBlueButton\Util;
  */
 class UrlBuilder
 {
+    protected $hashingAlgorithm;
+
     /**
      * @var string
      */
@@ -40,11 +42,21 @@ class UrlBuilder
      *
      * @param mixed $secret
      * @param mixed $serverBaseUrl
+     * @param mixed $hashingAlgorithm
      */
-    public function __construct($secret, $serverBaseUrl)
+    public function __construct($secret, $serverBaseUrl, $hashingAlgorithm)
     {
         $this->securitySalt     = $secret;
         $this->bbbServerBaseUrl = $serverBaseUrl;
+        $this->hashingAlgorithm = $hashingAlgorithm;
+    }
+
+    /**
+     * Sets the hashing algorithm.
+     */
+    public function setHashingAlgorithm(string $hashingAlgorithm): void
+    {
+        $this->hashingAlgorithm = $hashingAlgorithm;
     }
 
     /**
@@ -71,6 +83,6 @@ class UrlBuilder
      */
     public function buildQs($method = '', $params = '')
     {
-        return $params . '&checksum=' . sha1($method . $params . $this->securitySalt);
+        return $params . '&checksum=' . hash($this->hashingAlgorithm, $method . $params . $this->securitySalt);
     }
 }
