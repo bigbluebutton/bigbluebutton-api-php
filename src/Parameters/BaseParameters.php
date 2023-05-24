@@ -37,6 +37,6 @@ abstract class BaseParameters
      */
     protected function buildHTTPQuery($array)
     {
-        return http_build_query(array_filter($array));
+        return http_build_query(array_filter($array), '', '&', \PHP_QUERY_RFC3986);
     }
 }
