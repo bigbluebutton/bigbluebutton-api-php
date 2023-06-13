@@ -25,17 +25,17 @@ class HooksCreateParameters extends BaseParameters
     /**
      * @var string
      */
-    private $callbackUrl;
+    private  ?string $callbackUrl =null;
 
     /**
      * @var string
      */
-    private $meetingId;
+    private ?string $meetingId =null;
 
     /**
      * @var bool
      */
-    private $getRaw;
+    private ?bool $getRaw =null;
 
     /**
      * HooksCreateParameters constructor.
@@ -115,7 +115,7 @@ class HooksCreateParameters extends BaseParameters
         $queries = [
             'callbackURL' => $this->callbackUrl,
             'meetingID'   => $this->meetingId,
-            'getRaw'      => $this->getRaw ? 'true' : 'false',
+            'getRaw'      => !is_null($this->getRaw)?($this->getRaw ? 'true' : 'false'):$this->getRaw,
         ];
 
         return $this->buildHTTPQuery($queries);

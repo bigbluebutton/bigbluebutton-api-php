@@ -28,14 +28,14 @@ class DeleteRecordingsParameters extends BaseParameters
     /**
      * @var string
      */
-    private $recordingId;
+    private ?string $recordingId =null;
 
     /**
      * DeleteRecordingsParameters constructor.
      *
      * @param mixed $recordingId
      */
-    public function __construct($recordingId)
+    public function __construct($recordingId=null)
     {
         $this->recordingId = $recordingId;
     }

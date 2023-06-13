@@ -30,14 +30,14 @@ class InsertDocumentParameters extends BaseParameters
     /**
      * @var string
      */
-    private $meetingId;
+    private ?string  $meetingId=null;
 
     /**
      * EndMeetingParameters constructor.
      *
      * @param string $meetingId
      */
-    public function __construct($meetingId)
+    public function __construct($meetingId=null)
     {
         $this->meetingId = $meetingId;
     }

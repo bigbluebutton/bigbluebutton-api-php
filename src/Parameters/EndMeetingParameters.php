@@ -28,22 +28,22 @@ class EndMeetingParameters extends BaseParameters
     /**
      * @var string
      */
-    private $meetingId;
+    private ?string $meetingId =null;
 
     /**
      * @deprecated
      *
      * @var string
      */
-    private $password;
 
+    private ?string $password = null;
     /**
      * EndMeetingParameters constructor.
      *
      * @param string $meetingId
      * @param string $password
      */
-    public function __construct($meetingId, $password = '')
+    public function __construct($meetingId=null, $password = null)
     {
         $this->password  = $password;
         $this->meetingId = $meetingId;
