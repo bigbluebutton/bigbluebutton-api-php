@@ -28,17 +28,17 @@ class GetRecordingsParameters extends MetaParameters
     /**
      * @var string
      */
-    private ?string $meetingId =null;
+    private ?string $meetingId = null;
 
     /**
      * @var string
      */
-    private ?string $recordId =null;
+    private ?string $recordId = null;
 
     /**
      * @var string
      */
-    private ?string $state =null;
+    private ?string $state = null;
 
     /**
      * @return string

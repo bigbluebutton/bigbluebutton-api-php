@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
@@ -20,7 +18,7 @@ declare(strict_types=1);
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Util;
 
 use BigBlueButton\TestCase;
 
@@ -29,19 +27,25 @@ use BigBlueButton\TestCase;
  *
  * @coversNothing
  */
-final class InsertDocumentParametersTest extends TestCase
+class ParamsIterator extends TestCase
 {
-    public function testInsertDocumentParameters(): void
+    public function __construct()
     {
-        $meetingId = $this->faker->uuid;
-        $params    = new InsertDocumentParameters($meetingId);
+    }
 
-        $params->addPresentation('https://demo.bigbluebutton.org/biglbuebutton.png');
-        $params->addPresentation('https://demo.bigbluebutton.org/biglbuebutton.pdf');
-        $params->addPresentation('https://demo.bigbluebutton.org/biglbuebutton.svg');
+    public function iterate($params, $url)
+    {
+       
+        foreach ($params as $key => $value) {
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            }
 
-        $this->assertEquals($meetingId, $params->getMeetingID());
-
-        $this->assertXmlStringEqualsXmlFile(dirname(__DIR__) . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'insert_document_presentations.xml', $params->getPresentationsAsXML());
+            if (!is_array($value)) {
+                $this->assertStringContainsString($value, urldecode($url));
+            } else {
+                $this->iterate($value, $url);
+            }
+        }
     }
 }

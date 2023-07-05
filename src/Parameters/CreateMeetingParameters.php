@@ -30,12 +30,12 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var string
      */
-    private ?string $meetingId=null;
+    private ?string $meetingId = null;
 
     /**
      * @var string
      */
-    private ?string $meetingName =null;
+    private ?string $meetingName = null;
 
     /**
      * @var string
@@ -343,7 +343,7 @@ class CreateMeetingParameters extends MetaParameters
      * @param mixed $meetingId
      * @param mixed $meetingName
      */
-    public function __construct($meetingId =null , $meetingName=null)
+    public function __construct($meetingId = null, $meetingName = null)
     {
         $this->meetingId   = $meetingId;
         $this->meetingName = $meetingName;
@@ -1505,8 +1505,6 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function getHTTPQuery()
     {
-
-
         $queries = [
             'name'                                   => $this->meetingName,
             'meetingID'                              => $this->meetingId,
@@ -1526,32 +1524,32 @@ class CreateMeetingParameters extends MetaParameters
             'webcamsOnlyForModerator'                => !is_null($this->webcamsOnlyForModerator) ? ($this->webcamsOnlyForModerator ? 'true' : 'false') : $this->webcamsOnlyForModerator,
             'logo'                                   => $this->logo,
             'copyright'                              => $this->copyright,
-            'muteOnStart'                            => !is_null($this->muteOnStart) ? ($this->muteOnStart? 'true' : 'false'): $this->muteOnStart,
+            'muteOnStart'                            => !is_null($this->muteOnStart) ? ($this->muteOnStart ? 'true' : 'false') : $this->muteOnStart,
             'guestPolicy'                            => $this->guestPolicy,
-            'lockSettingsDisableCam'                 => !is_null($this->lockSettingsDisableCam) ?($this->lockSettingsDisableCam?'true' : 'false') :$this->lockSettingsDisableCam,
-            'lockSettingsDisableMic'                 => !is_null($this->lockSettingsDisableMic) ?($this->lockSettingsDisableMic? 'true' : 'false'):$this->lockSettingsDisableMic,
-            'lockSettingsDisablePrivateChat'         => !is_null($this->lockSettingsDisablePrivateChat) ? ($this->lockSettingsDisablePrivateChat ? 'true' : 'false'):$this->lockSettingsDisablePrivateChat,
-            'lockSettingsDisablePublicChat'          => !is_null($this->lockSettingsDisablePublicChat) ? ($this->lockSettingsDisablePublicChat ?'true' : 'false'):$this->lockSettingsDisablePublicChat,
-            'lockSettingsDisableNote'                =>  !is_null($this->lockSettingsDisableNote )? ($this->lockSettingsDisableNote ? 'true' : 'false'):$this->lockSettingsDisableNote,
-            'lockSettingsHideUserList'               => !is_null($this->lockSettingsHideUserList)?($this->lockSettingsHideUserList ? 'true' : 'false'):$this->lockSettingsHideUserList,
-            'lockSettingsLockedLayout'               => !is_null($this->lockSettingsLockedLayout)?($this->lockSettingsLockedLayout ? 'true' : 'false'):$this->lockSettingsLockedLayout,
-            'lockSettingsLockOnJoin'                 => !is_null($this->lockSettingsLockOnJoin )?($this->lockSettingsLockOnJoin ? 'true' : 'false'):$this->lockSettingsLockOnJoin ,
-            'lockSettingsLockOnJoinConfigurable'     => !is_null($this->lockSettingsLockOnJoinConfigurable)?($this->lockSettingsLockOnJoinConfigurable ? 'true' : 'false'):$this->lockSettingsLockOnJoinConfigurable,
-            'lockSettingsHideViewersCursor'          => !is_null($this->lockSettingsHideViewersCursor)?($this->lockSettingsHideViewersCursor ? 'true' : 'false'):$this->lockSettingsHideViewersCursor,
-            'allowModsToUnmuteUsers'                 => !is_null($this->allowModsToUnmuteUsers)?($this->allowModsToUnmuteUsers ? 'true' : 'false'):$this->allowModsToUnmuteUsers,
-            'allowModsToEjectCameras'                => !is_null($this->allowModsToEjectCameras)?($this->allowModsToEjectCameras ? 'true' : 'false'):$this->allowModsToEjectCameras,
+            'lockSettingsDisableCam'                 => !is_null($this->lockSettingsDisableCam) ? ($this->lockSettingsDisableCam ? 'true' : 'false') : $this->lockSettingsDisableCam,
+            'lockSettingsDisableMic'                 => !is_null($this->lockSettingsDisableMic) ? ($this->lockSettingsDisableMic ? 'true' : 'false') : $this->lockSettingsDisableMic,
+            'lockSettingsDisablePrivateChat'         => !is_null($this->lockSettingsDisablePrivateChat) ? ($this->lockSettingsDisablePrivateChat ? 'true' : 'false') : $this->lockSettingsDisablePrivateChat,
+            'lockSettingsDisablePublicChat'          => !is_null($this->lockSettingsDisablePublicChat) ? ($this->lockSettingsDisablePublicChat ? 'true' : 'false') : $this->lockSettingsDisablePublicChat,
+            'lockSettingsDisableNote'                => !is_null($this->lockSettingsDisableNote) ? ($this->lockSettingsDisableNote ? 'true' : 'false') : $this->lockSettingsDisableNote,
+            'lockSettingsHideUserList'               => !is_null($this->lockSettingsHideUserList) ? ($this->lockSettingsHideUserList ? 'true' : 'false') : $this->lockSettingsHideUserList,
+            'lockSettingsLockedLayout'               => !is_null($this->lockSettingsLockedLayout) ? ($this->lockSettingsLockedLayout ? 'true' : 'false') : $this->lockSettingsLockedLayout,
+            'lockSettingsLockOnJoin'                 => !is_null($this->lockSettingsLockOnJoin) ? ($this->lockSettingsLockOnJoin ? 'true' : 'false') : $this->lockSettingsLockOnJoin,
+            'lockSettingsLockOnJoinConfigurable'     => !is_null($this->lockSettingsLockOnJoinConfigurable) ? ($this->lockSettingsLockOnJoinConfigurable ? 'true' : 'false') : $this->lockSettingsLockOnJoinConfigurable,
+            'lockSettingsHideViewersCursor'          => !is_null($this->lockSettingsHideViewersCursor) ? ($this->lockSettingsHideViewersCursor ? 'true' : 'false') : $this->lockSettingsHideViewersCursor,
+            'allowModsToUnmuteUsers'                 => !is_null($this->allowModsToUnmuteUsers) ? ($this->allowModsToUnmuteUsers ? 'true' : 'false') : $this->allowModsToUnmuteUsers,
+            'allowModsToEjectCameras'                => !is_null($this->allowModsToEjectCameras) ? ($this->allowModsToEjectCameras ? 'true' : 'false') : $this->allowModsToEjectCameras,
             'bannerText'                             => trim($this->bannerText),
             'bannerColor'                            => trim($this->bannerColor),
-            'learningDashboardEnabled'               => !is_null($this->learningDashboardEnabled)?($this->learningDashboardEnabled ? 'true' : 'false'):$this->learningDashboardEnabled,
-            'virtualBackgroundsDisabled'             => !is_null($this->virtualBackgroundsDisabled)?($this->virtualBackgroundsDisabled ? 'true' : 'false'):$this->virtualBackgroundsDisabled,
+            'learningDashboardEnabled'               => !is_null($this->learningDashboardEnabled) ? ($this->learningDashboardEnabled ? 'true' : 'false') : $this->learningDashboardEnabled,
+            'virtualBackgroundsDisabled'             => !is_null($this->virtualBackgroundsDisabled) ? ($this->virtualBackgroundsDisabled ? 'true' : 'false') : $this->virtualBackgroundsDisabled,
             'endWhenNoModeratorDelayInMinutes'       => $this->endWhenNoModeratorDelayInMinutes,
-            'allowRequestsWithoutSession'            => !is_null($this->allowRequestsWithoutSession)?($this->allowRequestsWithoutSession ? 'true' : 'false'):$this->allowRequestsWithoutSession,
+            'allowRequestsWithoutSession'            => !is_null($this->allowRequestsWithoutSession) ? ($this->allowRequestsWithoutSession ? 'true' : 'false') : $this->allowRequestsWithoutSession,
             'meetingEndedURL'                        => $this->meetingEndedURL,
-            'breakoutRoomsEnabled'                   => !is_null($this->breakoutRoomsEnabled)?($this->breakoutRoomsEnabled ? 'true' : 'false'):$this->breakoutRoomsEnabled,
-            'breakoutRoomsRecord'                    => !is_null($this->breakoutRoomsRecord)?($this->breakoutRoomsRecord ? 'true' : 'false'):$this->breakoutRoomsRecord,
-            'breakoutRoomsPrivateChatEnabled'        => !is_null($this->breakoutRoomsPrivateChatEnabled)?($this->breakoutRoomsPrivateChatEnabled ? 'true' : 'false'):$this->breakoutRoomsPrivateChatEnabled,
-            'endWhenNoModerator'                     => !is_null($this->endWhenNoModerator)?($this->endWhenNoModerator ? 'true' : 'false'):$this->endWhenNoModerator,
-            'meetingKeepEvents'                      => !is_null($this->meetingKeepEvents )?($this->meetingKeepEvents ? 'true' : 'false'):$this->meetingKeepEvents ,
+            'breakoutRoomsEnabled'                   => !is_null($this->breakoutRoomsEnabled) ? ($this->breakoutRoomsEnabled ? 'true' : 'false') : $this->breakoutRoomsEnabled,
+            'breakoutRoomsRecord'                    => !is_null($this->breakoutRoomsRecord) ? ($this->breakoutRoomsRecord ? 'true' : 'false') : $this->breakoutRoomsRecord,
+            'breakoutRoomsPrivateChatEnabled'        => !is_null($this->breakoutRoomsPrivateChatEnabled) ? ($this->breakoutRoomsPrivateChatEnabled ? 'true' : 'false') : $this->breakoutRoomsPrivateChatEnabled,
+            'endWhenNoModerator'                     => !is_null($this->endWhenNoModerator) ? ($this->endWhenNoModerator ? 'true' : 'false') : $this->endWhenNoModerator,
+            'meetingKeepEvents'                      => !is_null($this->meetingKeepEvents) ? ($this->meetingKeepEvents ? 'true' : 'false') : $this->meetingKeepEvents,
             'meetingLayout'                          => $this->meetingLayout,
             'meetingCameraCap'                       => $this->meetingCameraCap,
             'userCameraCap'                          => $this->userCameraCap,
@@ -1559,7 +1557,7 @@ class CreateMeetingParameters extends MetaParameters
             'meetingExpireWhenLastUserLeftInMinutes' => $this->meetingExpireWhenLastUserLeftInMinutes,
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
             'disabledFeatures'                       => join(',', $this->disabledFeatures),
-            'notifyRecordingIsOn'                    => is_null($this->notifyRecordingIsOn)?($this->notifyRecordingIsOn ? 'true' : 'false'):$this->notifyRecordingIsOn,
+            'notifyRecordingIsOn'                    => is_null($this->notifyRecordingIsOn) ? ($this->notifyRecordingIsOn ? 'true' : 'false') : $this->notifyRecordingIsOn,
             'presentationUploadExternalUrl'          => $this->presentationUploadExternalUrl,
             'presentationUploadExternalDescription'  => $this->presentationUploadExternalDescription,
         ];
@@ -1567,10 +1565,10 @@ class CreateMeetingParameters extends MetaParameters
         // Add breakout rooms parameters only if the meeting is a breakout room
         if ($this->isBreakout()) {
             $queries = array_merge($queries, [
-                'isBreakout'      => !is_null($this->isBreakout)?($this->isBreakout ? 'true' : 'false'):$this->isBreakout,
+                'isBreakout'      => !is_null($this->isBreakout) ? ($this->isBreakout ? 'true' : 'false') : $this->isBreakout,
                 'parentMeetingID' => $this->parentMeetingId,
                 'sequence'        => $this->sequence,
-                'freeJoin'        => !is_null($this->freeJoin)?($this->freeJoin ? 'true' : 'false'):$this->freeJoin,
+                'freeJoin'        => !is_null($this->freeJoin) ? ($this->freeJoin ? 'true' : 'false') : $this->freeJoin,
             ]);
         } else {
             $queries = array_merge($queries, [

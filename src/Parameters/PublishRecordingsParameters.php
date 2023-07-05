@@ -28,12 +28,12 @@ class PublishRecordingsParameters extends BaseParameters
     /**
      * @var string
      */
-    private ?string $recordingId =null;
+    private ?string $recordingId = null;
 
     /**
      * @var bool
      */
-    private ?bool $publish=null;
+    private ?bool $publish = null;
 
     /**
      * PublishRecordingsParameters constructor.
@@ -41,7 +41,7 @@ class PublishRecordingsParameters extends BaseParameters
      * @param mixed $recordingId
      * @param mixed $publish
      */
-    public function __construct($recordingId, $publish=null)
+    public function __construct($recordingId, $publish = null)
     {
         $this->recordingId = $recordingId;
         $this->publish     = $publish;
@@ -91,7 +91,7 @@ class PublishRecordingsParameters extends BaseParameters
         return $this->buildHTTPQuery(
             [
                 'recordID' => $this->recordingId,
-                'publish'  => !is_null($this->publish)?($this->publish ? 'true' : 'false'):$this->publish,
+                'publish'  => !is_null($this->publish) ? ($this->publish ? 'true' : 'false') : $this->publish,
             ]
         );
     }

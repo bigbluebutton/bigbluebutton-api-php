@@ -60,7 +60,7 @@ abstract class UserDataParameters extends BaseParameters
                 if (!is_bool($v)) {
                     $queries['userdata-' . $k] = $v;
                 } else {
-                    $queries['userdata-' . $k] = !is_null( $v)?($v ? 'true' : 'false'): $v;
+                    $queries['userdata-' . $k] = !is_null($v) ? ($v ? 'true' : 'false') : $v;
                 }
             }
         }
