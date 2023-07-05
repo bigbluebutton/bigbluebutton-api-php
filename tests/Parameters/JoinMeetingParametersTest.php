@@ -69,6 +69,6 @@ class JoinMeetingParametersTest extends TestCase
         $this->assertEquals($clientUrl, $joinMeetingParams->getClientURL());
         $this->assertEquals($configToken, $joinMeetingParams->getConfigToken());
         $this->assertEquals($guest, $joinMeetingParams->isGuest());
-        $this->assertEquals($defaultLayout, $joinMeetingParams->getDefaultLayout);
+        $this->assertEquals($defaultLayout, $joinMeetingParams->getDefaultLayout());
     }
 }

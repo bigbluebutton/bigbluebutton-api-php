@@ -28,14 +28,14 @@ class IsMeetingRunningParameters extends BaseParameters
     /**
      * @var string
      */
-    private $meetingId;
+    private ?string $meetingId = null;
 
     /**
      * IsMeetingRunningParameters constructor.
      *
      * @param mixed $meetingId
      */
-    public function __construct($meetingId)
+    public function __construct($meetingId = null)
     {
         $this->meetingId = $meetingId;
     }

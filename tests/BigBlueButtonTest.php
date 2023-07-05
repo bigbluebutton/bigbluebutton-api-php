@@ -27,6 +27,7 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Util\ParamsIterator;
 
 /**
  * Class BigBlueButtonTest.
@@ -81,12 +82,10 @@ class BigBlueButtonTest extends TestCase
     {
         $params = $this->generateCreateParams();
         $url    = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
-        foreach ($params as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
-        }
+
+      
+        $paramsIterator = new ParamsIterator();
+        $paramsIterator->iterate($params, $url);
     }
 
     /**
@@ -96,6 +95,7 @@ class BigBlueButtonTest extends TestCase
     {
         $params = $this->generateCreateParams();
         $result = $this->bbb->createMeeting($this->getCreateMock($params));
+
         $this->assertEquals('SUCCESS', $result->getReturnCode());
         $this->assertTrue($result->success());
     }
@@ -136,6 +136,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithDocumentEmbedded()
     {
         $params = $this->getCreateMock($this->generateCreateParams());
+
         $params->addPresentation('bbb_logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
 
         $result = $this->bbb->createMeeting($params);
@@ -169,16 +170,12 @@ class BigBlueButtonTest extends TestCase
     public function testCreateJoinMeetingUrl()
     {
         $joinMeetingParams = $this->generateJoinMeetingParams();
-        $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
 
-        $url = $this->bbb->getJoinMeetingURL($joinMeetingMock);
+        $joinMeetingMock = $this->getJoinMeetingMock($joinMeetingParams);
 
-        foreach ($joinMeetingParams as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
-        }
+        $url            = $this->bbb->getJoinMeetingURL($joinMeetingMock);
+        $paramsIterator = new ParamsIterator();
+        $paramsIterator->iterate($joinMeetingParams, $url);
     }
 
     /**
@@ -193,6 +190,7 @@ class BigBlueButtonTest extends TestCase
         $joinMeetingMock->setRedirect(false);
 
         $joinMeeting = $this->bbb->joinMeeting($joinMeetingMock);
+
         $this->assertEquals('SUCCESS', $joinMeeting->getReturnCode());
         $this->assertTrue($joinMeeting->success());
         $this->assertNotEmpty($joinMeeting->getAuthToken());
@@ -209,14 +207,10 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateEndMeetingUrl()
     {
-        $params = $this->generateEndMeetingParams();
-        $url    = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
-        foreach ($params as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
-        }
+        $params         = $this->generateEndMeetingParams();
+        $url            = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
+        $paramsIterator = new ParamsIterator();
+        $paramsIterator->iterate($params, $url);
     }
 
     public function testEndMeeting()
@@ -321,14 +315,10 @@ class BigBlueButtonTest extends TestCase
 
     public function testUpdateRecordingsUrl()
     {
-        $params = $this->generateUpdateRecordingsParams();
-        $url    = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
-        foreach ($params as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
-            $this->assertStringContainsString('=' . urlencode($value), $url);
-        }
+        $params         = $this->generateUpdateRecordingsParams();
+        $url            = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
+        $paramsIterator = new ParamsIterator();
+        $paramsIterator->iterate($params, $url);
     }
 
     public function testUpdateRecordings()

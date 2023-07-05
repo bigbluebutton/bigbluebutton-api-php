@@ -28,24 +28,24 @@ class GetMeetingInfoParameters extends BaseParameters
     /**
      * @var string
      */
-    private $meetingId;
+    private ?string $meetingId = null;
 
     /**
      * @var int
      */
-    private $offset;
+    private ?int $offset = null;
 
     /**
      * @var int
      */
-    private $limit;
+    private ?int $limit = null;
 
     /**
      * GetMeetingInfoParameters constructor.
      *
      * @param mixed $meetingId
      */
-    public function __construct($meetingId)
+    public function __construct($meetingId = null)
     {
         $this->meetingId = $meetingId;
     }
@@ -70,7 +70,7 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
-    public function getOffset(): int
+    public function getOffset()
     {
         return $this->offset;
     }
@@ -82,7 +82,7 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
-    public function getLimit(): int
+    public function getLimit()
     {
         return $this->limit;
     }

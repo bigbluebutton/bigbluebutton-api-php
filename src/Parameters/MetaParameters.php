@@ -60,7 +60,7 @@ abstract class MetaParameters extends BaseParameters
                 if (!is_bool($v)) {
                     $queries['meta_' . $k] = $v;
                 } else {
-                    $queries['meta_' . $k] = $v ? 'true' : 'false';
+                    $queries['meta_' . $k] = !is_null($v) ? ($v ? 'true' : 'false') : $v;
                 }
             }
         }

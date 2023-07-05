@@ -30,287 +30,287 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var string
      */
-    private $meetingId;
+    private ?string $meetingId = null;
 
     /**
      * @var string
      */
-    private $meetingName;
-
-    /**
-     * @var string
-     *
-     * @deprecated
-     */
-    private $attendeePassword;
+    private ?string $meetingName = null;
 
     /**
      * @var string
      *
      * @deprecated
      */
-    private $moderatorPassword;
+    private ?string $attendeePassword = null;
+
+    /**
+     * @var string
+     *
+     * @deprecated
+     */
+    private ?string $moderatorPassword = null;
 
     /**
      * @var string
      */
-    private $dialNumber;
+    private ?string $dialNumber = null;
 
     /**
      * @var int
      */
-    private $voiceBridge;
+    private ?int $voiceBridge = null;
 
     /**
      * @var string
      */
-    private $webVoice;
+    private ?string $webVoice = null;
 
     /**
      * @var string
      */
-    private $logoutUrl;
+    private ?string $logoutUrl = null;
 
     /**
      * @var int
      */
-    private $maxParticipants;
+    private ?int $maxParticipants = null;
 
     /**
      * @var bool
      */
-    private $record;
+    private ?bool $record = null;
 
     /**
      * @var bool
      */
-    private $autoStartRecording;
+    private ?bool $autoStartRecording = null;
 
     /**
      * @var bool
      */
-    private $allowStartStopRecording;
+    private ?bool $allowStartStopRecording = null;
 
     /**
      * @var int
      */
-    private $duration;
+    private ?int $duration = null;
 
     /**
      * @var string
      */
-    private $welcomeMessage;
+    private ?string $welcomeMessage = null;
 
     /**
      * @var string
      */
-    private $moderatorOnlyMessage;
+    private ?string $moderatorOnlyMessage = null;
 
     /**
      * @var bool
      */
-    private $webcamsOnlyForModerator;
+    private ?bool $webcamsOnlyForModerator = null;
 
     /**
      * @var string
      */
-    private $logo;
+    private ?string $logo = null;
 
     /**
      * @var string
      */
-    private $copyright;
+    private ?string $copyright = null;
 
     /**
      * @var bool
      */
-    private $muteOnStart;
+    private ?bool $muteOnStart = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsDisableCam;
+    private ?bool $lockSettingsDisableCam = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsDisableMic;
+    private ?bool $lockSettingsDisableMic = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsDisablePrivateChat;
+    private ?bool $lockSettingsDisablePrivateChat = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsDisablePublicChat;
+    private ?bool $lockSettingsDisablePublicChat = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsDisableNote;
+    private ?bool $lockSettingsDisableNote = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsHideUserList;
+    private ?bool $lockSettingsHideUserList = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsLockedLayout;
+    private ?bool $lockSettingsLockedLayout = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsLockOnJoin = true;
+    private ?bool $lockSettingsLockOnJoin = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsLockOnJoinConfigurable;
+    private ?bool $lockSettingsLockOnJoinConfigurable = null;
 
     /**
      * @var bool
      */
-    private $lockSettingsHideViewersCursor;
+    private ?bool $lockSettingsHideViewersCursor = null;
 
     /**
      * @var bool
      */
-    private $allowModsToUnmuteUsers;
+    private ?bool $allowModsToUnmuteUsers = null;
 
     /**
      * @var bool
      */
-    private $allowModsToEjectCameras;
+    private ?bool $allowModsToEjectCameras = null;
 
     /**
      * @var bool
      */
-    private $allowRequestsWithoutSession;
+    private ?bool $allowRequestsWithoutSession = null;
 
     /**
      * @var bool
      */
-    private $isBreakout;
+    private ?bool $isBreakout = null;
 
     /**
      * @var string
      */
-    private $parentMeetingId;
+    private ?string $parentMeetingId = null;
 
     /**
      * @var int
      */
-    private $sequence;
+    private ?int $sequence = null;
 
     /**
      * @var bool
      */
-    private $freeJoin;
+    private ?bool $freeJoin = null;
 
     /**
      * @var string
      */
-    private $guestPolicy;
+    private ?string $guestPolicy = null;
 
     /**
      * @var string
      */
-    private $bannerText;
+    private ?string $bannerText = null;
 
     /**
      * @var string
      */
-    private $bannerColor;
+    private ?string $bannerColor = null;
 
     /**
      * @deprecated
      *
      * @var bool
      */
-    private $learningDashboardEnabled;
+    private ?bool $learningDashboardEnabled = null;
 
     /**
      * @deprecated
      *
      * @var bool
      */
-    private $virtualBackgroundsDisabled;
+    private ?bool $virtualBackgroundsDisabled = null;
 
     /**
      * @var int
      */
-    private $learningDashboardCleanupDelayInMinutes;
+    private ?int $learningDashboardCleanupDelayInMinutes = null;
 
     /**
      * @var int
      */
-    private $endWhenNoModeratorDelayInMinutes;
+    private ?int $endWhenNoModeratorDelayInMinutes = null;
 
     /**
      * @var bool
      */
-    private $endWhenNoModerator;
+    private ?bool $endWhenNoModerator = null;
 
     /**
      * @var bool
      */
-    private $meetingKeepEvents;
+    private ?bool $meetingKeepEvents = null;
 
     /**
      * @deprecated
      *
      * @var bool
      */
-    private $breakoutRoomsEnabled;
+    private ?bool $breakoutRoomsEnabled = null;
 
     /**
      * @var bool
      */
-    private $breakoutRoomsRecord;
+    private ?bool $breakoutRoomsRecord = null;
 
     /**
      * @var bool
      */
-    private $breakoutRoomsPrivateChatEnabled;
+    private ?bool $breakoutRoomsPrivateChatEnabled = null;
 
     /**
      * @var string
      */
-    private $meetingEndedURL;
+    private ?string $meetingEndedURL = null;
 
     /**
      * @var string
      */
-    private $meetingLayout;
+    private ?string $meetingLayout = null;
 
     /**
      * @var int
      */
-    private $userCameraCap;
+    private ?int $userCameraCap = null;
 
     /**
      * @var int
      */
-    private $meetingCameraCap;
+    private ?int $meetingCameraCap = null;
 
     /**
      * @var int
      */
-    private $meetingExpireIfNoUserJoinedInMinutes;
+    private ?int $meetingExpireIfNoUserJoinedInMinutes = null;
 
     /**
      * @var int
      */
-    private $meetingExpireWhenLastUserLeftInMinutes;
+    private ?int $meetingExpireWhenLastUserLeftInMinutes = null;
 
     /**
      * @var bool
      */
-    private $preUploadedPresentationOverrideDefault;
+    private ?bool $preUploadedPresentationOverrideDefault = null;
 
     /**
      * @var array
@@ -325,17 +325,17 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var bool
      */
-    private $notifyRecordingIsOn;
+    private ?bool $notifyRecordingIsOn = null;
 
     /**
      * @var string
      */
-    private $presentationUploadExternalUrl;
+    private ?string $presentationUploadExternalUrl = null;
 
     /**
      * @var string
      */
-    private $presentationUploadExternalDescription;
+    private ?string $presentationUploadExternalDescription = null;
 
     /**
      * CreateMeetingParameters constructor.
@@ -343,7 +343,7 @@ class CreateMeetingParameters extends MetaParameters
      * @param mixed $meetingId
      * @param mixed $meetingName
      */
-    public function __construct($meetingId, $meetingName)
+    public function __construct($meetingId = null, $meetingName = null)
     {
         $this->meetingId   = $meetingId;
         $this->meetingName = $meetingName;
@@ -1514,42 +1514,42 @@ class CreateMeetingParameters extends MetaParameters
             'voiceBridge'                            => $this->voiceBridge,
             'webVoice'                               => $this->webVoice,
             'logoutURL'                              => $this->logoutUrl,
-            'record'                                 => $this->record ? 'true' : 'false',
+            'record'                                 => !is_null($this->record) ? ($this->record ? 'true' : 'false') : $this->record,
             'duration'                               => $this->duration,
             'maxParticipants'                        => $this->maxParticipants,
-            'autoStartRecording'                     => $this->autoStartRecording ? 'true' : 'false',
-            'allowStartStopRecording'                => $this->allowStartStopRecording ? 'true' : 'false',
+            'autoStartRecording'                     => !is_null($this->autoStartRecording) ? ($this->autoStartRecording ? 'true' : 'false') : $this->autoStartRecording,
+            'allowStartStopRecording'                => !is_null($this->allowStartStopRecording) ? ($this->allowStartStopRecording ? 'true' : 'false') : $this->allowStartStopRecording,
             'welcome'                                => trim($this->welcomeMessage),
             'moderatorOnlyMessage'                   => trim($this->moderatorOnlyMessage),
-            'webcamsOnlyForModerator'                => $this->webcamsOnlyForModerator ? 'true' : 'false',
+            'webcamsOnlyForModerator'                => !is_null($this->webcamsOnlyForModerator) ? ($this->webcamsOnlyForModerator ? 'true' : 'false') : $this->webcamsOnlyForModerator,
             'logo'                                   => $this->logo,
             'copyright'                              => $this->copyright,
-            'muteOnStart'                            => $this->muteOnStart ? 'true' : 'false',
+            'muteOnStart'                            => !is_null($this->muteOnStart) ? ($this->muteOnStart ? 'true' : 'false') : $this->muteOnStart,
             'guestPolicy'                            => $this->guestPolicy,
-            'lockSettingsDisableCam'                 => $this->lockSettingsDisableCam ? 'true' : 'false',
-            'lockSettingsDisableMic'                 => $this->lockSettingsDisableMic ? 'true' : 'false',
-            'lockSettingsDisablePrivateChat'         => $this->lockSettingsDisablePrivateChat ? 'true' : 'false',
-            'lockSettingsDisablePublicChat'          => $this->lockSettingsDisablePublicChat ? 'true' : 'false',
-            'lockSettingsDisableNote'                => $this->lockSettingsDisableNote ? 'true' : 'false',
-            'lockSettingsHideUserList'               => $this->lockSettingsHideUserList ? 'true' : 'false',
-            'lockSettingsLockedLayout'               => $this->lockSettingsLockedLayout ? 'true' : 'false',
-            'lockSettingsLockOnJoin'                 => $this->lockSettingsLockOnJoin ? 'true' : 'false',
-            'lockSettingsLockOnJoinConfigurable'     => $this->lockSettingsLockOnJoinConfigurable ? 'true' : 'false',
-            'lockSettingsHideViewersCursor'          => $this->lockSettingsHideViewersCursor ? 'true' : 'false',
-            'allowModsToUnmuteUsers'                 => $this->allowModsToUnmuteUsers ? 'true' : 'false',
-            'allowModsToEjectCameras'                => $this->allowModsToEjectCameras ? 'true' : 'false',
+            'lockSettingsDisableCam'                 => !is_null($this->lockSettingsDisableCam) ? ($this->lockSettingsDisableCam ? 'true' : 'false') : $this->lockSettingsDisableCam,
+            'lockSettingsDisableMic'                 => !is_null($this->lockSettingsDisableMic) ? ($this->lockSettingsDisableMic ? 'true' : 'false') : $this->lockSettingsDisableMic,
+            'lockSettingsDisablePrivateChat'         => !is_null($this->lockSettingsDisablePrivateChat) ? ($this->lockSettingsDisablePrivateChat ? 'true' : 'false') : $this->lockSettingsDisablePrivateChat,
+            'lockSettingsDisablePublicChat'          => !is_null($this->lockSettingsDisablePublicChat) ? ($this->lockSettingsDisablePublicChat ? 'true' : 'false') : $this->lockSettingsDisablePublicChat,
+            'lockSettingsDisableNote'                => !is_null($this->lockSettingsDisableNote) ? ($this->lockSettingsDisableNote ? 'true' : 'false') : $this->lockSettingsDisableNote,
+            'lockSettingsHideUserList'               => !is_null($this->lockSettingsHideUserList) ? ($this->lockSettingsHideUserList ? 'true' : 'false') : $this->lockSettingsHideUserList,
+            'lockSettingsLockedLayout'               => !is_null($this->lockSettingsLockedLayout) ? ($this->lockSettingsLockedLayout ? 'true' : 'false') : $this->lockSettingsLockedLayout,
+            'lockSettingsLockOnJoin'                 => !is_null($this->lockSettingsLockOnJoin) ? ($this->lockSettingsLockOnJoin ? 'true' : 'false') : $this->lockSettingsLockOnJoin,
+            'lockSettingsLockOnJoinConfigurable'     => !is_null($this->lockSettingsLockOnJoinConfigurable) ? ($this->lockSettingsLockOnJoinConfigurable ? 'true' : 'false') : $this->lockSettingsLockOnJoinConfigurable,
+            'lockSettingsHideViewersCursor'          => !is_null($this->lockSettingsHideViewersCursor) ? ($this->lockSettingsHideViewersCursor ? 'true' : 'false') : $this->lockSettingsHideViewersCursor,
+            'allowModsToUnmuteUsers'                 => !is_null($this->allowModsToUnmuteUsers) ? ($this->allowModsToUnmuteUsers ? 'true' : 'false') : $this->allowModsToUnmuteUsers,
+            'allowModsToEjectCameras'                => !is_null($this->allowModsToEjectCameras) ? ($this->allowModsToEjectCameras ? 'true' : 'false') : $this->allowModsToEjectCameras,
             'bannerText'                             => trim($this->bannerText),
             'bannerColor'                            => trim($this->bannerColor),
-            'learningDashboardEnabled'               => $this->learningDashboardEnabled ? 'true' : 'false',
-            'virtualBackgroundsDisabled'             => $this->virtualBackgroundsDisabled ? 'true' : 'false',
+            'learningDashboardEnabled'               => !is_null($this->learningDashboardEnabled) ? ($this->learningDashboardEnabled ? 'true' : 'false') : $this->learningDashboardEnabled,
+            'virtualBackgroundsDisabled'             => !is_null($this->virtualBackgroundsDisabled) ? ($this->virtualBackgroundsDisabled ? 'true' : 'false') : $this->virtualBackgroundsDisabled,
             'endWhenNoModeratorDelayInMinutes'       => $this->endWhenNoModeratorDelayInMinutes,
-            'allowRequestsWithoutSession'            => $this->allowRequestsWithoutSession ? 'true' : 'false',
+            'allowRequestsWithoutSession'            => !is_null($this->allowRequestsWithoutSession) ? ($this->allowRequestsWithoutSession ? 'true' : 'false') : $this->allowRequestsWithoutSession,
             'meetingEndedURL'                        => $this->meetingEndedURL,
-            'breakoutRoomsEnabled'                   => $this->breakoutRoomsEnabled ? 'true' : 'false',
-            'breakoutRoomsRecord'                    => $this->breakoutRoomsRecord ? 'true' : 'false',
-            'breakoutRoomsPrivateChatEnabled'        => $this->breakoutRoomsPrivateChatEnabled ? 'true' : 'false',
-            'endWhenNoModerator'                     => $this->endWhenNoModerator ? 'true' : 'false',
-            'meetingKeepEvents'                      => $this->meetingKeepEvents ? 'true' : 'false',
+            'breakoutRoomsEnabled'                   => !is_null($this->breakoutRoomsEnabled) ? ($this->breakoutRoomsEnabled ? 'true' : 'false') : $this->breakoutRoomsEnabled,
+            'breakoutRoomsRecord'                    => !is_null($this->breakoutRoomsRecord) ? ($this->breakoutRoomsRecord ? 'true' : 'false') : $this->breakoutRoomsRecord,
+            'breakoutRoomsPrivateChatEnabled'        => !is_null($this->breakoutRoomsPrivateChatEnabled) ? ($this->breakoutRoomsPrivateChatEnabled ? 'true' : 'false') : $this->breakoutRoomsPrivateChatEnabled,
+            'endWhenNoModerator'                     => !is_null($this->endWhenNoModerator) ? ($this->endWhenNoModerator ? 'true' : 'false') : $this->endWhenNoModerator,
+            'meetingKeepEvents'                      => !is_null($this->meetingKeepEvents) ? ($this->meetingKeepEvents ? 'true' : 'false') : $this->meetingKeepEvents,
             'meetingLayout'                          => $this->meetingLayout,
             'meetingCameraCap'                       => $this->meetingCameraCap,
             'userCameraCap'                          => $this->userCameraCap,
@@ -1557,7 +1557,7 @@ class CreateMeetingParameters extends MetaParameters
             'meetingExpireWhenLastUserLeftInMinutes' => $this->meetingExpireWhenLastUserLeftInMinutes,
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
             'disabledFeatures'                       => join(',', $this->disabledFeatures),
-            'notifyRecordingIsOn'                    => $this->notifyRecordingIsOn ? 'true' : 'false',
+            'notifyRecordingIsOn'                    => is_null($this->notifyRecordingIsOn) ? ($this->notifyRecordingIsOn ? 'true' : 'false') : $this->notifyRecordingIsOn,
             'presentationUploadExternalUrl'          => $this->presentationUploadExternalUrl,
             'presentationUploadExternalDescription'  => $this->presentationUploadExternalDescription,
         ];
@@ -1565,10 +1565,10 @@ class CreateMeetingParameters extends MetaParameters
         // Add breakout rooms parameters only if the meeting is a breakout room
         if ($this->isBreakout()) {
             $queries = array_merge($queries, [
-                'isBreakout'      => $this->isBreakout ? 'true' : 'false',
+                'isBreakout'      => !is_null($this->isBreakout) ? ($this->isBreakout ? 'true' : 'false') : $this->isBreakout,
                 'parentMeetingID' => $this->parentMeetingId,
                 'sequence'        => $this->sequence,
-                'freeJoin'        => $this->freeJoin ? 'true' : 'false',
+                'freeJoin'        => !is_null($this->freeJoin) ? ($this->freeJoin ? 'true' : 'false') : $this->freeJoin,
             ]);
         } else {
             $queries = array_merge($queries, [

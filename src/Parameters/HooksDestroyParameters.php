@@ -25,14 +25,14 @@ class HooksDestroyParameters extends BaseParameters
     /**
      * @var string
      */
-    private $hookId;
+    private ?string $hookId = null;
 
     /**
      * HooksDestroyParameters constructor.
      *
      * @param mixed $hookId
      */
-    public function __construct($hookId)
+    public function __construct($hookId = null)
     {
         $this->hookId = $hookId;
     }

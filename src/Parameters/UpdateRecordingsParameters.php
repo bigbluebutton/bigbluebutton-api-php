@@ -28,14 +28,14 @@ class UpdateRecordingsParameters extends MetaParameters
     /**
      * @var string
      */
-    private $recordingId;
+    private ?string $recordingId = null;
 
     /**
      * UpdateRecordingsParameters constructor.
      *
      * @param mixed $recordingId
      */
-    public function __construct($recordingId)
+    public function __construct($recordingId = null)
     {
         $this->recordingId = $recordingId;
     }

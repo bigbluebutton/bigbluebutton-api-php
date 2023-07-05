@@ -30,49 +30,49 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @var string
      */
-    private $meetingId;
+    private ?string $meetingId = null;
 
     /**
      * @var string
      */
-    private $username;
+    private ?string $username = null;
 
     /**
      * @var string
      *
      * @deprecated
      */
-    private $password;
+    private ?string $password = null;
 
     /**
      * @var string
      */
-    private $userId;
+    private ?string $userId = null;
 
     /**
      * @var string
      */
-    private $webVoiceConf;
+    private ?string $webVoiceConf = null;
 
     /**
      * @var string
      */
-    private $creationTime;
+    private ?string $creationTime = null;
 
     /**
      * @var string
      */
-    private $avatarURL;
+    private ?string $avatarURL = null;
 
     /**
      * @var bool
      */
-    private $redirect;
+    private ?bool $redirect = null;
 
     /**
      * @var string
      */
-    private $clientURL;
+    private ?string $clientURL = null;
 
     /**
      * @var array
@@ -82,37 +82,36 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @var string
      */
-    private $role;
+    private ?string $role = null;
 
     /**
      * @var bool
      */
-    private $excludeFromDashboard;
+    private ?bool $excludeFromDashboard = null;
 
     /**
      * @var string
      */
-    private $configToken;
+    private ?string $configToken = null;
 
     /**
      * @var bool
      */
-    private $guest;
+    private ?bool $guest = null;
 
     /**
      * @var string
      */
-    private $defaultLayout;
+    private ?string $defaultLayout = null;
 
     /**
      * JoinMeetingParametersTest constructor.
      *
-     * @param $passwordOrRole
      * @param mixed $passworOrRole
      * @param mixed $meetingId
      * @param mixed $username
      */
-    public function __construct($meetingId, $username, $passworOrRole)
+    public function __construct($meetingId = null, $username = null, $passworOrRole = null)
     {
         $this->meetingId = $meetingId;
         $this->username  = $username;
@@ -430,22 +429,20 @@ class JoinMeetingParameters extends UserDataParameters
             'webVoiceConf'         => $this->webVoiceConf,
             'createTime'           => $this->creationTime,
             'role'                 => $this->role,
-            'excludeFromDashboard' => $this->excludeFromDashboard ? 'true' : 'false',
+            'excludeFromDashboard' => !is_null($this->excludeFromDashboard) ? ($this->excludeFromDashboard ? 'true' : 'false') : $this->excludeFromDashboard,
             'avatarURL'            => $this->avatarURL,
-            'redirect'             => $this->redirect ? 'true' : 'false',
+            'redirect'             => !is_null($this->redirect) ? ($this->redirect ? 'true' : 'false') : $this->redirect,
             'clientURL'            => $this->clientURL,
             'configToken'          => $this->configToken,
-            'guest'                => $this->guest ? 'true' : 'false',
+            'guest'                => !is_null($this->guest) ? ($this->guest ? 'true' : 'false') : $this->guest,
             'defaultLayout'        => $this->defaultLayout,
         ];
+        
 
         foreach ($this->customParameters as $key => $value) {
             $queries[$key] = $value;
         }
 
-        if (!$this->guest) {
-            unset($queries['guest']);
-        }
         $this->buildUserData($queries);
 
         return $this->buildHTTPQuery($queries);
