@@ -83,7 +83,6 @@ class BigBlueButtonTest extends TestCase
         $params = $this->generateCreateParams();
         $url    = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
 
-      
         $paramsIterator = new ParamsIterator();
         $paramsIterator->iterate($params, $url);
     }

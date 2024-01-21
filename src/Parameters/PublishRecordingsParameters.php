@@ -25,14 +25,8 @@ namespace BigBlueButton\Parameters;
  */
 class PublishRecordingsParameters extends BaseParameters
 {
-    /**
-     * @var string
-     */
     private ?string $recordingId = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $publish = null;
 
     /**

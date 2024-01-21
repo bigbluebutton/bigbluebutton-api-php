@@ -27,51 +27,25 @@ use BigBlueButton\Enum\Role;
  */
 class JoinMeetingParameters extends UserDataParameters
 {
-    /**
-     * @var string
-     */
     private ?string $meetingId = null;
 
-    /**
-     * @var string
-     */
     private ?string $username = null;
 
     /**
-     * @var string
-     *
      * @deprecated
      */
     private ?string $password = null;
 
-    /**
-     * @var string
-     */
     private ?string $userId = null;
 
-    /**
-     * @var string
-     */
     private ?string $webVoiceConf = null;
 
-    /**
-     * @var string
-     */
     private ?string $creationTime = null;
 
-    /**
-     * @var string
-     */
     private ?string $avatarURL = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $redirect = null;
 
-    /**
-     * @var string
-     */
     private ?string $clientURL = null;
 
     /**
@@ -79,29 +53,14 @@ class JoinMeetingParameters extends UserDataParameters
      */
     private $customParameters;
 
-    /**
-     * @var string
-     */
     private ?string $role = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $excludeFromDashboard = null;
 
-    /**
-     * @var string
-     */
     private ?string $configToken = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $guest = null;
 
-    /**
-     * @var string
-     */
     private ?string $defaultLayout = null;
 
     /**
@@ -437,7 +396,6 @@ class JoinMeetingParameters extends UserDataParameters
             'guest'                => !is_null($this->guest) ? ($this->guest ? 'true' : 'false') : $this->guest,
             'defaultLayout'        => $this->defaultLayout,
         ];
-        
 
         foreach ($this->customParameters as $key => $value) {
             $queries[$key] = $value;

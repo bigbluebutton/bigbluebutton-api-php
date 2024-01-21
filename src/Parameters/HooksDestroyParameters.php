@@ -22,9 +22,6 @@ namespace BigBlueButton\Parameters;
 
 class HooksDestroyParameters extends BaseParameters
 {
-    /**
-     * @var string
-     */
     private ?string $hookId = null;
 
     /**

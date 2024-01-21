@@ -30,7 +30,7 @@ use BigBlueButton\TestCase;
 class CreateMeetingResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\CreateMeetingResponse
+     * @var CreateMeetingResponse
      */
     private $meeting;
 

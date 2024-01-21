@@ -30,7 +30,7 @@ use BigBlueButton\TestCase;
 class DeleteRecordingsResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\DeleteRecordingsResponse
+     * @var DeleteRecordingsResponse
      */
     private $delete;
 

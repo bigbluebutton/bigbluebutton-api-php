@@ -27,10 +27,7 @@ class InsertDocumentParameters extends BaseParameters
 {
     use DocumentableTrait;
 
-    /**
-     * @var string
-     */
-    private ?string  $meetingId = null;
+    private ?string $meetingId = null;
 
     /**
      * EndMeetingParameters constructor.

@@ -22,19 +22,10 @@ namespace BigBlueButton\Parameters;
 
 class HooksCreateParameters extends BaseParameters
 {
-    /**
-     * @var string
-     */
     private ?string $callbackUrl = null;
 
-    /**
-     * @var string
-     */
     private ?string $meetingId = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $getRaw = null;
 
     /**

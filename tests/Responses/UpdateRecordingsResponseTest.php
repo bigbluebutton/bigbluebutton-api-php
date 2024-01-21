@@ -30,7 +30,7 @@ use BigBlueButton\TestCase;
 class UpdateRecordingsResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\UpdateRecordingsResponse
+     * @var UpdateRecordingsResponse
      */
     private $update;
 

@@ -29,13 +29,10 @@ use BigBlueButton\TestCase;
  */
 class ParamsIterator extends TestCase
 {
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function iterate($params, $url)
     {
-       
         foreach ($params as $key => $value) {
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';

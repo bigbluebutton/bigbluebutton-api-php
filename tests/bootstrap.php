@@ -22,5 +22,6 @@ error_reporting(-1);
 date_default_timezone_set('UTC');
 // Include the composer autoloader
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
+
 // Include custom test class
 require_once __DIR__ . '/TestCase.php';

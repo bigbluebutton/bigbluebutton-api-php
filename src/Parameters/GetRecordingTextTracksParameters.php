@@ -25,9 +25,6 @@ namespace BigBlueButton\Parameters;
  */
 class GetRecordingTextTracksParameters extends MetaParameters
 {
-    /**
-     * @var string
-     */
     private ?string $recordId = null;
 
     /**

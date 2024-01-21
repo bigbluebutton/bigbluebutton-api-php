@@ -20,6 +20,4 @@
 
 namespace BigBlueButton\Exceptions;
 
-class BadResponseException extends \Exception
-{
-}
+class BadResponseException extends \Exception {}

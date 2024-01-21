@@ -25,24 +25,12 @@ namespace BigBlueButton\Parameters;
  */
 class PutRecordingTextTrackParameters extends BaseParameters
 {
-    /**
-     * @var string
-     */
     private ?string $recordId = null;
 
-    /**
-     * @var string
-     */
     private ?string $kind = null;
 
-    /**
-     * @var string
-     */
     private ?string $lang = null;
 
-    /**
-     * @var string
-     */
     private ?string $label = null;
 
     /**

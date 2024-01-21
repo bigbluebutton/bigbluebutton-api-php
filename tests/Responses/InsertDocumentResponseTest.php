@@ -30,7 +30,7 @@ use BigBlueButton\TestCase;
 class InsertDocumentResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\InsertDocumentResponse
+     * @var InsertDocumentResponse
      */
     private $insertDocument;
 
