@@ -32,12 +32,12 @@ class CreateMeetingParameters extends MetaParameters
     private ?string $meetingName = null;
 
     /**
-     * @deprecated
+     * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
     private ?string $attendeePassword = null;
 
     /**
-     * @deprecated
+     * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
     private ?string $moderatorPassword = null;
 
@@ -112,12 +112,12 @@ class CreateMeetingParameters extends MetaParameters
     private ?string $bannerColor = null;
 
     /**
-     * @deprecated
+     * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
     private ?bool $learningDashboardEnabled = null;
 
     /**
-     * @deprecated
+     * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
     private ?bool $virtualBackgroundsDisabled = null;
 
@@ -130,7 +130,7 @@ class CreateMeetingParameters extends MetaParameters
     private ?bool $meetingKeepEvents = null;
 
     /**
-     * @deprecated
+     * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
     private ?bool $breakoutRoomsEnabled = null;
 
@@ -152,22 +152,13 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?bool $preUploadedPresentationOverrideDefault = null;
 
-    /**
-     * @var array
-     */
-    private $disabledFeatures = [];
+    private array $disabledFeatures = [];
 
-    /**
-     * @var array
-     */
-    private $disabledFeaturesExclude = [];
+    private array $disabledFeaturesExclude = [];
 
     private ?bool $recordFullDurationMedia = null;
 
-    /**
-     * @var array
-     */
-    private $breakoutRoomsGroups = [];
+    private array $breakoutRoomsGroups = [];
 
     private ?bool $notifyRecordingIsOn = null;
 
@@ -187,40 +178,41 @@ class CreateMeetingParameters extends MetaParameters
         $this->meetingName = $meetingName;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): ?string
     {
         return $this->meetingId;
     }
 
     /**
-     * @param string $meetingId
+     * A meeting ID that can be used to identify this meeting by the 3rd-party application.
      *
-     * @return CreateMeetingParameters
+     * This must be unique to the server that you are calling: different active meetings can not have the same meeting
+     * ID. If you supply a non-unique meeting ID (a meeting is already in progress with the same meeting ID), then if
+     * the other parameters in the create call are identical, the create call will succeed (but will receive a warning
+     * message in the response). The create call is idempotent: calling multiple times does not have any side effect.
+     * This enables a 3rd-party applications to avoid checking if the meeting is running and always call create before
+     * joining each user.
+     *
+     * Meeting IDs should only contain upper/lower ASCII letters, numbers, dashes, or underscores. A good choice for
+     * the meeting ID is to generate a GUID value as this all but guarantees that different meetings will not have the
+     * same meetingID.
      */
-    public function setMeetingId($meetingId)
+    public function setMeetingId(string $meetingId): self
     {
         $this->meetingId = $meetingId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingName()
+    public function getMeetingName(): ?string
     {
         return $this->meetingName;
     }
 
     /**
-     * @param string $meetingName
-     *
-     * @return CreateMeetingParameters
+     * A name for the meeting. This is now required as of BigBlueButton 2.4.
      */
-    public function setMeetingName($meetingName)
+    public function setMeetingName(string $meetingName): self
     {
         $this->meetingName = $meetingName;
 
@@ -228,23 +220,21 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return string
-     *
-     * @deprecated
+     * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
-    public function getAttendeePassword()
+    public function getAttendeePassword(): ?string
     {
         return $this->attendeePassword;
     }
 
     /**
-     * @param string $attendeePassword
+     * The password that the join URL can later provide as its password parameter to indicate the user will join as a
+     * viewer. If no attendeePW is provided, the create call will return a randomly generated attendeePW password for
+     * the meeting.
      *
-     * @return CreateMeetingParameters
-     *
-     * @deprecated
+     * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
-    public function setAttendeePassword($attendeePassword)
+    public function setAttendeePassword(string $attendeePassword): self
     {
         $this->attendeePassword = $attendeePassword;
 
@@ -252,323 +242,293 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return string
-     *
-     * @deprecated
+     * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
-    public function getModeratorPassword()
+    public function getModeratorPassword(): ?string
     {
         return $this->moderatorPassword;
     }
 
     /**
-     * @param string $moderatorPassword
+     * The password that will join URL can later provide as its password parameter to indicate the user will as a
+     * moderator. if no moderatorPW is provided, create will return a randomly generated moderatorPW password for
+     * the meeting.
      *
-     * @return CreateMeetingParameters
-     *
-     * @deprecated
+     * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
-    public function setModeratorPassword($moderatorPassword)
+    public function setModeratorPassword(string $moderatorPassword): self
     {
         $this->moderatorPassword = $moderatorPassword;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDialNumber()
+    public function getDialNumber(): ?string
     {
         return $this->dialNumber;
     }
 
     /**
-     * @param string $dialNumber
-     *
-     * @return CreateMeetingParameters
+     * The dial access number that participants can call in using regular phone. You can set a default dial number
+     * via defaultDialAccessNumber in 'bigbluebutton.properties'.
      */
-    public function setDialNumber($dialNumber)
+    public function setDialNumber(string $dialNumber): self
     {
         $this->dialNumber = $dialNumber;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getVoiceBridge()
+    public function getVoiceBridge(): ?int
     {
         return $this->voiceBridge;
     }
 
     /**
-     * @param int $voiceBridge
+     * Voice conference number for the FreeSWITCH voice conference associated with this meeting. This must be a 5-digit
+     * number in the range 10000 to 99999. If you add a phone number to your BigBlueButton server, This parameter sets
+     * the personal identification number (PIN) that FreeSWITCH will prompt for a phone-only user to enter. If you want
+     * to change this range, edit FreeSWITCH dialplan and defaultNumDigitsForTelVoice of bigbluebutton.properties.
      *
-     * @return CreateMeetingParameters
+     * The voiceBridge number must be different for every meeting.
+     *
+     * This parameter is optional. If you do not specify a voiceBridge number, then BigBlueButton will assign a random
+     * unused number for the meeting.
+     *
+     * If do you pass a voiceBridge number, then you must ensure that each meeting has a unique voiceBridge number;
+     * otherwise, reusing same voiceBridge number for two different meetings will cause users from one meeting to appear
+     * as phone users in the other, which will be very confusing to users in both meetings.
      */
-    public function setVoiceBridge($voiceBridge)
+    public function setVoiceBridge(int $voiceBridge): self
     {
         $this->voiceBridge = $voiceBridge;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getWebVoice()
+    public function getWebVoice(): ?string
     {
         return $this->webVoice;
     }
 
-    /**
-     * @param string $webVoice
-     *
-     * @return CreateMeetingParameters
-     */
-    public function setWebVoice($webVoice)
+    public function setWebVoice(string $webVoice): self
     {
         $this->webVoice = $webVoice;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLogoutUrl()
+    public function getLogoutUrl(): ?string
     {
         return $this->logoutUrl;
     }
 
     /**
-     * @param string $logoutUrl
-     *
-     * @return CreateMeetingParameters
+     * The URL that the BigBlueButton client will go to after users click the OK button on the ‘You have been logged
+     * out message’. This overrides the value for bigbluebutton.web.logoutURL in bigbluebutton.properties.
      */
-    public function setLogoutUrl($logoutUrl)
+    public function setLogoutUrl(string $logoutUrl): self
     {
         $this->logoutUrl = $logoutUrl;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaxParticipants()
+    public function getMaxParticipants(): ?int
     {
         return $this->maxParticipants;
     }
 
     /**
-     * @param int $maxParticipants
-     *
-     * @return CreateMeetingParameters
+     * Set the maximum number of users allowed to join the conference at the same time.
      */
-    public function setMaxParticipants($maxParticipants)
+    public function setMaxParticipants(int $maxParticipants): self
     {
         $this->maxParticipants = $maxParticipants;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isRecorded()
+    public function isRecorded(): ?bool
     {
         return $this->record;
     }
 
     /**
-     * @param bool $record
+     * Setting ‘record=true’ instructs the BigBlueButton server to record the media and events in the session for
+     * later playback. The default is false.
      *
-     * @return CreateMeetingParameters
+     * In order for a playback file to be generated, a moderator must click the Start/Stop Recording button at least
+     * once during the session; otherwise, in the absence of any recording marks, the record and playback scripts will
+     * not generate a playback file. See also the autoStartRecording and allowStartStopRecording parameters in
+     * 'bigbluebutton.properties'.
      */
-    public function setRecord($record)
+    public function setRecord(bool $record): self
     {
         $this->record = $record;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isAutoStartRecording()
+    public function isAutoStartRecording(): ?bool
     {
         return $this->autoStartRecording;
     }
 
     /**
-     * @param bool $autoStartRecording
+     * Whether to automatically start recording when first user joins (default false).
      *
-     * @return CreateMeetingParameters
+     * When this parameter is true, the recording UI in BigBlueButton will be initially active. Moderators in the
+     * session can still pause and restart recording using the UI control.
+     *
+     * NOTE: Don’t pass autoStartRecording=false and allowStartStopRecording=false - the moderator won’t be able to
+     * start recording!
      */
-    public function setAutoStartRecording($autoStartRecording)
+    public function setAutoStartRecording(bool $autoStartRecording): self
     {
         $this->autoStartRecording = $autoStartRecording;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isAllowStartStopRecording()
+    public function isAllowStartStopRecording(): ?bool
     {
         return $this->allowStartStopRecording;
     }
 
     /**
-     * @param bool $allowStartStopRecording
+     * Allow the user to start/stop recording (default true).
      *
-     * @return CreateMeetingParameters
+     * If you set both allowStartStopRecording=false and autoStartRecording=true, then the entire length of the
+     * session will be recorded, and the moderators in the session will not be able to pause/resume the recording.
      */
-    public function setAllowStartStopRecording($allowStartStopRecording)
+    public function setAllowStartStopRecording(bool $allowStartStopRecording): self
     {
         $this->allowStartStopRecording = $allowStartStopRecording;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getDuration()
+    public function getDuration(): int
     {
         return $this->duration;
     }
 
     /**
-     * @param int $duration
+     * The maximum length (in minutes) for the meeting.
      *
-     * @return CreateMeetingParameters
+     * Normally, the BigBlueButton server will end the meeting when either (a) the last person leaves (it takes a
+     * minute or two for the server to clear the meeting from memory) or when the server receives an end API request
+     * with the associated meetingID (everyone is kicked and the meeting is immediately cleared from memory).
+     *
+     * BigBlueButton begins tracking the length of a meeting when it is created. If duration contains a non-zero
+     * value, then when the length of the meeting exceeds the duration value the server will immediately end the
+     * meeting (equivalent to receiving an end API request at that moment).
      */
-    public function setDuration($duration)
+    public function setDuration(int $duration): self
     {
         $this->duration = $duration;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getWelcomeMessage()
+    public function getWelcomeMessage(): ?string
     {
         return $this->welcomeMessage;
     }
 
     /**
-     * @param string $welcomeMessage
+     * A welcome message that gets displayed on the chat window when the participant joins. You can include keywords
+     * (%%CONFNAME%%, %%DIALNUM%%, %%CONFNUM%%) which will be substituted automatically.
      *
-     * @return CreateMeetingParameters
+     * This parameter overrides the default 'defaultWelcomeMessage' in 'bigbluebutton.properties'.
      */
-    public function setWelcomeMessage($welcomeMessage)
+    public function setWelcomeMessage(string $welcomeMessage): self
     {
         $this->welcomeMessage = $welcomeMessage;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getModeratorOnlyMessage()
+    public function getModeratorOnlyMessage(): ?string
     {
         return $this->moderatorOnlyMessage;
     }
 
     /**
-     * @param string $message
+     * Display a message to all moderators in the public chat.
      *
-     * @return CreateMeetingParameters
+     * The value is interpreted in the same way as the welcome parameter.
      */
-    public function setModeratorOnlyMessage($message)
+    public function setModeratorOnlyMessage(string $message): self
     {
         $this->moderatorOnlyMessage = $message;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isWebcamsOnlyForModerator()
+    public function isWebcamsOnlyForModerator(): ?bool
     {
         return $this->webcamsOnlyForModerator;
     }
 
     /**
-     * @param bool $webcamsOnlyForModerator
+     * Setting webcamsOnlyForModerator=true will cause all webcams shared by viewers during this meeting to
+     * only appear for moderators.
      *
-     * @return CreateMeetingParameters
+     * since 1.1
      */
-    public function setWebcamsOnlyForModerator($webcamsOnlyForModerator)
+    public function setWebcamsOnlyForModerator(bool $webcamsOnlyForModerator): self
     {
         $this->webcamsOnlyForModerator = $webcamsOnlyForModerator;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getLogo()
+    public function getLogo(): ?string
     {
         return $this->logo;
     }
 
     /**
-     * @param string $logo
-     *
-     * @return CreateMeetingParameters
+     * Pass a URL to an image which will then be visible in the area above the participants list
+     * if displayBrandingArea is set to true in bbb-html5's configuration.
      */
-    public function setLogo($logo)
+    public function setLogo(string $logo): self
     {
         $this->logo = $logo;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getBannerText()
+    public function getBannerText(): ?string
     {
         return $this->bannerText;
     }
 
     /**
-     * @param string $bannerText
+     * Will set the banner text in the client.
      *
-     * @return CreateMeetingParameters
+     * @since 2.0
      */
-    public function setBannerText($bannerText)
+    public function setBannerText(string $bannerText): self
     {
         $this->bannerText = $bannerText;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getBannerColor()
+    public function getBannerColor(): ?string
     {
         return $this->bannerColor;
     }
 
     /**
-     * @param string $bannerColor
+     * Will set the banner background color in the client. The required format is color hex #FFFFFF.
      *
-     * @return CreateMeetingParameters
+     * @since 2.0
      */
-    public function setBannerColor($bannerColor)
+    public function setBannerColor(string $bannerColor): self
     {
         $this->bannerColor = $bannerColor;
 
@@ -576,23 +536,24 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @deprecated
-     *
-     * @return bool
+     * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function isLearningDashboardEnabled()
+    public function isLearningDashboardEnabled(): ?bool
     {
         return $this->learningDashboardEnabled;
     }
 
     /**
-     * @param bool $learningDashboardEnabled
+     * Default learningDashboardEnabled=true. When this option is enabled BigBlueButton generates a Dashboard
+     * where moderators can view a summary of the activities of the meeting.
      *
-     * @deprecated
+     * Default: true
      *
-     * @return CreateMeetingParameters
+     * @since 2.4
+     *
+     * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setLearningDashboardEnabled($learningDashboardEnabled)
+    public function setLearningDashboardEnabled(bool $learningDashboardEnabled): self
     {
         $this->learningDashboardEnabled = $learningDashboardEnabled;
 
@@ -600,7 +561,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @deprecated
+     * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
     public function isVirtualBackgroundsDisabled(): bool
     {
@@ -608,311 +569,289 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @deprecated
+     * Setting to true will disable Virtual Backgrounds for all users in the meeting.
+     *
+     * Default: false
+     *
+     * @since 2.4.3
      *
      * @param mixed $virtualBackgroundsDisabled
+     *
+     * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setVirtualBackgroundsDisabled($virtualBackgroundsDisabled)
+    public function setVirtualBackgroundsDisabled($virtualBackgroundsDisabled): self
     {
         $this->virtualBackgroundsDisabled = $virtualBackgroundsDisabled;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLearningDashboardCleanupDelayInMinutes()
+    public function getLearningDashboardCleanupDelayInMinutes(): ?int
     {
         return $this->learningDashboardCleanupDelayInMinutes;
     }
 
     /**
-     * @param int $learningDashboardCleanupDelayInMinutes
+     * Default learningDashboardCleanupDelayInMinutes=2. This option set the delay (in minutes) before the Learning
+     * Dashboard become unavailable after the end of the meeting. If this value is zero, the Learning Dashboard will
+     * keep available permanently.
      *
-     * @return CreateMeetingParameters
+     * @since 2.4
+     *
+     * Default: 2
      */
-    public function setLearningDashboardCleanupDelayInMinutes($learningDashboardCleanupDelayInMinutes)
+    public function setLearningDashboardCleanupDelayInMinutes(int $learningDashboardCleanupDelayInMinutes): self
     {
         $this->learningDashboardCleanupDelayInMinutes = $learningDashboardCleanupDelayInMinutes;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getEndWhenNoModeratorDelayInMinutes()
+    public function getEndWhenNoModeratorDelayInMinutes(): ?int
     {
         return $this->endWhenNoModeratorDelayInMinutes;
     }
 
     /**
-     * @param int $endWhenNoModeratorDelayInMinutes
+     * Defaults to the value of endWhenNoModeratorDelayInMinutes=1. If endWhenNoModerator is true, the meeting
+     * will be automatically ended after this many minutes.
      *
-     * @return CreateMeetingParameters
+     * Default: 1
+     *
+     * @since in 2.2
      */
-    public function setEndWhenNoModeratorDelayInMinutes($endWhenNoModeratorDelayInMinutes)
+    public function setEndWhenNoModeratorDelayInMinutes(int $endWhenNoModeratorDelayInMinutes): self
     {
         $this->endWhenNoModeratorDelayInMinutes = $endWhenNoModeratorDelayInMinutes;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isEndWhenNoModerator()
+    public function isEndWhenNoModerator(): ?bool
     {
         return $this->endWhenNoModerator;
     }
 
     /**
-     * @param bool $endWhenNoModerator
+     * Default endWhenNoModerator=false. If endWhenNoModerator is true the meeting will end automatically after
+     * a delay - see endWhenNoModeratorDelayInMinutes.
      *
-     * @return CreateMeetingParameters
+     * Default: false
+     *
+     * @since in 2.3
      */
-    public function setEndWhenNoModerator($endWhenNoModerator)
+    public function setEndWhenNoModerator(bool $endWhenNoModerator): self
     {
         $this->endWhenNoModerator = $endWhenNoModerator;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isMeetingKeepEvents()
+    public function isMeetingKeepEvents(): ?bool
     {
         return $this->meetingKeepEvents;
     }
 
     /**
-     * @param bool $meetingKeepEvents
+     * Defaults to the value of defaultKeepEvents. If meetingKeepEvents is true BigBlueButton saves meeting
+     * events even if the meeting is not recorded.
      *
-     * @return CreateMeetingParameters
+     * Default: false
+     *
+     * @since in 2.3
      */
-    public function setMeetingKeepEvents($meetingKeepEvents)
+    public function setMeetingKeepEvents(bool $meetingKeepEvents): self
     {
         $this->meetingKeepEvents = $meetingKeepEvents;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCopyright()
+    public function getCopyright(): ?string
     {
         return $this->copyright;
     }
 
-    /**
-     * @param string $copyright
-     *
-     * @return CreateMeetingParameters
-     */
-    public function setCopyright($copyright)
+    public function setCopyright(string $copyright): self
     {
         $this->copyright = $copyright;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isMuteOnStart()
+    public function isMuteOnStart(): ?bool
     {
         return $this->muteOnStart;
     }
 
     /**
-     * @param bool $muteOnStart
+     * Setting true will mute all users when the meeting starts.
      *
-     * @return CreateMeetingParameters
+     * @since 2.0
      */
-    public function setMuteOnStart($muteOnStart)
+    public function setMuteOnStart(bool $muteOnStart): self
     {
         $this->muteOnStart = $muteOnStart;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isLockSettingsDisableCam()
+    public function isLockSettingsDisableCam(): ?bool
     {
         return $this->lockSettingsDisableCam;
     }
 
     /**
-     * @param bool $lockSettingsDisableCam
+     * Setting true will prevent users from sharing their camera in the meeting.
      *
-     * @return CreateMeetingParameters
+     * Default: false
+     *
+     * @since 2.2
      */
-    public function setLockSettingsDisableCam($lockSettingsDisableCam)
+    public function setLockSettingsDisableCam(bool $lockSettingsDisableCam): self
     {
         $this->lockSettingsDisableCam = $lockSettingsDisableCam;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isLockSettingsDisableMic()
+    public function isLockSettingsDisableMic(): ?bool
     {
         return $this->lockSettingsDisableMic;
     }
 
     /**
-     * @param bool $lockSettingsDisableMic
+     * Setting to true will only allow user to join listen only.
      *
-     * @return CreateMeetingParameters
+     * Default: false
+     *
+     * @since 2.2
      */
-    public function setLockSettingsDisableMic($lockSettingsDisableMic)
+    public function setLockSettingsDisableMic(bool $lockSettingsDisableMic): self
     {
         $this->lockSettingsDisableMic = $lockSettingsDisableMic;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isLockSettingsDisablePrivateChat()
+    public function isLockSettingsDisablePrivateChat(): ?bool
     {
         return $this->lockSettingsDisablePrivateChat;
     }
 
     /**
-     * @param bool $lockSettingsDisablePrivateChat
+     * Setting to true will disable private chats in the meeting.
      *
-     * @return CreateMeetingParameters
+     * Default: false
+     *
+     * @since 2.2
      */
-    public function setLockSettingsDisablePrivateChat($lockSettingsDisablePrivateChat)
+    public function setLockSettingsDisablePrivateChat(bool $lockSettingsDisablePrivateChat): self
     {
         $this->lockSettingsDisablePrivateChat = $lockSettingsDisablePrivateChat;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isLockSettingsDisablePublicChat()
+    public function isLockSettingsDisablePublicChat(): ?bool
     {
         return $this->lockSettingsDisablePublicChat;
     }
 
     /**
-     * @param bool $lockSettingsDisablePublicChat
+     * Setting to true will disable public chat in the meeting.
      *
-     * @return CreateMeetingParameters
+     * Default: false
+     *
+     * @since 2.2
      */
-    public function setLockSettingsDisablePublicChat($lockSettingsDisablePublicChat)
+    public function setLockSettingsDisablePublicChat(bool $lockSettingsDisablePublicChat): self
     {
         $this->lockSettingsDisablePublicChat = $lockSettingsDisablePublicChat;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isLockSettingsDisableNote()
+    public function isLockSettingsDisableNote(): ?bool
     {
         return $this->lockSettingsDisableNote;
     }
 
     /**
-     * @param bool $lockSettingsDisableNote
+     * Setting to true will disable notes in the meeting.
      *
-     * @return CreateMeetingParameters
+     * Default: false
+     *
+     * @since 2.2
      */
-    public function setLockSettingsDisableNote($lockSettingsDisableNote)
+    public function setLockSettingsDisableNote(bool $lockSettingsDisableNote): self
     {
         $this->lockSettingsDisableNote = $lockSettingsDisableNote;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isLockSettingsHideUserList()
+    public function isLockSettingsHideUserList(): ?bool
     {
         return $this->lockSettingsHideUserList;
     }
 
     /**
-     * @param bool $lockSettingsHideUserList
+     * Setting to true will prevent viewers from seeing other viewers in the user list.
      *
-     * @return CreateMeetingParameters
+     * Default: false
+     *
+     * @since 2.2
      */
-    public function setLockSettingsHideUserList($lockSettingsHideUserList)
+    public function setLockSettingsHideUserList(bool $lockSettingsHideUserList): self
     {
         $this->lockSettingsHideUserList = $lockSettingsHideUserList;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isLockSettingsLockedLayout()
+    public function isLockSettingsLockedLayout(): ?bool
     {
         return $this->lockSettingsLockedLayout;
     }
 
-    /**
-     * @param bool $lockSettingsLockedLayout
-     *
-     * @return CreateMeetingParameters
-     */
-    public function setLockSettingsLockedLayout($lockSettingsLockedLayout)
+    public function setLockSettingsLockedLayout(bool $lockSettingsLockedLayout): self
     {
         $this->lockSettingsLockedLayout = $lockSettingsLockedLayout;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isLockSettingsLockOnJoin()
+    public function isLockSettingsLockOnJoin(): ?bool
     {
         return $this->lockSettingsLockOnJoin;
     }
 
     /**
-     * @param bool $lockOnJoin
+     * Setting to false will not apply lock setting to users when they join.
      *
-     * @return CreateMeetingParameters
+     * Default: true
+     *
+     * @since 2.2
      */
-    public function setLockSettingsLockOnJoin($lockOnJoin)
+    public function setLockSettingsLockOnJoin(bool $lockOnJoin): self
     {
         $this->lockSettingsLockOnJoin = $lockOnJoin;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isLockSettingsLockOnJoinConfigurable()
+    public function isLockSettingsLockOnJoinConfigurable(): ?bool
     {
         return $this->lockSettingsLockOnJoinConfigurable;
     }
 
     /**
-     * @param bool $lockOnJoinConfigurable
+     * Setting to true will allow applying of lockSettingsLockOnJoin.
      *
-     * @return CreateMeetingParameters
+     * Default: false
      */
-    public function setLockSettingsLockOnJoinConfigurable($lockOnJoinConfigurable)
+    public function setLockSettingsLockOnJoinConfigurable(bool $lockOnJoinConfigurable): self
     {
         $this->lockSettingsLockOnJoinConfigurable = $lockOnJoinConfigurable;
 
@@ -924,27 +863,33 @@ class CreateMeetingParameters extends MetaParameters
         return $this->lockSettingsHideViewersCursor;
     }
 
-    public function setLockSettingsHideViewersCursor(bool $lockSettingsHideViewersCursor)
+    /**
+     * Setting to true will prevent viewers to see other viewers cursor when multi-user whiteboard is on.
+     *
+     * Default: false
+     *
+     * @since 2.5
+     */
+    public function setLockSettingsHideViewersCursor(bool $lockSettingsHideViewersCursor): self
     {
         $this->lockSettingsHideViewersCursor = $lockSettingsHideViewersCursor;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isAllowModsToUnmuteUsers()
+    public function isAllowModsToUnmuteUsers(): ?bool
     {
         return $this->allowModsToUnmuteUsers;
     }
 
     /**
-     * @param bool $allowModsToUnmuteUsers
+     * Setting to true will allow moderators to unmute other users in the meeting.
      *
-     * @return CreateMeetingParameters
+     * Default: false
+     *
+     * @since 2.2
      */
-    public function setAllowModsToUnmuteUsers($allowModsToUnmuteUsers)
+    public function setAllowModsToUnmuteUsers(bool $allowModsToUnmuteUsers): self
     {
         $this->allowModsToUnmuteUsers = $allowModsToUnmuteUsers;
 
@@ -956,6 +901,13 @@ class CreateMeetingParameters extends MetaParameters
         return $this->allowModsToEjectCameras;
     }
 
+    /**
+     * Setting to true will allow moderators to close other users cameras in the meeting.
+     *
+     * Default: false
+     *
+     * @since 2.4
+     */
     public function setAllowModsToEjectCameras(bool $allowModsToEjectCameras): self
     {
         $this->allowModsToEjectCameras = $allowModsToEjectCameras;
@@ -965,10 +917,8 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @param mixed $endCallbackUrl
-     *
-     * @return CreateMeetingParameters
      */
-    public function setEndCallbackUrl($endCallbackUrl)
+    public function setEndCallbackUrl($endCallbackUrl): self
     {
         $this->addMeta('endCallbackUrl', $endCallbackUrl);
 
@@ -977,110 +927,87 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * @param mixed $recordingReadyCallbackUrl
-     *
-     * @return CreateMeetingParameters
      */
-    public function setRecordingReadyCallbackUrl($recordingReadyCallbackUrl)
+    public function setRecordingReadyCallbackUrl($recordingReadyCallbackUrl): self
     {
         $this->addMeta('bbb-recording-ready-url', $recordingReadyCallbackUrl);
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isBreakout()
+    public function isBreakout(): ?bool
     {
         return $this->isBreakout;
     }
 
     /**
-     * @param bool $isBreakout
-     *
-     * @return CreateMeetingParameters
+     * Must be set to true to create a breakout room.
      */
-    public function setBreakout($isBreakout)
+    public function setBreakout(bool $isBreakout): self
     {
         $this->isBreakout = $isBreakout;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getParentMeetingId()
+    public function getParentMeetingId(): ?string
     {
         return $this->parentMeetingId;
     }
 
     /**
-     * @param string $parentMeetingId
-     *
-     * @return CreateMeetingParameters
+     * Must be provided when creating a breakout room, the parent room must be running.
      */
-    public function setParentMeetingId($parentMeetingId)
+    public function setParentMeetingId(string $parentMeetingId): self
     {
         $this->parentMeetingId = $parentMeetingId;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSequence()
+    public function getSequence(): ?int
     {
         return $this->sequence;
     }
 
     /**
-     * @param int $sequence
-     *
-     * @return CreateMeetingParameters
+     * The sequence number of the breakout room.
      */
-    public function setSequence($sequence)
+    public function setSequence(int $sequence): self
     {
         $this->sequence = $sequence;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isFreeJoin()
+    public function isFreeJoin(): ?bool
     {
         return $this->freeJoin;
     }
 
     /**
-     * @param bool $freeJoin
-     *
-     * @return CreateMeetingParameters
+     * If set to true, the client will give the user the choice to choose the breakout rooms he wants to join.
      */
-    public function setFreeJoin($freeJoin)
+    public function setFreeJoin(bool $freeJoin): self
     {
         $this->freeJoin = $freeJoin;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getGuestPolicy()
+    public function getGuestPolicy(): ?string
     {
         return $this->guestPolicy;
     }
 
     /**
-     * @param bool $guestPolicy
+     * Will set the guest policy for the meeting. The guest policy determines whether or not users who send a
+     * join request with guest=true will be allowed to join the meeting. Possible values are ALWAYS_ACCEPT,
+     * ALWAYS_DENY, and ASK_MODERATOR.
      *
-     * @return CreateMeetingParameters
+     * Default: ALWAYS_ACCEPT
      */
-    public function setGuestPolicy($guestPolicy)
+    public function setGuestPolicy(string $guestPolicy): self
     {
         $this->guestPolicy = $guestPolicy;
 
@@ -1088,7 +1015,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @deprecated
+     * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
     public function isBreakoutRoomsEnabled(): bool
     {
@@ -1096,13 +1023,15 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @deprecated
+     * If set to false, breakout rooms will be disabled.
+     *
+     * Default: true
      *
      * @param mixed $breakoutRoomsEnabled
      *
-     * @return CreateMeetingParameters
+     * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setBreakoutRoomsEnabled($breakoutRoomsEnabled)
+    public function setBreakoutRoomsEnabled($breakoutRoomsEnabled): self
     {
         $this->breakoutRoomsEnabled = $breakoutRoomsEnabled;
 
@@ -1115,26 +1044,28 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param bool $breakoutRoomsRecord
+     * If set to false, breakout rooms will not be recorded.
      *
-     * @return $this
+     * Default: true
      */
-    public function setBreakoutRoomsRecord($breakoutRoomsRecord)
+    public function setBreakoutRoomsRecord(bool $breakoutRoomsRecord): self
     {
         $this->breakoutRoomsRecord = $breakoutRoomsRecord;
 
         return $this;
     }
 
-    public function isBreakoutRoomsPrivateChatEnabled()
+    public function isBreakoutRoomsPrivateChatEnabled(): ?bool
     {
         return $this->breakoutRoomsPrivateChatEnabled;
     }
 
     /**
-     * @return CreateMeetingParameters
+     * If set to false, the private chat will be disabled in breakout rooms.
+     *
+     * Default: true
      */
-    public function setBreakoutRoomsPrivateChatEnabled(bool $breakoutRoomsPrivateChatEnabled)
+    public function setBreakoutRoomsPrivateChatEnabled(bool $breakoutRoomsPrivateChatEnabled): self
     {
         $this->breakoutRoomsPrivateChatEnabled = $breakoutRoomsPrivateChatEnabled;
 
@@ -1146,68 +1077,68 @@ class CreateMeetingParameters extends MetaParameters
         return $this->meetingEndedURL;
     }
 
-    /**
-     * @return CreateMeetingParameters
-     */
-    public function setMeetingEndedURL(string $meetingEndedURL)
+    public function setMeetingEndedURL(string $meetingEndedURL): self
     {
         $this->meetingEndedURL = $meetingEndedURL;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingLayout()
+    public function getMeetingLayout(): ?string
     {
         return $this->meetingLayout;
     }
 
     /**
-     * @return CreateMeetingParameters
+     * Will set the default layout for the meeting. Possible values are: CUSTOM_LAYOUT, SMART_LAYOUT,
+     * PRESENTATION_FOCUS, VIDEO_FOCUS.
+     *
+     * Default: SMART_LAYOUT
+     *
+     * @since 2.4
      */
-    public function setMeetingLayout(string $meetingLayout)
+    public function setMeetingLayout(string $meetingLayout): self
     {
         $this->meetingLayout = $meetingLayout;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isAllowRequestsWithoutSession()
+    public function isAllowRequestsWithoutSession(): ?bool
     {
         return $this->allowRequestsWithoutSession;
     }
 
     /**
-     * @param mixed $allowRequestsWithoutSession
+     * Setting to true will allow users to join meetings without session cookie's validation.
      *
-     * @return $this
+     * Default: false
+     *
+     * @since 2.4.3
+     *
+     * @param mixed $allowRequestsWithoutSession
      */
-    public function setAllowRequestsWithoutSession($allowRequestsWithoutSession)
+    public function setAllowRequestsWithoutSession($allowRequestsWithoutSession): self
     {
         $this->allowRequestsWithoutSession = $allowRequestsWithoutSession;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getUserCameraCap()
+    public function getUserCameraCap(): ?int
     {
         return $this->userCameraCap;
     }
 
     /**
-     * @param int $userCameraCap
+     * Setting to 0 will disable this threshold. Defines the max number of webcams a single user can share
+     * simultaneously.
      *
-     * @return CreateMeetingParameters
+     * Default: 3
+     *
+     * @since 2.4.5
      */
-    public function setUserCameraCap($userCameraCap)
+    public function setUserCameraCap(int $userCameraCap): self
     {
         $this->userCameraCap = $userCameraCap;
 
@@ -1219,7 +1150,15 @@ class CreateMeetingParameters extends MetaParameters
         return $this->meetingCameraCap;
     }
 
-    public function setMeetingCameraCap(int $meetingCameraCap): CreateMeetingParameters
+    /**
+     * Setting to 0 will disable this threshold. Defines the max number of webcams a meeting can have
+     * simultaneously.
+     *
+     * Default: 0
+     *
+     * @since 2.5.0
+     */
+    public function setMeetingCameraCap(int $meetingCameraCap): self
     {
         $this->meetingCameraCap = $meetingCameraCap;
 
@@ -1231,7 +1170,14 @@ class CreateMeetingParameters extends MetaParameters
         return $this->meetingExpireIfNoUserJoinedInMinutes;
     }
 
-    public function setMeetingExpireIfNoUserJoinedInMinutes(int $meetingExpireIfNoUserJoinedInMinutes): CreateMeetingParameters
+    /**
+     * Automatically end meeting if no user joined within a period of time after meeting created.
+     *
+     * Default: 5
+     *
+     * @since 2.5
+     */
+    public function setMeetingExpireIfNoUserJoinedInMinutes(int $meetingExpireIfNoUserJoinedInMinutes): self
     {
         $this->meetingExpireIfNoUserJoinedInMinutes = $meetingExpireIfNoUserJoinedInMinutes;
 
@@ -1243,7 +1189,16 @@ class CreateMeetingParameters extends MetaParameters
         return $this->meetingExpireWhenLastUserLeftInMinutes;
     }
 
-    public function setMeetingExpireWhenLastUserLeftInMinutes(int $meetingExpireWhenLastUserLeftInMinutes): CreateMeetingParameters
+    /**
+     * Number of minutes to automatically end meeting after last user left..
+     *
+     * Setting to 0 will disable this function.
+     *
+     * Default: 1
+     *
+     * @since 2.5
+     */
+    public function setMeetingExpireWhenLastUserLeftInMinutes(int $meetingExpireWhenLastUserLeftInMinutes): self
     {
         $this->meetingExpireWhenLastUserLeftInMinutes = $meetingExpireWhenLastUserLeftInMinutes;
 
@@ -1255,7 +1210,13 @@ class CreateMeetingParameters extends MetaParameters
         return $this->preUploadedPresentationOverrideDefault;
     }
 
-    public function setPreUploadedPresentationOverrideDefault(bool $preUploadedPresentationOverrideDefault): CreateMeetingParameters
+    /**
+     * If it is true, the default.pdf document is not sent along with the other presentations in the /create
+     * endpoint, on the other hand, if that's false, the default.pdf is sent with the other documents.
+     *
+     * Default: true
+     */
+    public function setPreUploadedPresentationOverrideDefault(bool $preUploadedPresentationOverrideDefault): self
     {
         $this->preUploadedPresentationOverrideDefault = $preUploadedPresentationOverrideDefault;
 
@@ -1267,7 +1228,33 @@ class CreateMeetingParameters extends MetaParameters
         return $this->disabledFeatures;
     }
 
-    public function setDisabledFeatures(array $disabledFeatures): CreateMeetingParameters
+    /**
+     * List of features to disable in a particular meeting.
+     *
+     * @since 2.5
+     *
+     * Available options to disable:
+     * - breakoutRooms:                                         Breakout Rooms
+     * - captions:                                              Closed Caption
+     * - chat:                                                  Chat
+     * - downloadPresentationWithAnnotations:                   Annotated presentation download
+     * - snapshotOfCurrentSlide:                                Allow snapshot of the current slide
+     * - externalVideos:                                        Share an external video
+     * - importPresentationWithAnnotationsFromBreakoutRooms:    Capture breakout presentation
+     * - importSharedNotesFromBreakoutRooms:                    Capture breakout shared notes
+     * - layouts:                                               Layouts (allow only default layout)
+     * - learningDashboard:                                     Learning Analytics Dashboard
+     * - polls:                                                 Polls
+     * - screenshare:                                           Screen Sharing
+     * - sharedNotes:                                           Shared Notes
+     * - virtualBackgrounds:                                    Virtual Backgrounds
+     * - customVirtualBackgrounds:                              Virtual Backgrounds Upload
+     * - liveTranscription:                                     Live Transcription
+     * - presentation:                                          Presentation
+     * - cameraAsContent:                                       Enables/Disables camera as a content
+     * - timer:                                                 Disables timer
+     */
+    public function setDisabledFeatures(array $disabledFeatures): self
     {
         $this->disabledFeatures = $disabledFeatures;
 
@@ -1279,7 +1266,16 @@ class CreateMeetingParameters extends MetaParameters
         return $this->disabledFeaturesExclude;
     }
 
-    public function setDisabledFeaturesExclude(array $disabledFeaturesExclude): CreateMeetingParameters
+    /**
+     * List of features to no longer disable in a particular meeting. This is particularly useful if you
+     * disabled a list of features on a per-server basis but want to allow one of two of these features
+     * for a specific meeting.
+     *
+     * The available options to exclude are exactly the same as for disabledFeatures
+     *
+     * @since 2.6.9
+     */
+    public function setDisabledFeaturesExclude(array $disabledFeaturesExclude): self
     {
         $this->disabledFeaturesExclude = $disabledFeaturesExclude;
 
@@ -1291,7 +1287,16 @@ class CreateMeetingParameters extends MetaParameters
         return $this->recordFullDurationMedia;
     }
 
-    public function setRecordFullDurationMedia(bool $recordFullDurationMedia): CreateMeetingParameters
+    /**
+     * Controls whether media (audio, cameras and screen sharing) should be captured on their full duration
+     * if the meeting's recorded property is true (recorded=true). Default is false: only captures media while
+     * recording is running in the meeting.
+     *
+     * Default: false
+     *
+     * @since 2.6.9
+     */
+    public function setRecordFullDurationMedia(bool $recordFullDurationMedia): self
     {
         $this->recordFullDurationMedia = $recordFullDurationMedia;
 
@@ -1307,10 +1312,8 @@ class CreateMeetingParameters extends MetaParameters
      * @param mixed $id
      * @param mixed $name
      * @param mixed $roster
-     *
-     * @return $this
      */
-    public function addBreakoutRoomsGroup($id, $name, $roster)
+    public function addBreakoutRoomsGroup($id, $name, $roster): self
     {
         $this->breakoutRoomsGroups[] = ['id' => $id, 'name' => $name, 'roster' => $roster];
 
@@ -1323,9 +1326,14 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return $this
+     * If it is true, a modal will be displayed to collect recording consent from users when meeting recording
+     * starts (only if remindRecordingIsOn=true).
+     *
+     * Default: false
+     *
+     * @since 2.6
      */
-    public function setNotifyRecordingIsOn(bool $notifyRecordingIsOn): CreateMeetingParameters
+    public function setNotifyRecordingIsOn(bool $notifyRecordingIsOn): self
     {
         $this->notifyRecordingIsOn = $notifyRecordingIsOn;
 
@@ -1338,9 +1346,12 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return $this
+     * Pass a URL to a specific page in external application to select files for inserting documents into a live
+     * presentation. Only works if presentationUploadExternalDescription is also set.
+     *
+     * @since 2.6
      */
-    public function setPresentationUploadExternalUrl(string $presentationUploadExternalUrl): CreateMeetingParameters
+    public function setPresentationUploadExternalUrl(string $presentationUploadExternalUrl): self
     {
         $this->presentationUploadExternalUrl = $presentationUploadExternalUrl;
 
@@ -1353,19 +1364,19 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return $this
+     * Message to be displayed in presentation uploader modal describing how to use an external application to
+     * upload presentation files. Only works if presentationUploadExternalUrl is also set.
+     *
+     * @since 2.6
      */
-    public function setPresentationUploadExternalDescription(string $presentationUploadExternalDescription): CreateMeetingParameters
+    public function setPresentationUploadExternalDescription(string $presentationUploadExternalDescription): self
     {
         $this->presentationUploadExternalDescription = $presentationUploadExternalDescription;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         $queries = [
             'name'                                   => $this->meetingName,
