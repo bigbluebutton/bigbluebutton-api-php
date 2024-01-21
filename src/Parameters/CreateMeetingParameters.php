@@ -162,9 +162,6 @@ class CreateMeetingParameters extends MetaParameters
      */
     private $disabledFeaturesExclude = [];
 
-    /**
-     * @var bool
-     */
     private ?bool $recordFullDurationMedia = null;
 
     /**
