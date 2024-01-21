@@ -25,19 +25,10 @@ namespace BigBlueButton\Parameters;
  */
 class GetMeetingInfoParameters extends BaseParameters
 {
-    /**
-     * @var string
-     */
     private ?string $meetingId = null;
 
-    /**
-     * @var int
-     */
     private ?int $offset = null;
 
-    /**
-     * @var int
-     */
     private ?int $limit = null;
 
     /**

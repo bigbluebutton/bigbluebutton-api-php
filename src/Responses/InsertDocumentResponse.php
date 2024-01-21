@@ -20,6 +20,4 @@
 
 namespace BigBlueButton\Responses;
 
-class InsertDocumentResponse extends BaseResponse
-{
-}
+class InsertDocumentResponse extends BaseResponse {}

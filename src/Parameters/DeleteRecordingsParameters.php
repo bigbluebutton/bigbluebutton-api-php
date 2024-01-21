@@ -25,9 +25,6 @@ namespace BigBlueButton\Parameters;
  */
 class DeleteRecordingsParameters extends BaseParameters
 {
-    /**
-     * @var string
-     */
     private ?string $recordingId = null;
 
     /**

@@ -20,7 +20,9 @@
 
 namespace BigBlueButton\Enum;
 
-class MeetingLayout extends \MabeEnum\Enum
+use MabeEnum\Enum;
+
+class MeetingLayout extends Enum
 {
     public const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
     public const SMART_LAYOUT       = 'SMART_LAYOUT';

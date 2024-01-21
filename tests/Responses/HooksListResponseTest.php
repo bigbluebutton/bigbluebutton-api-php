@@ -30,7 +30,7 @@ use BigBlueButton\TestCase;
 class HooksListResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\HooksListResponse
+     * @var HooksListResponse
      */
     private $listResponse;
 

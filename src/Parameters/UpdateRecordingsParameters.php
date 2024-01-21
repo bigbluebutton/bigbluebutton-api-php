@@ -25,9 +25,6 @@ namespace BigBlueButton\Parameters;
  */
 class UpdateRecordingsParameters extends MetaParameters
 {
-    /**
-     * @var string
-     */
     private ?string $recordingId = null;
 
     /**

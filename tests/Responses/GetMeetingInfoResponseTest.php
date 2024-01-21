@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Responses;
 
+use BigBlueButton\TestCase;
+
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
@@ -59,10 +61,10 @@ namespace BigBlueButton\Responses;
  *
  * @coversNothing
  */
-class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
+class GetMeetingInfoResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\GetMeetingInfoResponse
+     * @var GetMeetingInfoResponse
      */
     private $meetingInfo;
 
@@ -72,7 +74,7 @@ class GetMeetingInfoResponseTest extends \BigBlueButton\TestCase
 
         $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_meeting_info.xml');
 
-        $this->meetingInfo = new \BigBlueButton\Responses\GetMeetingInfoResponse($xml);
+        $this->meetingInfo = new GetMeetingInfoResponse($xml);
     }
 
     public function testGetMeetingInfoResponseContent()

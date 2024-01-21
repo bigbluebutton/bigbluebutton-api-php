@@ -25,9 +25,6 @@ namespace BigBlueButton\Parameters;
  */
 class IsMeetingRunningParameters extends BaseParameters
 {
-    /**
-     * @var string
-     */
     private ?string $meetingId = null;
 
     /**

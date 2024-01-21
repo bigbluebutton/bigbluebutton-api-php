@@ -30,7 +30,7 @@ use BigBlueButton\TestCase;
 class ApiVersionResponseTest extends TestCase
 {
     /**
-     * @var \BigBlueButton\Responses\ApiVersionResponse
+     * @var ApiVersionResponse
      */
     private $version;
 

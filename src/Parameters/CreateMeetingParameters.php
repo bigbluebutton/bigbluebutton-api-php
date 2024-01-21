@@ -27,289 +27,129 @@ class CreateMeetingParameters extends MetaParameters
 {
     use DocumentableTrait;
 
-    /**
-     * @var string
-     */
     private ?string $meetingId = null;
 
-    /**
-     * @var string
-     */
     private ?string $meetingName = null;
 
     /**
-     * @var string
-     *
      * @deprecated
      */
     private ?string $attendeePassword = null;
 
     /**
-     * @var string
-     *
      * @deprecated
      */
     private ?string $moderatorPassword = null;
 
-    /**
-     * @var string
-     */
     private ?string $dialNumber = null;
 
-    /**
-     * @var int
-     */
     private ?int $voiceBridge = null;
 
-    /**
-     * @var string
-     */
     private ?string $webVoice = null;
 
-    /**
-     * @var string
-     */
     private ?string $logoutUrl = null;
 
-    /**
-     * @var int
-     */
     private ?int $maxParticipants = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $record = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $autoStartRecording = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $allowStartStopRecording = null;
 
-    /**
-     * @var int
-     */
     private ?int $duration = null;
 
-    /**
-     * @var string
-     */
     private ?string $welcomeMessage = null;
 
-    /**
-     * @var string
-     */
     private ?string $moderatorOnlyMessage = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $webcamsOnlyForModerator = null;
 
-    /**
-     * @var string
-     */
     private ?string $logo = null;
 
-    /**
-     * @var string
-     */
     private ?string $copyright = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $muteOnStart = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsDisableCam = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsDisableMic = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsDisablePrivateChat = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsDisablePublicChat = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsDisableNote = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsHideUserList = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsLockedLayout = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsLockOnJoin = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsLockOnJoinConfigurable = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $lockSettingsHideViewersCursor = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $allowModsToUnmuteUsers = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $allowModsToEjectCameras = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $allowRequestsWithoutSession = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $isBreakout = null;
 
-    /**
-     * @var string
-     */
     private ?string $parentMeetingId = null;
 
-    /**
-     * @var int
-     */
     private ?int $sequence = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $freeJoin = null;
 
-    /**
-     * @var string
-     */
     private ?string $guestPolicy = null;
 
-    /**
-     * @var string
-     */
     private ?string $bannerText = null;
 
-    /**
-     * @var string
-     */
     private ?string $bannerColor = null;
 
     /**
      * @deprecated
-     *
-     * @var bool
      */
     private ?bool $learningDashboardEnabled = null;
 
     /**
      * @deprecated
-     *
-     * @var bool
      */
     private ?bool $virtualBackgroundsDisabled = null;
 
-    /**
-     * @var int
-     */
     private ?int $learningDashboardCleanupDelayInMinutes = null;
 
-    /**
-     * @var int
-     */
     private ?int $endWhenNoModeratorDelayInMinutes = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $endWhenNoModerator = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $meetingKeepEvents = null;
 
     /**
      * @deprecated
-     *
-     * @var bool
      */
     private ?bool $breakoutRoomsEnabled = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $breakoutRoomsRecord = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $breakoutRoomsPrivateChatEnabled = null;
 
-    /**
-     * @var string
-     */
     private ?string $meetingEndedURL = null;
 
-    /**
-     * @var string
-     */
     private ?string $meetingLayout = null;
 
-    /**
-     * @var int
-     */
     private ?int $userCameraCap = null;
 
-    /**
-     * @var int
-     */
     private ?int $meetingCameraCap = null;
 
-    /**
-     * @var int
-     */
     private ?int $meetingExpireIfNoUserJoinedInMinutes = null;
 
-    /**
-     * @var int
-     */
     private ?int $meetingExpireWhenLastUserLeftInMinutes = null;
 
-    /**
-     * @var bool
-     */
     private ?bool $preUploadedPresentationOverrideDefault = null;
 
     /**
@@ -322,19 +162,10 @@ class CreateMeetingParameters extends MetaParameters
      */
     private $breakoutRoomsGroups = [];
 
-    /**
-     * @var bool
-     */
     private ?bool $notifyRecordingIsOn = null;
 
-    /**
-     * @var string
-     */
     private ?string $presentationUploadExternalUrl = null;
 
-    /**
-     * @var string
-     */
     private ?string $presentationUploadExternalDescription = null;
 
     /**

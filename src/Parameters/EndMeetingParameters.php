@@ -25,15 +25,10 @@ namespace BigBlueButton\Parameters;
  */
 class EndMeetingParameters extends BaseParameters
 {
-    /**
-     * @var string
-     */
     private ?string $meetingId = null;
 
     /**
      * @deprecated
-     *
-     * @var string
      */
     private ?string $password = null;
 
