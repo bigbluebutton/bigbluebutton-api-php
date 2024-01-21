@@ -180,12 +180,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'preUploadedPresentationOverrideDefault' => $this->faker->boolean,
             'groups'                                 => $this->generateBreakoutRoomsGroups(),
             'disabledFeatures'                       => $this->faker->randomElements(Feature::getValues()),
+            'disabledFeaturesExclude'                => $this->faker->randomElements(Feature::getValues()),
             'meta_presenter'                         => $this->faker->name,
             'meta_endCallbackUrl'                    => $this->faker->url,
             'meta_bbb-recording-ready-url'           => $this->faker->url,
             'notifyRecordingIsOn'                    => $this->faker->boolean(50),
             'presentationUploadExternalUrl'          => $this->faker->url,
             'presentationUploadExternalDescription'  => $this->faker->text,
+            'recordFullDurationMedia'                => $this->faker->boolean(50),
         ];
     }
 
@@ -281,6 +283,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
             ->setMeetingExpireWhenLastUserLeftInMinutes($params['meetingExpireWhenLastUserLeftInMinutes'])
             ->setPreUploadedPresentationOverrideDefault($params['preUploadedPresentationOverrideDefault'])
             ->setDisabledFeatures($params['disabledFeatures'])
+            ->setDisabledFeaturesExclude($params['disabledFeaturesExclude'])
+            ->setRecordFullDurationMedia($params['recordFullDurationMedia'])
             ->addMeta('presenter', $params['meta_presenter'])
             ->addMeta('bbb-recording-ready-url', $params['meta_bbb-recording-ready-url'])
             ->setNotifyRecordingIsOn($params['notifyRecordingIsOn'])

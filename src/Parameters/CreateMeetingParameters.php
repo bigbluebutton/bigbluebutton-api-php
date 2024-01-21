@@ -160,6 +160,16 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @var array
      */
+    private $disabledFeaturesExclude = [];
+
+    /**
+     * @var bool
+     */
+    private ?bool $recordFullDurationMedia = null;
+
+    /**
+     * @var array
+     */
     private $breakoutRoomsGroups = [];
 
     private ?bool $notifyRecordingIsOn = null;
@@ -1267,6 +1277,30 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    public function getDisabledFeaturesExclude(): array
+    {
+        return $this->disabledFeaturesExclude;
+    }
+
+    public function setDisabledFeaturesExclude(array $disabledFeaturesExclude): CreateMeetingParameters
+    {
+        $this->disabledFeaturesExclude = $disabledFeaturesExclude;
+
+        return $this;
+    }
+
+    public function getRecordFullDurationMedia(): bool
+    {
+        return $this->recordFullDurationMedia;
+    }
+
+    public function setRecordFullDurationMedia(bool $recordFullDurationMedia): CreateMeetingParameters
+    {
+        $this->recordFullDurationMedia = $recordFullDurationMedia;
+
+        return $this;
+    }
+
     public function getBreakoutRoomsGroups(): array
     {
         return $this->breakoutRoomsGroups;
@@ -1388,9 +1422,11 @@ class CreateMeetingParameters extends MetaParameters
             'meetingExpireWhenLastUserLeftInMinutes' => $this->meetingExpireWhenLastUserLeftInMinutes,
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
             'disabledFeatures'                       => join(',', $this->disabledFeatures),
+            'disabledFeaturesExclude'                => join(',', $this->disabledFeaturesExclude),
             'notifyRecordingIsOn'                    => is_null($this->notifyRecordingIsOn) ? ($this->notifyRecordingIsOn ? 'true' : 'false') : $this->notifyRecordingIsOn,
             'presentationUploadExternalUrl'          => $this->presentationUploadExternalUrl,
             'presentationUploadExternalDescription'  => $this->presentationUploadExternalDescription,
+            'recordFullDurationMedia'                => !is_null($this->recordFullDurationMedia) ? ($this->recordFullDurationMedia ? 'true' : 'false') : $this->recordFullDurationMedia,
         ];
 
         // Add breakout rooms parameters only if the meeting is a breakout room

@@ -89,6 +89,8 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['meetingExpireWhenLastUserLeftInMinutes'], $createMeetingParams->getMeetingExpireWhenLastUserLeftInMinutes());
         $this->assertEquals($params['preUploadedPresentationOverrideDefault'], $createMeetingParams->isPreUploadedPresentationOverrideDefault());
         $this->assertEquals($params['disabledFeatures'], $createMeetingParams->getDisabledFeatures());
+        $this->assertEquals($params['disabledFeaturesExclude'], $createMeetingParams->getDisabledFeaturesExclude());
+        $this->assertEquals($params['recordFullDurationMedia'], $createMeetingParams->getRecordFullDurationMedia());
         $this->assertEquals(json_encode($params['groups']), json_encode($createMeetingParams->getBreakoutRoomsGroups()));
         $this->assertEquals($params['meta_presenter'], $createMeetingParams->getMeta('presenter'));
         $this->assertEquals($params['meta_endCallbackUrl'], $createMeetingParams->getMeta('endCallbackUrl'));
