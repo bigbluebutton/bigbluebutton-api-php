@@ -20,7 +20,7 @@
 
 namespace BigBlueButton;
 
-use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Enum\ApiMethod;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;

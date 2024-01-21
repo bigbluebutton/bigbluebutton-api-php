@@ -20,7 +20,7 @@
 
 namespace BigBlueButton;
 
-use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Enum\ApiMethod;
 use BigBlueButton\Enum\HashingAlgorithm;
 use BigBlueButton\Exceptions\BadResponseException;
 use BigBlueButton\Parameters\CreateMeetingParameters;

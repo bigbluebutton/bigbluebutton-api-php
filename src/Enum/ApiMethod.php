@@ -18,12 +18,11 @@
  * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Core;
+namespace BigBlueButton\Enum;
 
-/**
- * @deprecated Use class BigBlueButton\Enum\ApiMethod instead
- */
-final class ApiMethod
+use MabeEnum\Enum;
+
+final class ApiMethod extends Enum
 {
     public const CREATE                    = 'create';
     public const JOIN                      = 'join';
