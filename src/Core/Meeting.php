@@ -20,147 +20,65 @@
 
 namespace BigBlueButton\Core;
 
+use BigBlueButton\Enum\Role;
+
 /**
  * Class Meeting.
  */
 class Meeting
 {
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $rawXml;
+    protected \SimpleXMLElement $rawXml;
 
-    /**
-     * @var string
-     */
-    private $meetingId;
+    private string $meetingId;
 
-    /**
-     * @var string
-     */
-    private $meetingName;
+    private string $meetingName;
 
-    /**
-     * @var float
-     */
-    private $creationTime;
+    private float $creationTime;
 
-    /**
-     * @var string
-     */
-    private $creationDate;
+    private string $creationDate;
 
-    /**
-     * @var int
-     */
-    private $voiceBridge;
+    private int $voiceBridge;
 
-    /**
-     * @var string
-     */
-    private $dialNumber;
+    private string $dialNumber;
 
-    /**
-     * @var string
-     */
-    private $attendeePassword;
+    private string $attendeePassword;
 
-    /**
-     * @var string
-     */
-    private $moderatorPassword;
+    private string $moderatorPassword;
 
-    /**
-     * @var bool
-     */
-    private $hasBeenForciblyEnded;
+    private bool $hasBeenForciblyEnded;
 
-    /**
-     * @var bool
-     */
-    private $isRunning;
+    private bool $isRunning;
 
-    /**
-     * @var int
-     */
-    private $participantCount;
+    private int $participantCount;
 
-    /**
-     * @var int
-     */
-    private $listenerCount;
+    private int $listenerCount;
 
-    /**
-     * @var int
-     */
-    private $voiceParticipantCount;
+    private int $voiceParticipantCount;
 
-    /**
-     * @var int
-     */
-    private $videoCount;
+    private int $videoCount;
 
-    /**
-     * @var int
-     */
-    private $duration;
+    private int $duration;
 
-    /**
-     * @var bool
-     */
-    private $hasUserJoined;
+    private bool $hasUserJoined;
 
-    /**
-     * @var string
-     */
-    private $internalMeetingId;
+    private string $internalMeetingId;
 
-    /**
-     * @var bool
-     */
-    private $isRecording;
+    private bool $isRecording;
 
-    /**
-     * @var float
-     */
-    private $startTime;
+    private float $startTime;
 
-    /**
-     * @var float
-     */
-    private $endTime;
+    private float $endTime;
 
-    /**
-     * @var int
-     */
-    private $maxUsers;
+    private int $maxUsers;
 
-    /**
-     * @var int
-     */
-    private $moderatorCount;
+    private int $moderatorCount;
 
-    /**
-     * @var Attendee[]
-     */
-    private $attendees;
-
-    /**
-     * @var array
-     */
-    private $metas;
-
-    /**
-     * @var bool
-     */
-    private $isBreakout;
+    private bool $isBreakout;
 
     /**
      * Meeting constructor.
-     *
-     * @param $xml \SimpleXMLElement
      */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->rawXml                = $xml;
         $this->meetingId             = $xml->meetingID->__toString();
@@ -188,195 +106,130 @@ class Meeting
         $this->isBreakout            = 'true' === $xml->isBreakout->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingName()
+    public function getMeetingName(): string
     {
         return $this->meetingName;
     }
 
-    /**
-     * @return float
-     */
-    public function getCreationTime()
+    public function getCreationTime(): float
     {
         return $this->creationTime;
     }
 
-    /**
-     * @return string
-     */
-    public function getCreationDate()
+    public function getCreationDate(): string
     {
         return $this->creationDate;
     }
 
-    /**
-     * @return int
-     */
-    public function getVoiceBridge()
+    public function getVoiceBridge(): int
     {
         return $this->voiceBridge;
     }
 
-    /**
-     * @return string
-     */
-    public function getDialNumber()
+    public function getDialNumber(): string
     {
         return $this->dialNumber;
     }
 
-    /**
-     * @return string
-     */
-    public function getAttendeePassword()
+    public function getAttendeePassword(): string
     {
         return $this->attendeePassword;
     }
 
-    /**
-     * @return string
-     */
-    public function getModeratorPassword()
+    public function getModeratorPassword(): string
     {
         return $this->moderatorPassword;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function hasBeenForciblyEnded()
+    public function hasBeenForciblyEnded(): ?bool
     {
         return $this->hasBeenForciblyEnded;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isRunning()
+    public function isRunning(): ?bool
     {
         return $this->isRunning;
     }
 
-    /**
-     * @return int
-     */
-    public function getParticipantCount()
+    public function getParticipantCount(): int
     {
         return $this->participantCount;
     }
 
-    /**
-     * @return int
-     */
-    public function getListenerCount()
+    public function getListenerCount(): int
     {
         return $this->listenerCount;
     }
 
-    /**
-     * @return int
-     */
-    public function getVoiceParticipantCount()
+    public function getVoiceParticipantCount(): int
     {
         return $this->voiceParticipantCount;
     }
 
-    /**
-     * @return int
-     */
-    public function getVideoCount()
+    public function getVideoCount(): int
     {
         return $this->videoCount;
     }
 
-    /**
-     * @return int
-     */
-    public function getDuration()
+    public function getDuration(): int
     {
         return $this->duration;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function hasUserJoined()
+    public function hasUserJoined(): ?bool
     {
         return $this->hasUserJoined;
     }
 
-    /**
-     * @return string
-     */
-    public function getInternalMeetingId()
+    public function getInternalMeetingId(): string
     {
         return $this->internalMeetingId;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isRecording()
+    public function isRecording(): ?bool
     {
         return $this->isRecording;
     }
 
-    /**
-     * @return float
-     */
-    public function getStartTime()
+    public function getStartTime(): float
     {
         return $this->startTime;
     }
 
-    /**
-     * @return float
-     */
-    public function getEndTime()
+    public function getEndTime(): float
     {
         return $this->endTime;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaxUsers()
+    public function getMaxUsers(): int
     {
         return $this->maxUsers;
     }
 
-    /**
-     * @return int
-     */
-    public function getModeratorCount()
+    public function getModeratorCount(): int
     {
         return $this->moderatorCount;
     }
 
     /**
+     * Attendees of Meeting (MODERATORS and VIEWERS).
+     *
      * @return Attendee[]
      */
-    public function getAttendees()
+    public function getAttendees(): array
     {
-        if (null === $this->attendees) {
-            $this->attendees = [];
-            foreach ($this->rawXml->attendees->attendee as $attendeeXml) {
-                $this->attendees[] = new Attendee($attendeeXml);
-            }
+        $attendees = [];
+
+        foreach ($this->rawXml->attendees->attendee as $attendeeXml) {
+            $attendees[] = new Attendee($attendeeXml);
         }
 
-        return $this->attendees;
+        return $attendees;
     }
 
     /**
@@ -384,12 +237,12 @@ class Meeting
      *
      * @return Attendee[]
      */
-    public function getModerators()
+    public function getModerators(): array
     {
         $attendees = $this->getAttendees();
 
         $moderators = array_filter($attendees, function($attendee) {
-            return 'MODERATOR' === $attendee->getRole();
+            return Role::MODERATOR === $attendee->getRole();
         });
 
         return array_values($moderators);
@@ -400,30 +253,25 @@ class Meeting
      *
      * @return Attendee[]
      */
-    public function getViewers()
+    public function getViewers(): array
     {
         $attendees = $this->getAttendees();
 
         $viewers = array_filter($attendees, function($attendee) {
-            return 'VIEWER' === $attendee->getRole();
+            return Role::VIEWER === $attendee->getRole();
         });
 
         return array_values($viewers);
     }
 
-    /**
-     * @return array
-     */
-    public function getMetas()
+    public function getMetas(): array
     {
-        if (null === $this->metas) {
-            $this->metas = [];
-            foreach ($this->rawXml->metadata->children() as $metadataXml) {
-                $this->metas[$metadataXml->getName()] = $metadataXml->__toString();
-            }
+        $metas = [];
+        foreach ($this->rawXml->metadata->children() as $metadataXml) {
+            $metas[$metadataXml->getName()] = $metadataXml->__toString();
         }
 
-        return $this->metas;
+        return $metas;
     }
 
     public function isBreakout(): bool
