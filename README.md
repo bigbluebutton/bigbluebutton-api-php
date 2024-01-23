@@ -31,12 +31,24 @@ install and usage example.
 Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
 
 ## Contributing guidelines
-### Code style
+### Code Quality (style)
 
 Make sure the code style configuration is applied by running PHPCS-Fixer.
 
+```bash
+# using an alias
+$ composer cs-fix
 ```
-composer cs-fix
+
+### Code Quality (static code analysis)
+PHPStan shall be used for static code analysis by running the command below:
+
+```bash
+# using an alias
+$ composer code-check
+
+# or the same w/o alias
+$ ./vendor/bin/phpstan analyse
 ```
 
 ### Running tests
@@ -44,7 +56,7 @@ composer cs-fix
 For every implemented feature add unit tests and check all is green by running the command below.
 
 ```bash
-composer test
+$ composer test
 ```
 
 To run a single test

@@ -42,6 +42,7 @@
     "phpstan/phpstan": "^1.10"
   },
   "scripts": {
+    "code-check": "./vendor/bin/phpstan analyse",
     "test": "./vendor/bin/phpunit",
     "test-cov": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html coverage",
     "cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --allow-risky yes",
