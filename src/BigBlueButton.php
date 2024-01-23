@@ -44,7 +44,7 @@ use BigBlueButton\Responses\EndMeetingResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
-use BigBlueButton\Responses\GetRecordingTextTracksResponseResponse;
+use BigBlueButton\Responses\GetRecordingTextTracksResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
@@ -395,13 +395,13 @@ class BigBlueButton
     /**
      * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
      *
-     * @return GetRecordingTextTracksResponseResponse
+     * @return GetRecordingTextTracksResponse
      */
     public function getRecordingTextTracks($getRecordingTextTracksParams)
     {
         $json = $this->processJsonResponse($this->getRecordingTextTracksUrl($getRecordingTextTracksParams));
 
-        return new GetRecordingTextTracksResponseResponse($json);
+        return new GetRecordingTextTracksResponse($json);
     }
 
     /**
