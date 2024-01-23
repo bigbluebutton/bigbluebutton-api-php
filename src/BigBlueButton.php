@@ -201,7 +201,7 @@ class BigBlueButton
     /**
      * @param $insertDocumentParams InsertDocumentParameters
      *
-     * @return InsertDocumentResponse
+     * @return CreateMeetingResponse
      *
      * @throws \RuntimeException
      */

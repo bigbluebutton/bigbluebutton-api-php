@@ -50,7 +50,7 @@ class InsertDocumentParameters extends BaseParameters
     /**
      * @param string $meetingId
      *
-     * @return EndMeetingParameters
+     * @return InsertDocumentParameters
      */
     public function setMeetingId($meetingId)
     {
