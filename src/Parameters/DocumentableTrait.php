@@ -36,8 +36,8 @@ trait DocumentableTrait
     }
 
     /**
-     * @param null  $content
-     * @param null  $filename
+     * @param mixed $content
+     * @param mixed $filename
      * @param mixed $nameOrUrl
      *
      * @return $this

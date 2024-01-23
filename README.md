@@ -31,7 +31,7 @@ install and usage example.
 Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
 
 ## Contributing guidelines
-### Code Quality (style)
+### Code Quality 1: Style
 
 Make sure the code style configuration is applied by running PHPCS-Fixer.
 
@@ -40,7 +40,7 @@ Make sure the code style configuration is applied by running PHPCS-Fixer.
 $ composer cs-fix
 ```
 
-### Code Quality (static code analysis)
+### Code Quality 2: Static code analysis
 PHPStan shall be used for static code analysis by running the command below:
 
 ```bash
@@ -51,7 +51,7 @@ $ composer code-check
 $ ./vendor/bin/phpstan analyse
 ```
 
-### Running tests
+### Code Quality 3: Tests
 
 For every implemented feature add unit tests and check all is green by running the command below.
 

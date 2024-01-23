@@ -56,11 +56,11 @@ abstract class UserDataParameters extends BaseParameters
     protected function buildUserData(&$queries)
     {
         if (0 !== count($this->userData)) {
-            foreach ($this->userData as $k => $v) {
-                if (!is_bool($v)) {
-                    $queries['userdata-' . $k] = $v;
+            foreach ($this->userData as $key => $value) {
+                if (!is_bool($value)) {
+                    $queries['userdata-' . $key] = $value;
                 } else {
-                    $queries['userdata-' . $k] = !is_null($v) ? ($v ? 'true' : 'false') : $v;
+                    $queries['userdata-' . $key] = $value ? 'true' : 'false';
                 }
             }
         }

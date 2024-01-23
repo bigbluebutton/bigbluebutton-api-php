@@ -48,7 +48,6 @@ use BigBlueButton\Responses\GetRecordingTextTracksResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
-use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
@@ -74,9 +73,9 @@ class BigBlueButton
     /**
      * BigBlueButton constructor.
      *
-     * @param null       $baseUrl
-     * @param null       $secret
-     * @param null|mixed $opts
+     * @param null|string $baseUrl
+     * @param null|string $secret
+     * @param null|mixed  $opts
      */
     public function __construct($baseUrl = null, $secret = null, $opts = null)
     {
@@ -560,7 +559,7 @@ class BigBlueButton
     {
         if (extension_loaded('curl')) {
             $ch = curl_init();
-            if (!$ch) {
+            if (!$ch) {  /**  @phpstan-ignore-line */
                 throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
             }
 

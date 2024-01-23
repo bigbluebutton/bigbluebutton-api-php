@@ -56,11 +56,11 @@ abstract class MetaParameters extends BaseParameters
     protected function buildMeta(&$queries)
     {
         if (0 !== count($this->meta)) {
-            foreach ($this->meta as $k => $v) {
-                if (!is_bool($v)) {
-                    $queries['meta_' . $k] = $v;
+            foreach ($this->meta as $key => $value) {
+                if (!is_bool($value)) {
+                    $queries['meta_' . $key] = $value;
                 } else {
-                    $queries['meta_' . $k] = !is_null($v) ? ($v ? 'true' : 'false') : $v;
+                    $queries['meta_' . $key] = $value ? 'true' : 'false';
                 }
             }
         }
