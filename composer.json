@@ -38,7 +38,8 @@
     "nunomaduro/phpinsights": "^v2.11.0",
     "bmitch/churn-php": "^1.7.1",
     "phpmetrics/phpmetrics": "^v2.8.2",
-    "wapmorgan/php-deprecation-detector": "^2.0.33"
+    "wapmorgan/php-deprecation-detector": "^2.0.33",
+    "phpstan/phpstan": "^1.10"
   },
   "scripts": {
     "test": "./vendor/bin/phpunit",
