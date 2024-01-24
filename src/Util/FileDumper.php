@@ -32,8 +32,8 @@ class FileDumper
     {
         // Define contents
         $calledFrom = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1)[0];
-        $headline1  = "{$calledFrom['file']} (Line: {$calledFrom['line']})";
-        $headline2  = "{$calledFrom['class']}::{$calledFrom['function']}()";
+        $headline1  = "{$calledFrom['file']} (Line: {$calledFrom['line']})"; // @phpstan-ignore-line
+        $headline2  = "{$calledFrom['class']}::{$calledFrom['function']}()"; // @phpstan-ignore-line
         $dateTime   = (new \DateTime())->format('Y_m_d_\T_H_i_s.u');
         $filename   = "dump_{$dateTime}.txt";
 
