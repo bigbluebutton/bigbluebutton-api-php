@@ -27,22 +27,18 @@ use BigBlueButton\Core\Track;
  */
 class GetRecordingTextTracksResponse extends BaseJsonResponse
 {
-    /**
-     * @var Track[]
-     */
-    private ?array $tracks = [];
 
     /**
      * @return Track[]
      */
-    public function getTracks(): ?array
+    public function getTracks(): array
     {
-        $this->tracks = [];
+        $tracks = [];
 
         foreach ($this->data->response->tracks as $track) {
-            $this->tracks[] = new Track($track);
+            $tracks[] = new Track($track);
         }
 
-        return $this->tracks;
+        return $tracks;
     }
 }

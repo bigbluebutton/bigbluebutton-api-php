@@ -32,7 +32,7 @@ class Image
 
     public function __construct(\SimpleXMLElement $xml)
     {
-        $this->alt    = $xml['alt']->__toString();
+        $this->alt    = $xml['alt'] ? $xml['alt']->__toString() : '';
         $this->height = (int) $xml['height'];
         $this->width  = (int) $xml['width'];
         $this->url    = $xml->__toString();

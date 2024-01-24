@@ -28,80 +28,48 @@ class HooksCreateParameters extends BaseParameters
 
     private ?bool $getRaw = null;
 
-    /**
-     * HooksCreateParameters constructor.
-     *
-     * @param mixed $callbackUrl
-     */
-    public function __construct($callbackUrl)
+    public function __construct(string $callbackUrl)
     {
         $this->callbackUrl = $callbackUrl;
     }
 
-    /**
-     * @return string
-     */
-    public function getCallbackUrl()
+    public function getCallbackUrl(): ?string
     {
         return $this->callbackUrl;
     }
 
-    /**
-     * @param string $callbackUrl
-     *
-     * @return HooksCreateParameters
-     */
-    public function setCallbackUrl($callbackUrl)
+    public function setCallbackUrl(string $callbackUrl): self
     {
         $this->callbackUrl = $callbackUrl;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): ?string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @param string $meetingId
-     *
-     * @return HooksCreateParameters
-     */
-    public function setMeetingId($meetingId)
+    public function setMeetingId(string $meetingId): self
     {
         $this->meetingId = $meetingId;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function getRaw()
+    public function getRaw(): ?bool
     {
         return $this->getRaw;
     }
 
-    /**
-     * @param bool $getRaw
-     *
-     * @return HooksCreateParameters
-     */
-    public function setGetRaw($getRaw)
+    public function setGetRaw(bool $getRaw): self
     {
         $this->getRaw = $getRaw;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         $queries = [
             'callbackURL' => $this->callbackUrl,

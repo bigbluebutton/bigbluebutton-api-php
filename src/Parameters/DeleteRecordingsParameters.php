@@ -27,40 +27,24 @@ class DeleteRecordingsParameters extends BaseParameters
 {
     private ?string $recordingId = null;
 
-    /**
-     * DeleteRecordingsParameters constructor.
-     *
-     * @param mixed $recordingId
-     */
-    public function __construct($recordingId = null)
+    public function __construct(string $recordingId = null)
     {
         $this->recordingId = $recordingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getRecordingId()
+    public function getRecordingId(): ?string
     {
         return $this->recordingId;
     }
 
-    /**
-     * @param string $recordingId
-     *
-     * @return DeleteRecordingsParameters
-     */
-    public function setRecordingId($recordingId)
+    public function setRecordingId(string $recordingId): DeleteRecordingsParameters
     {
         $this->recordingId = $recordingId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         return $this->buildHTTPQuery(['recordID' => $this->recordingId]);
     }

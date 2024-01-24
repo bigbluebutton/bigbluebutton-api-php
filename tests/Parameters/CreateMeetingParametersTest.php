@@ -125,7 +125,7 @@ class CreateMeetingParametersTest extends TestCase
         $params = $createBreakoutMeetingParams->getHTTPQuery();
 
         $this->assertStringContainsString('isBreakout=' . urlencode($createBreakoutMeetingParams->isBreakout() ? 'true' : 'false'), $params);
-        $this->assertStringContainsString('parentMeetingID=' . urlencode($createBreakoutMeetingParams->getParentMeetingId()), $params);
+        $this->assertStringContainsString('parentMeetingID=' . urlencode((string) $createBreakoutMeetingParams->getParentMeetingId()), $params);
         $this->assertStringContainsString('sequence=' . urlencode((string) $createBreakoutMeetingParams->getSequence()), $params);
         $this->assertStringContainsString('freeJoin=' . urlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
     }

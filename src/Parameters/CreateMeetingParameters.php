@@ -418,7 +418,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getDuration(): int
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
@@ -572,7 +572,7 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function isVirtualBackgroundsDisabled(): bool
+    public function isVirtualBackgroundsDisabled(): ?bool
     {
         return $this->virtualBackgroundsDisabled;
     }
@@ -867,7 +867,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function isLockSettingsHideViewersCursor(): bool
+    public function isLockSettingsHideViewersCursor(): ?bool
     {
         return $this->lockSettingsHideViewersCursor;
     }
@@ -905,7 +905,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function isAllowModsToEjectCameras(): bool
+    public function isAllowModsToEjectCameras(): ?bool
     {
         return $this->allowModsToEjectCameras;
     }
@@ -1026,7 +1026,7 @@ class CreateMeetingParameters extends MetaParameters
     /**
      * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function isBreakoutRoomsEnabled(): bool
+    public function isBreakoutRoomsEnabled(): ?bool
     {
         return $this->breakoutRoomsEnabled;
     }
@@ -1047,7 +1047,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function isBreakoutRoomsRecord(): bool
+    public function isBreakoutRoomsRecord(): ?bool
     {
         return $this->breakoutRoomsRecord;
     }
@@ -1081,7 +1081,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getMeetingEndedURL(): string
+    public function getMeetingEndedURL(): ?string
     {
         return $this->meetingEndedURL;
     }
@@ -1154,7 +1154,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getMeetingCameraCap(): int
+    public function getMeetingCameraCap(): ?int
     {
         return $this->meetingCameraCap;
     }
@@ -1174,7 +1174,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getMeetingExpireIfNoUserJoinedInMinutes(): int
+    public function getMeetingExpireIfNoUserJoinedInMinutes(): ?int
     {
         return $this->meetingExpireIfNoUserJoinedInMinutes;
     }
@@ -1193,7 +1193,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getMeetingExpireWhenLastUserLeftInMinutes(): int
+    public function getMeetingExpireWhenLastUserLeftInMinutes(): ?int
     {
         return $this->meetingExpireWhenLastUserLeftInMinutes;
     }
@@ -1214,7 +1214,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function isPreUploadedPresentationOverrideDefault(): bool
+    public function isPreUploadedPresentationOverrideDefault(): ?bool
     {
         return $this->preUploadedPresentationOverrideDefault;
     }
@@ -1301,7 +1301,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getRecordFullDurationMedia(): bool
+    public function getRecordFullDurationMedia(): ?bool
     {
         return $this->recordFullDurationMedia;
     }
@@ -1342,7 +1342,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getNotifyRecordingIsOn(): bool
+    public function getNotifyRecordingIsOn(): ?bool
     {
         return $this->notifyRecordingIsOn;
     }
@@ -1362,7 +1362,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getPresentationUploadExternalUrl(): string
+    public function getPresentationUploadExternalUrl(): ?string
     {
         return $this->presentationUploadExternalUrl;
     }
@@ -1380,7 +1380,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getPresentationUploadExternalDescription(): string
+    public function getPresentationUploadExternalDescription(): ?string
     {
         return $this->presentationUploadExternalDescription;
     }
@@ -1414,8 +1414,8 @@ class CreateMeetingParameters extends MetaParameters
             'maxParticipants'                        => $this->maxParticipants,
             'autoStartRecording'                     => !is_null($this->autoStartRecording) ? ($this->autoStartRecording ? 'true' : 'false') : $this->autoStartRecording,
             'allowStartStopRecording'                => !is_null($this->allowStartStopRecording) ? ($this->allowStartStopRecording ? 'true' : 'false') : $this->allowStartStopRecording,
-            'welcome'                                => trim($this->welcomeMessage),
-            'moderatorOnlyMessage'                   => trim($this->moderatorOnlyMessage),
+            'welcome'                                => !is_null($this->welcomeMessage) ? trim($this->welcomeMessage) : '',
+            'moderatorOnlyMessage'                   => !is_null($this->moderatorOnlyMessage) ? trim($this->moderatorOnlyMessage) : '',
             'webcamsOnlyForModerator'                => !is_null($this->webcamsOnlyForModerator) ? ($this->webcamsOnlyForModerator ? 'true' : 'false') : $this->webcamsOnlyForModerator,
             'logo'                                   => $this->logo,
             'copyright'                              => $this->copyright,
@@ -1433,8 +1433,8 @@ class CreateMeetingParameters extends MetaParameters
             'lockSettingsHideViewersCursor'          => !is_null($this->lockSettingsHideViewersCursor) ? ($this->lockSettingsHideViewersCursor ? 'true' : 'false') : $this->lockSettingsHideViewersCursor,
             'allowModsToUnmuteUsers'                 => !is_null($this->allowModsToUnmuteUsers) ? ($this->allowModsToUnmuteUsers ? 'true' : 'false') : $this->allowModsToUnmuteUsers,
             'allowModsToEjectCameras'                => !is_null($this->allowModsToEjectCameras) ? ($this->allowModsToEjectCameras ? 'true' : 'false') : $this->allowModsToEjectCameras,
-            'bannerText'                             => trim($this->bannerText),
-            'bannerColor'                            => trim($this->bannerColor),
+            'bannerText'                             => !is_null($this->bannerText) ? trim($this->bannerText) : '',
+            'bannerColor'                            => !is_null($this->bannerColor) ? trim($this->bannerColor) : '',
             'learningDashboardEnabled'               => !is_null($this->learningDashboardEnabled) ? ($this->learningDashboardEnabled ? 'true' : 'false') : $this->learningDashboardEnabled,
             'virtualBackgroundsDisabled'             => !is_null($this->virtualBackgroundsDisabled) ? ($this->virtualBackgroundsDisabled ? 'true' : 'false') : $this->virtualBackgroundsDisabled,
             'endWhenNoModeratorDelayInMinutes'       => $this->endWhenNoModeratorDelayInMinutes,

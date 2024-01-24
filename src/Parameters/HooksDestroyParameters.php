@@ -24,40 +24,24 @@ class HooksDestroyParameters extends BaseParameters
 {
     private ?string $hookId = null;
 
-    /**
-     * HooksDestroyParameters constructor.
-     *
-     * @param mixed $hookId
-     */
-    public function __construct($hookId = null)
+    public function __construct(string $hookId = null)
     {
         $this->hookId = $hookId;
     }
 
-    /**
-     * @return string
-     */
-    public function getHookId()
+    public function getHookId(): ?string
     {
         return $this->hookId;
     }
 
-    /**
-     * @param string $hookId
-     *
-     * @return HooksDestroyParameters
-     */
-    public function setHookId($hookId)
+    public function setHookId(string $hookId): self
     {
         $this->hookId = $hookId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         $queries = [
             'hookID' => $this->hookId,

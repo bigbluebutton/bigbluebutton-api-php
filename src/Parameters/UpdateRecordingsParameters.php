@@ -27,40 +27,24 @@ class UpdateRecordingsParameters extends MetaParameters
 {
     private ?string $recordingId = null;
 
-    /**
-     * UpdateRecordingsParameters constructor.
-     *
-     * @param mixed $recordingId
-     */
-    public function __construct($recordingId = null)
+    public function __construct(string $recordingId = null)
     {
         $this->recordingId = $recordingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getRecordingId()
+    public function getRecordingId(): ?string
     {
         return $this->recordingId;
     }
 
-    /**
-     * @param string $recordingId
-     *
-     * @return UpdateRecordingsParameters
-     */
-    public function setRecordingId($recordingId)
+    public function setRecordingId(string $recordingId): self
     {
         $this->recordingId = $recordingId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         $queries = [
             'recordID' => $this->recordingId,

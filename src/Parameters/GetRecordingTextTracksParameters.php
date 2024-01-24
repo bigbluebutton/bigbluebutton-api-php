@@ -29,38 +29,25 @@ class GetRecordingTextTracksParameters extends MetaParameters
 
     /**
      * GetRecordingTextTracksParameters constructor.
-     *
-     * @param mixed $recordId
      */
-    public function __construct($recordId = null)
+    public function __construct(string $recordId = null)
     {
         $this->recordId = $recordId;
     }
 
-    /**
-     * @return string
-     */
-    public function getRecordId()
+    public function getRecordId(): ?string
     {
         return $this->recordId;
     }
 
-    /**
-     * @param string $recordId
-     *
-     * @return GetRecordingTextTracksParameters
-     */
-    public function setRecordId($recordId)
+    public function setRecordId(string $recordId): self
     {
         $this->recordId = $recordId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         $queries = [
             'recordID' => $this->recordId,

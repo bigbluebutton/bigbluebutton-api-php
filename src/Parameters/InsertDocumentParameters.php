@@ -29,40 +29,24 @@ class InsertDocumentParameters extends BaseParameters
 
     private ?string $meetingId = null;
 
-    /**
-     * EndMeetingParameters constructor.
-     *
-     * @param string $meetingId
-     */
-    public function __construct($meetingId = null)
+    public function __construct(string $meetingId = null)
     {
         $this->meetingId = $meetingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): ?string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @param string $meetingId
-     *
-     * @return InsertDocumentParameters
-     */
-    public function setMeetingId($meetingId)
+    public function setMeetingId(string $meetingId): self
     {
         $this->meetingId = $meetingId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         return $this->buildHTTPQuery(
             [

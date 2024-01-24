@@ -36,7 +36,7 @@ class GetMeetingInfoParameters extends BaseParameters
         $this->meetingId = $meetingId;
     }
 
-    public function getMeetingId(): string
+    public function getMeetingId(): ?string
     {
         return $this->meetingId;
     }

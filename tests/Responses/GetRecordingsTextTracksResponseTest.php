@@ -41,7 +41,7 @@ class GetRecordingsTextTracksResponseTest extends TestCase
 
     public function testGetRecordingTextTracksResponseContent(): void
     {
-        $this->assertEquals(GetRecordingTextTracksResponse::SUCCESS, $this->tracks->getReturnCode());
+        $this->assertEquals(BaseJsonResponse::SUCCESS, $this->tracks->getReturnCode());
         $this->assertTrue($this->tracks->success());
         $this->assertFalse($this->tracks->failed());
         $this->assertCount(3, $this->tracks->getTracks());

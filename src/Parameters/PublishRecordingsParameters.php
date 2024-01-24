@@ -35,7 +35,7 @@ class PublishRecordingsParameters extends BaseParameters
         $this->publish     = $publish;
     }
 
-    public function getRecordingId(): string
+    public function getRecordingId(): ?string
     {
         return $this->recordingId;
     }

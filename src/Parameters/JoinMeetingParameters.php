@@ -147,7 +147,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    public function getCreationTime(): int
+    public function getCreationTime(): ?int
     {
         return $this->creationTime;
     }
