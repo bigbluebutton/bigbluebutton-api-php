@@ -226,7 +226,9 @@ class Meeting
         $attendees = [];
 
         foreach ($this->rawXml->attendees->attendee as $attendeeXml) {
-            $attendees[] = new Attendee($attendeeXml);
+            if ($attendeeXml) {
+                $attendees[] = new Attendee($attendeeXml);
+            }
         }
 
         return $attendees;

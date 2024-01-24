@@ -27,23 +27,20 @@ use BigBlueButton\Core\Record;
  */
 class GetRecordingsResponse extends BaseResponse
 {
-    /**
-     * @var Record[]
-     */
-    private $records;
 
     /**
      * @return Record[]
      */
-    public function getRecords()
+    public function getRecords(): array
     {
-        if (null === $this->records) {
-            $this->records = [];
-            foreach ($this->rawXml->recordings->children() as $recordXml) {
-                $this->records[] = new Record($recordXml);
+        $records = [];
+
+        foreach ($this->rawXml->recordings->children() as $recordXml) {
+            if ($recordXml) {
+                $records[] = new Record($recordXml);
             }
         }
 
-        return $this->records;
+        return $records;
     }
 }

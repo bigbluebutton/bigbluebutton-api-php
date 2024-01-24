@@ -27,23 +27,20 @@ use BigBlueButton\Core\Hook;
  */
 class HooksListResponse extends BaseResponse
 {
-    /**
-     * @var Hook[]
-     */
-    private $hooks;
 
     /**
      * @return Hook[]
      */
-    public function getHooks()
+    public function getHooks(): array
     {
-        if (null === $this->hooks) {
-            $this->hooks = [];
-            foreach ($this->rawXml->hooks->children() as $hookXml) {
-                $this->hooks[] = new Hook($hookXml);
+        $hooks = [];
+
+        foreach ($this->rawXml->hooks->children() as $hookXml) {
+            if ($hookXml) {
+                $hooks[] = new Hook($hookXml);
             }
         }
 
-        return $this->hooks;
+        return $hooks;
     }
 }

@@ -149,7 +149,9 @@ class Record
         $formats = [];
 
         foreach ($this->rawXml->playback->format as $formatXml) {
-            $formats[] = new Format($formatXml);
+            if ($formatXml) {
+                $formats[] = new Format($formatXml);
+            }
         }
 
         return $formats;

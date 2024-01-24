@@ -28,22 +28,18 @@ use BigBlueButton\Core\Meeting;
 class GetMeetingsResponse extends BaseResponse
 {
     /**
-     * @var Meeting[]
-     */
-    private $meetings;
-
-    /**
      * @return Meeting[]
      */
-    public function getMeetings()
+    public function getMeetings(): array
     {
-        if (null === $this->meetings) {
-            $this->meetings = [];
-            foreach ($this->rawXml->meetings->children() as $meetingXml) {
-                $this->meetings[] = new Meeting($meetingXml);
+        $meetings = [];
+
+        foreach ($this->rawXml->meetings->children() as $meetingXml) {
+            if ($meetingXml) {
+                $meetings[] = new Meeting($meetingXml);
             }
         }
 
-        return $this->meetings;
+        return $meetings;
     }
 }
