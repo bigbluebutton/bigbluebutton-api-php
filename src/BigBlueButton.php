@@ -184,11 +184,9 @@ class BigBlueButton
     }
 
     /**
-     * @param mixed $meetingParams
-     *
      * @throws BadResponseException|\RuntimeException
      */
-    public function isMeetingRunning($meetingParams): IsMeetingRunningResponse
+    public function isMeetingRunning(IsMeetingRunningParameters $meetingParams): IsMeetingRunningResponse
     {
         $xml = $this->processXmlResponse($this->getIsMeetingRunningUrl($meetingParams));
 

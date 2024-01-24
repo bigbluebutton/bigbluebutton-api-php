@@ -21,6 +21,7 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
@@ -197,19 +198,33 @@ class BigBlueButtonTest extends TestCase
      */
     public function testJoinMeeting(): void
     {
+        // create a meeting that can be joined
+        $createMeetingParameters = new CreateMeetingParameters($this->faker->uuid(), $this->faker->word());
+        $createMeetingResponse   = $this->bbb->createMeeting($createMeetingParameters);
+
+        // prepare to join the meeting
         $joinMeetingParams = $this->generateJoinMeetingParams();
         $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
         $joinMeetingMock->setRedirect(false);
 
-        $joinMeeting = $this->bbb->joinMeeting($joinMeetingMock);
+        // adapt to join the above created meeting
+        $joinMeetingMock->setMeetingId($createMeetingResponse->getMeetingId());
+        $joinMeetingMock->setCreationTime($createMeetingResponse->getCreationTime());
 
-        $this->assertEquals('SUCCESS', $joinMeeting->getReturnCode());
-        $this->assertTrue($joinMeeting->success());
-        $this->assertNotEmpty($joinMeeting->getAuthToken());
-        $this->assertNotEmpty($joinMeeting->getUserId());
-        $this->assertNotEmpty($joinMeeting->getSessionToken());
-        $this->assertNotEmpty($joinMeeting->getGuestStatus());
-        $this->assertNotEmpty($joinMeeting->getUrl());
+        // join the meeting
+        $joinMeetingResponse = $this->bbb->joinMeeting($joinMeetingMock);
+
+        $this->assertEquals(
+            'SUCCESS',
+            $joinMeetingResponse->getReturnCode(),
+            $joinMeetingResponse->getRawXml()->message->__toString()
+        );
+        $this->assertTrue($joinMeetingResponse->success());
+        $this->assertNotEmpty($joinMeetingResponse->getAuthToken());
+        $this->assertNotEmpty($joinMeetingResponse->getUserId());
+        $this->assertNotEmpty($joinMeetingResponse->getSessionToken());
+        $this->assertNotEmpty($joinMeetingResponse->getGuestStatus());
+        $this->assertNotEmpty($joinMeetingResponse->getUrl());
     }
 
     // End Meeting

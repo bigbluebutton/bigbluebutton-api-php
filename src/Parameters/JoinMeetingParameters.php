@@ -40,7 +40,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?string $webVoiceConf = null;
 
-    private ?int $creationTime = null;
+    private ?float $creationTime = null;
 
     private ?string $avatarURL = null;
 
@@ -147,12 +147,12 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    public function getCreationTime(): ?int
+    public function getCreationTime(): ?float
     {
         return $this->creationTime;
     }
 
-    public function setCreationTime(int $creationTime): self
+    public function setCreationTime(float $creationTime): self
     {
         $this->creationTime = $creationTime;
 
