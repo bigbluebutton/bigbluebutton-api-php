@@ -29,7 +29,7 @@ use BigBlueButton\TestCase;
  */
 class PublishRecordingsParametersTest extends TestCase
 {
-    public function testPublishRecordingsParameters()
+    public function testPublishRecordingsParameters(): void
     {
         $recordingId    = $this->faker->uuid;
         $publish        = $this->faker->boolean(50);

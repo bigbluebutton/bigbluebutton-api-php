@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class UpdateRecordingsResponseTest extends TestCase
 {
-    /**
-     * @var UpdateRecordingsResponse
-     */
-    private $update;
+    private UpdateRecordingsResponse $update;
 
     public function setUp(): void
     {
@@ -43,13 +40,13 @@ class UpdateRecordingsResponseTest extends TestCase
         $this->update = new UpdateRecordingsResponse($xml);
     }
 
-    public function testUpdateRecordingsResponseContent()
+    public function testUpdateRecordingsResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->update->getReturnCode());
-        $this->assertEquals(true, $this->update->isUpdated());
+        $this->assertTrue($this->update->isUpdated());
     }
 
-    public function testUpdateRecordingsResponseTypes()
+    public function testUpdateRecordingsResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->update, ['getReturnCode']);
         $this->assertEachGetterValueIsBoolean($this->update, ['isUpdated']);

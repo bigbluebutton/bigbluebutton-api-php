@@ -31,7 +31,7 @@ use BigBlueButton\TestCase;
  */
 class CreateMeetingParametersTest extends TestCase
 {
-    public function testCreateMeetingParameters()
+    public function testCreateMeetingParameters(): void
     {
         $params = $this->generateCreateParams();
 
@@ -113,7 +113,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($newId, $createMeetingParams->getMeetingId());
     }
 
-    public function testCreateBreakoutMeeting()
+    public function testCreateBreakoutMeeting(): void
     {
         $params                      = $this->generateBreakoutCreateParams($this->generateCreateParams());
         $createBreakoutMeetingParams = $this->getBreakoutCreateMock($params);
@@ -130,7 +130,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertStringContainsString('freeJoin=' . urlencode($createBreakoutMeetingParams->isFreeJoin() ? 'true' : 'false'), $params);
     }
 
-    public function testGetPresentationsAsXMLWithUrl()
+    public function testGetPresentationsAsXMLWithUrl(): void
     {
         $params              = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
@@ -138,7 +138,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
-    public function testGetPresentationsAsXMLWithUrlAndFilename()
+    public function testGetPresentationsAsXMLWithUrlAndFilename(): void
     {
         $params              = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);
@@ -146,7 +146,7 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
-    public function testGetPresentationsAsXMLWithFile()
+    public function testGetPresentationsAsXMLWithFile(): void
     {
         $params              = $this->generateCreateParams();
         $createMeetingParams = $this->getCreateMock($params);

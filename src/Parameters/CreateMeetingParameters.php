@@ -152,12 +152,21 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?bool $preUploadedPresentationOverrideDefault = null;
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $disabledFeatures = [];
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $disabledFeaturesExclude = [];
 
     private ?bool $recordFullDurationMedia = null;
 
+    /**
+     * @var array<int, array<string, mixed>>
+     */
     private array $breakoutRoomsGroups = [];
 
     private ?bool $notifyRecordingIsOn = null;
@@ -1223,6 +1232,9 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getDisabledFeatures(): array
     {
         return $this->disabledFeatures;
@@ -1230,8 +1242,6 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * List of features to disable in a particular meeting.
-     *
-     * @since 2.5
      *
      * Available options to disable:
      * - breakoutRooms:                                         Breakout Rooms
@@ -1253,6 +1263,10 @@ class CreateMeetingParameters extends MetaParameters
      * - presentation:                                          Presentation
      * - cameraAsContent:                                       Enables/Disables camera as a content
      * - timer:                                                 Disables timer
+     *
+     * @param array<string, mixed> $disabledFeatures
+     *
+     * @since 2.5
      */
     public function setDisabledFeatures(array $disabledFeatures): self
     {
@@ -1261,6 +1275,9 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getDisabledFeaturesExclude(): array
     {
         return $this->disabledFeaturesExclude;
@@ -1272,6 +1289,8 @@ class CreateMeetingParameters extends MetaParameters
      * for a specific meeting.
      *
      * The available options to exclude are exactly the same as for disabledFeatures
+     *
+     * @param array<string, mixed> $disabledFeaturesExclude
      *
      * @since 2.6.9
      */
@@ -1303,6 +1322,9 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getBreakoutRoomsGroups(): array
     {
         return $this->breakoutRoomsGroups;

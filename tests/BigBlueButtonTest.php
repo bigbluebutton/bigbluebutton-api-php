@@ -38,10 +38,7 @@ use BigBlueButton\Util\ParamsIterator;
  */
 class BigBlueButtonTest extends TestCase
 {
-    /**
-     * @var BigBlueButton
-     */
-    private $bbb;
+    private BigBlueButton $bbb;
 
     /**
      * Setup test class.
@@ -50,9 +47,9 @@ class BigBlueButtonTest extends TestCase
     {
         parent::setUp();
 
-        foreach (['BBB_SECRET', 'BBB_SERVER_BASE_URL'] as $k) {
-            if (!getenv($k)) {
-                $this->fail('$_SERVER[\'' . $k . '\'] not set in '
+        foreach (['BBB_SECRET', 'BBB_SERVER_BASE_URL'] as $key) {
+            if (!getenv($key)) {
+                $this->fail('$_SERVER[\'' . $key . '\'] not set in '
                     . 'phpunit.xml');
             }
         }
@@ -65,7 +62,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test API version call.
      */
-    public function testApiVersion()
+    public function testApiVersion(): void
     {
         $apiVersion = $this->bbb->getApiVersion();
         $this->assertEquals('SUCCESS', $apiVersion->getReturnCode());
@@ -78,7 +75,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test create meeting URL.
      */
-    public function testCreateMeetingUrl()
+    public function testCreateMeetingUrl(): void
     {
         $params = $this->generateCreateParams();
         $url    = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
@@ -90,7 +87,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test create meeting.
      */
-    public function testCreateMeeting()
+    public function testCreateMeeting(): void
     {
         $params = $this->generateCreateParams();
         $result = $this->bbb->createMeeting($this->getCreateMock($params));
@@ -102,7 +99,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test create meeting with a document URL.
      */
-    public function testCreateMeetingWithDocumentUrl()
+    public function testCreateMeetingWithDocumentUrl(): void
     {
         $params = $this->getCreateMock($this->generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random');
@@ -117,7 +114,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test create meeting with a document URL and filename.
      */
-    public function testCreateMeetingWithDocumentUrlAndFileName()
+    public function testCreateMeetingWithDocumentUrlAndFileName(): void
     {
         $params = $this->getCreateMock($this->generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'placeholder.png');
@@ -132,7 +129,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test create meeting with a document URL.
      */
-    public function testCreateMeetingWithDocumentEmbedded()
+    public function testCreateMeetingWithDocumentEmbedded(): void
     {
         $params = $this->getCreateMock($this->generateCreateParams());
 
@@ -148,7 +145,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test create meeting with a multiple documents.
      */
-    public function testCreateMeetingWithMultiDocument()
+    public function testCreateMeetingWithMultiDocument(): void
     {
         $params = $this->getCreateMock($this->generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'presentation.png');
@@ -166,7 +163,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test create join meeting URL.
      */
-    public function testCreateJoinMeetingUrl()
+    public function testCreateJoinMeetingUrl(): void
     {
         $joinMeetingParams = $this->generateJoinMeetingParams();
 
@@ -182,7 +179,7 @@ class BigBlueButtonTest extends TestCase
      *
      * @expectedExceptionMessage String could not be parsed as XML
      */
-    public function testJoinMeeting()
+    public function testJoinMeeting(): void
     {
         $joinMeetingParams = $this->generateJoinMeetingParams();
         $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
@@ -204,7 +201,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * Test generate end meeting URL.
      */
-    public function testCreateEndMeetingUrl()
+    public function testCreateEndMeetingUrl(): void
     {
         $params         = $this->generateEndMeetingParams();
         $url            = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
@@ -212,7 +209,7 @@ class BigBlueButtonTest extends TestCase
         $paramsIterator->iterate($params, $url);
     }
 
-    public function testEndMeeting()
+    public function testEndMeeting(): void
     {
         $meeting = $this->createRealMeeting($this->bbb);
 
@@ -222,7 +219,7 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($result->success());
     }
 
-    public function testEndNonExistingMeeting()
+    public function testEndNonExistingMeeting(): void
     {
         $params = $this->generateEndMeetingParams();
         $result = $this->bbb->endMeeting($this->getEndMeetingMock($params));
@@ -232,7 +229,7 @@ class BigBlueButtonTest extends TestCase
 
     // Is Meeting Running
 
-    public function testIsMeetingRunning()
+    public function testIsMeetingRunning(): void
     {
         $result = $this->bbb->isMeetingRunning(new IsMeetingRunningParameters($this->faker->uuid));
         $this->assertEquals('SUCCESS', $result->getReturnCode());
@@ -242,13 +239,13 @@ class BigBlueButtonTest extends TestCase
 
     // Get Meetings
 
-    public function testGetMeetingsUrl()
+    public function testGetMeetingsUrl(): void
     {
         $url = $this->bbb->getMeetingsUrl();
         $this->assertStringContainsString(ApiMethod::GET_MEETINGS, $url);
     }
 
-    public function testGetMeetings()
+    public function testGetMeetings(): void
     {
         $result = $this->bbb->getMeetings();
         $this->assertNotEmpty($result->getMeetings());
@@ -256,7 +253,7 @@ class BigBlueButtonTest extends TestCase
 
     // Get meeting info
 
-    public function testGetMeetingInfoUrl()
+    public function testGetMeetingInfoUrl(): void
     {
         $meeting = $this->createRealMeeting($this->bbb);
 
@@ -264,7 +261,7 @@ class BigBlueButtonTest extends TestCase
         $this->assertStringContainsString('=' . urlencode($meeting->getMeetingId()), $url);
     }
 
-    public function testGetMeetingInfo()
+    public function testGetMeetingInfo(): void
     {
         $meeting = $this->createRealMeeting($this->bbb);
 
@@ -273,46 +270,46 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($result->success());
     }
 
-    public function testGetRecordingsUrl()
+    public function testGetRecordingsUrl(): void
     {
         $url = $this->bbb->getRecordingsUrl(new GetRecordingsParameters());
         $this->assertStringContainsString(ApiMethod::GET_RECORDINGS, $url);
     }
 
-    public function testGetRecordings()
+    public function testGetRecordings(): void
     {
         $result = $this->bbb->getRecordings(new GetRecordingsParameters());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
         $this->assertTrue($result->success());
     }
 
-    public function testPublishRecordingsUrl()
+    public function testPublishRecordingsUrl(): void
     {
         $url = $this->bbb->getPublishRecordingsUrl(new PublishRecordingsParameters($this->faker->sha1, true));
         $this->assertStringContainsString(ApiMethod::PUBLISH_RECORDINGS, $url);
     }
 
-    public function testPublishRecordings()
+    public function testPublishRecordings(): void
     {
         $result = $this->bbb->publishRecordings(new PublishRecordingsParameters('non-existing-id-' . $this->faker->sha1, true));
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
     }
 
-    public function testDeleteRecordingsUrl()
+    public function testDeleteRecordingsUrl(): void
     {
         $url = $this->bbb->getDeleteRecordingsUrl(new DeleteRecordingsParameters($this->faker->sha1));
         $this->assertStringContainsString(ApiMethod::DELETE_RECORDINGS, $url);
     }
 
-    public function testDeleteRecordings()
+    public function testDeleteRecordings(): void
     {
         $result = $this->bbb->deleteRecordings(new DeleteRecordingsParameters('non-existing-id-' . $this->faker->sha1));
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
     }
 
-    public function testUpdateRecordingsUrl()
+    public function testUpdateRecordingsUrl(): void
     {
         $params         = $this->generateUpdateRecordingsParams();
         $url            = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
@@ -320,7 +317,7 @@ class BigBlueButtonTest extends TestCase
         $paramsIterator->iterate($params, $url);
     }
 
-    public function testUpdateRecordings()
+    public function testUpdateRecordings(): void
     {
         $params = $this->generateUpdateRecordingsParams();
         $result = $this->bbb->updateRecordings($this->getUpdateRecordingsParamsMock($params));

@@ -25,42 +25,19 @@ namespace BigBlueButton\Core;
  */
 class Hook
 {
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $rawXml;
+    protected \SimpleXMLElement $rawXml;
 
-    /**
-     * @var int
-     */
-    private $hookId;
+    private int $hookId;
 
-    /**
-     * @var string
-     */
-    private $meetingId;
+    private string $meetingId;
 
-    /**
-     * @var string
-     */
-    private $callbackUrl;
+    private string $callbackUrl;
 
-    /**
-     * @var bool
-     */
-    private $permanentHook;
+    private bool $permanentHook;
 
-    /**
-     * @var bool
-     */
-    private $rawData;
+    private bool $rawData;
 
-    /**
-     * Meeting constructor.
-     *
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->rawXml        = $xml;
         $this->hookId        = (int) $xml->hookID->__toString();
@@ -70,42 +47,27 @@ class Hook
         $this->rawData       = 'true' === $xml->rawData->__toString();
     }
 
-    /**
-     * @return int
-     */
-    public function getHookId()
+    public function getHookId(): int
     {
         return $this->hookId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getCallbackUrl()
+    public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isPermanentHook()
+    public function isPermanentHook(): ?bool
     {
         return $this->permanentHook;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function hasRawData()
+    public function hasRawData(): ?bool
     {
         return $this->rawData;
     }

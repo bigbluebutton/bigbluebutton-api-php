@@ -27,6 +27,7 @@
     "ext-curl": "*",
     "ext-simplexml": "*",
     "ext-mbstring": "*",
+    "ext-json": "*",
     "marc-mabe/php-enum": "^v4.7.0"
   },
   "require-dev": {

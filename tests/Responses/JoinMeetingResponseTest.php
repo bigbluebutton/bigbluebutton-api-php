@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class JoinMeetingResponseTest extends TestCase
 {
-    /**
-     * @var JoinMeetingResponse
-     */
-    private $joinMeeting;
+    private JoinMeetingResponse $joinMeeting;
 
     public function setUp(): void
     {
@@ -43,7 +40,7 @@ class JoinMeetingResponseTest extends TestCase
         $this->joinMeeting = new JoinMeetingResponse($xml);
     }
 
-    public function testJoinMeetingResponseContent()
+    public function testJoinMeetingResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->joinMeeting->getReturnCode());
         $this->assertEquals('successfullyJoined', $this->joinMeeting->getMessageKey());
@@ -56,7 +53,7 @@ class JoinMeetingResponseTest extends TestCase
         $this->assertEquals('https://bigblubutton-server.sample/client/BigBlueButton.html?sessionToken=0wzsph6uaelwc68z', $this->joinMeeting->getUrl());
     }
 
-    public function testJoinMeetingResponseTypes()
+    public function testJoinMeetingResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->joinMeeting, ['getReturnCode', 'getMessageKey', 'getMessage', 'getMeetingId', 'getUserId', 'getAuthToken', 'getSessionToken', 'getGuestStatus', 'getUrl']);
     }

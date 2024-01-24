@@ -25,17 +25,12 @@ namespace BigBlueButton\Core;
  */
 class Image
 {
-    private $alt;
-    private $height;
-    private $width;
-    private $url;
+    private string $alt;
+    private int $height;
+    private int $width;
+    private string $url;
 
-    /**
-     * Record constructor.
-     *
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->alt    = $xml['alt']->__toString();
         $this->height = (int) $xml['height'];

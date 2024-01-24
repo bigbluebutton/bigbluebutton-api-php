@@ -31,7 +31,7 @@ use BigBlueButton\TestCase;
  */
 class JoinMeetingParametersTest extends TestCase
 {
-    public function testJoinMeetingParameters()
+    public function testJoinMeetingParameters(): void
     {
         $params            = $this->generateJoinMeetingParams();
         $joinMeetingParams = $this->getJoinMeetingMock($params);

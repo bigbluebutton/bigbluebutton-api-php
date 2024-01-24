@@ -23,26 +23,22 @@ namespace BigBlueButton\Parameters;
 trait DocumentableTrait
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $presentations = [];
+    protected array $presentations = [];
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getPresentations()
+    public function getPresentations(): array
     {
         return $this->presentations;
     }
 
     /**
      * @param mixed $content
-     * @param mixed $filename
-     * @param mixed $nameOrUrl
-     *
-     * @return $this
      */
-    public function addPresentation($nameOrUrl, $content = null, $filename = null)
+    public function addPresentation(string $nameOrUrl, $content = null, ?string $filename = null): self
     {
         if (!$filename) {
             $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);
@@ -54,7 +50,7 @@ trait DocumentableTrait
     }
 
     /**
-     * @return mixed
+     * @return bool|string
      */
     public function getPresentationsAsXML()
     {

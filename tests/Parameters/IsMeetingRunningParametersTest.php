@@ -31,7 +31,7 @@ use BigBlueButton\TestCase;
  */
 class IsMeetingRunningParametersTest extends TestCase
 {
-    public function testIsMeetingRunningParameters()
+    public function testIsMeetingRunningParameters(): void
     {
         $meetingId       = $this->faker->uuid;
         $isRunningParams = new IsMeetingRunningParameters($meetingId);

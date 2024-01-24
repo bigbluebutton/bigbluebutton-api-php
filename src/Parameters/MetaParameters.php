@@ -26,34 +26,34 @@ namespace BigBlueButton\Parameters;
 abstract class MetaParameters extends BaseParameters
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
-    private $meta = [];
+    private array $meta = [];
 
     /**
-     * @param mixed $key
-     *
      * @return mixed
      */
-    public function getMeta($key)
+    public function getMeta(string $key)
     {
         return $this->meta[$key];
     }
 
     /**
-     * @param string $key
-     * @param string $value
+     * @param mixed $value
      *
      * @return $this
      */
-    public function addMeta($key, $value)
+    public function addMeta(string $key, $value)
     {
         $this->meta[$key] = $value;
 
         return $this;
     }
 
-    protected function buildMeta(&$queries)
+    /**
+     * @param mixed $queries
+     */
+    protected function buildMeta(&$queries): void
     {
         if (0 !== count($this->meta)) {
             foreach ($this->meta as $key => $value) {

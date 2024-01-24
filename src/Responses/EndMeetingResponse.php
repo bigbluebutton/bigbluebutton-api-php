@@ -25,18 +25,12 @@ namespace BigBlueButton\Responses;
  */
 class EndMeetingResponse extends BaseResponse
 {
-    /**
-     * @return string
-     */
-    public function getMessageKey()
+    public function getMessageKey(): string
     {
         return $this->rawXml->messageKey->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->rawXml->message->__toString();
     }

@@ -25,31 +25,19 @@ namespace BigBlueButton\Core;
  */
 class Track
 {
-    /**
-     * @var string
-     */
-    private $href;
+    private string $href;
+
+    private string $kind;
+
+    private string $label;
+
+    private string $lang;
+
+    private string $source;
 
     /**
-     * @var string
+     * @param mixed $track
      */
-    private $kind;
-
-    /**
-     * @var string
-     */
-    private $label;
-
-    /**
-     * @var string
-     */
-    private $lang;
-
-    /**
-     * @var string
-     */
-    private $source;
-
     public function __construct($track)
     {
         $this->href   = $track->href;
@@ -59,27 +47,27 @@ class Track
         $this->source = $track->source;
     }
 
-    public function getHref()
+    public function getHref(): string
     {
         return $this->href;
     }
 
-    public function getKind()
+    public function getKind(): string
     {
         return $this->kind;
     }
 
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    public function getLang()
+    public function getLang(): string
     {
         return $this->lang;
     }
 
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }

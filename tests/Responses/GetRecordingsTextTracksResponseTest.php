@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class GetRecordingsTextTracksResponseTest extends TestCase
 {
-    /**
-     * @var GetRecordingTextTracksResponse
-     */
-    private $tracks;
+    private GetRecordingTextTracksResponse $tracks;
 
     public function setUp(): void
     {
@@ -42,7 +39,7 @@ class GetRecordingsTextTracksResponseTest extends TestCase
         $this->tracks = new GetRecordingTextTracksResponse($json);
     }
 
-    public function testGetRecordingTextTracksResponseContent()
+    public function testGetRecordingTextTracksResponseContent(): void
     {
         $this->assertEquals(GetRecordingTextTracksResponse::SUCCESS, $this->tracks->getReturnCode());
         $this->assertTrue($this->tracks->success());
@@ -50,7 +47,7 @@ class GetRecordingsTextTracksResponseTest extends TestCase
         $this->assertCount(3, $this->tracks->getTracks());
     }
 
-    public function testGetRecordingTextTracksResponseTypes()
+    public function testGetRecordingTextTracksResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->tracks, ['getReturnCode']);
 
@@ -72,7 +69,7 @@ class GetRecordingsTextTracksResponseTest extends TestCase
         );
     }
 
-    public function testGetRecordingTextTracksResponseValues()
+    public function testGetRecordingTextTracksResponseValues(): void
     {
         $secondTracks = $this->tracks->getTracks()[1];
 

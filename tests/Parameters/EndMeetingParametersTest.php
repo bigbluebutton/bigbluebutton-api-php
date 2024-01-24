@@ -29,7 +29,7 @@ use BigBlueButton\TestCase;
  */
 class EndMeetingParametersTest extends TestCase
 {
-    public function testEndMeetingParameters()
+    public function testEndMeetingParameters(): void
     {
         $endMeetingParams = new EndMeetingParameters($meetingId = $this->faker->uuid, $password = $this->faker->password());
 

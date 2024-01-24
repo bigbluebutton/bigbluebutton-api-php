@@ -31,7 +31,10 @@ class ParamsIterator extends TestCase
 {
     public function __construct() {}
 
-    public function iterate($params, $url)
+    /**
+     * @param array<string, mixed> $params
+     */
+    public function iterate(array $params, string $url): void
     {
         foreach ($params as $key => $value) {
             if (is_bool($value)) {

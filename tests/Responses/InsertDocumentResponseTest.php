@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class InsertDocumentResponseTest extends TestCase
 {
-    /**
-     * @var InsertDocumentResponse
-     */
-    private $insertDocument;
+    private InsertDocumentResponse $insertDocument;
 
     public function setUp(): void
     {
@@ -43,13 +40,13 @@ class InsertDocumentResponseTest extends TestCase
         $this->insertDocument = new InsertDocumentResponse($xml);
     }
 
-    public function testInsertDocumentResponseContent()
+    public function testInsertDocumentResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->insertDocument->getReturnCode());
         $this->assertEquals('Presentation is being uploaded', $this->insertDocument->getMessage());
     }
 
-    public function testInsertDocumentResponseTypes()
+    public function testInsertDocumentResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->insertDocument, ['getReturnCode']);
         $this->assertEachGetterValueIsString($this->insertDocument, ['getMessage']);

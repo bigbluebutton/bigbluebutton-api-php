@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class GetRecordingsResponseTest extends TestCase
 {
-    /**
-     * @var GetRecordingsResponse
-     */
-    private $records;
+    private GetRecordingsResponse $records;
 
     public function setUp(): void
     {
@@ -43,7 +40,7 @@ class GetRecordingsResponseTest extends TestCase
         $this->records = new GetRecordingsResponse($xml);
     }
 
-    public function testGetRecordingResponseContent()
+    public function testGetRecordingResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->records->getReturnCode());
 
@@ -54,7 +51,7 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals('9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]', $aRecord->getMeetingId());
         $this->assertEquals('f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getRecordId());
         $this->assertEquals('SAT- Writing Section- Social Science and History (All participants)', $aRecord->getName());
-        $this->assertEquals(true, $aRecord->isPublished());
+        $this->assertTrue($aRecord->isPublished());
         $this->assertEquals('published', $aRecord->getState());
         $this->assertEquals(1462980100026, $aRecord->getStartTime());
         $this->assertEquals(1462986640649, $aRecord->getEndTime());
@@ -64,14 +61,14 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals(9, sizeof($aRecord->getMetas()));
     }
 
-    public function testRecordMetadataContent()
+    public function testRecordMetadataContent(): void
     {
         $metas = $this->records->getRecords()[4]->getMetas();
 
         $this->assertEquals('moodle-mod_bigbluebuttonbn (2015080611)', $metas['bbb-origin-tag']);
     }
 
-    public function testRecordingsPlaybackFormats()
+    public function testRecordingsPlaybackFormats(): void
     {
         $this->assertEquals('SUCCESS', $this->records->getReturnCode());
 
@@ -100,14 +97,16 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals('https://test-install.blindsidenetworks.com/presentation/f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120/presentation/d2d9a672040fbde2a47a10bf6c37b6a4b5ae187f-1632646357291/thumbnails/thumb-1.png', $image->getUrl());
     }
 
-    public function testGetRecordingResponseTypes()
+    public function testGetRecordingResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->records, ['getReturnCode']);
 
         $aRecord = $this->records->getRecords()[4];
 
-        $this->assertEachGetterValueIsString($aRecord, ['getMeetingId', 'getRecordId', 'getName', 'getState',
-            'getPlaybackType', 'getPlaybackUrl', ]);
+        $this->assertEachGetterValueIsString(
+            $aRecord,
+            ['getMeetingId', 'getRecordId', 'getName', 'getState', 'getPlaybackType', 'getPlaybackUrl']
+        );
 
         $this->assertEachGetterValueIsInteger($aRecord, ['getPlaybackLength']);
 

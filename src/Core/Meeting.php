@@ -264,6 +264,9 @@ class Meeting
         return array_values($viewers);
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getMetas(): array
     {
         $metas = [];

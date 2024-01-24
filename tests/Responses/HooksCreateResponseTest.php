@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class HooksCreateResponseTest extends TestCase
 {
-    /**
-     * @var HooksCreateResponse
-     */
-    private $createResponse;
+    private HooksCreateResponse $createResponse;
 
     public function setUp(): void
     {
@@ -43,15 +40,15 @@ class HooksCreateResponseTest extends TestCase
         $this->createResponse = new HooksCreateResponse($xml);
     }
 
-    public function testHooksCreateResponseContent()
+    public function testHooksCreateResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->createResponse->getReturnCode());
         $this->assertEquals(1, $this->createResponse->getHookId());
-        $this->assertEquals(false, $this->createResponse->isPermanentHook());
-        $this->assertEquals(false, $this->createResponse->hasRawData());
+        $this->assertFalse($this->createResponse->isPermanentHook());
+        $this->assertFalse($this->createResponse->hasRawData());
     }
 
-    public function testHooksCreateResponseTypes()
+    public function testHooksCreateResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->createResponse, ['getReturnCode']);
         $this->assertEachGetterValueIsInteger($this->createResponse, ['getHookId']);

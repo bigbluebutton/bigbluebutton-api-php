@@ -33,21 +33,22 @@ abstract class BaseJsonResponse
      */
     protected $data;
 
-    /**
-     * BaseJsonResponse constructor.
-     *
-     * @param string $json
-     */
-    public function __construct($json)
+    public function __construct(string $json)
     {
         $this->data = json_decode($json);
     }
 
+    /**
+     * @return false|string
+     */
     public function getRawJson()
     {
         return json_encode($this->data);
     }
 
+    /**
+     * @return null|mixed
+     */
     public function getMessage()
     {
         if ($this->failed()) {
@@ -57,6 +58,9 @@ abstract class BaseJsonResponse
         return null;
     }
 
+    /**
+     * @return null|mixed
+     */
     public function getMessageKey()
     {
         if ($this->failed()) {
@@ -66,17 +70,20 @@ abstract class BaseJsonResponse
         return null;
     }
 
+    /**
+     * @return mixed
+     */
     public function getReturnCode()
     {
         return $this->data->response->returncode;
     }
 
-    public function success()
+    public function success(): bool
     {
         return self::SUCCESS === $this->getReturnCode();
     }
 
-    public function failed()
+    public function failed(): bool
     {
         return self::FAILED === $this->getReturnCode();
     }

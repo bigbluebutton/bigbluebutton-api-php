@@ -29,7 +29,7 @@ use BigBlueButton\TestCase;
  */
 class PutRecordingTextTrackParametersTest extends TestCase
 {
-    public function testPutRecordingTextTrackParameters()
+    public function testPutRecordingTextTrackParameters(): void
     {
         $getRecordingTextTracksParams = new PutRecordingTextTrackParameters(
             $recordId = $this->faker->uuid,

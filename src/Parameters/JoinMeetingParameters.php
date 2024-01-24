@@ -48,6 +48,9 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?string $clientURL = null;
 
+    /**
+     * @var array<string, string>
+     */
     private array $customParameters;
 
     private ?string $role = null;
@@ -61,8 +64,6 @@ class JoinMeetingParameters extends UserDataParameters
     private ?string $defaultLayout = null;
 
     /**
-     * JoinMeetingParametersTest constructor.
-     *
      * @param mixed $passwordOrRole
      * @param mixed $meetingId
      * @param mixed $username
@@ -114,7 +115,6 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      *@deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
-     *
      */
     public function setPassword(string $password): self
     {

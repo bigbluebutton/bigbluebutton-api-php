@@ -30,18 +30,17 @@ class GetRecordingTextTracksResponse extends BaseJsonResponse
     /**
      * @var Track[]
      */
-    private $tracks;
+    private ?array $tracks = [];
 
     /**
      * @return Track[]
      */
-    public function getTracks()
+    public function getTracks(): ?array
     {
-        if (null === $this->tracks) {
-            $this->tracks = [];
-            foreach ($this->data->response->tracks as $track) {
-                $this->tracks[] = new Track($track);
-            }
+        $this->tracks = [];
+
+        foreach ($this->data->response->tracks as $track) {
+            $this->tracks[] = new Track($track);
         }
 
         return $this->tracks;

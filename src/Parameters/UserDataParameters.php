@@ -20,40 +20,37 @@
 
 namespace BigBlueButton\Parameters;
 
-/**
- * Class UserDataParameters.
- */
 abstract class UserDataParameters extends BaseParameters
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
-    private $userData = [];
+    private array $userData = [];
 
     /**
-     * @param mixed $key
-     *
      * @return mixed
      */
-    public function getUserData($key)
+    public function getUserData(string $key)
     {
         return $this->userData[$key];
     }
 
     /**
-     * @param string $key
-     * @param string $value
+     * @param mixed $value
      *
      * @return $this
      */
-    public function addUserData($key, $value)
+    public function addUserData(string $key, $value): self
     {
         $this->userData[$key] = $value;
 
         return $this;
     }
 
-    protected function buildUserData(&$queries)
+    /**
+     * @param mixed $queries
+     */
+    protected function buildUserData(&$queries): void
     {
         if (0 !== count($this->userData)) {
             foreach ($this->userData as $key => $value) {

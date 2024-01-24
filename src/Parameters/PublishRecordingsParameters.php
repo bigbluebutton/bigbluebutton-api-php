@@ -29,58 +29,37 @@ class PublishRecordingsParameters extends BaseParameters
 
     private ?bool $publish = null;
 
-    /**
-     * PublishRecordingsParameters constructor.
-     *
-     * @param mixed $recordingId
-     * @param mixed $publish
-     */
-    public function __construct($recordingId, $publish = null)
+    public function __construct(string $recordingId, ?bool $publish = null)
     {
         $this->recordingId = $recordingId;
         $this->publish     = $publish;
     }
 
-    /**
-     * @return string
-     */
-    public function getRecordingId()
+    public function getRecordingId(): string
     {
         return $this->recordingId;
     }
 
-    /**
-     * @param string $recordingId
-     *
-     * @return PublishRecordingsParameters
-     */
-    public function setRecordingId($recordingId)
+    public function setRecordingId(string $recordingId): self
     {
         $this->recordingId = $recordingId;
 
         return $this;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isPublish()
+    public function isPublish(): ?bool
     {
         return $this->publish;
     }
 
-    /**
-     * @param bool $publish
-     */
-    public function setPublish($publish)
+    public function setPublish(bool $publish): self
     {
         $this->publish = $publish;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         return $this->buildHTTPQuery(
             [

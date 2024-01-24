@@ -29,7 +29,7 @@ use BigBlueButton\TestCase;
  */
 class UpdateRecordingsParametersTest extends TestCase
 {
-    public function testUpdateRecordingsParameters()
+    public function testUpdateRecordingsParameters(): void
     {
         $params                 = $this->generateUpdateRecordingsParams();
         $updateRecordingsParams = $this->getUpdateRecordingsParamsMock($params);

@@ -25,26 +25,13 @@ namespace BigBlueButton\Util;
  */
 class UrlBuilder
 {
-    protected $hashingAlgorithm;
+    protected string $hashingAlgorithm;
 
-    /**
-     * @var string
-     */
-    private $securitySalt;
+    private string $securitySalt;
 
-    /**
-     * @var string
-     */
-    private $bbbServerBaseUrl;
+    private string $bbbServerBaseUrl;
 
-    /**
-     * UrlBuilder constructor.
-     *
-     * @param mixed $secret
-     * @param mixed $serverBaseUrl
-     * @param mixed $hashingAlgorithm
-     */
-    public function __construct($secret, $serverBaseUrl, $hashingAlgorithm)
+    public function __construct(string $secret, string $serverBaseUrl, string $hashingAlgorithm)
     {
         $this->securitySalt     = $secret;
         $this->bbbServerBaseUrl = $serverBaseUrl;
@@ -61,27 +48,16 @@ class UrlBuilder
 
     /**
      * Builds an API method URL that includes the url + params + its generated checksum.
-     *
-     * @param string $method
-     * @param string $params
-     * @param bool   $append
-     *
-     * @return string
      */
-    public function buildUrl($method = '', $params = '', $append = true)
+    public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {
         return $this->bbbServerBaseUrl . 'api/' . $method . ($append ? '?' . $this->buildQs($method, $params) : '');
     }
 
     /**
      * Builds a query string for an API method URL that includes the params + its generated checksum.
-     *
-     * @param string $method
-     * @param string $params
-     *
-     * @return string
      */
-    public function buildQs($method = '', $params = '')
+    public function buildQs(string $method = '', string $params = ''): string
     {
         return $params . '&checksum=' . hash($this->hashingAlgorithm, $method . $params . $this->securitySalt);
     }

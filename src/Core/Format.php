@@ -22,24 +22,14 @@ namespace BigBlueButton\Core;
 
 class Format
 {
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $rawXml;
+    protected \SimpleXMLElement $rawXml;
+    private string $type;
+    private string $url;
+    private int $processingTime;
+    private int $length;
+    private int $size;
 
-    private $type;
-    private $url;
-    private $processingTime;
-    private $length;
-    private $size;
-    private $images;
-
-    /**
-     * Record constructor.
-     *
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->rawXml         = $xml;
         $this->type           = $xml->type->__toString();
@@ -52,16 +42,15 @@ class Format
     /**
      * @return Image[]
      */
-    public function getImages()
+    public function getImages(): array
     {
-        if (null === $this->images) {
-            $this->images = [];
-            foreach ($this->rawXml->preview->images->image as $imageXml) {
-                $this->images[] = new Image($imageXml);
-            }
+        $images = [];
+
+        foreach ($this->rawXml->preview->images->image as $imageXml) {
+            $images[] = new Image($imageXml);
         }
 
-        return $this->images;
+        return $images;
     }
 
     public function getType(): string

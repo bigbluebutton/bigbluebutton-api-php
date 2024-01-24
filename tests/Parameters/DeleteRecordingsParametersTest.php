@@ -29,7 +29,7 @@ use BigBlueButton\TestCase;
  */
 class DeleteRecordingsParametersTest extends TestCase
 {
-    public function testDeleteRecordingParameter()
+    public function testDeleteRecordingParameter(): void
     {
         $recordingId     = $this->faker->uuid;
         $deleteRecording = new DeleteRecordingsParameters($recordingId);
@@ -37,7 +37,8 @@ class DeleteRecordingsParametersTest extends TestCase
         $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
 
         // Test setters that are ignored by the constructor
-        $deleteRecording->setRecordingId($recordingId = $this->faker->uuid);
-        $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
+        $recordingIdNew = $this->faker->uuid;
+        $deleteRecording->setRecordingId($recordingIdNew);
+        $this->assertEquals($recordingIdNew, $deleteRecording->getRecordingId());
     }
 }

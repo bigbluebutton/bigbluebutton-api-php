@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class EndMeetingResponseTest extends TestCase
 {
-    /**
-     * @var EndMeetingResponse
-     */
-    private $end;
+    private EndMeetingResponse $end;
 
     public function setUp(): void
     {
@@ -43,14 +40,14 @@ class EndMeetingResponseTest extends TestCase
         $this->end = new EndMeetingResponse($xml);
     }
 
-    public function testEndMeetingResponseContent()
+    public function testEndMeetingResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->end->getReturnCode());
         $this->assertEquals('sentEndMeetingRequest', $this->end->getMessageKey());
         $this->assertEquals('A request to end the meeting was sent. Please wait a few seconds, and then use the getMeetingInfo or isMeetingRunning API calls to verify that it was ended.', $this->end->getMessage());
     }
 
-    public function testEndMeetingResponseTypes()
+    public function testEndMeetingResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->end, ['getReturnCode', 'getMessageKey', 'getMessage']);
     }

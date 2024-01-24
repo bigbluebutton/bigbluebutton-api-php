@@ -31,64 +31,48 @@ class GetMeetingInfoParameters extends BaseParameters
 
     private ?int $limit = null;
 
-    /**
-     * GetMeetingInfoParameters constructor.
-     *
-     * @param mixed $meetingId
-     */
-    public function __construct($meetingId = null)
+    public function __construct(?string $meetingId = null)
     {
         $this->meetingId = $meetingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @param string $meetingId
-     *
-     * @return GetMeetingInfoParameters
-     */
-    public function setMeetingId($meetingId)
+    public function setMeetingId(string $meetingId): self
     {
         $this->meetingId = $meetingId;
 
         return $this;
     }
 
-    public function getOffset()
+    public function getOffset(): ?int
     {
         return $this->offset;
     }
 
-    public function setOffset(int $offset): GetMeetingInfoParameters
+    public function setOffset(int $offset): self
     {
         $this->offset = $offset;
 
         return $this;
     }
 
-    public function getLimit()
+    public function getLimit(): ?int
     {
         return $this->limit;
     }
 
-    public function setLimit(int $limit): GetMeetingInfoParameters
+    public function setLimit(int $limit): self
     {
         $this->limit = $limit;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         return $this->buildHTTPQuery(
             [

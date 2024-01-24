@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class HooksDestroyResponseTest extends TestCase
 {
-    /**
-     * @var HooksDestroyResponse
-     */
-    private $destroyResponse;
+    private HooksDestroyResponse $destroyResponse;
 
     public function setUp(): void
     {
@@ -43,13 +40,13 @@ class HooksDestroyResponseTest extends TestCase
         $this->destroyResponse = new HooksDestroyResponse($xml);
     }
 
-    public function testHooksDestroyResponseContent()
+    public function testHooksDestroyResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->destroyResponse->getReturnCode());
-        $this->assertEquals(true, $this->destroyResponse->removed());
+        $this->assertTrue($this->destroyResponse->removed());
     }
 
-    public function testHooksDestroyResponseTypes()
+    public function testHooksDestroyResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->destroyResponse, ['getReturnCode']);
         $this->assertEachGetterValueIsBoolean($this->destroyResponse, ['removed']);
