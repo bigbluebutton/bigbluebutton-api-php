@@ -49,10 +49,7 @@ trait DocumentableTrait
         return $this;
     }
 
-    /**
-     * @return bool|string
-     */
-    public function getPresentationsAsXML()
+    public function getPresentationsAsXML(): string
     {
         $result = '';
 
@@ -75,6 +72,10 @@ trait DocumentableTrait
                 }
             }
             $result = $xml->asXML();
+        }
+
+        if (!is_string($result)) {
+            throw new \RuntimeException('String expected, but ' . gettype($result) . ' received.');
         }
 
         return $result;

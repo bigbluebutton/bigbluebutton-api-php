@@ -80,8 +80,8 @@ class BigBlueButton
     {
         // Keeping backward compatibility with older deployed versions
         // BBB_SECRET is the new variable name and have higher priority against the old named BBB_SECURITY_SALT
-        $this->securitySecret   = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT');
-        $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL');
+        $this->securitySecret   = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
+        $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
         $this->hashingAlgorithm = HashingAlgorithm::SHA_256;
         $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl, $this->hashingAlgorithm);
         $this->curlOpts         = $opts['curl'] ?? [];
@@ -117,7 +117,7 @@ class BigBlueButton
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
     public function createMeeting(CreateMeetingParameters $createMeetingParams): CreateMeetingResponse
     {
@@ -186,7 +186,7 @@ class BigBlueButton
     /**
      * @param mixed $meetingParams
      *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
     public function isMeetingRunning($meetingParams): IsMeetingRunningResponse
     {
@@ -201,7 +201,7 @@ class BigBlueButton
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
     public function getMeetings(): GetMeetingsResponse
     {
@@ -410,65 +410,85 @@ class BigBlueButton
      */
     private function sendRequest(string $url, string $payload = '', string $contentType = 'application/xml'): string
     {
-        if (extension_loaded('curl')) {
-            $ch = curl_init();
-            if (!$ch) {  // @phpstan-ignore-line
-                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
-            }
-
-            // Needed to store the JSESSIONID
-            $cookieFile     = tmpfile();
-            $cookieFilePath = stream_get_meta_data($cookieFile)['uri'];
-
-            foreach ($this->curlOpts as $opt => $value) {
-                curl_setopt($ch, $opt, $value);
-            }
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-            curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->timeOut);
-            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFilePath);
-            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFilePath);
-            if (!empty($payload)) {
-                curl_setopt($ch, CURLOPT_HEADER, 0);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Content-type: ' . $contentType,
-                    'Content-length: ' . mb_strlen($payload),
-                ]);
-            }
-            $data = curl_exec($ch);
-            if (false === $data) {
-                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
-            }
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if ($httpCode < 200 || $httpCode >= 300) {
-                throw new BadResponseException('Bad response, HTTP code: ' . $httpCode);
-            }
-            curl_close($ch);
-            unset($ch);
-
-            $cookies = file_get_contents($cookieFilePath);
-            if (false !== mb_strpos($cookies, 'JSESSIONID')) {
-                preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
-                $this->setJSessionId($output_array['JSESSIONID']);
-            }
-
-            return $data;
+        if (!extension_loaded('curl')) {
+            throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
         }
 
-        throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
+        $ch         = curl_init();
+        $cookieFile = tmpfile();
+
+        if (!$ch) {  // @phpstan-ignore-line
+            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+        }
+
+        // JSESSIONID
+        if ($cookieFile) {
+            $cookieFilePath = stream_get_meta_data($cookieFile)['uri'];
+            $cookies        = file_get_contents($cookieFilePath);
+
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFilePath);
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFilePath);
+
+            if ($cookies) {
+                if (false !== mb_strpos($cookies, 'JSESSIONID')) {
+                    preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
+                    $this->setJSessionId($output_array['JSESSIONID']);
+                }
+            }
+        }
+
+        // PAYLOAD
+        if (!empty($payload)) {
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-type: ' . $contentType,
+                'Content-length: ' . mb_strlen($payload),
+            ]);
+        }
+
+        // OTHERS
+        foreach ($this->curlOpts as $opt => $value) {
+            curl_setopt($ch, $opt, $value);
+        }
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->timeOut);
+
+        // EXECUTE and RESULT
+        $data     = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        // ANALYSE
+        if (false === $data) {
+            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+        }
+
+        if (is_bool($data)) {
+            throw new \RuntimeException('Curl error: BOOL received, but STRING expected.');
+        }
+
+        if ($httpCode < 200 || $httpCode >= 300) {
+            throw new BadResponseException('Bad response, HTTP code: ' . $httpCode);
+        }
+
+        // CLOSE AND UNSET
+        curl_close($ch);
+        unset($ch);
+
+        // RETURN
+        return $data;
     }
 
     /**
      * A private utility method used by other public methods to process XML responses.
      *
-     * @throws BadResponseException
-     * @throws \Exception
+     * @throws BadResponseException|\Exception
      */
     private function processXmlResponse(string $url, string $payload = '', string $contentType = 'application/xml'): \SimpleXMLElement
     {

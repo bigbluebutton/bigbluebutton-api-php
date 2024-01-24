@@ -414,25 +414,42 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     // Load fixtures
-
-    /**
-     * @return false|\SimpleXMLElement
-     */
-    protected function loadXmlFile(string $path)
+    protected function loadXmlFile(string $path): \SimpleXMLElement
     {
-        return simplexml_load_string(file_get_contents($path));
+        $content = file_get_contents($path);
+
+        if (!$content) {
+            throw new \RuntimeException('Content of file could not be loaded.');
+        }
+
+        $xml = simplexml_load_string($content);
+
+        if (!$xml) {
+            throw new \RuntimeException('Content could not be converted to XML.');
+        }
+
+        return $xml;
     }
 
-    /**
-     * @return false|string
-     */
-    protected function loadJsonFile(string $path)
+    protected function loadJsonFile(string $path): string
     {
-        return file_get_contents($path);
+        $content = file_get_contents($path);
+
+        if (!$content) {
+            throw new \RuntimeException('Content of file could not be loaded.');
+        }
+
+        return $content;
     }
 
     protected function minifyString(string $string): string
     {
-        return str_replace(["\r\n", "\r", "\n", "\t", ' '], '', $string);
+        $minifiedString = str_replace(["\r\n", "\r", "\n", "\t", ' '], '', $string);
+
+        if (!is_string($minifiedString)) {
+            throw new \RuntimeException('String expected, but not received.');
+        }
+
+        return $minifiedString;
     }
 }
