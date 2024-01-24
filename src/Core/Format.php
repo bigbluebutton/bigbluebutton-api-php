@@ -47,7 +47,9 @@ class Format
         $images = [];
 
         foreach ($this->rawXml->preview->images->image as $imageXml) {
-            $images[] = new Image($imageXml);
+            if ($imageXml) {
+                $images[] = new Image($imageXml);
+            }
         }
 
         return $images;
