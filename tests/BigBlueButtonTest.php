@@ -57,6 +57,22 @@ class BigBlueButtonTest extends TestCase
         $this->bbb = new BigBlueButton();
     }
 
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        // close all existing meetings
+        $meetingsResponse = $this->bbb->getMeetings();
+        $meetings         = $meetingsResponse->getMeetings();
+
+        foreach ($meetings as $meeting) {
+            $endMeetingParameters = new EndMeetingParameters($meeting->getMeetingId(), $meeting->getModeratorPassword());
+            $endMeetingResponse   = $this->bbb->endMeeting($endMeetingParameters);
+
+            $this->assertEquals('SUCCESS', $endMeetingResponse->getReturnCode());
+        }
+    }
+
     // API Version
 
     /**
@@ -247,6 +263,10 @@ class BigBlueButtonTest extends TestCase
 
     public function testGetMeetings(): void
     {
+        // create some meetings
+        $createMeetingResponse = $this->createRealMeeting($this->bbb);
+        $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
+
         $result = $this->bbb->getMeetings();
         $this->assertNotEmpty($result->getMeetings());
     }
