@@ -27,7 +27,6 @@ use BigBlueButton\Core\Record;
  */
 class GetRecordingsResponse extends BaseResponse
 {
-
     /**
      * @return Record[]
      */

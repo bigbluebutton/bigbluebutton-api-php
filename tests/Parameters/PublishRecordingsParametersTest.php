@@ -31,20 +31,20 @@ class PublishRecordingsParametersTest extends TestCase
 {
     public function testPublishRecordingsParameters(): void
     {
-        $recordingId    = $this->faker->uuid;
-        $publish        = $this->faker->boolean(50);
-        $newRecordingId = $this->faker->uuid;
-        $newPublish     = !$publish;
+        $recordingId1 = $this->faker->uuid;
+        $publish1     = $this->faker->boolean(50);
+        $recordingId2 = $this->faker->uuid;
+        $publish2     = !$publish1;
 
-        $publishRecording = new PublishRecordingsParameters($recordingId, $publish);
-
-        $this->assertEquals($recordingId, $publishRecording->getRecordingId());
-        $this->assertEquals($publish, $publishRecording->isPublish());
+        // Test by constructor
+        $publishRecording = new PublishRecordingsParameters($recordingId1, $publish1);
+        $this->assertEquals($recordingId1, $publishRecording->getRecordingId());
+        $this->assertEquals($publish1, $publishRecording->isPublish());
 
         // Test setters that are ignored by the constructor
-        $publishRecording->setRecordingId($newRecordingId);
-        $publishRecording->setPublish($newPublish);
-        $this->assertEquals($newRecordingId, $publishRecording->getRecordingId());
-        $this->assertEquals($newPublish, $publishRecording->isPublish());
+        $publishRecording->setRecordingId($recordingId2);
+        $publishRecording->setPublish($publish2);
+        $this->assertEquals($recordingId2, $publishRecording->getRecordingId());
+        $this->assertEquals($publish2, $publishRecording->isPublish());
     }
 }

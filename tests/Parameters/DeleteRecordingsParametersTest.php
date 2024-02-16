@@ -31,14 +31,15 @@ class DeleteRecordingsParametersTest extends TestCase
 {
     public function testDeleteRecordingParameter(): void
     {
-        $recordingId     = $this->faker->uuid;
-        $deleteRecording = new DeleteRecordingsParameters($recordingId);
+        $recordingId1 = $this->faker->uuid;
+        $recordingId2 = $this->faker->uuid;
 
-        $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
+        // Test by constructor
+        $deleteRecording = new DeleteRecordingsParameters($recordingId1);
+        $this->assertEquals($recordingId1, $deleteRecording->getRecordingId());
 
         // Test setters that are ignored by the constructor
-        $recordingIdNew = $this->faker->uuid;
-        $deleteRecording->setRecordingId($recordingIdNew);
-        $this->assertEquals($recordingIdNew, $deleteRecording->getRecordingId());
+        $deleteRecording->setRecordingId($recordingId2);
+        $this->assertEquals($recordingId2, $deleteRecording->getRecordingId());
     }
 }

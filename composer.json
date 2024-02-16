@@ -40,7 +40,8 @@
     "bmitch/churn-php": "^1.7.1",
     "phpmetrics/phpmetrics": "^v2.8.2",
     "wapmorgan/php-deprecation-detector": "^2.0.33",
-    "phpstan/phpstan": "^1.10"
+    "phpstan/phpstan": "^1.10",
+    "tracy/tracy": "^2.10"
   },
   "scripts": {
     "code-check": "./vendor/bin/phpstan analyse",

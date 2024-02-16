@@ -27,7 +27,6 @@ use BigBlueButton\Core\Hook;
  */
 class HooksListResponse extends BaseResponse
 {
-
     /**
      * @return Hook[]
      */
