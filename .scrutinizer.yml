@@ -5,7 +5,7 @@ build:
         override: true
       environment:
         php:
-          version: 8.1
+          version: 7.4
           compile_options: '--with-openssl --with-curl --enable-mbstring --enable-mbregex --enable-bcmath --with-mhash --with-xmlrpc --enable-opcache --enable-intl --with-pear --enable-fpm --with-zlib-dir --enable-inline-optimization --with-bz2 --with-zlib'
       tests:
         override:
