@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton;
@@ -44,11 +44,10 @@ use BigBlueButton\Responses\EndMeetingResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
-use BigBlueButton\Responses\GetRecordingTextTracksResponseResponse;
+use BigBlueButton\Responses\GetRecordingTextTracksResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
-use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
@@ -61,32 +60,31 @@ use BigBlueButton\Util\UrlBuilder;
  */
 class BigBlueButton
 {
-    protected $securitySecret;
-    protected $bbbServerBaseUrl;
-    protected $urlBuilder;
-    protected $jSessionId;
+    protected string $securitySecret;
+    protected string $bbbServerBaseUrl;
+    protected UrlBuilder $urlBuilder;
+    protected string $jSessionId;
 
-    protected $hashingAlgorithm;
-
-    protected $curlopts = [];
-    protected $timeOut  = 10;
+    protected string $hashingAlgorithm;
 
     /**
-     * BigBlueButton constructor.
-     *
-     * @param null       $baseUrl
-     * @param null       $secret
-     * @param null|mixed $opts
+     * @var array<int, mixed>
      */
-    public function __construct($baseUrl = null, $secret = null, $opts = null)
+    protected array $curlOpts = [];
+    protected int $timeOut    = 10;
+
+    /**
+     * @param null|array<string, mixed> $opts
+     */
+    public function __construct(?string $baseUrl = null, ?string $secret = null, ?array $opts = [])
     {
         // Keeping backward compatibility with older deployed versions
         // BBB_SECRET is the new variable name and have higher priority against the old named BBB_SECURITY_SALT
-        $this->securitySecret   = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT');
-        $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL');
+        $this->securitySecret   = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
+        $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
         $this->hashingAlgorithm = HashingAlgorithm::SHA_256;
         $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl, $this->hashingAlgorithm);
-        $this->curlopts         = $opts['curl'] ?? [];
+        $this->curlOpts         = $opts['curl'] ?? [];
     }
 
     public function setHashingAlgorithm(string $hashingAlgorithm): void
@@ -96,11 +94,9 @@ class BigBlueButton
     }
 
     /**
-     * @return ApiVersionResponse
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function getApiVersion()
+    public function getApiVersion(): ApiVersionResponse
     {
         $xml = $this->processXmlResponse($this->urlBuilder->buildUrl());
 
@@ -115,97 +111,60 @@ class BigBlueButton
     -- insertDocument
     */
 
-    /**
-     * @param CreateMeetingParameters $createMeetingParams
-     *
-     * @return string
-     */
-    public function getCreateMeetingUrl($createMeetingParams)
+    public function getCreateMeetingUrl(CreateMeetingParameters $createMeetingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::CREATE, $createMeetingParams->getHTTPQuery());
     }
 
     /**
-     * @param CreateMeetingParameters $createMeetingParams
-     *
-     * @return CreateMeetingResponse
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function createMeeting($createMeetingParams)
+    public function createMeeting(CreateMeetingParameters $createMeetingParams): CreateMeetingResponse
     {
         $xml = $this->processXmlResponse($this->getCreateMeetingUrl($createMeetingParams), $createMeetingParams->getPresentationsAsXML());
 
         return new CreateMeetingResponse($xml);
     }
 
-    /**
-     * @param $joinMeetingParams JoinMeetingParameters
-     *
-     * @return string
-     */
-    public function getJoinMeetingURL($joinMeetingParams)
+    public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::JOIN, $joinMeetingParams->getHTTPQuery());
     }
 
     /**
-     * @param $joinMeetingParams JoinMeetingParameters
-     *
-     * @return JoinMeetingResponse
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function joinMeeting($joinMeetingParams)
+    public function joinMeeting(JoinMeetingParameters $joinMeetingParams): JoinMeetingResponse
     {
         $xml = $this->processXmlResponse($this->getJoinMeetingURL($joinMeetingParams));
 
         return new JoinMeetingResponse($xml);
     }
 
-    /**
-     * @param $endParams EndMeetingParameters
-     *
-     * @return string
-     */
-    public function getEndMeetingURL($endParams)
+    public function getEndMeetingURL(EndMeetingParameters $endParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::END, $endParams->getHTTPQuery());
     }
 
     /**
-     * @param $endParams EndMeetingParameters
-     *
-     * @return EndMeetingResponse
-     *
-     * @throws \RuntimeException
-     *
-     * */
-    public function endMeeting($endParams)
+     * @throws BadResponseException|\RuntimeException
+     */
+    public function endMeeting(EndMeetingParameters $endParams): EndMeetingResponse
     {
         $xml = $this->processXmlResponse($this->getEndMeetingURL($endParams));
 
         return new EndMeetingResponse($xml);
     }
 
-    /**
-     * @param CreateMeetingParameters $createMeetingParams
-     *
-     * @return string
-     */
-    public function getInsertDocumentUrl($createMeetingParams)
+    public function getInsertDocumentUrl(InsertDocumentParameters $insertDocumentParameters): string
     {
-        return $this->urlBuilder->buildUrl(ApiMethod::INSERT_DOCUMENT, $createMeetingParams->getHTTPQuery());
+        return $this->urlBuilder->buildUrl(ApiMethod::INSERT_DOCUMENT, $insertDocumentParameters->getHTTPQuery());
     }
 
     /**
-     * @param $insertDocumentParams InsertDocumentParameters
-     *
-     * @return InsertDocumentResponse
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function insertDocument($insertDocumentParams)
+    public function insertDocument(InsertDocumentParameters $insertDocumentParams): CreateMeetingResponse
     {
         $xml = $this->processXmlResponse($this->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
 
@@ -219,66 +178,45 @@ class BigBlueButton
     -- getMeetingInfo
     */
 
-    /**
-     * @param $meetingParams IsMeetingRunningParameters
-     *
-     * @return string
-     */
-    public function getIsMeetingRunningUrl($meetingParams)
+    public function getIsMeetingRunningUrl(IsMeetingRunningParameters $meetingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::IS_MEETING_RUNNING, $meetingParams->getHTTPQuery());
     }
 
     /**
-     * @param mixed $meetingParams
-     *
-     * @return IsMeetingRunningResponse
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function isMeetingRunning($meetingParams)
+    public function isMeetingRunning(IsMeetingRunningParameters $meetingParams): IsMeetingRunningResponse
     {
         $xml = $this->processXmlResponse($this->getIsMeetingRunningUrl($meetingParams));
 
         return new IsMeetingRunningResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingsUrl()
+    public function getMeetingsUrl(): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_MEETINGS);
     }
 
     /**
-     * @return GetMeetingsResponse
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function getMeetings()
+    public function getMeetings(): GetMeetingsResponse
     {
         $xml = $this->processXmlResponse($this->getMeetingsUrl());
 
         return new GetMeetingsResponse($xml);
     }
 
-    /**
-     * @param $meetingParams GetMeetingInfoParameters
-     *
-     * @return string
-     */
-    public function getMeetingInfoUrl($meetingParams)
+    public function getMeetingInfoUrl(GetMeetingInfoParameters $meetingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_MEETING_INFO, $meetingParams->getHTTPQuery());
     }
 
     /**
-     * @param $meetingParams GetMeetingInfoParameters
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function getMeetingInfo($meetingParams)
+    public function getMeetingInfo(GetMeetingInfoParameters $meetingParams): GetMeetingInfoResponse
     {
         $xml = $this->processXmlResponse($this->getMeetingInfoUrl($meetingParams));
 
@@ -292,12 +230,7 @@ class BigBlueButton
     -- deleteRecordings
     */
 
-    /**
-     * @param $recordingsParams GetRecordingsParameters
-     *
-     * @return string
-     */
-    public function getRecordingsUrl($recordingsParams)
+    public function getRecordingsUrl(GetRecordingsParameters $recordingsParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDINGS, $recordingsParams->getHTTPQuery());
     }
@@ -305,121 +238,75 @@ class BigBlueButton
     /**
      * @param mixed $recordingParams
      *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function getRecordings($recordingParams)
+    public function getRecordings($recordingParams): GetRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getRecordingsUrl($recordingParams));
 
         return new GetRecordingsResponse($xml);
     }
 
-    /**
-     * @param $recordingParams PublishRecordingsParameters
-     *
-     * @return string
-     */
-    public function getPublishRecordingsUrl($recordingParams)
+    public function getPublishRecordingsUrl(PublishRecordingsParameters $recordingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::PUBLISH_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
-    /**
-     * @param $recordingParams PublishRecordingsParameters
-     *
-     * @throws \RuntimeException
-     */
-    public function publishRecordings($recordingParams)
+    public function publishRecordings(PublishRecordingsParameters $recordingParams): PublishRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getPublishRecordingsUrl($recordingParams));
 
         return new PublishRecordingsResponse($xml);
     }
 
-    /**
-     * @param $recordingParams DeleteRecordingsParameters
-     *
-     * @return string
-     */
-    public function getDeleteRecordingsUrl($recordingParams)
+    public function getDeleteRecordingsUrl(DeleteRecordingsParameters $recordingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::DELETE_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
     /**
-     * @param $recordingParams DeleteRecordingsParameters
-     *
-     * @return DeleteRecordingsResponse
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function deleteRecordings($recordingParams)
+    public function deleteRecordings(DeleteRecordingsParameters $recordingParams): DeleteRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getDeleteRecordingsUrl($recordingParams));
 
         return new DeleteRecordingsResponse($xml);
     }
 
-    /**
-     * @param $recordingParams UpdateRecordingsParameters
-     *
-     * @return string
-     */
-    public function getUpdateRecordingsUrl($recordingParams)
+    public function getUpdateRecordingsUrl(UpdateRecordingsParameters $recordingParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::UPDATE_RECORDINGS, $recordingParams->getHTTPQuery());
     }
 
     /**
-     * @param $recordingParams UpdateRecordingsParameters
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    public function updateRecordings($recordingParams)
+    public function updateRecordings(UpdateRecordingsParameters $recordingParams): UpdateRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getUpdateRecordingsUrl($recordingParams));
 
         return new UpdateRecordingsResponse($xml);
     }
 
-    /**
-     * @param $getRecordingTextTracksParameters GetRecordingTextTracksParameters
-     *
-     * @return string
-     */
-    public function getRecordingTextTracksUrl($getRecordingTextTracksParameters)
+    public function getRecordingTextTracksUrl(GetRecordingTextTracksParameters $getRecordingTextTracksParameters): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_RECORDING_TEXT_TRACKS, $getRecordingTextTracksParameters->getHTTPQuery());
     }
 
-    /**
-     * @param $getRecordingTextTracksParams GetRecordingTextTracksParameters
-     *
-     * @return GetRecordingTextTracksResponseResponse
-     */
-    public function getRecordingTextTracks($getRecordingTextTracksParams)
+    public function getRecordingTextTracks(GetRecordingTextTracksParameters $getRecordingTextTracksParams): GetRecordingTextTracksResponse
     {
         $json = $this->processJsonResponse($this->getRecordingTextTracksUrl($getRecordingTextTracksParams));
 
-        return new GetRecordingTextTracksResponseResponse($json);
+        return new GetRecordingTextTracksResponse($json);
     }
 
-    /**
-     * @param $putRecordingTextTrackParams PutRecordingTextTrackParameters
-     *
-     * @return string
-     */
-    public function getPutRecordingTextTrackUrl(PutRecordingTextTrackParameters $putRecordingTextTrackParams)
+    public function getPutRecordingTextTrackUrl(PutRecordingTextTrackParameters $putRecordingTextTrackParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::PUT_RECORDING_TEXT_TRACK, $putRecordingTextTrackParams->getHTTPQuery());
     }
 
-    /**
-     * @param $putRecordingTextTrackParams PutRecordingTextTrackParameters
-     *
-     * @return PutRecordingTextTrackResponse
-     */
-    public function putRecordingTextTrack($putRecordingTextTrackParams)
+    public function putRecordingTextTrack(PutRecordingTextTrackParameters $putRecordingTextTrackParams): PutRecordingTextTrackResponse
     {
         $json = $this->processJsonResponse($this->getPutRecordingTextTrackUrl($putRecordingTextTrackParams));
 
@@ -428,12 +315,7 @@ class BigBlueButton
 
     // ____________________ WEB HOOKS METHODS ___________________
 
-    /**
-     * @param $hookCreateParams HooksCreateParameters
-     *
-     * @return string
-     */
-    public function getHooksCreateUrl($hookCreateParams)
+    public function getHooksCreateUrl(HooksCreateParameters $hookCreateParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::HOOKS_CREATE, $hookCreateParams->getHTTPQuery());
     }
@@ -441,39 +323,28 @@ class BigBlueButton
     /**
      * @param mixed $hookCreateParams
      *
-     * @return HooksCreateResponse
+     * @throws BadResponseException
      */
-    public function hooksCreate($hookCreateParams)
+    public function hooksCreate($hookCreateParams): HooksCreateResponse
     {
         $xml = $this->processXmlResponse($this->getHooksCreateUrl($hookCreateParams));
 
         return new HooksCreateResponse($xml);
     }
 
-    /**
-     * @return string
-     */
-    public function getHooksListUrl()
+    public function getHooksListUrl(): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::HOOKS_LIST);
     }
 
-    /**
-     * @return HooksListResponse
-     */
-    public function hooksList()
+    public function hooksList(): HooksListResponse
     {
         $xml = $this->processXmlResponse($this->getHooksListUrl());
 
         return new HooksListResponse($xml);
     }
 
-    /**
-     * @param $hooksDestroyParams HooksDestroyParameters
-     *
-     * @return string
-     */
-    public function getHooksDestroyUrl($hooksDestroyParams)
+    public function getHooksDestroyUrl(HooksDestroyParameters $hooksDestroyParams): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::HOOKS_DESTROY, $hooksDestroyParams->getHTTPQuery());
     }
@@ -481,9 +352,9 @@ class BigBlueButton
     /**
      * @param mixed $hooksDestroyParams
      *
-     * @return HooksDestroyResponse
+     * @throws BadResponseException
      */
-    public function hooksDestroy($hooksDestroyParams)
+    public function hooksDestroy($hooksDestroyParams): HooksDestroyResponse
     {
         $xml = $this->processXmlResponse($this->getHooksDestroyUrl($hooksDestroyParams));
 
@@ -491,38 +362,29 @@ class BigBlueButton
     }
 
     // ____________________ SPECIAL METHODS ___________________
-    /**
-     * @return string
-     */
-    public function getJSessionId()
+
+    public function getJSessionId(): string
     {
         return $this->jSessionId;
     }
 
-    /**
-     * @param string $jSessionId
-     */
-    public function setJSessionId($jSessionId)
+    public function setJSessionId(string $jSessionId): void
     {
         $this->jSessionId = $jSessionId;
     }
 
     /**
-     * @param array $curlopts
+     * @param array<int, mixed> $curlOpts
      */
-    public function setCurlOpts($curlopts)
+    public function setCurlOpts(array $curlOpts): void
     {
-        $this->curlopts = $curlopts;
+        $this->curlOpts = $curlOpts;
     }
 
     /**
      * Set Curl Timeout (Optional), Default 10 Seconds.
-     *
-     * @param int $TimeOutInSeconds
-     *
-     * @return static
      */
-    public function setTimeOut($TimeOutInSeconds)
+    public function setTimeOut(int $TimeOutInSeconds): self
     {
         $this->timeOut = $TimeOutInSeconds;
 
@@ -531,14 +393,8 @@ class BigBlueButton
 
     /**
      * Public accessor for buildUrl.
-     *
-     * @param string $method
-     * @param string $params
-     * @param bool   $append
-     *
-     * @return string
      */
-    public function buildUrl($method = '', $params = '', $append = true)
+    public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {
         return $this->urlBuilder->buildUrl($method, $params, $append);
     }
@@ -548,88 +404,101 @@ class BigBlueButton
     /**
      * A private utility method used by other public methods to request HTTP responses.
      *
-     * @param string $url
-     * @param string $payload
-     * @param string $contentType
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
+     * @throws BadResponseException|\RuntimeException
      */
-    private function sendRequest($url, $payload = '', $contentType = 'application/xml')
+    private function sendRequest(string $url, string $payload = '', string $contentType = 'application/xml'): string
     {
-        if (extension_loaded('curl')) {
-            $ch = curl_init();
-            if (!$ch) {
-                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
-            }
-
-            // Needed to store the JSESSIONID
-            $cookiefile     = tmpfile();
-            $cookiefilepath = stream_get_meta_data($cookiefile)['uri'];
-
-            foreach ($this->curlopts as $opt => $value) {
-                curl_setopt($ch, $opt, $value);
-            }
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
-            curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->timeOut);
-            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookiefilepath);
-            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookiefilepath);
-            if (!empty($payload)) {
-                curl_setopt($ch, CURLOPT_HEADER, 0);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Content-type: ' . $contentType,
-                    'Content-length: ' . mb_strlen($payload),
-                ]);
-            }
-            $data = curl_exec($ch);
-            if (false === $data) {
-                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
-            }
-            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if ($httpcode < 200 || $httpcode >= 300) {
-                throw new BadResponseException('Bad response, HTTP code: ' . $httpcode);
-            }
-            curl_close($ch);
-            unset($ch);
-
-            $cookies = file_get_contents($cookiefilepath);
-            if (false !== mb_strpos($cookies, 'JSESSIONID')) {
-                preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
-                $this->setJSessionId($output_array['JSESSIONID']);
-            }
-
-            return $data;
+        if (!extension_loaded('curl')) {
+            throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
         }
 
-        throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
+        $ch         = curl_init();
+        $cookieFile = tmpfile();
+
+        if (!$ch) {  // @phpstan-ignore-line
+            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+        }
+
+        // JSESSIONID
+        if ($cookieFile) {
+            $cookieFilePath = stream_get_meta_data($cookieFile)['uri'];
+            $cookies        = file_get_contents($cookieFilePath);
+
+            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFilePath);
+            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFilePath);
+
+            if ($cookies) {
+                if (false !== mb_strpos($cookies, 'JSESSIONID')) {
+                    preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
+                    $this->setJSessionId($output_array['JSESSIONID']);
+                }
+            }
+        }
+
+        // PAYLOAD
+        if (!empty($payload)) {
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-type: ' . $contentType,
+                'Content-length: ' . mb_strlen($payload),
+            ]);
+        }
+
+        // OTHERS
+        foreach ($this->curlOpts as $opt => $value) {
+            curl_setopt($ch, $opt, $value);
+        }
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->timeOut);
+
+        // EXECUTE and RESULT
+        $data     = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        // ANALYSE
+        if (false === $data) {
+            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+        }
+
+        if (is_bool($data)) {
+            throw new \RuntimeException('Curl error: BOOL received, but STRING expected.');
+        }
+
+        if ($httpCode < 200 || $httpCode >= 300) {
+            throw new BadResponseException('Bad response, HTTP code: ' . $httpCode);
+        }
+
+        // CLOSE AND UNSET
+        curl_close($ch);
+        unset($ch);
+
+        // RETURN
+        return $data;
     }
 
     /**
      * A private utility method used by other public methods to process XML responses.
      *
-     * @param string $url
-     * @param string $payload
-     * @param string $contentType
-     *
-     * @return \SimpleXMLElement
+     * @throws BadResponseException|\Exception
      */
-    private function processXmlResponse($url, $payload = '', $contentType = 'application/xml')
+    private function processXmlResponse(string $url, string $payload = '', string $contentType = 'application/xml'): \SimpleXMLElement
     {
         return new \SimpleXMLElement($this->sendRequest($url, $payload, $contentType));
     }
 
     /**
      * A private utility method used by other public methods to process json responses.
+     *
+     * @throws BadResponseException
      */
-    private function processJsonResponse(string $url, string $payload = '', string $contentType = 'application/json')
+    private function processJsonResponse(string $url, string $payload = '', string $contentType = 'application/json'): string
     {
         return $this->sendRequest($url, $payload, $contentType);
     }

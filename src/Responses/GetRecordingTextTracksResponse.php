@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Responses;
@@ -28,22 +28,16 @@ use BigBlueButton\Core\Track;
 class GetRecordingTextTracksResponse extends BaseJsonResponse
 {
     /**
-     * @var Track[]
-     */
-    private $tracks;
-
-    /**
      * @return Track[]
      */
-    public function getTracks()
+    public function getTracks(): array
     {
-        if (null === $this->tracks) {
-            $this->tracks = [];
-            foreach ($this->data->response->tracks as $track) {
-                $this->tracks[] = new Track($track);
-            }
+        $tracks = [];
+
+        foreach ($this->data->response->tracks as $track) {
+            $tracks[] = new Track($track);
         }
 
-        return $this->tracks;
+        return $tracks;
     }
 }

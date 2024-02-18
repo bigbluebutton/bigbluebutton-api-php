@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Parameters;
@@ -40,7 +40,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?string $webVoiceConf = null;
 
-    private ?string $creationTime = null;
+    private ?float $creationTime = null;
 
     private ?string $avatarURL = null;
 
@@ -48,6 +48,9 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?string $clientURL = null;
 
+    /**
+     * @var array<string, string>
+     */
     private array $customParameters;
 
     private ?string $role = null;
@@ -61,8 +64,6 @@ class JoinMeetingParameters extends UserDataParameters
     private ?string $defaultLayout = null;
 
     /**
-     * JoinMeetingParametersTest constructor.
-     *
      * @param mixed $passwordOrRole
      * @param mixed $meetingId
      * @param mixed $username
@@ -114,7 +115,6 @@ class JoinMeetingParameters extends UserDataParameters
 
     /**
      *@deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
-     *
      */
     public function setPassword(string $password): self
     {
@@ -147,12 +147,12 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    public function getCreationTime(): string
+    public function getCreationTime(): ?float
     {
         return $this->creationTime;
     }
 
-    public function setCreationTime(int $creationTime): self
+    public function setCreationTime(float $creationTime): self
     {
         $this->creationTime = $creationTime;
 

@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Parameters;
@@ -29,15 +29,17 @@ use BigBlueButton\TestCase;
  */
 class DeleteRecordingsParametersTest extends TestCase
 {
-    public function testDeleteRecordingParameter()
+    public function testDeleteRecordingParameter(): void
     {
-        $recordingId     = $this->faker->uuid;
-        $deleteRecording = new DeleteRecordingsParameters($recordingId);
+        $recordingId1 = $this->faker->uuid;
+        $recordingId2 = $this->faker->uuid;
 
-        $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
+        // Test by constructor
+        $deleteRecording = new DeleteRecordingsParameters($recordingId1);
+        $this->assertEquals($recordingId1, $deleteRecording->getRecordingId());
 
         // Test setters that are ignored by the constructor
-        $deleteRecording->setRecordingId($recordingId = $this->faker->uuid);
-        $this->assertEquals($recordingId, $deleteRecording->getRecordingId());
+        $deleteRecording->setRecordingId($recordingId2);
+        $this->assertEquals($recordingId2, $deleteRecording->getRecordingId());
     }
 }

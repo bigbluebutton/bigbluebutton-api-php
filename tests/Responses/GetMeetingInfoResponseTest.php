@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,58 +15,21 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
 
-/*
- * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
- *
- * Copyright (c) 2016-2022 BigBlueButton Inc. and by respective authors (see below).
- *
- * This program is free software; you can redistribute it and/or modify it under the
- * terms of the GNU Lesser General Public License as published by the Free Software
- * Foundation; either version 3.0 of the License, or (at your option) any later
- * version.
- *
- * BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
- */
-
 /**
- * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
- *
- * Copyright (c) 2016-2018 BigBlueButton Inc. and by respective authors (see below).
- *
- * This program is free software; you can redistribute it and/or modify it under the
- * terms of the GNU Lesser General Public License as published by the Free Software
- * Foundation; either version 3.0 of the License, or (at your option) any later
- * version.
- *
- * BigBlueButton is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
- *
  * @internal
  *
  * @coversNothing
  */
 class GetMeetingInfoResponseTest extends TestCase
 {
-    /**
-     * @var GetMeetingInfoResponse
-     */
-    private $meetingInfo;
+    private GetMeetingInfoResponse $meetingInfo;
 
     public function setUp(): void
     {
@@ -77,7 +40,7 @@ class GetMeetingInfoResponseTest extends TestCase
         $this->meetingInfo = new GetMeetingInfoResponse($xml);
     }
 
-    public function testGetMeetingInfoResponseContent()
+    public function testGetMeetingInfoResponseContent(): void
     {
         $this->assertInstanceOf('BigBlueButton\Core\Meeting', $this->meetingInfo->getMeeting());
         $this->assertCount(4, $this->meetingInfo->getMeeting()->getAttendees());
@@ -93,11 +56,11 @@ class GetMeetingInfoResponseTest extends TestCase
         $this->assertEquals('613-555-1234', $info->getDialNumber());
         $this->assertEquals('dbfc7207321527bbb870c82028', $info->getAttendeePassword());
         $this->assertEquals('4bfbbeeb4a65cacaefe3676633', $info->getModeratorPassword());
-        $this->assertEquals(true, $info->isRunning());
+        $this->assertTrue($info->isRunning());
         $this->assertEquals(20, $info->getDuration());
-        $this->assertEquals(true, $info->hasUserJoined());
-        $this->assertEquals(true, $info->isRecording());
-        $this->assertEquals(false, $info->hasBeenForciblyEnded());
+        $this->assertTrue($info->hasUserJoined());
+        $this->assertTrue($info->isRecording());
+        $this->assertFalse($info->hasBeenForciblyEnded());
         $this->assertEquals(1453206317380, $info->getStartTime());
         $this->assertEquals(1453206325002, $info->getEndTime());
         $this->assertEquals(2, $info->getParticipantCount());
@@ -109,7 +72,7 @@ class GetMeetingInfoResponseTest extends TestCase
         $this->assertEquals(10, sizeof($info->getMetas()));
     }
 
-    public function testMeetingAttendeeContent()
+    public function testMeetingAttendeeContent(): void
     {
         $this->assertCount(4, $this->meetingInfo->getMeeting()->getAttendees());
 
@@ -118,10 +81,10 @@ class GetMeetingInfoResponseTest extends TestCase
         $this->assertEquals('xi7y7gpmyq1g', $anAttendee->getUserId());
         $this->assertEquals('Barrett Kutch', $anAttendee->getFullName());
         $this->assertEquals('MODERATOR', $anAttendee->getRole());
-        $this->assertEquals(false, $anAttendee->isPresenter());
-        $this->assertEquals(false, $anAttendee->isListeningOnly());
-        $this->assertEquals(true, $anAttendee->hasJoinedVoice());
-        $this->assertEquals(false, $anAttendee->hasVideo());
+        $this->assertFalse($anAttendee->isPresenter());
+        $this->assertFalse($anAttendee->isListeningOnly());
+        $this->assertTrue($anAttendee->hasJoinedVoice());
+        $this->assertFalse($anAttendee->hasVideo());
         $this->assertEquals('FLASH', $anAttendee->getClientType());
 
         $customData = $anAttendee->getCustomData();
@@ -131,7 +94,7 @@ class GetMeetingInfoResponseTest extends TestCase
         $this->assertEquals('a:focus{color:#0181eb}', $customData['customStyle']);
     }
 
-    public function testMeetingModerators()
+    public function testMeetingModerators(): void
     {
         $moderators = $this->meetingInfo->getMeeting()->getModerators();
 
@@ -146,7 +109,7 @@ class GetMeetingInfoResponseTest extends TestCase
         $this->assertEquals('MODERATOR', $secondModerator->getRole());
     }
 
-    public function testMeetingViewers()
+    public function testMeetingViewers(): void
     {
         $viewers = $this->meetingInfo->getMeeting()->getViewers();
 
@@ -161,7 +124,7 @@ class GetMeetingInfoResponseTest extends TestCase
         $this->assertEquals('VIEWER', $secondViewer->getRole());
     }
 
-    public function testGetMeetingInfoResponseTypes()
+    public function testGetMeetingInfoResponseTypes(): void
     {
         $info = $this->meetingInfo->getMeeting();
 
@@ -181,7 +144,7 @@ class GetMeetingInfoResponseTest extends TestCase
         $this->assertEachGetterValueIsBoolean($anAttendee, ['isPresenter', 'isListeningOnly', 'hasJoinedVoice', 'hasVideo']);
     }
 
-    public function testGetMeetingInfoMetadataContent()
+    public function testGetMeetingInfoMetadataContent(): void
     {
         $metas = $this->meetingInfo->getMeeting()->getMetas();
 

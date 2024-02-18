@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Parameters;
@@ -29,19 +29,22 @@ use BigBlueButton\TestCase;
  */
 class PublishRecordingsParametersTest extends TestCase
 {
-    public function testPublishRecordingsParameters()
+    public function testPublishRecordingsParameters(): void
     {
-        $recordingId      = $this->faker->uuid;
-        $publish          = $this->faker->boolean(50);
-        $publishRecording = new PublishRecordingsParameters($recordingId, $publish);
+        $recordingId1 = $this->faker->uuid;
+        $publish1     = $this->faker->boolean(50);
+        $recordingId2 = $this->faker->uuid;
+        $publish2     = !$publish1;
 
-        $this->assertEquals($recordingId, $publishRecording->getRecordingId());
-        $this->assertEquals($publish, $publishRecording->isPublish());
+        // Test by constructor
+        $publishRecording = new PublishRecordingsParameters($recordingId1, $publish1);
+        $this->assertEquals($recordingId1, $publishRecording->getRecordingId());
+        $this->assertEquals($publish1, $publishRecording->isPublish());
 
         // Test setters that are ignored by the constructor
-        $publishRecording->setRecordingId($newRecordingId = !$this->faker->uuid);
-        $publishRecording->setPublish($publish = !$publish);
-        $this->assertEquals($newRecordingId, $publishRecording->getRecordingId());
-        $this->assertEquals($publish, $publishRecording->isPublish());
+        $publishRecording->setRecordingId($recordingId2);
+        $publishRecording->setPublish($publish2);
+        $this->assertEquals($recordingId2, $publishRecording->getRecordingId());
+        $this->assertEquals($publish2, $publishRecording->isPublish());
     }
 }

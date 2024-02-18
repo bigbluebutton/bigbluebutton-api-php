@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Responses;
@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class GetMeetingsResponseTest extends TestCase
 {
-    /**
-     * @var GetMeetingsResponse
-     */
-    private $meetings;
+    private GetMeetingsResponse $meetings;
 
     public function setUp(): void
     {
@@ -43,7 +40,7 @@ class GetMeetingsResponseTest extends TestCase
         $this->meetings = new GetMeetingsResponse($xml);
     }
 
-    public function testGetMeetingsResponseContent()
+    public function testGetMeetingsResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->meetings->getReturnCode());
 
@@ -59,8 +56,8 @@ class GetMeetingsResponseTest extends TestCase
         $this->assertEquals('580.124.3937x93615', $aMeeting->getDialNumber());
         $this->assertEquals('f~kxYJeAV~G?Jb+E:ggn', $aMeeting->getAttendeePassword());
         $this->assertEquals('n:"zWc##Bi.y,d^s,mMF', $aMeeting->getModeratorPassword());
-        $this->assertEquals(false, $aMeeting->hasBeenForciblyEnded());
-        $this->assertEquals(true, $aMeeting->isRunning());
+        $this->assertFalse($aMeeting->hasBeenForciblyEnded());
+        $this->assertTrue($aMeeting->isRunning());
         $this->assertEquals(5, $aMeeting->getParticipantCount());
         $this->assertEquals(2, $aMeeting->getListenerCount());
         $this->assertEquals(1, $aMeeting->getVoiceParticipantCount());
@@ -73,7 +70,7 @@ class GetMeetingsResponseTest extends TestCase
         $this->assertEquals('http://www.muller.biz/autem-dolor-aut-nam-doloribus-molestiae', $aMeeting->getMetas()['endcallbackurl']);
     }
 
-    public function testGetMeetingsResponseTypes()
+    public function testGetMeetingsResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->meetings, ['getReturnCode']);
 

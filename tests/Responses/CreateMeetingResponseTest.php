@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Responses;
@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class CreateMeetingResponseTest extends TestCase
 {
-    /**
-     * @var CreateMeetingResponse
-     */
-    private $meeting;
+    private CreateMeetingResponse $meeting;
 
     public function setUp(): void
     {
@@ -43,7 +40,7 @@ class CreateMeetingResponseTest extends TestCase
         $this->meeting = new CreateMeetingResponse($xml);
     }
 
-    public function testCreateMeetingResponseContent()
+    public function testCreateMeetingResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->meeting->getReturnCode());
         $this->assertEquals('random-1665177', $this->meeting->getMeetingId());
@@ -55,14 +52,14 @@ class CreateMeetingResponseTest extends TestCase
         $this->assertEquals(76286, $this->meeting->getVoiceBridge());
         $this->assertEquals('Wed Jan 20 04:56:59 EST 2016', $this->meeting->getCreationDate());
         $this->assertEquals('613-555-1234', $this->meeting->getDialNumber());
-        $this->assertEquals(false, $this->meeting->hasUserJoined());
+        $this->assertFalse($this->meeting->hasUserJoined());
         $this->assertEquals(20, $this->meeting->getDuration());
-        $this->assertEquals(false, $this->meeting->hasBeenForciblyEnded());
+        $this->assertFalse($this->meeting->hasBeenForciblyEnded());
         $this->assertEquals('duplicateWarning', $this->meeting->getMessageKey());
         $this->assertEquals('This conference was already in existence and may currently be in progress.', $this->meeting->getMessage());
     }
 
-    public function testCreateMeetingResponseTypes()
+    public function testCreateMeetingResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->meeting, ['getReturnCode', 'getInternalMeetingId', 'getParentMeetingId',
             'getAttendeePassword', 'getModeratorPassword', 'getDialNumber', 'getCreationDate', ]);

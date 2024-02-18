@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Responses;
@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class ApiVersionResponseTest extends TestCase
 {
-    /**
-     * @var ApiVersionResponse
-     */
-    private $version;
+    private ApiVersionResponse $version;
 
     public function setUp(): void
     {
@@ -43,7 +40,7 @@ class ApiVersionResponseTest extends TestCase
         $this->version = new ApiVersionResponse($xml);
     }
 
-    public function testApiVersionResponseContent()
+    public function testApiVersionResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->version->getReturnCode());
         $this->assertEquals('2.0', $this->version->getVersion());
@@ -51,7 +48,7 @@ class ApiVersionResponseTest extends TestCase
         $this->assertEquals('2.4-rc-7', $this->version->getBbbVersion());
     }
 
-    public function testApiVersionResponseTypes()
+    public function testApiVersionResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->version, ['getReturnCode', 'getVersion', 'getApiVersion', 'getBbbVersion']);
     }

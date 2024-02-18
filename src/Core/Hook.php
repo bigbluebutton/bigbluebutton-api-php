@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Core;
@@ -25,42 +25,19 @@ namespace BigBlueButton\Core;
  */
 class Hook
 {
-    /**
-     * @var \SimpleXMLElement
-     */
-    protected $rawXml;
+    protected \SimpleXMLElement $rawXml;
 
-    /**
-     * @var string
-     */
-    private $hookId;
+    private int $hookId;
 
-    /**
-     * @var string
-     */
-    private $meetingId;
+    private string $meetingId;
 
-    /**
-     * @var string
-     */
-    private $callbackUrl;
+    private string $callbackUrl;
 
-    /**
-     * @var bool
-     */
-    private $permanentHook;
+    private bool $permanentHook;
 
-    /**
-     * @var bool
-     */
-    private $rawData;
+    private bool $rawData;
 
-    /**
-     * Meeting constructor.
-     *
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->rawXml        = $xml;
         $this->hookId        = (int) $xml->hookID->__toString();
@@ -70,42 +47,27 @@ class Hook
         $this->rawData       = 'true' === $xml->rawData->__toString();
     }
 
-    /**
-     * @return string
-     */
-    public function getHookId()
+    public function getHookId(): int
     {
         return $this->hookId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getCallbackUrl()
+    public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isPermanentHook()
+    public function isPermanentHook(): ?bool
     {
         return $this->permanentHook;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function hasRawData()
+    public function hasRawData(): ?bool
     {
         return $this->rawData;
     }

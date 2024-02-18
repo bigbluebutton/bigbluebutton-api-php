@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Responses;
@@ -29,10 +29,7 @@ use BigBlueButton\TestCase;
  */
 class PublishRecordingsResponseTest extends TestCase
 {
-    /**
-     * @var PublishRecordingsResponse
-     */
-    private $publish;
+    private PublishRecordingsResponse $publish;
 
     public function setUp(): void
     {
@@ -43,13 +40,13 @@ class PublishRecordingsResponseTest extends TestCase
         $this->publish = new PublishRecordingsResponse($xml);
     }
 
-    public function testPublishRecordingsResponseContent()
+    public function testPublishRecordingsResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->publish->getReturnCode());
-        $this->assertEquals(true, $this->publish->isPublished());
+        $this->assertTrue($this->publish->isPublished());
     }
 
-    public function testPublishRecordingsResponseTypes()
+    public function testPublishRecordingsResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->publish, ['getReturnCode']);
         $this->assertEachGetterValueIsBoolean($this->publish, ['isPublished']);

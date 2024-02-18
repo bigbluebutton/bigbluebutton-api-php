@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton;
@@ -42,10 +42,7 @@ use Faker\Generator;
  */
 class TestCase extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var Generator
-     */
-    protected $faker;
+    protected Generator $faker;
 
     public function setUp(): void
     {
@@ -56,7 +53,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     // Additional assertions
 
-    public function assertIsInteger($actual, $message = '')
+    /**
+     * @param mixed $actual
+     */
+    public function assertIsInteger($actual, string $message = ''): void
     {
         if (empty($message)) {
             $message = 'Got a ' . gettype($actual) . ' instead of an integer.';
@@ -64,7 +64,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue(is_integer($actual), $message);
     }
 
-    public function assertIsDouble($actual, $message = '')
+    /**
+     * @param mixed $actual
+     */
+    public function assertIsDouble($actual, string $message = ''): void
     {
         if (empty($message)) {
             $message = 'Got a ' . gettype($actual) . ' instead of a double.';
@@ -72,7 +75,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue(is_double($actual), $message);
     }
 
-    public function assertIsBoolean($actual, $message = '')
+    /**
+     * @param mixed $actual
+     */
+    public function assertIsBoolean($actual, string $message = ''): void
     {
         if (empty($message)) {
             $message = 'Got a ' . gettype($actual) . ' instead of a boolean.';
@@ -80,40 +86,51 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue(is_bool($actual), $message);
     }
 
-    public function assertEachGetterValueIsString($obj, $getters)
+    /**
+     * @param mixed              $obj
+     * @param array<int, string> $getters
+     */
+    public function assertEachGetterValueIsString($obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsString($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a string for property -> ' . $getterName);
         }
     }
 
-    public function assertEachGetterValueIsInteger($obj, $getters)
+    /**
+     * @param mixed              $obj
+     * @param array<int, string> $getters
+     */
+    public function assertEachGetterValueIsInteger($obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsInteger($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of an integer for property -> ' . $getterName);
         }
     }
 
-    public function assertEachGetterValueIsDouble($obj, $getters)
+    /**
+     * @param mixed              $obj
+     * @param array<int, string> $getters
+     */
+    public function assertEachGetterValueIsDouble($obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsDouble($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a double for property -> ' . $getterName);
         }
     }
 
-    public function assertEachGetterValueIsBoolean($obj, $getters)
+    /**
+     * @param mixed              $obj
+     * @param array<int, string> $getters
+     */
+    public function assertEachGetterValueIsBoolean($obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsBoolean($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a boolean for property -> ' . $getterName);
         }
     }
 
-    /**
-     * @param $bbb BigBlueButton
-     *
-     * @return CreateMeetingResponse
-     */
-    protected function createRealMeeting($bbb)
+    protected function createRealMeeting(BigBlueButton $bbb): CreateMeetingResponse
     {
         $createMeetingParams = $this->generateCreateParams();
         $createMeetingMock   = $this->getCreateMock($createMeetingParams);
@@ -122,9 +139,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
-    protected function generateCreateParams()
+    protected function generateCreateParams(): array
     {
         return [
             'meetingName'                            => $this->faker->name,
@@ -191,12 +208,19 @@ class TestCase extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    protected function generateBreakoutRoomsGroups()
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    protected function generateBreakoutRoomsGroups(): array
     {
         $br     = $this->faker->numberBetween(0, 8);
         $groups = [];
         for ($i = 0; $i <= $br; ++$i) {
-            $groups[] = ['id' => $this->faker->uuid, 'name' => $this->faker->name, 'roster' => $this->faker->randomElements];
+            $groups[] = [
+                'id'     => $this->faker->uuid,
+                'name'   => $this->faker->name,
+                'roster' => $this->faker->randomElements,
+            ];
         }
 
         return $groups;
@@ -205,9 +229,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @param mixed $createParams
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    protected function generateBreakoutCreateParams($createParams)
+    protected function generateBreakoutCreateParams($createParams): array
     {
         return array_merge($createParams, [
             'isBreakout'      => true,
@@ -218,11 +242,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $params array
-     *
-     * @return CreateMeetingParameters
+     * @param array<string, mixed> $params
      */
-    protected function getCreateMock($params)
+    protected function getCreateMock(array $params): CreateMeetingParameters
     {
         $createMeetingParams = new CreateMeetingParameters($params['meetingId'], $params['meetingName']);
 
@@ -295,10 +317,8 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     /**
      * @param mixed $params
-     *
-     * @return CreateMeetingParameters
      */
-    protected function getBreakoutCreateMock($params)
+    protected function getBreakoutCreateMock($params): CreateMeetingParameters
     {
         $createMeetingParams = $this->getCreateMock($params);
 
@@ -307,11 +327,12 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
-    protected function generateJoinMeetingParams()
+    protected function generateJoinMeetingParams(): array
     {
-        return ['meetingId'        => $this->faker->uuid,
+        return [
+            'meetingId'            => $this->faker->uuid,
             'userName'             => $this->faker->name,
             'password'             => $this->faker->password,
             'userId'               => $this->faker->numberBetween(1, 1000),
@@ -326,46 +347,44 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $params array
-     *
-     * @return JoinMeetingParameters
+     * @param array<string, mixed> $params
      */
-    protected function getJoinMeetingMock($params)
+    protected function getJoinMeetingMock(array $params): JoinMeetingParameters
     {
         $joinMeetingParams = new JoinMeetingParameters($params['meetingId'], $params['userName'], $params['password']);
 
-        return $joinMeetingParams->setUserId($params['userId'])->setWebVoiceConf($params['webVoiceConf'])
-            ->setCreationTime($params['creationTime'])->addUserData('countrycode', $params['userdata_countrycode'])
-            ->setRole($params['role'])->addUserData('email', $params['userdata_email'])->addUserData('commercial', $params['userdata_commercial'])
+        return $joinMeetingParams
+            ->setUserId($params['userId'])
+            ->setWebVoiceConf($params['webVoiceConf'])
+            ->setCreationTime($params['creationTime'])
+            ->addUserData('countrycode', $params['userdata_countrycode'])
+            ->setRole($params['role'])
+            ->addUserData('email', $params['userdata_email'])
+            ->addUserData('commercial', $params['userdata_commercial'])
             ->setExcludeFromDashboard($params['excludeFromDashboard'])
         ;
     }
 
     /**
-     * @return array
+     * @return array<string, string>
      */
-    protected function generateEndMeetingParams()
+    protected function generateEndMeetingParams(): array
     {
-        return ['meetingId' => $this->faker->uuid,
-            'password'      => $this->faker->password, ];
+        return [
+            'meetingId' => $this->faker->uuid,
+            'password'  => $this->faker->password,
+        ];
     }
 
     /**
-     * @param $params array
-     *
-     * @return EndMeetingParameters
+     * @param array<string, string> $params
      */
-    protected function getEndMeetingMock($params)
+    protected function getEndMeetingMock(array $params): EndMeetingParameters
     {
         return new EndMeetingParameters($params['meetingId'], $params['password']);
     }
 
-    /**
-     * @param $bbb BigBlueButton
-     *
-     * @return UpdateRecordingsResponse
-     */
-    protected function updateRecordings($bbb)
+    protected function updateRecordings(BigBlueButton $bbb): UpdateRecordingsResponse
     {
         $updateRecordingsParams = $this->generateUpdateRecordingsParams();
         $updateRecordingsMock   = $this->getUpdateRecordingsParamsMock($updateRecordingsParams);
@@ -374,9 +393,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @return array
+     * @return array<string, string>
      */
-    protected function generateUpdateRecordingsParams()
+    protected function generateUpdateRecordingsParams(): array
     {
         return [
             'recordingId'    => $this->faker->uuid,
@@ -385,11 +404,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param $params array
-     *
-     * @return UpdateRecordingsParameters
+     * @param array<string, string> $params
      */
-    protected function getUpdateRecordingsParamsMock($params)
+    protected function getUpdateRecordingsParamsMock(array $params): UpdateRecordingsParameters
     {
         $updateRecordingsParams = new UpdateRecordingsParameters($params['recordingId']);
 
@@ -397,19 +414,42 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     // Load fixtures
-
-    protected function loadXmlFile($path)
+    protected function loadXmlFile(string $path): \SimpleXMLElement
     {
-        return simplexml_load_string(file_get_contents($path));
+        $content = file_get_contents($path);
+
+        if (!$content) {
+            throw new \RuntimeException('Content of file could not be loaded.');
+        }
+
+        $xml = simplexml_load_string($content);
+
+        if (!$xml) {
+            throw new \RuntimeException('Content could not be converted to XML.');
+        }
+
+        return $xml;
     }
 
-    protected function loadJsonFile($path)
+    protected function loadJsonFile(string $path): string
     {
-        return file_get_contents($path);
+        $content = file_get_contents($path);
+
+        if (!$content) {
+            throw new \RuntimeException('Content of file could not be loaded.');
+        }
+
+        return $content;
     }
 
-    protected function minifyString($string)
+    protected function minifyString(string $string): string
     {
-        return str_replace(["\r\n", "\r", "\n", "\t", ' '], '', $string);
+        $minifiedString = str_replace(["\r\n", "\r", "\n", "\t", ' '], '', $string);
+
+        if (!is_string($minifiedString)) {
+            throw new \RuntimeException('String expected, but not received.');
+        }
+
+        return $minifiedString;
     }
 }

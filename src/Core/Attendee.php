@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,64 +15,35 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Core;
 
 class Attendee
 {
-    /**
-     * @var string
-     */
-    private $userId;
+    private string $userId;
+
+    private string $fullName;
+
+    private string $role;
+
+    private bool $isPresenter;
+
+    private bool $isListeningOnly;
+
+    private bool $hasJoinedVoice;
+
+    private bool $hasVideo;
 
     /**
-     * @var string
+     * @var array<string, string>
      */
-    private $fullName;
+    private array $customData = [];
 
-    /**
-     * @var string
-     */
-    private $role;
+    private string $clientType;
 
-    /**
-     * @var bool
-     */
-    private $isPresenter;
-
-    /**
-     * @var bool
-     */
-    private $isListeningOnly;
-
-    /**
-     * @var bool
-     */
-    private $hasJoinedVoice;
-
-    /**
-     * @var bool
-     */
-    private $hasVideo;
-
-    /**
-     * @var array
-     */
-    private $customData = [];
-
-    /**
-     * @var string
-     */
-    private $clientType;
-
-    /**
-     * Attendee constructor.
-     *
-     * @param $xml \SimpleXMLElement
-     */
-    public function __construct($xml)
+    public function __construct(\SimpleXMLElement $xml)
     {
         $this->userId          = $xml->userID->__toString();
         $this->fullName        = $xml->fullName->__toString();
@@ -90,74 +61,50 @@ class Attendee
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getUserId()
+    public function getUserId(): string
     {
         return $this->userId;
     }
 
-    /**
-     * @return string
-     */
-    public function getFullName()
+    public function getFullName(): string
     {
         return $this->fullName;
     }
 
-    /**
-     * @return string
-     */
-    public function getRole()
+    public function getRole(): string
     {
         return $this->role;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isPresenter()
+    public function isPresenter(): ?bool
     {
         return $this->isPresenter;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function isListeningOnly()
+    public function isListeningOnly(): ?bool
     {
         return $this->isListeningOnly;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function hasJoinedVoice()
+    public function hasJoinedVoice(): ?bool
     {
         return $this->hasJoinedVoice;
     }
 
-    /**
-     * @return null|bool
-     */
-    public function hasVideo()
+    public function hasVideo(): ?bool
     {
         return $this->hasVideo;
     }
 
-    /**
-     * @return string
-     */
-    public function getClientType()
+    public function getClientType(): string
     {
         return $this->clientType;
     }
 
     /**
-     * @return array
+     * @return array<string, string>
      */
-    public function getCustomData()
+    public function getCustomData(): array
     {
         return $this->customData;
     }

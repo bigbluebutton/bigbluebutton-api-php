@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Parameters;
@@ -32,32 +32,18 @@ class EndMeetingParameters extends BaseParameters
      */
     private ?string $password = null;
 
-    /**
-     * EndMeetingParameters constructor.
-     *
-     * @param string $meetingId
-     * @param string $password
-     */
-    public function __construct($meetingId = null, $password = null)
+    public function __construct(string $meetingId = null, string $password = null)
     {
         $this->password  = $password;
         $this->meetingId = $meetingId;
     }
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): ?string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @param string $meetingId
-     *
-     * @return EndMeetingParameters
-     */
-    public function setMeetingId($meetingId)
+    public function setMeetingId(string $meetingId): self
     {
         $this->meetingId = $meetingId;
 
@@ -66,32 +52,23 @@ class EndMeetingParameters extends BaseParameters
 
     /**
      * @deprecated
-     *
-     * @return string
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
     /**
-     * @param string $password
-     *
      * @deprecated
-     *
-     * @return EndMeetingParameters
      */
-    public function setPassword($password)
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         return $this->buildHTTPQuery(
             [

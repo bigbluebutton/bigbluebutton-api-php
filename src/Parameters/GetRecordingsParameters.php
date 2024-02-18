@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Parameters;
@@ -31,70 +31,43 @@ class GetRecordingsParameters extends MetaParameters
 
     private ?string $state = null;
 
-    /**
-     * @return string
-     */
-    public function getMeetingId()
+    public function getMeetingId(): ?string
     {
         return $this->meetingId;
     }
 
-    /**
-     * @param string $meetingId
-     *
-     * @return GetRecordingsParameters
-     */
-    public function setMeetingId($meetingId)
+    public function setMeetingId(string $meetingId): self
     {
         $this->meetingId = $meetingId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getRecordId()
+    public function getRecordId(): ?string
     {
         return $this->recordId;
     }
 
-    /**
-     * @param string $recordId
-     *
-     * @return GetRecordingsParameters
-     */
-    public function setRecordId($recordId)
+    public function setRecordId(string $recordId): self
     {
         $this->recordId = $recordId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getState()
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param string $state
-     *
-     * @return GetRecordingsParameters
-     */
-    public function setState($state)
+    public function setState(string $state): self
     {
         $this->state = $state;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         $queries = [
             'meetingID' => $this->meetingId,

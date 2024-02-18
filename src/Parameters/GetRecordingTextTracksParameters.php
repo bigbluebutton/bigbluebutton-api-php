@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2023 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -15,7 +15,7 @@
  * PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License along
- * with BigBlueButton; if not, see <http://www.gnu.org/licenses/>.
+ * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace BigBlueButton\Parameters;
@@ -29,38 +29,25 @@ class GetRecordingTextTracksParameters extends MetaParameters
 
     /**
      * GetRecordingTextTracksParameters constructor.
-     *
-     * @param mixed $recordId
      */
-    public function __construct($recordId = null)
+    public function __construct(string $recordId = null)
     {
         $this->recordId = $recordId;
     }
 
-    /**
-     * @return string
-     */
-    public function getRecordId()
+    public function getRecordId(): ?string
     {
         return $this->recordId;
     }
 
-    /**
-     * @param string $recordId
-     *
-     * @return GetRecordingTextTracksParameters
-     */
-    public function setRecordId($recordId)
+    public function setRecordId(string $recordId): self
     {
         $this->recordId = $recordId;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHTTPQuery()
+    public function getHTTPQuery(): string
     {
         $queries = [
             'recordID' => $this->recordId,
