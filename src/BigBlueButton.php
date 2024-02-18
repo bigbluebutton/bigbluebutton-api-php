@@ -60,8 +60,8 @@ use BigBlueButton\Util\UrlBuilder;
  */
 class BigBlueButton
 {
-    protected string $securitySecret;
-    protected string $bbbServerBaseUrl;
+    protected string $bbbSecret;
+    protected string $bbbBaseUrl;
     protected UrlBuilder $urlBuilder;
     protected string $jSessionId;
 
@@ -78,12 +78,27 @@ class BigBlueButton
      */
     public function __construct(?string $baseUrl = null, ?string $secret = null, ?array $opts = [])
     {
+        // Provide an early error message if configuration is wrong
+        if (is_null($secret) && false === getenv('BBB_SERVER_BASE_URL')) {
+            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor ' .
+                "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
+        }
+
+        if (is_null($secret) && false === getenv('BBB_SECRET') && false === getenv('BBB_SECURITY_SALT')) {
+            throw new \RuntimeException('No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor ' .
+                "(2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
+        }
+
         // Keeping backward compatibility with older deployed versions
         // BBB_SECRET is the new variable name and have higher priority against the old named BBB_SECURITY_SALT
-        $this->securitySecret   = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
-        $this->bbbServerBaseUrl = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
+        // Reminder: getenv() will return FALSE if not set. But bool is not accepted by $this->bbbSecret
+        //           nor $this->bbbBaseUrl (only strings), thus FALSE will be converted automatically to an empty
+        //           string (''). Having a bool should be not possible due to the checks above and the automated
+        //           conversion, but PHPStan is still unhappy, so it's covered explicit by adding `?: ''`.
+        $this->bbbBaseUrl       = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
+        $this->bbbSecret        = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
         $this->hashingAlgorithm = HashingAlgorithm::SHA_256;
-        $this->urlBuilder       = new UrlBuilder($this->securitySecret, $this->bbbServerBaseUrl, $this->hashingAlgorithm);
+        $this->urlBuilder       = new UrlBuilder($this->bbbSecret, $this->bbbBaseUrl, $this->hashingAlgorithm);
         $this->curlOpts         = $opts['curl'] ?? [];
     }
 
