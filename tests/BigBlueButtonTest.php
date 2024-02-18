@@ -29,6 +29,7 @@ use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Util\ParamsIterator;
+use Dotenv\Dotenv;
 
 /**
  * Class BigBlueButtonTest.
@@ -48,12 +49,7 @@ class BigBlueButtonTest extends TestCase
     {
         parent::setUp();
 
-        foreach (['BBB_SECRET', 'BBB_SERVER_BASE_URL'] as $key) {
-            if (!getenv($key)) {
-                $this->fail('$_SERVER[\'' . $key . '\'] not set in '
-                    . 'phpunit.xml');
-            }
-        }
+        $this->loadEnvironmentVariables();
 
         $this->bbb = new BigBlueButton();
     }
@@ -358,5 +354,27 @@ class BigBlueButtonTest extends TestCase
         $result = $this->bbb->updateRecordings($this->getUpdateRecordingsParamsMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
+    }
+
+    /**
+     * @see https://github.com/vlucas/phpdotenv
+     */
+    private function loadEnvironmentVariables(): void
+    {
+        $envPath      = __DIR__ . '/..';
+        $envFileMain  = '.env';
+        $envFileLocal = '.env.local';
+
+        if (file_exists("{$envPath}/{$envFileLocal}")) {
+            $envFile = $envFileLocal;
+        } elseif (file_exists("{$envPath}/{$envFileMain}")) {
+            $envFile = $envFileMain;
+        } else {
+            throw new \RuntimeException("Environment file ('{$envFileMain}' nor '{$envFileLocal}') not found!");
+        }
+
+        $dotenv = Dotenv::createUnsafeImmutable($envPath, $envFile);
+        $dotenv->load();
+        $dotenv->required(['BBB_SECRET', 'BBB_SERVER_BASE_URL']);
     }
 }

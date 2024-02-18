@@ -56,14 +56,30 @@ $ ./vendor/bin/phpstan analyse
 For every implemented feature add unit tests and check all is green by running the command below.
 
 ```bash
+# using an alias
 $ composer test
+
+# or the same w/o alias
+./vendor/bin/phpunit
 ```
 
 To run a single test
 
 ```bash
-./vendor/bin/phpunit --filter "BigBlueButtonTest::testApiVersion"
+# using an alias
+$ composer test -- --filter BigBlueButtonTest::testApiVersion
+
+# or the same w/o alias
+./vendor/bin/phpunit --filter BigBlueButtonTest::testApiVersion
 ```
+
+**Remark:**
+
+Some test will connect to an existing BBB-server, which is specified in the `.env`-file. You 
+can specify your own BBB-server by copy that file into the same folder and name it `.env.local`.
+Exchange the credentials `BBB_SERVER_BASE_URL` and `BBB_SECRET` to your server's values.
+Since this new file (`.env.local`) takes precedence over the main file (`.env`), you will now test 
+with your own server.
 
 [bbb]: http://bigbluebutton.org
 [composer]: https://getcomposer.org

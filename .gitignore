@@ -3,6 +3,9 @@ composer.phar
 composer.lock
 .DS_Store
 
+## local environment variables
+.env.local
+
 ## Directory-based project format:
 .idea/
 /nbproject
