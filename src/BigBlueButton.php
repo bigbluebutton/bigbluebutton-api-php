@@ -208,6 +208,26 @@ class BigBlueButton
         return new IsMeetingRunningResponse($xml);
     }
 
+    /**
+     * Checks weather a meeting is existing.
+     *
+     * @see https://github.com/bigbluebutton/bigbluebutton/issues/8246
+     *
+     * @throws BadResponseException
+     */
+    public function isMeetingExisting(string $meetingId): bool
+    {
+        $meetings = $this->getMeetings()->getMeetings();
+
+        foreach ($meetings as $meeting) {
+            if ($meetingId === $meeting->getMeetingId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getMeetingsUrl(): string
     {
         return $this->urlBuilder->buildUrl(ApiMethod::GET_MEETINGS);
@@ -505,7 +525,9 @@ class BigBlueButton
      */
     private function processXmlResponse(string $url, string $payload = '', string $contentType = 'application/xml'): \SimpleXMLElement
     {
-        return new \SimpleXMLElement($this->sendRequest($url, $payload, $contentType));
+        $response = $this->sendRequest($url, $payload, $contentType);
+
+        return new \SimpleXMLElement($response);
     }
 
     /**
