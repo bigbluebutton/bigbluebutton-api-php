@@ -25,10 +25,7 @@ namespace BigBlueButton\Responses;
  */
 class PublishRecordingsResponse extends BaseResponse
 {
-    /**
-     * @return null|bool
-     */
-    public function isPublished()
+    public function isPublished(): bool
     {
         return 'true' === $this->rawXml->published->__toString();
     }

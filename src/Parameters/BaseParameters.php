@@ -28,14 +28,12 @@ abstract class BaseParameters
     /**
      * @return string
      */
-    abstract public function getHTTPQuery();
+    abstract public function getHTTPQuery(): string;
 
     /**
      * @param mixed $array
-     *
-     * @return string
      */
-    protected function buildHTTPQuery($array)
+    protected function buildHTTPQuery($array): string
     {
         return str_replace(['%20', '!', "'", '(', ')', '*'], ['+', '%21', '%27', '%28', '%29', '%2A'], http_build_query(array_filter($array), '', '&', \PHP_QUERY_RFC3986));
     }

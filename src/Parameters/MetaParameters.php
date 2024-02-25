@@ -40,10 +40,8 @@ abstract class MetaParameters extends BaseParameters
 
     /**
      * @param mixed $value
-     *
-     * @return $this
      */
-    public function addMeta(string $key, $value)
+    public function addMeta(string $key, $value): MetaParameters
     {
         $this->meta[$key] = $value;
 
