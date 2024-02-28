@@ -35,8 +35,6 @@ use Dotenv\Dotenv;
  * Class BigBlueButtonTest.
  *
  * @internal
- *
- * @coversNothing
  */
 class BigBlueButtonTest extends TestCase
 {

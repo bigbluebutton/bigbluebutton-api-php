@@ -27,7 +27,7 @@ use BigBlueButton\TestCase;
  *
  * @internal
  *
- * @coversNothing
+ *
  */
 class CreateMeetingParametersTest extends TestCase
 {

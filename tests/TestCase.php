@@ -37,8 +37,6 @@ use Faker\Generator;
  * Class TestCase.
  *
  * @internal
- *
- * @coversNothing
  */
 class TestCase extends \PHPUnit\Framework\TestCase
 {
