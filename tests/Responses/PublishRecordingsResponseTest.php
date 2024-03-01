@@ -21,6 +21,7 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\Util\Fixtures;
 
 /**
  * @internal
@@ -32,8 +33,9 @@ class PublishRecordingsResponseTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $fixtures = new Fixtures();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'publish_recordings.xml');
+        $xml = $fixtures->fromXmlFile('publish_recordings.xml');
 
         $this->publish = new PublishRecordingsResponse($xml);
     }

@@ -23,6 +23,7 @@ namespace BigBlueButton\Parameters;
 use BigBlueButton\Enum\MeetingLayout;
 use BigBlueButton\Enum\Role;
 use BigBlueButton\TestCase;
+use BigBlueButton\Util\Fixtures;
 
 /**
  * @internal
@@ -33,8 +34,8 @@ class JoinMeetingParametersTest extends TestCase
 {
     public function testJoinMeetingParameters(): void
     {
-        $params            = $this->generateJoinMeetingParams();
-        $joinMeetingParams = $this->getJoinMeetingMock($params);
+        $params            = Fixtures::generateJoinMeetingParams();
+        $joinMeetingParams = Fixtures::getJoinMeetingMock($params);
 
         $this->assertEquals($params['meetingId'], $joinMeetingParams->getMeetingId());
         $this->assertEquals($params['userName'], $joinMeetingParams->getUsername());

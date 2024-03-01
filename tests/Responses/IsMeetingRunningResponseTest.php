@@ -21,6 +21,7 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\Util\Fixtures;
 
 /**
  * @internal
@@ -32,8 +33,9 @@ class IsMeetingRunningResponseTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $fixtures = new Fixtures();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'is_meeting_running.xml');
+        $xml = $fixtures->fromXmlFile('is_meeting_running.xml');
 
         $this->running = new IsMeetingRunningResponse($xml);
     }

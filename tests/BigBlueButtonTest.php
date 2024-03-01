@@ -28,8 +28,9 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Util\EnvLoader;
+use BigBlueButton\Util\Fixtures;
 use BigBlueButton\Util\ParamsIterator;
-use Dotenv\Dotenv;
 
 /**
  * Class BigBlueButtonTest.
@@ -47,7 +48,7 @@ class BigBlueButtonTest extends TestCase
     {
         parent::setUp();
 
-        $this->loadEnvironmentVariables();
+        EnvLoader::loadEnvironmentVariables();
 
         $this->bbb = new BigBlueButton();
     }
@@ -88,8 +89,8 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingUrl(): void
     {
-        $params = $this->generateCreateParams();
-        $url    = $this->bbb->getCreateMeetingUrl($this->getCreateMock($params));
+        $params = Fixtures::generateCreateParams();
+        $url    = $this->bbb->getCreateMeetingUrl(Fixtures::getCreateMeetingParametersMock($params));
 
         $paramsIterator = new ParamsIterator();
         $paramsIterator->iterate($params, $url);
@@ -100,8 +101,9 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeeting(): void
     {
-        $params = $this->generateCreateParams();
-        $result = $this->bbb->createMeeting($this->getCreateMock($params));
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+
+        $result = $this->bbb->createMeeting($createMeetingParams);
 
         $this->assertEquals('SUCCESS', $result->getReturnCode());
         $this->assertTrue($result->success());
@@ -112,7 +114,7 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingWithDocumentUrl(): void
     {
-        $params = $this->getCreateMock($this->generateCreateParams());
+        $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random');
 
         $result = $this->bbb->createMeeting($params);
@@ -127,7 +129,7 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingWithDocumentUrlAndFileName(): void
     {
-        $params = $this->getCreateMock($this->generateCreateParams());
+        $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'placeholder.png');
 
         $result = $this->bbb->createMeeting($params);
@@ -142,7 +144,7 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingWithDocumentEmbedded(): void
     {
-        $params = $this->getCreateMock($this->generateCreateParams());
+        $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
 
         $params->addPresentation('bbb_logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
 
@@ -158,7 +160,7 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingWithMultiDocument(): void
     {
-        $params = $this->getCreateMock($this->generateCreateParams());
+        $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'presentation.png');
         $params->addPresentation('logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
 
@@ -176,9 +178,9 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateJoinMeetingUrl(): void
     {
-        $joinMeetingParams = $this->generateJoinMeetingParams();
+        $joinMeetingParams = Fixtures::generateJoinMeetingParams();
 
-        $joinMeetingMock = $this->getJoinMeetingMock($joinMeetingParams);
+        $joinMeetingMock = Fixtures::getJoinMeetingMock($joinMeetingParams);
 
         $url            = $this->bbb->getJoinMeetingURL($joinMeetingMock);
         $paramsIterator = new ParamsIterator();
@@ -195,13 +197,15 @@ class BigBlueButtonTest extends TestCase
         // create a meeting that can be joined
         $createMeetingParameters = new CreateMeetingParameters($this->faker->uuid(), $this->faker->word());
         $createMeetingResponse   = $this->bbb->createMeeting($createMeetingParameters);
+        $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
+        $this->assertTrue($createMeetingResponse->success());
 
         // prepare to join the meeting
-        $joinMeetingParams = $this->generateJoinMeetingParams();
-        $joinMeetingMock   = $this->getJoinMeetingMock($joinMeetingParams);
-        $joinMeetingMock->setRedirect(false);
+        $joinMeetingParams = Fixtures::generateJoinMeetingParams();
+        $joinMeetingMock   = Fixtures::getJoinMeetingMock($joinMeetingParams);
 
         // adapt to join the above created meeting
+        $joinMeetingMock->setRedirect(false);
         $joinMeetingMock->setMeetingId($createMeetingResponse->getMeetingId());
         $joinMeetingMock->setCreationTime($createMeetingResponse->getCreationTime());
 
@@ -228,8 +232,8 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateEndMeetingUrl(): void
     {
-        $params         = $this->generateEndMeetingParams();
-        $url            = $this->bbb->getEndMeetingURL($this->getEndMeetingMock($params));
+        $params         = Fixtures::generateEndMeetingParams();
+        $url            = $this->bbb->getEndMeetingURL(Fixtures::getEndMeetingMock($params));
         $paramsIterator = new ParamsIterator();
         $paramsIterator->iterate($params, $url);
     }
@@ -246,13 +250,13 @@ class BigBlueButtonTest extends TestCase
 
     public function testEndNonExistingMeeting(): void
     {
-        $params = $this->generateEndMeetingParams();
-        $result = $this->bbb->endMeeting($this->getEndMeetingMock($params));
+        $params = Fixtures::generateEndMeetingParams();
+        $result = $this->bbb->endMeeting(Fixtures::getEndMeetingMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
     }
 
-    // Is Meeting Running
+    // Is Meeting Running / Existing
 
     public function testIsMeetingRunning(): void
     {
@@ -340,39 +344,17 @@ class BigBlueButtonTest extends TestCase
 
     public function testUpdateRecordingsUrl(): void
     {
-        $params         = $this->generateUpdateRecordingsParams();
-        $url            = $this->bbb->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
+        $params         = Fixtures::generateUpdateRecordingsParams();
+        $url            = $this->bbb->getUpdateRecordingsUrl(Fixtures::getUpdateRecordingsParamsMock($params));
         $paramsIterator = new ParamsIterator();
         $paramsIterator->iterate($params, $url);
     }
 
     public function testUpdateRecordings(): void
     {
-        $params = $this->generateUpdateRecordingsParams();
-        $result = $this->bbb->updateRecordings($this->getUpdateRecordingsParamsMock($params));
+        $params = Fixtures::generateUpdateRecordingsParams();
+        $result = $this->bbb->updateRecordings(Fixtures::getUpdateRecordingsParamsMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
-    }
-
-    /**
-     * @see https://github.com/vlucas/phpdotenv
-     */
-    private function loadEnvironmentVariables(): void
-    {
-        $envPath      = __DIR__ . '/..';
-        $envFileMain  = '.env';
-        $envFileLocal = '.env.local';
-
-        if (file_exists("{$envPath}/{$envFileLocal}")) {
-            $envFile = $envFileLocal;
-        } elseif (file_exists("{$envPath}/{$envFileMain}")) {
-            $envFile = $envFileMain;
-        } else {
-            throw new \RuntimeException("Environment file ('{$envFileMain}' nor '{$envFileLocal}') not found!");
-        }
-
-        $dotenv = Dotenv::createUnsafeImmutable($envPath, $envFile);
-        $dotenv->load();
-        $dotenv->required(['BBB_SECRET', 'BBB_SERVER_BASE_URL']);
     }
 }

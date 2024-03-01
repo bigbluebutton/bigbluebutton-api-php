@@ -21,6 +21,7 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\Util\Fixtures;
 
 /**
  * Class CreateMeetingParametersTest.
@@ -33,9 +34,9 @@ class CreateMeetingParametersTest extends TestCase
 {
     public function testCreateMeetingParameters(): void
     {
-        $params = $this->generateCreateParams();
+        $params = Fixtures::generateCreateParams();
 
-        $createMeetingParams = $this->getCreateMock($params);
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock($params);
 
         $this->assertEquals($params['meetingName'], $createMeetingParams->getMeetingName());
         $this->assertEquals($params['meetingId'], $createMeetingParams->getMeetingId());
@@ -115,8 +116,8 @@ class CreateMeetingParametersTest extends TestCase
 
     public function testCreateBreakoutMeeting(): void
     {
-        $params                      = $this->generateBreakoutCreateParams($this->generateCreateParams());
-        $createBreakoutMeetingParams = $this->getBreakoutCreateMock($params);
+        $params                      = Fixtures::generateBreakoutCreateParams(Fixtures::generateCreateParams());
+        $createBreakoutMeetingParams = Fixtures::getBreakoutCreateMock($params);
         $this->assertEquals($params['isBreakout'], $createBreakoutMeetingParams->isBreakout());
         $this->assertEquals($params['parentMeetingId'], $createBreakoutMeetingParams->getParentMeetingId());
         $this->assertEquals($params['sequence'], $createBreakoutMeetingParams->getSequence());
@@ -132,24 +133,21 @@ class CreateMeetingParametersTest extends TestCase
 
     public function testGetPresentationsAsXMLWithUrl(): void
     {
-        $params              = $this->generateCreateParams();
-        $createMeetingParams = $this->getCreateMock($params);
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf');
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithUrlAndFilename(): void
     {
-        $params              = $this->generateCreateParams();
-        $createMeetingParams = $this->getCreateMock($params);
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf', null, 'presentation.pdf');
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithFile(): void
     {
-        $params              = $this->generateCreateParams();
-        $createMeetingParams = $this->getCreateMock($params);
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $createMeetingParams->addPresentation('bbb_logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
     }

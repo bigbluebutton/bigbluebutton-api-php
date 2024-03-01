@@ -21,6 +21,7 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\Util\Fixtures;
 
 /**
  * @internal
@@ -31,8 +32,8 @@ class UpdateRecordingsParametersTest extends TestCase
 {
     public function testUpdateRecordingsParameters(): void
     {
-        $params                 = $this->generateUpdateRecordingsParams();
-        $updateRecordingsParams = $this->getUpdateRecordingsParamsMock($params);
+        $params                 = Fixtures::generateUpdateRecordingsParams();
+        $updateRecordingsParams = Fixtures::getUpdateRecordingsParamsMock($params);
 
         $this->assertEquals($params['recordingId'], $updateRecordingsParams->getRecordingId());
         $this->assertEquals($params['meta_presenter'], $updateRecordingsParams->getMeta('presenter'));

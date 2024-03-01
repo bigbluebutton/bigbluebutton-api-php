@@ -20,7 +20,9 @@
 
 namespace BigBlueButton\Responses;
 
+use BigBlueButton\Core\Meeting;
 use BigBlueButton\TestCase;
+use BigBlueButton\Util\Fixtures;
 
 /**
  * @internal
@@ -33,14 +35,16 @@ class GetMeetingInfoResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_meeting_info.xml');
+        $fixtures = new Fixtures();
+
+        $xml = $fixtures->fromXmlFile('get_meeting_info.xml');
 
         $this->meetingInfo = new GetMeetingInfoResponse($xml);
     }
 
     public function testGetMeetingInfoResponseContent(): void
     {
-        $this->assertInstanceOf('BigBlueButton\Core\Meeting', $this->meetingInfo->getMeeting());
+        $this->assertInstanceOf(Meeting::class, $this->meetingInfo->getMeeting());
         $this->assertCount(4, $this->meetingInfo->getMeeting()->getAttendees());
         $this->assertEquals('SUCCESS', $this->meetingInfo->getReturnCode());
 
