@@ -25,9 +25,6 @@ namespace BigBlueButton\Parameters;
  */
 abstract class BaseParameters
 {
-    /**
-     * @return string
-     */
     abstract public function getHTTPQuery(): string;
 
     /**
