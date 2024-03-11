@@ -73,7 +73,10 @@
             <customdata></customdata>
         </attendee>
     </attendees>
-    <isBreakout>false</isBreakout>
+    <isBreakout>true</isBreakout>
+    <parentMeetingID>ParentMeetingId</parentMeetingID>
+    <sequence>1</sequence>
+    <freeJoin>false</freeJoin>
     <metadata>
         <bbb-context>Best BBB Developers Club</bbb-context>
         <bn-origin>Moodle</bn-origin>

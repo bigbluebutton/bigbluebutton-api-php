@@ -74,6 +74,11 @@
         </attendee>
     </attendees>
     <isBreakout>false</isBreakout>
+    <breakoutRooms>
+        <breakout>breakout-room-id-1</breakout>
+        <breakout>breakout-room-id-2</breakout>
+        <breakout>breakout-room-id-3</breakout>
+    </breakoutRooms>
     <metadata>
         <bbb-context>Best BBB Developers Club</bbb-context>
         <bn-origin>Moodle</bn-origin>
