@@ -20,30 +20,30 @@
 
 namespace BigBlueButton\Util;
 
-use BigBlueButton\TestCase;
+use Dotenv\Dotenv;
 
 /**
- * @internal
+ * @see https://github.com/vlucas/phpdotenv
  */
-class ParamsIterator extends TestCase
+class EnvLoader
 {
-    public function __construct() {}
-
-    /**
-     * @param array<string, mixed> $params
-     */
-    public function iterate(array $params, string $url): void
+    public static function loadEnvironmentVariables(): void
     {
-        foreach ($params as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            }
+        $envPath      = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
+        $envFileMain  = '.env';
+        $envFileLocal = '.env.local';
 
-            if (!is_array($value)) {
-                $this->assertStringContainsString($value, urldecode($url));
-            } else {
-                $this->iterate($value, $url);
-            }
+        if (file_exists($envPath . $envFileLocal)) {
+            $envFile = $envFileLocal;
+        } elseif (file_exists($envPath . $envFileMain)) {
+            $envFile = $envFileMain;
+        } else {
+            $envPath = realpath($envPath);
+            throw new \RuntimeException("Environment file ('{$envFileMain}' nor '{$envFileLocal}') not found in directory '{$envPath}'!");
         }
+
+        $dotenv = Dotenv::createUnsafeImmutable($envPath, $envFile);
+        $dotenv->load();
+        $dotenv->required(['BBB_SECRET', 'BBB_SERVER_BASE_URL']);
     }
 }

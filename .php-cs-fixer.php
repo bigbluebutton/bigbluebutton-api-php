@@ -48,6 +48,8 @@ $finder = Finder::create()
     ->in(__DIR__ . '/tests')
 ;
 
+// see rules: https://mlocati.github.io/php-cs-fixer-configurator/#version:3.8
+
 $config = new Config();
 $config
     ->setRiskyAllowed(true)
@@ -62,8 +64,13 @@ $config
         'single_quote'                     => true,
         'mb_str_functions'                 => true,
         'array_syntax'                     => ['syntax' => 'short'],
-        'binary_operator_spaces'           => ['operators' => ['=>' => 'align_single_space_minimal', '=' => 'align_single_space_minimal'],
+        'binary_operator_spaces'           => [
+            'operators' => [
+                '=>' => 'align_single_space_minimal',
+                '='  => 'align_single_space_minimal',
+            ],
         ],
+        'php_unit_test_class_requires_covers' => false,
     ])
     ->setFinder($finder)
 ;

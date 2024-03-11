@@ -21,35 +21,36 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\Util\Fixtures;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class ApiVersionResponseTest extends TestCase
 {
-    private ApiVersionResponse $version;
+    private ApiVersionResponse $apiVersionResponse;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'api_version.xml');
+        $fixtures = new Fixtures();
 
-        $this->version = new ApiVersionResponse($xml);
+        $xml = $fixtures->fromXmlFile('api_version.xml');
+
+        $this->apiVersionResponse = new ApiVersionResponse($xml);
     }
 
     public function testApiVersionResponseContent(): void
     {
-        $this->assertEquals('SUCCESS', $this->version->getReturnCode());
-        $this->assertEquals('2.0', $this->version->getVersion());
-        $this->assertEquals('2.0', $this->version->getApiVersion());
-        $this->assertEquals('2.4-rc-7', $this->version->getBbbVersion());
+        $this->assertEquals('SUCCESS', $this->apiVersionResponse->getReturnCode());
+        $this->assertEquals('2.0', $this->apiVersionResponse->getVersion());
+        $this->assertEquals('2.0', $this->apiVersionResponse->getApiVersion());
+        $this->assertEquals('2.4-rc-7', $this->apiVersionResponse->getBbbVersion());
     }
 
     public function testApiVersionResponseTypes(): void
     {
-        $this->assertEachGetterValueIsString($this->version, ['getReturnCode', 'getVersion', 'getApiVersion', 'getBbbVersion']);
+        $this->assertEachGetterValueIsString($this->apiVersionResponse, ['getReturnCode', 'getVersion', 'getApiVersion', 'getBbbVersion']);
     }
 }
