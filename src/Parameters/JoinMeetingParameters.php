@@ -46,8 +46,6 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?bool $redirect = null;
 
-    private ?string $clientURL = null;
-
     /**
      * @var array<string, string>
      */
@@ -56,8 +54,6 @@ class JoinMeetingParameters extends UserDataParameters
     private ?string $role = null;
 
     private ?bool $excludeFromDashboard = null;
-
-    private ?string $configToken = null;
 
     private ?bool $guest = null;
 
@@ -183,18 +179,6 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    public function getClientURL(): ?string
-    {
-        return $this->clientURL;
-    }
-
-    public function setClientURL(?string $clientURL): self
-    {
-        $this->clientURL = $clientURL;
-
-        return $this;
-    }
-
     public function getRole(): ?string
     {
         return $this->role;
@@ -215,18 +199,6 @@ class JoinMeetingParameters extends UserDataParameters
     public function setExcludeFromDashboard(bool $excludeFromDashboard): self
     {
         $this->excludeFromDashboard = $excludeFromDashboard;
-
-        return $this;
-    }
-
-    public function getConfigToken(): ?string
-    {
-        return $this->configToken;
-    }
-
-    public function setConfigToken(string $configToken): self
-    {
-        $this->configToken = $configToken;
 
         return $this;
     }
@@ -275,8 +247,6 @@ class JoinMeetingParameters extends UserDataParameters
             'excludeFromDashboard' => !is_null($this->excludeFromDashboard) ? ($this->excludeFromDashboard ? 'true' : 'false') : $this->excludeFromDashboard,
             'avatarURL'            => $this->avatarURL,
             'redirect'             => !is_null($this->redirect) ? ($this->redirect ? 'true' : 'false') : $this->redirect,
-            'clientURL'            => $this->clientURL,
-            'configToken'          => $this->configToken,
             'guest'                => !is_null($this->guest) ? ($this->guest ? 'true' : 'false') : $this->guest,
             'defaultLayout'        => $this->defaultLayout,
         ];
