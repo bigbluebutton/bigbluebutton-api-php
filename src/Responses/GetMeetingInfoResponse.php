@@ -27,20 +27,8 @@ use BigBlueButton\Core\Meeting;
  */
 class GetMeetingInfoResponse extends BaseResponse
 {
-    /**
-     * @var Meeting
-     */
-    private $meeting;
-
-    /**
-     * @return Meeting
-     */
-    public function getMeeting()
+    public function getMeeting(): Meeting
     {
-        if (null === $this->meeting) {
-            $this->meeting = new Meeting($this->rawXml);
-        }
-
-        return $this->meeting;
+        return new Meeting($this->rawXml);
     }
 }

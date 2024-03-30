@@ -46,10 +46,7 @@ abstract class BaseJsonResponse
         return json_encode($this->data);
     }
 
-    /**
-     * @return null|mixed
-     */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         if ($this->failed()) {
             return $this->data->response->message;
@@ -58,10 +55,7 @@ abstract class BaseJsonResponse
         return null;
     }
 
-    /**
-     * @return null|mixed
-     */
-    public function getMessageKey()
+    public function getMessageKey(): ?string
     {
         if ($this->failed()) {
             return $this->data->response->messageKey;
@@ -71,9 +65,11 @@ abstract class BaseJsonResponse
     }
 
     /**
-     * @return mixed
+     * Return will be either 'SUCCESS' or 'FAILED' (nothing else).
+     *
+     * @see: https://docs.bigbluebutton.org/development/api/#api-calls
      */
-    public function getReturnCode()
+    public function getReturnCode(): string
     {
         return $this->data->response->returncode;
     }

@@ -20,6 +20,22 @@
 
 namespace BigBlueButton\Util;
 
+use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\DeleteRecordingsParameters;
+use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\GetMeetingInfoParameters;
+use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
+use BigBlueButton\Parameters\HooksCreateParameters;
+use BigBlueButton\Parameters\HooksDestroyParameters;
+use BigBlueButton\Parameters\InsertDocumentParameters;
+use BigBlueButton\Parameters\IsMeetingRunningParameters;
+use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
+use BigBlueButton\Parameters\UpdateRecordingsParameters;
+
 /**
  * Class UrlBuilder.
  */
@@ -60,5 +76,86 @@ class UrlBuilder
     public function buildQs(string $method = '', string $params = ''): string
     {
         return $params . '&checksum=' . hash($this->hashingAlgorithm, $method . $params . $this->securitySalt);
+    }
+
+    // URL-Generators
+    public function getCreateMeetingUrl(CreateMeetingParameters $createMeetingParams): string
+    {
+        return $this->buildUrl(ApiMethod::CREATE, $createMeetingParams->getHTTPQuery());
+    }
+
+    public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams): string
+    {
+        return $this->buildUrl(ApiMethod::JOIN, $joinMeetingParams->getHTTPQuery());
+    }
+
+    public function getEndMeetingURL(EndMeetingParameters $endParams): string
+    {
+        return $this->buildUrl(ApiMethod::END, $endParams->getHTTPQuery());
+    }
+
+    public function getInsertDocumentUrl(InsertDocumentParameters $insertDocumentParameters): string
+    {
+        return $this->buildUrl(ApiMethod::INSERT_DOCUMENT, $insertDocumentParameters->getHTTPQuery());
+    }
+
+    public function getIsMeetingRunningUrl(IsMeetingRunningParameters $meetingParams): string
+    {
+        return $this->buildUrl(ApiMethod::IS_MEETING_RUNNING, $meetingParams->getHTTPQuery());
+    }
+
+    public function getMeetingsUrl(): string
+    {
+        return $this->buildUrl(ApiMethod::GET_MEETINGS);
+    }
+
+    public function getMeetingInfoUrl(GetMeetingInfoParameters $meetingParams): string
+    {
+        return $this->buildUrl(ApiMethod::GET_MEETING_INFO, $meetingParams->getHTTPQuery());
+    }
+
+    public function getRecordingsUrl(GetRecordingsParameters $recordingsParams): string
+    {
+        return $this->buildUrl(ApiMethod::GET_RECORDINGS, $recordingsParams->getHTTPQuery());
+    }
+
+    public function getPublishRecordingsUrl(PublishRecordingsParameters $recordingParams): string
+    {
+        return $this->buildUrl(ApiMethod::PUBLISH_RECORDINGS, $recordingParams->getHTTPQuery());
+    }
+
+    public function getDeleteRecordingsUrl(DeleteRecordingsParameters $recordingParams): string
+    {
+        return $this->buildUrl(ApiMethod::DELETE_RECORDINGS, $recordingParams->getHTTPQuery());
+    }
+
+    public function getUpdateRecordingsUrl(UpdateRecordingsParameters $recordingParams): string
+    {
+        return $this->buildUrl(ApiMethod::UPDATE_RECORDINGS, $recordingParams->getHTTPQuery());
+    }
+
+    public function getRecordingTextTracksUrl(GetRecordingTextTracksParameters $getRecordingTextTracksParameters): string
+    {
+        return $this->buildUrl(ApiMethod::GET_RECORDING_TEXT_TRACKS, $getRecordingTextTracksParameters->getHTTPQuery());
+    }
+
+    public function getPutRecordingTextTrackUrl(PutRecordingTextTrackParameters $putRecordingTextTrackParams): string
+    {
+        return $this->buildUrl(ApiMethod::PUT_RECORDING_TEXT_TRACK, $putRecordingTextTrackParams->getHTTPQuery());
+    }
+
+    public function getHooksCreateUrl(HooksCreateParameters $hookCreateParams): string
+    {
+        return $this->buildUrl(ApiMethod::HOOKS_CREATE, $hookCreateParams->getHTTPQuery());
+    }
+
+    public function getHooksListUrl(): string
+    {
+        return $this->buildUrl(ApiMethod::HOOKS_LIST);
+    }
+
+    public function getHooksDestroyUrl(HooksDestroyParameters $hooksDestroyParams): string
+    {
+        return $this->buildUrl(ApiMethod::HOOKS_DESTROY, $hooksDestroyParams->getHTTPQuery());
     }
 }

@@ -25,11 +25,8 @@ namespace BigBlueButton\Responses;
  */
 class DeleteRecordingsResponse extends BaseResponse
 {
-    /**
-     * @return null|bool
-     */
-    public function isDeleted()
+    public function isDeleted(): bool
     {
-        return 'true' == $this->rawXml->deleted->__toString();
+        return 'true' === $this->rawXml->deleted->__toString();
     }
 }
