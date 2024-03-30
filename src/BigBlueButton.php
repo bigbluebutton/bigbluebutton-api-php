@@ -211,21 +211,14 @@ class BigBlueButton
     /**
      * Checks weather a meeting is existing.
      *
-     * @see https://github.com/bigbluebutton/bigbluebutton/issues/8246
-     *
      * @throws BadResponseException
      */
     public function isMeetingExisting(string $meetingId): bool
     {
-        $meetings = $this->getMeetings()->getMeetings();
+        $getMeetingInfoParameters = new GetMeetingInfoParameters($meetingId);
+        $meetingInfoResponse      = $this->getMeetingInfo($getMeetingInfoParameters);
 
-        foreach ($meetings as $meeting) {
-            if ($meetingId === $meeting->getMeetingId()) {
-                return true;
-            }
-        }
-
-        return false;
+        return $meetingInfoResponse->success();
     }
 
     public function getMeetingsUrl(): string
