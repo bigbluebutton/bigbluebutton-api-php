@@ -26,10 +26,12 @@ use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Util\ParamsIterator;
 use Dotenv\Dotenv;
+use Tracy\Debugger;
 
 /**
  * Class BigBlueButtonTest.
@@ -60,8 +62,9 @@ class BigBlueButtonTest extends TestCase
 
         // close all existing meetings
         $meetingsResponse = $this->bbb->getMeetings();
-        $meetings         = $meetingsResponse->getMeetings();
+        $this->assertTrue($meetingsResponse->success(), $meetingsResponse->getMessage());
 
+        $meetings = $meetingsResponse->getMeetings();
         foreach ($meetings as $meeting) {
             $endMeetingParameters = new EndMeetingParameters($meeting->getMeetingId(), $meeting->getModeratorPassword());
             $endMeetingResponse   = $this->bbb->endMeeting($endMeetingParameters);
@@ -354,6 +357,16 @@ class BigBlueButtonTest extends TestCase
         $result = $this->bbb->updateRecordings($this->getUpdateRecordingsParamsMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
+    }
+
+    // Hooks: create
+
+    public function testHooksCreate(): void
+    {
+        // create a hook
+        $hooksCreateParameters = new HooksCreateParameters($this->faker->url);
+        $hooksCreateResponse   = $this->bbb->hooksCreate($hooksCreateParameters);
+        $this->assertEquals('SUCCESS', $hooksCreateResponse->getReturnCode(), $hooksCreateResponse->getMessage());
     }
 
     /**

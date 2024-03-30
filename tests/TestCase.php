@@ -112,6 +112,17 @@ class TestCase extends \PHPUnit\Framework\TestCase
      * @param mixed              $obj
      * @param array<int, string> $getters
      */
+    public function assertEachGetterValueIsNull($obj, array $getters): void
+    {
+        foreach ($getters as $getterName) {
+            $this->assertNull($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of NULL for property -> ' . $getterName);
+        }
+    }
+
+    /**
+     * @param mixed              $obj
+     * @param array<int, string> $getters
+     */
     public function assertEachGetterValueIsDouble($obj, array $getters): void
     {
         foreach ($getters as $getterName) {
