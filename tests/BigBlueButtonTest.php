@@ -28,7 +28,6 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
-use BigBlueButton\Util\EnvLoader;
 use BigBlueButton\Util\Fixtures;
 use BigBlueButton\Util\ParamsIterator;
 

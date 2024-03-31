@@ -18,7 +18,7 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Util;
+namespace BigBlueButton;
 
 use Dotenv\Dotenv;
 
@@ -29,7 +29,7 @@ class EnvLoader
 {
     public static function loadEnvironmentVariables(): void
     {
-        $envPath      = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
+        $envPath      = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
         $envFileMain  = '.env';
         $envFileLocal = '.env.local';
 
