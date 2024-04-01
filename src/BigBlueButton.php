@@ -78,7 +78,7 @@ class BigBlueButton
     public function __construct(?string $baseUrl = null, ?string $secret = null, ?array $opts = [])
     {
         // Provide an early error message if configuration is wrong
-        if (is_null($secret) && false === getenv('BBB_SERVER_BASE_URL')) {
+        if (is_null($baseUrl) && false === getenv('BBB_SERVER_BASE_URL')) {
             throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor ' .
                 "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
         }
