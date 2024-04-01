@@ -89,6 +89,8 @@ class BigBlueButtonTest extends TestCase
     // Create Meeting
 
     /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     *
      * Test create meeting URL.
      */
     public function testCreateMeetingUrl(): void
@@ -177,6 +179,8 @@ class BigBlueButtonTest extends TestCase
     // Join Meeting
 
     /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     *
      * Test create join meeting URL.
      */
     public function testCreateJoinMeetingUrl(): void
@@ -229,6 +233,8 @@ class BigBlueButtonTest extends TestCase
     // End Meeting
 
     /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     *
      * Test generate end meeting URL.
      */
     public function testCreateEndMeetingUrl(): void
@@ -269,6 +275,9 @@ class BigBlueButtonTest extends TestCase
 
     // Get Meetings
 
+    /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     */
     public function testGetMeetingsUrl(): void
     {
         $url = $this->bbb->getMeetingsUrl();
@@ -287,6 +296,9 @@ class BigBlueButtonTest extends TestCase
 
     // Get meeting info
 
+    /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     */
     public function testGetMeetingInfoUrl(): void
     {
         $meeting = $this->createRealMeeting($this->bbb);
@@ -304,6 +316,11 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($result->success());
     }
 
+    // Get Recordings
+
+    /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     */
     public function testGetRecordingsUrl(): void
     {
         $url = $this->bbb->getRecordingsUrl(new GetRecordingsParameters());
@@ -317,6 +334,9 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($result->success());
     }
 
+    /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     */
     public function testPublishRecordingsUrl(): void
     {
         $url = $this->bbb->getPublishRecordingsUrl(new PublishRecordingsParameters($this->faker->sha1, true));
@@ -330,6 +350,9 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($result->failed());
     }
 
+    /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     */
     public function testDeleteRecordingsUrl(): void
     {
         $url = $this->bbb->getDeleteRecordingsUrl(new DeleteRecordingsParameters($this->faker->sha1));
@@ -343,6 +366,9 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($result->failed());
     }
 
+    /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     */
     public function testUpdateRecordingsUrl(): void
     {
         $params         = $this->generateUpdateRecordingsParams();
