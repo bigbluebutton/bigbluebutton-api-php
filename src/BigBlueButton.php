@@ -59,18 +59,28 @@ use BigBlueButton\Util\UrlBuilder;
  */
 class BigBlueButton
 {
+    /**
+     * @deprecated Replaced by getter/setter in UrlBuilder-class
+     */
     protected string $bbbSecret;
-    protected string $bbbBaseUrl;
-    protected string $jSessionId;
-    protected string $hashingAlgorithm;
 
-    protected UrlBuilder $urlBuilder;
+    /**
+     * @deprecated Replaced by getter/setter in UrlBuilder-class
+     */
+    protected string $bbbBaseUrl;
+
+    /**
+     * @deprecated Replaced by getter/setter in UrlBuilder-class
+     */
+    protected string $hashingAlgorithm;
 
     /**
      * @var array<int, mixed>
      */
     protected array $curlOpts = [];
     protected int $timeOut    = 10;
+    protected string $jSessionId;
+    protected UrlBuilder $urlBuilder;
 
     /**
      * @param null|array<string, mixed> $opts
@@ -94,11 +104,17 @@ class BigBlueButton
         //           nor $this->bbbBaseUrl (only strings), thus FALSE will be converted automatically to an empty
         //           string (''). Having a bool should be not possible due to the checks above and the automated
         //           conversion, but PHPStan is still unhappy, so it's covered explicit by adding `?: ''`.
-        $this->bbbBaseUrl       = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
-        $this->bbbSecret        = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
-        $this->hashingAlgorithm = HashingAlgorithm::SHA_256;
-        $this->urlBuilder       = new UrlBuilder($this->bbbSecret, $this->bbbBaseUrl, $this->hashingAlgorithm);
-        $this->curlOpts         = $opts['curl'] ?? [];
+        $bbbBaseUrl       = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
+        $bbbSecret        = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
+        $hashingAlgorithm = HashingAlgorithm::SHA_256;
+
+        // initialize deprecated properties
+        $this->bbbBaseUrl       = $bbbBaseUrl;
+        $this->bbbSecret        = $bbbSecret;
+        $this->hashingAlgorithm = $hashingAlgorithm;
+
+        $this->urlBuilder = new UrlBuilder($bbbSecret, $bbbBaseUrl, $hashingAlgorithm);
+        $this->curlOpts   = $opts['curl'] ?? [];
     }
 
     /**
@@ -469,9 +485,9 @@ class BigBlueButton
     }
 
     /**
-     * @deprecated Replaced by same function-name provided by UrlBuilder-BigBlueButton
+     * @deprecated replaced by same function-name provided by UrlBuilder-BigBlueButton
      *
-     * Public accessor for buildUrl.
+     * Public accessor for buildUrl
      */
     public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {

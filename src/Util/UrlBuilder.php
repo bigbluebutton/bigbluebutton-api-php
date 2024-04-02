@@ -36,46 +36,81 @@ use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters;
 
-/**
- * Class UrlBuilder.
- */
 class UrlBuilder
 {
+    /** @deprecated Property will be private soon. Use setter/getter instead. */
     protected string $hashingAlgorithm;
 
-    private string $securitySalt;
+    private string $secret;
 
-    private string $bbbServerBaseUrl;
+    private string $serverBaseUrl;
 
     public function __construct(string $secret, string $serverBaseUrl, string $hashingAlgorithm)
     {
-        $this->securitySalt     = $secret;
-        $this->bbbServerBaseUrl = $serverBaseUrl;
-        $this->hashingAlgorithm = $hashingAlgorithm;
+        $this->setSecret($secret);
+        $this->setServerBaseUrl($serverBaseUrl);
+        $this->setHashingAlgorithm($hashingAlgorithm);
     }
 
-    /**
-     * Sets the hashing algorithm.
-     */
-    public function setHashingAlgorithm(string $hashingAlgorithm): void
+    // Getters & Setters
+    public function setSecret(string $secret): self
+    {
+        $this->secret = $secret;
+
+        return $this;
+    }
+
+    public function getSecret(): string
+    {
+        return $this->secret;
+    }
+
+    public function setServerBaseUrl(string $serverBaseUrl): self
+    {
+        // add trailing dir-separator if missing
+        if ('/' != mb_substr($serverBaseUrl, -1)) {
+            $serverBaseUrl .= '/';
+        }
+
+        $this->serverBaseUrl = $serverBaseUrl;
+
+        return $this;
+    }
+
+    public function getServerBaseUrl(): string
+    {
+        return $this->serverBaseUrl;
+    }
+
+    public function setHashingAlgorithm(string $hashingAlgorithm): self
     {
         $this->hashingAlgorithm = $hashingAlgorithm;
+
+        return $this;
     }
 
+    public function getHashingAlgorithm(): string
+    {
+        return $this->hashingAlgorithm;
+    }
+
+    // Basic functions
     /**
      * Builds an API method URL that includes the url + params + its generated checksum.
      */
     public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {
-        return $this->bbbServerBaseUrl . 'api/' . $method . ($append ? '?' . $this->buildQs($method, $params) : '');
+        return $this->serverBaseUrl . 'api/' . $method . ($append ? '?' . $this->buildQs($method, $params) : '');
     }
 
     /**
      * Builds a query string for an API method URL that includes the params + its generated checksum.
+     *
+     * @deprecated Function only used internal. Function will be private soon. No replacement.
      */
     public function buildQs(string $method = '', string $params = ''): string
     {
-        return $params . '&checksum=' . hash($this->hashingAlgorithm, $method . $params . $this->securitySalt);
+        return $params . '&checksum=' . hash($this->hashingAlgorithm, $method . $params . $this->secret);
     }
 
     // URL-Generators
