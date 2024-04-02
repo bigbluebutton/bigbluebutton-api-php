@@ -60,19 +60,19 @@ class UrlBuilderTest extends TestCase
     public function testServerBaseUrl(): void
     {
         // arrange
-        $urlWithoutTrailingSeparator = $this->faker->url;
-        $urlWithTrailingSeparator    = $urlWithoutTrailingSeparator . '/';
+        $urlWithoutTailingSeparator = $this->faker->url;
+        $urlWithTailingSeparator    = $urlWithoutTailingSeparator . '/';
 
         // initial value
         $this->assertEquals('any url/', $this->urlBuilder->getServerBaseUrl());
 
         // set value 1 (without)
-        $this->urlBuilder->setServerBaseUrl($urlWithoutTrailingSeparator);
-        $this->assertEquals($urlWithTrailingSeparator, $this->urlBuilder->getServerBaseUrl());
+        $this->urlBuilder->setServerBaseUrl($urlWithoutTailingSeparator);
+        $this->assertEquals($urlWithTailingSeparator, $this->urlBuilder->getServerBaseUrl());
 
         // set value 2 (with)
-        $this->urlBuilder->setServerBaseUrl($urlWithTrailingSeparator);
-        $this->assertEquals($urlWithTrailingSeparator, $this->urlBuilder->getServerBaseUrl());
+        $this->urlBuilder->setServerBaseUrl($urlWithTailingSeparator);
+        $this->assertEquals($urlWithTailingSeparator, $this->urlBuilder->getServerBaseUrl());
     }
 
     public function testHashingAlgorithm(): void

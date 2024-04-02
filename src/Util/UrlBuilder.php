@@ -67,7 +67,7 @@ class UrlBuilder
 
     public function setServerBaseUrl(string $serverBaseUrl): self
     {
-        // add trailing dir-separator if missing
+        // add tailing dir-separator if missing
         if ('/' != mb_substr($serverBaseUrl, -1)) {
             $serverBaseUrl .= '/';
         }
