@@ -469,9 +469,9 @@ class BigBlueButton
     }
 
     /**
-     * @deprecated Replaced by same function-name provided by UrlBuilder-BigBlueButton
+     * @deprecated replaced by same function-name provided by UrlBuilder-BigBlueButton
      *
-     * Public accessor for buildUrl.
+     * Public accessor for buildUrl
      */
     public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {

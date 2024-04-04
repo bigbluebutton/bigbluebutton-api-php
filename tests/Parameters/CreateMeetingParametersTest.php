@@ -21,14 +21,12 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
-use BigBlueButton\Util\Fixtures;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * Class CreateMeetingParametersTest.
  *
  * @internal
- *
- *
  */
 class CreateMeetingParametersTest extends TestCase
 {

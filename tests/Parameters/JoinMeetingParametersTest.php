@@ -23,12 +23,10 @@ namespace BigBlueButton\Parameters;
 use BigBlueButton\Enum\MeetingLayout;
 use BigBlueButton\Enum\Role;
 use BigBlueButton\TestCase;
-use BigBlueButton\Util\Fixtures;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- *
  */
 class JoinMeetingParametersTest extends TestCase
 {

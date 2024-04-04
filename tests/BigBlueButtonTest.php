@@ -28,8 +28,9 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
-use BigBlueButton\Util\Fixtures;
-use BigBlueButton\Util\ParamsIterator;
+use BigBlueButton\TestServices\EnvLoader;
+use BigBlueButton\TestServices\Fixtures;
+use BigBlueButton\TestServices\ParamsIterator;
 
 /**
  * Class BigBlueButtonTest.
@@ -84,9 +85,9 @@ class BigBlueButtonTest extends TestCase
     // Create Meeting
 
     /**
-     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     * @deprecated test will be removed together with the deprecated function from BigBlueButton::class
      *
-     * Test create meeting URL.
+     * Test create meeting URL
      */
     public function testCreateMeetingUrl(): void
     {
@@ -175,9 +176,9 @@ class BigBlueButtonTest extends TestCase
     // Join Meeting
 
     /**
-     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     * @deprecated test will be removed together with the deprecated function from BigBlueButton::class
      *
-     * Test create join meeting URL.
+     * Test create join meeting URL
      */
     public function testCreateJoinMeetingUrl(): void
     {
@@ -231,9 +232,9 @@ class BigBlueButtonTest extends TestCase
     // End Meeting
 
     /**
-     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     * @deprecated test will be removed together with the deprecated function from BigBlueButton::class
      *
-     * Test generate end meeting URL.
+     * Test generate end meeting URL
      */
     public function testCreateEndMeetingUrl(): void
     {

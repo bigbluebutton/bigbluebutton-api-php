@@ -21,7 +21,7 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
-use BigBlueButton\Util\Fixtures;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal

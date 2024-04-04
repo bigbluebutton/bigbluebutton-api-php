@@ -27,6 +27,8 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
+use BigBlueButton\TestServices\ParamsIterator;
 
 /**
  * @internal

@@ -18,7 +18,7 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Util;
+namespace BigBlueButton\TestServices;
 
 use BigBlueButton\Enum\Feature;
 use BigBlueButton\Enum\GuestPolicy;
@@ -359,5 +359,4 @@ class Fixtures
 
         return $updateRecordingsParams->addMeta('presenter', $params['meta_presenter']);
     }
-
 }

@@ -24,8 +24,6 @@ use BigBlueButton\TestCase;
 
 /**
  * @internal
- *
- *
  */
 class PutRecordingTextTrackParametersTest extends TestCase
 {

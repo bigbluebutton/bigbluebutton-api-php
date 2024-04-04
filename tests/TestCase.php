@@ -20,7 +20,6 @@
 
 namespace BigBlueButton;
 
-
 use BigBlueButton\Enum\Feature;
 use BigBlueButton\Enum\GuestPolicy;
 use BigBlueButton\Enum\MeetingLayout;
@@ -30,7 +29,7 @@ use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
-use BigBlueButton\Util\Fixtures;
+use BigBlueButton\TestServices\Fixtures;
 use Faker\Factory as Faker;
 use Faker\Generator;
 
