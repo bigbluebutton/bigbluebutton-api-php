@@ -226,6 +226,19 @@ class BigBlueButton
     }
 
     /**
+     * Checks weather a meeting is existing.
+     *
+     * @throws BadResponseException
+     */
+    public function isMeetingExisting(string $meetingId): bool
+    {
+        $getMeetingInfoParameters = new GetMeetingInfoParameters($meetingId);
+        $meetingInfoResponse      = $this->getMeetingInfo($getMeetingInfoParameters);
+
+        return $meetingInfoResponse->success();
+    }
+
+    /**
      * @deprecated Replaced by same function-name provided by UrlBuilder-class
      */
     public function getMeetingsUrl(): string
@@ -569,7 +582,9 @@ class BigBlueButton
      */
     private function processXmlResponse(string $url, string $payload = ''): \SimpleXMLElement
     {
-        return new \SimpleXMLElement($this->sendRequest($url, $payload, 'application/xml'));
+        $response = $this->sendRequest($url, $payload, $contentType);
+
+        return new \SimpleXMLElement($response);
     }
 
     /**
