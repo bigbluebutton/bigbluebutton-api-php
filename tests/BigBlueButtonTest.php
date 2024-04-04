@@ -408,14 +408,16 @@ class BigBlueButtonTest extends TestCase
         $hooksCreateParameters = new HooksCreateParameters($this->faker->url);
         $hooksCreateResponse   = $this->bbb->hooksCreate($hooksCreateParameters);
         $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+        $hookId = $hooksCreateResponse->getHookId();
+        $this->assertNotNull($hookId);
 
         // destroy existing hook
-        $hooksDestroyParameters = new HooksDestroyParameters($hooksCreateResponse->getHookId());
+        $hooksDestroyParameters = new HooksDestroyParameters($hookId);
         $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
         $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
 
         // destroy non-existing hook
-        $hooksDestroyParameters = new HooksDestroyParameters($this->faker->uuid);
+        $hooksDestroyParameters = new HooksDestroyParameters($this->faker->numberBetween(10000, 99999));
         $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
         $this->assertFalse($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
     }

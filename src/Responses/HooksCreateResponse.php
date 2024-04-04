@@ -25,6 +25,15 @@ namespace BigBlueButton\Responses;
  */
 class HooksCreateResponse extends BaseResponse
 {
+    /**
+     * According to documentation the hookId that needs to be used in the "destroy" command musst be of type number.
+     * That is why the return here must be a number (= integer) too.
+     *
+     * But in the same time this property could be not part of the API-response in case the response failed. So it has
+     * to return NULL as well.
+     *
+     * @see https://docs.bigbluebutton.org/development/webhooks/#hooksdestroy
+     */
     public function getHookId(): ?int
     {
         if (!$this->rawXml->hookID) {

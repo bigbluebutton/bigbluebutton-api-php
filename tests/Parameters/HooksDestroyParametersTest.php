@@ -31,7 +31,7 @@ class HooksDestroyParametersTest extends TestCase
 {
     public function testHooksDestroyParameters(): void
     {
-        $hookId = (string) $this->faker->numberBetween(1, 50);
+        $hookId = $this->faker->numberBetween(1, 50);
 
         $hooksDestroyParameters = new HooksDestroyParameters($hookId);
 

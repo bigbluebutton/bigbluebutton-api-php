@@ -48,16 +48,11 @@ class UrlBuilder
 
     private string $bbbServerBaseUrl;
 
-    /** @deprecated This property will disappear after a while */
-    private string $hashAlgoForHooks;
-
     public function __construct(string $secret, string $serverBaseUrl, string $hashingAlgorithm)
     {
         $this->securitySalt     = $secret;
         $this->bbbServerBaseUrl = $serverBaseUrl;
         $this->hashingAlgorithm = $hashingAlgorithm;
-
-        $this->initiateAlgorithmForHooks();
     }
 
     /**
@@ -163,14 +158,17 @@ class UrlBuilder
      */
     public function getHooksCreateUrl(HooksCreateParameters $hookCreateParams): string
     {
+        // store current hashing algorithm
+        $hashingAlgorithm = $this->getHashingAlgorithm();
+
         // change hashing algorithm for hooks
-        $this->setHashingAlgorithm($this->hashAlgoForHooks);
+        $this->setHashingAlgorithm($this->getHashingAlgorithmForHooks());
 
         // build URL
         $url = $this->buildUrl(ApiMethod::HOOKS_CREATE, $hookCreateParams->getHTTPQuery());
 
         // reset to 'normal' hashing algorithm
-        $this->setHashingAlgorithm($this->getHashingAlgorithm());
+        $this->setHashingAlgorithm($hashingAlgorithm);
 
         return $url;
     }
@@ -183,14 +181,17 @@ class UrlBuilder
      */
     public function getHooksListUrl(): string
     {
+        // store current hashing algorithm
+        $hashingAlgorithm = $this->getHashingAlgorithm();
+
         // change hashing algorithm for hooks
-        $this->setHashingAlgorithm($this->hashAlgoForHooks);
+        $this->setHashingAlgorithm($this->getHashingAlgorithmForHooks());
 
         // build URL
         $url = $this->buildUrl(ApiMethod::HOOKS_LIST);
 
         // reset to 'normal' hashing algorithm
-        $this->setHashingAlgorithm($this->getHashingAlgorithm());
+        $this->setHashingAlgorithm($hashingAlgorithm);
 
         return $url;
     }
@@ -203,46 +204,56 @@ class UrlBuilder
      */
     public function getHooksDestroyUrl(HooksDestroyParameters $hooksDestroyParams): string
     {
+        // store current hashing algorithm
+        $hashingAlgorithm = $this->getHashingAlgorithm();
+
         // change hashing algorithm for hooks
-        $this->setHashingAlgorithm($this->hashAlgoForHooks);
+        $this->setHashingAlgorithm($this->getHashingAlgorithmForHooks());
 
         // build URL
         $url = $this->buildUrl(ApiMethod::HOOKS_DESTROY, $hooksDestroyParams->getHTTPQuery());
 
         // reset to 'normal' hashing algorithm
-        $this->setHashingAlgorithm($this->getHashingAlgorithm());
+        $this->setHashingAlgorithm($hashingAlgorithm);
 
         return $url;
     }
 
     /**
-     *  Defines the algorithm to be used for hooks.
-     *
-     *  Background: BBB-Server below 3.0 are using SHA1-algorithm for hooks. The current planning for
-     *              BBB-Server 3.0 (and on) is to align the hashing algorithm  for hooks with the rest
-     *              of the system. Having this in mind the two situations need to be covered:
-     *                 - BBB-Server <  3.0 ==> SHA1 is default for hooks (even rest is using other algorithm)
-     *                 - BBB-Server >= 3.0 ==> same algorithm everywhere (according to planning).
+     *  This function defines the algorithm to be used for hooks.
      *
      *  This function will evolve in phases:
-     *   - Phase 1: SHA1 as default                 (or superseded by environment-variable HASH_ALGO_FOR_HOOKS).
-     *   - Phase 2: same algo everywhere as default (or superseded by environment-variable HASH_ALGO_FOR_HOOKS and which will trigger in this case a deprecation-warning).
-     *   - Phase 3: removal of this function, the class-property '$hashAlgoForHooks' and the use of env-variable HASH_ALGO_FOR_HOOKS.
+     *    - Phase 1: SHA1 as default                 (or superseded by environment-variable HASH_ALGO_FOR_HOOKS).
+     *    - Phase 2: same algo everywhere as default (or superseded by environment-variable HASH_ALGO_FOR_HOOKS and which will trigger in this case a deprecation-warning).
+     *    - Phase 3: removal of this function, adaptation of the other hook-functions in this class and remove the use of env-variable HASH_ALGO_FOR_HOOKS.
+     *
+     *  Background:
+     *  BB-Server below 3.0 are using SHA1-algorithm for hooks only, but allow higher algorithms for
+     *  other APIs. This is creating issues since the algorithm of choice is used in the urlBuilder-class
+     *  for the hashing of the checksum. This is resulting in denied requests for hooks if the algorithm
+     *  of choice is not SHA1.
+     *  The current planning for BBB-Server 3.0 (and on) is to align the hashing algorithm for hooks with
+     *  the rest of the system. Having this in mind two situations need to be covered:
+     *    - BBB-Server <  3.0 ==> SHA1 is default for hooks (even rest is using other algorithm)
+     *    - BBB-Server >= 3.0 ==> same algorithm everywhere (according to planning).
      *
      * @deprecated This function will evolve in phases and will later disappear
      */
-    private function initiateAlgorithmForHooks(): void
+    private function getHashingAlgorithmForHooks(): string
     {
+        // ---------------------------------- phase 1 ----------------------------------
         // in case this env-variable is not set, SHA1 shall be used as default (phase 1)
-        $this->hashAlgoForHooks = getenv('HASH_ALGO_FOR_HOOKS') ?: HashingAlgorithm::SHA_1;
+        return getenv('HASH_ALGO_FOR_HOOKS') ?: HashingAlgorithm::SHA_1;
+        // ---------------------------------- phase 1 ----------------------------------
 
         /* ---------------------------------- phase 2 ----------------------------------
-         * // in case this env-variable is not set, the 'normal' algorithm shall be used as default (phase 2)
-         * $this->hashAlgoForHooks = getenv('HASH_ALGO_FOR_HOOKS') ?: $this->getHashingAlgorithm();
-         *
          * if (getenv('HASH_ALGO_FOR_HOOKS')) {
          *   trigger_error('The environment variable HASH_ALGO_FOR_HOOKS will be removed soon. This will require you to run a BBB-Server 3.0 or higher!', E_USER_DEPRECATED);
          * }
+         *
+         * // in case this env-variable is not set, the 'normal' algorithm shall be used as default (phase 2)
+         * return getenv('HASH_ALGO_FOR_HOOKS') ?: $this->getHashingAlgorithm();
+         *
          * ---------------------------------- phase 2 ---------------------------------- */
     }
 }
