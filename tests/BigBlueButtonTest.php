@@ -27,11 +27,11 @@ use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
+use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Util\ParamsIterator;
 use Dotenv\Dotenv;
-use Tracy\Debugger;
 
 /**
  * Class BigBlueButtonTest.
@@ -89,9 +89,9 @@ class BigBlueButtonTest extends TestCase
     // Create Meeting
 
     /**
-     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     * @deprecated test will be removed together with the deprecated function from BigBlueButton::class
      *
-     * Test create meeting URL.
+     * Test create meeting URL
      */
     public function testCreateMeetingUrl(): void
     {
@@ -179,9 +179,9 @@ class BigBlueButtonTest extends TestCase
     // Join Meeting
 
     /**
-     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     * @deprecated test will be removed together with the deprecated function from BigBlueButton::class
      *
-     * Test create join meeting URL.
+     * Test create join meeting URL
      */
     public function testCreateJoinMeetingUrl(): void
     {
@@ -233,9 +233,9 @@ class BigBlueButtonTest extends TestCase
     // End Meeting
 
     /**
-     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     * @deprecated test will be removed together with the deprecated function from BigBlueButton::class
      *
-     * Test generate end meeting URL.
+     * Test generate end meeting URL
      */
     public function testCreateEndMeetingUrl(): void
     {
@@ -392,7 +392,32 @@ class BigBlueButtonTest extends TestCase
         // create a hook
         $hooksCreateParameters = new HooksCreateParameters($this->faker->url);
         $hooksCreateResponse   = $this->bbb->hooksCreate($hooksCreateParameters);
-        $this->assertEquals('SUCCESS', $hooksCreateResponse->getReturnCode(), $hooksCreateResponse->getMessage());
+        $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+    }
+
+    public function testHooksList(): void
+    {
+        // create a hook
+        $hooksListResponse = $this->bbb->hooksList();
+        $this->assertTrue($hooksListResponse->success(), $hooksListResponse->getMessage());
+    }
+
+    public function testHooksDestroy(): void
+    {
+        // create a hook
+        $hooksCreateParameters = new HooksCreateParameters($this->faker->url);
+        $hooksCreateResponse   = $this->bbb->hooksCreate($hooksCreateParameters);
+        $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+
+        // destroy existing hook
+        $hooksDestroyParameters = new HooksDestroyParameters($hooksCreateResponse->getHookId());
+        $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
+        $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+
+        // destroy non-existing hook
+        $hooksDestroyParameters = new HooksDestroyParameters($this->faker->uuid);
+        $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
+        $this->assertFalse($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
     }
 
     /**

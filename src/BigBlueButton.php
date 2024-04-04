@@ -64,13 +64,13 @@ class BigBlueButton
     protected string $jSessionId;
     protected string $hashingAlgorithm;
 
-    protected UrlBuilder $urlBuilder;
-
     /**
      * @var array<int, mixed>
      */
     protected array $curlOpts = [];
     protected int $timeOut    = 10;
+
+    private UrlBuilder $urlBuilder;
 
     /**
      * @param null|array<string, mixed> $opts
@@ -469,13 +469,18 @@ class BigBlueButton
     }
 
     /**
-     * @deprecated Replaced by same function-name provided by UrlBuilder-BigBlueButton
+     * @deprecated replaced by same function-name provided by UrlBuilder-BigBlueButton
      *
-     * Public accessor for buildUrl.
+     * Public accessor for buildUrl
      */
     public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {
-        return $this->urlBuilder->buildUrl($method, $params, $append);
+        return $this->getUrlBuilder()->buildUrl($method, $params, $append);
+    }
+
+    public function getUrlBuilder(): UrlBuilder
+    {
+        return $this->urlBuilder;
     }
 
     // ____________________ INTERNAL CLASS METHODS ___________________

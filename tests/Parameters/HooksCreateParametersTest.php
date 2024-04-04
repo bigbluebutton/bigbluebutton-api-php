@@ -21,7 +21,6 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
-use Tracy\Debugger;
 
 /**
  * @internal
@@ -39,11 +38,9 @@ class HooksCreateParametersTest extends TestCase
         }
         $eventIds = implode(',', $eventIds);
 
-
         $hooksCreateParameters = new HooksCreateParameters($callBackUrl = $this->faker->url);
 
         $this->assertEquals($callBackUrl, $hooksCreateParameters->getCallbackUrl());
-
 
         // Test setters that are ignored by the constructor
         $hooksCreateParameters->setMeetingId($meetingId = $this->faker->uuid);
