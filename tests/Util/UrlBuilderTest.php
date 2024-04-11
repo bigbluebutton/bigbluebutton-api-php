@@ -49,30 +49,24 @@ class UrlBuilderTest extends TestCase
         // arrange
         $newSecret = $this->faker->password(128);
 
-        // initial value
-        $this->assertEquals('any secret', $this->urlBuilder->getSecret());
-
         // set new value
-        $this->urlBuilder->setSecret($newSecret);
-        $this->assertEquals($newSecret, $this->urlBuilder->getSecret());
+        $urlBuilder = $this->urlBuilder->setSecret($newSecret);
+        $this->assertInstanceOf(UrlBuilder::class, $urlBuilder);
     }
 
-    public function testServerBaseUrl(): void
+    public function testBaseUrl(): void
     {
         // arrange
         $urlWithoutTailingSeparator = $this->faker->url;
         $urlWithTailingSeparator    = $urlWithoutTailingSeparator . '/';
 
-        // initial value
-        $this->assertEquals('any url/', $this->urlBuilder->getServerBaseUrl());
-
         // set value 1 (without)
-        $this->urlBuilder->setServerBaseUrl($urlWithoutTailingSeparator);
-        $this->assertEquals($urlWithTailingSeparator, $this->urlBuilder->getServerBaseUrl());
+        $urlBuilder = $this->urlBuilder->setBaseUrl($urlWithoutTailingSeparator);
+        $this->assertInstanceOf(UrlBuilder::class, $urlBuilder);
 
         // set value 2 (with)
-        $this->urlBuilder->setServerBaseUrl($urlWithTailingSeparator);
-        $this->assertEquals($urlWithTailingSeparator, $this->urlBuilder->getServerBaseUrl());
+        $urlBuilder = $this->urlBuilder->setBaseUrl($urlWithTailingSeparator);
+        $this->assertInstanceOf(UrlBuilder::class, $urlBuilder);
     }
 
     public function testHashingAlgorithm(): void

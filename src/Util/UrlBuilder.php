@@ -43,12 +43,12 @@ class UrlBuilder
 
     private string $secret;
 
-    private string $serverBaseUrl;
+    private string $baseUrl;
 
-    public function __construct(string $secret, string $serverBaseUrl, string $hashingAlgorithm)
+    public function __construct(string $secret, string $baseUrl, string $hashingAlgorithm)
     {
         $this->setSecret($secret);
-        $this->setServerBaseUrl($serverBaseUrl);
+        $this->setBaseUrl($baseUrl);
         $this->setHashingAlgorithm($hashingAlgorithm);
     }
 
@@ -60,26 +60,16 @@ class UrlBuilder
         return $this;
     }
 
-    public function getSecret(): string
-    {
-        return $this->secret;
-    }
-
-    public function setServerBaseUrl(string $serverBaseUrl): self
+    public function setBaseUrl(string $baseUrl): self
     {
         // add tailing dir-separator if missing
-        if ('/' != mb_substr($serverBaseUrl, -1)) {
-            $serverBaseUrl .= '/';
+        if ('/' != mb_substr($baseUrl, -1)) {
+            $baseUrl .= '/';
         }
 
-        $this->serverBaseUrl = $serverBaseUrl;
+        $this->baseUrl = $baseUrl;
 
         return $this;
-    }
-
-    public function getServerBaseUrl(): string
-    {
-        return $this->serverBaseUrl;
     }
 
     public function setHashingAlgorithm(string $hashingAlgorithm): self
@@ -100,7 +90,7 @@ class UrlBuilder
      */
     public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {
-        return $this->serverBaseUrl . 'api/' . $method . ($append ? '?' . $this->buildQs($method, $params) : '');
+        return $this->baseUrl . 'api/' . $method . ($append ? '?' . $this->buildQs($method, $params) : '');
     }
 
     /**
