@@ -59,18 +59,31 @@ use BigBlueButton\Util\UrlBuilder;
  */
 class BigBlueButton
 {
+    /**
+     * @deprecated This property has been replaced by property in UrlBuilder-class.
+     *             Use property via $this->getUrlBuilder()->setSecret() and $this->getUrlBuilder()->getSecret().
+     */
     protected string $bbbSecret;
-    protected string $bbbBaseUrl;
-    protected string $jSessionId;
-    protected string $hashingAlgorithm;
 
-    protected UrlBuilder $urlBuilder;
+    /**
+     * @deprecated This property has been replaced by property in UrlBuilder-class.
+     *             Use property via $this->getUrlBuilder()->setServerBaseUrl() and $this->getUrlBuilder()->getServerBaseUrl().
+     */
+    protected string $bbbBaseUrl;
+
+    /**
+     * @deprecated This property has been replaced by property in UrlBuilder-class.
+     *             User property via $this->getUrlBuilder()->setHashingAlgorithm() and $this->getUrlBuilder()->getHashingAlgorithm().
+     */
+    protected string $hashingAlgorithm;
 
     /**
      * @var array<int, mixed>
      */
     protected array $curlOpts = [];
     protected int $timeOut    = 10;
+    protected string $jSessionId;
+    private UrlBuilder $urlBuilder;
 
     /**
      * @param null|array<string, mixed> $opts
@@ -94,20 +107,17 @@ class BigBlueButton
         //           nor $this->bbbBaseUrl (only strings), thus FALSE will be converted automatically to an empty
         //           string (''). Having a bool should be not possible due to the checks above and the automated
         //           conversion, but PHPStan is still unhappy, so it's covered explicit by adding `?: ''`.
-        $this->bbbBaseUrl       = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
-        $this->bbbSecret        = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
-        $this->hashingAlgorithm = HashingAlgorithm::SHA_256;
-        $this->urlBuilder       = new UrlBuilder($this->bbbSecret, $this->bbbBaseUrl, $this->hashingAlgorithm);
-        $this->curlOpts         = $opts['curl'] ?? [];
-    }
+        $bbbBaseUrl       = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
+        $bbbSecret        = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
+        $hashingAlgorithm = HashingAlgorithm::SHA_256;
 
-    /**
-     * @deprecated Replaced by same function-name provided by UrlBuilder-class
-     */
-    public function setHashingAlgorithm(string $hashingAlgorithm): void
-    {
+        // initialize deprecated properties
+        $this->bbbBaseUrl       = $bbbBaseUrl;
+        $this->bbbSecret        = $bbbSecret;
         $this->hashingAlgorithm = $hashingAlgorithm;
-        $this->urlBuilder->setHashingAlgorithm($hashingAlgorithm);
+
+        $this->urlBuilder = new UrlBuilder($bbbSecret, $bbbBaseUrl, $hashingAlgorithm);
+        $this->curlOpts   = $opts['curl'] ?? [];
     }
 
     /**
@@ -115,7 +125,7 @@ class BigBlueButton
      */
     public function getApiVersion(): ApiVersionResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->buildUrl());
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->buildUrl());
 
         return new ApiVersionResponse($xml);
     }
@@ -133,7 +143,7 @@ class BigBlueButton
      */
     public function getCreateMeetingUrl(CreateMeetingParameters $createMeetingParams): string
     {
-        return $this->urlBuilder->getCreateMeetingUrl($createMeetingParams);
+        return $this->getUrlBuilder()->getCreateMeetingUrl($createMeetingParams);
     }
 
     /**
@@ -141,7 +151,7 @@ class BigBlueButton
      */
     public function createMeeting(CreateMeetingParameters $createMeetingParams): CreateMeetingResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getCreateMeetingUrl($createMeetingParams), $createMeetingParams->getPresentationsAsXML());
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getCreateMeetingUrl($createMeetingParams), $createMeetingParams->getPresentationsAsXML());
 
         return new CreateMeetingResponse($xml);
     }
@@ -151,7 +161,7 @@ class BigBlueButton
      */
     public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams): string
     {
-        return $this->urlBuilder->getJoinMeetingURL($joinMeetingParams);
+        return $this->getUrlBuilder()->getJoinMeetingURL($joinMeetingParams);
     }
 
     /**
@@ -159,7 +169,7 @@ class BigBlueButton
      */
     public function joinMeeting(JoinMeetingParameters $joinMeetingParams): JoinMeetingResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getJoinMeetingURL($joinMeetingParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getJoinMeetingURL($joinMeetingParams));
 
         return new JoinMeetingResponse($xml);
     }
@@ -169,7 +179,7 @@ class BigBlueButton
      */
     public function getEndMeetingURL(EndMeetingParameters $endParams): string
     {
-        return $this->urlBuilder->getEndMeetingURL($endParams);
+        return $this->getUrlBuilder()->getEndMeetingURL($endParams);
     }
 
     /**
@@ -177,7 +187,7 @@ class BigBlueButton
      */
     public function endMeeting(EndMeetingParameters $endParams): EndMeetingResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getEndMeetingURL($endParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getEndMeetingURL($endParams));
 
         return new EndMeetingResponse($xml);
     }
@@ -187,7 +197,7 @@ class BigBlueButton
      */
     public function getInsertDocumentUrl(InsertDocumentParameters $insertDocumentParameters): string
     {
-        return $this->urlBuilder->getInsertDocumentUrl($insertDocumentParameters);
+        return $this->getUrlBuilder()->getInsertDocumentUrl($insertDocumentParameters);
     }
 
     /**
@@ -195,7 +205,7 @@ class BigBlueButton
      */
     public function insertDocument(InsertDocumentParameters $insertDocumentParams): CreateMeetingResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
 
         return new CreateMeetingResponse($xml);
     }
@@ -212,7 +222,7 @@ class BigBlueButton
      */
     public function getIsMeetingRunningUrl(IsMeetingRunningParameters $meetingParams): string
     {
-        return $this->urlBuilder->getIsMeetingRunningUrl($meetingParams);
+        return $this->getUrlBuilder()->getIsMeetingRunningUrl($meetingParams);
     }
 
     /**
@@ -220,7 +230,7 @@ class BigBlueButton
      */
     public function isMeetingRunning(IsMeetingRunningParameters $meetingParams): IsMeetingRunningResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getIsMeetingRunningUrl($meetingParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getIsMeetingRunningUrl($meetingParams));
 
         return new IsMeetingRunningResponse($xml);
     }
@@ -243,7 +253,7 @@ class BigBlueButton
      */
     public function getMeetingsUrl(): string
     {
-        return $this->urlBuilder->getMeetingsUrl();
+        return $this->getUrlBuilder()->getMeetingsUrl();
     }
 
     /**
@@ -251,7 +261,7 @@ class BigBlueButton
      */
     public function getMeetings(): GetMeetingsResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getMeetingsUrl());
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getMeetingsUrl());
 
         return new GetMeetingsResponse($xml);
     }
@@ -261,7 +271,7 @@ class BigBlueButton
      */
     public function getMeetingInfoUrl(GetMeetingInfoParameters $meetingParams): string
     {
-        return $this->urlBuilder->getMeetingInfoUrl($meetingParams);
+        return $this->getUrlBuilder()->getMeetingInfoUrl($meetingParams);
     }
 
     /**
@@ -269,7 +279,7 @@ class BigBlueButton
      */
     public function getMeetingInfo(GetMeetingInfoParameters $meetingParams): GetMeetingInfoResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getMeetingInfoUrl($meetingParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getMeetingInfoUrl($meetingParams));
 
         return new GetMeetingInfoResponse($xml);
     }
@@ -286,7 +296,7 @@ class BigBlueButton
      */
     public function getRecordingsUrl(GetRecordingsParameters $recordingsParams): string
     {
-        return $this->urlBuilder->getRecordingsUrl($recordingsParams);
+        return $this->getUrlBuilder()->getRecordingsUrl($recordingsParams);
     }
 
     /**
@@ -296,7 +306,7 @@ class BigBlueButton
      */
     public function getRecordings($recordingParams): GetRecordingsResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getRecordingsUrl($recordingParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getRecordingsUrl($recordingParams));
 
         return new GetRecordingsResponse($xml);
     }
@@ -306,7 +316,7 @@ class BigBlueButton
      */
     public function getPublishRecordingsUrl(PublishRecordingsParameters $recordingParams): string
     {
-        return $this->urlBuilder->getPublishRecordingsUrl($recordingParams);
+        return $this->getUrlBuilder()->getPublishRecordingsUrl($recordingParams);
     }
 
     /**
@@ -314,7 +324,7 @@ class BigBlueButton
      */
     public function publishRecordings(PublishRecordingsParameters $recordingParams): PublishRecordingsResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getPublishRecordingsUrl($recordingParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getPublishRecordingsUrl($recordingParams));
 
         return new PublishRecordingsResponse($xml);
     }
@@ -324,7 +334,7 @@ class BigBlueButton
      */
     public function getDeleteRecordingsUrl(DeleteRecordingsParameters $recordingParams): string
     {
-        return $this->urlBuilder->getDeleteRecordingsUrl($recordingParams);
+        return $this->getUrlBuilder()->getDeleteRecordingsUrl($recordingParams);
     }
 
     /**
@@ -332,7 +342,7 @@ class BigBlueButton
      */
     public function deleteRecordings(DeleteRecordingsParameters $recordingParams): DeleteRecordingsResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getDeleteRecordingsUrl($recordingParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getDeleteRecordingsUrl($recordingParams));
 
         return new DeleteRecordingsResponse($xml);
     }
@@ -342,7 +352,7 @@ class BigBlueButton
      */
     public function getUpdateRecordingsUrl(UpdateRecordingsParameters $recordingParams): string
     {
-        return $this->urlBuilder->getUpdateRecordingsUrl($recordingParams);
+        return $this->getUrlBuilder()->getUpdateRecordingsUrl($recordingParams);
     }
 
     /**
@@ -350,7 +360,7 @@ class BigBlueButton
      */
     public function updateRecordings(UpdateRecordingsParameters $recordingParams): UpdateRecordingsResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getUpdateRecordingsUrl($recordingParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getUpdateRecordingsUrl($recordingParams));
 
         return new UpdateRecordingsResponse($xml);
     }
@@ -360,7 +370,7 @@ class BigBlueButton
      */
     public function getRecordingTextTracksUrl(GetRecordingTextTracksParameters $getRecordingTextTracksParameters): string
     {
-        return $this->urlBuilder->getRecordingTextTracksUrl($getRecordingTextTracksParameters);
+        return $this->getUrlBuilder()->getRecordingTextTracksUrl($getRecordingTextTracksParameters);
     }
 
     /**
@@ -368,7 +378,7 @@ class BigBlueButton
      */
     public function getRecordingTextTracks(GetRecordingTextTracksParameters $getRecordingTextTracksParams): GetRecordingTextTracksResponse
     {
-        $json = $this->processJsonResponse($this->urlBuilder->getRecordingTextTracksUrl($getRecordingTextTracksParams));
+        $json = $this->processJsonResponse($this->getUrlBuilder()->getRecordingTextTracksUrl($getRecordingTextTracksParams));
 
         return new GetRecordingTextTracksResponse($json);
     }
@@ -378,7 +388,7 @@ class BigBlueButton
      */
     public function getPutRecordingTextTrackUrl(PutRecordingTextTrackParameters $putRecordingTextTrackParams): string
     {
-        return $this->urlBuilder->getPutRecordingTextTrackUrl($putRecordingTextTrackParams);
+        return $this->getUrlBuilder()->getPutRecordingTextTrackUrl($putRecordingTextTrackParams);
     }
 
     /**
@@ -386,7 +396,7 @@ class BigBlueButton
      */
     public function putRecordingTextTrack(PutRecordingTextTrackParameters $putRecordingTextTrackParams): PutRecordingTextTrackResponse
     {
-        $json = $this->processJsonResponse($this->urlBuilder->getPutRecordingTextTrackUrl($putRecordingTextTrackParams));
+        $json = $this->processJsonResponse($this->getUrlBuilder()->getPutRecordingTextTrackUrl($putRecordingTextTrackParams));
 
         return new PutRecordingTextTrackResponse($json);
     }
@@ -398,7 +408,7 @@ class BigBlueButton
      */
     public function getHooksCreateUrl(HooksCreateParameters $hookCreateParams): string
     {
-        return $this->urlBuilder->getHooksCreateUrl($hookCreateParams);
+        return $this->getUrlBuilder()->getHooksCreateUrl($hookCreateParams);
     }
 
     /**
@@ -408,7 +418,7 @@ class BigBlueButton
      */
     public function hooksCreate($hookCreateParams): HooksCreateResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getHooksCreateUrl($hookCreateParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getHooksCreateUrl($hookCreateParams));
 
         return new HooksCreateResponse($xml);
     }
@@ -418,7 +428,7 @@ class BigBlueButton
      */
     public function getHooksListUrl(): string
     {
-        return $this->urlBuilder->getHooksListUrl();
+        return $this->getUrlBuilder()->getHooksListUrl();
     }
 
     /**
@@ -426,7 +436,7 @@ class BigBlueButton
      */
     public function hooksList(): HooksListResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getHooksListUrl());
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getHooksListUrl());
 
         return new HooksListResponse($xml);
     }
@@ -436,7 +446,7 @@ class BigBlueButton
      */
     public function getHooksDestroyUrl(HooksDestroyParameters $hooksDestroyParams): string
     {
-        return $this->urlBuilder->getHooksDestroyUrl($hooksDestroyParams);
+        return $this->getUrlBuilder()->getHooksDestroyUrl($hooksDestroyParams);
     }
 
     /**
@@ -446,7 +456,7 @@ class BigBlueButton
      */
     public function hooksDestroy($hooksDestroyParams): HooksDestroyResponse
     {
-        $xml = $this->processXmlResponse($this->urlBuilder->getHooksDestroyUrl($hooksDestroyParams));
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getHooksDestroyUrl($hooksDestroyParams));
 
         return new HooksDestroyResponse($xml);
     }
@@ -481,14 +491,33 @@ class BigBlueButton
         return $this;
     }
 
+    public function setHashingAlgorithm(string $hashingAlgorithm): void
+    {
+        $this->hashingAlgorithm = $hashingAlgorithm;
+        $this->getUrlBuilder()->setHashingAlgorithm($hashingAlgorithm);
+    }
+
+    public function getHashingAlgorithm(string $hashingAlgorithm): string
+    {
+        $this->hashingAlgorithm = $this->getUrlBuilder()->getHashingAlgorithm();
+
+        return $this->getUrlBuilder()->getHashingAlgorithm();
+    }
+
     /**
-     * @deprecated Replaced by same function-name provided by UrlBuilder-BigBlueButton
+     * @deprecated Replaced by same function-name provided in UrlBuilder-class.
+     *             Access via $this->getUrlBuilder()->buildUrl()
      *
-     * Public accessor for buildUrl.
+     * Public accessor for buildUrl
      */
     public function buildUrl(string $method = '', string $params = '', bool $append = true): string
     {
-        return $this->urlBuilder->buildUrl($method, $params, $append);
+        return $this->getUrlBuilder()->buildUrl($method, $params, $append);
+    }
+
+    public function getUrlBuilder(): UrlBuilder
+    {
+        return $this->urlBuilder;
     }
 
     // ____________________ INTERNAL CLASS METHODS ___________________

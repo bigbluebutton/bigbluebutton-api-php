@@ -41,7 +41,45 @@ class UrlBuilderTest extends TestCase
     {
         parent::setUp();
 
-        $this->urlBuilder = new UrlBuilder('any text', 'any text', HashingAlgorithm::SHA_256);
+        $this->urlBuilder = new UrlBuilder('any secret', 'any url', HashingAlgorithm::SHA_256);
+    }
+
+    public function testSecret(): void
+    {
+        // arrange
+        $newSecret = $this->faker->password(128);
+
+        // set new value
+        $urlBuilder = $this->urlBuilder->setSecret($newSecret);
+        $this->assertInstanceOf(UrlBuilder::class, $urlBuilder);
+    }
+
+    public function testBaseUrl(): void
+    {
+        // arrange
+        $urlWithoutTailingSeparator = $this->faker->url;
+        $urlWithTailingSeparator    = $urlWithoutTailingSeparator . '/';
+
+        // set value 1 (without)
+        $urlBuilder = $this->urlBuilder->setBaseUrl($urlWithoutTailingSeparator);
+        $this->assertInstanceOf(UrlBuilder::class, $urlBuilder);
+
+        // set value 2 (with)
+        $urlBuilder = $this->urlBuilder->setBaseUrl($urlWithTailingSeparator);
+        $this->assertInstanceOf(UrlBuilder::class, $urlBuilder);
+    }
+
+    public function testHashingAlgorithm(): void
+    {
+        // arrange
+        $newHashingAlgorithm = HashingAlgorithm::SHA_512;
+
+        // initial value
+        $this->assertEquals(HashingAlgorithm::SHA_256, $this->urlBuilder->getHashingAlgorithm());
+
+        // set new value
+        $this->urlBuilder->setHashingAlgorithm($newHashingAlgorithm);
+        $this->assertEquals($newHashingAlgorithm, $this->urlBuilder->getHashingAlgorithm());
     }
 
     public function testCreateMeetingUrl(): void

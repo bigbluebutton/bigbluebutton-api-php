@@ -88,7 +88,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
      *
-     * Test create meeting URL.
+     * Test create meeting URL
      */
     public function testCreateMeetingUrl(): void
     {
@@ -178,7 +178,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
      *
-     * Test create join meeting URL.
+     * Test create join meeting URL
      */
     public function testCreateJoinMeetingUrl(): void
     {
@@ -232,7 +232,7 @@ class BigBlueButtonTest extends TestCase
     /**
      * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
      *
-     * Test generate end meeting URL.
+     * Test generate end meeting URL
      */
     public function testCreateEndMeetingUrl(): void
     {
