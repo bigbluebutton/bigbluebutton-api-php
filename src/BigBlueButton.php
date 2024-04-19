@@ -83,6 +83,7 @@ class BigBlueButton
     protected array $curlOpts = [];
     protected int $timeOut    = 10;
     protected string $jSessionId;
+
     private UrlBuilder $urlBuilder;
 
     /**
@@ -611,7 +612,7 @@ class BigBlueButton
      */
     private function processXmlResponse(string $url, string $payload = ''): \SimpleXMLElement
     {
-        $response = $this->sendRequest($url, $payload, $contentType);
+        $response = $this->sendRequest($url, $payload, 'application/xml');
 
         return new \SimpleXMLElement($response);
     }

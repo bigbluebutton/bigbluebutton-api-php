@@ -26,6 +26,8 @@ use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\HooksCreateParameters;
+use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Util\ParamsIterator;
@@ -60,8 +62,9 @@ class BigBlueButtonTest extends TestCase
 
         // close all existing meetings
         $meetingsResponse = $this->bbb->getMeetings();
-        $meetings         = $meetingsResponse->getMeetings();
+        $this->assertTrue($meetingsResponse->success(), $meetingsResponse->getMessage());
 
+        $meetings = $meetingsResponse->getMeetings();
         foreach ($meetings as $meeting) {
             $endMeetingParameters = new EndMeetingParameters($meeting->getMeetingId(), $meeting->getModeratorPassword());
             $endMeetingResponse   = $this->bbb->endMeeting($endMeetingParameters);
@@ -86,7 +89,7 @@ class BigBlueButtonTest extends TestCase
     // Create Meeting
 
     /**
-     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     * @deprecated test will be removed together with the deprecated function from BigBlueButton::class
      *
      * Test create meeting URL
      */
@@ -176,7 +179,7 @@ class BigBlueButtonTest extends TestCase
     // Join Meeting
 
     /**
-     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     * @deprecated test will be removed together with the deprecated function from BigBlueButton::class
      *
      * Test create join meeting URL
      */
@@ -230,7 +233,7 @@ class BigBlueButtonTest extends TestCase
     // End Meeting
 
     /**
-     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     * @deprecated test will be removed together with the deprecated function from BigBlueButton::class
      *
      * Test generate end meeting URL
      */
@@ -398,6 +401,43 @@ class BigBlueButtonTest extends TestCase
         $result = $this->bbb->updateRecordings($this->getUpdateRecordingsParamsMock($params));
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
+    }
+
+    // Hooks: create
+
+    public function testHooksCreate(): void
+    {
+        // create a hook
+        $hooksCreateParameters = new HooksCreateParameters($this->faker->url);
+        $hooksCreateResponse   = $this->bbb->hooksCreate($hooksCreateParameters);
+        $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+    }
+
+    public function testHooksList(): void
+    {
+        // create a hook
+        $hooksListResponse = $this->bbb->hooksList();
+        $this->assertTrue($hooksListResponse->success(), $hooksListResponse->getMessage());
+    }
+
+    public function testHooksDestroy(): void
+    {
+        // create a hook
+        $hooksCreateParameters = new HooksCreateParameters($this->faker->url);
+        $hooksCreateResponse   = $this->bbb->hooksCreate($hooksCreateParameters);
+        $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+        $hookId = $hooksCreateResponse->getHookId();
+        $this->assertNotNull($hookId);
+
+        // destroy existing hook
+        $hooksDestroyParameters = new HooksDestroyParameters($hookId);
+        $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
+        $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+
+        // destroy non-existing hook
+        $hooksDestroyParameters = new HooksDestroyParameters($this->faker->numberBetween(10000, 99999));
+        $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
+        $this->assertFalse($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
     }
 
     /**

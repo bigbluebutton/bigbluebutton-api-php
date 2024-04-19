@@ -20,6 +20,7 @@
 
 namespace BigBlueButton\Responses;
 
+use BigBlueButton\Core\Hook;
 use BigBlueButton\TestCase;
 
 /**
@@ -29,7 +30,7 @@ use BigBlueButton\TestCase;
  */
 class HooksListResponseTest extends TestCase
 {
-    private HooksListResponse $listResponse;
+    private HooksListResponse $hooksListResponse;
 
     public function setUp(): void
     {
@@ -37,28 +38,38 @@ class HooksListResponseTest extends TestCase
 
         $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_list.xml');
 
-        $this->listResponse = new HooksListResponse($xml);
+        $this->hooksListResponse = new HooksListResponse($xml);
     }
 
     public function testHooksListResponseContent(): void
     {
-        $this->assertEquals('SUCCESS', $this->listResponse->getReturnCode());
-        $this->assertCount(2, $this->listResponse->getHooks());
+        $this->assertEquals('SUCCESS', $this->hooksListResponse->getReturnCode());
+        $this->assertEquals('', $this->hooksListResponse->getMessageKey());
+        $this->assertIsArray($this->hooksListResponse->getHooks());
+        $this->assertCount(2, $this->hooksListResponse->getHooks());
 
-        $aHook = $this->listResponse->getHooks()[0];
+        $hook1 = $this->hooksListResponse->getHooks()[0];
+        $this->assertInstanceOf(Hook::class, $hook1);
+        $this->assertEquals('my-meeting', $hook1->getMeetingId());
+        $this->assertEquals('http://postcatcher.in/catchers/abcdefghijk', $hook1->getCallbackUrl());
+        $this->assertEquals(1, $hook1->getHookId());
+        $this->assertFalse($hook1->isPermanentHook());
+        $this->assertFalse($hook1->hasRawData());
 
-        $this->assertEquals('my-meeting', $aHook->getMeetingId());
-        $this->assertEquals('http://postcatcher.in/catchers/abcdefghijk', $aHook->getCallbackUrl());
-        $this->assertEquals(1, $aHook->getHookId());
-        $this->assertFalse($aHook->isPermanentHook());
-        $this->assertFalse($aHook->hasRawData());
+        $hook1 = $this->hooksListResponse->getHooks()[1];
+        $this->assertInstanceOf(Hook::class, $hook1);
+        $this->assertEquals('', $hook1->getMeetingId());
+        $this->assertEquals('http://postcatcher.in/catchers/1234567890', $hook1->getCallbackUrl());
+        $this->assertEquals(2, $hook1->getHookId());
+        $this->assertFalse($hook1->isPermanentHook());
+        $this->assertFalse($hook1->hasRawData());
     }
 
     public function testHooksListResponseTypes(): void
     {
-        $this->assertEachGetterValueIsString($this->listResponse, ['getReturnCode']);
+        $this->assertEachGetterValueIsString($this->hooksListResponse, ['getReturnCode']);
 
-        $aHook = $this->listResponse->getHooks()[0];
+        $aHook = $this->hooksListResponse->getHooks()[0];
 
         $this->assertEachGetterValueIsString($aHook, ['getCallbackUrl', 'getMeetingId']);
         $this->assertEachGetterValueIsInteger($aHook, ['getHookId']);
