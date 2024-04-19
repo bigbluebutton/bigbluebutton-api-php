@@ -78,7 +78,7 @@ class BigBlueButton
     public function __construct(?string $baseUrl = null, ?string $secret = null, ?array $opts = [])
     {
         // Provide an early error message if configuration is wrong
-        if (is_null($secret) && false === getenv('BBB_SERVER_BASE_URL')) {
+        if (is_null($baseUrl) && false === getenv('BBB_SERVER_BASE_URL')) {
             throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor ' .
                 "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
         }
@@ -223,6 +223,19 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->urlBuilder->getIsMeetingRunningUrl($meetingParams));
 
         return new IsMeetingRunningResponse($xml);
+    }
+
+    /**
+     * Checks weather a meeting is existing.
+     *
+     * @throws BadResponseException
+     */
+    public function isMeetingExisting(string $meetingId): bool
+    {
+        $getMeetingInfoParameters = new GetMeetingInfoParameters($meetingId);
+        $meetingInfoResponse      = $this->getMeetingInfo($getMeetingInfoParameters);
+
+        return $meetingInfoResponse->success();
     }
 
     /**
@@ -574,7 +587,9 @@ class BigBlueButton
      */
     private function processXmlResponse(string $url, string $payload = ''): \SimpleXMLElement
     {
-        return new \SimpleXMLElement($this->sendRequest($url, $payload, 'application/xml'));
+        $response = $this->sendRequest($url, $payload, $contentType);
+
+        return new \SimpleXMLElement($response);
     }
 
     /**

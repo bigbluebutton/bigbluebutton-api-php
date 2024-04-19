@@ -273,6 +273,24 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals(false, $result->isRunning());
     }
 
+    public function testIsMeetingExisting(): void
+    {
+        $meetingId = $this->faker->uuid;
+
+        // check existence of non-existing meeting
+        $isMeetingExisting = $this->bbb->isMeetingExisting($meetingId);
+        $this->assertFalse($isMeetingExisting);
+
+        // create meeting
+        $createMeetingResponse = $this->bbb->createMeeting(new CreateMeetingParameters($meetingId, $this->faker->word));
+        $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
+        $this->assertTrue($createMeetingResponse->success());
+
+        // check existence of existing meeting
+        $isMeetingExisting = $this->bbb->isMeetingExisting($meetingId);
+        $this->assertTrue($isMeetingExisting);
+    }
+
     // Get Meetings
 
     /**
