@@ -404,8 +404,6 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
     }
-<<<<<<< HEAD
-=======
 
     // Hooks: create
 
@@ -443,27 +441,4 @@ class BigBlueButtonTest extends TestCase
         $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
         $this->assertFalse($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
     }
-
-    /**
-     * @see https://github.com/vlucas/phpdotenv
-     */
-    private function loadEnvironmentVariables(): void
-    {
-        $envPath      = __DIR__ . '/..';
-        $envFileMain  = '.env';
-        $envFileLocal = '.env.local';
-
-        if (file_exists("{$envPath}/{$envFileLocal}")) {
-            $envFile = $envFileLocal;
-        } elseif (file_exists("{$envPath}/{$envFileMain}")) {
-            $envFile = $envFileMain;
-        } else {
-            throw new \RuntimeException("Environment file ('{$envFileMain}' nor '{$envFileLocal}') not found!");
-        }
-
-        $dotenv = Dotenv::createUnsafeImmutable($envPath, $envFile);
-        $dotenv->load();
-        $dotenv->required(['BBB_SECRET', 'BBB_SERVER_BASE_URL']);
-    }
->>>>>>> master
 }
