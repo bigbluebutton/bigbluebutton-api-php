@@ -26,6 +26,8 @@ use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
+use BigBlueButton\Parameters\HooksCreateParameters;
+use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\TestServices\EnvLoader;
@@ -59,8 +61,9 @@ class BigBlueButtonTest extends TestCase
 
         // close all existing meetings
         $meetingsResponse = $this->bbb->getMeetings();
-        $meetings         = $meetingsResponse->getMeetings();
+        $this->assertTrue($meetingsResponse->success(), $meetingsResponse->getMessage());
 
+        $meetings = $meetingsResponse->getMeetings();
         foreach ($meetings as $meeting) {
             $endMeetingParameters = new EndMeetingParameters($meeting->getMeetingId(), $meeting->getModeratorPassword());
             $endMeetingResponse   = $this->bbb->endMeeting($endMeetingParameters);
@@ -272,6 +275,24 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals(false, $result->isRunning());
     }
 
+    public function testIsMeetingExisting(): void
+    {
+        $meetingId = $this->faker->uuid;
+
+        // check existence of non-existing meeting
+        $isMeetingExisting = $this->bbb->isMeetingExisting($meetingId);
+        $this->assertFalse($isMeetingExisting);
+
+        // create meeting
+        $createMeetingResponse = $this->bbb->createMeeting(new CreateMeetingParameters($meetingId, $this->faker->word));
+        $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
+        $this->assertTrue($createMeetingResponse->success());
+
+        // check existence of existing meeting
+        $isMeetingExisting = $this->bbb->isMeetingExisting($meetingId);
+        $this->assertTrue($isMeetingExisting);
+    }
+
     // Get Meetings
 
     /**
@@ -383,4 +404,66 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals('FAILED', $result->getReturnCode());
         $this->assertTrue($result->failed());
     }
+<<<<<<< HEAD
+=======
+
+    // Hooks: create
+
+    public function testHooksCreate(): void
+    {
+        // create a hook
+        $hooksCreateParameters = new HooksCreateParameters($this->faker->url);
+        $hooksCreateResponse   = $this->bbb->hooksCreate($hooksCreateParameters);
+        $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+    }
+
+    public function testHooksList(): void
+    {
+        // create a hook
+        $hooksListResponse = $this->bbb->hooksList();
+        $this->assertTrue($hooksListResponse->success(), $hooksListResponse->getMessage());
+    }
+
+    public function testHooksDestroy(): void
+    {
+        // create a hook
+        $hooksCreateParameters = new HooksCreateParameters($this->faker->url);
+        $hooksCreateResponse   = $this->bbb->hooksCreate($hooksCreateParameters);
+        $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+        $hookId = $hooksCreateResponse->getHookId();
+        $this->assertNotNull($hookId);
+
+        // destroy existing hook
+        $hooksDestroyParameters = new HooksDestroyParameters($hookId);
+        $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
+        $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+
+        // destroy non-existing hook
+        $hooksDestroyParameters = new HooksDestroyParameters($this->faker->numberBetween(10000, 99999));
+        $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
+        $this->assertFalse($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+    }
+
+    /**
+     * @see https://github.com/vlucas/phpdotenv
+     */
+    private function loadEnvironmentVariables(): void
+    {
+        $envPath      = __DIR__ . '/..';
+        $envFileMain  = '.env';
+        $envFileLocal = '.env.local';
+
+        if (file_exists("{$envPath}/{$envFileLocal}")) {
+            $envFile = $envFileLocal;
+        } elseif (file_exists("{$envPath}/{$envFileMain}")) {
+            $envFile = $envFileMain;
+        } else {
+            throw new \RuntimeException("Environment file ('{$envFileMain}' nor '{$envFileLocal}') not found!");
+        }
+
+        $dotenv = Dotenv::createUnsafeImmutable($envPath, $envFile);
+        $dotenv->load();
+        $dotenv->required(['BBB_SECRET', 'BBB_SERVER_BASE_URL']);
+    }
+>>>>>>> master
 }

@@ -22,9 +22,11 @@ namespace BigBlueButton\Parameters;
 
 class HooksCreateParameters extends BaseParameters
 {
-    private ?string $callbackUrl = null;
+    private string $callbackUrl;
 
     private ?string $meetingId = null;
+
+    private ?string $eventId = null;
 
     private ?bool $getRaw = null;
 
@@ -33,7 +35,7 @@ class HooksCreateParameters extends BaseParameters
         $this->callbackUrl = $callbackUrl;
     }
 
-    public function getCallbackUrl(): ?string
+    public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
     }
@@ -53,6 +55,18 @@ class HooksCreateParameters extends BaseParameters
     public function setMeetingId(string $meetingId): self
     {
         $this->meetingId = $meetingId;
+
+        return $this;
+    }
+
+    public function getEventId(): ?string
+    {
+        return $this->eventId;
+    }
+
+    public function setEventId(string $eventId): self
+    {
+        $this->eventId = $eventId;
 
         return $this;
     }
