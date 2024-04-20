@@ -24,8 +24,6 @@ use BigBlueButton\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class PublishRecordingsParametersTest extends TestCase
 {

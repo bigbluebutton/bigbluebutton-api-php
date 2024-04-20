@@ -21,11 +21,10 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class GetRecordingsResponseTest extends TestCase
 {
@@ -35,7 +34,9 @@ class GetRecordingsResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_recordings.xml');
+        $fixtures = new Fixtures();
+
+        $xml = $fixtures->fromXmlFile('get_recordings.xml');
 
         $this->records = new GetRecordingsResponse($xml);
     }

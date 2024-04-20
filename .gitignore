@@ -1,5 +1,6 @@
 composer.phar
 /vendor/
+/var/
 composer.lock
 .DS_Store
 
@@ -14,4 +15,3 @@ composer.lock
 .php-cs-fixer.cache
 
 .phpunit.result.cache
-coverage/

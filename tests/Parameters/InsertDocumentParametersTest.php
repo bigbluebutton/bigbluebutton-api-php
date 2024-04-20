@@ -26,8 +26,6 @@ use BigBlueButton\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 final class InsertDocumentParametersTest extends TestCase
 {

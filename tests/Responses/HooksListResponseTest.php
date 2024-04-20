@@ -22,11 +22,10 @@ namespace BigBlueButton\Responses;
 
 use BigBlueButton\Core\Hook;
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class HooksListResponseTest extends TestCase
 {
@@ -36,7 +35,9 @@ class HooksListResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_list.xml');
+        $fixtures = new Fixtures();
+
+        $xml = $fixtures->fromXmlFile('hooks_list.xml');
 
         $this->hooksListResponse = new HooksListResponse($xml);
     }

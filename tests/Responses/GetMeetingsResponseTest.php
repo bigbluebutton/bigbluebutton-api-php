@@ -21,11 +21,10 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class GetMeetingsResponseTest extends TestCase
 {
@@ -35,7 +34,9 @@ class GetMeetingsResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_meetings.xml');
+        $fixtures = new Fixtures();
+
+        $xml = $fixtures->fromXmlFile('get_meetings.xml');
 
         $this->meetings = new GetMeetingsResponse($xml);
     }
@@ -63,11 +64,12 @@ class GetMeetingsResponseTest extends TestCase
         $this->assertEquals(1, $aMeeting->getVoiceParticipantCount());
         $this->assertEquals(3, $aMeeting->getVideoCount());
         $this->assertEquals(2206, $aMeeting->getDuration());
-        $this->assertEquals(true, $aMeeting->hasUserJoined());
+        $this->assertTrue($aMeeting->hasUserJoined());
         $this->assertEquals(14, $aMeeting->getMaxUsers());
         $this->assertEquals(1, $aMeeting->getModeratorCount());
         $this->assertEquals('Consuelo Gleichner IV', $aMeeting->getMetas()['presenter']);
         $this->assertEquals('http://www.muller.biz/autem-dolor-aut-nam-doloribus-molestiae', $aMeeting->getMetas()['endcallbackurl']);
+        $this->assertFalse($aMeeting->isBreakout());
     }
 
     public function testGetMeetingsResponseTypes(): void

@@ -21,11 +21,10 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class DeleteRecordingsResponseTest extends TestCase
 {
@@ -35,7 +34,9 @@ class DeleteRecordingsResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'delete_recordings.xml');
+        $fixtures = new Fixtures();
+
+        $xml = $fixtures->fromXmlFile('delete_recordings.xml');
 
         $this->delete = new DeleteRecordingsResponse($xml);
     }

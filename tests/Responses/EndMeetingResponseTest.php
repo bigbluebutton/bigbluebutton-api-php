@@ -21,11 +21,10 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class EndMeetingResponseTest extends TestCase
 {
@@ -35,7 +34,9 @@ class EndMeetingResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xml = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'end_meeting.xml');
+        $fixtures = new Fixtures();
+
+        $xml = $fixtures->fromXmlFile('end_meeting.xml');
 
         $this->end = new EndMeetingResponse($xml);
     }

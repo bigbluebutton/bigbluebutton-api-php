@@ -21,11 +21,10 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class GetRecordingsTextTracksResponseTest extends TestCase
 {
@@ -34,7 +33,10 @@ class GetRecordingsTextTracksResponseTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $json = $this->loadJsonFile(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'get_recording_text_tracks.json');
+
+        $fixtures = new Fixtures();
+
+        $json = $fixtures->fromJsonFile('get_recording_text_tracks.json');
 
         $this->tracks = new GetRecordingTextTracksResponse($json);
     }

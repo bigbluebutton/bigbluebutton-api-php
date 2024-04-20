@@ -18,14 +18,12 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Util;
+namespace BigBlueButton\TestServices;
 
 use BigBlueButton\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class ParamsIterator extends TestCase
 {

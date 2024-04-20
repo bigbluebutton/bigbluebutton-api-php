@@ -27,9 +27,9 @@ use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
-use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
+use BigBlueButton\TestServices\Fixtures;
 use Faker\Factory as Faker;
 use Faker\Generator;
 
@@ -37,8 +37,6 @@ use Faker\Generator;
  * Class TestCase.
  *
  * @internal
- *
- * @coversNothing
  */
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -143,8 +141,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function createRealMeeting(BigBlueButton $bbb): CreateMeetingResponse
     {
-        $createMeetingParams = $this->generateCreateParams();
-        $createMeetingMock   = $this->getCreateMock($createMeetingParams);
+        $createMeetingMock = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
 
         return $bbb->createMeeting($createMeetingMock);
     }
@@ -397,60 +394,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function updateRecordings(BigBlueButton $bbb): UpdateRecordingsResponse
     {
-        $updateRecordingsParams = $this->generateUpdateRecordingsParams();
-        $updateRecordingsMock   = $this->getUpdateRecordingsParamsMock($updateRecordingsParams);
+        $updateRecordingsParams = Fixtures::generateUpdateRecordingsParams();
+        $updateRecordingsMock   = Fixtures::getUpdateRecordingsParamsMock($updateRecordingsParams);
 
         return $bbb->updateRecordings($updateRecordingsMock);
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    protected function generateUpdateRecordingsParams(): array
-    {
-        return [
-            'recordingId'    => $this->faker->uuid,
-            'meta_presenter' => $this->faker->name,
-        ];
-    }
-
-    /**
-     * @param array<string, string> $params
-     */
-    protected function getUpdateRecordingsParamsMock(array $params): UpdateRecordingsParameters
-    {
-        $updateRecordingsParams = new UpdateRecordingsParameters($params['recordingId']);
-
-        return $updateRecordingsParams->addMeta('presenter', $params['meta_presenter']);
-    }
-
-    // Load fixtures
-    protected function loadXmlFile(string $path): \SimpleXMLElement
-    {
-        $content = file_get_contents($path);
-
-        if (!$content) {
-            throw new \RuntimeException('Content of file could not be loaded.');
-        }
-
-        $xml = simplexml_load_string($content);
-
-        if (!$xml) {
-            throw new \RuntimeException('Content could not be converted to XML.');
-        }
-
-        return $xml;
-    }
-
-    protected function loadJsonFile(string $path): string
-    {
-        $content = file_get_contents($path);
-
-        if (!$content) {
-            throw new \RuntimeException('Content of file could not be loaded.');
-        }
-
-        return $content;
     }
 
     protected function minifyString(string $string): string

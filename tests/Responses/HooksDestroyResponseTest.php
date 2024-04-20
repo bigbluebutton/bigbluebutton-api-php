@@ -21,11 +21,10 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class HooksDestroyResponseTest extends TestCase
 {
@@ -38,10 +37,12 @@ class HooksDestroyResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xml           = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_destroy.xml');
-        $xmlError      = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_destroy_error.xml');
-        $xmlNotFound   = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_destroy_not_found.xml');
-        $xmlParamsNoId = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_destroy_params_no_id.xml');
+        $fixtures = new Fixtures();
+
+        $xml           = $fixtures->fromXmlFile('hooks_destroy.xml');
+        $xmlError      = $fixtures->fromXmlFile('hooks_destroy_error.xml');
+        $xmlNotFound   = $fixtures->fromXmlFile('hooks_destroy_not_found.xml');
+        $xmlParamsNoId = $fixtures->fromXmlFile('hooks_destroy_params_no_id.xml');
 
         $this->destroyResponse           = new HooksDestroyResponse($xml);
         $this->destroyResponseError      = new HooksDestroyResponse($xmlError);

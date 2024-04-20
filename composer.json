@@ -7,7 +7,7 @@
     "bbb",
     "api"
   ],
-  "homepage": "http://bigbluebutton.org/",
+  "homepage": "https://bigbluebutton.org/",
   "license": "LGPL-3.0-or-later",
   "authors": [
     {
@@ -42,12 +42,12 @@
     "wapmorgan/php-deprecation-detector": "^2.0.33",
     "phpstan/phpstan": "^1.10",
     "tracy/tracy": "2.9",
-    "vlucas/phpdotenv": "^5.6"
+    "vlucas/phpdotenv": "^5.6",
+    "phpunit/php-code-coverage": "9.2.30"
   },
   "scripts": {
     "code-check": "./vendor/bin/phpstan analyse",
-    "test": "./vendor/bin/phpunit",
-    "test-cov": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html coverage",
+    "code-test": "./vendor/bin/phpunit",
     "cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --allow-risky yes",
     "sniffer": "./vendor/bin/phpcs src/",
     "phploc": "./vendor/bin/phploc src/",

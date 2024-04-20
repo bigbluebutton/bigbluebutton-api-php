@@ -594,7 +594,7 @@ class BigBlueButton
         }
 
         if ($httpCode < 200 || $httpCode >= 300) {
-            throw new BadResponseException('Bad response, HTTP code: ' . $httpCode);
+            throw new BadResponseException('Bad response, HTTP code: ' . $httpCode . ', url: ' . $url);
         }
 
         // CLOSE AND UNSET

@@ -21,11 +21,10 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class HooksCreateResponseTest extends TestCase
 {
@@ -38,10 +37,12 @@ class HooksCreateResponseTest extends TestCase
     {
         parent::setUp();
 
-        $xmlCreate         = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_create.xml');
-        $xmlCreateError    = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_create_error.xml');
-        $xmlCreateExisting = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_create_existing.xml');
-        $xmlCreateNoHookId = $this->loadXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'hooks_create_no_hook_id.xml');
+        $fixtures = new Fixtures();
+
+        $xmlCreate         = $fixtures->fromXmlFile('hooks_create.xml');
+        $xmlCreateError    = $fixtures->fromXmlFile('hooks_create_error.xml');
+        $xmlCreateExisting = $fixtures->fromXmlFile('hooks_create_existing.xml');
+        $xmlCreateNoHookId = $fixtures->fromXmlFile('hooks_create_no_hook_id.xml');
 
         $this->createResponseCreate   = new HooksCreateResponse($xmlCreate);
         $this->createResponseError    = new HooksCreateResponse($xmlCreateError);

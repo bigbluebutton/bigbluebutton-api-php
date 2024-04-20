@@ -57,7 +57,7 @@ For every implemented feature add unit tests and check all is green by running t
 
 ```bash
 # using an alias
-$ composer test
+$ composer code-test
 
 # or the same w/o alias
 ./vendor/bin/phpunit
@@ -67,10 +67,20 @@ To run a single test
 
 ```bash
 # using an alias
-$ composer test -- --filter BigBlueButtonTest::testApiVersion
+$ composer code-test -- --filter BigBlueButtonTest::testApiVersion
 
 # or the same w/o alias
 ./vendor/bin/phpunit --filter BigBlueButtonTest::testApiVersion
+```
+A code-coverage report will be created along with the tests. This report will be stored in:
+````
+./var/coverage/
+````
+In case of trouble with the creation of the code-coverage report (e.g. local environment does not fulfill requirements) 
+the creation can be skipped with:
+```bash
+# using an alias
+$ composer code-test -- --no-coverage
 ```
 
 **Remark:**

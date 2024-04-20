@@ -24,8 +24,6 @@ use BigBlueButton\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class EndMeetingParametersTest extends TestCase
 {

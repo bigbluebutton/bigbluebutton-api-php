@@ -27,6 +27,8 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
+use BigBlueButton\TestServices\ParamsIterator;
 
 /**
  * @internal
@@ -144,8 +146,8 @@ class UrlBuilderTest extends TestCase
 
     public function testUpdateRecordingsUrl(): void
     {
-        $params         = $this->generateUpdateRecordingsParams();
-        $url            = $this->urlBuilder->getUpdateRecordingsUrl($this->getUpdateRecordingsParamsMock($params));
+        $params         = Fixtures::generateUpdateRecordingsParams();
+        $url            = $this->urlBuilder->getUpdateRecordingsUrl(Fixtures::getUpdateRecordingsParamsMock($params));
         $paramsIterator = new ParamsIterator();
         $paramsIterator->iterate($params, $url);
     }

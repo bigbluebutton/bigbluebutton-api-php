@@ -24,8 +24,6 @@ use BigBlueButton\TestCase;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class HooksDestroyParametersTest extends TestCase
 {
