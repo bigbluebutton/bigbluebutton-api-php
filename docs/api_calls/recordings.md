@@ -7,7 +7,8 @@
 | [Hooks](../api_calls/hooks.md)
 | [Configuration of the BBB-Server](../api_calls/bbb_config.md)
 ---
-> **WARNING**: Documentation is a bit outdated and currently under review!
+> [!WARNING]
+> Documentation is a bit outdated and currently under review!
 ---
 
 # Recordings
