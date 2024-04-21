@@ -26,8 +26,6 @@ use BigBlueButton\TestCase;
  * Class IsMeetingRunningParametersTest.
  *
  * @internal
- *
- *
  */
 class IsMeetingRunningParametersTest extends TestCase
 {

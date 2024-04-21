@@ -18,7 +18,7 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Util;
+namespace BigBlueButton\TestServices;
 
 use Dotenv\Dotenv;
 
@@ -39,6 +39,7 @@ class EnvLoader
             $envFile = $envFileMain;
         } else {
             $envPath = realpath($envPath);
+
             throw new \RuntimeException("Environment file ('{$envFileMain}' nor '{$envFileLocal}') not found in directory '{$envPath}'!");
         }
 

@@ -21,12 +21,10 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
-use BigBlueButton\Util\Fixtures;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- *
  */
 class UpdateRecordingsParametersTest extends TestCase
 {

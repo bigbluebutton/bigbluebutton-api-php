@@ -22,19 +22,19 @@ namespace BigBlueButton\Parameters;
 
 class HooksDestroyParameters extends BaseParameters
 {
-    private ?string $hookId = null;
+    private int $hookId;
 
-    public function __construct(string $hookId = null)
+    public function __construct(int $hookId)
     {
         $this->hookId = $hookId;
     }
 
-    public function getHookId(): ?string
+    public function getHookId(): int
     {
         return $this->hookId;
     }
 
-    public function setHookId(string $hookId): self
+    public function setHookId(int $hookId): self
     {
         $this->hookId = $hookId;
 

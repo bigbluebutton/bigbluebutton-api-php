@@ -23,12 +23,10 @@ namespace BigBlueButton\Parameters;
 use BigBlueButton\Enum\MeetingLayout;
 use BigBlueButton\Enum\Role;
 use BigBlueButton\TestCase;
-use BigBlueButton\Util\Fixtures;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
- *
- *
  */
 class JoinMeetingParametersTest extends TestCase
 {
@@ -56,8 +54,6 @@ class JoinMeetingParametersTest extends TestCase
         $joinMeetingParams->setExcludeFromDashboard($excludeFromDashboard = $this->faker->boolean);
         $joinMeetingParams->setAvatarURL($avatarUrl = $this->faker->url);
         $joinMeetingParams->setRedirect($redirect = $this->faker->boolean(50));
-        $joinMeetingParams->setClientURL($clientUrl = $this->faker->url);
-        $joinMeetingParams->setConfigToken($configToken = $this->faker->word);
         $joinMeetingParams->setGuest($guest = $this->faker->boolean(50));
         $joinMeetingParams->setDefaultLayout($defaultLayout = $this->faker->randomElement(MeetingLayout::getValues()));
         $this->assertEquals($newId, $joinMeetingParams->getMeetingId());
@@ -67,8 +63,6 @@ class JoinMeetingParametersTest extends TestCase
         $this->assertEquals($excludeFromDashboard, $joinMeetingParams->isExcludeFromDashboard());
         $this->assertEquals($avatarUrl, $joinMeetingParams->getAvatarURL());
         $this->assertEquals($redirect, $joinMeetingParams->isRedirect());
-        $this->assertEquals($clientUrl, $joinMeetingParams->getClientURL());
-        $this->assertEquals($configToken, $joinMeetingParams->getConfigToken());
         $this->assertEquals($guest, $joinMeetingParams->isGuest());
         $this->assertEquals($defaultLayout, $joinMeetingParams->getDefaultLayout());
     }
