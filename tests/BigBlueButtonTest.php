@@ -151,7 +151,7 @@ class BigBlueButtonTest extends TestCase
     {
         $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
 
-        $params->addPresentation('bbb_logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
+        $params->addPresentation('bbb_logo.png', file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png'));
 
         $result = $this->bbb->createMeeting($params);
 
@@ -167,7 +167,7 @@ class BigBlueButtonTest extends TestCase
     {
         $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'presentation.png');
-        $params->addPresentation('logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
+        $params->addPresentation('logo.png', file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png'));
 
         $result = $this->bbb->createMeeting($params);
 

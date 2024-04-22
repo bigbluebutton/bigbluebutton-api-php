@@ -21,16 +21,19 @@
 namespace BigBlueButton\Util;
 
 use BigBlueButton\BigBlueButton;
-use BigBlueButton\Enum\GuestPolicy;
+use BigBlueButton\Core\Hook;
 use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
+use BigBlueButton\Parameters\HooksDestroyParameters;
+use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Responses\BaseResponse;
-use BigBlueButton\Responses\CreateMeetingResponse;
+use BigBlueButton\TestServices\EnvLoader;
+use BigBlueButton\TestServices\Fixtures;
 use Faker\Factory as Faker;
 use PHPUnit\Framework\TestCase;
 use Tracy\Debugger;
@@ -40,9 +43,6 @@ use Tracy\Debugger;
  */
 class FixturesTest extends TestCase
 {
-    /** @var CreateMeetingResponse[] */
-    private array $createMeetingResponseRepository = [];
-
     private BigBlueButton $bbb;
     private Fixtures $fixtures;
 
@@ -55,8 +55,9 @@ class FixturesTest extends TestCase
         $this->bbb      = new BigBlueButton();
         $this->fixtures = new Fixtures();
 
-        $this->closeAllMeetings(); // ensure server is clean (e.g. tearDown not executed due to a previous failed tests)
-        $this->prepareBbbServer();
+        // ensure server is clean (e.g. tearDown() has not been executed due to a previous failed tests)
+        $this->closeAllMeetings();
+        $this->destroyAllHooks();
     }
 
     public function tearDown(): void
@@ -64,59 +65,495 @@ class FixturesTest extends TestCase
         parent::tearDown();
 
         $this->closeAllMeetings();
+        $this->destroyAllHooks();
+    }
+
+    public function testCoverageOfFixtures(): void
+    {
+        // AS-IS: get all XML-file of the current test cases
+        $dataProvider                 = $this->xmlFileToFunctionMapping();
+        $xmlFilenamesFromDataProvider = array_column($dataProvider, 'filename');
+
+        // TO-BE: get all XML-files of the fixtures-folder
+        $absolutePathnames      = glob(Fixtures::RESPONSE_PATH . '*.xml');
+        $xmlFilenamesFromFolder = array_map(function($absolutePathname) {
+            return basename($absolutePathname);
+        }, $absolutePathnames);
+        $xmlFilesThatAreNotTestable = [
+            'hooks_destroy_failed_no_id.xml', // because: It is mandatory to have an id in the destroy constructor
+            'hooks_destroy_failed_error.xml', // because: No idea how to simulate this on a well configured BBB-Server
+            'hooks_create_failed_error.xml',  // because: No idea how to simulate this on a well configured BBB-Server
+        ];
+        $xmlFilenamesFromFolderCleaned = array_diff($xmlFilenamesFromFolder, $xmlFilesThatAreNotTestable);
+
+        // COMPARE AS-IS AND TO-BE
+        $diff = array_diff($xmlFilenamesFromFolderCleaned, $xmlFilenamesFromDataProvider);
+
+        if (!empty($diff)) {
+            self::markTestIncomplete("Not all XML-fixtures are checked regarding correctness:\n - " . implode("\n - ", $diff));
+        }
     }
 
     /**
-     * The purpose of this test is to determine whether the created fixture files still accurately reflect the
+     * Background: A lot of the tests rely on the correctness of the data in the fixture files. If the fixture
+     * files are wrong the tests are not accurate.
+     *
+     * The purpose of this test is to determine whether the created fixture files still reflect accurately the
      * response of the BBB-Server. It serves as an early indicator to determine if tests/functions need updates.
      *
      * @dataProvider xmlFileToFunctionMapping
      */
-    public function testStructureOfFixturesIsStillUpToDate(string $requestFunction, string $filename, ?\Closure $getParameters): void
+    public function testStructureOfFixturesIsStillUpToDate(string $requestFunction, string $filename, bool $success, string $messageKey, ?\Closure $parameters): void
     {
         // get parameters by closure from data provider
-        $parameters = ($getParameters) ? $getParameters($this->createMeetingResponseRepository) : null;
+        $requestParameters = ($parameters) ? $parameters($this->bbb) : null;
 
+        // make the request and get the XML of the response
         /** @var BaseResponse $response */
-        $response = $this->bbb->{$requestFunction}($parameters);
-        $xmlToBe  = $this->fixtures->fromXmlFile($filename);
+        $response = $this->bbb->{$requestFunction}($requestParameters);
         $xmlAsIs  = $response->getRawXml();
 
-        $this->assertEquals('SUCCESS', $response->getReturnCode(), $response->getMessage());
-        $this->assertTrue($response->success(), $response->getMessage());
+        // load the XML of the fixture
+        $xmlToBe = $this->fixtures->fromXmlFile($filename);
+
+        $this->assertEquals($success, $response->success());
+        $this->assertEquals($messageKey, $response->getMessageKey());
         $this->assertInstanceOf(\SimpleXMLElement::class, $xmlAsIs);
         $this->assertInstanceOf(\SimpleXMLElement::class, $xmlToBe);
+
+        /*
+         * There is a bug which prevent proper testing of the attendees. Once meetings are created on
+         * the server, you can join attendees, but by fetching the info of the meeting from the server
+         * the list of attendees is empty. So this needs to excluded temporary from the data that is
+         * coming from the fixture-files until that bug is solved.
+         *
+         * Remark: Once the bug is solved on the BBB-Server (= new Version), there must be a solution
+         *         found to distinguish between versions prior and after the bug in order to keep the
+         *         tests successful.
+         *
+         * @see https://github.com/bigbluebutton/bigbluebutton/issues/19767
+         */
+        if (
+            'get_meeting_info.xml' === $filename
+            || 'get_meeting_info_breakout_room.xml' === $filename
+            || 'get_meeting_info_with_breakout_rooms.xml' === $filename
+        ) {
+            unset($xmlToBe->attendees);         // remove not empty node
+            $xmlToBe->addChild('attendees');    // add empty node
+        }
+
         $this->assertSameStructureOfXml($xmlToBe, $xmlAsIs);
     }
 
-    protected function closeAllMeetings(): void
+    /**
+     * The data provider for the test above.
+     *
+     * @return array<string, array<string, mixed>>
+     */
+    private function xmlFileToFunctionMapping(): array
     {
-        foreach ($this->bbb->getMeetings()->getMeetings() as $meeting) {
+        return [
+            'case01_api_version' => [
+                'function'   => 'getApiVersion',
+                'filename'   => 'api_version.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => null,
+            ],
+            'case02_create_meeting' => [
+                'function'   => 'createMeeting',
+                'filename'   => 'create_meeting.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): CreateMeetingParameters {
+                    $faker = Faker::create();
+
+                    // create and return parameter for test
+                    $createMeetingParameters = new CreateMeetingParameters();
+
+                    return $createMeetingParameters
+                        ->setMeetingId($faker->uuid)
+                        ->setMeetingName('Meeting Room (case 02)')
+                    ;
+                },
+            ],
+            'case03_join_meeting' => [
+                'function'   => 'joinMeeting',
+                'filename'   => 'join_meeting.xml',
+                'success'    => true,
+                'messageKey' => 'successfullyJoined',
+                'parameters' => function(BigBlueButton $bbb): JoinMeetingParameters {
+                    $faker = Faker::create();
+
+                    // arrange the BBB-server
+                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 03)');
+                    $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
+                    self::assertTrue($createMeetingResponse->success());
+                    self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
+
+                    // create and return parameter for test
+                    $joinMeetingParameters = new JoinMeetingParameters();
+
+                    return $joinMeetingParameters
+                        ->setMeetingId($createMeetingResponse->getMeetingId())
+                        ->setCreationTime($createMeetingResponse->getCreationTime())
+                        ->setUserId($faker->uuid)
+                        ->setUsername($faker->name)
+                        ->setRole(Role::VIEWER)
+                        ->setRedirect(false)
+                    ;
+                },
+            ],
+            'case04_end_meeting' => [
+                'function'   => 'endMeeting',
+                'filename'   => 'end_meeting.xml',
+                'success'    => true,
+                'messageKey' => 'sentEndMeetingRequest',
+                'parameters' => function(BigBlueButton $bbb): EndMeetingParameters {
+                    $faker = Faker::create();
+
+                    // arrange the BBB-server
+                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 04)');
+                    $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
+                    self::assertTrue($createMeetingResponse->success());
+                    self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
+
+                    // create and return parameter for test
+                    $endMeetingParameters = new EndMeetingParameters();
+
+                    return $endMeetingParameters->setMeetingId($createMeetingResponse->getMeetingId());
+                },
+            ],
+            'case05_is_meeting_running' => [
+                'function'   => 'isMeetingRunning',
+                'filename'   => 'is_meeting_running.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): IsMeetingRunningParameters {
+                    $faker = Faker::create();
+
+                    // arrange the BBB-server
+                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 05)');
+                    $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
+                    self::assertTrue($createMeetingResponse->success());
+                    self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
+
+                    // create and return parameter for test
+                    $isMeetingRunningParameters = new IsMeetingRunningParameters();
+
+                    return $isMeetingRunningParameters->setMeetingId($createMeetingResponse->getMeetingId());
+                },
+            ],
+            'case06_list_of_meetings' => [
+                'function'   => 'getMeetings',
+                'filename'   => 'get_meetings.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): void {
+                    $faker = Faker::create();
+
+                    // arrange the BBB-server
+
+                    // create meeting room
+                    $createMeetingParametersParent = new CreateMeetingParameters($faker->uuid, 'Meeting Room 1 (case 06)');
+                    $createMeetingParametersParent
+                        ->addMeta('endcallbackurl', $faker->url)
+                        ->addMeta('presenter', $faker->name)
+                    ;
+                    $createMeetingResponseParent = $bbb->createMeeting($createMeetingParametersParent);
+                    self::assertTrue($createMeetingResponseParent->success());
+                    self::assertEquals('bbb-none', $createMeetingResponseParent->getParentMeetingId());
+
+                    // create breakout room
+                    $createMeetingParametersChild = new CreateMeetingParameters($faker->uuid, 'Breakout Room (case 06)');
+                    $createMeetingParametersChild
+                        ->addMeta('endcallbackurl', $faker->url)
+                        ->addMeta('presenter', $faker->name)
+                    ;
+                    $createMeetingParametersChild->setParentMeetingId($createMeetingResponseParent->getMeetingId())->setBreakout(true)->setSequence(1);
+                    $createMeetingResponseChild = $bbb->createMeeting($createMeetingParametersChild);
+                    self::assertTrue($createMeetingResponseChild->success(), $createMeetingResponseChild->getMessage());
+                    self::assertEquals('', $createMeetingResponseChild->getMessage());
+                    self::assertNotEquals('bbb-none', $createMeetingResponseChild->getParentMeetingId());
+                    self::assertEquals($createMeetingResponseParent->getInternalMeetingId(), $createMeetingResponseChild->getParentMeetingId());
+                },
+            ],
+            'case07_meeting_info_of_meeting_without_breakout_rooms' => [
+                'function'   => 'getMeetingInfo',
+                'filename'   => 'get_meeting_info.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): GetMeetingInfoParameters {
+                    $faker = Faker::create();
+
+                    // arrange the BBB-server
+                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room 1 (case 07)');
+                    $createMeetingParameters
+                        ->addMeta('bbb-context', $faker->word)
+                        ->addMeta('bbb-origin-server-common-name', $faker->word)
+                        ->addMeta('bbb-origin-server-name', $faker->word)
+                        ->addMeta('bbb-origin-tag', $faker->word)
+                        ->addMeta('bbb-origin-version', $faker->word)
+                        ->addMeta('bbb-recording-description', $faker->word)
+                        ->addMeta('bbb-recording-name', $faker->word)
+                        ->addMeta('bbb-recording-tags', $faker->word)
+                        ->addMeta('bn-origin', $faker->word)
+                        ->addMeta('bn-recording-ready-url', $faker->word)
+                    ;
+
+                    $createMeetingResponse = $bbb->createMeeting($createMeetingParameters);
+                    self::assertTrue($createMeetingResponse->success());
+                    self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
+
+                    // create and return parameter for test
+                    $getMeetingInfoParameters = new GetMeetingInfoParameters();
+
+                    return $getMeetingInfoParameters->setMeetingId($createMeetingResponse->getMeetingId());
+                },
+            ],
+            'case08_meeting_info_of_breakout_room' => [
+                'function'   => 'getMeetingInfo',
+                'filename'   => 'get_meeting_info_breakout_room.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): GetMeetingInfoParameters {
+                    $faker = Faker::create();
+
+                    // create meeting room
+                    $createMeetingParametersParent = new CreateMeetingParameters($faker->uuid, 'Meeting Room 1 (case 08)');
+                    $createMeetingResponseParent   = $bbb->createMeeting($createMeetingParametersParent);
+                    self::assertTrue($createMeetingResponseParent->success());
+                    self::assertEquals('bbb-none', $createMeetingResponseParent->getParentMeetingId());
+
+                    // create breakout room
+                    $createMeetingParametersChild = new CreateMeetingParameters($faker->uuid, 'Breakout Room (case 08)');
+                    $createMeetingParametersChild
+                        ->addMeta('bbb-context', $faker->word)
+                        ->setParentMeetingId($createMeetingResponseParent->getMeetingId())
+                        ->setBreakout(true)
+                        ->setSequence(1)
+                    ;
+                    $createMeetingResponseChild = $bbb->createMeeting($createMeetingParametersChild);
+                    self::assertTrue($createMeetingResponseChild->success(), $createMeetingResponseChild->getMessage());
+                    self::assertEquals('', $createMeetingResponseChild->getMessage());
+                    self::assertNotEquals('bbb-none', $createMeetingResponseChild->getParentMeetingId());
+                    self::assertEquals($createMeetingResponseParent->getInternalMeetingId(), $createMeetingResponseChild->getParentMeetingId());
+
+                    // create and return parameter for test
+                    $getMeetingInfoParameters = new GetMeetingInfoParameters();
+
+                    return $getMeetingInfoParameters->setMeetingId($createMeetingResponseChild->getInternalMeetingId());
+                },
+            ],
+            'case09_meeting_info_of_meeting_with_breakout_rooms' => [
+                'function'   => 'getMeetingInfo',
+                'filename'   => 'get_meeting_info_with_breakout_rooms.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): GetMeetingInfoParameters {
+                    $faker = Faker::create();
+
+                    // create meeting room
+                    $createMeetingParametersParent = new CreateMeetingParameters($faker->uuid, 'Meeting Room 1 (case 09)');
+                    $createMeetingParametersParent
+                        ->addMeta('endcallbackurl', $faker->url)
+                        ->addMeta('presenter', $faker->name)
+                    ;
+                    $createMeetingResponseParent = $bbb->createMeeting($createMeetingParametersParent);
+                    self::assertTrue($createMeetingResponseParent->success());
+                    self::assertEquals('bbb-none', $createMeetingResponseParent->getParentMeetingId());
+
+                    // create breakout room
+                    $createMeetingParametersChild = new CreateMeetingParameters($faker->uuid, 'Breakout Room (case 09)');
+                    $createMeetingParametersChild
+                        ->setParentMeetingId($createMeetingResponseParent->getMeetingId())
+                        ->setBreakout(true)
+                        ->setSequence(1)
+                    ;
+                    $createMeetingResponseChild = $bbb->createMeeting($createMeetingParametersChild);
+                    self::assertTrue($createMeetingResponseChild->success(), $createMeetingResponseChild->getMessage());
+                    self::assertEquals('', $createMeetingResponseChild->getMessage());
+                    self::assertNotEquals('bbb-none', $createMeetingResponseChild->getParentMeetingId());
+                    self::assertEquals($createMeetingResponseParent->getInternalMeetingId(), $createMeetingResponseChild->getParentMeetingId());
+
+                    // create and return parameter for test
+                    return new GetMeetingInfoParameters($createMeetingResponseParent->getMeetingId());
+                },
+            ],
+            'case10_hooks_create' => [
+                'function'   => 'hooksCreate',
+                'filename'   => 'hooks_create.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): HooksCreateParameters {
+                    $faker = Faker::create();
+
+                    // create and return parameter for test
+                    return new HooksCreateParameters($faker->url);
+                },
+            ],
+            'case11_hooks_create_existing' => [
+                'function'   => 'hooksCreate',
+                'filename'   => 'hooks_create_existing.xml',
+                'success'    => true,
+                'messageKey' => 'duplicateWarning',
+                'parameters' => function(BigBlueButton $bbb): HooksCreateParameters {
+                    $faker = Faker::create();
+                    $url   = $faker->url;
+
+                    // create hook
+                    $hooksCreateParameters = new HooksCreateParameters($url);
+                    $hooksCreateResponse   = $bbb->hooksCreate($hooksCreateParameters);
+                    self::assertTrue($hooksCreateResponse->success());
+
+                    // create and return parameter for test
+                    return new HooksCreateParameters($url);
+                },
+            ],
+            'case12_hooks_list' => [
+                'function'   => 'hooksList',
+                'filename'   => 'hooks_list.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): void {
+                    $faker = Faker::create();
+
+                    // create meeting
+                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 12)');
+                    $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
+                    self::assertTrue($createMeetingResponse->success());
+                    self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
+
+                    // create hook #1 (with meeting)
+                    $hooksCreateParameters = new HooksCreateParameters($faker->url);
+                    $hooksCreateParameters->setMeetingId($createMeetingResponse->getMeetingId());
+                    $hooksCreateResponse_2 = $bbb->hooksCreate($hooksCreateParameters);
+                    self::assertTrue($hooksCreateResponse_2->success());
+
+                    // create hook #2 (w/o meeting)
+                    $hooksCreateParameters = new HooksCreateParameters($faker->url);
+                    $hooksCreateResponse_1 = $bbb->hooksCreate($hooksCreateParameters);
+                    self::assertTrue($hooksCreateResponse_1->success());
+                },
+            ],
+            'case13_hooks_destroy' => [
+                'function'   => 'hooksDestroy',
+                'filename'   => 'hooks_destroy.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
+                    $faker = Faker::create();
+
+                    // create hook
+                    $hooksCreateParameters = new HooksCreateParameters($faker->url);
+                    $hooksCreateResponse   = $bbb->hooksCreate($hooksCreateParameters);
+                    self::assertTrue($hooksCreateResponse->success());
+                    self::assertIsInt($hooksCreateResponse->getHookId());
+
+                    // create and return parameter for test
+                    return new HooksDestroyParameters($hooksCreateResponse->getHookId());
+                },
+            ],
+            'case14_hooks_destroy_not_found' => [
+                'function'   => 'hooksDestroy',
+                'filename'   => 'hooks_destroy_failed_not_found.xml',
+                'success'    => false,
+                'messageKey' => 'destroyMissingHook',
+                'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
+                    $faker = Faker::create();
+
+                    // create and return parameter for test
+                    return new HooksDestroyParameters($faker->numberBetween());
+                },
+            ],
+            'case15_insert_document' => [
+                'function'   => 'insertDocument',
+                'filename'   => 'insert_document.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): InsertDocumentParameters {
+                    $faker = Faker::create();
+
+                    // arrange the BBB-server
+                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 05)');
+                    $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
+                    self::assertTrue($createMeetingResponse->success());
+                    self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
+
+                    // create and return parameter for test
+                    $insertDocumentParameters = new InsertDocumentParameters($createMeetingResponse->getMeetingId());
+
+                    $insertDocumentParameters
+                        ->addPresentation('https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf')
+                        ->addPresentation('https://freetestdata.com/wp-content/uploads/2022/02/Free_Test_Data_117KB_JPG.jpg')
+                        ->addPresentation('https://freetestdata.com/wp-content/uploads/2021/09/500kb.png')
+                        ->addPresentation('https://freetestdata.com/wp-content/uploads/2021/09/1.svg')
+                    ;
+
+                    return $insertDocumentParameters;
+                },
+            ],
+        ];
+    }
+
+    private function closeAllMeetings(): void
+    {
+        $meetings = $this->bbb->getMeetings()->getMeetings();
+
+        foreach ($meetings as $meeting) {
             $meetingId          = $meeting->getInternalMeetingId();
             $endMeetingResponse = $this->bbb->endMeeting(new EndMeetingParameters($meetingId));
             self::assertEquals('SUCCESS', $endMeetingResponse->getReturnCode(), $endMeetingResponse->getMessage());
             self::assertTrue($endMeetingResponse->success());
             self::assertEquals('sentEndMeetingRequest', $endMeetingResponse->getMessageKey());
         }
+
+        // ensure that no meetings exist anymore
+        self::assertEmpty($this->bbb->getMeetings()->getMeetings());
     }
 
-    private function assertSameStructureOfXml(\SimpleXMLElement $xml1, \SimpleXMLElement $xml2): void
+    private function destroyAllHooks(): void
     {
-        $array1 = $this->getStructureOfXmlAsArray($xml1);
-        $array2 = $this->getStructureOfXmlAsArray($xml2);
+        $hooks = $this->bbb->hooksList()->getHooks();
 
-        // Debugger::dump($xml1);
-        // Debugger::dump($xml2);
-        // Debugger::dump($array1);
-        // Debugger::dump($array2);
+        foreach ($hooks as $hook) {
+            self::assertInstanceOf(Hook::class, $hook);
+            $hookId               = $hook->getHookId();
+            $hooksDestroyResponse = $this->bbb->hooksDestroy(new HooksDestroyParameters($hookId));
+            self::assertEquals('SUCCESS', $hooksDestroyResponse->getReturnCode(), $hooksDestroyResponse->getMessage());
+            self::assertTrue($hooksDestroyResponse->success());
+            self::assertEquals('', $hooksDestroyResponse->getMessageKey());
+        }
 
-        $this->assertEqualsCanonicalizing($array1, $array2);
+        // ensure that no hooks exist anymore
+        self::assertEmpty($this->bbb->hooksList()->getHooks());
+    }
+
+    private function assertSameStructureOfXml(\SimpleXMLElement $xmlToBe, \SimpleXMLElement $xmlAsIs): void
+    {
+        $arrayToBe = $this->getStructureOfXmlAsArray($xmlToBe);
+        $arrayAsIs = $this->getStructureOfXmlAsArray($xmlAsIs);
+
+        $expectedItemsMissingInResponse = array_diff($arrayToBe, $arrayAsIs);
+        $respondedItemsNotExpected      = array_diff($arrayAsIs, $arrayToBe);
+
+        $this->assertEqualsCanonicalizing(
+            $arrayToBe,
+            $arrayAsIs,
+            "Details:\n\n" .
+            'Missing items in response: ' . implode('; ', $expectedItemsMissingInResponse) . "\n\n" .
+            'Missing items in the file: ' . implode('; ', $respondedItemsNotExpected) . "\n\n"
+        );
     }
 
     /**
      * Recursive function to flatten an array, which shall represent the structure of an
      * element. For this, arrays that contain several children (= array with sequential
      * numbers as keys) will get a list of unique attributes across all children.
+     *
+     * @param array<string, mixed> $array
+     *
+     * @return array<string, mixed>
      */
     private function flattenArray(array $array, string $prefix = ''): array
     {
@@ -167,7 +604,9 @@ class FixturesTest extends TestCase
     /**
      * Function that helps to determine if an array is sequential or associative.
      *
-     * Remark: With 8.1 function can be replaced with 'array_is_list'.
+     * Remark: With PHP 8.1 this function can be replaced by 'array_is_list'.
+     *
+     * @param array<int|string, mixed> $array
      */
     private function isAssociativeArray(array $array): bool
     {
@@ -178,287 +617,25 @@ class FixturesTest extends TestCase
         return true;
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function getStructureOfXmlAsArray(\SimpleXMLElement $xml): array
     {
         // transform XML to ARRAY (via JSON)
-        $json  = json_encode($xml);
+        $json = json_encode($xml);
+        self::assertIsString($json);
         $array = json_decode($json, true);
 
-        // flatten multidimensional array to string-based hierarchic
+        // flatten multidimensional array to string-based hierarchy
         $flattenArray = $this->flattenArray($array);
 
         // only the keys are needed
         $keys = array_keys($flattenArray);
 
-        // bring into order
+        // bring the key into alphabetic order
         sort($keys);
 
         return $keys;
-    }
-
-    private function getChildrenOfXmlAsArray(\SimpleXMLElement $xml): array
-    {
-        $properties = [];
-
-        foreach ($xml as $key => $value) {
-            $properties[] = $key;
-        }
-
-        return $properties;
-    }
-
-    private function xmlFileToFunctionMapping(): array
-    {
-        return [
-            'case01_api_version' => [
-                'function'   => 'getApiVersion',
-                'filename'   => 'api_version.xml',
-                'parameters' => null,
-            ],
-            'case02_create_meeting' => [
-                'function'   => 'createMeeting',
-                'filename'   => 'create_meeting.xml',
-                'parameters' => function(array $creatMeetingResponses): CreateMeetingParameters {
-                    $faker = Faker::create();
-
-                    $createMeetingParameters = new CreateMeetingParameters();
-
-                    return $createMeetingParameters->setMeetingId($faker->uuid)->setMeetingName('case02: ' . $faker->word);
-                },
-            ],
-            'case03_join_meeting' => [
-                'function'   => 'joinMeeting',
-                'filename'   => 'join_meeting.xml',
-                'parameters' => function(array $creatMeetingResponses): JoinMeetingParameters {
-                    $faker = Faker::create();
-
-                    $joinMeetingParameters = new JoinMeetingParameters();
-
-                    /** @var CreateMeetingResponse $createMeetingResponse */
-                    $createMeetingResponse = $creatMeetingResponses['meeting_wo_breakout_rooms'];
-
-                    return $joinMeetingParameters
-                        ->setMeetingId($createMeetingResponse->getMeetingId())
-                        ->setCreationTime($createMeetingResponse->getCreationTime())
-                        ->setUserId($faker->uuid)
-                        ->setUsername($faker->name)
-                        ->setRole(Role::VIEWER)
-                        ->setRedirect(false)
-                    ;
-                },
-            ],
-            'case04_end_meeting' => [
-                'function'   => 'endMeeting',
-                'filename'   => 'end_meeting.xml',
-                'parameters' => function(array $creatMeetingResponses): EndMeetingParameters {
-                    /** @var CreateMeetingResponse $createMeetingResponse */
-                    $createMeetingResponse = $creatMeetingResponses['meeting_wo_breakout_rooms'];
-
-                    $endMeetingParameters = new EndMeetingParameters();
-
-                    return $endMeetingParameters->setMeetingId($createMeetingResponse->getMeetingId());
-                },
-            ],
-            'case05_is_meeting_running' => [
-                'function'   => 'isMeetingRunning',
-                'filename'   => 'is_meeting_running.xml',
-                'parameters' => function(array $creatMeetingResponses): IsMeetingRunningParameters {
-                    $isMeetingRunningParameters = new IsMeetingRunningParameters();
-
-                    /** @var CreateMeetingResponse $createMeetingResponse */
-                    $createMeetingResponse = $creatMeetingResponses['meeting_wo_breakout_rooms'];
-
-                    return $isMeetingRunningParameters->setMeetingId($createMeetingResponse->getMeetingId());
-                },
-            ],
-            'case06_list_of_meetings' => [
-                'function'   => 'getMeetings',
-                'filename'   => 'get_meetings.xml',
-                'parameters' => null,
-            ],
-            'case07_meeting_info_of_meeting_without_breakout_rooms' => [
-                'function'   => 'getMeetingInfo',
-                'filename'   => 'get_meeting_info.xml',
-                'parameters' => function(array $creatMeetingResponses): GetMeetingInfoParameters {
-                    $getMeetingInfoParameters = new GetMeetingInfoParameters();
-
-                    /** @var CreateMeetingResponse $createMeetingResponse */
-                    $createMeetingResponse = $creatMeetingResponses['meeting_wo_breakout_rooms'];
-
-                    return $getMeetingInfoParameters->setMeetingId($createMeetingResponse->getMeetingId());
-                },
-            ],
-            'case08_meeting_info_of_breakout_room' => [
-                'function'   => 'getMeetingInfo',
-                'filename'   => 'get_meeting_info_breakout_room.xml',
-                'parameters' => function(array $creatMeetingResponses): GetMeetingInfoParameters {
-                    $getMeetingInfoParameters = new GetMeetingInfoParameters();
-
-                    /** @var CreateMeetingResponse $createMeetingResponse */
-                    $createMeetingResponse = $creatMeetingResponses['breakout_room_A'];
-
-                    return $getMeetingInfoParameters->setMeetingId($createMeetingResponse->getInternalMeetingId());
-                },
-            ],
-            'case09_meeting_info_of_meeting_with_breakout_rooms' => [
-                'function'   => 'getMeetingInfo',
-                'filename'   => 'get_meeting_info_with_breakout_rooms.xml',
-                'parameters' => function(array $creatMeetingResponses): GetMeetingInfoParameters {
-                    $getMeetingInfoParameters = new GetMeetingInfoParameters();
-
-                    /** @var CreateMeetingResponse $createMeetingResponse */
-                    $createMeetingResponse = $creatMeetingResponses['meeting_with_breakout_rooms'];
-
-                    return $getMeetingInfoParameters->setMeetingId($createMeetingResponse->getMeetingId());
-                },
-            ],
-            /*
-            'case10_hooks_create' => [
-                'function'   => 'hooksCreate',
-                'filename'   => 'hooks_create.xml',
-                'parameters' => function(array $creatMeetingResponses): HooksCreateParameters {
-                    $faker = Faker::create();
-
-                    return new HooksCreateParameters('https://bbb-123.requestcatcher.com/');
-                },
-            ],
-            */
-            /*
-            'case11_hooks_list' => [
-                'function'   => 'hooksList',
-                'filename'   => null,
-                'parameters' => null,
-            ],
-            'case12_hooks_destroy' => [
-                'function'   => 'hooksDestroy',
-                'filename'   => null,
-                'parameters' => null,
-            ],
-            */
-        ];
-    }
-
-    /**
-     * Create items on a real BBB-Sever:
-     *  a) Meeting #1: A meeting without breakout rooms
-     *  b) Meeting #2: A meeting containing two breakout rooms
-     *  c) Meeting #3: Breakout Room #A of Meeting #2
-     *  c) Meeting #4: Breakout Room #B of Meeting #2
-     */
-    private function prepareBbbServer(): void
-    {
-        $faker = Faker::create();
-
-        // create meeting room #1 (no breakout rooms inside)
-        $createMeetingParameters_mr1 = new CreateMeetingParameters($faker->uuid, 'Meeting Room #1');
-        $createMeetingParameters_mr1->addMeta('endcallbackurl', $faker->url);
-        $createMeetingParameters_mr1->addMeta('presenter', $faker->name);
-        $createMeetingResponse_mr1 = $this->bbb->createMeeting($createMeetingParameters_mr1);
-        self::assertEquals('SUCCESS', $createMeetingResponse_mr1->getReturnCode());
-        self::assertTrue($createMeetingResponse_mr1->success());
-        self::assertEquals('bbb-none', $createMeetingResponse_mr1->getParentMeetingId());
-        $this->createMeetingResponseRepository['meeting_wo_breakout_rooms'] = $createMeetingResponse_mr1;
-
-        // create meeting room #2 (two breakout rooms inside)
-        $createMeetingParameters_mr2 = new CreateMeetingParameters($faker->uuid, 'Meeting Room #2');
-        $createMeetingParameters_mr2->addMeta('endcallbackurl', $faker->url);
-        $createMeetingParameters_mr2->addMeta('presenter', $faker->name);
-        $createMeetingParameters_mr2->setBreakoutRoomsEnabled(true);
-        self::assertTrue($createMeetingParameters_mr2->isBreakoutRoomsEnabled());
-        $createMeetingResponse_mr2 = $this->bbb->createMeeting($createMeetingParameters_mr2);
-        self::assertEquals('SUCCESS', $createMeetingResponse_mr2->getReturnCode());
-        self::assertTrue($createMeetingResponse_mr2->success());
-        self::assertEquals('bbb-none', $createMeetingResponse_mr2->getParentMeetingId());
-        $this->createMeetingResponseRepository['meeting_with_breakout_rooms'] = $createMeetingResponse_mr2;
-
-        // create breakout rooms #A
-        $createMeetingParameters_brA = new CreateMeetingParameters($faker->uuid, 'Breakout Room #A');
-        $createMeetingParameters_brA->setParentMeetingId($createMeetingResponse_mr2->getMeetingId())->setBreakout(true)->setSequence(1);
-        $createMeetingResponse_brA = $this->bbb->createMeeting($createMeetingParameters_brA);
-        self::assertEquals('SUCCESS', $createMeetingResponse_brA->getReturnCode(), $createMeetingResponse_brA->getMessage());
-        self::assertTrue($createMeetingResponse_brA->success());
-        self::assertEquals('', $createMeetingResponse_brA->getMessage());
-        self::assertNotEquals('bbb-none', $createMeetingResponse_brA->getParentMeetingId());
-        self::assertEquals($createMeetingResponse_mr2->getInternalMeetingId(), $createMeetingResponse_brA->getParentMeetingId());
-        $this->createMeetingResponseRepository['breakout_room_A'] = $createMeetingResponse_brA;
-
-        // create breakout rooms #B
-        $createMeetingParameters_brB = new CreateMeetingParameters($faker->uuid, 'Breakout Room #B');
-        $createMeetingParameters_brB->setParentMeetingId($createMeetingResponse_mr2->getMeetingId())->setBreakout(true)->setSequence(2);
-        $createMeetingResponse_brB = $this->bbb->createMeeting($createMeetingParameters_brB);
-        self::assertEquals('SUCCESS', $createMeetingResponse_brB->getReturnCode(), $createMeetingResponse_brB->getMessage());
-        self::assertTrue($createMeetingResponse_brB->success());
-        self::assertEquals('', $createMeetingResponse_brB->getMessage());
-        self::assertNotEquals('bbb-none', $createMeetingResponse_brB->getParentMeetingId());
-        self::assertEquals($createMeetingResponse_mr2->getInternalMeetingId(), $createMeetingResponse_brB->getParentMeetingId());
-        $this->createMeetingResponseRepository['breakout_room_B'] = $createMeetingResponse_brB;
-
-        // check breakout room #A
-        $getMeetingInfoParameters_brA = new GetMeetingInfoParameters($createMeetingResponse_brA->getInternalMeetingId());
-        $getMeetingInfoResponse_brA   = $this->bbb->getMeetingInfo($getMeetingInfoParameters_brA);
-        self::assertEquals('SUCCESS', $getMeetingInfoResponse_brA->getReturnCode(), $getMeetingInfoResponse_brA->getMessage());
-        self::assertTrue($getMeetingInfoResponse_brA->success());
-        self::assertTrue($getMeetingInfoResponse_brA->getMeeting()->isBreakout());
-        self::assertEquals($createMeetingResponse_brA->getParentMeetingId(), $getMeetingInfoResponse_brA->getRawXml()->parentMeetingID->__toString());   // not covered yet by a function
-
-        // check breakout room #B
-        $getMeetingInfoParameters_brB = new GetMeetingInfoParameters($createMeetingResponse_brB->getInternalMeetingId());
-        $getMeetingInfoResponse_brB   = $this->bbb->getMeetingInfo($getMeetingInfoParameters_brB);
-        self::assertEquals('SUCCESS', $getMeetingInfoResponse_brB->getReturnCode(), $getMeetingInfoResponse_brB->getMessage());
-        self::assertTrue($getMeetingInfoResponse_brB->success());
-        self::assertTrue($getMeetingInfoResponse_brB->getMeeting()->isBreakout());
-        self::assertEquals($createMeetingResponse_brB->getParentMeetingId(), $getMeetingInfoResponse_brB->getRawXml()->parentMeetingID->__toString());   // not covered yet by a function
-
-        // check meeting room #2
-        $getMeetingInfoParameters_mr2 = new GetMeetingInfoParameters($createMeetingResponse_mr2->getMeetingId());
-        $getMeetingInfoResponse_mr2   = $this->bbb->getMeetingInfo($getMeetingInfoParameters_mr2);
-        self::assertEquals('SUCCESS', $getMeetingInfoResponse_mr2->getReturnCode(), $getMeetingInfoResponse_mr2->getMessage());
-        self::assertTrue($getMeetingInfoResponse_mr2->success());
-        self::assertFalse($getMeetingInfoResponse_mr2->getMeeting()->isBreakout());
-        self::assertCount(2, $getMeetingInfoResponse_mr2->getRawXml()->breakoutRooms->breakout);  // not covered yet by a function
-        self::assertArrayHasKey('presenter', $getMeetingInfoResponse_mr2->getMeeting()->getMetas());
-        self::assertArrayHasKey('endcallbackurl', $getMeetingInfoResponse_mr2->getMeeting()->getMetas());
-
-        // join MODERATOR into meeting room #1
-        $joinMeetingParameters = new JoinMeetingParameters($createMeetingResponse_mr1->getMeetingId(), $faker->name, Role::MODERATOR);
-        $joinMeetingParameters->setRedirect(false);
-        $joinMeetingResponse = $this->bbb->joinMeeting($joinMeetingParameters);
-        self::assertEquals('SUCCESS', $joinMeetingResponse->getReturnCode(), $joinMeetingResponse->getMessage());
-        self::assertTrue($joinMeetingResponse->success());
-        self::assertIsString($joinMeetingResponse->getUserId());
-        self::assertEquals('successfullyJoined', $joinMeetingResponse->getMessageKey());
-        self::assertEquals('You have joined successfully.', $joinMeetingResponse->getMessage());
-
-        // check meeting room #1
-        $getMeetingInfoParameters_mr1 = new GetMeetingInfoParameters($createMeetingResponse_mr1->getMeetingId());
-        $getMeetingInfoResponse_mr1   = $this->bbb->getMeetingInfo($getMeetingInfoParameters_mr1);
-        self::assertEquals('SUCCESS', $getMeetingInfoResponse_mr1->getReturnCode(), $getMeetingInfoResponse_mr1->getMessage());
-        self::assertTrue($getMeetingInfoResponse_mr1->success());
-        self::assertFalse($getMeetingInfoResponse_mr1->getMeeting()->isBreakout());
-        self::assertNull($getMeetingInfoResponse_mr1->getRawXml()->breakoutRooms->breakout);  // not covered yet by a function
-        self::assertArrayHasKey('presenter', $getMeetingInfoResponse_mr1->getMeeting()->getMetas());
-        self::assertArrayHasKey('endcallbackurl', $getMeetingInfoResponse_mr1->getMeeting()->getMetas());
-
-
-        /*
-        // create hook (basic)
-        $callBackUrl = 'https://bbb.website.com/hook/catcher';
-        $callBackUrl = '123';
-
-        // create hook (manual)
-        $parameters = ['callbackURL' => $callBackUrl];
-        $secret     = getenv('BBB_SECRET');
-        $base       = getenv('BBB_SERVER_BASE_URL');
-        $queryBuild = http_build_query($parameters);
-        $checksum   = hash('sha256', 'hooks/create' . $queryBuild . $secret);
-        $url_manual = $base . 'api/hooks/create?' . $queryBuild . '&checksum=' . $checksum;
-
-        // create hook (normal)
-        $hooksCreateParameters = new HooksCreateParameters($callBackUrl);
-        $url                   = $this->bbb->getHooksCreateUrl($hooksCreateParameters);
-        self::assertEquals($url, $url_manual);
-        $response = $this->bbb->hooksCreate($hooksCreateParameters);
-        self::assertEquals('SUCCESS', $response->getReturnCode(), $response->getMessage() . ' / url: ' . $url);
-        */
     }
 }

@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use Tracy\Debugger;
+
 trait DocumentableTrait
 {
     /**
@@ -37,10 +39,18 @@ trait DocumentableTrait
 
     /**
      * @param mixed $content
+     * @throws \Exception
      */
     public function addPresentation(string $nameOrUrl, $content = null, ?string $filename = null): self
     {
         if (!$filename) {
+            if (0 === mb_strpos($nameOrUrl, 'http')) {
+                $isExisting = $this->urlExists($nameOrUrl);
+
+                if (!$isExisting) {
+                    throw new \Exception('Resource not found: ' . $nameOrUrl);
+                }
+            }
             $this->presentations[$nameOrUrl] = !$content ?: base64_encode($content);
         } else {
             $this->presentations[$nameOrUrl] = $filename;
@@ -79,5 +89,25 @@ trait DocumentableTrait
         }
 
         return $result;
+    }
+
+    private function urlExists(string $url): bool
+    {
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $data     = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        if ($httpCode >= 200 && $httpCode < 400) {
+            return true;
+        }
+
+        return false;
     }
 }

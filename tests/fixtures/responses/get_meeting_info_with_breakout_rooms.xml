@@ -73,22 +73,14 @@
             <customdata></customdata>
         </attendee>
     </attendees>
-    <isBreakout>true</isBreakout>
-    <parentMeetingID>ParentMeetingId</parentMeetingID>
-    <sequence>1</sequence>
-    <freeJoin>false</freeJoin>
+    <isBreakout>false</isBreakout>
+    <breakoutRooms>
+        <breakout>breakout-room-id-1</breakout>
+        <breakout>breakout-room-id-2</breakout>
+        <breakout>breakout-room-id-3</breakout>
+    </breakoutRooms>
     <metadata>
-        <bbb-context>Best BBB Developers Club</bbb-context>
-        <bn-origin>Moodle</bn-origin>
-        <bn-recording-ready-url>
-            http://bigbluebutton.org/moodle/mod/bigbluebuttonbn/bbb_broker.php?action=recording_ready
-        </bn-recording-ready-url>
-        <bbb-origin-tag>moodle-mod_bigbluebuttonbn (2015080609)</bbb-origin-tag>
-        <bbb-origin-version>3.0.2 (Build: 20160111)</bbb-origin-version>
-        <bbb-origin-server-common-name></bbb-origin-server-common-name>
-        <bbb-origin-server-name>bigbluebutton.org</bbb-origin-server-name>
-        <bbb-recording-description></bbb-recording-description>
-        <bbb-recording-name>Bigbluebutton "Mock meeting for testing getMeetingInfo"</bbb-recording-name>
-        <bbb-recording-tags></bbb-recording-tags>
+        <presenter>Prof. Maud Corkery II</presenter>
+        <endcallbackurl>http://www.hegmann.biz/explicabo-praesentium-labore-dolor</endcallbackurl>
     </metadata>
 </response>
