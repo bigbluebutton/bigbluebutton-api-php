@@ -29,6 +29,16 @@ Please see the [documentation](./docs/Home.md) to know how to install and use th
 
 Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
 
+## Build the documentation
+
+To build the documentation you need to install `Rust` and `mdbook`
+
+```bash
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+source "$HOME/.cargo/env"
+cargo install mdbook
+```
+
 ## Contributing guidelines
 ### Code Quality 1: Style
 

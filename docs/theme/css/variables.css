@@ -1,0 +1,279 @@
+/* Globals */
+
+:root {
+    --sidebar-width: 300px;
+    --sidebar-resize-indicator-width: 8px;
+    --sidebar-resize-indicator-space: 2px;
+    --page-padding: 20px; /* Increased padding for a bit more space around content */
+    --content-max-width: 1024px; /* Keeping it tight for optimal line length */
+    --menu-bar-height: 50px;
+    --mono-font: "Source Code Pro", Consolas, "Ubuntu Mono", Menlo, "DejaVu Sans Mono", monospace;
+    --code-font-size: 0.95em; /* Slightly increased for better legibility in code blocks */
+    --base-font-size: 16px; /* Adding a base font size for consistency */
+    --base-line-height: 1.6; /* Setting a comfortable line height for readability */
+    --base-font-color: #333; /* A softer color than pure black for text, easier on the eyes */
+    --base-background-color: #FFF; /* Default background color, can be overridden in themes */
+    --heading-font-weight: 600; /* Making headings slightly bolder for better hierarchy */
+    --text-margin-bottom: 1rem; /* Providing consistent spacing below paragraphs and similar elements */
+}
+
+
+/* Themes */
+
+.ayu {
+    --bg: hsl(210, 25%, 8%);
+    --fg: #c5c5c5;
+
+    --sidebar-bg: #14191f;
+    --sidebar-fg: #c8c9db;
+    --sidebar-non-existant: #5c6773;
+    --sidebar-active: #ffb454;
+    --sidebar-spacer: #2d334f;
+
+    --scrollbar: var(--sidebar-fg);
+
+    --icons: #737480;
+    --icons-hover: #b7b9cc;
+
+    --links: #0096cf;
+
+    --inline-code-color: #ffb454;
+
+    --theme-popup-bg: #14191f;
+    --theme-popup-border: #5c6773;
+    --theme-hover: #191f26;
+
+    --quote-bg: hsl(226, 15%, 17%);
+    --quote-border: hsl(226, 15%, 22%);
+
+    --warning-border: #ff8e00;
+
+    --table-border-color: hsl(210, 25%, 13%);
+    --table-header-bg: hsl(210, 25%, 28%);
+    --table-alternate-bg: hsl(210, 25%, 11%);
+
+    --searchbar-border-color: #848484;
+    --searchbar-bg: #424242;
+    --searchbar-fg: #fff;
+    --searchbar-shadow-color: #d4c89f;
+    --searchresults-header-fg: #666;
+    --searchresults-border-color: #888;
+    --searchresults-li-bg: #252932;
+    --search-mark-bg: #e3b171;
+
+    --color-scheme: dark;
+}
+
+.coal {
+    --bg: hsl(200, 7%, 8%);
+    --fg: #98a3ad;
+
+    --sidebar-bg: #292c2f;
+    --sidebar-fg: #a1adb8;
+    --sidebar-non-existant: #505254;
+    --sidebar-active: #3473ad;
+    --sidebar-spacer: #393939;
+
+    --scrollbar: var(--sidebar-fg);
+
+    --icons: #43484d;
+    --icons-hover: #b3c0cc;
+
+    --links: #2b79a2;
+
+    --inline-code-color: #c5c8c6;
+
+    --theme-popup-bg: #141617;
+    --theme-popup-border: #43484d;
+    --theme-hover: #1f2124;
+
+    --quote-bg: hsl(234, 21%, 18%);
+    --quote-border: hsl(234, 21%, 23%);
+
+    --warning-border: #ff8e00;
+
+    --table-border-color: hsl(200, 7%, 13%);
+    --table-header-bg: hsl(200, 7%, 28%);
+    --table-alternate-bg: hsl(200, 7%, 11%);
+
+    --searchbar-border-color: #aaa;
+    --searchbar-bg: #b7b7b7;
+    --searchbar-fg: #000;
+    --searchbar-shadow-color: #aaa;
+    --searchresults-header-fg: #666;
+    --searchresults-border-color: #98a3ad;
+    --searchresults-li-bg: #2b2b2f;
+    --search-mark-bg: #355c7d;
+
+    --color-scheme: dark;
+}
+
+
+.light {
+    --bg: #f4f8fb; /* Light blue background */
+    --fg: #08375b; /* Dark blue for foreground text */
+
+    --sidebar-bg: #e6e9ef; /* Lighter shade of blue for sidebar background */
+    --sidebar-fg: #033d6f; /* Dark blue for sidebar text */
+    --sidebar-active: #2565ae; /* Brighter blue for active elements in the sidebar */
+    --sidebar-spacer: #d8e2ee; /* Light blue for sidebar spacers */
+
+    --icons: #747474; /* Grey icons */
+    --icons-hover: #033d6f; /* Blue for icons on hover */
+
+    --links: #2565ae; /* Bright blue for links */
+
+    --inline-code-color: #08375b; /* Dark blue for inline code */
+
+    --theme-popup-bg: #fafafa; /* Light grey background for popups */
+    --theme-popup-border: #cccccc; /* Grey border for popups */
+    --theme-hover: #e6e6e6; /* Light grey for hover effects */
+
+    --quote-bg: #ddeeff; /* Very soft blue for quotes */
+    --quote-border: #b0cfe7; /* Matching border color for quotes */
+
+    --warning-border: #ff6347; /* Tomato for warning borders */
+
+    --table-border-color: #cde7f0; /* Light blue for table borders */
+    --table-header-bg: #b0cfe7; /* Medium light blue for table headers */
+    --table-alternate-bg: #e2eff8; /* Very light blue for alternate table rows */
+
+    --searchbar-border-color: #aaa; /* Grey for search bar border */
+    --searchbar-bg: #ffffff; /* White for search bar background */
+    --searchbar-fg: #033d6f; /* Blue for search bar text */
+    --searchresults-header-fg: #666; /* Dark grey for search results header */
+    --searchresults-border-color: #888; /* Grey for search results border */
+    --searchresults-li-bg: #e4f2fe; /* Very light blue for search results list items */
+    --search-mark-bg: #dcb227; /* Toned-down yellow for search mark background */
+
+    --color-scheme: light;
+}
+
+.navy {
+    --bg: hsl(210, 20%, 13%);  /* Navy blue background */
+    --fg: #bcbdd0;  /* Soft grey for text that is gentle on the eyes in dark mode */
+
+    --sidebar-bg: #2a2f45;  /* Slightly lighter navy for the sidebar */
+    --sidebar-fg: #c8c9db;  /* Light grey for sidebar text to ensure good readability */
+    --sidebar-non-existant: #505274;  /* Muted blue for non-existent elements */
+    --sidebar-active: #4183d7;  /* Bright blue for active elements, adds a pop of color */
+    --sidebar-spacer: #2d334f;  /* Dark navy blue, just a touch lighter than the background for a subtle effect */
+
+    --scrollbar: var(--sidebar-fg);  /* Using the sidebar text color for scrollbar consistency */
+
+    --icons: #737480;  /* Muted grey icons that are not too jarring against the dark background */
+    --icons-hover: #b7b9cc;  /* Lighter grey for icons on hover to highlight them */
+
+    --links: #4183d7;  /* Use the same bright blue for links for consistency and visibility */
+
+    --inline-code-color: #c5c8c6;  /* Muted light grey for inline code, ensuring it stands out but isn't harsh */
+
+    --theme-popup-bg: #161923;  /* Very dark navy for popups to keep them subdued */
+    --theme-popup-border: #3a4055;  /* Slightly lighter than sidebar-bg for a subtle border effect */
+    --theme-hover: #282e40;  /* Dark blue for hover effects that slightly stands out from the background */
+
+    --quote-bg: hsl(226, 15%, 20%);  /* Very dark blue for quotes, providing a soft backdrop */
+    --quote-border: hsl(226, 15%, 25%);  /* Slightly lighter than the quote background for subtle distinction */
+
+    --warning-border: #ff6347;  /* Bright warning color to ensure it catches the user's attention */
+
+    --table-border-color: hsl(210, 15%, 18%);  /* Dark blue for table borders that are visible but not distracting */
+    --table-header-bg: hsl(210, 15%, 28%);  /* A medium blue for table headers that stands out */
+    --table-alternate-bg: hsl(210, 20%, 16%);  /* A very subtle variance in row background for striped effect */
+
+    --searchbar-border-color: #5a5a5a;  /* Dark grey for subtle search bar borders */
+    --searchbar-bg: #242430;  /* Matching the sidebar background for consistency */
+    --searchbar-fg: #ffffff;  /* Bright text for clarity in the search bar */
+    --searchbar-shadow-color: #aaa;  /* Light grey shadow for a subtle depth effect */
+    --searchresults-header-fg: #5f5f71;  /* Soft grey for search result headers */
+    --searchresults-border-color: #5c5c68;  /* Grey for defining borders in search results */
+    --searchresults-li-bg: #1e2230;  /* Darker than the main background for emphasis on items */
+    --search-mark-bg: #a2cff5;  /* Soft light blue for highlighting text in search results */
+
+    --color-scheme: dark;
+}
+
+.rust {
+    --bg: hsl(60, 9%, 87%);
+    --fg: #262625;
+
+    --sidebar-bg: #3b2e2a;
+    --sidebar-fg: #c8c9db;
+    --sidebar-non-existant: #505254;
+    --sidebar-active: #e69f67;
+    --sidebar-spacer: #45373a;
+
+    --scrollbar: var(--sidebar-fg);
+
+    --icons: #737480;
+    --icons-hover: #262625;
+
+    --links: #2b79a2;
+
+    --inline-code-color: #6e6b5e;
+
+    --theme-popup-bg: #e1e1db;
+    --theme-popup-border: #b38f6b;
+    --theme-hover: #99908a;
+
+    --quote-bg: hsl(60, 5%, 75%);
+    --quote-border: hsl(60, 5%, 70%);
+
+    --warning-border: #ff8e00;
+
+    --table-border-color: hsl(60, 9%, 82%);
+    --table-header-bg: #b3a497;
+    --table-alternate-bg: hsl(60, 9%, 84%);
+
+    --searchbar-border-color: #aaa;
+    --searchbar-bg: #fafafa;
+    --searchbar-fg: #000;
+    --searchbar-shadow-color: #aaa;
+    --searchresults-header-fg: #666;
+    --searchresults-border-color: #888;
+    --searchresults-li-bg: #dec2a2;
+    --search-mark-bg: #e69f67;
+
+    --color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+    .light.no-js {
+        --bg: #16202A; /* Darker background for better contrast */
+        --fg: #C1C7D0; /* Softer foreground text color */
+
+        --sidebar-bg: #1A2634; /* Dark blue, less intense for sidebar */
+        --sidebar-fg: #C1C7D0; /* Soft light color for text in sidebar */
+        --sidebar-active: #dcb227; /* Toned-down yellow for active elements, improving readability */
+        --sidebar-spacer: #2A3340; /* Dark blue for spacers, slightly lighter than sidebar-bg */
+
+        --scrollbar: #C1C7D0; /* Matching the sidebar text color for consistency */
+
+        --icons: #5A6978; /* Soft grey icons for less intensity */
+        --icons-hover: #C1C7D0; /* Light grey for icons on hover, matching the text color */
+
+        --links: #4A90E2; /* Softer blue for links, ensuring readability against dark backgrounds */
+
+        --inline-code-color: #dcb227; /* Using the toned-down yellow for inline code highlights */
+
+        --theme-popup-bg: #1A2634; /* Dark blue for popups, consistent with sidebar */
+        --theme-popup-border: #2A3340; /* Slightly lighter than popup bg for subtle contrast */
+        --theme-hover: #202D3D; /* A tad lighter than sidebar-bg for hover effects */
+
+        --quote-bg: #202D3D; /* Dark blue for quote backgrounds, softer for dark mode */
+        --quote-border: #2A3340; /* Slightly lighter blue for quote borders */
+
+        --table-border-color: #2A3340; /* Soft blue-grey for table borders */
+        --table-header-bg: #1A2634; /* Consistent dark blue for table headers */
+        --table-alternate-bg: #16202A; /* Slightly darker for alternate table rows, enhancing contrast */
+
+        --searchbar-border-color: #4A5B6A; /* Dark grey for subtlety */
+        --searchbar-bg: #1A2634; /* Consistent with sidebar-bg */
+        --searchbar-fg: #FFFFFF; /* White for search bar text, ensuring readability */
+        --searchbar-shadow-color: #0F1419; /* Very dark shadow for depth */
+        --searchresults-header-fg: #9AA9B9; /* Light grey for visibility */
+        --searchresults-border-color: #3A4755; /* Dark grey for borders */
+        --searchresults-li-bg: #1A2634; /* Matching the sidebar and popup backgrounds */
+        --search-mark-bg: #dcb227; /* Toned-down yellow for highlighted search text */
+    }
+}
