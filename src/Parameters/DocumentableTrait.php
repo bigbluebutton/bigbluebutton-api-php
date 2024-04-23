@@ -37,12 +37,12 @@ trait DocumentableTrait
         return $this->presentations;
     }
 
-    public function addPresentation(string $nameOrUrl, $content = null, ?string $filename = null, DocumentOptionsStore $attributes = null): self
+    public function addPresentation(string $nameOrUrl, $content = null, ?string $filename = null, ?DocumentOptionsStore $attributes = null): self
     {
         $this->presentations[$nameOrUrl] = [
-            'content' => !$content ?: base64_encode($content),
-            'filename' => $filename,
-            'attributes' => $attributes
+            'content'    => !$content ?: base64_encode($content),
+            'filename'   => $filename,
+            'attributes' => $attributes,
         ];
 
         return $this;

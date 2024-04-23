@@ -27,7 +27,7 @@ class UpdateRecordingsParameters extends MetaParameters
 {
     private ?string $recordingId = null;
 
-    public function __construct(string $recordingId = null)
+    public function __construct(?string $recordingId = null)
     {
         $this->recordingId = $recordingId;
     }
