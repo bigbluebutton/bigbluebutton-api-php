@@ -47,6 +47,7 @@ use BigBlueButton\Responses\GetRecordingTextTracksResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
+use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
@@ -204,11 +205,11 @@ class BigBlueButton
     /**
      * @throws BadResponseException|\RuntimeException
      */
-    public function insertDocument(InsertDocumentParameters $insertDocumentParams): CreateMeetingResponse
+    public function insertDocument(InsertDocumentParameters $insertDocumentParams): InsertDocumentResponse
     {
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
 
-        return new CreateMeetingResponse($xml);
+        return new InsertDocumentResponse($xml);
     }
 
     // __________________ BBB MONITORING METHODS _________________
