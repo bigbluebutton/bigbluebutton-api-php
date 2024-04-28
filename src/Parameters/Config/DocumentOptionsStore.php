@@ -18,40 +18,27 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Parameters\Config;
 
-/**
- * Class EndMeetingParameters.
- */
-class InsertDocumentParameters extends BaseParameters
+class DocumentOptionsStore
 {
-    use DocumentableTrait;
+    private $attributes = [];
 
-    private ?string $meetingId = null;
-
-    public function __construct(?string $meetingId = null)
+    public function __construct(array $attributes = [])
     {
-        $this->meetingId = $meetingId;
+        $this->attributes = $attributes;
     }
 
-    public function getMeetingId(): ?string
+    public function addAttribute($name, $value)
     {
-        return $this->meetingId;
+        if (is_bool($value)) {
+            $value = $value ? 'true' : 'false';
+        }
+        $this->attributes[$name] = $value;
     }
 
-    public function setMeetingId(string $meetingId): self
+    public function getAttributes()
     {
-        $this->meetingId = $meetingId;
-
-        return $this;
-    }
-
-    public function getHTTPQuery(): string
-    {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-            ]
-        );
+        return $this->attributes;
     }
 }

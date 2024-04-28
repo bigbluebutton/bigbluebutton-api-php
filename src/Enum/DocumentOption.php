@@ -18,40 +18,13 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Enum;
 
-/**
- * Class EndMeetingParameters.
- */
-class InsertDocumentParameters extends BaseParameters
+use MabeEnum\Enum;
+
+class DocumentOption extends Enum
 {
-    use DocumentableTrait;
-
-    private ?string $meetingId = null;
-
-    public function __construct(?string $meetingId = null)
-    {
-        $this->meetingId = $meetingId;
-    }
-
-    public function getMeetingId(): ?string
-    {
-        return $this->meetingId;
-    }
-
-    public function setMeetingId(string $meetingId): self
-    {
-        $this->meetingId = $meetingId;
-
-        return $this;
-    }
-
-    public function getHTTPQuery(): string
-    {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-            ]
-        );
-    }
+    public const CURRENT      = 'current';
+    public const DOWNLOADABLE = 'downloadable';
+    public const REMOVABLE    = 'removable';
 }
