@@ -38,11 +38,9 @@ trait DocumentableTrait
     }
 
     /**
-     * @param null|mixed $content
-     *
      * @throws \Exception
      */
-    public function addPresentation(string $nameOrUrl, $content = null, ?string $filename = null, ?DocumentOptionsStore $attributes = null): self
+    public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null, ?DocumentOptionsStore $attributes = null): self
     {
         // check if resource is existing
         if (0 === mb_strpos($nameOrUrl, 'http')) {
@@ -54,7 +52,7 @@ trait DocumentableTrait
         }
 
         $this->presentations[$nameOrUrl] = [
-            'content'    => !$content ?: base64_encode($content),
+            'content'    => $content ? base64_encode($content) : null,
             'filename'   => $filename,
             'attributes' => $attributes,
         ];
@@ -88,8 +86,10 @@ trait DocumentableTrait
                 }
 
                 // Add attributes using DocumentAttributes class
-                foreach ($data['attributes']->getAttributes() as $attrName => $attrValue) {
-                    $presentation->addAttribute($attrName, $attrValue);
+                if (!empty($data['attributes'])) {
+                    foreach ($data['attributes']->getAttributes() as $attrName => $attrValue) {
+                        $presentation->addAttribute($attrName, $attrValue);
+                    }
                 }
             }
             $result = $xml->asXML();
@@ -105,6 +105,10 @@ trait DocumentableTrait
     private function urlExists(string $url): bool
     {
         $ch = curl_init($url);
+
+        if (!$ch) {
+            throw new \RuntimeException('Unhandled curl error!');
+        }
 
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);

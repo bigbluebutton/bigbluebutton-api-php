@@ -22,14 +22,20 @@ namespace BigBlueButton\Parameters\Config;
 
 class DocumentOptionsStore
 {
-    private $attributes = [];
+    /**
+     * @var array<string, string>
+     */
+    private array $attributes;
 
+    /**
+     * @param array<string, string> $attributes
+     */
     public function __construct(array $attributes = [])
     {
         $this->attributes = $attributes;
     }
 
-    public function addAttribute($name, $value)
+    public function addAttribute(string $name, bool|string $value): void
     {
         if (is_bool($value)) {
             $value = $value ? 'true' : 'false';
@@ -37,7 +43,10 @@ class DocumentOptionsStore
         $this->attributes[$name] = $value;
     }
 
-    public function getAttributes()
+    /**
+     * @return array<string, string>
+     */
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

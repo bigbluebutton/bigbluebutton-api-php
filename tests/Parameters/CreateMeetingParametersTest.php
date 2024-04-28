@@ -22,7 +22,6 @@ namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
 use BigBlueButton\TestServices\Fixtures;
-use function PHPUnit\Framework\assertEquals;
 
 /**
  * Class CreateMeetingParametersTest.
@@ -146,8 +145,11 @@ class CreateMeetingParametersTest extends TestCase
 
     public function testGetPresentationsAsXMLWithFile(): void
     {
+        $content = file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png');
+        $this->assertIsString($content);
+
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('bbb_logo.png', file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png'));
+        $createMeetingParams->addPresentation('bbb_logo.png', $content);
 
         $this->assertXmlStringEqualsXmlFile(Fixtures::REQUEST_PATH . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
     }

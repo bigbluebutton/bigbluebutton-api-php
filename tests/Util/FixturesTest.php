@@ -36,7 +36,6 @@ use BigBlueButton\TestServices\EnvLoader;
 use BigBlueButton\TestServices\Fixtures;
 use Faker\Factory as Faker;
 use PHPUnit\Framework\TestCase;
-use Tracy\Debugger;
 
 /**
  * @internal
@@ -75,7 +74,8 @@ class FixturesTest extends TestCase
         $xmlFilenamesFromDataProvider = array_column($dataProvider, 'filename');
 
         // TO-BE: get all XML-files of the fixtures-folder
-        $absolutePathnames      = glob(Fixtures::RESPONSE_PATH . '*.xml');
+        $absolutePathnames = glob(Fixtures::RESPONSE_PATH . '*.xml');
+        $this->assertIsArray($absolutePathnames);
         $xmlFilenamesFromFolder = array_map(function($absolutePathname) {
             return basename($absolutePathname);
         }, $absolutePathnames);
