@@ -785,7 +785,7 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function isLockSettingsDisableNote(): ?bool
     {
-        return $this->lockSettingsDisableNotes;
+        return $this->isLockSettingsDisableNotes();
     }
 
     /**
