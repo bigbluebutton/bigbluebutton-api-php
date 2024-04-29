@@ -36,7 +36,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
     /**
      * PutRecordingTextTrackParameters constructor.
      */
-    public function __construct(string $recordId = null, string $kind = null, string $lang = null, string $label = null)
+    public function __construct(?string $recordId = null, ?string $kind = null, ?string $lang = null, ?string $label = null)
     {
         $this->recordId = $recordId;
         $this->kind     = $kind;
