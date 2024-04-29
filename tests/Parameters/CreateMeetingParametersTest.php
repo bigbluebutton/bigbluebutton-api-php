@@ -59,7 +59,8 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertEquals($params['lockSettingsDisableMic'], $createMeetingParams->isLockSettingsDisableMic());
         $this->assertEquals($params['lockSettingsDisablePrivateChat'], $createMeetingParams->isLockSettingsDisablePrivateChat());
         $this->assertEquals($params['lockSettingsDisablePublicChat'], $createMeetingParams->isLockSettingsDisablePublicChat());
-        $this->assertEquals($params['lockSettingsDisableNote'], $createMeetingParams->isLockSettingsDisableNote());
+        $this->assertEquals($params['lockSettingsDisableNotes'], $createMeetingParams->isLockSettingsDisableNote());
+        $this->assertEquals($params['lockSettingsDisableNotes'], $createMeetingParams->isLockSettingsDisableNotes());
         $this->assertEquals($params['lockSettingsHideUserList'], $createMeetingParams->isLockSettingsHideUserList());
         $this->assertEquals($params['lockSettingsLockedLayout'], $createMeetingParams->isLockSettingsLockedLayout());
         $this->assertEquals($params['lockSettingsLockOnJoin'], $createMeetingParams->isLockSettingsLockOnJoin());

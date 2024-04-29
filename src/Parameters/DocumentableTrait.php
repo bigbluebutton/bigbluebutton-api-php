@@ -37,10 +37,10 @@ trait DocumentableTrait
         return $this->presentations;
     }
 
-    public function addPresentation(string $nameOrUrl, $content = null, ?string $filename = null, ?DocumentOptionsStore $attributes = null): self
+    public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null, DocumentOptionsStore $attributes = null): self
     {
         $this->presentations[$nameOrUrl] = [
-            'content'    => !$content ?: base64_encode($content),
+            'content'    => $content ? base64_encode($content) : null,
             'filename'   => $filename,
             'attributes' => $attributes,
         ];
@@ -73,8 +73,10 @@ trait DocumentableTrait
                 }
 
                 // Add attributes using DocumentAttributes class
-                foreach ($data['attributes']->getAttributes() as $attrName => $attrValue) {
-                    $presentation->addAttribute($attrName, $attrValue);
+                if (!empty($data['attributes'])) {
+                    foreach ($data['attributes']->getAttributes() as $attrName => $attrValue) {
+                        $presentation->addAttribute($attrName, $attrValue);
+                    }
                 }
             }
             $result = $xml->asXML();
