@@ -107,7 +107,7 @@ class Fixtures
             'lockSettingsDisableMic'                 => $faker->boolean(50),
             'lockSettingsDisablePrivateChat'         => $faker->boolean(50),
             'lockSettingsDisablePublicChat'          => $faker->boolean(50),
-            'lockSettingsDisableNote'                => $faker->boolean(50),
+            'lockSettingsDisableNotes'               => $faker->boolean(50),
             'lockSettingsHideUserList'               => $faker->boolean(50),
             'lockSettingsLockedLayout'               => $faker->boolean(50),
             'lockSettingsLockOnJoin'                 => $faker->boolean(50),
@@ -269,7 +269,8 @@ class Fixtures
             ->setLockSettingsDisableMic($params['lockSettingsDisableMic'])
             ->setLockSettingsDisablePrivateChat($params['lockSettingsDisablePrivateChat'])
             ->setLockSettingsDisablePublicChat($params['lockSettingsDisablePublicChat'])
-            ->setLockSettingsDisableNote($params['lockSettingsDisableNote'])
+            ->setLockSettingsDisableNote($params['lockSettingsDisableNotes'])
+            ->setLockSettingsDisableNotes($params['lockSettingsDisableNotes'])
             ->setLockSettingsHideUserList($params['lockSettingsHideUserList'])
             ->setLockSettingsLockedLayout($params['lockSettingsLockedLayout'])
             ->setLockSettingsLockOnJoin($params['lockSettingsLockOnJoin'])
