@@ -33,7 +33,6 @@ use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\TestServices\EnvLoader;
 use BigBlueButton\TestServices\Fixtures;
 use BigBlueButton\TestServices\ParamsIterator;
-use Tracy\Debugger;
 
 /**
  * Class BigBlueButtonTest.
