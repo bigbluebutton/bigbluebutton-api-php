@@ -1,4 +1,3 @@
 {{#include ../header.md}}
 
-# Hooks
-(tbd)
+# How to Contribute

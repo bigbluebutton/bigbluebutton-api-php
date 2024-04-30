@@ -1,3 +1,6 @@
+{{#include ../header.md}}
+
+# Full Usage Example
 ## Introduction
 
 You have been using BigBlueButton for years or you are still discovering it, and you have PHP within your solutions

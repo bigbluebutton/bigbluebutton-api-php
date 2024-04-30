@@ -1,15 +1,4 @@
-![BBB-Logo](../images/header.png)
-
-  [Home](../Home.md)
-| [Getting Started](../general/getting_started.md)
-| [Meetings](../api_calls/meetings.md)
-| [Recordings](../api_calls/recordings.md)
-| [Hooks](../api_calls/hooks.md)
-| [Configuration of the BBB-Server](../api_calls/bbb_config.md)
----
-> [!WARNING]
-> Documentation is a bit outdated and currently under review!
----
+{{#include ../header.md}}
 
 # Meetings
 In the BigBlueButton-world a video-conference is called a meeting. Once the meeting a meeting is created, it is already a "ready-to-use" video-conference which is waiting for people to join. A BBB-meeting is not something that would be created in advance (e.g. one week prior) in order to distribute a meeting-link to the participants.

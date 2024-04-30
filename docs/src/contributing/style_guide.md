@@ -1,4 +1,3 @@
 {{#include ../header.md}}
 
-# Hooks
-(tbd)
+# Style Guide

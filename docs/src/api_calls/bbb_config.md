@@ -1,4 +1,4 @@
 {{#include ../header.md}}
 
-# Hooks
+# Server Configuration
 (tbd)

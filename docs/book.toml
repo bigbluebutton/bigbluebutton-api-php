@@ -6,6 +6,10 @@ language = "en"
 multilingual = false
 src = "src"
 
+[build]
+create-missing = false   # whether or not to create missing pages
+
+[preprocessor.external-links]
 
 [output.html]
 default-theme = "light"
@@ -24,7 +28,7 @@ heading-split-level = 3  # link results to heading levels
 copy-js = true           # include Javascript code for search
 
 [output.html.print]
-enable = true    # include support for printable output
+enable = true     # include support for printable output
 page-break = true # insert page-break after each chapter
 
 [output.html.fold]
