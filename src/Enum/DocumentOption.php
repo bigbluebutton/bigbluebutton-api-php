@@ -20,11 +20,9 @@
 
 namespace BigBlueButton\Enum;
 
-use MabeEnum\Enum;
-
-class DocumentOption extends Enum
+enum DocumentOption: string
 {
-    public const CURRENT      = 'current';
-    public const DOWNLOADABLE = 'downloadable';
-    public const REMOVABLE    = 'removable';
+    case CURRENT      = 'current';
+    case DOWNLOADABLE = 'downloadable';
+    case REMOVABLE    = 'removable';
 }

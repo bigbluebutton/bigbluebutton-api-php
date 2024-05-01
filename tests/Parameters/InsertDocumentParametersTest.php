@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Enum\DocumentOption;
+use BigBlueButton\Parameters\Config\DocumentOptions;
 use BigBlueButton\TestCase;
 
 /**
@@ -41,5 +43,25 @@ final class InsertDocumentParametersTest extends TestCase
         $this->assertEquals($meetingId, $params->getMeetingID());
 
         $this->assertXmlStringEqualsXmlFile(dirname(__DIR__) . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'insert_document_presentations.xml', $params->getPresentationsAsXML());
+    }
+
+    public function testInsertDocumentWithOptions(): void
+    {
+        $meetingId = $this->faker->uuid;
+
+        $documentOptions = new DocumentOptions();
+        $documentOptions
+            ->addOption(DocumentOption::DOWNLOADABLE, false)
+            ->addOption(DocumentOption::REMOVABLE, true)
+            ->addOption(DocumentOption::CURRENT, true)
+        ;
+        $insertDocumentParameters = new InsertDocumentParameters($meetingId);
+
+        $insertDocumentParameters->addPresentation('https://demo.bigbluebutton.org/biglbuebutton.png', null, null, $documentOptions);
+
+        $this->assertEquals($meetingId, $insertDocumentParameters->getMeetingID());
+
+        $file = dirname(__DIR__) . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'insert_document_presentations_with_options.xml';
+        $this->assertXmlStringEqualsXmlFile($file, $insertDocumentParameters->getPresentationsAsXML());
     }
 }
