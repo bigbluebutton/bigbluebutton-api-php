@@ -42,15 +42,6 @@ trait DocumentableTrait
      */
     public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null, ?DocumentOptionsStore $attributes = null): self
     {
-        // check if resource is existing
-        if (0 === mb_strpos($nameOrUrl, 'http')) {
-            $isExisting = $this->urlExists($nameOrUrl);
-
-            if (!$isExisting) {
-                throw new \Exception('Resource not found: ' . $nameOrUrl);
-            }
-        }
-
         $this->presentations[$nameOrUrl] = [
             'content'    => $content ? base64_encode($content) : null,
             'filename'   => $filename,
