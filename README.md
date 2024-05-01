@@ -3,7 +3,7 @@
 ![Home Image](https://raw.githubusercontent.com/wiki/bigbluebutton/bigbluebutton-api-php/images/header.png)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbigbluebutton%2Fbigbluebutton-api-php.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbigbluebutton%2Fbigbluebutton-api-php?ref=badge_shield)
 
-The official and easy to use **BigBlueButton API for PHP**, makes easy for developers to use [BigBlueButton][bbb] API for **PHP 8.0+**.
+The official and easy to use **BigBlueButton API for PHP**, makes easy for developers to use [BigBlueButton][bbb] API for **PHP 8.1+**.
 
 ![Packagist](https://img.shields.io/packagist/v/bigbluebutton/bigbluebutton-api-php.svg?label=release)
 [![Downloads](https://img.shields.io/packagist/dt/bigbluebutton/bigbluebutton-api-php.svg?style=flat-square)](https://packagist.org/packages/bigbluebutton/bigbluebutton-api-php)
@@ -15,7 +15,6 @@ The official and easy to use **BigBlueButton API for PHP**, makes easy for devel
 [![@bigbluebutton on Twitter](https://img.shields.io/badge/twitter-%40bigbluebutton-blue.svg?style=flat)](https://twitter.com/bigbluebutton)
 ![Website](https://img.shields.io/website-up-down-green-red/http/bigbluebutton.org.svg?label=BigBlueButton.org)
 
-[![PHP 8.0](https://img.shields.io/badge/php-8.0-f33.svg?style=flat-square)](https://www.php.net/supported-versions.php)
 [![PHP 8.1](https://img.shields.io/badge/php-8.1-f93.svg?style=flat-square)](https://www.php.net/supported-versions.php)
 [![PHP 8.2](https://img.shields.io/badge/php-8.2-9c9.svg?style=flat-square)](https://www.php.net/supported-versions.php)
 [![PHP 8.3](https://img.shields.io/badge/php-8.3-9c9.svg?style=flat-square)](https://www.php.net/supported-versions.php)

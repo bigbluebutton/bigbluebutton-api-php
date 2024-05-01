@@ -27,16 +27,9 @@ class DocumentOptions
     /** @var array<string, bool> */
     private array $documentOptions = [];
 
-    /**
-     * @throws \Exception
-     */
-    public function addOption(string $documentOption, bool $value): self
+    public function addOption(DocumentOption $documentOption, bool $value): self
     {
-        if (!DocumentOption::hasValue($documentOption)) {
-            throw new \Exception("Document option '{$documentOption}' does not exist");
-        }
-
-        $this->documentOptions[$documentOption] = $value;
+        $this->documentOptions[$documentOption->value] = $value;
 
         return $this;
     }
