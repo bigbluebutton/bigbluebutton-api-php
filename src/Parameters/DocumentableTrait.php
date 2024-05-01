@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Parameters\Config\DocumentOptionsStore;
+use BigBlueButton\Parameters\Config\DocumentOptions;
 
 trait DocumentableTrait
 {
@@ -37,12 +37,12 @@ trait DocumentableTrait
         return $this->presentations;
     }
 
-    public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null, DocumentOptionsStore $attributes = null): self
+    public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null, DocumentOptions $documentOptions = null): self
     {
         $this->presentations[$nameOrUrl] = [
-            'content'    => $content ? base64_encode($content) : null,
-            'filename'   => $filename,
-            'attributes' => $attributes,
+            'content'         => $content ? base64_encode($content) : null,
+            'filename'        => $filename,
+            'documentOptions' => $documentOptions,
         ];
 
         return $this;
@@ -72,10 +72,11 @@ trait DocumentableTrait
                     $presentation[0] = $data['content'];
                 }
 
-                // Add attributes using DocumentAttributes class
-                if (!empty($data['attributes'])) {
-                    foreach ($data['attributes']->getAttributes() as $attrName => $attrValue) {
-                        $presentation->addAttribute($attrName, $attrValue);
+                // Add attributes using DocumentOption class
+                if (!empty($data['documentOptions'])) {
+                    foreach ($data['documentOptions']->getOptions() as $documentOption => $value) {
+                        $value = $value ? 'true' : 'false';
+                        $presentation->addAttribute($documentOption, $value);
                     }
                 }
             }
