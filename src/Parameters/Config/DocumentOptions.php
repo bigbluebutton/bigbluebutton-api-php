@@ -20,25 +20,32 @@
 
 namespace BigBlueButton\Parameters\Config;
 
-class DocumentOptionsStore
+use BigBlueButton\Enum\DocumentOption;
+
+class DocumentOptions
 {
-    private $attributes = [];
+    /** @var array<string, bool> */
+    private array $documentOptions = [];
 
-    public function __construct(array $attributes = [])
+    /**
+     * @throws \Exception
+     */
+    public function addOption(string $documentOption, bool $value): self
     {
-        $this->attributes = $attributes;
-    }
-
-    public function addAttribute($name, $value)
-    {
-        if (is_bool($value)) {
-            $value = $value ? 'true' : 'false';
+        if (!DocumentOption::hasValue($documentOption)) {
+            throw new \Exception("Document option '{$documentOption}' does not exist");
         }
-        $this->attributes[$name] = $value;
+
+        $this->documentOptions[$documentOption] = $value;
+
+        return $this;
     }
 
-    public function getAttributes()
+    /**
+     * @return array<string, bool>
+     */
+    public function getOptions(): array
     {
-        return $this->attributes;
+        return $this->documentOptions;
     }
 }
