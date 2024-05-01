@@ -68,7 +68,9 @@ final class InsertDocumentParametersTest extends TestCase
 
         $this->assertEquals($meetingId, $insertDocumentParameters->getMeetingID());
 
-        $file = dirname(__DIR__) . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'insert_document_presentations_with_options.xml';
-        $this->assertXmlStringEqualsXmlFile($file, $insertDocumentParameters->getPresentationsAsXML());
+        $this->assertXmlStringEqualsXmlFile(
+            Fixtures::REQUEST_PATH . 'insert_document_presentations_with_options.xml',
+            $insertDocumentParameters->getPresentationsAsXML()
+        );
     }
 }

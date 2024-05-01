@@ -14,6 +14,11 @@
       "name": "Ghazi Triki",
       "email": "ghazi.triki@riadvice.tn",
       "role": "Developer"
+    },
+    {
+      "name": "Tim Korn",
+      "email": "korn@aufKurs.de",
+      "role": "Developer"
     }
   ],
   "repositories": {
