@@ -20,34 +20,25 @@
 
 namespace BigBlueButton\Parameters\Config;
 
-class DocumentOptionsStore
+use BigBlueButton\Enum\DocumentOption;
+
+class DocumentOptions
 {
-    /**
-     * @var array<string, string>
-     */
-    private array $attributes;
+    /** @var array<string, bool> */
+    private array $documentOptions = [];
 
-    /**
-     * @param array<string, string> $attributes
-     */
-    public function __construct(array $attributes = [])
+    public function addOption(DocumentOption $documentOption, bool $value): self
     {
-        $this->attributes = $attributes;
-    }
+        $this->documentOptions[$documentOption->value] = $value;
 
-    public function addAttribute(string $name, bool|string $value): void
-    {
-        if (is_bool($value)) {
-            $value = $value ? 'true' : 'false';
-        }
-        $this->attributes[$name] = $value;
+        return $this;
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, bool>
      */
-    public function getAttributes(): array
+    public function getOptions(): array
     {
-        return $this->attributes;
+        return $this->documentOptions;
     }
 }

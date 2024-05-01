@@ -79,7 +79,7 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?bool $lockSettingsDisablePublicChat = null;
 
-    private ?bool $lockSettingsDisableNote = null;
+    private ?bool $lockSettingsDisableNotes = null;
 
     private ?bool $lockSettingsHideUserList = null;
 
@@ -780,9 +780,29 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    /**
+     * @deprecated isLockSettingsDisableNote is replaced by isLockSettingsDisableNotes
+     */
     public function isLockSettingsDisableNote(): ?bool
     {
-        return $this->lockSettingsDisableNote;
+        return $this->isLockSettingsDisableNotes();
+    }
+
+    /**
+     * Setting to true will disable notes in the meeting.
+     *
+     * @deprecated setLockSettingsDisableNote is replaced by setLockSettingsDisableNotes
+     */
+    public function setLockSettingsDisableNote(bool $lockSettingsDisableNote): self
+    {
+        $this->setLockSettingsDisableNotes($lockSettingsDisableNote);
+
+        return $this;
+    }
+
+    public function isLockSettingsDisableNotes(): ?bool
+    {
+        return $this->lockSettingsDisableNotes;
     }
 
     /**
@@ -792,9 +812,9 @@ class CreateMeetingParameters extends MetaParameters
      *
      * @since 2.2
      */
-    public function setLockSettingsDisableNote(bool $lockSettingsDisableNote): self
+    public function setLockSettingsDisableNotes(bool $lockSettingsDisableNotes): self
     {
-        $this->lockSettingsDisableNote = $lockSettingsDisableNote;
+        $this->lockSettingsDisableNotes = $lockSettingsDisableNotes;
 
         return $this;
     }
@@ -1424,7 +1444,7 @@ class CreateMeetingParameters extends MetaParameters
             'lockSettingsDisableMic'                 => !is_null($this->lockSettingsDisableMic) ? ($this->lockSettingsDisableMic ? 'true' : 'false') : $this->lockSettingsDisableMic,
             'lockSettingsDisablePrivateChat'         => !is_null($this->lockSettingsDisablePrivateChat) ? ($this->lockSettingsDisablePrivateChat ? 'true' : 'false') : $this->lockSettingsDisablePrivateChat,
             'lockSettingsDisablePublicChat'          => !is_null($this->lockSettingsDisablePublicChat) ? ($this->lockSettingsDisablePublicChat ? 'true' : 'false') : $this->lockSettingsDisablePublicChat,
-            'lockSettingsDisableNote'                => !is_null($this->lockSettingsDisableNote) ? ($this->lockSettingsDisableNote ? 'true' : 'false') : $this->lockSettingsDisableNote,
+            'lockSettingsDisableNotes'               => !is_null($this->lockSettingsDisableNotes) ? ($this->lockSettingsDisableNotes ? 'true' : 'false') : $this->lockSettingsDisableNotes,
             'lockSettingsHideUserList'               => !is_null($this->lockSettingsHideUserList) ? ($this->lockSettingsHideUserList ? 'true' : 'false') : $this->lockSettingsHideUserList,
             'lockSettingsLockedLayout'               => !is_null($this->lockSettingsLockedLayout) ? ($this->lockSettingsLockedLayout ? 'true' : 'false') : $this->lockSettingsLockedLayout,
             'lockSettingsLockOnJoin'                 => !is_null($this->lockSettingsLockOnJoin) ? ($this->lockSettingsLockOnJoin ? 'true' : 'false') : $this->lockSettingsLockOnJoin,
