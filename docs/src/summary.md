@@ -15,6 +15,7 @@
   - [How to Contribute](./contributing/contributing.md)
   - [Style Guide](./contributing/style_guide.md)
   - [Running Tests](./contributing/testing.md)
+  - [Documentation](./contributing/documentation.md)
 
 - [Other]()
   - [Full Usage Sample](./other/full_usage_sample.md)

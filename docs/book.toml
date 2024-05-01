@@ -9,7 +9,9 @@ src = "src"
 [build]
 create-missing = false   # whether or not to create missing pages
 
+# Activate extensions (preprocessors)
 [preprocessor.external-links]
+[preprocessor.alerts]
 
 [output.html]
 default-theme = "light"
