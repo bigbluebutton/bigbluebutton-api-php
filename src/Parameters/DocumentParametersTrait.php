@@ -26,7 +26,7 @@ use BigBlueButton\Core\DocumentUrl;
 use BigBlueButton\Enum\DocumentOption;
 use BigBlueButton\Parameters\Config\DocumentOptions;
 
-trait DocumentTrait
+trait DocumentParametersTrait
 {
     /**
      * @var Document[]

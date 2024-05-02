@@ -24,9 +24,9 @@ class DocumentUrl extends Document
 {
     private string $url;
 
-    public function __construct(string $uri, string $name)
+    public function __construct(string $url, string $name)
     {
-        $this->setUrl($uri);
+        $this->setUrl($url);
         $this->setName($name);
     }
 

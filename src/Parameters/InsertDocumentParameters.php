@@ -25,7 +25,7 @@ namespace BigBlueButton\Parameters;
  */
 class InsertDocumentParameters extends BaseParameters
 {
-    use DocumentTrait;
+    use DocumentParametersTrait;
 
     private string $meetingId;
 
