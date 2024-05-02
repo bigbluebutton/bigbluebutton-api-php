@@ -25,7 +25,7 @@ namespace BigBlueButton\Parameters;
  */
 class CreateMeetingParameters extends MetaParameters
 {
-    use DocumentableTrait;
+    use DocumentTrait;
 
     private ?string $meetingId = null;
 

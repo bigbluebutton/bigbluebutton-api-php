@@ -18,30 +18,29 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters\Config;
+namespace BigBlueButton\Core;
 
-use BigBlueButton\Enum\DocumentOption;
-
-/**
- * @deprecated Replaced by new Document-class, DocumentUrl-class and DocumentFile-class
- */
-class DocumentOptions
+interface DocumentInterface
 {
-    /** @var array<string, bool> */
-    private array $documentOptions = [];
+    public function setName(string $name): Document;
 
-    public function addOption(DocumentOption $documentOption, bool $value): self
-    {
-        $this->documentOptions[$documentOption->value] = $value;
+    public function getName(): string;
 
-        return $this;
-    }
+    public function setCurrent(?bool $current): Document;
 
-    /**
-     * @return array<string, bool>
-     */
-    public function getOptions(): array
-    {
-        return $this->documentOptions;
-    }
+    public function isCurrent(): ?bool;
+
+    public function setDownloadable(?bool $downloadable): Document;
+
+    public function isDownloadable(): ?bool;
+
+    public function setRemovable(?bool $removable): Document;
+
+    public function isRemovable(): ?bool;
+
+    public function isValid(): bool;
+
+    public function setValidation(bool $validation): Document;
+
+    public function getValidation(): bool;
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <modules>
     <module name="presentation">
-        <document current="true" downloadable="false" removable="true" url="https://demo.bigbluebutton.org/biglbuebutton.png"/>
+        <document current="true" downloadable="false" filename="unnamed file" removable="true" url="https://demo.bigbluebutton.org/bigbluebutton.png"/>
     </module>
 </modules>

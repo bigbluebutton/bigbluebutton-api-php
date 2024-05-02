@@ -25,16 +25,16 @@ namespace BigBlueButton\Parameters;
  */
 class InsertDocumentParameters extends BaseParameters
 {
-    use DocumentableTrait;
+    use DocumentTrait;
 
-    private ?string $meetingId = null;
+    private string $meetingId;
 
-    public function __construct(?string $meetingId = null)
+    public function __construct(string $meetingId)
     {
         $this->meetingId = $meetingId;
     }
 
-    public function getMeetingId(): ?string
+    public function getMeetingId(): string
     {
         return $this->meetingId;
     }

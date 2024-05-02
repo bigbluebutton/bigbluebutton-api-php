@@ -20,6 +20,9 @@
 
 namespace BigBlueButton\Enum;
 
+/**
+ * @deprecated Replaced by new Document-class, DocumentUrl-class and DocumentFile-class
+ */
 enum DocumentOption: string
 {
     case CURRENT      = 'current';
