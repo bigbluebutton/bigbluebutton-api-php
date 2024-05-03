@@ -112,6 +112,30 @@ final class InsertDocumentParametersTest extends TestCase
         $this->assertXmlStringEqualsXmlFile($filepath, $xmlAsIs);
     }
 
+    public function testInsertDocumentParametersWithDocumentUrlOneWithAdditionalProperties(): void
+    {
+        // ARRANGE
+        $meetingId   = $this->faker->uuid;
+        $filepath    = dirname(__DIR__) . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'insert_document_case_3.xml';
+        $documentUrl = new DocumentUrl('https://demo.bigbluebutton.org/bigbluebutton.png', 'bigbluebutton.png');
+        $documentUrl
+            ->addProperty('magic1', 'abracadabra')
+            ->addProperty('magic2', 'hocus-pocus')
+            ->addProperty('magic3', 'open sesame')
+        ;
+
+        // ACT
+        $insertDocumentParameters = new InsertDocumentParameters($meetingId);
+        $insertDocumentParameters->addDocument($documentUrl);
+        $xmlAsIs = $insertDocumentParameters->getDocumentsAsXML();
+
+        // ASSERT
+        $this->assertEquals($meetingId, $insertDocumentParameters->getMeetingID());
+        $this->assertCount(1, $insertDocumentParameters->getDocuments());
+        $this->assertIsString($xmlAsIs);
+        $this->assertXmlStringEqualsXmlFile($filepath, $xmlAsIs);
+    }
+
     public function testInsertDocumentParametersWithDocumentFileOneWithoutOptions(): void
     {
         // ARRANGE

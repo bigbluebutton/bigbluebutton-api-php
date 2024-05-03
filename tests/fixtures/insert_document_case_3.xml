@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<modules>
+    <module name="presentation">
+        <document filename="bigbluebutton.png" magic1="abracadabra" magic2="hocus-pocus" magic3="open sesame" url="https://demo.bigbluebutton.org/bigbluebutton.png"/>
+    </module>
+</modules>

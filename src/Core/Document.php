@@ -28,6 +28,11 @@ abstract class Document implements DocumentInterface
     private ?bool $removable    = null;
     private bool $validate      = false;
 
+    /**
+     * @var array<string, string>
+     */
+    private array $properties = [];
+
     final public function setName(string $name): self
     {
         $this->name = $name;
@@ -74,6 +79,26 @@ abstract class Document implements DocumentInterface
     final public function isRemovable(): ?bool
     {
         return $this->removable;
+    }
+
+    /**
+     * Add additional properties to the document. These will be passed to the BBB-Server as
+     * attributes at the documents' XML-node. Not needed on standard implementation of a
+     * BBB-Server, but might be needed on customized (adapted) BBB-Server implementations.
+     */
+    final public function addProperty(string $name, string $value): self
+    {
+        $this->properties[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    final public function getProperties(): array
+    {
+        return $this->properties;
     }
 
     public function setValidation(bool $validation): Document

@@ -104,6 +104,10 @@ trait DocumentParametersTrait
                     $value = $document->isRemovable() ? 'true' : 'false';
                     $documentNode->addAttribute(DocumentOption::REMOVABLE->value, $value);
                 }
+
+                foreach ($document->getProperties() as $propertyKey => $propertyValue) {
+                    $documentNode->addAttribute($propertyKey, $propertyValue);
+                }
             }
 
             $result = $xml->asXML();
