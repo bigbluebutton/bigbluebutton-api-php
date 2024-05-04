@@ -35,7 +35,7 @@ abstract class MetaParameters extends BaseParameters
         return $this->meta[$key];
     }
 
-    public function addMeta(string $key, mixed $value): self
+    public function addMeta(string $key, mixed $value): static
     {
         $this->meta[$key] = $value;
 

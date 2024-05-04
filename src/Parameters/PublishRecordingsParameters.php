@@ -64,7 +64,7 @@ class PublishRecordingsParameters extends BaseParameters
         return $this->buildHTTPQuery(
             [
                 'recordID' => $this->recordingId,
-                'publish'  => !is_null($this->publish) ? ($this->publish ? 'true' : 'false') : $this->publish,
+                'publish'  => $this->publish ? 'true' : 'false',
             ]
         );
     }

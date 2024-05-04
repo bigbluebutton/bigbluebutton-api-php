@@ -32,7 +32,7 @@ abstract class UserDataParameters extends BaseParameters
         return $this->userData[$key];
     }
 
-    public function addUserData(string $key, mixed $value): self
+    public function addUserData(string $key, mixed $value): static
     {
         $this->userData[$key] = $value;
 
