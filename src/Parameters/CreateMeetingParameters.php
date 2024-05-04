@@ -27,9 +27,9 @@ class CreateMeetingParameters extends MetaParameters
 {
     use DocumentableTrait;
 
-    private ?string $meetingId = null;
+    private string $meetingId;
 
-    private ?string $meetingName = null;
+    private string $meetingName;
 
     /**
      * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
@@ -177,11 +177,8 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * CreateMeetingParameters constructor.
-     *
-     * @param mixed $meetingId
-     * @param mixed $meetingName
      */
-    public function __construct($meetingId = null, $meetingName = null)
+    public function __construct(string $meetingId, string $meetingName)
     {
         $this->meetingId   = $meetingId;
         $this->meetingName = $meetingName;
@@ -582,12 +579,9 @@ class CreateMeetingParameters extends MetaParameters
      * Default: false
      *
      * @since 2.4.3
-     *
-     * @param mixed $virtualBackgroundsDisabled
-     *
      * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setVirtualBackgroundsDisabled($virtualBackgroundsDisabled): self
+    public function setVirtualBackgroundsDisabled(mixed $virtualBackgroundsDisabled): self
     {
         $this->virtualBackgroundsDisabled = $virtualBackgroundsDisabled;
 
@@ -943,20 +937,14 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    /**
-     * @param mixed $endCallbackUrl
-     */
-    public function setEndCallbackUrl($endCallbackUrl): self
+    public function setEndCallbackUrl(mixed $endCallbackUrl): self
     {
         $this->addMeta('endCallbackUrl', $endCallbackUrl);
 
         return $this;
     }
 
-    /**
-     * @param mixed $recordingReadyCallbackUrl
-     */
-    public function setRecordingReadyCallbackUrl($recordingReadyCallbackUrl): self
+    public function setRecordingReadyCallbackUrl(mixed $recordingReadyCallbackUrl): self
     {
         $this->addMeta('bbb-recording-ready-url', $recordingReadyCallbackUrl);
 
@@ -1055,11 +1043,9 @@ class CreateMeetingParameters extends MetaParameters
      *
      * Default: true
      *
-     * @param mixed $breakoutRoomsEnabled
-     *
      * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setBreakoutRoomsEnabled($breakoutRoomsEnabled): self
+    public function setBreakoutRoomsEnabled(mixed $breakoutRoomsEnabled): self
     {
         $this->breakoutRoomsEnabled = $breakoutRoomsEnabled;
 
@@ -1143,10 +1129,8 @@ class CreateMeetingParameters extends MetaParameters
      * Default: false
      *
      * @since 2.4.3
-     *
-     * @param mixed $allowRequestsWithoutSession
      */
-    public function setAllowRequestsWithoutSession($allowRequestsWithoutSession): self
+    public function setAllowRequestsWithoutSession(mixed $allowRequestsWithoutSession): self
     {
         $this->allowRequestsWithoutSession = $allowRequestsWithoutSession;
 
@@ -1349,12 +1333,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this->breakoutRoomsGroups;
     }
 
-    /**
-     * @param mixed $id
-     * @param mixed $name
-     * @param mixed $roster
-     */
-    public function addBreakoutRoomsGroup($id, $name, $roster): self
+    public function addBreakoutRoomsGroup(mixed $id, mixed $name, mixed $roster): self
     {
         $this->breakoutRoomsGroups[] = ['id' => $id, 'name' => $name, 'roster' => $roster];
 

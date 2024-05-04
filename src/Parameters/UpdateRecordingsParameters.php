@@ -25,14 +25,14 @@ namespace BigBlueButton\Parameters;
  */
 class UpdateRecordingsParameters extends MetaParameters
 {
-    private ?string $recordingId = null;
+    private string $recordingId;
 
-    public function __construct(?string $recordingId = null)
+    public function __construct(string $recordingId)
     {
         $this->recordingId = $recordingId;
     }
 
-    public function getRecordingId(): ?string
+    public function getRecordingId(): string
     {
         return $this->recordingId;
     }

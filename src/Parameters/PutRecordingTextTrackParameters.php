@@ -25,18 +25,18 @@ namespace BigBlueButton\Parameters;
  */
 class PutRecordingTextTrackParameters extends BaseParameters
 {
-    private ?string $recordId = null;
+    private string $recordId;
 
-    private ?string $kind = null;
+    private string $kind;
 
-    private ?string $lang = null;
+    private string $lang;
 
-    private ?string $label = null;
+    private string $label;
 
     /**
      * PutRecordingTextTrackParameters constructor.
      */
-    public function __construct(?string $recordId = null, ?string $kind = null, ?string $lang = null, ?string $label = null)
+    public function __construct(string $recordId, string $kind, string $lang, string $label)
     {
         $this->recordId = $recordId;
         $this->kind     = $kind;
@@ -44,7 +44,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         $this->label    = $label;
     }
 
-    public function getRecordId(): ?string
+    public function getRecordId(): string
     {
         return $this->recordId;
     }
@@ -56,7 +56,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
-    public function getKind(): ?string
+    public function getKind(): string
     {
         return $this->kind;
     }
@@ -68,7 +68,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
-    public function getLang(): ?string
+    public function getLang(): string
     {
         return $this->lang;
     }
@@ -80,7 +80,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->label;
     }
