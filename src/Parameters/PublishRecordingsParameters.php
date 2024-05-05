@@ -61,11 +61,14 @@ class PublishRecordingsParameters extends BaseParameters
 
     public function getHTTPQuery(): string
     {
-        return $this->buildHTTPQuery(
-            [
-                'recordID' => $this->recordingId,
-                'publish'  => !is_null($this->publish) ? ($this->publish ? 'true' : 'false') : $this->publish,
-            ]
-        );
+        return $this->buildHTTPQuery($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'recordID' => $this->recordingId,
+            'publish'  => !is_null($this->publish) ? ($this->publish ? 'true' : 'false') : $this->publish,
+        ];
     }
 }

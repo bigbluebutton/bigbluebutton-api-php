@@ -43,10 +43,13 @@ class HooksDestroyParameters extends BaseParameters
 
     public function getHTTPQuery(): string
     {
-        $queries = [
+        return $this->buildHTTPQuery($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
             'hookID' => $this->hookId,
         ];
-
-        return $this->buildHTTPQuery($queries);
     }
 }

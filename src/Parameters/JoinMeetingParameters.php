@@ -236,7 +236,20 @@ class JoinMeetingParameters extends UserDataParameters
 
     public function getHTTPQuery(): string
     {
-        $queries = [
+        $queries = $this->toArray();
+
+        foreach ($this->customParameters as $key => $value) {
+            $queries[$key] = $value;
+        }
+
+        $this->buildUserData($queries);
+
+        return $this->buildHTTPQuery($queries);
+    }
+
+    public function toArray(): array
+    {
+        return [
             'meetingID'            => $this->meetingId,
             'fullName'             => $this->username,
             'password'             => $this->password,
@@ -250,13 +263,5 @@ class JoinMeetingParameters extends UserDataParameters
             'guest'                => !is_null($this->guest) ? ($this->guest ? 'true' : 'false') : $this->guest,
             'defaultLayout'        => $this->defaultLayout,
         ];
-
-        foreach ($this->customParameters as $key => $value) {
-            $queries[$key] = $value;
-        }
-
-        $this->buildUserData($queries);
-
-        return $this->buildHTTPQuery($queries);
     }
 }

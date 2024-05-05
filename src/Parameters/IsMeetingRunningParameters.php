@@ -46,6 +46,13 @@ class IsMeetingRunningParameters extends BaseParameters
 
     public function getHTTPQuery(): string
     {
-        return $this->buildHTTPQuery(['meetingID' => $this->meetingId]);
+        return $this->buildHTTPQuery($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'meetingID' => $this->meetingId,
+        ];
     }
 }

@@ -69,14 +69,19 @@ class GetRecordingsParameters extends MetaParameters
 
     public function getHTTPQuery(): string
     {
-        $queries = [
-            'meetingID' => $this->meetingId,
-            'recordID'  => $this->recordId,
-            'state'     => $this->state,
-        ];
+        $queries = $this->toArray();
 
         $this->buildMeta($queries);
 
         return $this->buildHTTPQuery($queries);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'meetingID' => $this->meetingId,
+            'recordID'  => $this->recordId,
+            'state'     => $this->state,
+        ];
     }
 }

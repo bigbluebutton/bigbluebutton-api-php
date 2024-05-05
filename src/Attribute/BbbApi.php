@@ -18,41 +18,13 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Attribute;
 
-/**
- * Class DeleteRecordingsParameters.
- */
-class DeleteRecordingsParameters extends BaseParameters
+#[\Attribute(\Attribute::TARGET_FUNCTION)]
+class BbbApi
 {
-    private ?string $recordingId = null;
-
-    public function __construct(?string $recordingId = null)
+    public function __construct(string $a, string $b, string $c)
     {
-        $this->recordingId = $recordingId;
-    }
 
-    public function getRecordingId(): ?string
-    {
-        return $this->recordingId;
-    }
-
-    public function setRecordingId(string $recordingId): DeleteRecordingsParameters
-    {
-        $this->recordingId = $recordingId;
-
-        return $this;
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'recordID' => $this->recordingId,
-        ];
-    }
-
-    public function getHTTPQuery(): string
-    {
-        return $this->buildHTTPQuery($this->toArray());
     }
 }

@@ -74,12 +74,15 @@ class GetMeetingInfoParameters extends BaseParameters
 
     public function getHTTPQuery(): string
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-                'offset'    => $this->offset,
-                'limit'     => $this->limit,
-            ]
-        );
+        return $this->buildHTTPQuery($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'meetingID' => $this->meetingId,
+            'offset'    => $this->offset,
+            'limit'     => $this->limit,
+        ];
     }
 }

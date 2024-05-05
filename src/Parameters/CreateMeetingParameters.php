@@ -1419,7 +1419,37 @@ class CreateMeetingParameters extends MetaParameters
 
     public function getHTTPQuery(): string
     {
-        $queries = [
+        $queries = $this->toArray();
+
+        // Add breakout rooms parameters only if the meeting is a breakout room
+        if ($this->isBreakout()) {
+            $queries = array_merge($queries, [
+                'isBreakout'      => !is_null($this->isBreakout) ? ($this->isBreakout ? 'true' : 'false') : $this->isBreakout,
+                'parentMeetingID' => $this->parentMeetingId,
+                'sequence'        => $this->sequence,
+                'freeJoin'        => !is_null($this->freeJoin) ? ($this->freeJoin ? 'true' : 'false') : $this->freeJoin,
+            ]);
+        } else {
+            $queries = array_merge($queries, [
+                'learningDashboardCleanupDelayInMinutes' => $this->learningDashboardCleanupDelayInMinutes,
+            ]);
+
+            // Pre-defined groups to automatically assign the students to a given breakout room
+            if (!empty($this->breakoutRoomsGroups)) {
+                $queries = array_merge($queries, [
+                    'groups' => json_encode($this->breakoutRoomsGroups),
+                ]);
+            }
+        }
+
+        $this->buildMeta($queries);
+
+        return $this->buildHTTPQuery($queries);
+    }
+
+    public function toArray(): array
+    {
+        return [
             'name'                                   => $this->meetingName,
             'meetingID'                              => $this->meetingId,
             'attendeePW'                             => $this->attendeePassword,
@@ -1477,30 +1507,5 @@ class CreateMeetingParameters extends MetaParameters
             'presentationUploadExternalDescription'  => $this->presentationUploadExternalDescription,
             'recordFullDurationMedia'                => !is_null($this->recordFullDurationMedia) ? ($this->recordFullDurationMedia ? 'true' : 'false') : $this->recordFullDurationMedia,
         ];
-
-        // Add breakout rooms parameters only if the meeting is a breakout room
-        if ($this->isBreakout()) {
-            $queries = array_merge($queries, [
-                'isBreakout'      => !is_null($this->isBreakout) ? ($this->isBreakout ? 'true' : 'false') : $this->isBreakout,
-                'parentMeetingID' => $this->parentMeetingId,
-                'sequence'        => $this->sequence,
-                'freeJoin'        => !is_null($this->freeJoin) ? ($this->freeJoin ? 'true' : 'false') : $this->freeJoin,
-            ]);
-        } else {
-            $queries = array_merge($queries, [
-                'learningDashboardCleanupDelayInMinutes' => $this->learningDashboardCleanupDelayInMinutes,
-            ]);
-
-            // Pre-defined groups to automatically assign the students to a given breakout room
-            if (!empty($this->breakoutRoomsGroups)) {
-                $queries = array_merge($queries, [
-                    'groups' => json_encode($this->breakoutRoomsGroups),
-                ]);
-            }
-        }
-
-        $this->buildMeta($queries);
-
-        return $this->buildHTTPQuery($queries);
     }
 }

@@ -46,12 +46,17 @@ class UpdateRecordingsParameters extends MetaParameters
 
     public function getHTTPQuery(): string
     {
-        $queries = [
-            'recordID' => $this->recordingId,
-        ];
+        $queries = $this->toArray();
 
         $this->buildMeta($queries);
 
         return $this->buildHTTPQuery($queries);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'recordID' => $this->recordingId,
+        ];
     }
 }

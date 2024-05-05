@@ -83,14 +83,17 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
-    public function getHTTPQuery(): string
+    public function toArray(): array
     {
-        $queries = [
+        return [
             'callbackURL' => $this->callbackUrl,
             'meetingID'   => $this->meetingId,
             'getRaw'      => !is_null($this->getRaw) ? ($this->getRaw ? 'true' : 'false') : $this->getRaw,
         ];
+    }
 
-        return $this->buildHTTPQuery($queries);
+    public function getHTTPQuery(): string
+    {
+        return $this->buildHTTPQuery($this->toArray());
     }
 }

@@ -27,6 +27,9 @@ abstract class BaseParameters
 {
     abstract public function getHTTPQuery(): string;
 
+    /** @return array<string, mixed> */
+    abstract public function toArray(): array;
+
     /**
      * @param mixed $array
      */

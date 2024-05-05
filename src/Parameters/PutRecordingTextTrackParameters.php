@@ -94,13 +94,16 @@ class PutRecordingTextTrackParameters extends BaseParameters
 
     public function getHTTPQuery(): string
     {
-        $queries = [
+        return $this->buildHTTPQuery($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
             'recordID' => $this->recordId,
             'kind'     => $this->kind,
             'lang'     => $this->lang,
             'label'    => $this->label,
         ];
-
-        return $this->buildHTTPQuery($queries);
     }
 }
