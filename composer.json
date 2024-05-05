@@ -1,5 +1,5 @@
 {
-  "name": "nimah79/bigbluebutton-api-php",
+  "name": "bigbluebutton/bigbluebutton-api-php",
   "type": "library",
   "description": "BigBlueButton PHP API Library for PHP",
   "keywords": [
