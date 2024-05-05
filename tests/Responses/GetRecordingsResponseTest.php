@@ -57,7 +57,7 @@ class GetRecordingsResponseTest extends TestCase
         $this->assertEquals(1462980100026, $aRecord->getStartTime());
         $this->assertEquals(1462986640649, $aRecord->getEndTime());
         $this->assertEquals('presentation', $aRecord->getPlaybackType());
-        $this->assertEquals('http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getPlaybackUrl());
+        $this->assertEquals('https://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getPlaybackUrl());
         $this->assertEquals(86, $aRecord->getPlaybackLength());
         $this->assertEquals(9, sizeof($aRecord->getMetas()));
     }
@@ -86,7 +86,7 @@ class GetRecordingsResponseTest extends TestCase
 
         $presentationFormat = $aRecord->getFormats()[1]; // having images preview
         $this->assertEquals('presentation', $presentationFormat->getType());
-        $this->assertEquals('http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120', $presentationFormat->getUrl());
+        $this->assertEquals('https://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120', $presentationFormat->getUrl());
         $this->assertEquals(2973, $presentationFormat->getProcessingTime());
         $this->assertEquals(532, $presentationFormat->getLength());
         $this->assertEquals(168019, $presentationFormat->getSize());

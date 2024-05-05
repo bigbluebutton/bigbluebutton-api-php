@@ -22,7 +22,7 @@ namespace BigBlueButton\Core;
 
 abstract class Document implements DocumentInterface
 {
-    private string $name;
+    private ?string $name       = null;
     private ?bool $current      = null;
     private ?bool $downloadable = null;
     private ?bool $removable    = null;
@@ -33,14 +33,14 @@ abstract class Document implements DocumentInterface
      */
     private array $properties = [];
 
-    final public function setName(string $name): self
+    final public function setName(?string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    final public function getName(): string
+    final public function getName(): ?string
     {
         return $this->name;
     }

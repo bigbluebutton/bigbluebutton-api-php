@@ -26,7 +26,7 @@ use BigBlueButton\Core\DocumentUrl;
 use BigBlueButton\Enum\DocumentOption;
 use BigBlueButton\Parameters\Config\DocumentOptions;
 
-trait DocumentParametersTrait
+trait DocumentableTrait
 {
     /**
      * @var Document[]
@@ -69,25 +69,29 @@ trait DocumentParametersTrait
 
                 if ($document->getValidation()) {
                     if (!$document->isValid()) {
-                        throw new \Exception("Document `{$document->getName()}` is not failed.");
+                        throw new \Exception("Document `{$document->getName()}` is not valid.");
                     }
                 }
 
-                switch (get_class($document)) {
-                    case DocumentUrl::class:
+                switch (true) {
+                    case $document instanceof DocumentUrl:
                         $documentNode->addAttribute('url', $document->getUrl());
-                        $documentNode->addAttribute('filename', $document->getName());
+                        if ($document->getName()) {
+                            $documentNode->addAttribute('filename', $document->getName());
+                        }
 
                         break;
 
-                    case DocumentFile::class:
-                        $documentNode->addAttribute('name', $document->getName());
+                    case $document instanceof DocumentFile:
+                        if ($document->getName()) {
+                            $documentNode->addAttribute('name', $document->getName());
+                        }
                         $documentNode[0] = base64_encode($document->getFileContent());  // @phpstan-ignore-line
 
                         break;
 
                     default:
-                        throw new \Exception('The class `' . get_class($document) . '` is not a valid document.');
+                        throw new \Exception('The class `' . get_class($document) . '` is not a valid document. It shall be either an instance (direct or extended) of DocumentUrl or a DocumentFile.');
                 }
 
                 if (null !== $document->isCurrent()) {
@@ -123,12 +127,13 @@ trait DocumentParametersTrait
     /**
      * @throws \Exception
      *
+     * @param array<string, string> $otherAttributes
+     *
      * @deprecated This function has been replaced by `addDocument`
      */
-    public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null, DocumentOptions $documentOptions = null): self
+    public function addPresentation(string $nameOrUrl, ?string $content = null, ?string $filename = null, ?DocumentOptions $documentOptions = null, array $otherAttributes = []): self
     {
         if (0 === mb_strpos($nameOrUrl, 'http')) {
-            $filename = $filename ?: 'unnamed file';
             $document = new DocumentUrl($nameOrUrl, $filename);
         } else {
             $filename = $filename ?: $nameOrUrl;
@@ -164,6 +169,11 @@ trait DocumentParametersTrait
                         throw new \Exception('The value ' . $documentOption . ' is not valid.');
                 }
             }
+        }
+
+        // Set other attributes
+        foreach ($otherAttributes as $attribute => $value) {
+            $document->addProperty($attribute, $value);
         }
 
         $this->addDocument($document);

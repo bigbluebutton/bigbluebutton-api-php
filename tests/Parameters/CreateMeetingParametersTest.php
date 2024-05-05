@@ -133,14 +133,14 @@ class CreateMeetingParametersTest extends TestCase
     public function testGetPresentationsAsXMLWithUrl(): void
     {
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf');
+        $createMeetingParams->addPresentation('https://test-install.blindsidenetworks.com/default.pdf');
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithUrlAndFilename(): void
     {
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf', null, 'presentation.pdf');
+        $createMeetingParams->addPresentation('https://test-install.blindsidenetworks.com/default.pdf', null, 'presentation.pdf');
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
     }
 

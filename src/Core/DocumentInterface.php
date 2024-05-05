@@ -22,9 +22,9 @@ namespace BigBlueButton\Core;
 
 interface DocumentInterface
 {
-    public function setName(string $name): Document;
+    public function setName(?string $name): Document;
 
-    public function getName(): string;
+    public function getName(): ?string;
 
     public function setCurrent(?bool $current): Document;
 
