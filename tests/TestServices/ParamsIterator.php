@@ -27,8 +27,6 @@ use BigBlueButton\TestCase;
  */
 class ParamsIterator extends TestCase
 {
-    public function __construct() {}
-
     /**
      * @param array<string, mixed> $params
      */
@@ -37,6 +35,10 @@ class ParamsIterator extends TestCase
         foreach ($params as $key => $value) {
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
+            }
+
+            if ($value instanceof \BackedEnum) {
+                $value = $value->value;
             }
 
             if (!is_array($value)) {

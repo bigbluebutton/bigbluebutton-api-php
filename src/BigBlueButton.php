@@ -76,7 +76,7 @@ class BigBlueButton
      * @deprecated This property has been replaced by property in UrlBuilder-class.
      *             User property via $this->getUrlBuilder()->setHashingAlgorithm() and $this->getUrlBuilder()->getHashingAlgorithm().
      */
-    protected string $hashingAlgorithm;
+    protected HashingAlgorithm $hashingAlgorithm;
 
     /**
      * @var array<int, mixed>
@@ -493,13 +493,13 @@ class BigBlueButton
         return $this;
     }
 
-    public function setHashingAlgorithm(string $hashingAlgorithm): void
+    public function setHashingAlgorithm(HashingAlgorithm $hashingAlgorithm): void
     {
         $this->hashingAlgorithm = $hashingAlgorithm;
         $this->getUrlBuilder()->setHashingAlgorithm($hashingAlgorithm);
     }
 
-    public function getHashingAlgorithm(string $hashingAlgorithm): string
+    public function getHashingAlgorithm(): HashingAlgorithm
     {
         $this->hashingAlgorithm = $this->getUrlBuilder()->getHashingAlgorithm();
 

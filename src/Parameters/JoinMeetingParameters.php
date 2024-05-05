@@ -20,6 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Enum\MeetingLayout;
 use BigBlueButton\Enum\Role;
 
 /**
@@ -51,13 +52,13 @@ class JoinMeetingParameters extends UserDataParameters
      */
     private array $customParameters;
 
-    private ?string $role = null;
+    private ?Role $role = null;
 
     private ?bool $excludeFromDashboard = null;
 
     private ?bool $guest = null;
 
-    private ?string $defaultLayout = null;
+    private ?MeetingLayout $defaultLayout = null;
 
     /**
      * @param mixed $passwordOrRole
@@ -179,12 +180,12 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getRole(): ?Role
     {
         return $this->role;
     }
 
-    public function setRole(string $role): self
+    public function setRole(Role $role): self
     {
         $this->role = $role;
 
@@ -215,12 +216,12 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    public function getDefaultLayout(): ?string
+    public function getDefaultLayout(): ?MeetingLayout
     {
         return $this->defaultLayout;
     }
 
-    public function setDefaultLayout(string $defaultLayout): self
+    public function setDefaultLayout(MeetingLayout $defaultLayout): self
     {
         $this->defaultLayout = $defaultLayout;
 
@@ -243,12 +244,12 @@ class JoinMeetingParameters extends UserDataParameters
             'userID'               => $this->userId,
             'webVoiceConf'         => $this->webVoiceConf,
             'createTime'           => $this->creationTime,
-            'role'                 => $this->role,
+            'role'                 => is_null($this->role) ? null : $this->role->value,
             'excludeFromDashboard' => !is_null($this->excludeFromDashboard) ? ($this->excludeFromDashboard ? 'true' : 'false') : $this->excludeFromDashboard,
             'avatarURL'            => $this->avatarURL,
             'redirect'             => !is_null($this->redirect) ? ($this->redirect ? 'true' : 'false') : $this->redirect,
             'guest'                => !is_null($this->guest) ? ($this->guest ? 'true' : 'false') : $this->guest,
-            'defaultLayout'        => $this->defaultLayout,
+            'defaultLayout'        => is_null($this->defaultLayout) ? null : $this->defaultLayout->value,
         ];
 
         foreach ($this->customParameters as $key => $value) {
