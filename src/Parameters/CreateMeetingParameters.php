@@ -1542,7 +1542,7 @@ class CreateMeetingParameters extends MetaParameters
             }
         }
 
-        $this->buildMeta($queries);
+        $queries = $this->buildMeta($queries);
 
         return $this->buildHTTPQuery($queries);
     }

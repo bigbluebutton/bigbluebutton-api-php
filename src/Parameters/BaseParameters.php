@@ -29,6 +29,9 @@ abstract class BaseParameters
 {
     public function getHTTPQuery(): string
     {
+        // todo: remove items with NULL-value from $this->toApiDataArray() at this point to ensure
+        //       that the request string will be as short as possible.
+
         return $this->buildHTTPQuery($this->toApiDataArray());
     }
 
@@ -54,8 +57,6 @@ abstract class BaseParameters
                 $key   = $attribute->newInstance()->getAttributeName(); // the value of the argument inside the attribute
                 $value = $this->{$method->getName()}();                 // the value of the property via the method with that attribute (typically the getter-function)
 
-                // todo: check for NULL and do not add those attributes (with NULL) into the result array
-
                 if (is_bool($value)) {
                     $value = $value ? 'true' : 'false';
                 }
@@ -71,10 +72,7 @@ abstract class BaseParameters
         return $result;
     }
 
-    /**
-     * @param mixed $array
-     */
-    protected function buildHTTPQuery($array): string
+    protected function buildHTTPQuery(mixed $array): string
     {
         return str_replace(['%20', '!', "'", '(', ')', '*'], ['+', '%21', '%27', '%28', '%29', '%2A'], http_build_query(array_filter($array), '', '&', \PHP_QUERY_RFC3986));
     }

@@ -50,8 +50,7 @@ class UpdateRecordingsParameters extends MetaParameters
     public function getHTTPQuery(): string
     {
         $queries = $this->toApiDataArray();
-
-        $this->buildMeta($queries);
+        $queries = $this->buildMeta($queries);
 
         return $this->buildHTTPQuery($queries);
     }
