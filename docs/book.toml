@@ -16,6 +16,7 @@ create-missing = false   # whether or not to create missing pages
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "navy"
+additional-css = ["theme/bbb.css"]
 
 [output.html.search]
 enable = true            # enables the search feature
