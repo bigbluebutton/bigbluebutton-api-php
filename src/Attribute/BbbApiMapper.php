@@ -20,11 +20,23 @@
 
 namespace BigBlueButton\Attribute;
 
-#[\Attribute(\Attribute::TARGET_FUNCTION)]
-class BbbApi
+#[\Attribute(\Attribute::TARGET_METHOD)]
+class BbbApiMapper
 {
-    public function __construct(string $a, string $b, string $c)
-    {
+    private string $attributeName;
 
+    public function __construct(string $attributeName)
+    {
+        $this->attributeName = $attributeName;
+    }
+
+    public function getAttributeName(): string
+    {
+        return $this->attributeName;
+    }
+
+    public function setAttributeName(string $attributeName): void
+    {
+        $this->attributeName = $attributeName;
     }
 }

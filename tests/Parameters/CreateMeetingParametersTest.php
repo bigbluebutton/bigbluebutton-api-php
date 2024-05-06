@@ -20,7 +20,6 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase;
 use BigBlueButton\TestServices\Fixtures;
 
 /**
@@ -28,7 +27,7 @@ use BigBlueButton\TestServices\Fixtures;
  *
  * @internal
  */
-class CreateMeetingParametersTest extends TestCase
+class CreateMeetingParametersTest extends ParameterTestCase
 {
     public function testCreateMeetingParameters(): void
     {
@@ -152,5 +151,12 @@ class CreateMeetingParametersTest extends TestCase
         $this->assertIsString($file);
         $createMeetingParams->addPresentation('bbb_logo.png', $file);
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
+    }
+
+    public function testParameterArray(): void
+    {
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+
+        $this->assertEquals($createMeetingParams->toApiDataArray(), $createMeetingParams->toArray());
     }
 }

@@ -44,4 +44,16 @@ class PutRecordingTextTrackParametersTest extends TestCase
         $getRecordingTextTracksParams->setRecordId($newRecordId = $this->faker->uuid);
         $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordId());
     }
+
+    public function testParameterArray(): void
+    {
+        $recordId = $this->faker->uuid;
+        $kind     = $this->faker->word;
+        $lang     = $this->faker->languageCode;
+        $label    = $this->faker->name;
+
+        $putRecordingTextTrackParameters = new PutRecordingTextTrackParameters($recordId, $kind, $lang, $label);
+
+        $this->assertEquals($putRecordingTextTrackParameters->toApiDataArray(), $putRecordingTextTrackParameters->toArray());
+    }
 }

@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\BbbApiMapper;
+
 /**
  * Class BaseParameters.
  */
@@ -27,8 +29,44 @@ abstract class BaseParameters
 {
     abstract public function getHTTPQuery(): string;
 
-    /** @return array<string, mixed> */
+    /**
+     * @return array<string, mixed>
+     *
+     * @deprecated This function is replaced by getApiData()
+     */
     abstract public function toArray(): array;
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toApiDataArray(): array
+    {
+        $result = [];
+
+        $classReflection = new \ReflectionClass($this);
+
+        // check the attributes of each method if BbbApiMapper-Attribute is used. Take value into result.
+        foreach ($classReflection->getMethods() as $method) {
+            foreach ($method->getAttributes(BbbApiMapper::class) as $attribute) {
+                $key   = $attribute->newInstance()->getAttributeName(); // the value of the argument inside the attribute
+                $value = $this->{$method->getName()}();                 // the value of the property via the method with that attribute (typically the getter-function)
+
+                // todo: check for NULL and do not add those attributes (with NULL) into the result array
+
+                if (is_bool($value)) {
+                    $value = $value ? 'true' : 'false';
+                }
+
+                if (is_array($value)) {
+                    $value = join(',', $value);
+                }
+
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+    }
 
     /**
      * @param mixed $array

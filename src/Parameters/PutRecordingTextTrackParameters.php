@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\BbbApiMapper;
+
 /**
  * Class PutRecordingTextTrackParameters.
  */
@@ -44,6 +46,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         $this->label    = $label;
     }
 
+    #[BbbApiMapper(attributeName: 'recordID')]
     public function getRecordId(): ?string
     {
         return $this->recordId;
@@ -56,6 +59,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
+    #[BbbApiMapper(attributeName: 'kind')]
     public function getKind(): ?string
     {
         return $this->kind;
@@ -68,6 +72,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
+    #[BbbApiMapper(attributeName: 'lang')]
     public function getLang(): ?string
     {
         return $this->lang;
@@ -80,6 +85,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
+    #[BbbApiMapper(attributeName: 'label')]
     public function getLabel(): ?string
     {
         return $this->label;
@@ -94,9 +100,13 @@ class PutRecordingTextTrackParameters extends BaseParameters
 
     public function getHTTPQuery(): string
     {
-        return $this->buildHTTPQuery($this->toArray());
+        return $this->buildHTTPQuery($this->toApiDataArray());
     }
 
+    /**
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
     public function toArray(): array
     {
         return [

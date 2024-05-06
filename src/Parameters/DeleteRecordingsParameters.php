@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\BbbApiMapper;
+
 /**
  * Class DeleteRecordingsParameters.
  */
@@ -32,6 +34,7 @@ class DeleteRecordingsParameters extends BaseParameters
         $this->recordingId = $recordingId;
     }
 
+    #[BbbApiMapper(attributeName: 'recordID')]
     public function getRecordingId(): ?string
     {
         return $this->recordingId;
@@ -44,6 +47,10 @@ class DeleteRecordingsParameters extends BaseParameters
         return $this;
     }
 
+    /**
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
     public function toArray(): array
     {
         return [
@@ -53,6 +60,6 @@ class DeleteRecordingsParameters extends BaseParameters
 
     public function getHTTPQuery(): string
     {
-        return $this->buildHTTPQuery($this->toArray());
+        return $this->buildHTTPQuery($this->toApiDataArray());
     }
 }

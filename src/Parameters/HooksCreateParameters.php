@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\BbbApiMapper;
+
 class HooksCreateParameters extends BaseParameters
 {
     private string $callbackUrl;
@@ -35,6 +37,7 @@ class HooksCreateParameters extends BaseParameters
         $this->callbackUrl = $callbackUrl;
     }
 
+    #[BbbApiMapper(attributeName: 'callbackURL')]
     public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
@@ -47,6 +50,7 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
+    #[BbbApiMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -71,6 +75,7 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
+    #[BbbApiMapper(attributeName: 'getRaw')]
     public function getRaw(): ?bool
     {
         return $this->getRaw;
@@ -83,6 +88,10 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
+    /**
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
     public function toArray(): array
     {
         return [
@@ -94,6 +103,6 @@ class HooksCreateParameters extends BaseParameters
 
     public function getHTTPQuery(): string
     {
-        return $this->buildHTTPQuery($this->toArray());
+        return $this->buildHTTPQuery($this->toApiDataArray());
     }
 }

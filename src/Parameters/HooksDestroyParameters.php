@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\BbbApiMapper;
+
 class HooksDestroyParameters extends BaseParameters
 {
     private int $hookId;
@@ -29,6 +31,7 @@ class HooksDestroyParameters extends BaseParameters
         $this->hookId = $hookId;
     }
 
+    #[BbbApiMapper(attributeName: 'hookID')]
     public function getHookId(): int
     {
         return $this->hookId;
@@ -43,9 +46,13 @@ class HooksDestroyParameters extends BaseParameters
 
     public function getHTTPQuery(): string
     {
-        return $this->buildHTTPQuery($this->toArray());
+        return $this->buildHTTPQuery($this->toApiDataArray());
     }
 
+    /**
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
     public function toArray(): array
     {
         return [
