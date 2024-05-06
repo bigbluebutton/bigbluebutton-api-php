@@ -1297,7 +1297,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * If passed with a valid presentation file url, this presentation will override the default presentation.
-     * To only upload but not set as default, also pass preUploadedPresentationOverrideDefault=false
+     * To only upload but not set as default, also pass preUploadedPresentationOverrideDefault=false.
      *
      * @since 2.7.2
      */
@@ -1308,8 +1308,14 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    #[BbbApiMapper(attributeName: 'preUploadedPresentation')]
+    public function getPreUploadedPresentation(): ?string
+    {
+        return $this->preUploadedPresentation;
+    }
+
     /**
-     * If passed it will use this string as the name of the presentation uploaded via preUploadedPresentation
+     * If passed it will use this string as the name of the presentation uploaded via preUploadedPresentation.
      *
      * @since 2.7.2
      */
@@ -1318,6 +1324,12 @@ class CreateMeetingParameters extends MetaParameters
         $this->preUploadedPresentationName = $preUploadedPresentationName;
 
         return $this;
+    }
+
+    #[BbbApiMapper(attributeName: 'preUploadedPresentationName')]
+    public function getPreUploadedPresentationName(): ?string
+    {
+        return $this->preUploadedPresentationName;
     }
 
     /**
