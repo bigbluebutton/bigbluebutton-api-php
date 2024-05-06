@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 /**
  * Class PutRecordingTextTrackParameters.
@@ -46,7 +46,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         $this->label    = $label;
     }
 
-    #[BbbApiMapper(attributeName: 'recordID')]
+    #[ApiParameterMapper(attributeName: 'recordID')]
     public function getRecordId(): ?string
     {
         return $this->recordId;
@@ -59,7 +59,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'kind')]
+    #[ApiParameterMapper(attributeName: 'kind')]
     public function getKind(): ?string
     {
         return $this->kind;
@@ -72,7 +72,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'lang')]
+    #[ApiParameterMapper(attributeName: 'lang')]
     public function getLang(): ?string
     {
         return $this->lang;
@@ -85,7 +85,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'label')]
+    #[ApiParameterMapper(attributeName: 'label')]
     public function getLabel(): ?string
     {
         return $this->label;

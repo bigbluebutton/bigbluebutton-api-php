@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 /**
  * Class IsMeetingRunningParameters.
@@ -34,7 +34,7 @@ class IsMeetingRunningParameters extends BaseParameters
         $this->meetingId = $meetingId;
     }
 
-    #[BbbApiMapper(attributeName: 'meetingID')]
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;

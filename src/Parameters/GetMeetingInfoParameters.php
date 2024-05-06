@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 /**
  * Class GetMeetingInfoParameters.
@@ -38,7 +38,7 @@ class GetMeetingInfoParameters extends BaseParameters
         $this->meetingId = $meetingId;
     }
 
-    #[BbbApiMapper(attributeName: 'meetingID')]
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -51,7 +51,7 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'offset')]
+    #[ApiParameterMapper(attributeName: 'offset')]
     public function getOffset(): ?int
     {
         return $this->offset;
@@ -64,7 +64,7 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'limit')]
+    #[ApiParameterMapper(attributeName: 'limit')]
     public function getLimit(): ?int
     {
         return $this->limit;

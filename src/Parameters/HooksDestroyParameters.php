@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 class HooksDestroyParameters extends BaseParameters
 {
@@ -31,7 +31,7 @@ class HooksDestroyParameters extends BaseParameters
         $this->hookId = $hookId;
     }
 
-    #[BbbApiMapper(attributeName: 'hookID')]
+    #[ApiParameterMapper(attributeName: 'hookID')]
     public function getHookId(): int
     {
         return $this->hookId;

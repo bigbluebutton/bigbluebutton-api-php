@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 class HooksCreateParameters extends BaseParameters
 {
@@ -37,7 +37,7 @@ class HooksCreateParameters extends BaseParameters
         $this->callbackUrl = $callbackUrl;
     }
 
-    #[BbbApiMapper(attributeName: 'callbackURL')]
+    #[ApiParameterMapper(attributeName: 'callbackURL')]
     public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
@@ -50,7 +50,7 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'meetingID')]
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -75,7 +75,7 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'getRaw')]
+    #[ApiParameterMapper(attributeName: 'getRaw')]
     public function getRaw(): ?bool
     {
         return $this->getRaw;

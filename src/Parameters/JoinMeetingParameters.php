@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 use BigBlueButton\Enum\Role;
 
 /**
@@ -78,7 +78,7 @@ class JoinMeetingParameters extends UserDataParameters
         $this->customParameters = [];
     }
 
-    #[BbbApiMapper(attributeName: 'meetingID')]
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -91,7 +91,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'fullName')]
+    #[ApiParameterMapper(attributeName: 'fullName')]
     public function getUsername(): ?string
     {
         return $this->username;
@@ -107,7 +107,7 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
-    #[BbbApiMapper(attributeName: 'password')]
+    #[ApiParameterMapper(attributeName: 'password')]
     public function getPassword(): ?string
     {
         return $this->password;
@@ -123,7 +123,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'userID')]
+    #[ApiParameterMapper(attributeName: 'userID')]
     public function getUserId(): ?string
     {
         return $this->userId;
@@ -136,7 +136,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'webVoiceConf')]
+    #[ApiParameterMapper(attributeName: 'webVoiceConf')]
     public function getWebVoiceConf(): ?string
     {
         return $this->webVoiceConf;
@@ -149,7 +149,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'createTime')]
+    #[ApiParameterMapper(attributeName: 'createTime')]
     public function getCreationTime(): ?float
     {
         return $this->creationTime;
@@ -162,7 +162,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'avatarURL')]
+    #[ApiParameterMapper(attributeName: 'avatarURL')]
     public function getAvatarURL(): ?string
     {
         return $this->avatarURL;
@@ -175,7 +175,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'redirect')]
+    #[ApiParameterMapper(attributeName: 'redirect')]
     public function isRedirect(): ?bool
     {
         return $this->redirect;
@@ -188,7 +188,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'role')]
+    #[ApiParameterMapper(attributeName: 'role')]
     public function getRole(): ?string
     {
         return $this->role;
@@ -201,7 +201,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'excludeFromDashboard')]
+    #[ApiParameterMapper(attributeName: 'excludeFromDashboard')]
     public function isExcludeFromDashboard(): ?bool
     {
         return $this->excludeFromDashboard;
@@ -214,7 +214,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'guest')]
+    #[ApiParameterMapper(attributeName: 'guest')]
     public function isGuest(): ?bool
     {
         return $this->guest;
@@ -227,7 +227,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'defaultLayout')]
+    #[ApiParameterMapper(attributeName: 'defaultLayout')]
     public function getDefaultLayout(): ?string
     {
         return $this->defaultLayout;

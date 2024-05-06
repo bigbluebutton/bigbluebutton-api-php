@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 /**
  * Class UpdateRecordingsParameters.
@@ -34,7 +34,7 @@ class UpdateRecordingsParameters extends MetaParameters
         $this->recordingId = $recordingId;
     }
 
-    #[BbbApiMapper(attributeName: 'recordID')]
+    #[ApiParameterMapper(attributeName: 'recordID')]
     public function getRecordingId(): ?string
     {
         return $this->recordingId;

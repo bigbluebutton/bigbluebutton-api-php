@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 /**
  * Class PublishRecordingsParameters.
@@ -37,7 +37,7 @@ class PublishRecordingsParameters extends BaseParameters
         $this->publish     = $publish;
     }
 
-    #[BbbApiMapper(attributeName: 'recordID')]
+    #[ApiParameterMapper(attributeName: 'recordID')]
     public function getRecordingId(): ?string
     {
         return $this->recordingId;
@@ -50,7 +50,7 @@ class PublishRecordingsParameters extends BaseParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'publish')]
+    #[ApiParameterMapper(attributeName: 'publish')]
     public function isPublish(): ?bool
     {
         return $this->publish;

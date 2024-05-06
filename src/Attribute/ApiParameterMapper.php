@@ -21,7 +21,7 @@
 namespace BigBlueButton\Attribute;
 
 #[\Attribute(\Attribute::TARGET_METHOD)]
-class BbbApiMapper
+class ApiParameterMapper
 {
     private string $attributeName;
 

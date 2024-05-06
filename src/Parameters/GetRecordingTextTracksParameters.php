@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 /**
  * Class GetRecordingTextTracksParameters.
@@ -37,7 +37,7 @@ class GetRecordingTextTracksParameters extends MetaParameters
         $this->recordId = $recordId;
     }
 
-    #[BbbApiMapper(attributeName: 'recordID')]
+    #[ApiParameterMapper(attributeName: 'recordID')]
     public function getRecordId(): ?string
     {
         return $this->recordId;

@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 /**
  * Class GetRecordingsParameters.
@@ -33,7 +33,7 @@ class GetRecordingsParameters extends MetaParameters
 
     private ?string $state = null;
 
-    #[BbbApiMapper(attributeName: 'meetingID')]
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -46,7 +46,7 @@ class GetRecordingsParameters extends MetaParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'recordID')]
+    #[ApiParameterMapper(attributeName: 'recordID')]
     public function getRecordId(): ?string
     {
         return $this->recordId;
@@ -59,7 +59,7 @@ class GetRecordingsParameters extends MetaParameters
         return $this;
     }
 
-    #[BbbApiMapper(attributeName: 'state')]
+    #[ApiParameterMapper(attributeName: 'state')]
     public function getState(): ?string
     {
         return $this->state;

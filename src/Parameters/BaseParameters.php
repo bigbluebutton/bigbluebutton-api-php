@@ -20,7 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\BbbApiMapper;
+use BigBlueButton\Attribute\ApiParameterMapper;
 
 /**
  * Class BaseParameters.
@@ -50,7 +50,7 @@ abstract class BaseParameters
 
         // check the attributes of each method if BbbApiMapper-Attribute is used. Take value into result.
         foreach ($classReflection->getMethods() as $method) {
-            foreach ($method->getAttributes(BbbApiMapper::class) as $attribute) {
+            foreach ($method->getAttributes(ApiParameterMapper::class) as $attribute) {
                 $key   = $attribute->newInstance()->getAttributeName(); // the value of the argument inside the attribute
                 $value = $this->{$method->getName()}();                 // the value of the property via the method with that attribute (typically the getter-function)
 
