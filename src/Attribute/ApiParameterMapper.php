@@ -35,8 +35,4 @@ class ApiParameterMapper
         return $this->attributeName;
     }
 
-    public function setAttributeName(string $attributeName): void
-    {
-        $this->attributeName = $attributeName;
-    }
 }

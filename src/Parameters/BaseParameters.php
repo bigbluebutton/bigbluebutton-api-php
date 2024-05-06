@@ -51,12 +51,17 @@ abstract class BaseParameters
 
         $classReflection = new \ReflectionClass($this);
 
-        // check the attributes of each method if BbbApiMapper-Attribute is used. Take value into result.
+        // check the attributes of each method if ApiParameterMapper-Attribute is used. Take value into result.
         foreach ($classReflection->getMethods() as $method) {
             foreach ($method->getAttributes(ApiParameterMapper::class) as $attribute) {
-                $key   = $attribute->newInstance()->getAttributeName(); // the value of the argument inside the attribute
-                $value = $this->{$method->getName()}();                 // the value of the property via the method with that attribute (typically the getter-function)
+                /** @var ApiParameterMapper $attributeObject */
+                $attributeObject = $attribute->newInstance();
 
+                // get key and value
+                $key   = $attributeObject->getAttributeName(); // the value of the argument inside the attribute
+                $value = $this->{$method->getName()}();        // the value of the property via the method with that attribute (typically the getter-function)
+
+                // transform
                 if (is_bool($value)) {
                     $value = $value ? 'true' : 'false';
                 }
@@ -65,6 +70,7 @@ abstract class BaseParameters
                     $value = join(',', $value);
                 }
 
+                // store
                 $result[$key] = $value;
             }
         }
