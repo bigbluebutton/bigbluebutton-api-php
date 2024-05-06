@@ -77,11 +77,6 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
-    public function getHTTPQuery(): string
-    {
-        return $this->buildHTTPQuery($this->toApiDataArray());
-    }
-
     /**
      * @deprecated this function is replaced by getApiData() and shall be removed
      *             once new concept with BbbApiMapper-attribute is bullet prove

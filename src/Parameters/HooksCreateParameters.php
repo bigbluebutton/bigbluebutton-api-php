@@ -100,9 +100,4 @@ class HooksCreateParameters extends BaseParameters
             'getRaw'      => !is_null($this->getRaw) ? ($this->getRaw ? 'true' : 'false') : $this->getRaw,
         ];
     }
-
-    public function getHTTPQuery(): string
-    {
-        return $this->buildHTTPQuery($this->toApiDataArray());
-    }
 }

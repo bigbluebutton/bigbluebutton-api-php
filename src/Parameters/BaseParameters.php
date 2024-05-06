@@ -27,7 +27,10 @@ use BigBlueButton\Attribute\BbbApiMapper;
  */
 abstract class BaseParameters
 {
-    abstract public function getHTTPQuery(): string;
+    public function getHTTPQuery(): string
+    {
+        return $this->buildHTTPQuery($this->toApiDataArray());
+    }
 
     /**
      * @return array<string, mixed>

@@ -57,9 +57,4 @@ class DeleteRecordingsParameters extends BaseParameters
             'recordID' => $this->recordingId,
         ];
     }
-
-    public function getHTTPQuery(): string
-    {
-        return $this->buildHTTPQuery($this->toApiDataArray());
-    }
 }
