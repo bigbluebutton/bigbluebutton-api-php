@@ -5,9 +5,10 @@ In the BigBlueButton-world a video-conference is called a meeting. Once a meetin
 
 ## Administration
 ### Creating
-One of the first steps is the creation of a meeting. A successfully created meeting is the prerequisite to enable participants (moderators and viewers) to join that meeting a second step.
+One of the first steps is the creation of a meeting. A successfully created meeting is the prerequisite to enable participants (moderators and viewers) to join that meeting in a second step.
 
 #### Default meeting
+In order to create a new meeting, you only need to initiate a new object of the `CreateMeetingParameters`-class and pass an identifier (`$meetingId`) and a name (`$meetingName`) to the constructor. This parameter object (`$createMeetingParameters`) must now be passed to the `createMeeting`-function to launch the request to the BBB-Server. This function returns the BBB-server's response (`$createMeetingResponse`).
 ```php
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\CreateMeetingParameters;
@@ -22,7 +23,7 @@ $meetingName = "My first BBB-meeting";
 // define the required parameters for the meeting
 $createMeetingParameters = new CreateMeetingParameters($meetingId, $meetingName);
 
-// send the request to the BBB-Server to create a meeting and receive its response
+// launch the request to the BBB-Server and receive its response
 $createMeetingResponse = $bbb->createMeeting($createMeetingParameters);
 
 if (!$createMeetingResponse->success()) {
@@ -49,6 +50,7 @@ $createMeetingParameters
 
 Documents can be added either during the creation of a meeting (see `$createMeetingParameters`) or can be added once needed. This section is about adding documents into a running meeting.
 
+#### old way (presentations)
 ```php
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Enum\DocumentOption;
@@ -77,6 +79,7 @@ $insertDocumentParameters
     ->addPresentation($url, null, 'new_name.pdf')                // by a URL and rename the file
     ->addPresentation('filename.pdf', file_get_contents($file)); // by injecting a data stream and define the filename used on BBB-server
 
+// launch the request to the BBB-Server and receive its response
 $insertDocumentResponse = $bbb->insertDocument($insertDocumentParameters);
 
 if (!$createMeetingResponse->success()) {
@@ -85,23 +88,36 @@ if (!$createMeetingResponse->success()) {
     // steps once document has been added
 }
 ```
+#### new way (documents)
+(tbd)
+```php
+```
 
 ### Joining
+Once a meeting is created successfully, it is ready to let the participants into the meeting. This will be done with the join command. It needs to defined into which meeting (`$meetingId`) and by what name (`$name`) the participant shall join the meeting. Additionally the role of the particpant needs to be declared: either as moderator (`Role::MODERATOR`) or as a regular viewer (`Role::VIEWER`).
 
 ```php
-
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Enum\Role;
 
+// create an instance of the BBB-Client (see details in the setup description)
 $bbb = new BigBlueButton();
 
-// $moderator_password for moderator
-$joinMeetingParams = new JoinMeetingParameters($meetingID, $name, $password);
-$joinMeetingParams->setRedirect(true);
-$url = $bbb->getJoinMeetingURL($joinMeetingParams);
+// define your variables
+$meetingID = 123456;
+$name      = "Peter Parker";
+$role1     = Role::MODERATOR;   // choose MODERATOR for a coordinating person
+$role2     = Role::VIEWER;      // choose VIEWER for normal participants
 
-// header('Location:' . $url);
+// define the required parameters for the user to join the meeting
+$joinMeetingParams = new JoinMeetingParameters($meetingID, $name, $role1);
+$joinMeetingParams->setRedirect(true);  // will ensure that the user is redirected to the BBB-Server
+
+// launch the request to the BBB-Server
+$joinMeetingRespone = $bbb->getJoinMeetingURL($joinMeetingParams);
 ```
+In the example above, the user is redirected directly (``) to the meeting on the BBB-Server. In case the the user shall not be redirected, the request will provide a URL in its response. This URL can be provided the user e.g. via a click button.
 
 ### Ending
 <sup>[API Reference](https://docs.bigbluebutton.org/development/api/#end)</sup>
