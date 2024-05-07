@@ -304,7 +304,7 @@ class BigBlueButton
     /**
      * @throws BadResponseException|\RuntimeException
      */
-    public function getRecordings(mixed $recordingParams): GetRecordingsResponse
+    public function getRecordings(GetRecordingsParameters $recordingParams): GetRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getRecordingsUrl($recordingParams));
 
@@ -414,7 +414,7 @@ class BigBlueButton
     /**
      * @throws BadResponseException
      */
-    public function hooksCreate(mixed $hookCreateParams): HooksCreateResponse
+    public function hooksCreate(HooksCreateParameters $hookCreateParams): HooksCreateResponse
     {
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getHooksCreateUrl($hookCreateParams));
 
@@ -450,7 +450,7 @@ class BigBlueButton
     /**
      * @throws BadResponseException
      */
-    public function hooksDestroy(mixed $hooksDestroyParams): HooksDestroyResponse
+    public function hooksDestroy(HooksDestroyParameters $hooksDestroyParams): HooksDestroyResponse
     {
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getHooksDestroyUrl($hooksDestroyParams));
 

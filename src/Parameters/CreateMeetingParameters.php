@@ -581,7 +581,7 @@ class CreateMeetingParameters extends MetaParameters
      * @since 2.4.3
      * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setVirtualBackgroundsDisabled(mixed $virtualBackgroundsDisabled): self
+    public function setVirtualBackgroundsDisabled(bool $virtualBackgroundsDisabled): self
     {
         $this->virtualBackgroundsDisabled = $virtualBackgroundsDisabled;
 
@@ -937,14 +937,14 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function setEndCallbackUrl(mixed $endCallbackUrl): self
+    public function setEndCallbackUrl(string $endCallbackUrl): self
     {
         $this->addMeta('endCallbackUrl', $endCallbackUrl);
 
         return $this;
     }
 
-    public function setRecordingReadyCallbackUrl(mixed $recordingReadyCallbackUrl): self
+    public function setRecordingReadyCallbackUrl(string $recordingReadyCallbackUrl): self
     {
         $this->addMeta('bbb-recording-ready-url', $recordingReadyCallbackUrl);
 
