@@ -85,7 +85,7 @@ class BigBlueButton
     protected int $timeOut    = 10;
     protected string $jSessionId;
 
-    private UrlBuilder $urlBuilder;
+    protected UrlBuilder $urlBuilder;
 
     /**
      * @param null|array<string, mixed> $opts
