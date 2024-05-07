@@ -1045,7 +1045,7 @@ class CreateMeetingParameters extends MetaParameters
      *
      * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setBreakoutRoomsEnabled(mixed $breakoutRoomsEnabled): self
+    public function setBreakoutRoomsEnabled(bool $breakoutRoomsEnabled): self
     {
         $this->breakoutRoomsEnabled = $breakoutRoomsEnabled;
 
@@ -1130,7 +1130,7 @@ class CreateMeetingParameters extends MetaParameters
      *
      * @since 2.4.3
      */
-    public function setAllowRequestsWithoutSession(mixed $allowRequestsWithoutSession): self
+    public function setAllowRequestsWithoutSession(bool $allowRequestsWithoutSession): self
     {
         $this->allowRequestsWithoutSession = $allowRequestsWithoutSession;
 
@@ -1333,7 +1333,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this->breakoutRoomsGroups;
     }
 
-    public function addBreakoutRoomsGroup(mixed $id, mixed $name, mixed $roster): self
+    public function addBreakoutRoomsGroup(mixed $id, string $name, array $roster): self
     {
         $this->breakoutRoomsGroups[] = ['id' => $id, 'name' => $name, 'roster' => $roster];
 
