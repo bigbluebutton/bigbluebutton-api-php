@@ -1333,6 +1333,9 @@ class CreateMeetingParameters extends MetaParameters
         return $this->breakoutRoomsGroups;
     }
 
+    /**
+     * @param array<int, string> $roster
+     */
     public function addBreakoutRoomsGroup(mixed $id, string $name, array $roster): self
     {
         $this->breakoutRoomsGroups[] = ['id' => $id, 'name' => $name, 'roster' => $roster];

@@ -27,6 +27,9 @@ abstract class BaseParameters
 {
     abstract public function getHTTPQuery(): string;
 
+    /**
+     * @param array<string, null|int|string> $array
+     */
     protected function buildHTTPQuery(array $array): string
     {
         return str_replace(['%20', '!', "'", '(', ')', '*'], ['+', '%21', '%27', '%28', '%29', '%2A'], http_build_query(array_filter($array), '', '&', \PHP_QUERY_RFC3986));
