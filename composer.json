@@ -41,12 +41,14 @@
     "phpstan/phpstan": "^1.10",
     "tracy/tracy": "^2.10",
     "vlucas/phpdotenv": "^5.6",
-    "phpunit/php-code-coverage": "^10.1"
+    "phpunit/php-code-coverage": "^10.1",
+    "captainhook/captainhook": "^5.23",
+    "captainhook/hook-installer": "^1.0"
   },
   "scripts": {
     "code-check": "./vendor/bin/phpstan analyse",
     "code-test": "./vendor/bin/phpunit",
-    "cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --allow-risky yes",
+    "code-fix": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --allow-risky yes",
     "sniffer": "./vendor/bin/phpcs src/",
     "phpinsights": "./vendor/bin/phpinsights",
     "phpdd": "./vendor/bin/phpdd --target 8.0 src/",
@@ -70,7 +72,9 @@
   },
   "config": {
     "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "captainhook/captainhook-phar": true,
+      "captainhook/hook-installer": true
     }
   }
 }
