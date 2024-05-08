@@ -125,9 +125,9 @@ trait DocumentableTrait
     }
 
     /**
-     * @throws \Exception
-     *
      * @param array<string, string> $otherAttributes
+     *
+     * @throws \Exception
      *
      * @deprecated This function has been replaced by `addDocument`
      */

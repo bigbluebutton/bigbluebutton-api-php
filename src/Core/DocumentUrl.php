@@ -24,6 +24,8 @@ class DocumentUrl extends Document
 {
     private string $url;
 
+    private int $timeout = 5;
+
     public function __construct(string $url, ?string $name = null)
     {
         $this->setUrl($url);
@@ -42,11 +44,35 @@ class DocumentUrl extends Document
         return $this->url;
     }
 
+    public function setTimeout(int $timeout): self
+    {
+        $this->timeout = $timeout;
+
+        return $this;
+    }
+
+    public function getTimeout(): int
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * Checks the validity / existence of the provided URL. Pending on file size and server-performance
+     * the response could be slow.
+     *
+     * @experimental
+     */
     public function isValid(): bool
     {
         return $this->urlExists($this->getUrl());
     }
 
+    /**
+     * Checks the validity / existence of the provided URL. Pending on file size and server-performance
+     * the response could be slow.
+     *
+     * @experimental
+     */
     private function urlExists(string $url): bool
     {
         $ch = curl_init($url);
@@ -55,9 +81,10 @@ class DocumentUrl extends Document
             throw new \RuntimeException('Unhandled curl error!');
         }
 
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $this->getTimeout());
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getTimeout());
+        curl_setopt($ch, CURLOPT_NOBODY, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
 
         $data     = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
