@@ -1,7 +1,7 @@
 [book]
 title = "BigBlueButton PHP API Library - Documentation"
 description = "BigBlueButton PHP API Library - Documentation"
-authors = ["Ghazi Triki"]
+authors = ["Ghazi Triki", "Tim Korn"]
 language = "en"
 multilingual = false
 src = "src"

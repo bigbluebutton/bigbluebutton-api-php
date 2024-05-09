@@ -1,6 +1,10 @@
 {{#include ../header.md}}
 
 # Getting Started
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!
+
 ## Requirements
 
 - PHP 5.4 or above.

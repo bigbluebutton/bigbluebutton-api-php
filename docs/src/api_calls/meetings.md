@@ -28,9 +28,9 @@ $createMeetingResponse = $bbb->createMeeting($createMeetingParameters);
 
 if (!$createMeetingResponse->success()) {
     throw new \Exception($createMeetingResponse->getMessage());
-} else {
-    // steps once meeting has been created
 }
+
+// steps once meeting has been created
 ```
 
 #### Customized meeting
@@ -51,6 +51,10 @@ $createMeetingParameters
 Documents can be added either during the creation of a meeting (see `$createMeetingParameters`) or can be added once needed. This section is about adding documents into a running meeting.
 
 #### old way (presentations)
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!
+
 ```php
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Enum\DocumentOption;
@@ -84,12 +88,15 @@ $insertDocumentResponse = $bbb->insertDocument($insertDocumentParameters);
 
 if (!$createMeetingResponse->success()) {
     throw new \Exception($insertDocumentResponse->getMessage());
-} else {
-    // steps once document has been added
 }
+
+// steps once document has been added
 ```
 #### new way (documents)
-(tbd)
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!
+
 ```php
 ```
 
@@ -111,60 +118,156 @@ $role1     = Role::MODERATOR;   // choose MODERATOR for a coordinating person
 $role2     = Role::VIEWER;      // choose VIEWER for normal participants
 
 // define the required parameters for the user to join the meeting
-$joinMeetingParams = new JoinMeetingParameters($meetingID, $name, $role1);
-$joinMeetingParams->setRedirect(true);  // will ensure that the user is redirected to the BBB-Server
+$joinMeetingParameters = new JoinMeetingParameters($meetingID, $name, $role1);
+$joinMeetingParameters->setRedirect(true);  // will ensure that the user is redirected to the BBB-Server
 
 // launch the request to the BBB-Server
-$joinMeetingRespone = $bbb->getJoinMeetingURL($joinMeetingParams);
+$joinMeetingResponse = $bbb->joinMeeting($joinMeetingParameters);
+
+if (!$joinMeetingResponse->success()) {
+    throw new \Exception($joinMeetingResponse->getMessage()});
+}
+
+$url = $joinMeetingResponse->getUrl();
+// ...
+
 ```
-In the example above, the user is redirected directly (``) to the meeting on the BBB-Server. In case the the user shall not be redirected, the request will provide a URL in its response. This URL can be provided the user e.g. via a click button.
+In the example above, the user is redirected directly (`setRedirect(true)`) to the meeting on the BBB-Server. In case the user shall not be redirected (`setRedirect(false)`), the request will provide a URL in its response. This URL can be used to redirect the user later (e.g. by button or link).
 
 ### Ending
-<sup>[API Reference](https://docs.bigbluebutton.org/development/api/#end)</sup>
+A meeting can be ended (destroyed) by calling the `endMeeting`-command.
 
 ```php
 
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\EndMeetingParameters;
 
+// create an instance of the BBB-Client (see details in the setup description)
 $bbb = new BigBlueButton();
 
-$endMeetingParams = new EndMeetingParameters($meetingID, $moderator_password);
-$response = $bbb->endMeeting($endMeetingParams);
+// define your variables
+$meetingID = 123456;
+
+// define the required parameters to end a meeting
+$endMeetingParameters = new EndMeetingParameters($meetingID);
+
+// launch the request to the BBB-Server
+$endMeetingResponse = $bbb->endMeeting($endMeetingParameters);
+
+if (!$endMeetingResponse->success()) {
+    throw new \Exception($endMeetingResponse->getMessage()});
+}
+
+// ...
 ```
 
 ## Monitoring
+
 ### Is Meeting Running
-(tbd)
+This command will check if a meeting is currently running.
+```php
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\IsMeetingRunningParameters;
+
+// create an instance of the BBB-Client (see details in the setup description)
+$bbb = new BigBlueButton();
+
+// define your variables
+$meetingID = 123456;
+
+// define the required parameters for the user to join the meeting
+$isMeetingRunningParameters = new IsMeetingRunningParameters($meetingID);
+
+// launch the request to the BBB-Server
+$isMeetingRunningResponse = $bbb->isMeetingRunning($isMeetingRunningParameters);
+
+if (!$isMeetingRunningResponse->success()) {
+    throw new \Exception($isMeetingRunningResponse->getMessage());
+}
+
+if (!$isMeetingRunningResponse->isRunning()) {
+    // meeting is not running
+} else {
+    // meeting is running     
+}
+
+```
+> [!WARNING]  
+> The BBB-server is understanding as a "running" meeting, where at least one participant has joint. This function deliver `false` if the meeting has been created only and no one has joint yet.
+
+
+### Is Meeting Existing
+This command will check if a meeting is existing and just check if a meeting is available (successfully created) on the BBB-Server. In contrast with `isRunning` this command will not check if participants have been joined.
+
+```php
+use BigBlueButton\BigBlueButton;
+
+// create an instance of the BBB-Client (see details in the setup description)
+$bbb = new BigBlueButton();
+
+// define your variables
+$meetingID = 123456;
+
+// launch the request to the BBB-Server
+$isMeetingExisting = $this->bbb->isMeetingExisting($meetingId);
+
+if (!$isMeetingExisting) {
+    // meeting is not existing
+} else {
+    // meeting is existing     
+}
+```
+> [!NOTE]  
+> This function is a shortcut and runs `getMeetingInfo`-command under the hood. This is why its usage is a bit different compared to other interactions with the BBB-Server (e.g. no Parameter-Object needs to be used)
 
 ### Get Meeting Info
-```php
+This command will provide a lot of details of a meeting.
 
+```php
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 
+// create an instance of the BBB-Client (see details in the setup description)
 $bbb = new BigBlueButton();
 
-$getMeetingInfoParams = new GetMeetingInfoParameters($meetingID, $moderator_password);
-$response = $bbb->getMeetingInfo($getMeetingInfoParams);
-if ($response->getReturnCode() == 'FAILED') {
-	// meeting not found or already closed
-} else {
-	// process $response->getRawXml();
+// define your variables
+$meetingID = 123456;
+
+// define the required parameters
+$getMeetingInfoParameters = new GetMeetingInfoParameters($meetingID);
+
+// launch the request to the BBB-Server
+$getMeetingInfoResponse = $bbb->getMeetingInfo($getMeetingInfoParameters);
+
+if (!$getMeetingInfoResponse->success()) {
+    throw new \Exception($getMeetingInfoResponse->getMessage());
 }
+
+// get the meeting object
+$meeting = $getMeetingInfoResponse->getMeeting();
+
+// example of provided information
+$meetingName = $meeting->getMeetingName();
 ```
 
 ### Get Meetings
-```php
+This command will provide a list of the existing meetings in the BBB-Server.
 
+```php
 use BigBlueButton\BigBlueButton;
 
+// create an instance of the BBB-Client (see details in the setup description)
 $bbb = new BigBlueButton();
-$response = $bbb->getMeetings();
 
-if ($response->getReturnCode() == 'SUCCESS') {
-	foreach ($response->getRawXml()->meetings->meeting as $meeting) {
-		// process all meeting
-	}
+// launch the request to the BBB-Server
+$getMeetingsResponse = $bbb->getMeetings();
+
+if (!$getMeetingsResponse->success()) {
+    throw new \Exception($getMeetingsResponse->getMessage());
+}
+
+// loop over all meetings
+foreach ($getMeetingsResponse->getMeetings() as $meeting) {
+    // treat meeting
 }
 ```

@@ -3,6 +3,9 @@
 # Recordings
 ## Manage Recordings
 ### getRecordings
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!
 ```php
 
 use BigBlueButton\BigBlueButton;
@@ -22,12 +25,20 @@ if ($response->getReturnCode() == 'SUCCESS') {
 *You can check in* `bbb-record --watch`
 
 ### publishRecordings
-(tbd)
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!
 
 ### updateRecordings
-(tbd)
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!
 
 ### deleteRecordings
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!
+
 ```php
 
 use BigBlueButton\BigBlueButton;
@@ -46,7 +57,11 @@ if ($response->getReturnCode() == 'SUCCESS') {
 
 ## Manage Tracks
 ### getRecordingTextTracks
-(tbd)
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!
 
 ### putRecordingTextTrack
-(tbd)
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!

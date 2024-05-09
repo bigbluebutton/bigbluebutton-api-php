@@ -1,6 +1,10 @@
 {{#include ../header.md}}
 
 # Full Usage Example
+> [!WARNING]  
+> The content of this section is outdated and is currently under review!
+> Please feel invited to contribute!
+
 ## Introduction
 
 You have been using BigBlueButton for years or you are still discovering it, and you have PHP within your solutions
