@@ -85,7 +85,7 @@ class BigBlueButton
     protected int $timeOut    = 10;
     protected string $jSessionId;
 
-    private UrlBuilder $urlBuilder;
+    protected UrlBuilder $urlBuilder;
 
     /**
      * @param null|array<string, mixed> $opts
@@ -566,7 +566,7 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Content-type: ' . $contentType,
-                'Content-length: ' . mb_strlen($payload),
+                'Content-length: ' . strlen($payload),
             ]);
         }
 
