@@ -49,13 +49,13 @@ class JoinMeetingParametersTest extends TestCase
         // Test setters that are ignored by the constructor
         $joinMeetingParams->setMeetingId($newId = $this->faker->uuid);
         $joinMeetingParams->setUsername($newName = $this->faker->name);
-        $joinMeetingParams->setRole($newRole = $this->faker->randomElement(Role::getValues()));
+        $joinMeetingParams->setRole($newRole = $this->faker->randomElement(Role::cases()));
         $joinMeetingParams->setPassword($newPassword = $this->faker->password);
         $joinMeetingParams->setExcludeFromDashboard($excludeFromDashboard = $this->faker->boolean);
         $joinMeetingParams->setAvatarURL($avatarUrl = $this->faker->url);
         $joinMeetingParams->setRedirect($redirect = $this->faker->boolean(50));
         $joinMeetingParams->setGuest($guest = $this->faker->boolean(50));
-        $joinMeetingParams->setDefaultLayout($defaultLayout = $this->faker->randomElement(MeetingLayout::getValues()));
+        $joinMeetingParams->setDefaultLayout($defaultLayout = $this->faker->randomElement(MeetingLayout::cases()));
         $this->assertEquals($newId, $joinMeetingParams->getMeetingId());
         $this->assertEquals($newName, $joinMeetingParams->getUsername());
         $this->assertEquals($newRole, $joinMeetingParams->getRole());

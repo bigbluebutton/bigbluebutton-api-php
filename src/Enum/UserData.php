@@ -20,57 +20,55 @@
 
 namespace BigBlueButton\Enum;
 
-use MabeEnum\Enum;
-
-class UserData extends Enum
+enum UserData: string
 {
     // Application settings
-    public const ASK_FOR_FEEDBACK_ON_LOGOUT     = 'bbb_ask_for_feedback_on_logout';
-    public const AUTO_JOIN_AUDIO                = 'bbb_auto_join_audio';
-    public const CLIENT_TITLE                   = 'bbb_client_title';
-    public const FORCE_LISTEN_ONLY              = 'bbb_force_listen_only';
-    public const LISTEN_ONLY_MODE               = 'bbb_listen_only_mode';
-    public const SKIP_CHECK_AUDIO               = 'bbb_skip_check_audio';
-    public const SKIP_CHECK_AUDIO_ON_FIRST_JOIN = 'bbb_skip_check_audio_on_first_join';
-    public const OVERRIDE_DEFAULT_LOCALE        = 'bbb_override_default_locale';
-    public const HIDE_PRESENTATION_ON_JOIN      = 'bbb_hide_presentation_on_join';
-    public const DIRECT_LEAVE_BUTTON            = 'bbb_direct_leave_button';
+    case ASK_FOR_FEEDBACK_ON_LOGOUT     = 'bbb_ask_for_feedback_on_logout';
+    case AUTO_JOIN_AUDIO                = 'bbb_auto_join_audio';
+    case CLIENT_TITLE                   = 'bbb_client_title';
+    case FORCE_LISTEN_ONLY              = 'bbb_force_listen_only';
+    case LISTEN_ONLY_MODE               = 'bbb_listen_only_mode';
+    case SKIP_CHECK_AUDIO               = 'bbb_skip_check_audio';
+    case SKIP_CHECK_AUDIO_ON_FIRST_JOIN = 'bbb_skip_check_audio_on_first_join';
+    case OVERRIDE_DEFAULT_LOCALE        = 'bbb_override_default_locale';
+    case HIDE_PRESENTATION_ON_JOIN      = 'bbb_hide_presentation_on_join';
+    case DIRECT_LEAVE_BUTTON            = 'bbb_direct_leave_button';
 
     // Branding settings
-    public const DISPLAY_BRANDING_AREA = 'bbb_display_branding_area';
+    case DISPLAY_BRANDING_AREA = 'bbb_display_branding_area';
 
     // Shortcut settings
-    public const SHORTCUTS = 'bbb_shortcuts';
+    case SHORTCUTS = 'bbb_shortcuts';
 
     // Kurento settings (WebRTC media server)
-    public const AUTO_SHARE_WEBCAM                = 'bbb_auto_share_webcam';
-    public const PREFERRED_CAMERA_PROFILE         = 'bbb_preferred_camera_profile';
-    public const ENABLE_VIDEO                     = 'bbb_enable_video';
-    public const RECORD_VIDEO                     = 'bbb_record_video';
-    public const SKIP_VIDEO_PREVIEW               = 'bbb_skip_video_preview';
-    public const SKIP_VIDEO_PREVIEW_ON_FIRST_JOIN = 'bbb_skip_video_preview_on_first_join';
-    public const MIRROR_OWN_WEBCAM                = 'bbb_mirror_own_webcam';
-    public const FULLAUDIO_BRIDGE                 = 'bbb_fullaudio_bridge';
-    public const TRANSPARENT_LISTEN_ONLY          = 'bbb_transparent_listen_only';
+    case AUTO_SHARE_WEBCAM                = 'bbb_auto_share_webcam';
+    case PREFERRED_CAMERA_PROFILE         = 'bbb_preferred_camera_profile';
+    case ENABLE_VIDEO                     = 'bbb_enable_video';
+    case RECORD_VIDEO                     = 'bbb_record_video';
+    case SKIP_VIDEO_PREVIEW               = 'bbb_skip_video_preview';
+    case SKIP_VIDEO_PREVIEW_ON_FIRST_JOIN = 'bbb_skip_video_preview_on_first_join';
+    case MIRROR_OWN_WEBCAM                = 'bbb_mirror_own_webcam';
+    case FULLAUDIO_BRIDGE                 = 'bbb_fullaudio_bridge';
+    case TRANSPARENT_LISTEN_ONLY          = 'bbb_transparent_listen_only';
 
     // Presentation settings
-    public const FORCE_RESTORE_PRESENTATION_ON_NEW_EVENTS = 'bbb_force_restore_presentation_on_new_events';
+    case FORCE_RESTORE_PRESENTATION_ON_NEW_EVENTS = 'bbb_force_restore_presentation_on_new_events';
 
     // Whiteboard settings
-    public const MULTI_USER_PEN_ONLY = 'bbb_multi_user_pen_only';
-    public const PRESENTER_TOOLS     = 'bbb_presenter_tools';
-    public const MULTI_USER_TOOLS    = 'bbb_multi_user_tools';
+    case MULTI_USER_PEN_ONLY = 'bbb_multi_user_pen_only';
+    case PRESENTER_TOOLS     = 'bbb_presenter_tools';
+    case MULTI_USER_TOOLS    = 'bbb_multi_user_tools';
 
     // Theming & Styling settings
-    public const CUSTOM_STYLE     = 'bbb_custom_style';
-    public const CUSTOM_STYLE_URL = 'bbb_custom_style_url';
+    case CUSTOM_STYLE     = 'bbb_custom_style';
+    case CUSTOM_STYLE_URL = 'bbb_custom_style_url';
 
     // Layout settings
-    public const AUTO_SWAP_LAYOUT           = 'bbb_auto_swap_layout';
-    public const HIDE_PRESENTATION          = 'bbb_hide_presentation';
-    public const SHOW_PARTICIPANTS_ON_LOGIN = 'bbb_show_participants_on_login';
-    public const SHOW_PUBLIC_CHAT_ON_LOGIN  = 'bbb_show_public_chat_on_login';
-    public const HIDE_NAV_BAR               = 'bbb_hide_nav_bar';
-    public const HIDE_ACTIONS_BAR           = 'bbb_hide_actions_bar';
-    public const DEFAULT_LAYOUT             = 'bbb_default_layout';
+    case AUTO_SWAP_LAYOUT           = 'bbb_auto_swap_layout';
+    case HIDE_PRESENTATION          = 'bbb_hide_presentation';
+    case SHOW_PARTICIPANTS_ON_LOGIN = 'bbb_show_participants_on_login';
+    case SHOW_PUBLIC_CHAT_ON_LOGIN  = 'bbb_show_public_chat_on_login';
+    case HIDE_NAV_BAR               = 'bbb_hide_nav_bar';
+    case HIDE_ACTIONS_BAR           = 'bbb_hide_actions_bar';
+    case DEFAULT_LAYOUT             = 'bbb_default_layout';
 }

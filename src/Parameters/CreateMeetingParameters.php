@@ -20,6 +20,10 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Enum\Feature;
+use BigBlueButton\Enum\GuestPolicy;
+use BigBlueButton\Enum\MeetingLayout;
+
 /**
  * Class CreateMeetingParameters.
  */
@@ -105,7 +109,7 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?bool $freeJoin = null;
 
-    private ?string $guestPolicy = null;
+    private ?GuestPolicy $guestPolicy = null;
 
     private ?string $bannerText = null;
 
@@ -140,7 +144,7 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?string $meetingEndedURL = null;
 
-    private ?string $meetingLayout = null;
+    private ?MeetingLayout $meetingLayout = null;
 
     private ?int $userCameraCap = null;
 
@@ -157,12 +161,12 @@ class CreateMeetingParameters extends MetaParameters
     private ?bool $preUploadedPresentationOverrideDefault = null;
 
     /**
-     * @var array<string, mixed>
+     * @var Feature[]
      */
     private array $disabledFeatures = [];
 
     /**
-     * @var array<string, mixed>
+     * @var Feature[]
      */
     private array $disabledFeaturesExclude = [];
 
@@ -1027,7 +1031,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getGuestPolicy(): ?string
+    public function getGuestPolicy(): ?GuestPolicy
     {
         return $this->guestPolicy;
     }
@@ -1039,7 +1043,7 @@ class CreateMeetingParameters extends MetaParameters
      *
      * Default: ALWAYS_ACCEPT
      */
-    public function setGuestPolicy(string $guestPolicy): self
+    public function setGuestPolicy(GuestPolicy $guestPolicy): self
     {
         $this->guestPolicy = $guestPolicy;
 
@@ -1116,7 +1120,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function getMeetingLayout(): ?string
+    public function getMeetingLayout(): ?MeetingLayout
     {
         return $this->meetingLayout;
     }
@@ -1129,7 +1133,7 @@ class CreateMeetingParameters extends MetaParameters
      *
      * @since 2.4
      */
-    public function setMeetingLayout(string $meetingLayout): self
+    public function setMeetingLayout(MeetingLayout $meetingLayout): self
     {
         $this->meetingLayout = $meetingLayout;
 
@@ -1281,7 +1285,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return array<string, mixed>
+     * @return Feature[]
      */
     public function getDisabledFeatures(): array
     {
@@ -1312,7 +1316,7 @@ class CreateMeetingParameters extends MetaParameters
      * - cameraAsContent:                                       Enables/Disables camera as a content
      * - timer:                                                 Disables timer
      *
-     * @param array<string, mixed> $disabledFeatures
+     * @param Feature[] $disabledFeatures
      *
      * @since 2.5
      */
@@ -1324,7 +1328,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return array<string, mixed>
+     * @return Feature[]
      */
     public function getDisabledFeaturesExclude(): array
     {
@@ -1338,7 +1342,7 @@ class CreateMeetingParameters extends MetaParameters
      *
      * The available options to exclude are exactly the same as for disabledFeatures
      *
-     * @param array<string, mixed> $disabledFeaturesExclude
+     * @param Feature[] $disabledFeaturesExclude
      *
      * @since 2.6.9
      */
@@ -1501,8 +1505,8 @@ class CreateMeetingParameters extends MetaParameters
             'preUploadedPresentation'                => $this->preUploadedPresentation,
             'preUploadedPresentationName'            => $this->preUploadedPresentationName,
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
-            'disabledFeatures'                       => join(',', $this->disabledFeatures),
-            'disabledFeaturesExclude'                => join(',', $this->disabledFeaturesExclude),
+            'disabledFeatures'                       => join(',', array_map(fn ($disabledFeature) => $disabledFeature->value, $this->getDisabledFeatures())),
+            'disabledFeaturesExclude'                => join(',', array_map(fn ($disabledFeatureExclude) => $disabledFeatureExclude->value, $this->getDisabledFeaturesExclude())),
             'notifyRecordingIsOn'                    => !is_null($this->notifyRecordingIsOn) ? ($this->notifyRecordingIsOn ? 'true' : 'false') : $this->notifyRecordingIsOn,
             'presentationUploadExternalUrl'          => $this->presentationUploadExternalUrl,
             'presentationUploadExternalDescription'  => $this->presentationUploadExternalDescription,
