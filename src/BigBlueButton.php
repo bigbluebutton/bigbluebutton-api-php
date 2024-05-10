@@ -566,7 +566,7 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Content-type: ' . $contentType,
-                'Content-length: ' . strlen($payload),
+                'Content-length: ' . mb_strlen($payload),
             ]);
         }
 

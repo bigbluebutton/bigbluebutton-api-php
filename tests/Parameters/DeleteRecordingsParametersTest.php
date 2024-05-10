@@ -20,12 +20,10 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase;
-
 /**
  * @internal
  */
-class DeleteRecordingsParametersTest extends TestCase
+class DeleteRecordingsParametersTest extends ParameterTestCase
 {
     public function testDeleteRecordingParameter(): void
     {
@@ -39,5 +37,14 @@ class DeleteRecordingsParametersTest extends TestCase
         // Test setters that are ignored by the constructor
         $deleteRecording->setRecordingId($recordingId2);
         $this->assertEquals($recordingId2, $deleteRecording->getRecordingId());
+    }
+
+    public function testParameterArray(): void
+    {
+        $recordingId = $this->faker->uuid;
+
+        $deleteRecordingsParameters = new DeleteRecordingsParameters($recordingId);
+
+        $this->assertEquals($deleteRecordingsParameters->toApiDataArray(), $deleteRecordingsParameters->toArray());
     }
 }

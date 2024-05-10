@@ -20,41 +20,9 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\ApiParameterMapper;
+use BigBlueButton\TestCase;
 
-/**
- * Class IsMeetingRunningParameters.
- */
-class IsMeetingRunningParameters extends BaseParameters
+abstract class ParameterTestCase extends TestCase
 {
-    private ?string $meetingId = null;
-
-    public function __construct(?string $meetingId = null)
-    {
-        $this->meetingId = $meetingId;
-    }
-
-    #[ApiParameterMapper(attributeName: 'meetingID')]
-    public function getMeetingId(): ?string
-    {
-        return $this->meetingId;
-    }
-
-    public function setMeetingId(string $meetingId): self
-    {
-        $this->meetingId = $meetingId;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated this function is replaced by getApiData() and shall be removed
-     *             once new concept with BbbApiMapper-attribute is bullet prove
-     */
-    public function toArray(): array
-    {
-        return [
-            'meetingID' => $this->meetingId,
-        ];
-    }
+    abstract public function testParameterArray(): void;
 }

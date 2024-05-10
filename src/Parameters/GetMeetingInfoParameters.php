@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class GetMeetingInfoParameters.
  */
@@ -36,6 +38,7 @@ class GetMeetingInfoParameters extends BaseParameters
         $this->meetingId = $meetingId;
     }
 
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -48,6 +51,7 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'offset')]
     public function getOffset(): ?int
     {
         return $this->offset;
@@ -60,6 +64,7 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'limit')]
     public function getLimit(): ?int
     {
         return $this->limit;
@@ -72,14 +77,16 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
-    public function getHTTPQuery(): string
+    /**
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
+    public function toArray(): array
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-                'offset'    => $this->offset,
-                'limit'     => $this->limit,
-            ]
-        );
+        return [
+            'meetingID' => $this->meetingId,
+            'offset'    => $this->offset,
+            'limit'     => $this->limit,
+        ];
     }
 }
