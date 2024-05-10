@@ -20,6 +20,7 @@ declare(strict_types=1);
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
+use BigBlueButton\Util\StrlenFixer;
 use PhpCsFixer\Config;
 use PhpCsFixer\Finder;
 
@@ -53,6 +54,9 @@ $finder = Finder::create()
 $config = new Config();
 $config
     ->setRiskyAllowed(true)
+    ->registerCustomFixers([
+        new StrlenFixer(),
+    ])
     ->setRules([
         '@PhpCsFixer'                      => true,
         '@PHP74Migration'                  => true,
@@ -71,6 +75,7 @@ $config
             ],
         ],
         'php_unit_test_class_requires_covers' => false,
+        'BigBlueButton/do_not_change_strlen'  => true,
     ])
     ->setFinder($finder)
 ;

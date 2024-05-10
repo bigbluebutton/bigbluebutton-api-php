@@ -3,10 +3,9 @@
 ![Home Image](https://raw.githubusercontent.com/wiki/bigbluebutton/bigbluebutton-api-php/images/header.png)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fbigbluebutton%2Fbigbluebutton-api-php.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fbigbluebutton%2Fbigbluebutton-api-php?ref=badge_shield)
 
-The official and easy to use **BigBlueButton API for PHP**, makes easy for developers to use [BigBlueButton][bbb] API for **PHP 7.4+**.
+The official and easy to use **BigBlueButton API for PHP**, makes easy for developers to use [BigBlueButton][bbb] API for **PHP 8.1+**.
 
 ![Packagist](https://img.shields.io/packagist/v/bigbluebutton/bigbluebutton-api-php.svg?label=release)
-![PHP from Travis config](https://img.shields.io/travis/php-v/bigbluebutton/bigbluebutton-api-php.svg)
 [![Downloads](https://img.shields.io/packagist/dt/bigbluebutton/bigbluebutton-api-php.svg?style=flat-square)](https://packagist.org/packages/bigbluebutton/bigbluebutton-api-php)
 
 [![Build Status](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/badges/build.png?b=master)](https://scrutinizer-ci.com/g/bigbluebutton/bigbluebutton-api-php/build-status/master)
@@ -16,10 +15,9 @@ The official and easy to use **BigBlueButton API for PHP**, makes easy for devel
 [![@bigbluebutton on Twitter](https://img.shields.io/badge/twitter-%40bigbluebutton-blue.svg?style=flat)](https://twitter.com/bigbluebutton)
 ![Website](https://img.shields.io/website-up-down-green-red/http/bigbluebutton.org.svg?label=BigBlueButton.org)
 
-[![PHP 7.4](https://img.shields.io/badge/php-7.4-f33.svg?style=flat-square)](https://www.php.net/supported-versions.php)
-[![PHP 8.0](https://img.shields.io/badge/php-8.0-f93.svg?style=flat-square)](https://www.php.net/supported-versions.php)
-[![PHP 8.1](https://img.shields.io/badge/php-8.1-9c9.svg?style=flat-square)](https://www.php.net/supported-versions.php)
+[![PHP 8.1](https://img.shields.io/badge/php-8.1-f93.svg?style=flat-square)](https://www.php.net/supported-versions.php)
 [![PHP 8.2](https://img.shields.io/badge/php-8.2-9c9.svg?style=flat-square)](https://www.php.net/supported-versions.php)
+[![PHP 8.3](https://img.shields.io/badge/php-8.3-9c9.svg?style=flat-square)](https://www.php.net/supported-versions.php)
 
 ## Installation and Usage
 
@@ -48,8 +46,8 @@ Make sure the code style configuration is applied by running PHPCS-Fixer.
 # using an alias
 $ composer code-fix
 
-# or similar w/o alias
-$ ./vendor/bin/php-cs-fixer fix
+# or the same w/o alias
+$ PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --allow-risky yes
 ```
 
 ### Code Quality 2: Static code analysis
@@ -102,6 +100,21 @@ can specify your own BBB server by making a copy of the `.env` file into the sam
 Replace the credentials for `BBB_SERVER_BASE_URL` and `BBB_SECRET` with your server's values. 
 Since this new file (`.env.local`) takes precedence over the main file (`.env`), you will now run
 the tests on your own server.
+
+### Automated checks while commiting a change
+To ensure code quality, a took called [CaptainHook](https://github.com/captainhookphp/captainhook?tab=readme-ov-file) will be launched when you are commiting a change and will intercept the commit, if the quality is not as expected. Once the quality of the code is improved the code can be commited (CaptainHook will check again).
+
+Automated checks:
+1) Correct commit Message ([beams](https://cbea.ms/git-commit/)): Starting with capital letter, max. 50 characters and imperative mood (e.g. This change will: 'Refactor subsystem X for readability').
+2) Style: The code style will be checked with PHPCS-Fixer (same as above `composer code-fix`)
+3) Static Analyse: The code will be checked with PHPStan (same as above `composer code-check`)
+4) Test: PHPUnit will be executed to ensure the code is working (same as above `composer code-test`)
+
+> **Tip:** To avoid interceptions by CaptainHook it is recommended to run the three commands prior your commit in order to pre-check the code quality.
+
+> **Danger:** Please avoid the deactivation of the automated checks by using the git flag `--no-verify` while commiting.
+
+> **Remark:** CaptainHook should be activated automatically with the first composer command (say `yes` to all questions). If you want to active it manually with `vendor/bin/captainhook install`.
 
 [bbb]: http://bigbluebutton.org
 [composer]: https://getcomposer.org

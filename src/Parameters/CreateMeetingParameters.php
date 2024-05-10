@@ -79,7 +79,7 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?bool $lockSettingsDisablePublicChat = null;
 
-    private ?bool $lockSettingsDisableNote = null;
+    private ?bool $lockSettingsDisableNotes = null;
 
     private ?bool $lockSettingsHideUserList = null;
 
@@ -149,6 +149,10 @@ class CreateMeetingParameters extends MetaParameters
     private ?int $meetingExpireIfNoUserJoinedInMinutes = null;
 
     private ?int $meetingExpireWhenLastUserLeftInMinutes = null;
+
+    private ?string $preUploadedPresentation = null;
+
+    private ?string $preUploadedPresentationName = null;
 
     private ?bool $preUploadedPresentationOverrideDefault = null;
 
@@ -780,9 +784,29 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    /**
+     * @deprecated isLockSettingsDisableNote is replaced by isLockSettingsDisableNotes
+     */
     public function isLockSettingsDisableNote(): ?bool
     {
-        return $this->lockSettingsDisableNote;
+        return $this->isLockSettingsDisableNotes();
+    }
+
+    /**
+     * Setting to true will disable notes in the meeting.
+     *
+     * @deprecated setLockSettingsDisableNote is replaced by setLockSettingsDisableNotes
+     */
+    public function setLockSettingsDisableNote(bool $lockSettingsDisableNote): self
+    {
+        $this->setLockSettingsDisableNotes($lockSettingsDisableNote);
+
+        return $this;
+    }
+
+    public function isLockSettingsDisableNotes(): ?bool
+    {
+        return $this->lockSettingsDisableNotes;
     }
 
     /**
@@ -792,9 +816,9 @@ class CreateMeetingParameters extends MetaParameters
      *
      * @since 2.2
      */
-    public function setLockSettingsDisableNote(bool $lockSettingsDisableNote): self
+    public function setLockSettingsDisableNotes(bool $lockSettingsDisableNotes): self
     {
-        $this->lockSettingsDisableNote = $lockSettingsDisableNote;
+        $this->lockSettingsDisableNotes = $lockSettingsDisableNotes;
 
         return $this;
     }
@@ -1219,6 +1243,31 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * If passed with a valid presentation file url, this presentation will override the default presentation.
+     * To only upload but not set as default, also pass preUploadedPresentationOverrideDefault=false.
+     *
+     * @since 2.7.2
+     */
+    public function setPreUploadedPresentation(string $preUploadedPresentation): self
+    {
+        $this->preUploadedPresentation = $preUploadedPresentation;
+
+        return $this;
+    }
+
+    /**
+     * If passed it will use this string as the name of the presentation uploaded via preUploadedPresentation.
+     *
+     * @since 2.7.2
+     */
+    public function setPreUploadedPresentationName(string $preUploadedPresentationName): self
+    {
+        $this->preUploadedPresentationName = $preUploadedPresentationName;
+
+        return $this;
+    }
+
+    /**
      * If it is true, the default.pdf document is not sent along with the other presentations in the /create
      * endpoint, on the other hand, if that's false, the default.pdf is sent with the other documents.
      *
@@ -1424,7 +1473,7 @@ class CreateMeetingParameters extends MetaParameters
             'lockSettingsDisableMic'                 => !is_null($this->lockSettingsDisableMic) ? ($this->lockSettingsDisableMic ? 'true' : 'false') : $this->lockSettingsDisableMic,
             'lockSettingsDisablePrivateChat'         => !is_null($this->lockSettingsDisablePrivateChat) ? ($this->lockSettingsDisablePrivateChat ? 'true' : 'false') : $this->lockSettingsDisablePrivateChat,
             'lockSettingsDisablePublicChat'          => !is_null($this->lockSettingsDisablePublicChat) ? ($this->lockSettingsDisablePublicChat ? 'true' : 'false') : $this->lockSettingsDisablePublicChat,
-            'lockSettingsDisableNote'                => !is_null($this->lockSettingsDisableNote) ? ($this->lockSettingsDisableNote ? 'true' : 'false') : $this->lockSettingsDisableNote,
+            'lockSettingsDisableNotes'               => !is_null($this->lockSettingsDisableNotes) ? ($this->lockSettingsDisableNotes ? 'true' : 'false') : $this->lockSettingsDisableNotes,
             'lockSettingsHideUserList'               => !is_null($this->lockSettingsHideUserList) ? ($this->lockSettingsHideUserList ? 'true' : 'false') : $this->lockSettingsHideUserList,
             'lockSettingsLockedLayout'               => !is_null($this->lockSettingsLockedLayout) ? ($this->lockSettingsLockedLayout ? 'true' : 'false') : $this->lockSettingsLockedLayout,
             'lockSettingsLockOnJoin'                 => !is_null($this->lockSettingsLockOnJoin) ? ($this->lockSettingsLockOnJoin ? 'true' : 'false') : $this->lockSettingsLockOnJoin,
@@ -1449,6 +1498,8 @@ class CreateMeetingParameters extends MetaParameters
             'userCameraCap'                          => $this->userCameraCap,
             'meetingExpireIfNoUserJoinedInMinutes'   => $this->meetingExpireIfNoUserJoinedInMinutes,
             'meetingExpireWhenLastUserLeftInMinutes' => $this->meetingExpireWhenLastUserLeftInMinutes,
+            'preUploadedPresentation'                => $this->preUploadedPresentation,
+            'preUploadedPresentationName'            => $this->preUploadedPresentationName,
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
             'disabledFeatures'                       => join(',', $this->disabledFeatures),
             'disabledFeaturesExclude'                => join(',', $this->disabledFeaturesExclude),

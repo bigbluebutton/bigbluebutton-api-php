@@ -47,6 +47,7 @@ use BigBlueButton\Responses\GetRecordingTextTracksResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
+use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
@@ -84,7 +85,7 @@ class BigBlueButton
     protected int $timeOut    = 10;
     protected string $jSessionId;
 
-    private UrlBuilder $urlBuilder;
+    protected UrlBuilder $urlBuilder;
 
     /**
      * @param null|array<string, mixed> $opts
@@ -204,11 +205,11 @@ class BigBlueButton
     /**
      * @throws BadResponseException|\RuntimeException
      */
-    public function insertDocument(InsertDocumentParameters $insertDocumentParams): CreateMeetingResponse
+    public function insertDocument(InsertDocumentParameters $insertDocumentParams): InsertDocumentResponse
     {
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
 
-        return new CreateMeetingResponse($xml);
+        return new InsertDocumentResponse($xml);
     }
 
     // __________________ BBB MONITORING METHODS _________________
@@ -565,7 +566,7 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
             curl_setopt($ch, CURLOPT_HTTPHEADER, [
                 'Content-type: ' . $contentType,
-                'Content-length: ' . mb_strlen($payload),
+                'Content-length: ' . strlen($payload),
             ]);
         }
 
