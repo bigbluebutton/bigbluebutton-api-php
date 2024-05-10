@@ -154,6 +154,10 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?int $meetingExpireWhenLastUserLeftInMinutes = null;
 
+    private ?string $preUploadedPresentation = null;
+
+    private ?string $preUploadedPresentationName = null;
+
     private ?bool $preUploadedPresentationOverrideDefault = null;
 
     /**
@@ -1243,6 +1247,31 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * If passed with a valid presentation file url, this presentation will override the default presentation.
+     * To only upload but not set as default, also pass preUploadedPresentationOverrideDefault=false.
+     *
+     * @since 2.7.2
+     */
+    public function setPreUploadedPresentation(string $preUploadedPresentation): self
+    {
+        $this->preUploadedPresentation = $preUploadedPresentation;
+
+        return $this;
+    }
+
+    /**
+     * If passed it will use this string as the name of the presentation uploaded via preUploadedPresentation.
+     *
+     * @since 2.7.2
+     */
+    public function setPreUploadedPresentationName(string $preUploadedPresentationName): self
+    {
+        $this->preUploadedPresentationName = $preUploadedPresentationName;
+
+        return $this;
+    }
+
+    /**
      * If it is true, the default.pdf document is not sent along with the other presentations in the /create
      * endpoint, on the other hand, if that's false, the default.pdf is sent with the other documents.
      *
@@ -1473,6 +1502,8 @@ class CreateMeetingParameters extends MetaParameters
             'userCameraCap'                          => $this->userCameraCap,
             'meetingExpireIfNoUserJoinedInMinutes'   => $this->meetingExpireIfNoUserJoinedInMinutes,
             'meetingExpireWhenLastUserLeftInMinutes' => $this->meetingExpireWhenLastUserLeftInMinutes,
+            'preUploadedPresentation'                => $this->preUploadedPresentation,
+            'preUploadedPresentationName'            => $this->preUploadedPresentationName,
             'preUploadedPresentationOverrideDefault' => $this->preUploadedPresentationOverrideDefault,
             'disabledFeatures'                       => join(',', array_map(fn ($disabledFeature) => $disabledFeature->value, $this->getDisabledFeatures())),
             'disabledFeaturesExclude'                => join(',', array_map(fn ($disabledFeatureExclude) => $disabledFeatureExclude->value, $this->getDisabledFeaturesExclude())),
