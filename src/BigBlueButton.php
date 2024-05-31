@@ -557,17 +557,23 @@ class BigBlueButton
             }
         }
 
+        // Initialise headers array with mandatory Content-type
+        $headers = [
+            'Content-type: ' . $contentType,
+        ];
+
         // PAYLOAD
         if (!empty($payload)) {
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-type: ' . $contentType,
-                'Content-length: ' . mb_strlen($payload),
-            ]);
+            // Add Content-length header if payload is present
+            $headers[] = 'Content-length: ' . mb_strlen($payload);
         }
+
+        // Set HTTP headers
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         // OTHERS
         foreach ($this->curlOpts as $opt => $value) {
