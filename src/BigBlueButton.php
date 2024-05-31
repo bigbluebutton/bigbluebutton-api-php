@@ -569,7 +569,7 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
             // Add Content-length header if payload is present
-            $headers[] = 'Content-length: ' . mb_strlen($payload);
+            $headers[] = 'Content-length: ' . strlen($payload);
         }
 
         // Set HTTP headers
