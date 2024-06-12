@@ -133,21 +133,25 @@ class CreateMeetingParametersTest extends TestCase
     public function testGetPresentationsAsXMLWithUrl(): void
     {
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf');
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
+        $createMeetingParams->addPresentation('https://test-install.blindsidenetworks.com/default.pdf');
+        $this->assertXmlStringEqualsXmlFile(Fixtures::REQUEST_PATH . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithUrlAndFilename(): void
     {
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf', null, 'presentation.pdf');
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
+        $createMeetingParams->addPresentation('https://test-install.blindsidenetworks.com/default.pdf', null, 'presentation.pdf');
+        $this->assertXmlStringEqualsXmlFile(Fixtures::REQUEST_PATH . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithFile(): void
     {
+        $content = file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png');
+        $this->assertIsString($content);
+
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('bbb_logo.png', file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png'));
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
+        $createMeetingParams->addPresentation('bbb_logo.png', $content);
+
+        $this->assertXmlStringEqualsXmlFile(Fixtures::REQUEST_PATH . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
     }
 }
