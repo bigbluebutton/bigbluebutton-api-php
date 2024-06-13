@@ -19,14 +19,23 @@ The official and easy to use **BigBlueButton API for PHP**, makes easy for devel
 [![PHP 8.2](https://img.shields.io/badge/php-8.2-9c9.svg?style=flat-square)](https://www.php.net/supported-versions.php)
 [![PHP 8.3](https://img.shields.io/badge/php-8.3-9c9.svg?style=flat-square)](https://www.php.net/supported-versions.php)
 
-## Installation and usage
+## Installation and Usage
 
-The [wiki] contains all the documentation related to the PHP library. We have also written a samples to show a full
-install and usage example.
+Please see the [documentation](./docs/Home.md) to know how to install and use this PHP-Client to interact with the API of a BigBlueButton-Server.
 
 ## Submitting bugs and feature requests
 
 Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
+
+## Build the documentation
+
+To build the documentation you need to install `Rust` and `mdbook`
+
+```bash
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+source "$HOME/.cargo/env"
+cargo install mdbook
+```
 
 ## Contributing guidelines
 ### Code Quality 1: Style
@@ -61,7 +70,7 @@ For every implemented feature add unit tests and check all is green by running t
 $ composer code-test
 
 # or the same w/o alias
-./vendor/bin/phpunit
+$ ./vendor/bin/phpunit
 ```
 
 To run a single test
@@ -71,7 +80,7 @@ To run a single test
 $ composer code-test -- --filter BigBlueButtonTest::testApiVersion
 
 # or the same w/o alias
-./vendor/bin/phpunit --filter BigBlueButtonTest::testApiVersion
+$ ./vendor/bin/phpunit --filter BigBlueButtonTest::testApiVersion
 ```
 A code-coverage report will be created along with the tests. This report will be stored in:
 ````
@@ -86,11 +95,11 @@ $ composer code-test -- --no-coverage
 
 **Remark:**
 
-Some test will connect to an existing BBB-server, which is specified in the `.env`-file. You 
-can specify your own BBB-server by copy that file into the same folder and name it `.env.local`.
-Exchange the credentials `BBB_SERVER_BASE_URL` and `BBB_SECRET` to your server's values.
-Since this new file (`.env.local`) takes precedence over the main file (`.env`), you will now test 
-with your own server.
+Some tests will connect to an existing BBB server, which is specified in the `.env` file. You 
+can specify your own BBB server by making a copy of the `.env` file into the same folder and naming it `.env.local`.
+Replace the credentials for `BBB_SERVER_BASE_URL` and `BBB_SECRET` with your server's values. 
+Since this new file (`.env.local`) takes precedence over the main file (`.env`), you will now run
+the tests on your own server.
 
 ### Automated checks while commiting a change
 To ensure code quality, a took called [CaptainHook](https://github.com/captainhookphp/captainhook?tab=readme-ov-file) will be launched when you are commiting a change and will intercept the commit, if the quality is not as expected. Once the quality of the code is improved the code can be commited (CaptainHook will check again).
