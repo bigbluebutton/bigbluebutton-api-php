@@ -27,9 +27,9 @@ class CreateMeetingParameters extends MetaParameters
 {
     use DocumentableTrait;
 
-    private ?string $meetingId = null;
+    private string $meetingId;
 
-    private ?string $meetingName = null;
+    private string $meetingName;
 
     /**
      * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
@@ -179,19 +179,13 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?string $presentationUploadExternalDescription = null;
 
-    /**
-     * CreateMeetingParameters constructor.
-     *
-     * @param mixed $meetingId
-     * @param mixed $meetingName
-     */
-    public function __construct($meetingId = null, $meetingName = null)
+    public function __construct(string $meetingId, string $meetingName)
     {
         $this->meetingId   = $meetingId;
         $this->meetingName = $meetingName;
     }
 
-    public function getMeetingId(): ?string
+    public function getMeetingId(): string
     {
         return $this->meetingId;
     }
