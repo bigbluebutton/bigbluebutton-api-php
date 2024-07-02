@@ -27,11 +27,7 @@ abstract class BaseJsonResponse
 {
     public const SUCCESS = 'SUCCESS';
     public const FAILED  = 'FAILED';
-
-    /**
-     * @var mixed
-     */
-    protected $data;
+    protected mixed $data;
 
     public function __construct(string $json)
     {

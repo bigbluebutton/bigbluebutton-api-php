@@ -25,14 +25,14 @@ namespace BigBlueButton\Parameters;
  */
 class IsMeetingRunningParameters extends BaseParameters
 {
-    private ?string $meetingId = null;
+    private string $meetingId;
 
-    public function __construct(?string $meetingId = null)
+    public function __construct(string $meetingId)
     {
         $this->meetingId = $meetingId;
     }
 
-    public function getMeetingId(): ?string
+    public function getMeetingId(): string
     {
         return $this->meetingId;
     }

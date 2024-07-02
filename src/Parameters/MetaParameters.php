@@ -30,30 +30,19 @@ abstract class MetaParameters extends BaseParameters
      */
     private array $meta = [];
 
-    /**
-     * @return mixed
-     */
-    public function getMeta(string $key)
+    public function getMeta(string $key): mixed
     {
         return $this->meta[$key];
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return $this
-     */
-    public function addMeta(string $key, $value)
+    public function addMeta(string $key, mixed $value): static
     {
         $this->meta[$key] = $value;
 
         return $this;
     }
 
-    /**
-     * @param mixed $queries
-     */
-    protected function buildMeta(&$queries): void
+    protected function buildMeta(mixed &$queries): void
     {
         if (0 !== count($this->meta)) {
             foreach ($this->meta as $key => $value) {

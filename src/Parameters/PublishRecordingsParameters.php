@@ -25,17 +25,17 @@ namespace BigBlueButton\Parameters;
  */
 class PublishRecordingsParameters extends BaseParameters
 {
-    private ?string $recordingId = null;
+    private string $recordingId;
 
-    private ?bool $publish = null;
+    private bool $publish;
 
-    public function __construct(string $recordingId, ?bool $publish = null)
+    public function __construct(string $recordingId, bool $publish)
     {
         $this->recordingId = $recordingId;
         $this->publish     = $publish;
     }
 
-    public function getRecordingId(): ?string
+    public function getRecordingId(): string
     {
         return $this->recordingId;
     }
@@ -47,7 +47,7 @@ class PublishRecordingsParameters extends BaseParameters
         return $this;
     }
 
-    public function isPublish(): ?bool
+    public function isPublish(): bool
     {
         return $this->publish;
     }
@@ -64,7 +64,7 @@ class PublishRecordingsParameters extends BaseParameters
         return $this->buildHTTPQuery(
             [
                 'recordID' => $this->recordingId,
-                'publish'  => !is_null($this->publish) ? ($this->publish ? 'true' : 'false') : $this->publish,
+                'publish'  => $this->publish ? 'true' : 'false',
             ]
         );
     }

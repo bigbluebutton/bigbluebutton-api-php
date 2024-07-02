@@ -27,30 +27,19 @@ abstract class UserDataParameters extends BaseParameters
      */
     private array $userData = [];
 
-    /**
-     * @return mixed
-     */
-    public function getUserData(string $key)
+    public function getUserData(string $key): mixed
     {
         return $this->userData[$key];
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return $this
-     */
-    public function addUserData(string $key, $value): self
+    public function addUserData(string $key, mixed $value): static
     {
         $this->userData[$key] = $value;
 
         return $this;
     }
 
-    /**
-     * @param mixed $queries
-     */
-    protected function buildUserData(&$queries): void
+    protected function buildUserData(mixed &$queries): void
     {
         if (0 !== count($this->userData)) {
             foreach ($this->userData as $key => $value) {
