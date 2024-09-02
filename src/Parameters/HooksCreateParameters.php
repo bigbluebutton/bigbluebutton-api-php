@@ -88,6 +88,7 @@ class HooksCreateParameters extends BaseParameters
         $queries = [
             'callbackURL' => $this->callbackUrl,
             'meetingID'   => $this->meetingId,
+	    'eventID'     => $this->eventId,
             'getRaw'      => !is_null($this->getRaw) ? ($this->getRaw ? 'true' : 'false') : $this->getRaw,
         ];
 
