@@ -32,7 +32,9 @@
     "ext-curl": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "ext-simplexml": "*"
+    "ext-simplexml": "*",
+    "psr/http-client": "^1.0",
+    "psr/http-factory": "^1.1"
   },
   "require-dev": {
     "bmitch/churn-php": "^1.7",
