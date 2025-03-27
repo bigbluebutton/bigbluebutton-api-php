@@ -552,7 +552,7 @@ class BigBlueButton
 
             if ($cookies) {
                 if (false !== mb_strpos($cookies, 'JSESSIONID')) {
-                    preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
+                    preg_match('/JSESSIONID\s*(?<JSESSIONID>.*)/', $cookies, $output_array);
                     $this->setJSessionId($output_array['JSESSIONID']);
                 }
             }
