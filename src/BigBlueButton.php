@@ -624,8 +624,8 @@ class BigBlueButton
      *
      * @throws BadResponseException
      */
-    private function processJsonResponse(string $url, string $payload = ''): string
+    private function processJsonResponse(string $url): string
     {
-        return $this->sendRequest($url, $payload, 'application/json');
+        return $this->sendRequest($url, contentType: 'application/json');
     }
 }
