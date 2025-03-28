@@ -154,8 +154,8 @@ class BigBlueButton
         ClientInterface $httpClient,
         RequestFactoryInterface $requestFactory,
         StreamFactoryInterface $streamFactory,
-        ?string $baseUrl = null,
-        ?string $secret = null,
+        string $baseUrl,
+        string $secret,
     ): static {
         // Extending classes need to override this method, if they change the
         // constructor signature.
