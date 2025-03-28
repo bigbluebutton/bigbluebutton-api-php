@@ -94,13 +94,13 @@ class BigBlueButton
     {
         // Provide an early error message if configuration is wrong
         if (is_null($baseUrl) && false === getenv('BBB_SERVER_BASE_URL')) {
-            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor ' .
-                "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
+            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor '
+                . "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
         }
 
         if (is_null($secret) && false === getenv('BBB_SECRET') && false === getenv('BBB_SECURITY_SALT')) {
-            throw new \RuntimeException('No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor ' .
-                "(2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
+            throw new \RuntimeException('No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor '
+                . "(2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
         }
 
         // Keeping backward compatibility with older deployed versions
