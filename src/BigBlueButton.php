@@ -144,23 +144,28 @@ class BigBlueButton
     }
 
     /**
-     * Immutable setter. Sets a http client and factories.
+     * Creates an instance with http client and factories.
      *
      * It is recommended for the http client to have a timeout of e.g. 10
      * seconds, to avoid hanging requests. The timeout from ->setTimeout() will
      * have no effect on an instance created in this way.
      */
-    public function withHttpClient(
+    public static function createWithHttpClient(
         ClientInterface $httpClient,
         RequestFactoryInterface $requestFactory,
         StreamFactoryInterface $streamFactory,
+        ?string $baseUrl = null,
+        ?string $secret = null,
     ): static {
-        $clone                 = clone $this;
-        $clone->httpClient     = $httpClient;
-        $clone->requestFactory = $requestFactory;
-        $clone->streamFactory  = $streamFactory;
+        // Extending classes need to override this method, if they change the
+        // constructor signature.
+        // @phpstan-ignore new.static
+        $instance                 = new static($baseUrl, $secret);
+        $instance->httpClient     = $httpClient;
+        $instance->requestFactory = $requestFactory;
+        $instance->streamFactory  = $streamFactory;
 
-        return $clone;
+        return $instance;
     }
 
     /**
