@@ -56,6 +56,10 @@ use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\SendChatMessageResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 /**
  * Class BigBlueButton.
@@ -90,6 +94,21 @@ class BigBlueButton
     protected UrlBuilder $urlBuilder;
 
     /**
+     * An http client, or NULL to fall back to curl.
+     */
+    private ?ClientInterface $httpClient = null;
+
+    /**
+     * An http request factory, or NULL to fall back to curl.
+     */
+    private ?RequestFactoryInterface $requestFactory = null;
+
+    /**
+     * A stream factory, or NULL to fall back to curl.
+     */
+    private ?StreamFactoryInterface $streamFactory = null;
+
+    /**
      * @param null|array<string, mixed> $opts
      */
     public function __construct(?string $baseUrl = null, ?string $secret = null, ?array $opts = [])
@@ -122,6 +141,26 @@ class BigBlueButton
 
         $this->urlBuilder = new UrlBuilder($bbbSecret, $bbbBaseUrl, $hashingAlgorithm);
         $this->curlOpts   = $opts['curl'] ?? [];
+    }
+
+    /**
+     * Immutable setter. Sets a http client and factories.
+     *
+     * It is recommended for the http client to have a timeout of e.g. 10
+     * seconds, to avoid hanging requests. The timeout from ->setTimeout() will
+     * have no effect on an instance created in this way.
+     */
+    public function withHttpClient(
+        ClientInterface $httpClient,
+        RequestFactoryInterface $requestFactory,
+        StreamFactoryInterface $streamFactory,
+    ): static {
+        $clone                 = clone $this;
+        $clone->httpClient     = $httpClient;
+        $clone->requestFactory = $requestFactory;
+        $clone->streamFactory  = $streamFactory;
+
+        return $clone;
     }
 
     /**
@@ -480,6 +519,10 @@ class BigBlueButton
     }
 
     /**
+     * Sets curl options.
+     *
+     * This has no effect if the instance has an http client.
+     *
      * @param array<int, mixed> $curlOpts
      */
     public function setCurlOpts(array $curlOpts): void
@@ -489,6 +532,8 @@ class BigBlueButton
 
     /**
      * Set Curl Timeout (Optional), Default 10 Seconds.
+     *
+     * This has no effect if the instance has an http client.
      */
     public function setTimeOut(int $TimeOutInSeconds): self
     {
@@ -534,6 +579,45 @@ class BigBlueButton
      * @throws BadResponseException|\RuntimeException
      */
     private function sendRequest(string $url, string $payload = '', string $contentType = 'application/xml'): string
+    {
+        if (null === $this->httpClient
+            || null === $this->requestFactory
+            || null === $this->streamFactory
+        ) {
+            return $this->sendRequestWithCurl($url, $payload, $contentType);
+        }
+
+        $request = $this->requestFactory->createRequest('GET', $url);
+
+        $request = $request->withHeader('Content-type', $contentType);
+
+        if ($payload) {
+            $payloadStream = $this->streamFactory->createStream($payload);
+            $request       = $request->withBody($payloadStream);
+            assert($request instanceof RequestInterface);
+            $request = $request->withMethod('POST');
+        }
+        assert($request instanceof RequestInterface);
+
+        // @todo Handle cookies.
+        // @todo Set UTF-8?
+        // @todo Follow redirect location?
+        // @todo Recommend timeout.
+        // @todo Check if clients verify the peer's certificate.
+
+        $response = $this->httpClient->sendRequest($request);
+
+        // @todo Handle failed requests.
+
+        return (string) $response->getBody();
+    }
+
+    /**
+     * A private utility method used by other public methods to request HTTP responses.
+     *
+     * @throws BadResponseException|\RuntimeException
+     */
+    private function sendRequestWithCurl(string $url, string $payload = '', string $contentType = 'application/xml'): string
     {
         if (!extension_loaded('curl')) {
             throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
