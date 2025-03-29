@@ -20,12 +20,10 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase;
-
 /**
  * @internal
  */
-class HooksCreateParametersTest extends TestCase
+class HooksCreateParametersTest extends ParameterTestCase
 {
     public function testHooksCreateParameters(): void
     {
@@ -47,5 +45,15 @@ class HooksCreateParametersTest extends TestCase
         $this->assertEquals($meetingId, $hooksCreateParameters->getMeetingId());
         $this->assertEquals($getRaw, $hooksCreateParameters->getRaw());
         $this->assertEquals($eventIds, $hooksCreateParameters->getEventId());
+    }
+
+    public function testParameterArray(): void
+    {
+        $callbackUrl = $this->faker->url();
+
+        $hooksCreateParameters = new HooksCreateParameters($callbackUrl);
+        $hooksCreateParameters->setGetRaw(false);
+
+        $this->assertEquals($hooksCreateParameters->toApiDataArray(), $hooksCreateParameters->toArray());
     }
 }

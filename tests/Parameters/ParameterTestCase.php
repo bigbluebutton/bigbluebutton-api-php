@@ -20,41 +20,9 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\Attribute\ApiParameterMapper;
+use BigBlueButton\TestCase;
 
-/**
- * Class DeleteRecordingsParameters.
- */
-class DeleteRecordingsParameters extends BaseParameters
+abstract class ParameterTestCase extends TestCase
 {
-    private string $recordingId;
-
-    public function __construct(string $recordingId)
-    {
-        $this->recordingId = $recordingId;
-    }
-
-    #[ApiParameterMapper(attributeName: 'recordID')]
-    public function getRecordingId(): ?string
-    {
-        return $this->recordingId;
-    }
-
-    public function setRecordingId(string $recordingId): self
-    {
-        $this->recordingId = $recordingId;
-
-        return $this;
-    }
-
-    /**
-     * @deprecated this function is replaced by getApiData() and shall be removed
-     *             once new concept with BbbApiMapper-attribute is bullet prove
-     */
-    public function toArray(): array
-    {
-        return [
-            'recordID' => $this->recordingId,
-        ];
-    }
+    abstract public function testParameterArray(): void;
 }

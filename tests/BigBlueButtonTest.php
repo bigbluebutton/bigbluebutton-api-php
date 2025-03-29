@@ -150,7 +150,8 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithDocumentEmbedded(): void
     {
         $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $file   = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png');
+
+        $file = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png');
         $this->assertIsString($file);
 
         $params->addPresentation('bbb_logo.png', $file);
@@ -167,10 +168,12 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingWithMultiDocument(): void
     {
-        $file = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png');
-        $this->assertIsString($file);
         $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'presentation.png');
+
+        $file = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png');
+        $this->assertIsString($file);
+
         $params->addPresentation('logo.png', $file);
 
         $result = $this->bbb->createMeeting($params);

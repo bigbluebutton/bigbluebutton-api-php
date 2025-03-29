@@ -20,12 +20,10 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase;
-
 /**
  * @internal
  */
-class EndMeetingParametersTest extends TestCase
+class EndMeetingParametersTest extends ParameterTestCase
 {
     public function testEndMeetingParameters(): void
     {
@@ -39,5 +37,13 @@ class EndMeetingParametersTest extends TestCase
         $endMeetingParams->setPassword($newPassword = $this->faker->password);
         $this->assertEquals($newId, $endMeetingParams->getMeetingId());
         $this->assertEquals($newPassword, $endMeetingParams->getPassword());
+    }
+
+    public function testParameterArray(): void
+    {
+        $meetingId = $this->faker->uuid;
+
+        $endMeetingParameters = new EndMeetingParameters($meetingId);
+        $this->assertEquals($endMeetingParameters->toApiDataArray(), $endMeetingParameters->toArray());
     }
 }

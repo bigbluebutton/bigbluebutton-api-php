@@ -312,8 +312,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         $createMeetingParams = $this->getCreateMock($params);
 
-        return $createMeetingParams->setBreakout($params['isBreakout'])->setParentMeetingId($params['parentMeetingId'])->
-        setSequence($params['sequence'])->setFreeJoin($params['freeJoin']);
+        return $createMeetingParams->setBreakout($params['isBreakout'])->setParentMeetingId($params['parentMeetingId'])
+            ->setSequence($params['sequence'])->setFreeJoin($params['freeJoin'])
+        ;
     }
 
     /**

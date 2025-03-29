@@ -22,9 +22,7 @@ namespace BigBlueButton\Parameters;
 
 abstract class UserDataParameters extends BaseParameters
 {
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     private array $userData = [];
 
     public function getUserData(string $key): mixed

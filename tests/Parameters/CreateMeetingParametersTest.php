@@ -20,7 +20,6 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase;
 use BigBlueButton\TestServices\Fixtures;
 
 /**
@@ -28,7 +27,7 @@ use BigBlueButton\TestServices\Fixtures;
  *
  * @internal
  */
-class CreateMeetingParametersTest extends TestCase
+class CreateMeetingParametersTest extends ParameterTestCase
 {
     public function testCreateMeetingParameters(): void
     {
@@ -133,24 +132,31 @@ class CreateMeetingParametersTest extends TestCase
     public function testGetPresentationsAsXMLWithUrl(): void
     {
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf');
+        $createMeetingParams->addPresentation('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithUrlAndFilename(): void
     {
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf', null, 'presentation.pdf');
+        $createMeetingParams->addPresentation('https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', null, 'presentation.pdf');
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithFile(): void
     {
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+
         $file = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png');
         $this->assertIsString($file);
-
-        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $createMeetingParams->addPresentation('bbb_logo.png', $file);
         $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
+    }
+
+    public function testParameterArray(): void
+    {
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+
+        $this->assertEquals($createMeetingParams->toApiDataArray(), $createMeetingParams->toArray());
     }
 }

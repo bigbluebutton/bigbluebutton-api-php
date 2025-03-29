@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class PublishRecordingsParameters.
  */
@@ -35,7 +37,8 @@ class PublishRecordingsParameters extends BaseParameters
         $this->publish     = $publish;
     }
 
-    public function getRecordingId(): string
+    #[ApiParameterMapper(attributeName: 'recordID')]
+    public function getRecordingId(): ?string
     {
         return $this->recordingId;
     }
@@ -47,7 +50,8 @@ class PublishRecordingsParameters extends BaseParameters
         return $this;
     }
 
-    public function isPublish(): bool
+    #[ApiParameterMapper(attributeName: 'publish')]
+    public function isPublish(): ?bool
     {
         return $this->publish;
     }
@@ -59,13 +63,15 @@ class PublishRecordingsParameters extends BaseParameters
         return $this;
     }
 
-    public function getHTTPQuery(): string
+    /**
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
+    public function toArray(): array
     {
-        return $this->buildHTTPQuery(
-            [
-                'recordID' => $this->recordingId,
-                'publish'  => $this->publish ? 'true' : 'false',
-            ]
-        );
+        return [
+            'recordID' => $this->recordingId,
+            'publish'  => $this->publish ? 'true' : 'false',
+        ];
     }
 }

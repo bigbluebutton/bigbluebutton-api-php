@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class EndMeetingParameters.
  */
@@ -40,7 +42,8 @@ class EndMeetingParameters extends BaseParameters
         $this->meetingId = $meetingId;
     }
 
-    public function getMeetingId(): string
+    #[ApiParameterMapper(attributeName: 'meetingID')]
+    public function getMeetingId(): ?string
     {
         return $this->meetingId;
     }
@@ -55,6 +58,7 @@ class EndMeetingParameters extends BaseParameters
     /**
      * @deprecated
      */
+    #[ApiParameterMapper(attributeName: 'password')]
     public function getPassword(): ?string
     {
         return $this->password;
@@ -70,13 +74,15 @@ class EndMeetingParameters extends BaseParameters
         return $this;
     }
 
-    public function getHTTPQuery(): string
+    /**
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
+    public function toArray(): array
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-                'password'  => $this->password,
-            ]
-        );
+        return [
+            'meetingID' => $this->meetingId,
+            'password'  => $this->password,
+        ];
     }
 }
