@@ -37,21 +37,16 @@ abstract class UserDataParameters extends BaseParameters
         return $this;
     }
 
-    /**
-     * @param array<string, mixed> $array
-     *
-     * @return array<string, mixed>
-     */
-    protected function buildUserData(array $array): array
+    protected function buildUserData(mixed &$queries): void
     {
-        foreach ($this->userData as $key => $value) {
-            if (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
+        if (0 !== count($this->userData)) {
+            foreach ($this->userData as $key => $value) {
+                if (!is_bool($value)) {
+                    $queries['userdata-' . $key] = $value;
+                } else {
+                    $queries['userdata-' . $key] = $value ? 'true' : 'false';
+                }
             }
-
-            $array['userdata-' . $key] = $value;
         }
-
-        return $array;
     }
 }

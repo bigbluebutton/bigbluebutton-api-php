@@ -27,12 +27,12 @@ use BigBlueButton\Attribute\ApiParameterMapper;
  */
 class GetRecordingTextTracksParameters extends MetaParameters
 {
-    private ?string $recordId = null;
+    private string $recordId;
 
     /**
      * GetRecordingTextTracksParameters constructor.
      */
-    public function __construct(?string $recordId = null)
+    public function __construct(string $recordId)
     {
         $this->recordId = $recordId;
     }

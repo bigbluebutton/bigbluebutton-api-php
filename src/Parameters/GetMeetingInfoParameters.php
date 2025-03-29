@@ -27,13 +27,13 @@ use BigBlueButton\Attribute\ApiParameterMapper;
  */
 class GetMeetingInfoParameters extends BaseParameters
 {
-    private ?string $meetingId = null;
+    private string $meetingId;
 
     private ?int $offset = null;
 
     private ?int $limit = null;
 
-    public function __construct(?string $meetingId = null)
+    public function __construct(string $meetingId)
     {
         $this->meetingId = $meetingId;
     }
@@ -57,7 +57,7 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this->offset;
     }
 
-    public function setOffset(int $offset): self
+    public function setOffset(?int $offset): self
     {
         $this->offset = $offset;
 
@@ -70,7 +70,7 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this->limit;
     }
 
-    public function setLimit(int $limit): self
+    public function setLimit(?int $limit): self
     {
         $this->limit = $limit;
 

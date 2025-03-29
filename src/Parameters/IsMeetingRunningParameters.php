@@ -27,9 +27,9 @@ use BigBlueButton\Attribute\ApiParameterMapper;
  */
 class IsMeetingRunningParameters extends BaseParameters
 {
-    private ?string $meetingId = null;
+    private string $meetingId;
 
-    public function __construct(?string $meetingId = null)
+    public function __construct(string $meetingId)
     {
         $this->meetingId = $meetingId;
     }

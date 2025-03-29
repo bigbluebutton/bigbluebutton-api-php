@@ -29,9 +29,9 @@ class CreateMeetingParameters extends MetaParameters
 {
     use DocumentableTrait;
 
-    private ?string $meetingId = null;
+    private string $meetingId;
 
-    private ?string $meetingName = null;
+    private string $meetingName;
 
     /**
      * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
@@ -183,11 +183,8 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * CreateMeetingParameters constructor.
-     *
-     * @param mixed $meetingId
-     * @param mixed $meetingName
      */
-    public function __construct($meetingId = null, $meetingName = null)
+    public function __construct(string $meetingId, string $meetingName)
     {
         $this->meetingId   = $meetingId;
         $this->meetingName = $meetingName;
@@ -609,12 +606,9 @@ class CreateMeetingParameters extends MetaParameters
      * Default: false
      *
      * @since 2.4.3
-     *
-     * @param mixed $virtualBackgroundsDisabled
-     *
      * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setVirtualBackgroundsDisabled($virtualBackgroundsDisabled): self
+    public function setVirtualBackgroundsDisabled(bool $virtualBackgroundsDisabled): self
     {
         $this->virtualBackgroundsDisabled = $virtualBackgroundsDisabled;
 
@@ -998,10 +992,7 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    /**
-     * @param mixed $recordingReadyCallbackUrl
-     */
-    public function setRecordingReadyCallbackUrl($recordingReadyCallbackUrl): self
+    public function setRecordingReadyCallbackUrl(string $recordingReadyCallbackUrl): self
     {
         $this->addMeta('bbb-recording-ready-url', $recordingReadyCallbackUrl);
 
@@ -1102,11 +1093,9 @@ class CreateMeetingParameters extends MetaParameters
      *
      * Default: true
      *
-     * @param mixed $breakoutRoomsEnabled
-     *
      * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setBreakoutRoomsEnabled($breakoutRoomsEnabled): self
+    public function setBreakoutRoomsEnabled(bool $breakoutRoomsEnabled): self
     {
         $this->breakoutRoomsEnabled = $breakoutRoomsEnabled;
 
@@ -1195,10 +1184,8 @@ class CreateMeetingParameters extends MetaParameters
      * Default: false
      *
      * @since 2.4.3
-     *
-     * @param mixed $allowRequestsWithoutSession
      */
-    public function setAllowRequestsWithoutSession($allowRequestsWithoutSession): self
+    public function setAllowRequestsWithoutSession(bool $allowRequestsWithoutSession): self
     {
         $this->allowRequestsWithoutSession = $allowRequestsWithoutSession;
 
@@ -1447,11 +1434,9 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @param mixed $id
-     * @param mixed $name
-     * @param mixed $roster
+     * @param array<int, string> $roster
      */
-    public function addBreakoutRoomsGroup($id, $name, $roster): self
+    public function addBreakoutRoomsGroup(mixed $id, string $name, array $roster): self
     {
         $this->breakoutRoomsGroups[] = ['id' => $id, 'name' => $name, 'roster' => $roster];
 

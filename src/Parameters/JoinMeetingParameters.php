@@ -28,9 +28,9 @@ use BigBlueButton\Enum\Role;
  */
 class JoinMeetingParameters extends UserDataParameters
 {
-    private ?string $meetingId;
+    private string $meetingId;
 
-    private ?string $username;
+    private string $username;
 
     /**
      * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
@@ -50,7 +50,7 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @var array<string, string>
      */
-    private array $customParameters;
+    private array $customParameters = [];
 
     private ?string $role = null;
 
@@ -60,12 +60,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?string $defaultLayout = null;
 
-    /**
-     * @param mixed $passwordOrRole
-     * @param mixed $meetingId
-     * @param mixed $username
-     */
-    public function __construct($meetingId = null, $username = null, $passwordOrRole = null)
+    public function __construct(string $meetingId, string $username, string $passwordOrRole)
     {
         $this->meetingId = $meetingId;
         $this->username  = $username;
@@ -75,7 +70,6 @@ class JoinMeetingParameters extends UserDataParameters
         } else {
             $this->password = $passwordOrRole;
         }
-        $this->customParameters = [];
     }
 
     #[ApiParameterMapper(attributeName: 'meetingID')]
@@ -84,7 +78,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this->meetingId;
     }
 
-    public function setMeetingId(string $meetingId): JoinMeetingParameters
+    public function setMeetingId(string $meetingId): self
     {
         $this->meetingId = $meetingId;
 
@@ -116,7 +110,7 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      *@deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
@@ -255,7 +249,7 @@ class JoinMeetingParameters extends UserDataParameters
             $queries[$key] = $value;
         }
 
-        $queries = $this->buildUserData($queries);
+        $this->buildUserData($queries);
 
         return $this->buildHTTPQuery($queries);
     }

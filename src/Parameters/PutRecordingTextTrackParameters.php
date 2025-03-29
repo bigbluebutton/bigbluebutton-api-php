@@ -27,18 +27,18 @@ use BigBlueButton\Attribute\ApiParameterMapper;
  */
 class PutRecordingTextTrackParameters extends BaseParameters
 {
-    private ?string $recordId = null;
+    private string $recordId;
 
-    private ?string $kind = null;
+    private string $kind;
 
-    private ?string $lang = null;
+    private string $lang;
 
-    private ?string $label = null;
+    private string $label;
 
     /**
      * PutRecordingTextTrackParameters constructor.
      */
-    public function __construct(?string $recordId = null, ?string $kind = null, ?string $lang = null, ?string $label = null)
+    public function __construct(string $recordId, string $kind, string $lang, string $label)
     {
         $this->recordId = $recordId;
         $this->kind     = $kind;

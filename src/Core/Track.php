@@ -35,10 +35,7 @@ class Track
 
     private string $source;
 
-    /**
-     * @param mixed $track
-     */
-    public function __construct($track)
+    public function __construct(mixed $track)
     {
         $this->href   = $track->href;
         $this->kind   = $track->kind;

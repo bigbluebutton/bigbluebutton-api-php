@@ -51,10 +51,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     // Additional assertions
 
-    /**
-     * @param mixed $actual
-     */
-    public function assertIsInteger($actual, string $message = ''): void
+    public function assertIsInteger(mixed $actual, string $message = ''): void
     {
         if (empty($message)) {
             $message = 'Got a ' . gettype($actual) . ' instead of an integer.';
@@ -62,10 +59,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue(is_integer($actual), $message);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public function assertIsDouble($actual, string $message = ''): void
+    public function assertIsDouble(mixed $actual, string $message = ''): void
     {
         if (empty($message)) {
             $message = 'Got a ' . gettype($actual) . ' instead of a double.';
@@ -73,10 +67,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue(is_double($actual), $message);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public function assertIsBoolean($actual, string $message = ''): void
+    public function assertIsBoolean(mixed $actual, string $message = ''): void
     {
         if (empty($message)) {
             $message = 'Got a ' . gettype($actual) . ' instead of a boolean.';
@@ -85,10 +76,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsString($obj, array $getters): void
+    public function assertEachGetterValueIsString(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsString($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a string for property -> ' . $getterName);
@@ -96,10 +86,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsInteger($obj, array $getters): void
+    public function assertEachGetterValueIsInteger(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsInteger($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of an integer for property -> ' . $getterName);
@@ -107,10 +96,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsNull($obj, array $getters): void
+    public function assertEachGetterValueIsNull(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertNull($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of NULL for property -> ' . $getterName);
@@ -118,10 +106,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsDouble($obj, array $getters): void
+    public function assertEachGetterValueIsDouble(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsDouble($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a double for property -> ' . $getterName);
@@ -129,10 +116,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsBoolean($obj, array $getters): void
+    public function assertEachGetterValueIsBoolean(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsBoolean($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a boolean for property -> ' . $getterName);
@@ -235,11 +221,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed $createParams
-     *
      * @return array<string, mixed>
      */
-    protected function generateBreakoutCreateParams($createParams): array
+    protected function generateBreakoutCreateParams(mixed $createParams): array
     {
         return array_merge($createParams, [
             'isBreakout'      => true,
@@ -324,10 +308,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         ;
     }
 
-    /**
-     * @param mixed $params
-     */
-    protected function getBreakoutCreateMock($params): CreateMeetingParameters
+    protected function getBreakoutCreateMock(mixed $params): CreateMeetingParameters
     {
         $createMeetingParams = $this->getCreateMock($params);
 

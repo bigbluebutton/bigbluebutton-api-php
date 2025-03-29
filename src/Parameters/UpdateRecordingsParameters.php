@@ -27,9 +27,9 @@ use BigBlueButton\Attribute\ApiParameterMapper;
  */
 class UpdateRecordingsParameters extends MetaParameters
 {
-    private ?string $recordingId = null;
+    private string $recordingId;
 
-    public function __construct(?string $recordingId = null)
+    public function __construct(string $recordingId)
     {
         $this->recordingId = $recordingId;
     }
