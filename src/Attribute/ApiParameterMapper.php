@@ -34,5 +34,4 @@ class ApiParameterMapper
     {
         return $this->attributeName;
     }
-
 }
