@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modules>
     <module name="presentation">
-        <document url="http://test-install.blindsidenetworks.com/default.pdf"/>
+        <document url="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"/>
     </module>
 </modules>

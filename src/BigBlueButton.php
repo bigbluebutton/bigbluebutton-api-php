@@ -94,13 +94,13 @@ class BigBlueButton
     {
         // Provide an early error message if configuration is wrong
         if (is_null($baseUrl) && false === getenv('BBB_SERVER_BASE_URL')) {
-            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor ' .
-                "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
+            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor '
+                . "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
         }
 
         if (is_null($secret) && false === getenv('BBB_SECRET') && false === getenv('BBB_SECURITY_SALT')) {
-            throw new \RuntimeException('No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor ' .
-                "(2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
+            throw new \RuntimeException('No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor '
+                . "(2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
         }
 
         // Keeping backward compatibility with older deployed versions
@@ -538,10 +538,9 @@ class BigBlueButton
         $ch         = curl_init();
         $cookieFile = tmpfile();
 
-        if (!$ch) {  // @phpstan-ignore-line
-            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+        if (false === $ch) {
+            throw new \RuntimeException('Failed to initialize cURL');
         }
-
         // JSESSIONID
         if ($cookieFile) {
             $cookieFilePath = stream_get_meta_data($cookieFile)['uri'];
@@ -550,10 +549,12 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFilePath);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFilePath);
 
-            if ($cookies) {
-                if (false !== mb_strpos($cookies, 'JSESSIONID')) {
-                    preg_match('/JSESSIONID\s*(?<JSESSIONID>.*)/', $cookies, $output_array);
-                    $this->setJSessionId($output_array['JSESSIONID']);
+            if ($cookies && false !== mb_strpos($cookies, 'JSESSIONID')) {
+                if (preg_match('/JSESSIONID\s*(?<JSESSIONID>[^;\s]*)/', $cookies, $output_array)) {
+                    // No need for isset() - we know JSESSIONID exists if preg_match returns true
+                    $this->setJSessionId(mb_trim($output_array['JSESSIONID']));
+                } else {
+                    throw new \RuntimeException('JSESSIONID found but could not be extracted');
                 }
             }
         }
