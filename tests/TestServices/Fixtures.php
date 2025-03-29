@@ -32,12 +32,15 @@ use Faker\Factory as Faker;
 
 class Fixtures
 {
-    public const PATH = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR;
+    public const RESPONSE_PATH = self::BASE_PATH . 'responses' . DIRECTORY_SEPARATOR;
+    public const REQUEST_PATH  = self::BASE_PATH . 'requests' . DIRECTORY_SEPARATOR;
+    public const IMAGE_PATH    = self::BASE_PATH . 'images' . DIRECTORY_SEPARATOR;
+    private const BASE_PATH    = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR;
 
     // LOADERS ---------------------------------------------------------------------------------------------------------
     public static function fromXmlFile(string $filename): \SimpleXMLElement
     {
-        $uri = self::PATH . $filename;
+        $uri = self::RESPONSE_PATH . DIRECTORY_SEPARATOR . $filename;
 
         if (!file_exists($uri)) {
             throw new \RuntimeException("File '{$uri}' not found.");
@@ -60,7 +63,7 @@ class Fixtures
 
     public static function fromJsonFile(string $filename): string
     {
-        $uri = self::PATH . $filename;
+        $uri = self::BASE_PATH . 'responses' . DIRECTORY_SEPARATOR . $filename;
 
         if (!file_exists($uri)) {
             throw new \RuntimeException("File '{$uri}' not found.");

@@ -58,6 +58,7 @@ trait DocumentableTrait
 
             foreach ($this->presentations as $nameOrUrl => $data) {
                 $presentation = $module->addChild('document');
+
                 if (0 === mb_strpos($nameOrUrl, 'http')) {
                     $presentation->addAttribute('url', $nameOrUrl);
                 } else {
@@ -88,5 +89,29 @@ trait DocumentableTrait
         }
 
         return $result;
+    }
+
+    private function urlExists(string $url): bool
+    {
+        $ch = curl_init($url);
+
+        if (!$ch) {
+            throw new \RuntimeException('Unhandled curl error!');
+        }
+
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $data     = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+
+        if ($httpCode >= 200 && $httpCode < 400) {
+            return true;
+        }
+
+        return false;
     }
 }

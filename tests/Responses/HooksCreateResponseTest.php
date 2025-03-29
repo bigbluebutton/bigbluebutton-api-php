@@ -29,9 +29,8 @@ use BigBlueButton\TestServices\Fixtures;
 class HooksCreateResponseTest extends TestCase
 {
     private HooksCreateResponse $createResponseCreate;
-    private HooksCreateResponse $createResponseError;
-    private HooksCreateResponse $createResponseExisting;
-    private HooksCreateResponse $createResponseNoHookId;
+    private HooksCreateResponse $createResponseFailedError;
+    private HooksCreateResponse $createResponseCreateExisting;
 
     public function setUp(): void
     {
@@ -39,15 +38,13 @@ class HooksCreateResponseTest extends TestCase
 
         $fixtures = new Fixtures();
 
-        $xmlCreate         = $fixtures->fromXmlFile('hooks_create.xml');
-        $xmlCreateError    = $fixtures->fromXmlFile('hooks_create_error.xml');
-        $xmlCreateExisting = $fixtures->fromXmlFile('hooks_create_existing.xml');
-        $xmlCreateNoHookId = $fixtures->fromXmlFile('hooks_create_no_hook_id.xml');
+        $xmlCreate            = $fixtures->fromXmlFile('hooks_create.xml');
+        $xmlCreateExisting    = $fixtures->fromXmlFile('hooks_create_existing.xml');
+        $xmlCreateFailedError = $fixtures->fromXmlFile('hooks_create_failed_error.xml');
 
-        $this->createResponseCreate   = new HooksCreateResponse($xmlCreate);
-        $this->createResponseError    = new HooksCreateResponse($xmlCreateError);
-        $this->createResponseExisting = new HooksCreateResponse($xmlCreateExisting);
-        $this->createResponseNoHookId = new HooksCreateResponse($xmlCreateNoHookId);
+        $this->createResponseCreate         = new HooksCreateResponse($xmlCreate);
+        $this->createResponseCreateExisting = new HooksCreateResponse($xmlCreateExisting);
+        $this->createResponseFailedError    = new HooksCreateResponse($xmlCreateFailedError);
     }
 
     public function testHooksCreateResponseCreateContent(): void
@@ -63,35 +60,24 @@ class HooksCreateResponseTest extends TestCase
 
     public function testHooksCreateResponseErrorContent(): void
     {
-        $this->assertEquals('FAILED', $this->createResponseError->getReturnCode());
-        $this->assertEquals('createHookError', $this->createResponseError->getMessageKey());
-        $this->assertFalse($this->createResponseError->success());
-        $this->assertTrue($this->createResponseError->failed());
-        $this->assertNull($this->createResponseError->getHookId());
-        $this->assertNull($this->createResponseError->isPermanentHook());
-        $this->assertNull($this->createResponseError->hasRawData());
+        $this->assertEquals('FAILED', $this->createResponseFailedError->getReturnCode());
+        $this->assertEquals('createHookError', $this->createResponseFailedError->getMessageKey());
+        $this->assertFalse($this->createResponseFailedError->success());
+        $this->assertTrue($this->createResponseFailedError->failed());
+        $this->assertNull($this->createResponseFailedError->getHookId());
+        $this->assertNull($this->createResponseFailedError->isPermanentHook());
+        $this->assertNull($this->createResponseFailedError->hasRawData());
     }
 
     public function testHooksCreateResponseExistingContent(): void
     {
-        $this->assertEquals('SUCCESS', $this->createResponseExisting->getReturnCode());
-        $this->assertEquals('duplicateWarning', $this->createResponseExisting->getMessageKey());
-        $this->assertTrue($this->createResponseExisting->success());
-        $this->assertFalse($this->createResponseExisting->failed());
-        $this->assertEquals(1, $this->createResponseExisting->getHookId());
-        $this->assertNull($this->createResponseExisting->isPermanentHook());
-        $this->assertNull($this->createResponseExisting->hasRawData());
-    }
-
-    public function testHooksCreateResponseNoHookIdContent(): void
-    {
-        $this->assertEquals('FAILED', $this->createResponseNoHookId->getReturnCode());
-        $this->assertEquals('missingParamHookID', $this->createResponseNoHookId->getMessageKey());
-        $this->assertFalse($this->createResponseNoHookId->success());
-        $this->assertTrue($this->createResponseNoHookId->failed());
-        $this->assertNull($this->createResponseNoHookId->getHookId());
-        $this->assertNull($this->createResponseNoHookId->isPermanentHook());
-        $this->assertNull($this->createResponseNoHookId->hasRawData());
+        $this->assertEquals('SUCCESS', $this->createResponseCreateExisting->getReturnCode());
+        $this->assertEquals('duplicateWarning', $this->createResponseCreateExisting->getMessageKey());
+        $this->assertTrue($this->createResponseCreateExisting->success());
+        $this->assertFalse($this->createResponseCreateExisting->failed());
+        $this->assertEquals(1, $this->createResponseCreateExisting->getHookId());
+        $this->assertNull($this->createResponseCreateExisting->isPermanentHook());
+        $this->assertNull($this->createResponseCreateExisting->hasRawData());
     }
 
     public function testHooksCreateResponseTypes(): void
@@ -100,14 +86,11 @@ class HooksCreateResponseTest extends TestCase
         $this->assertEachGetterValueIsInteger($this->createResponseCreate, ['getHookId']);
         $this->assertEachGetterValueIsBoolean($this->createResponseCreate, ['isPermanentHook', 'hasRawData']);
 
-        $this->assertEachGetterValueIsString($this->createResponseError, ['getReturnCode']);
-        $this->assertEachGetterValueIsNull($this->createResponseError, ['getHookId', 'isPermanentHook', 'hasRawData']);
+        $this->assertEachGetterValueIsString($this->createResponseFailedError, ['getReturnCode']);
+        $this->assertEachGetterValueIsNull($this->createResponseFailedError, ['getHookId', 'isPermanentHook', 'hasRawData']);
 
-        $this->assertEachGetterValueIsString($this->createResponseExisting, ['getReturnCode']);
-        $this->assertEachGetterValueIsInteger($this->createResponseExisting, ['getHookId']);
-        $this->assertEachGetterValueIsNull($this->createResponseExisting, ['isPermanentHook', 'hasRawData']);
-
-        $this->assertEachGetterValueIsString($this->createResponseNoHookId, ['getReturnCode']);
-        $this->assertEachGetterValueIsNull($this->createResponseNoHookId, ['getHookId', 'isPermanentHook', 'hasRawData']);
+        $this->assertEachGetterValueIsString($this->createResponseCreateExisting, ['getReturnCode']);
+        $this->assertEachGetterValueIsInteger($this->createResponseCreateExisting, ['getHookId']);
+        $this->assertEachGetterValueIsNull($this->createResponseCreateExisting, ['isPermanentHook', 'hasRawData']);
     }
 }

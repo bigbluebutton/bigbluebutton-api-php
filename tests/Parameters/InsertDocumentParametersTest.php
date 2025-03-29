@@ -24,6 +24,7 @@ namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Enum\DocumentOption;
 use BigBlueButton\Parameters\Config\DocumentOptions;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
@@ -32,16 +33,22 @@ final class InsertDocumentParametersTest extends ParameterTestCase
 {
     public function testInsertDocumentParameters(): void
     {
-        $meetingId = $this->faker->uuid;
-        $params    = new InsertDocumentParameters($meetingId);
+        $meetingId                = $this->faker->uuid;
+        $insertDocumentParameters = new InsertDocumentParameters($meetingId);
 
-        $params->addPresentation('https://demo.bigbluebutton.org/biglbuebutton.png');
-        $params->addPresentation('https://demo.bigbluebutton.org/biglbuebutton.pdf');
-        $params->addPresentation('https://demo.bigbluebutton.org/biglbuebutton.svg');
+        $insertDocumentParameters
+            ->addPresentation('https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf')
+            ->addPresentation('https://freetestdata.com/wp-content/uploads/2022/02/Free_Test_Data_117KB_JPG.jpg')
+            ->addPresentation('https://freetestdata.com/wp-content/uploads/2021/09/500kb.png')
+            ->addPresentation('https://freetestdata.com/wp-content/uploads/2021/09/1.svg')
+        ;
 
-        $this->assertEquals($meetingId, $params->getMeetingID());
+        $this->assertEquals($meetingId, $insertDocumentParameters->getMeetingID());
 
-        $this->assertXmlStringEqualsXmlFile(dirname(__DIR__) . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'insert_document_presentations.xml', $params->getPresentationsAsXML());
+        $this->assertXmlStringEqualsXmlFile(
+            Fixtures::REQUEST_PATH . 'insert_document_presentations.xml',
+            $insertDocumentParameters->getPresentationsAsXML()
+        );
     }
 
     public function testInsertDocumentWithOptions(): void
@@ -60,8 +67,10 @@ final class InsertDocumentParametersTest extends ParameterTestCase
 
         $this->assertEquals($meetingId, $insertDocumentParameters->getMeetingID());
 
-        $file = dirname(__DIR__) . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'insert_document_presentations_with_options.xml';
-        $this->assertXmlStringEqualsXmlFile($file, $insertDocumentParameters->getPresentationsAsXML());
+        $this->assertXmlStringEqualsXmlFile(
+            Fixtures::REQUEST_PATH . 'insert_document_presentations_with_options.xml',
+            $insertDocumentParameters->getPresentationsAsXML()
+        );
     }
 
     public function testParameterArray(): void

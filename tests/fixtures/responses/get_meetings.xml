@@ -61,7 +61,10 @@
                 <presenter>Prof. Maud Corkery II</presenter>
                 <endcallbackurl>http://www.hegmann.biz/explicabo-praesentium-labore-dolor</endcallbackurl>
             </metadata>
-            <isBreakout>false</isBreakout>
+            <isBreakout>true</isBreakout>
+            <parentMeetingID>ParentMeetingId</parentMeetingID>
+            <sequence>1</sequence>
+            <freeJoin>false</freeJoin>
         </meeting>
         <meeting>
             <meetingName>Marty Lueilwitz</meetingName>
@@ -93,6 +96,11 @@
                 <endcallbackurl>http://www.muller.biz/autem-dolor-aut-nam-doloribus-molestiae</endcallbackurl>
             </metadata>
             <isBreakout>false</isBreakout>
+            <breakoutRooms>
+                <breakout>breakout-room-id-1</breakout>
+                <breakout>breakout-room-id-2</breakout>
+                <breakout>breakout-room-id-3</breakout>
+            </breakoutRooms>
         </meeting>
     </meetings>
 </response>
