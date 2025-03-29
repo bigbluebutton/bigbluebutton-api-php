@@ -25,25 +25,15 @@ namespace BigBlueButton\Parameters;
  */
 abstract class MetaParameters extends BaseParameters
 {
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     private array $meta = [];
 
-    /**
-     * @return mixed
-     */
-    public function getMeta(string $key)
+    public function getMeta(string $key): mixed
     {
         return $this->meta[$key];
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return $this
-     */
-    public function addMeta(string $key, $value)
+    public function addMeta(string $key, mixed $value): static
     {
         $this->meta[$key] = $value;
 
@@ -51,18 +41,20 @@ abstract class MetaParameters extends BaseParameters
     }
 
     /**
-     * @param mixed $queries
+     * @param array<string, mixed> $array
+     *
+     * @return array<string, mixed>
      */
-    protected function buildMeta(&$queries): void
+    protected function buildMeta(array $array): array
     {
-        if (0 !== count($this->meta)) {
-            foreach ($this->meta as $key => $value) {
-                if (!is_bool($value)) {
-                    $queries['meta_' . $key] = $value;
-                } else {
-                    $queries['meta_' . $key] = $value ? 'true' : 'false';
-                }
+        foreach ($this->meta as $key => $value) {
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
             }
+
+            $array['meta_' . $key] = $value;
         }
+
+        return $array;
     }
 }

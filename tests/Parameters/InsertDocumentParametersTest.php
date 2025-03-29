@@ -24,12 +24,11 @@ namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Enum\DocumentOption;
 use BigBlueButton\Parameters\Config\DocumentOptions;
-use BigBlueButton\TestCase;
 
 /**
  * @internal
  */
-final class InsertDocumentParametersTest extends TestCase
+final class InsertDocumentParametersTest extends ParameterTestCase
 {
     public function testInsertDocumentParameters(): void
     {
@@ -63,5 +62,13 @@ final class InsertDocumentParametersTest extends TestCase
 
         $file = dirname(__DIR__) . \DIRECTORY_SEPARATOR . 'fixtures' . \DIRECTORY_SEPARATOR . 'insert_document_presentations_with_options.xml';
         $this->assertXmlStringEqualsXmlFile($file, $insertDocumentParameters->getPresentationsAsXML());
+    }
+
+    public function testParameterArray(): void
+    {
+        $meetingId = $this->faker->uuid;
+
+        $insertDocumentParameters = new InsertDocumentParameters($meetingId);
+        $this->assertEquals($insertDocumentParameters->toApiDataArray(), $insertDocumentParameters->toArray());
     }
 }
