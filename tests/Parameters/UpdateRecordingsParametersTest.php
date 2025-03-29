@@ -20,13 +20,12 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase;
 use BigBlueButton\TestServices\Fixtures;
 
 /**
  * @internal
  */
-class UpdateRecordingsParametersTest extends TestCase
+class UpdateRecordingsParametersTest extends ParameterTestCase
 {
     public function testUpdateRecordingsParameters(): void
     {
@@ -39,5 +38,13 @@ class UpdateRecordingsParametersTest extends TestCase
         // Test setters that are ignored by the constructor
         $updateRecordingsParams->setRecordingId($newId = $this->faker->uuid);
         $this->assertEquals($newId, $updateRecordingsParams->getRecordingId());
+    }
+
+    public function testParameterArray(): void
+    {
+        $params                 = Fixtures::generateUpdateRecordingsParams();
+        $updateRecordingsParams = Fixtures::getUpdateRecordingsParamsMock($params);
+
+        $this->assertEquals($updateRecordingsParams->toApiDataArray(), $updateRecordingsParams->toArray());
     }
 }

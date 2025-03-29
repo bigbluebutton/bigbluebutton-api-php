@@ -172,11 +172,9 @@ class Fixtures
     }
 
     /**
-     * @param mixed $createParams
-     *
      * @return array<string, mixed>
      */
-    public static function generateBreakoutCreateParams($createParams): array
+    public static function generateBreakoutCreateParams(mixed $createParams): array
     {
         $faker = Faker::create();
 
@@ -312,10 +310,7 @@ class Fixtures
         ;
     }
 
-    /**
-     * @param mixed $params
-     */
-    public static function getBreakoutCreateMock($params): CreateMeetingParameters
+    public static function getBreakoutCreateMock(mixed $params): CreateMeetingParameters
     {
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock($params);
 

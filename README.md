@@ -35,7 +35,10 @@ Make sure the code style configuration is applied by running PHPCS-Fixer.
 
 ```bash
 # using an alias
-$ composer cs-fix
+$ composer code-fix
+
+# or the same w/o alias
+$ PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --allow-risky yes
 ```
 
 ### Code Quality 2: Static code analysis
@@ -88,6 +91,21 @@ can specify your own BBB-server by copy that file into the same folder and name 
 Exchange the credentials `BBB_SERVER_BASE_URL` and `BBB_SECRET` to your server's values.
 Since this new file (`.env.local`) takes precedence over the main file (`.env`), you will now test 
 with your own server.
+
+### Automated checks while commiting a change
+To ensure code quality, a took called [CaptainHook](https://github.com/captainhookphp/captainhook?tab=readme-ov-file) will be launched when you are commiting a change and will intercept the commit, if the quality is not as expected. Once the quality of the code is improved the code can be commited (CaptainHook will check again).
+
+Automated checks:
+1) Correct commit Message ([beams](https://cbea.ms/git-commit/)): Starting with capital letter, max. 50 characters and imperative mood (e.g. This change will: 'Refactor subsystem X for readability').
+2) Style: The code style will be checked with PHPCS-Fixer (same as above `composer code-fix`)
+3) Static Analyse: The code will be checked with PHPStan (same as above `composer code-check`)
+4) Test: PHPUnit will be executed to ensure the code is working (same as above `composer code-test`)
+
+> **Tip:** To avoid interceptions by CaptainHook it is recommended to run the three commands prior your commit in order to pre-check the code quality.
+
+> **Danger:** Please avoid the deactivation of the automated checks by using the git flag `--no-verify` while commiting.
+
+> **Remark:** CaptainHook should be activated automatically with the first composer command (say `yes` to all questions). If you want to active it manually with `vendor/bin/captainhook install`.
 
 [bbb]: http://bigbluebutton.org
 [composer]: https://getcomposer.org

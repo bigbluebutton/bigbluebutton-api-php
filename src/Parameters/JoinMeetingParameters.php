@@ -20,6 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
 use BigBlueButton\Enum\Role;
 
 /**
@@ -27,9 +28,9 @@ use BigBlueButton\Enum\Role;
  */
 class JoinMeetingParameters extends UserDataParameters
 {
-    private ?string $meetingId;
+    private string $meetingId;
 
-    private ?string $username;
+    private string $username;
 
     /**
      * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
@@ -49,7 +50,7 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @var array<string, string>
      */
-    private array $customParameters;
+    private array $customParameters = [];
 
     private ?string $role = null;
 
@@ -59,12 +60,7 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?string $defaultLayout = null;
 
-    /**
-     * @param mixed $passwordOrRole
-     * @param mixed $meetingId
-     * @param mixed $username
-     */
-    public function __construct($meetingId = null, $username = null, $passwordOrRole = null)
+    public function __construct(string $meetingId, string $username, string $passwordOrRole)
     {
         $this->meetingId = $meetingId;
         $this->username  = $username;
@@ -74,21 +70,22 @@ class JoinMeetingParameters extends UserDataParameters
         } else {
             $this->password = $passwordOrRole;
         }
-        $this->customParameters = [];
     }
 
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
     }
 
-    public function setMeetingId(string $meetingId): JoinMeetingParameters
+    public function setMeetingId(string $meetingId): self
     {
         $this->meetingId = $meetingId;
 
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'fullName')]
     public function getUsername(): ?string
     {
         return $this->username;
@@ -104,6 +101,7 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      * @deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
+    #[ApiParameterMapper(attributeName: 'password')]
     public function getPassword(): ?string
     {
         return $this->password;
@@ -112,13 +110,14 @@ class JoinMeetingParameters extends UserDataParameters
     /**
      *@deprecated Password-string replaced by an Enum\Role-constant in JoinMeetingParameters::__construct()
      */
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'userID')]
     public function getUserId(): ?string
     {
         return $this->userId;
@@ -131,6 +130,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'webVoiceConf')]
     public function getWebVoiceConf(): ?string
     {
         return $this->webVoiceConf;
@@ -143,6 +143,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'createTime')]
     public function getCreationTime(): ?float
     {
         return $this->creationTime;
@@ -155,6 +156,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'avatarURL')]
     public function getAvatarURL(): ?string
     {
         return $this->avatarURL;
@@ -167,6 +169,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'redirect')]
     public function isRedirect(): ?bool
     {
         return $this->redirect;
@@ -179,6 +182,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'role')]
     public function getRole(): ?string
     {
         return $this->role;
@@ -191,6 +195,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'excludeFromDashboard')]
     public function isExcludeFromDashboard(): ?bool
     {
         return $this->excludeFromDashboard;
@@ -203,6 +208,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'guest')]
     public function isGuest(): ?bool
     {
         return $this->guest;
@@ -215,6 +221,7 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'defaultLayout')]
     public function getDefaultLayout(): ?string
     {
         return $this->defaultLayout;
@@ -236,7 +243,24 @@ class JoinMeetingParameters extends UserDataParameters
 
     public function getHTTPQuery(): string
     {
-        $queries = [
+        $queries = $this->toApiDataArray();
+
+        foreach ($this->customParameters as $key => $value) {
+            $queries[$key] = $value;
+        }
+
+        $this->buildUserData($queries);
+
+        return $this->buildHTTPQuery($queries);
+    }
+
+    /**
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
+    public function toArray(): array
+    {
+        return [
             'meetingID'            => $this->meetingId,
             'fullName'             => $this->username,
             'password'             => $this->password,
@@ -250,13 +274,5 @@ class JoinMeetingParameters extends UserDataParameters
             'guest'                => !is_null($this->guest) ? ($this->guest ? 'true' : 'false') : $this->guest,
             'defaultLayout'        => $this->defaultLayout,
         ];
-
-        foreach ($this->customParameters as $key => $value) {
-            $queries[$key] = $value;
-        }
-
-        $this->buildUserData($queries);
-
-        return $this->buildHTTPQuery($queries);
     }
 }

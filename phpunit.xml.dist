@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
         bootstrap="./tests/bootstrap.php"
         backupGlobals="false"
-        backupStaticAttributes="false"
         colors="true"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
-        convertDeprecationsToExceptions="true"
         processIsolation="false"
         stopOnFailure="false"
-        verbose="true"
->
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
+        cacheDirectory="./var/.phpunit.cache"
+        backupStaticProperties="false">
+  <coverage>
     <report>
-      <html outputDirectory="./var/coverage/" />
+      <html outputDirectory="./var/coverage/"/>
     </report>
   </coverage>
   <php>
@@ -30,4 +22,9 @@
       <directory>tests</directory>
     </testsuite>
   </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </source>
 </phpunit>

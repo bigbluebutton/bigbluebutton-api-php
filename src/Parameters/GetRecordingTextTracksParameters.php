@@ -20,21 +20,24 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class GetRecordingTextTracksParameters.
  */
 class GetRecordingTextTracksParameters extends MetaParameters
 {
-    private ?string $recordId = null;
+    private string $recordId;
 
     /**
      * GetRecordingTextTracksParameters constructor.
      */
-    public function __construct(?string $recordId = null)
+    public function __construct(string $recordId)
     {
         $this->recordId = $recordId;
     }
 
+    #[ApiParameterMapper(attributeName: 'recordID')]
     public function getRecordId(): ?string
     {
         return $this->recordId;
@@ -49,12 +52,20 @@ class GetRecordingTextTracksParameters extends MetaParameters
 
     public function getHTTPQuery(): string
     {
-        $queries = [
-            'recordID' => $this->recordId,
-        ];
-
-        $this->buildMeta($queries);
+        $queries = $this->toApiDataArray();
+        $queries = $this->buildMeta($queries);
 
         return $this->buildHTTPQuery($queries);
+    }
+
+    /**
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
+    public function toArray(): array
+    {
+        return [
+            'recordID' => $this->recordId,
+        ];
     }
 }

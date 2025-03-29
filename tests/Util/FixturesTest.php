@@ -35,6 +35,7 @@ use BigBlueButton\Responses\BaseResponse;
 use BigBlueButton\TestServices\EnvLoader;
 use BigBlueButton\TestServices\Fixtures;
 use Faker\Factory as Faker;
+use Faker\Generator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -44,6 +45,13 @@ class FixturesTest extends TestCase
 {
     private BigBlueButton $bbb;
     private Fixtures $fixtures;
+
+    private static Generator $faker;
+
+    public static function setUpBeforeClass(): void
+    {
+        self::$faker = Faker::create();
+    }
 
     public function setUp(): void
     {
@@ -74,11 +82,11 @@ class FixturesTest extends TestCase
         $xmlFilenamesFromDataProvider = array_column($dataProvider, 'filename');
 
         // TO-BE: get all XML-files of the fixtures-folder
-        $absolutePathnames = glob(Fixtures::RESPONSE_PATH . '*.xml');
-        $this->assertIsArray($absolutePathnames);
+        $absolutePathNames = glob(Fixtures::RESPONSE_PATH . '*.xml');
+        $this->assertIsArray($absolutePathNames);
         $xmlFilenamesFromFolder = array_map(function($absolutePathname) {
             return basename($absolutePathname);
-        }, $absolutePathnames);
+        }, $absolutePathNames);
         $xmlFilesThatAreNotTestable = [
             'hooks_destroy_failed_no_id.xml', // because: It is mandatory to have an id in the destroy constructor
             'hooks_destroy_failed_error.xml', // because: No idea how to simulate this on a well configured BBB-Server
@@ -166,15 +174,7 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): CreateMeetingParameters {
-                    $faker = Faker::create();
-
-                    // create and return parameter for test
-                    $createMeetingParameters = new CreateMeetingParameters();
-
-                    return $createMeetingParameters
-                        ->setMeetingId($faker->uuid)
-                        ->setMeetingName('Meeting Room (case 02)')
-                    ;
+                    return new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 02)');
                 },
             ],
             'case03_join_meeting' => [
@@ -183,23 +183,18 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => 'successfullyJoined',
                 'parameters' => function(BigBlueButton $bbb): JoinMeetingParameters {
-                    $faker = Faker::create();
-
                     // arrange the BBB-server
-                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 03)');
+                    $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 03)');
                     $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
                     self::assertTrue($createMeetingResponse->success());
                     self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
 
                     // create and return parameter for test
-                    $joinMeetingParameters = new JoinMeetingParameters();
+                    $joinMeetingParameters = new JoinMeetingParameters($createMeetingResponse->getMeetingId(), self::$faker->name(), Role::VIEWER);
 
                     return $joinMeetingParameters
-                        ->setMeetingId($createMeetingResponse->getMeetingId())
                         ->setCreationTime($createMeetingResponse->getCreationTime())
-                        ->setUserId($faker->uuid)
-                        ->setUsername($faker->name)
-                        ->setRole(Role::VIEWER)
+                        ->setUserId(self::$faker->uuid())
                         ->setRedirect(false)
                     ;
                 },
@@ -210,18 +205,14 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => 'sentEndMeetingRequest',
                 'parameters' => function(BigBlueButton $bbb): EndMeetingParameters {
-                    $faker = Faker::create();
-
                     // arrange the BBB-server
-                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 04)');
+                    $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 04)');
                     $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
                     self::assertTrue($createMeetingResponse->success());
                     self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
 
                     // create and return parameter for test
-                    $endMeetingParameters = new EndMeetingParameters();
-
-                    return $endMeetingParameters->setMeetingId($createMeetingResponse->getMeetingId());
+                    return new EndMeetingParameters($createMeetingResponse->getMeetingId());
                 },
             ],
             'case05_is_meeting_running' => [
@@ -230,18 +221,14 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): IsMeetingRunningParameters {
-                    $faker = Faker::create();
-
                     // arrange the BBB-server
-                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 05)');
+                    $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 05)');
                     $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
                     self::assertTrue($createMeetingResponse->success());
                     self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
 
                     // create and return parameter for test
-                    $isMeetingRunningParameters = new IsMeetingRunningParameters();
-
-                    return $isMeetingRunningParameters->setMeetingId($createMeetingResponse->getMeetingId());
+                    return new IsMeetingRunningParameters($createMeetingResponse->getMeetingId());
                 },
             ],
             'case06_list_of_meetings' => [
@@ -250,25 +237,21 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): void {
-                    $faker = Faker::create();
-
-                    // arrange the BBB-server
-
                     // create meeting room
-                    $createMeetingParametersParent = new CreateMeetingParameters($faker->uuid, 'Meeting Room 1 (case 06)');
+                    $createMeetingParametersParent = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room 1 (case 06)');
                     $createMeetingParametersParent
-                        ->addMeta('endcallbackurl', $faker->url)
-                        ->addMeta('presenter', $faker->name)
+                        ->addMeta('endcallbackurl', self::$faker->url())
+                        ->addMeta('presenter', self::$faker->name())
                     ;
                     $createMeetingResponseParent = $bbb->createMeeting($createMeetingParametersParent);
                     self::assertTrue($createMeetingResponseParent->success());
                     self::assertEquals('bbb-none', $createMeetingResponseParent->getParentMeetingId());
 
                     // create breakout room
-                    $createMeetingParametersChild = new CreateMeetingParameters($faker->uuid, 'Breakout Room (case 06)');
+                    $createMeetingParametersChild = new CreateMeetingParameters(self::$faker->uuid(), 'Breakout Room (case 06)');
                     $createMeetingParametersChild
-                        ->addMeta('endcallbackurl', $faker->url)
-                        ->addMeta('presenter', $faker->name)
+                        ->addMeta('endcallbackurl', self::$faker->url())
+                        ->addMeta('presenter', self::$faker->name())
                     ;
                     $createMeetingParametersChild->setParentMeetingId($createMeetingResponseParent->getMeetingId())->setBreakout(true)->setSequence(1);
                     $createMeetingResponseChild = $bbb->createMeeting($createMeetingParametersChild);
@@ -284,21 +267,19 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): GetMeetingInfoParameters {
-                    $faker = Faker::create();
-
                     // arrange the BBB-server
-                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room 1 (case 07)');
+                    $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room 1 (case 07)');
                     $createMeetingParameters
-                        ->addMeta('bbb-context', $faker->word)
-                        ->addMeta('bbb-origin-server-common-name', $faker->word)
-                        ->addMeta('bbb-origin-server-name', $faker->word)
-                        ->addMeta('bbb-origin-tag', $faker->word)
-                        ->addMeta('bbb-origin-version', $faker->word)
-                        ->addMeta('bbb-recording-description', $faker->word)
-                        ->addMeta('bbb-recording-name', $faker->word)
-                        ->addMeta('bbb-recording-tags', $faker->word)
-                        ->addMeta('bn-origin', $faker->word)
-                        ->addMeta('bn-recording-ready-url', $faker->word)
+                        ->addMeta('bbb-context', self::$faker->word())
+                        ->addMeta('bbb-origin-server-common-name', self::$faker->word())
+                        ->addMeta('bbb-origin-server-name', self::$faker->word())
+                        ->addMeta('bbb-origin-tag', self::$faker->word())
+                        ->addMeta('bbb-origin-version', self::$faker->word())
+                        ->addMeta('bbb-recording-description', self::$faker->word())
+                        ->addMeta('bbb-recording-name', self::$faker->word())
+                        ->addMeta('bbb-recording-tags', self::$faker->word())
+                        ->addMeta('bn-origin', self::$faker->word())
+                        ->addMeta('bn-recording-ready-url', self::$faker->word())
                     ;
 
                     $createMeetingResponse = $bbb->createMeeting($createMeetingParameters);
@@ -306,9 +287,7 @@ class FixturesTest extends TestCase
                     self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
 
                     // create and return parameter for test
-                    $getMeetingInfoParameters = new GetMeetingInfoParameters();
-
-                    return $getMeetingInfoParameters->setMeetingId($createMeetingResponse->getMeetingId());
+                    return new GetMeetingInfoParameters($createMeetingResponse->getMeetingId());
                 },
             ],
             'case08_meeting_info_of_breakout_room' => [
@@ -317,18 +296,16 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): GetMeetingInfoParameters {
-                    $faker = Faker::create();
-
                     // create meeting room
-                    $createMeetingParametersParent = new CreateMeetingParameters($faker->uuid, 'Meeting Room 1 (case 08)');
+                    $createMeetingParametersParent = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room 1 (case 08)');
                     $createMeetingResponseParent   = $bbb->createMeeting($createMeetingParametersParent);
                     self::assertTrue($createMeetingResponseParent->success());
                     self::assertEquals('bbb-none', $createMeetingResponseParent->getParentMeetingId());
 
                     // create breakout room
-                    $createMeetingParametersChild = new CreateMeetingParameters($faker->uuid, 'Breakout Room (case 08)');
+                    $createMeetingParametersChild = new CreateMeetingParameters(self::$faker->uuid(), 'Breakout Room (case 08)');
                     $createMeetingParametersChild
-                        ->addMeta('bbb-context', $faker->word)
+                        ->addMeta('bbb-context', self::$faker->word())
                         ->setParentMeetingId($createMeetingResponseParent->getMeetingId())
                         ->setBreakout(true)
                         ->setSequence(1)
@@ -340,9 +317,7 @@ class FixturesTest extends TestCase
                     self::assertEquals($createMeetingResponseParent->getInternalMeetingId(), $createMeetingResponseChild->getParentMeetingId());
 
                     // create and return parameter for test
-                    $getMeetingInfoParameters = new GetMeetingInfoParameters();
-
-                    return $getMeetingInfoParameters->setMeetingId($createMeetingResponseChild->getInternalMeetingId());
+                    return new GetMeetingInfoParameters($createMeetingResponseChild->getInternalMeetingId());
                 },
             ],
             'case09_meeting_info_of_meeting_with_breakout_rooms' => [
@@ -351,20 +326,18 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): GetMeetingInfoParameters {
-                    $faker = Faker::create();
-
                     // create meeting room
-                    $createMeetingParametersParent = new CreateMeetingParameters($faker->uuid, 'Meeting Room 1 (case 09)');
+                    $createMeetingParametersParent = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room 1 (case 09)');
                     $createMeetingParametersParent
-                        ->addMeta('endcallbackurl', $faker->url)
-                        ->addMeta('presenter', $faker->name)
+                        ->addMeta('endcallbackurl', self::$faker->url())
+                        ->addMeta('presenter', self::$faker->name())
                     ;
                     $createMeetingResponseParent = $bbb->createMeeting($createMeetingParametersParent);
                     self::assertTrue($createMeetingResponseParent->success());
                     self::assertEquals('bbb-none', $createMeetingResponseParent->getParentMeetingId());
 
                     // create breakout room
-                    $createMeetingParametersChild = new CreateMeetingParameters($faker->uuid, 'Breakout Room (case 09)');
+                    $createMeetingParametersChild = new CreateMeetingParameters(self::$faker->uuid(), 'Breakout Room (case 09)');
                     $createMeetingParametersChild
                         ->setParentMeetingId($createMeetingResponseParent->getMeetingId())
                         ->setBreakout(true)
@@ -386,10 +359,8 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): HooksCreateParameters {
-                    $faker = Faker::create();
-
                     // create and return parameter for test
-                    return new HooksCreateParameters($faker->url);
+                    return new HooksCreateParameters(self::$faker->url());
                 },
             ],
             'case11_hooks_create_existing' => [
@@ -398,8 +369,7 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => 'duplicateWarning',
                 'parameters' => function(BigBlueButton $bbb): HooksCreateParameters {
-                    $faker = Faker::create();
-                    $url   = $faker->url;
+                    $url = self::$faker->url();
 
                     // create hook
                     $hooksCreateParameters = new HooksCreateParameters($url);
@@ -416,22 +386,20 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): void {
-                    $faker = Faker::create();
-
                     // create meeting
-                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 12)');
+                    $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 12)');
                     $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
                     self::assertTrue($createMeetingResponse->success());
                     self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
 
                     // create hook #1 (with meeting)
-                    $hooksCreateParameters = new HooksCreateParameters($faker->url);
+                    $hooksCreateParameters = new HooksCreateParameters(self::$faker->url());
                     $hooksCreateParameters->setMeetingId($createMeetingResponse->getMeetingId());
                     $hooksCreateResponse_2 = $bbb->hooksCreate($hooksCreateParameters);
                     self::assertTrue($hooksCreateResponse_2->success());
 
                     // create hook #2 (w/o meeting)
-                    $hooksCreateParameters = new HooksCreateParameters($faker->url);
+                    $hooksCreateParameters = new HooksCreateParameters(self::$faker->url());
                     $hooksCreateResponse_1 = $bbb->hooksCreate($hooksCreateParameters);
                     self::assertTrue($hooksCreateResponse_1->success());
                 },
@@ -442,10 +410,8 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
-                    $faker = Faker::create();
-
                     // create hook
-                    $hooksCreateParameters = new HooksCreateParameters($faker->url);
+                    $hooksCreateParameters = new HooksCreateParameters(self::$faker->url());
                     $hooksCreateResponse   = $bbb->hooksCreate($hooksCreateParameters);
                     self::assertTrue($hooksCreateResponse->success());
                     self::assertIsInt($hooksCreateResponse->getHookId());
@@ -460,22 +426,18 @@ class FixturesTest extends TestCase
                 'success'    => false,
                 'messageKey' => 'destroyMissingHook',
                 'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
-                    $faker = Faker::create();
-
                     // create and return parameter for test
-                    return new HooksDestroyParameters($faker->numberBetween());
+                    return new HooksDestroyParameters(self::$faker->numberBetween());
                 },
             ],
             'case15_insert_document' => [
                 'function'   => 'insertDocument',
                 'filename'   => 'insert_document.xml',
                 'success'    => true,
-                'messageKey' => '',
+                'messageKey' => 'documentInserted',
                 'parameters' => function(BigBlueButton $bbb): InsertDocumentParameters {
-                    $faker = Faker::create();
-
                     // arrange the BBB-server
-                    $createMeetingParameters = new CreateMeetingParameters($faker->uuid, 'Meeting Room (case 05)');
+                    $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 05)');
                     $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
                     self::assertTrue($createMeetingResponse->success());
                     self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
@@ -540,9 +502,9 @@ class FixturesTest extends TestCase
         $this->assertEqualsCanonicalizing(
             $arrayToBe,
             $arrayAsIs,
-            "Details:\n\n" .
-            'Missing items in response: ' . implode('; ', $expectedItemsMissingInResponse) . "\n\n" .
-            'Missing items in the file: ' . implode('; ', $respondedItemsNotExpected) . "\n\n"
+            "Details:\n\n"
+            . 'Missing items in response: ' . implode('; ', $expectedItemsMissingInResponse) . "\n\n"
+            . 'Missing items in the file: ' . implode('; ', $respondedItemsNotExpected) . "\n\n"
         );
     }
 

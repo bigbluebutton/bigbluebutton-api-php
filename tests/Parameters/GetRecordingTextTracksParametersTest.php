@@ -20,12 +20,10 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase;
-
 /**
  * @internal
  */
-class GetRecordingTextTracksParametersTest extends TestCase
+class GetRecordingTextTracksParametersTest extends ParameterTestCase
 {
     public function testGetRecordingTextTracksParameters(): void
     {
@@ -36,5 +34,14 @@ class GetRecordingTextTracksParametersTest extends TestCase
         // Test setters that are ignored by the constructor
         $getRecordingTextTracksParams->setRecordId($newRecordId = $this->faker->uuid);
         $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordId());
+    }
+
+    public function testParameterArray(): void
+    {
+        $recordId = $this->faker->uuid;
+
+        $getRecordingTextTracksParameters = new GetRecordingTextTracksParameters($recordId);
+
+        $this->assertEquals($getRecordingTextTracksParameters->toApiDataArray(), $getRecordingTextTracksParameters->toArray());
     }
 }
