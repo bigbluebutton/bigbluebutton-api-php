@@ -70,6 +70,7 @@
     "psr-4": {
       "BigBlueButton\\": [
         "src",
+        "dev",
         "tests"
       ]
     }
