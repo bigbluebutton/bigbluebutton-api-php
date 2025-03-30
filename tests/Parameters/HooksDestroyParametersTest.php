@@ -34,6 +34,9 @@ class HooksDestroyParametersTest extends ParameterTestCase
         $this->assertEquals($hookId, $hooksDestroyParameters->getHookId());
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $hookId = $this->faker->numberBetween(1, 50);

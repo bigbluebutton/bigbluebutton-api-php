@@ -75,10 +75,12 @@ class EndMeetingParameters extends BaseParameters
     }
 
     /**
+     * @return array<string, null|string> // Explicitly specify key and value types
+     *
      * @deprecated this function is replaced by getApiData() and shall be removed
      *             once new concept with BbbApiMapper-attribute is bullet prove
      */
-    public function toArray(): array
+    public function toArray(): ?array
     {
         return [
             'meetingID' => $this->meetingId,

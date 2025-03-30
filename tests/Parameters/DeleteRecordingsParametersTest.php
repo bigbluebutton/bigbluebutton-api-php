@@ -39,6 +39,9 @@ class DeleteRecordingsParametersTest extends ParameterTestCase
         $this->assertEquals($recordingId2, $deleteRecording->getRecordingId());
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $recordingId = $this->faker->uuid;

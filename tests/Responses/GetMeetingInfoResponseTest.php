@@ -21,6 +21,7 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\Core\Meeting;
+use BigBlueButton\Enum\Role;
 use BigBlueButton\TestCase;
 use BigBlueButton\TestServices\Fixtures;
 
@@ -82,7 +83,7 @@ class GetMeetingInfoResponseTest extends TestCase
 
         $this->assertEquals('xi7y7gpmyq1g', $anAttendee->getUserId());
         $this->assertEquals('Barrett Kutch', $anAttendee->getFullName());
-        $this->assertEquals('MODERATOR', $anAttendee->getRole());
+        $this->assertEquals(Role::MODERATOR, $anAttendee->getRole());
         $this->assertFalse($anAttendee->isPresenter());
         $this->assertFalse($anAttendee->isListeningOnly());
         $this->assertTrue($anAttendee->hasJoinedVoice());
@@ -104,11 +105,11 @@ class GetMeetingInfoResponseTest extends TestCase
 
         $firstModerator = $moderators[0];
         $this->assertEquals('Ernie Abernathy', $firstModerator->getFullName());
-        $this->assertEquals('MODERATOR', $firstModerator->getRole());
+        $this->assertEquals(Role::MODERATOR, $firstModerator->getRole());
 
         $secondModerator = $moderators[1];
         $this->assertEquals('Barrett Kutch', $secondModerator->getFullName());
-        $this->assertEquals('MODERATOR', $secondModerator->getRole());
+        $this->assertEquals(Role::MODERATOR, $secondModerator->getRole());
     }
 
     public function testMeetingViewers(): void
@@ -119,11 +120,11 @@ class GetMeetingInfoResponseTest extends TestCase
 
         $firstViewer = $viewers[0];
         $this->assertEquals('Peter Parker', $firstViewer->getFullName());
-        $this->assertEquals('VIEWER', $firstViewer->getRole());
+        $this->assertEquals(Role::VIEWER, $firstViewer->getRole());
 
         $secondViewer = $viewers[1];
         $this->assertEquals('Bruce Wayne', $secondViewer->getFullName());
-        $this->assertEquals('VIEWER', $secondViewer->getRole());
+        $this->assertEquals(Role::VIEWER, $secondViewer->getRole());
     }
 
     public function testGetMeetingInfoResponseTypes(): void
@@ -142,7 +143,9 @@ class GetMeetingInfoResponseTest extends TestCase
 
         $anAttendee = $this->meetingInfo->getMeeting()->getAttendees()[1];
 
-        $this->assertEachGetterValueIsString($anAttendee, ['getUserId', 'getFullName', 'getRole', 'getClientType']);
+        $this->assertInstanceOf(Role::class, $anAttendee->getRole());
+
+        $this->assertEachGetterValueIsString($anAttendee, ['getUserId', 'getFullName', 'getClientType']);
         $this->assertEachGetterValueIsBoolean($anAttendee, ['isPresenter', 'isListeningOnly', 'hasJoinedVoice', 'hasVideo']);
     }
 

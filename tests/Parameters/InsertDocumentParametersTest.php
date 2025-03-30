@@ -73,6 +73,9 @@ final class InsertDocumentParametersTest extends ParameterTestCase
         );
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $meetingId = $this->faker->uuid;

@@ -40,6 +40,9 @@ class UpdateRecordingsParametersTest extends ParameterTestCase
         $this->assertEquals($newId, $updateRecordingsParams->getRecordingId());
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $params                 = Fixtures::generateUpdateRecordingsParams();

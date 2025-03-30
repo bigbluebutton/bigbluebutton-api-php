@@ -21,6 +21,9 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Attribute\ApiParameterMapper;
+use BigBlueButton\Enum\Feature;
+use BigBlueButton\Enum\GuestPolicy;
+use BigBlueButton\Enum\MeetingLayout;
 
 /**
  * Class CreateMeetingParameters.
@@ -107,7 +110,7 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?bool $freeJoin = null;
 
-    private ?string $guestPolicy = null;
+    private ?GuestPolicy $guestPolicy = null;
 
     private ?string $bannerText = null;
 
@@ -142,7 +145,7 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?string $meetingEndedURL = null;
 
-    private ?string $meetingLayout = null;
+    private ?MeetingLayout $meetingLayout = null;
 
     private ?int $userCameraCap = null;
 
@@ -159,12 +162,12 @@ class CreateMeetingParameters extends MetaParameters
     private ?bool $preUploadedPresentationOverrideDefault = null;
 
     /**
-     * @var array<string, mixed>
+     * @var Feature[]
      */
     private array $disabledFeatures = [];
 
     /**
-     * @var array<string, mixed>
+     * @var Feature[]
      */
     private array $disabledFeaturesExclude = [];
 
@@ -992,7 +995,10 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
-    public function setRecordingReadyCallbackUrl(string $recordingReadyCallbackUrl): self
+    /**
+     * @param mixed $recordingReadyCallbackUrl
+     */
+    public function setRecordingReadyCallbackUrl($recordingReadyCallbackUrl): self
     {
         $this->addMeta('bbb-recording-ready-url', $recordingReadyCallbackUrl);
 
@@ -1060,7 +1066,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     #[ApiParameterMapper(attributeName: 'guestPolicy')]
-    public function getGuestPolicy(): ?string
+    public function getGuestPolicy(): ?GuestPolicy
     {
         return $this->guestPolicy;
     }
@@ -1072,7 +1078,7 @@ class CreateMeetingParameters extends MetaParameters
      *
      * Default: ALWAYS_ACCEPT
      */
-    public function setGuestPolicy(string $guestPolicy): self
+    public function setGuestPolicy(GuestPolicy $guestPolicy): self
     {
         $this->guestPolicy = $guestPolicy;
 
@@ -1093,9 +1099,11 @@ class CreateMeetingParameters extends MetaParameters
      *
      * Default: true
      *
+     * @param mixed $breakoutRoomsEnabled
+     *
      * @deprecated Removed in 2.5, temporarily still handled, please transition to disabledFeatures.
      */
-    public function setBreakoutRoomsEnabled(bool $breakoutRoomsEnabled): self
+    public function setBreakoutRoomsEnabled($breakoutRoomsEnabled): self
     {
         $this->breakoutRoomsEnabled = $breakoutRoomsEnabled;
 
@@ -1152,7 +1160,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     #[ApiParameterMapper(attributeName: 'meetingLayout')]
-    public function getMeetingLayout(): ?string
+    public function getMeetingLayout(): ?MeetingLayout
     {
         return $this->meetingLayout;
     }
@@ -1165,7 +1173,7 @@ class CreateMeetingParameters extends MetaParameters
      *
      * @since 2.4
      */
-    public function setMeetingLayout(string $meetingLayout): self
+    public function setMeetingLayout(MeetingLayout $meetingLayout): self
     {
         $this->meetingLayout = $meetingLayout;
 
@@ -1184,8 +1192,10 @@ class CreateMeetingParameters extends MetaParameters
      * Default: false
      *
      * @since 2.4.3
+     *
+     * @param mixed $allowRequestsWithoutSession
      */
-    public function setAllowRequestsWithoutSession(bool $allowRequestsWithoutSession): self
+    public function setAllowRequestsWithoutSession($allowRequestsWithoutSession): self
     {
         $this->allowRequestsWithoutSession = $allowRequestsWithoutSession;
 
@@ -1333,7 +1343,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return array<string, mixed>
+     * @return Feature[]
      */
     #[ApiParameterMapper(attributeName: 'disabledFeatures')]
     public function getDisabledFeatures(): array
@@ -1365,7 +1375,7 @@ class CreateMeetingParameters extends MetaParameters
      * - cameraAsContent:                                       Enables/Disables camera as a content
      * - timer:                                                 Disables timer
      *
-     * @param array<string, mixed> $disabledFeatures
+     * @param Feature[] $disabledFeatures
      *
      * @since 2.5
      */
@@ -1377,7 +1387,7 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
-     * @return array<string, mixed>
+     * @return Feature[]
      */
     #[ApiParameterMapper(attributeName: 'disabledFeaturesExclude')]
     public function getDisabledFeaturesExclude(): array
@@ -1392,7 +1402,7 @@ class CreateMeetingParameters extends MetaParameters
      *
      * The available options to exclude are exactly the same as for disabledFeatures
      *
-     * @param array<string, mixed> $disabledFeaturesExclude
+     * @param Feature[] $disabledFeaturesExclude
      *
      * @since 2.6.9
      */
@@ -1533,32 +1543,34 @@ class CreateMeetingParameters extends MetaParameters
     }
 
     /**
+     * @return array<string, int|string|true|null>// Explicitly specify key and value types
+     *
      * @deprecated this function is replaced by getApiData() and shall be removed
      *             once new concept with BbbApiMapper-attribute is bullet prove
      */
     public function toArray(): array
     {
         return [
-            'name'                                   => $this->meetingName,
-            'meetingID'                              => $this->meetingId,
-            'attendeePW'                             => $this->attendeePassword,
-            'moderatorPW'                            => $this->moderatorPassword,
-            'dialNumber'                             => $this->dialNumber,
-            'voiceBridge'                            => $this->voiceBridge,
-            'webVoice'                               => $this->webVoice,
-            'logoutURL'                              => $this->logoutUrl,
-            'record'                                 => !is_null($this->record) ? ($this->record ? 'true' : 'false') : $this->record,
-            'duration'                               => $this->duration,
-            'maxParticipants'                        => $this->maxParticipants,
-            'autoStartRecording'                     => !is_null($this->autoStartRecording) ? ($this->autoStartRecording ? 'true' : 'false') : $this->autoStartRecording,
-            'allowStartStopRecording'                => !is_null($this->allowStartStopRecording) ? ($this->allowStartStopRecording ? 'true' : 'false') : $this->allowStartStopRecording,
-            'welcome'                                => !is_null($this->welcomeMessage) ? mb_trim($this->welcomeMessage) : '',
-            'moderatorOnlyMessage'                   => !is_null($this->moderatorOnlyMessage) ? mb_trim($this->moderatorOnlyMessage) : '',
-            'webcamsOnlyForModerator'                => !is_null($this->webcamsOnlyForModerator) ? ($this->webcamsOnlyForModerator ? 'true' : 'false') : $this->webcamsOnlyForModerator,
-            'logo'                                   => $this->logo,
-            'copyright'                              => $this->copyright,
-            'muteOnStart'                            => !is_null($this->muteOnStart) ? ($this->muteOnStart ? 'true' : 'false') : $this->muteOnStart,
-            'guestPolicy'                            => $this->guestPolicy,
+            'name'                    => $this->meetingName,
+            'meetingID'               => $this->meetingId,
+            'attendeePW'              => $this->attendeePassword,
+            'moderatorPW'             => $this->moderatorPassword,
+            'dialNumber'              => $this->dialNumber,
+            'voiceBridge'             => $this->voiceBridge,
+            'webVoice'                => $this->webVoice,
+            'logoutURL'               => $this->logoutUrl,
+            'record'                  => !is_null($this->record) ? ($this->record ? 'true' : 'false') : $this->record,
+            'duration'                => $this->duration,
+            'maxParticipants'         => $this->maxParticipants,
+            'autoStartRecording'      => !is_null($this->autoStartRecording) ? ($this->autoStartRecording ? 'true' : 'false') : $this->autoStartRecording,
+            'allowStartStopRecording' => !is_null($this->allowStartStopRecording) ? ($this->allowStartStopRecording ? 'true' : 'false') : $this->allowStartStopRecording,
+            'welcome'                 => !is_null($this->welcomeMessage) ? mb_trim($this->welcomeMessage) : '',
+            'moderatorOnlyMessage'    => !is_null($this->moderatorOnlyMessage) ? mb_trim($this->moderatorOnlyMessage) : '',
+            'webcamsOnlyForModerator' => !is_null($this->webcamsOnlyForModerator) ? ($this->webcamsOnlyForModerator ? 'true' : 'false') : $this->webcamsOnlyForModerator,
+            'logo'                    => $this->logo,
+            'copyright'               => $this->copyright,
+            'muteOnStart'             => !is_null($this->muteOnStart) ? ($this->muteOnStart ? 'true' : 'false') : $this->muteOnStart,
+            // Commented to be removed 'guestPolicy'                            => $this->guestPolicy->value,
             'lockSettingsDisableCam'                 => !is_null($this->lockSettingsDisableCam) ? ($this->lockSettingsDisableCam ? 'true' : 'false') : $this->lockSettingsDisableCam,
             'lockSettingsDisableMic'                 => !is_null($this->lockSettingsDisableMic) ? ($this->lockSettingsDisableMic ? 'true' : 'false') : $this->lockSettingsDisableMic,
             'lockSettingsDisablePrivateChat'         => !is_null($this->lockSettingsDisablePrivateChat) ? ($this->lockSettingsDisablePrivateChat ? 'true' : 'false') : $this->lockSettingsDisablePrivateChat,
@@ -1583,7 +1595,6 @@ class CreateMeetingParameters extends MetaParameters
             'breakoutRoomsPrivateChatEnabled'        => !is_null($this->breakoutRoomsPrivateChatEnabled) ? ($this->breakoutRoomsPrivateChatEnabled ? 'true' : 'false') : $this->breakoutRoomsPrivateChatEnabled,
             'endWhenNoModerator'                     => !is_null($this->endWhenNoModerator) ? ($this->endWhenNoModerator ? 'true' : 'false') : $this->endWhenNoModerator,
             'meetingKeepEvents'                      => !is_null($this->meetingKeepEvents) ? ($this->meetingKeepEvents ? 'true' : 'false') : $this->meetingKeepEvents,
-            'meetingLayout'                          => $this->meetingLayout,
             'meetingCameraCap'                       => $this->meetingCameraCap,
             'userCameraCap'                          => $this->userCameraCap,
             'meetingExpireIfNoUserJoinedInMinutes'   => $this->meetingExpireIfNoUserJoinedInMinutes,
@@ -1591,8 +1602,8 @@ class CreateMeetingParameters extends MetaParameters
             'preUploadedPresentation'                => $this->preUploadedPresentation,
             'preUploadedPresentationName'            => $this->preUploadedPresentationName,
             'preUploadedPresentationOverrideDefault' => !is_null($this->preUploadedPresentationOverrideDefault) ? ($this->preUploadedPresentationOverrideDefault ? 'true' : 'false') : $this->preUploadedPresentationOverrideDefault,
-            'disabledFeatures'                       => join(',', $this->disabledFeatures),
-            'disabledFeaturesExclude'                => join(',', $this->disabledFeaturesExclude),
+            'disabledFeatures'                       => join(',', array_map(fn ($disabledFeature) => $disabledFeature->value, $this->getDisabledFeatures())),
+            'disabledFeaturesExclude'                => join(',', array_map(fn ($disabledFeatureExclude) => $disabledFeatureExclude->value, $this->getDisabledFeaturesExclude())),
             'notifyRecordingIsOn'                    => !is_null($this->notifyRecordingIsOn) ? ($this->notifyRecordingIsOn ? 'true' : 'false') : $this->notifyRecordingIsOn,
             'presentationUploadExternalUrl'          => $this->presentationUploadExternalUrl,
             'presentationUploadExternalDescription'  => $this->presentationUploadExternalDescription,

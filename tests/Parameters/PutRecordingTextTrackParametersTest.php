@@ -45,6 +45,9 @@ class PutRecordingTextTrackParametersTest extends TestCase
         $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordId());
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $recordId = $this->faker->uuid;

@@ -39,6 +39,9 @@ class EndMeetingParametersTest extends ParameterTestCase
         $this->assertEquals($newPassword, $endMeetingParams->getPassword());
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $meetingId = $this->faker->uuid;

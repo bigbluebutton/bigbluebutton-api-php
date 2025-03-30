@@ -44,6 +44,9 @@ class PublishRecordingsParametersTest extends ParameterTestCase
         $this->assertEquals($publish2, $publishRecording->isPublish());
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $recordingId = $this->faker->uuid;

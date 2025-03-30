@@ -40,13 +40,13 @@ use BigBlueButton\Parameters\UpdateRecordingsParameters;
 class UrlBuilder
 {
     /** @deprecated Property will be private soon. Use setter/getter instead. */
-    protected string $hashingAlgorithm;
+    protected HashingAlgorithm $hashingAlgorithm;
 
     private string $secret;
 
     private string $baseUrl;
 
-    public function __construct(string $secret, string $baseUrl, string $hashingAlgorithm)
+    public function __construct(string $secret, string $baseUrl, HashingAlgorithm $hashingAlgorithm)
     {
         $this->setSecret($secret);
         $this->setBaseUrl($baseUrl);
@@ -73,14 +73,14 @@ class UrlBuilder
         return $this;
     }
 
-    public function setHashingAlgorithm(string $hashingAlgorithm): self
+    public function setHashingAlgorithm(HashingAlgorithm $hashingAlgorithm): self
     {
         $this->hashingAlgorithm = $hashingAlgorithm;
 
         return $this;
     }
 
-    public function getHashingAlgorithm(): string
+    public function getHashingAlgorithm(): HashingAlgorithm
     {
         return $this->hashingAlgorithm;
     }
@@ -102,7 +102,7 @@ class UrlBuilder
      */
     public function buildQs(string $method = '', string $params = ''): string
     {
-        return $params . '&checksum=' . hash($this->hashingAlgorithm, $method . $params . $this->secret);
+        return $params . '&checksum=' . hash($this->hashingAlgorithm->value, $method . $params . $this->secret);
     }
 
     // URL-Generators
@@ -260,11 +260,13 @@ class UrlBuilder
      *
      * @deprecated This function will evolve in phases and will later disappear
      */
-    private function getHashingAlgorithmForHooks(): string
+    private function getHashingAlgorithmForHooks(): HashingAlgorithm
     {
         // ---------------------------------- phase 1 ----------------------------------
         // in case this env-variable is not set, SHA1 shall be used as default (phase 1)
-        return getenv('HASH_ALGO_FOR_HOOKS') ?: HashingAlgorithm::SHA_1;
+        $hashValue = getenv('HASH_ALGO_FOR_HOOKS') ?: HashingAlgorithm::SHA_1->value;
+
+        return HashingAlgorithm::from($hashValue);
         // ---------------------------------- phase 1 ----------------------------------
 
         /* ---------------------------------- phase 2 ----------------------------------

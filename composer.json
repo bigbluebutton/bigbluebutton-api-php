@@ -32,8 +32,7 @@
     "ext-curl": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "ext-simplexml": "*",
-    "marc-mabe/php-enum": "^v4.7.0"
+    "ext-simplexml": "*"
   },
   "require-dev": {
     "bmitch/churn-php": "^1.7",

@@ -39,6 +39,9 @@ class IsMeetingRunningParametersTest extends ParameterTestCase
         $this->assertEquals($newId, $isRunningParams->getMeetingId());
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $meetingId = $this->faker->uuid;

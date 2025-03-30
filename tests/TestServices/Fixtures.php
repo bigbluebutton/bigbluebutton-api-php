@@ -29,6 +29,7 @@ use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use Faker\Factory as Faker;
+use Faker\Generator;
 
 class Fixtures
 {
@@ -78,6 +79,51 @@ class Fixtures
         return $content;
     }
 
+    /**
+     * Gets random enum cases with flexible return formats.
+     *
+     * @param Generator                 $faker     Faker generator instance
+     * @param class-string<\BackedEnum> $enumClass Enum class name
+     * @param null|int                  $count     Number of items to return
+     * @param string                    $format    'array' (cases), 'values' or 'single'
+     *
+     * @return array<\BackedEnum>|array<string>|\BackedEnum|string
+     *
+     * @throws \InvalidArgumentException
+     */
+    public static function randomEnumValues(
+        Generator $faker,
+        string $enumClass,
+        ?int $count = null,
+        string $format = 'single'
+    ) {
+        if (!is_subclass_of($enumClass, \BackedEnum::class)) {
+            throw new \InvalidArgumentException('Given class must be a BackedEnum');
+        }
+
+        /** @var array<\BackedEnum> $cases */
+        $cases = $enumClass::cases();
+        $count ??= $faker->numberBetween(1, count($cases));
+        $count = min($count, count($cases));
+
+        /** @var array<\BackedEnum> $selected */
+        $selected = $faker->randomElements($cases, $count);
+
+        switch ($format) {
+            case 'values':
+                /** @var array<string> $values */
+                $values = array_map(fn (\BackedEnum $case) => $case->value, $selected);
+
+                return $values;
+
+            case 'single':
+                return $selected[0];
+
+            default: // 'array'
+                return $selected;
+        }
+    }
+
     // GENERATORS ------------------------------------------------------------------------------------------------------
     /**
      * @return array<string, mixed>
@@ -118,7 +164,7 @@ class Fixtures
             'lockSettingsHideViewersCursor'          => $faker->boolean(50),
             'allowModsToUnmuteUsers'                 => $faker->boolean(50),
             'allowModsToEjectCameras'                => $faker->boolean(50),
-            'guestPolicy'                            => $faker->randomElement(GuestPolicy::getValues()),
+            'guestPolicy'                            => self::randomEnumValues($faker, GuestPolicy::class, 1),
             'endWhenNoModerator'                     => $faker->boolean(50),
             'endWhenNoModeratorDelayInMinutes'       => $faker->numberBetween(1, 30),
             'meetingKeepEvents'                      => $faker->boolean(50),
@@ -133,14 +179,14 @@ class Fixtures
             'breakoutRoomsRecord'                    => $faker->boolean(50),
             'breakoutRoomsPrivateChatEnabled'        => $faker->boolean(50),
             'meetingEndedURL'                        => $faker->url,
-            'meetingLayout'                          => $faker->randomElement(MeetingLayout::getValues()),
+            'meetingLayout'                          => self::randomEnumValues($faker, MeetingLayout::class, 1),
             'meetingCameraCap'                       => $faker->numberBetween(1, 3),
             'meetingExpireIfNoUserJoinedInMinutes'   => $faker->numberBetween(1, 10),
             'meetingExpireWhenLastUserLeftInMinutes' => $faker->numberBetween(5, 15),
             'preUploadedPresentationOverrideDefault' => $faker->boolean,
             'groups'                                 => Fixtures::generateBreakoutRoomsGroups(),
-            'disabledFeatures'                       => $faker->randomElements(Feature::getValues()),
-            'disabledFeaturesExclude'                => $faker->randomElements(Feature::getValues()),
+            'disabledFeatures'                       => self::randomEnumValues($faker, Feature::class, null, 'array'),
+            'disabledFeaturesExclude'                => self::randomEnumValues($faker, Feature::class, null, 'array'),
             'meta_presenter'                         => $faker->name,
             'meta_endCallbackUrl'                    => $faker->url,
             'meta_bbb-recording-ready-url'           => $faker->url,
@@ -200,7 +246,7 @@ class Fixtures
             'userId'               => $faker->numberBetween(1, 1000),
             'webVoiceConf'         => $faker->word,
             'creationTime'         => $faker->unixTime,
-            'role'                 => $faker->randomElement(Role::getValues()),
+            'role'                 => self::randomEnumValues($faker, Role::class, 1),
             'excludeFromDashboard' => $faker->boolean,
             'userdata_countrycode' => $faker->countryCode,
             'userdata_email'       => $faker->email,

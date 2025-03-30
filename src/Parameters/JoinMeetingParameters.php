@@ -21,6 +21,7 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Attribute\ApiParameterMapper;
+use BigBlueButton\Enum\MeetingLayout;
 use BigBlueButton\Enum\Role;
 
 /**
@@ -52,15 +53,15 @@ class JoinMeetingParameters extends UserDataParameters
      */
     private array $customParameters = [];
 
-    private ?string $role = null;
+    private ?Role $role = null;
 
     private ?bool $excludeFromDashboard = null;
 
     private ?bool $guest = null;
 
-    private ?string $defaultLayout = null;
+    private ?MeetingLayout $defaultLayout = null;
 
-    public function __construct(string $meetingId, string $username, string $passwordOrRole)
+    public function __construct(string $meetingId, string $username, Role|string $passwordOrRole)
     {
         $this->meetingId = $meetingId;
         $this->username  = $username;
@@ -183,12 +184,12 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     #[ApiParameterMapper(attributeName: 'role')]
-    public function getRole(): ?string
+    public function getRole(): ?Role
     {
         return $this->role;
     }
 
-    public function setRole(string $role): self
+    public function setRole(Role $role): self
     {
         $this->role = $role;
 
@@ -222,12 +223,12 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     #[ApiParameterMapper(attributeName: 'defaultLayout')]
-    public function getDefaultLayout(): ?string
+    public function getDefaultLayout(): ?MeetingLayout
     {
         return $this->defaultLayout;
     }
 
-    public function setDefaultLayout(string $defaultLayout): self
+    public function setDefaultLayout(MeetingLayout $defaultLayout): self
     {
         $this->defaultLayout = $defaultLayout;
 
@@ -255,6 +256,8 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     /**
+     * @return array<string, null|float|string> // Explicitly specify key and value types
+     *
      * @deprecated this function is replaced by getApiData() and shall be removed
      *             once new concept with BbbApiMapper-attribute is bullet prove
      */
@@ -267,12 +270,12 @@ class JoinMeetingParameters extends UserDataParameters
             'userID'               => $this->userId,
             'webVoiceConf'         => $this->webVoiceConf,
             'createTime'           => $this->creationTime,
-            'role'                 => $this->role,
+            'role'                 => is_null($this->role) ? null : $this->role->value,
             'excludeFromDashboard' => !is_null($this->excludeFromDashboard) ? ($this->excludeFromDashboard ? 'true' : 'false') : $this->excludeFromDashboard,
             'avatarURL'            => $this->avatarURL,
             'redirect'             => !is_null($this->redirect) ? ($this->redirect ? 'true' : 'false') : $this->redirect,
             'guest'                => !is_null($this->guest) ? ($this->guest ? 'true' : 'false') : $this->guest,
-            'defaultLayout'        => $this->defaultLayout,
+            'defaultLayout'        => is_null($this->defaultLayout) ? null : $this->defaultLayout->value,
         ];
     }
 }

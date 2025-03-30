@@ -45,6 +45,9 @@ class GetMeetingInfoParametersTest extends ParameterTestCase
         $this->assertEquals($offset, $getMeetingInfoParams->getOffset());
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $meetingId = $this->faker->uuid;

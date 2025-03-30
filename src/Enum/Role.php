@@ -20,10 +20,8 @@
 
 namespace BigBlueButton\Enum;
 
-use MabeEnum\Enum;
-
-class Role extends Enum
+enum Role: string
 {
-    public const MODERATOR = 'MODERATOR';
-    public const VIEWER    = 'VIEWER';
+    case MODERATOR = 'MODERATOR';
+    case VIEWER    = 'VIEWER';
 }

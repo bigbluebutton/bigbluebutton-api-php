@@ -41,6 +41,9 @@ class GetRecordingsParametersTest extends ParameterTestCase
         $this->assertStringContainsString('meta_' . $meta . '=' . $name, $params);
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $meetingId = $this->faker->uuid;

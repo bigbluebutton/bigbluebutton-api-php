@@ -29,57 +29,119 @@ abstract class BaseParameters
 {
     public function getHTTPQuery(): string
     {
-        // todo: remove items with NULL-value from $this->toApiDataArray() at this point to ensure
-        //       that the request string will be as short as possible.
+        $apiData = $this->toApiDataArray();
 
-        return $this->buildHTTPQuery($this->toApiDataArray());
+        // No need for null checks anymore since toApiDataArray() filters them out
+        foreach ($apiData as $value) {
+            if (!is_string($value)) {
+                throw new \RuntimeException(sprintf(
+                    'Invalid API parameter type: %s',
+                    gettype($value)
+                ));
+            }
+        }
+
+        return $this->buildHTTPQuery($apiData);
     }
 
     /**
-     * @return array<string, mixed>
-     *
-     * @deprecated This function is replaced by getApiData()
-     */
-    abstract public function toArray(): array;
-
-    /**
-     * @return array<string, mixed>
+     * @return array<string, null|string> // Keys are strings, values are strings or null
      */
     public function toApiDataArray(): array
     {
-        $result = [];
-
+        $result          = [];
         $classReflection = new \ReflectionClass($this);
 
-        // check the attributes of each method if ApiParameterMapper-Attribute is used. Take value into result.
         foreach ($classReflection->getMethods() as $method) {
             foreach ($method->getAttributes(ApiParameterMapper::class) as $attribute) {
                 /** @var ApiParameterMapper $attributeObject */
                 $attributeObject = $attribute->newInstance();
+                $key             = $attributeObject->getAttributeName();
+                $value           = $this->strictConvertToApiValue($this->{$method->getName()}());
 
-                // get key and value
-                $key   = $attributeObject->getAttributeName(); // the value of the argument inside the attribute
-                $value = $this->{$method->getName()}();        // the value of the property via the method with that attribute (typically the getter-function)
-
-                // transform
-                if (is_bool($value)) {
-                    $value = $value ? 'true' : 'false';
+                // Only include non-null values
+                if (null !== $value) {
+                    $result[$key] = $value;
                 }
-
-                if (is_array($value)) {
-                    $value = join(',', $value);
-                }
-
-                // store
-                $result[$key] = $value;
             }
         }
 
         return $result;
     }
 
-    protected function buildHTTPQuery(mixed $array): string
+    /**
+     * @param array<string, null|string> $array // Keys and values are both strings
+     */
+    protected function buildHTTPQuery(array $array): string
     {
-        return str_replace(['%20', '!', "'", '(', ')', '*'], ['+', '%21', '%27', '%28', '%29', '%2A'], http_build_query(array_filter($array), '', '&', \PHP_QUERY_RFC3986));
+        return str_replace(
+            ['%20', '!', "'", '(', ')', '*'],
+            ['+', '%21', '%27', '%28', '%29', '%2A'],
+            http_build_query($array, '', '&', \PHP_QUERY_RFC3986)
+        );
+    }
+
+    /**
+     * Converts any value to API string format with strict type enforcement.
+     *
+     * @param mixed $value
+     */
+    private function strictConvertToApiValue($value): ?string
+    {
+        if (null === $value) {
+            return null;
+        }
+
+        // Handle BackedEnum cases
+        if ($value instanceof \BackedEnum) {
+            $enumValue = $value->value;
+            if (!is_scalar($enumValue)) {
+                throw new \RuntimeException(sprintf(
+                    'Enum value for %s must be scalar, got %s',
+                    get_class($value),
+                    gettype($enumValue)
+                ));
+            }
+
+            return (string) $enumValue;
+        }
+
+        // Handle arrays
+        if (is_array($value)) {
+            return $this->convertArrayToApiString($value);
+        }
+
+        // Handle all other cases with strict string conversion
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
+
+        if (is_object($value)) {
+            throw new \RuntimeException(sprintf(
+                'Cannot convert object of type %s to API value',
+                get_class($value)
+            ));
+        }
+
+        // Force string conversion for all scalar values
+        return (string) $value;
+    }
+
+    /**
+     * Converts array values to comma-separated string with strict typing.
+     *
+     * @param array<mixed> $values // Array of mixed values that will be converted
+     */
+    private function convertArrayToApiString(array $values): string
+    {
+        $converted = [];
+        foreach ($values as $item) {
+            $convertedItem = $this->strictConvertToApiValue($item);
+            if (null !== $convertedItem) {
+                $converted[] = $convertedItem;
+            }
+        }
+
+        return implode(',', $converted);
     }
 }

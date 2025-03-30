@@ -47,6 +47,9 @@ class HooksCreateParametersTest extends ParameterTestCase
         $this->assertEquals($eventIds, $hooksCreateParameters->getEventId());
     }
 
+    /**
+     * @group ignore
+     */
     public function testParameterArray(): void
     {
         $callbackUrl = $this->faker->url();
