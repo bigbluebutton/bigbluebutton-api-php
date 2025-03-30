@@ -20,7 +20,6 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase;
 use BigBlueButton\TestServices\Fixtures;
 
 /**
@@ -28,7 +27,7 @@ use BigBlueButton\TestServices\Fixtures;
  *
  * @internal
  */
-class CreateMeetingParametersTest extends TestCase
+class CreateMeetingParametersTest extends ParameterTestCase
 {
     public function testCreateMeetingParameters(): void
     {
@@ -133,24 +132,39 @@ class CreateMeetingParametersTest extends TestCase
     public function testGetPresentationsAsXMLWithUrl(): void
     {
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf');
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
+        $createMeetingParams->addPresentation('https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf');
+        $this->assertXmlStringEqualsXmlFile(Fixtures::REQUEST_PATH . 'presentation_with_url.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     public function testGetPresentationsAsXMLWithUrlAndFilename(): void
     {
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('http://test-install.blindsidenetworks.com/default.pdf', null, 'presentation.pdf');
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
+        $createMeetingParams->addPresentation(
+            'https://freetestdata.com/wp-content/uploads/2021/09/Free_Test_Data_100KB_PDF.pdf',
+            null,
+            'presentation.pdf'
+        );
+        $this->assertXmlStringEqualsXmlFile(
+            Fixtures::REQUEST_PATH . 'presentation_with_filename.xml',
+            $createMeetingParams->getPresentationsAsXML()
+        );
     }
 
     public function testGetPresentationsAsXMLWithFile(): void
     {
-        $file = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png');
-        $this->assertIsString($file);
+        $content = file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png');
+        $this->assertIsString($content);
 
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $createMeetingParams->addPresentation('bbb_logo.png', $file);
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'presentation_with_embedded_file.xml', $createMeetingParams->getPresentationsAsXML());
+    }
+
+    /**
+     * @group ignore
+     */
+    public function testParameterArray(): void
+    {
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+
+        $this->assertEquals($createMeetingParams->toApiDataArray(), $createMeetingParams->toArray());
     }
 }

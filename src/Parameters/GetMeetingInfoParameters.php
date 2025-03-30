@@ -20,22 +20,25 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class GetMeetingInfoParameters.
  */
 class GetMeetingInfoParameters extends BaseParameters
 {
-    private ?string $meetingId = null;
+    private string $meetingId;
 
     private ?int $offset = null;
 
     private ?int $limit = null;
 
-    public function __construct(?string $meetingId = null)
+    public function __construct(string $meetingId)
     {
         $this->meetingId = $meetingId;
     }
 
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -48,38 +51,44 @@ class GetMeetingInfoParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'offset')]
     public function getOffset(): ?int
     {
         return $this->offset;
     }
 
-    public function setOffset(int $offset): self
+    public function setOffset(?int $offset): self
     {
         $this->offset = $offset;
 
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'limit')]
     public function getLimit(): ?int
     {
         return $this->limit;
     }
 
-    public function setLimit(int $limit): self
+    public function setLimit(?int $limit): self
     {
         $this->limit = $limit;
 
         return $this;
     }
 
-    public function getHTTPQuery(): string
+    /**
+     * @return array<string, null|int|string> // Explicitly specify key and value types
+     *
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
+    public function toArray(): array
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-                'offset'    => $this->offset,
-                'limit'     => $this->limit,
-            ]
-        );
+        return [
+            'meetingID' => $this->meetingId,
+            'offset'    => $this->offset,
+            'limit'     => $this->limit,
+        ];
     }
 }

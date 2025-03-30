@@ -22,6 +22,11 @@
       <directory>tests</directory>
     </testsuite>
   </testsuites>
+  <groups>
+    <exclude>
+      <group>ignore</group>
+    </exclude>
+  </groups>
   <source>
     <include>
       <directory suffix=".php">src</directory>

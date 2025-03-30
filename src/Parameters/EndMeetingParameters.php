@@ -20,24 +20,29 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class EndMeetingParameters.
  */
 class EndMeetingParameters extends BaseParameters
 {
-    private ?string $meetingId = null;
+    private string $meetingId;
 
     /**
+     * The password of the moderator.
+     *
      * @deprecated
      */
-    private ?string $password = null;
+    private ?string $password;
 
-    public function __construct(?string $meetingId = null, ?string $password = null)
+    public function __construct(string $meetingId, ?string $password = null)
     {
         $this->password  = $password;
         $this->meetingId = $meetingId;
     }
 
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -53,6 +58,7 @@ class EndMeetingParameters extends BaseParameters
     /**
      * @deprecated
      */
+    #[ApiParameterMapper(attributeName: 'password')]
     public function getPassword(): ?string
     {
         return $this->password;
@@ -61,20 +67,24 @@ class EndMeetingParameters extends BaseParameters
     /**
      * @deprecated
      */
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    public function getHTTPQuery(): string
+    /**
+     * @return array<string, null|string> // Explicitly specify key and value types
+     *
+     * @deprecated this function is replaced by getApiData() and shall be removed
+     *             once new concept with BbbApiMapper-attribute is bullet prove
+     */
+    public function toArray(): ?array
     {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-                'password'  => $this->password,
-            ]
-        );
+        return [
+            'meetingID' => $this->meetingId,
+            'password'  => $this->password,
+        ];
     }
 }

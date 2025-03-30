@@ -18,30 +18,20 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\Attribute;
 
-/**
- * @internal
- */
-class HooksDestroyParametersTest extends ParameterTestCase
+#[\Attribute(\Attribute::TARGET_METHOD)]
+class ApiParameterMapper
 {
-    public function testHooksDestroyParameters(): void
+    private string $attributeName;
+
+    public function __construct(string $attributeName)
     {
-        $hookId = $this->faker->numberBetween(1, 50);
-
-        $hooksDestroyParameters = new HooksDestroyParameters($hookId);
-
-        $this->assertEquals($hookId, $hooksDestroyParameters->getHookId());
+        $this->attributeName = $attributeName;
     }
 
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
+    public function getAttributeName(): string
     {
-        $hookId = $this->faker->numberBetween(1, 50);
-
-        $hooksDestroyParameters = new HooksDestroyParameters($hookId);
-        $this->assertEquals($hooksDestroyParameters->toApiDataArray(), $hooksDestroyParameters->toArray());
+        return $this->attributeName;
     }
 }

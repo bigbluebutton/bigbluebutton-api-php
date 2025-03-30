@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<modules>
-    <module name="presentation">
-        <document url="https://demo.bigbluebutton.org/biglbuebutton.png" />
-        <document url="https://demo.bigbluebutton.org/biglbuebutton.pdf" />
-        <document url="https://demo.bigbluebutton.org/biglbuebutton.svg" />
-    </module>
-</modules>

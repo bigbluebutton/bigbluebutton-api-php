@@ -20,14 +20,12 @@
 
 namespace BigBlueButton\Parameters;
 
-use BigBlueButton\TestCase;
-
 /**
  * Class IsMeetingRunningParametersTest.
  *
  * @internal
  */
-class IsMeetingRunningParametersTest extends TestCase
+class IsMeetingRunningParametersTest extends ParameterTestCase
 {
     public function testIsMeetingRunningParameters(): void
     {
@@ -39,5 +37,17 @@ class IsMeetingRunningParametersTest extends TestCase
         // Test setters that are ignored by the constructor
         $isRunningParams->setMeetingId($newId = $this->faker->uuid);
         $this->assertEquals($newId, $isRunningParams->getMeetingId());
+    }
+
+    /**
+     * @group ignore
+     */
+    public function testParameterArray(): void
+    {
+        $meetingId = $this->faker->uuid;
+
+        $isMeetingRunningParameters = new IsMeetingRunningParameters($meetingId);
+
+        $this->assertEquals($isMeetingRunningParameters->toApiDataArray(), $isMeetingRunningParameters->toArray());
     }
 }

@@ -89,7 +89,7 @@ class UrlBuilderTest extends TestCase
         $params = $this->generateCreateParams();
         $url    = $this->urlBuilder->getCreateMeetingUrl($this->getCreateMock($params));
 
-        $paramsIterator = new ParamsIterator();
+        $paramsIterator = new ParamsIterator('testCreateMeetingUrl');
         $paramsIterator->iterate($params, $url);
     }
 
@@ -100,7 +100,7 @@ class UrlBuilderTest extends TestCase
         $joinMeetingMock = $this->getJoinMeetingMock($joinMeetingParams);
 
         $url            = $this->urlBuilder->getJoinMeetingURL($joinMeetingMock);
-        $paramsIterator = new ParamsIterator();
+        $paramsIterator = new ParamsIterator('testCreateJoinMeetingUrl');
         $paramsIterator->iterate($joinMeetingParams, $url);
     }
 
@@ -108,7 +108,7 @@ class UrlBuilderTest extends TestCase
     {
         $params         = $this->generateEndMeetingParams();
         $url            = $this->urlBuilder->getEndMeetingURL($this->getEndMeetingMock($params));
-        $paramsIterator = new ParamsIterator();
+        $paramsIterator = new ParamsIterator('testCreateEndMeetingUrl');
         $paramsIterator->iterate($params, $url);
     }
 
@@ -148,7 +148,7 @@ class UrlBuilderTest extends TestCase
     {
         $params         = Fixtures::generateUpdateRecordingsParams();
         $url            = $this->urlBuilder->getUpdateRecordingsUrl(Fixtures::getUpdateRecordingsParamsMock($params));
-        $paramsIterator = new ParamsIterator();
+        $paramsIterator = new ParamsIterator('testUpdateRecordingsUrl');
         $paramsIterator->iterate($params, $url);
     }
 }

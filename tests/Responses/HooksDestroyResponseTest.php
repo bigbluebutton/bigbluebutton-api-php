@@ -29,9 +29,9 @@ use BigBlueButton\TestServices\Fixtures;
 class HooksDestroyResponseTest extends TestCase
 {
     private HooksDestroyResponse $destroyResponse;
-    private HooksDestroyResponse $destroyResponseError;
-    private HooksDestroyResponse $destroyResponseNotFound;
-    private HooksDestroyResponse $destroyResponseParamsNoId;
+    private HooksDestroyResponse $destroyResponseFailedError;
+    private HooksDestroyResponse $destroyResponseFailedNotFound;
+    private HooksDestroyResponse $destroyResponseFailedNoId;
 
     public function setUp(): void
     {
@@ -39,15 +39,15 @@ class HooksDestroyResponseTest extends TestCase
 
         $fixtures = new Fixtures();
 
-        $xml           = $fixtures->fromXmlFile('hooks_destroy.xml');
-        $xmlError      = $fixtures->fromXmlFile('hooks_destroy_error.xml');
-        $xmlNotFound   = $fixtures->fromXmlFile('hooks_destroy_not_found.xml');
-        $xmlParamsNoId = $fixtures->fromXmlFile('hooks_destroy_params_no_id.xml');
+        $xml               = $fixtures->fromXmlFile('hooks_destroy.xml');
+        $xmlFailedError    = $fixtures->fromXmlFile('hooks_destroy_failed_error.xml');
+        $xmlFailedNoId     = $fixtures->fromXmlFile('hooks_destroy_failed_no_id.xml');
+        $xmlFailedNotFound = $fixtures->fromXmlFile('hooks_destroy_failed_not_found.xml');
 
-        $this->destroyResponse           = new HooksDestroyResponse($xml);
-        $this->destroyResponseError      = new HooksDestroyResponse($xmlError);
-        $this->destroyResponseNotFound   = new HooksDestroyResponse($xmlNotFound);
-        $this->destroyResponseParamsNoId = new HooksDestroyResponse($xmlParamsNoId);
+        $this->destroyResponse               = new HooksDestroyResponse($xml);
+        $this->destroyResponseFailedError    = new HooksDestroyResponse($xmlFailedError);
+        $this->destroyResponseFailedNoId     = new HooksDestroyResponse($xmlFailedNoId);
+        $this->destroyResponseFailedNotFound = new HooksDestroyResponse($xmlFailedNotFound);
     }
 
     public function testHooksDestroyResponseContent(): void
@@ -59,23 +59,23 @@ class HooksDestroyResponseTest extends TestCase
 
     public function testHooksDestroyErrorResponseContent(): void
     {
-        $this->assertEquals('FAILED', $this->destroyResponseError->getReturnCode());
-        $this->assertEquals('destroyHookError', $this->destroyResponseError->getMessageKey());
-        $this->assertNull($this->destroyResponseError->removed());
+        $this->assertEquals('FAILED', $this->destroyResponseFailedError->getReturnCode());
+        $this->assertEquals('destroyHookError', $this->destroyResponseFailedError->getMessageKey());
+        $this->assertNull($this->destroyResponseFailedError->removed());
     }
 
     public function testHooksDestroyNotFoundResponseContent(): void
     {
-        $this->assertEquals('FAILED', $this->destroyResponseNotFound->getReturnCode());
-        $this->assertEquals('destroyMissingHook', $this->destroyResponseNotFound->getMessageKey());
-        $this->assertNull($this->destroyResponseNotFound->removed());
+        $this->assertEquals('FAILED', $this->destroyResponseFailedNotFound->getReturnCode());
+        $this->assertEquals('destroyMissingHook', $this->destroyResponseFailedNotFound->getMessageKey());
+        $this->assertNull($this->destroyResponseFailedNotFound->removed());
     }
 
     public function testHooksDestroyParamsNoIdContent(): void
     {
-        $this->assertEquals('FAILED', $this->destroyResponseParamsNoId->getReturnCode());
-        $this->assertEquals('missingParamHookID', $this->destroyResponseParamsNoId->getMessageKey());
-        $this->assertNull($this->destroyResponseParamsNoId->removed());
+        $this->assertEquals('FAILED', $this->destroyResponseFailedNoId->getReturnCode());
+        $this->assertEquals('missingParamHookID', $this->destroyResponseFailedNoId->getMessageKey());
+        $this->assertNull($this->destroyResponseFailedNoId->removed());
     }
 
     public function testHooksDestroyResponseTypes(): void
@@ -83,13 +83,13 @@ class HooksDestroyResponseTest extends TestCase
         $this->assertEachGetterValueIsString($this->destroyResponse, ['getReturnCode']);
         $this->assertEachGetterValueIsBoolean($this->destroyResponse, ['removed']);
 
-        $this->assertEachGetterValueIsString($this->destroyResponseError, ['getReturnCode']);
-        $this->assertEachGetterValueIsNull($this->destroyResponseError, ['removed']);
+        $this->assertEachGetterValueIsString($this->destroyResponseFailedError, ['getReturnCode']);
+        $this->assertEachGetterValueIsNull($this->destroyResponseFailedError, ['removed']);
 
-        $this->assertEachGetterValueIsString($this->destroyResponseNotFound, ['getReturnCode']);
-        $this->assertEachGetterValueIsNull($this->destroyResponseNotFound, ['removed']);
+        $this->assertEachGetterValueIsString($this->destroyResponseFailedNotFound, ['getReturnCode']);
+        $this->assertEachGetterValueIsNull($this->destroyResponseFailedNotFound, ['removed']);
 
-        $this->assertEachGetterValueIsString($this->destroyResponseParamsNoId, ['getReturnCode']);
-        $this->assertEachGetterValueIsNull($this->destroyResponseParamsNoId, ['removed']);
+        $this->assertEachGetterValueIsString($this->destroyResponseFailedNoId, ['getReturnCode']);
+        $this->assertEachGetterValueIsNull($this->destroyResponseFailedNoId, ['removed']);
     }
 }
