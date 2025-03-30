@@ -46,17 +46,4 @@ class HooksCreateParametersTest extends ParameterTestCase
         $this->assertEquals($getRaw, $hooksCreateParameters->getRaw());
         $this->assertEquals($eventIds, $hooksCreateParameters->getEventId());
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $callbackUrl = $this->faker->url();
-
-        $hooksCreateParameters = new HooksCreateParameters($callbackUrl);
-        $hooksCreateParameters->setGetRaw(false);
-
-        $this->assertEquals($hooksCreateParameters->toApiDataArray(), $hooksCreateParameters->toArray());
-    }
 }

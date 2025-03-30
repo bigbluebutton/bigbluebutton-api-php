@@ -39,15 +39,4 @@ class UpdateRecordingsParametersTest extends ParameterTestCase
         $updateRecordingsParams->setRecordingId($newId = $this->faker->uuid);
         $this->assertEquals($newId, $updateRecordingsParams->getRecordingId());
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $params                 = Fixtures::generateUpdateRecordingsParams();
-        $updateRecordingsParams = Fixtures::getUpdateRecordingsParamsMock($params);
-
-        $this->assertEquals($updateRecordingsParams->toApiDataArray(), $updateRecordingsParams->toArray());
-    }
 }

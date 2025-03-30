@@ -22,7 +22,4 @@ namespace BigBlueButton\Parameters;
 
 use BigBlueButton\TestCase;
 
-abstract class ParameterTestCase extends TestCase
-{
-    abstract public function testParameterArray(): void;
-}
+abstract class ParameterTestCase extends TestCase {}

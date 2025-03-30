@@ -62,18 +62,4 @@ class PublishRecordingsParameters extends BaseParameters
 
         return $this;
     }
-
-    /**
-     * @return array<string, string> // Explicitly specify key and value types
-     *
-     * @deprecated this function is replaced by getApiData() and shall be removed
-     *             once new concept with BbbApiMapper-attribute is bullet prove
-     */
-    public function toArray(): array
-    {
-        return [
-            'recordID' => $this->recordingId,
-            'publish'  => $this->publish ? 'true' : 'false',
-        ];
-    }
 }

@@ -72,15 +72,4 @@ final class InsertDocumentParametersTest extends ParameterTestCase
             $insertDocumentParameters->getPresentationsAsXML()
         );
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $meetingId = $this->faker->uuid;
-
-        $insertDocumentParameters = new InsertDocumentParameters($meetingId);
-        $this->assertEquals($insertDocumentParameters->toApiDataArray(), $insertDocumentParameters->toArray());
-    }
 }

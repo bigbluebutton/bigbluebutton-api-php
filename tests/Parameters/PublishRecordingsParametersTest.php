@@ -43,16 +43,4 @@ class PublishRecordingsParametersTest extends ParameterTestCase
         $this->assertEquals($recordingId2, $publishRecording->getRecordingId());
         $this->assertEquals($publish2, $publishRecording->isPublish());
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $recordingId = $this->faker->uuid;
-
-        $publishRecordingsParameters = new PublishRecordingsParameters($recordingId, true);
-
-        $this->assertEquals($publishRecordingsParameters->toApiDataArray(), $publishRecordingsParameters->toArray());
-    }
 }

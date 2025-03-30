@@ -157,14 +157,4 @@ class CreateMeetingParametersTest extends ParameterTestCase
 
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-
-        $this->assertEquals($createMeetingParams->toApiDataArray(), $createMeetingParams->toArray());
-    }
 }

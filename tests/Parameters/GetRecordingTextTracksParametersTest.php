@@ -35,16 +35,4 @@ class GetRecordingTextTracksParametersTest extends ParameterTestCase
         $getRecordingTextTracksParams->setRecordId($newRecordId = $this->faker->uuid);
         $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordId());
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $recordId = $this->faker->uuid;
-
-        $getRecordingTextTracksParameters = new GetRecordingTextTracksParameters($recordId);
-
-        $this->assertEquals($getRecordingTextTracksParameters->toApiDataArray(), $getRecordingTextTracksParameters->toArray());
-    }
 }

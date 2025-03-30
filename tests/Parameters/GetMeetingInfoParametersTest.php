@@ -44,15 +44,4 @@ class GetMeetingInfoParametersTest extends ParameterTestCase
         $this->assertEquals($limit, $getMeetingInfoParams->getLimit());
         $this->assertEquals($offset, $getMeetingInfoParams->getOffset());
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $meetingId = $this->faker->uuid;
-
-        $getMeetingInfoParameters = new GetMeetingInfoParameters($meetingId);
-        $this->assertEquals($getMeetingInfoParameters->toApiDataArray(), $getMeetingInfoParameters->toArray());
-    }
 }

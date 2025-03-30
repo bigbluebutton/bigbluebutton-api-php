@@ -65,15 +65,4 @@ class JoinMeetingParametersTest extends ParameterTestCase
         $this->assertEquals($guest, $joinMeetingParams->isGuest());
         $this->assertEquals($defaultLayout, $joinMeetingParams->getDefaultLayout());
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $params            = Fixtures::generateJoinMeetingParams();
-        $joinMeetingParams = Fixtures::getJoinMeetingMock($params);
-
-        $this->assertEquals($joinMeetingParams->toApiDataArray(), $joinMeetingParams->toArray());
-    }
 }

@@ -38,16 +38,4 @@ class IsMeetingRunningParametersTest extends ParameterTestCase
         $isRunningParams->setMeetingId($newId = $this->faker->uuid);
         $this->assertEquals($newId, $isRunningParams->getMeetingId());
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $meetingId = $this->faker->uuid;
-
-        $isMeetingRunningParameters = new IsMeetingRunningParameters($meetingId);
-
-        $this->assertEquals($isMeetingRunningParameters->toApiDataArray(), $isMeetingRunningParameters->toArray());
-    }
 }

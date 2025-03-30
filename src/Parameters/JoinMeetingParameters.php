@@ -254,28 +254,4 @@ class JoinMeetingParameters extends UserDataParameters
 
         return $this->buildHTTPQuery($queries);
     }
-
-    /**
-     * @return array<string, null|float|string> // Explicitly specify key and value types
-     *
-     * @deprecated this function is replaced by getApiData() and shall be removed
-     *             once new concept with BbbApiMapper-attribute is bullet prove
-     */
-    public function toArray(): array
-    {
-        return [
-            'meetingID'            => $this->meetingId,
-            'fullName'             => $this->username,
-            'password'             => $this->password,
-            'userID'               => $this->userId,
-            'webVoiceConf'         => $this->webVoiceConf,
-            'createTime'           => $this->creationTime,
-            'role'                 => is_null($this->role) ? null : $this->role->value,
-            'excludeFromDashboard' => !is_null($this->excludeFromDashboard) ? ($this->excludeFromDashboard ? 'true' : 'false') : $this->excludeFromDashboard,
-            'avatarURL'            => $this->avatarURL,
-            'redirect'             => !is_null($this->redirect) ? ($this->redirect ? 'true' : 'false') : $this->redirect,
-            'guest'                => !is_null($this->guest) ? ($this->guest ? 'true' : 'false') : $this->guest,
-            'defaultLayout'        => is_null($this->defaultLayout) ? null : $this->defaultLayout->value,
-        ];
-    }
 }

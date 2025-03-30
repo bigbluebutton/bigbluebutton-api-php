@@ -40,17 +40,4 @@ class GetRecordingsParametersTest extends ParameterTestCase
         $this->assertEquals($state, $getRecordings->getState());
         $this->assertStringContainsString('meta_' . $meta . '=' . $name, $params);
     }
-
-    /**
-     * @group ignore
-     */
-    public function testParameterArray(): void
-    {
-        $meetingId = $this->faker->uuid;
-
-        $getRecordingsParameters = new GetRecordingsParameters();
-        $getRecordingsParameters->setMeetingId($meetingId);
-
-        $this->assertEquals($getRecordingsParameters->toApiDataArray(), $getRecordingsParameters->toArray());
-    }
 }
