@@ -44,4 +44,9 @@ enum Feature: string
     case SNAPSHOT_OF_CURRENT_SLIDE                                = 'snapshotOfCurrentSlide';
     case TIMER                                                    = 'timer';
     case VIRTUAL_BACKGROUNDS                                      = 'virtualBackgrounds';
+    case INFINITE_WHITEBOARD                                      = 'infiniteWhiteboard';
+    case DELETE_CHAT_MESSAGE                                      = 'deleteChatMessage';
+    case EDIT_CHAT_MESSAGE                                        = 'editChatMessage';
+    case REPLY_CHAT_MESSAGE                                       = 'replyChatMessage';
+    case CHAT_MESSAGE_REACTIONS                                   = 'chatMessageReactions';
 }
