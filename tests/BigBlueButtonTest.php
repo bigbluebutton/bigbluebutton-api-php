@@ -23,6 +23,7 @@ namespace BigBlueButton;
 use BigBlueButton\Core\ApiMethod;
 use BigBlueButton\Core\DocumentFile;
 use BigBlueButton\Core\DocumentUrl;
+use BigBlueButton\Enum\Feature;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -303,7 +304,11 @@ class BigBlueButtonTest extends TestCase
         $insertDocumentResponse = $this->bbb->insertDocument($insertDocumentParameters);
 
         // ASSERT
-        $this->assertTrue($insertDocumentResponse->success());
+        if (!array_search(Feature::PRESENTATION, $createMeetingParameters->getDisabledFeatures()) > 0) {
+            $this->assertTrue($insertDocumentResponse->success());
+        } else {
+            $this->assertTrue($insertDocumentResponse->failed());
+        }
     }
 
     /**
@@ -337,7 +342,11 @@ class BigBlueButtonTest extends TestCase
         $insertDocumentResponse = $this->bbb->insertDocument($insertDocumentParameters);
 
         // ASSERT
-        $this->assertTrue($insertDocumentResponse->success());
+        if (!array_search(Feature::PRESENTATION, $createMeetingParameters->getDisabledFeatures()) > 0) {
+            $this->assertTrue($insertDocumentResponse->success());
+        } else {
+            $this->assertTrue($insertDocumentResponse->failed());
+        }
     }
 
     // Join Meeting
