@@ -22,8 +22,12 @@ namespace BigBlueButton\Enum;
 
 enum MeetingLayout: string
 {
-    case CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
-    case SMART_LAYOUT       = 'SMART_LAYOUT';
-    case PRESENTATION_FOCUS = 'PRESENTATION_FOCUS';
-    case VIDEO_FOCUS        = 'VIDEO_FOCUS';
+    case CUSTOM_LAYOUT          = 'CUSTOM_LAYOUT';
+    case SMART_LAYOUT           = 'SMART_LAYOUT';
+    case PRESENTATION_FOCUS     = 'PRESENTATION_FOCUS';
+    case VIDEO_FOCUS            = 'VIDEO_FOCUS';
+    case CAMERAS_ONLY           = 'CAMERAS_ONLY';
+    case PARTICIPANTS_CHAT_ONLY = 'PARTICIPANTS_CHAT_ONLY';
+    case PRESENTATION_ONLY      = 'PRESENTATION_ONLY';
+    case MEDIA_ONLY             = 'MEDIA_ONLY';
 }
