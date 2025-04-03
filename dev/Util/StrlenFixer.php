@@ -27,6 +27,9 @@ use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
+/**
+ * @codeCoverageIgnore
+ */
 class StrlenFixer implements FixerInterface
 {
     public function isCandidate(Tokens $tokens): bool

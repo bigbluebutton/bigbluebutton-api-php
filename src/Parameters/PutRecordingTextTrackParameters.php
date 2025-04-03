@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,23 +20,25 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class PutRecordingTextTrackParameters.
  */
 class PutRecordingTextTrackParameters extends BaseParameters
 {
-    private ?string $recordId = null;
+    private string $recordId;
 
-    private ?string $kind = null;
+    private string $kind;
 
-    private ?string $lang = null;
+    private string $lang;
 
-    private ?string $label = null;
+    private string $label;
 
     /**
      * PutRecordingTextTrackParameters constructor.
      */
-    public function __construct(?string $recordId = null, ?string $kind = null, ?string $lang = null, ?string $label = null)
+    public function __construct(string $recordId, string $kind, string $lang, string $label)
     {
         $this->recordId = $recordId;
         $this->kind     = $kind;
@@ -44,6 +46,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         $this->label    = $label;
     }
 
+    #[ApiParameterMapper(attributeName: 'recordID')]
     public function getRecordId(): ?string
     {
         return $this->recordId;
@@ -56,6 +59,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'kind')]
     public function getKind(): ?string
     {
         return $this->kind;
@@ -68,6 +72,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'lang')]
     public function getLang(): ?string
     {
         return $this->lang;
@@ -80,6 +85,7 @@ class PutRecordingTextTrackParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'label')]
     public function getLabel(): ?string
     {
         return $this->label;
@@ -90,17 +96,5 @@ class PutRecordingTextTrackParameters extends BaseParameters
         $this->label = $label;
 
         return $this;
-    }
-
-    public function getHTTPQuery(): string
-    {
-        $queries = [
-            'recordID' => $this->recordId,
-            'kind'     => $this->kind,
-            'lang'     => $this->lang,
-            'label'    => $this->label,
-        ];
-
-        return $this->buildHTTPQuery($queries);
     }
 }

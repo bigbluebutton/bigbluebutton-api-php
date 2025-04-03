@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,12 +20,10 @@
 
 namespace BigBlueButton\Enum;
 
-use MabeEnum\Enum;
-
-class MeetingLayout extends Enum
+enum MeetingLayout: string
 {
-    public const CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
-    public const SMART_LAYOUT       = 'SMART_LAYOUT';
-    public const PRESENTATION_FOCUS = 'PRESENTATION_FOCUS';
-    public const VIDEO_FOCUS        = 'VIDEO_FOCUS';
+    case CUSTOM_LAYOUT      = 'CUSTOM_LAYOUT';
+    case SMART_LAYOUT       = 'SMART_LAYOUT';
+    case PRESENTATION_FOCUS = 'PRESENTATION_FOCUS';
+    case VIDEO_FOCUS        = 'VIDEO_FOCUS';
 }

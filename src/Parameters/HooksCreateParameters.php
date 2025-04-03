@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 class HooksCreateParameters extends BaseParameters
 {
     private string $callbackUrl;
@@ -35,6 +37,7 @@ class HooksCreateParameters extends BaseParameters
         $this->callbackUrl = $callbackUrl;
     }
 
+    #[ApiParameterMapper(attributeName: 'callbackURL')]
     public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
@@ -47,6 +50,7 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -71,6 +75,7 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'getRaw')]
     public function getRaw(): ?bool
     {
         return $this->getRaw;
@@ -81,16 +86,5 @@ class HooksCreateParameters extends BaseParameters
         $this->getRaw = $getRaw;
 
         return $this;
-    }
-
-    public function getHTTPQuery(): string
-    {
-        $queries = [
-            'callbackURL' => $this->callbackUrl,
-            'meetingID'   => $this->meetingId,
-            'getRaw'      => !is_null($this->getRaw) ? ($this->getRaw ? 'true' : 'false') : $this->getRaw,
-        ];
-
-        return $this->buildHTTPQuery($queries);
     }
 }

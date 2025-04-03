@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -100,7 +100,7 @@ class BigBlueButtonTest extends TestCase
         $params = Fixtures::generateCreateParams();
         $url    = $this->bbb->getCreateMeetingUrl(Fixtures::getCreateMeetingParametersMock($params));
 
-        $paramsIterator = new ParamsIterator();
+        $paramsIterator = new ParamsIterator('testCreateMeetingUrl');
         $paramsIterator->iterate($params, $url);
     }
 
@@ -152,11 +152,10 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingWithPresentationEmbedded(): void
     {
-        $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-
-        $content = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png');
+        $content = file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png');
         $this->assertIsString($content);
 
+        $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $params->addPresentation('bbb_logo.png', $content);
 
         $result = $this->bbb->createMeeting($params);
@@ -171,12 +170,11 @@ class BigBlueButtonTest extends TestCase
      */
     public function testCreateMeetingWithMultiPresentations(): void
     {
-        $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'presentation.png');
-
-        $content = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png');
+        $content = file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png');
         $this->assertIsString($content);
 
+        $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+        $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'presentation.png');
         $params->addPresentation('logo.png', $content);
 
         $result = $this->bbb->createMeeting($params);
@@ -212,7 +210,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithDocumentFile(): void
     {
         // ARRANGE
-        $filepath                = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png';
+        $filepath                = Fixtures::IMAGE_PATH . 'bbb_logo.png';
         $filename                = 'picture.png';
         $document                = new DocumentFile($filepath, $filename);
         $createMeetingParameters = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
@@ -238,7 +236,7 @@ class BigBlueButtonTest extends TestCase
         $documentUrl = new DocumentUrl($url, $filename);
 
         // file 2
-        $filepath     = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png';
+        $filepath     = Fixtures::IMAGE_PATH . 'bbb_logo.png';
         $filename     = 'picture.png';
         $documentFile = new DocumentFile($filepath, $filename);
 
@@ -269,7 +267,7 @@ class BigBlueButtonTest extends TestCase
         $document                 = new DocumentUrl($url, $filename);
         $createMeetingParameters  = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $createMeetingResponse    = $this->bbb->createMeeting($createMeetingParameters);
-        $insertDocumentParameters = new InsertDocumentParameters($createMeetingParameters->getMeetingId());
+        $insertDocumentParameters = new InsertDocumentParameters((string) $createMeetingParameters->getMeetingId());
         $insertDocumentParameters->addDocument($document);
 
         // PRE-CHECK
@@ -289,12 +287,12 @@ class BigBlueButtonTest extends TestCase
     public function testInsertDocumentFile(): void
     {
         // ARRANGE
-        $filepath                 = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png';
+        $filepath                 = Fixtures::IMAGE_PATH . 'bbb_logo.png';
         $filename                 = 'picture.png';
         $document                 = new DocumentFile($filepath, $filename);
         $createMeetingParameters  = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $createMeetingResponse    = $this->bbb->createMeeting($createMeetingParameters);
-        $insertDocumentParameters = new InsertDocumentParameters($createMeetingParameters->getMeetingId());
+        $insertDocumentParameters = new InsertDocumentParameters((string) $createMeetingParameters->getMeetingId());
         $insertDocumentParameters->addDocument($document);
 
         // PRE-CHECK
@@ -319,13 +317,13 @@ class BigBlueButtonTest extends TestCase
         $documentUrl = new DocumentUrl($url, $filename);
 
         // file 2
-        $filepath     = __DIR__ . DIRECTORY_SEPARATOR . 'fixtures' . DIRECTORY_SEPARATOR . 'bbb_logo.png';
+        $filepath     = Fixtures::IMAGE_PATH . 'bbb_logo.png';
         $filename     = 'picture.png';
         $documentFile = new DocumentFile($filepath, $filename);
 
         $createMeetingParameters  = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $createMeetingResponse    = $this->bbb->createMeeting($createMeetingParameters);
-        $insertDocumentParameters = new InsertDocumentParameters($createMeetingParameters->getMeetingId());
+        $insertDocumentParameters = new InsertDocumentParameters((string) $createMeetingParameters->getMeetingId());
         $insertDocumentParameters
             ->addDocument($documentUrl)
             ->addDocument($documentFile)
@@ -356,7 +354,7 @@ class BigBlueButtonTest extends TestCase
         $joinMeetingMock = Fixtures::getJoinMeetingMock($joinMeetingParams);
 
         $url            = $this->bbb->getJoinMeetingURL($joinMeetingMock);
-        $paramsIterator = new ParamsIterator();
+        $paramsIterator = new ParamsIterator('testCreateJoinMeetingUrl');
         $paramsIterator->iterate($joinMeetingParams, $url);
     }
 
@@ -409,7 +407,7 @@ class BigBlueButtonTest extends TestCase
     {
         $params         = Fixtures::generateEndMeetingParams();
         $url            = $this->bbb->getEndMeetingURL(Fixtures::getEndMeetingMock($params));
-        $paramsIterator = new ParamsIterator();
+        $paramsIterator = new ParamsIterator('testCreateEndMeetingUrl');
         $paramsIterator->iterate($params, $url);
     }
 
@@ -559,7 +557,7 @@ class BigBlueButtonTest extends TestCase
     {
         $params         = Fixtures::generateUpdateRecordingsParams();
         $url            = $this->bbb->getUpdateRecordingsUrl(Fixtures::getUpdateRecordingsParamsMock($params));
-        $paramsIterator = new ParamsIterator();
+        $paramsIterator = new ParamsIterator('testUpdateRecordingsUrl');
         $paramsIterator->iterate($params, $url);
     }
 

@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -27,8 +27,6 @@ use BigBlueButton\TestCase;
  */
 class ParamsIterator extends TestCase
 {
-    public function __construct() {}
-
     /**
      * @param array<string, mixed> $params
      */
@@ -37,6 +35,10 @@ class ParamsIterator extends TestCase
         foreach ($params as $key => $value) {
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
+            }
+
+            if ($value instanceof \BackedEnum) {
+                $value = $value->value;
             }
 
             if (!is_array($value)) {

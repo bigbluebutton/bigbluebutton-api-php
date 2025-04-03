@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -22,35 +22,22 @@ namespace BigBlueButton\Parameters;
 
 abstract class UserDataParameters extends BaseParameters
 {
-    /**
-     * @var array<string, mixed>
-     */
+    /** @var array<string, mixed> */
     private array $userData = [];
 
-    /**
-     * @return mixed
-     */
-    public function getUserData(string $key)
+    public function getUserData(string $key): mixed
     {
         return $this->userData[$key];
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return $this
-     */
-    public function addUserData(string $key, $value): self
+    public function addUserData(string $key, mixed $value): static
     {
         $this->userData[$key] = $value;
 
         return $this;
     }
 
-    /**
-     * @param mixed $queries
-     */
-    protected function buildUserData(&$queries): void
+    protected function buildUserData(mixed &$queries): void
     {
         if (0 !== count($this->userData)) {
             foreach ($this->userData as $key => $value) {

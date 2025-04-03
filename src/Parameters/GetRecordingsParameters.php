@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class GetRecordingsParameters.
  */
@@ -31,6 +33,7 @@ class GetRecordingsParameters extends MetaParameters
 
     private ?string $state = null;
 
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -43,6 +46,7 @@ class GetRecordingsParameters extends MetaParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'recordID')]
     public function getRecordId(): ?string
     {
         return $this->recordId;
@@ -55,6 +59,7 @@ class GetRecordingsParameters extends MetaParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'state')]
     public function getState(): ?string
     {
         return $this->state;
@@ -69,13 +74,8 @@ class GetRecordingsParameters extends MetaParameters
 
     public function getHTTPQuery(): string
     {
-        $queries = [
-            'meetingID' => $this->meetingId,
-            'recordID'  => $this->recordId,
-            'state'     => $this->state,
-        ];
-
-        $this->buildMeta($queries);
+        $queries = $this->toApiDataArray();
+        $queries = $this->buildMeta($queries);
 
         return $this->buildHTTPQuery($queries);
     }

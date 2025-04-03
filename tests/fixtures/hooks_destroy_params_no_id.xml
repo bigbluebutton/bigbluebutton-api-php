@@ -1,5 +1,0 @@
-<response>
-    <returncode>FAILED</returncode>
-    <messageKey>missingParamHookID</messageKey>
-    <message>You must specify a hookID in the parameters.</message>
-</response>

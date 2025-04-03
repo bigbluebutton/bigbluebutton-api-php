@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -27,11 +27,7 @@ abstract class BaseJsonResponse
 {
     public const SUCCESS = 'SUCCESS';
     public const FAILED  = 'FAILED';
-
-    /**
-     * @var mixed
-     */
-    protected $data;
+    protected mixed $data;
 
     public function __construct(string $json)
     {

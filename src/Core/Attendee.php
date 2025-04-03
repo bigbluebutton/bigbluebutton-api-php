@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,13 +20,15 @@
 
 namespace BigBlueButton\Core;
 
+use BigBlueButton\Enum\Role;
+
 class Attendee
 {
     private string $userId;
 
     private string $fullName;
 
-    private string $role;
+    private Role $role;
 
     private bool $isPresenter;
 
@@ -47,7 +49,7 @@ class Attendee
     {
         $this->userId          = $xml->userID->__toString();
         $this->fullName        = $xml->fullName->__toString();
-        $this->role            = $xml->role->__toString();
+        $this->role            = Role::from($xml->role->__toString());
         $this->isPresenter     = 'true' === $xml->isPresenter->__toString();
         $this->isListeningOnly = 'true' === $xml->isListeningOnly->__toString();
         $this->hasJoinedVoice  = 'true' === $xml->hasJoinedVoice->__toString();
@@ -71,7 +73,7 @@ class Attendee
         return $this->fullName;
     }
 
-    public function getRole(): string
+    public function getRole(): Role
     {
         return $this->role;
     }

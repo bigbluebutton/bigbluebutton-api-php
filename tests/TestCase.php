@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -51,10 +51,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     // Additional assertions
 
-    /**
-     * @param mixed $actual
-     */
-    public function assertIsInteger($actual, string $message = ''): void
+    public function assertIsInteger(mixed $actual, string $message = ''): void
     {
         if (empty($message)) {
             $message = 'Got a ' . gettype($actual) . ' instead of an integer.';
@@ -62,10 +59,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue(is_integer($actual), $message);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public function assertIsDouble($actual, string $message = ''): void
+    public function assertIsDouble(mixed $actual, string $message = ''): void
     {
         if (empty($message)) {
             $message = 'Got a ' . gettype($actual) . ' instead of a double.';
@@ -73,10 +67,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue(is_double($actual), $message);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public function assertIsBoolean($actual, string $message = ''): void
+    public function assertIsBoolean(mixed $actual, string $message = ''): void
     {
         if (empty($message)) {
             $message = 'Got a ' . gettype($actual) . ' instead of a boolean.';
@@ -85,10 +76,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsString($obj, array $getters): void
+    public function assertEachGetterValueIsString(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsString($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a string for property -> ' . $getterName);
@@ -96,10 +86,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsInteger($obj, array $getters): void
+    public function assertEachGetterValueIsInteger(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsInteger($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of an integer for property -> ' . $getterName);
@@ -107,10 +96,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsNull($obj, array $getters): void
+    public function assertEachGetterValueIsNull(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertNull($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of NULL for property -> ' . $getterName);
@@ -118,10 +106,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsDouble($obj, array $getters): void
+    public function assertEachGetterValueIsDouble(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsDouble($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a double for property -> ' . $getterName);
@@ -129,10 +116,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed              $obj
      * @param array<int, string> $getters
      */
-    public function assertEachGetterValueIsBoolean($obj, array $getters): void
+    public function assertEachGetterValueIsBoolean(mixed $obj, array $getters): void
     {
         foreach ($getters as $getterName) {
             $this->assertIsBoolean($obj->{$getterName}(), 'Got a ' . gettype($obj->{$getterName}()) . ' instead of a boolean for property -> ' . $getterName);
@@ -183,7 +169,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'lockSettingsHideViewersCursor'          => $this->faker->boolean(50),
             'allowModsToUnmuteUsers'                 => $this->faker->boolean(50),
             'allowModsToEjectCameras'                => $this->faker->boolean(50),
-            'guestPolicy'                            => $this->faker->randomElement(GuestPolicy::getValues()),
+            'guestPolicy'                            => Fixtures::randomEnumValues($this->faker, GuestPolicy::class, 1),
             'endWhenNoModerator'                     => $this->faker->boolean(50),
             'endWhenNoModeratorDelayInMinutes'       => $this->faker->numberBetween(1, 30),
             'meetingKeepEvents'                      => $this->faker->boolean(50),
@@ -198,14 +184,14 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'breakoutRoomsRecord'                    => $this->faker->boolean(50),
             'breakoutRoomsPrivateChatEnabled'        => $this->faker->boolean(50),
             'meetingEndedURL'                        => $this->faker->url,
-            'meetingLayout'                          => $this->faker->randomElement(MeetingLayout::getValues()),
+            'meetingLayout'                          => Fixtures::randomEnumValues($this->faker, MeetingLayout::class, 1),
             'meetingCameraCap'                       => $this->faker->numberBetween(1, 3),
             'meetingExpireIfNoUserJoinedInMinutes'   => $this->faker->numberBetween(1, 10),
             'meetingExpireWhenLastUserLeftInMinutes' => $this->faker->numberBetween(5, 15),
             'preUploadedPresentationOverrideDefault' => $this->faker->boolean,
             'groups'                                 => $this->generateBreakoutRoomsGroups(),
-            'disabledFeatures'                       => $this->faker->randomElements(Feature::getValues()),
-            'disabledFeaturesExclude'                => $this->faker->randomElements(Feature::getValues()),
+            'disabledFeatures'                       => Fixtures::randomEnumValues($this->faker, Feature::class, null, 'array'),
+            'disabledFeaturesExclude'                => Fixtures::randomEnumValues($this->faker, Feature::class, null, 'array'),
             'meta_presenter'                         => $this->faker->name,
             'meta_endCallbackUrl'                    => $this->faker->url,
             'meta_bbb-recording-ready-url'           => $this->faker->url,
@@ -235,11 +221,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @param mixed $createParams
-     *
      * @return array<string, mixed>
      */
-    protected function generateBreakoutCreateParams($createParams): array
+    protected function generateBreakoutCreateParams(mixed $createParams): array
     {
         return array_merge($createParams, [
             'isBreakout'      => true,
@@ -324,15 +308,13 @@ class TestCase extends \PHPUnit\Framework\TestCase
         ;
     }
 
-    /**
-     * @param mixed $params
-     */
-    protected function getBreakoutCreateMock($params): CreateMeetingParameters
+    protected function getBreakoutCreateMock(mixed $params): CreateMeetingParameters
     {
         $createMeetingParams = $this->getCreateMock($params);
 
-        return $createMeetingParams->setBreakout($params['isBreakout'])->setParentMeetingId($params['parentMeetingId'])->
-        setSequence($params['sequence'])->setFreeJoin($params['freeJoin']);
+        return $createMeetingParams->setBreakout($params['isBreakout'])->setParentMeetingId($params['parentMeetingId'])
+            ->setSequence($params['sequence'])->setFreeJoin($params['freeJoin'])
+        ;
     }
 
     /**
@@ -347,7 +329,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'userId'               => $this->faker->numberBetween(1, 1000),
             'webVoiceConf'         => $this->faker->word,
             'creationTime'         => $this->faker->unixTime,
-            'role'                 => $this->faker->randomElement(Role::getValues()),
+            'role'                 => Fixtures::randomEnumValues($this->faker, Role::class, 1),
             'excludeFromDashboard' => $this->faker->boolean,
             'userdata_countrycode' => $this->faker->countryCode,
             'userdata_email'       => $this->faker->email,

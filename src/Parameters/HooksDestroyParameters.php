@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,6 +20,8 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 class HooksDestroyParameters extends BaseParameters
 {
     private int $hookId;
@@ -29,6 +31,7 @@ class HooksDestroyParameters extends BaseParameters
         $this->hookId = $hookId;
     }
 
+    #[ApiParameterMapper(attributeName: 'hookID')]
     public function getHookId(): int
     {
         return $this->hookId;
@@ -39,14 +42,5 @@ class HooksDestroyParameters extends BaseParameters
         $this->hookId = $hookId;
 
         return $this;
-    }
-
-    public function getHTTPQuery(): string
-    {
-        $queries = [
-            'hookID' => $this->hookId,
-        ];
-
-        return $this->buildHTTPQuery($queries);
     }
 }
