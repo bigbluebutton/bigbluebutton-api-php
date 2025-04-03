@@ -21,6 +21,8 @@
 namespace BigBlueButton;
 
 use BigBlueButton\Core\ApiMethod;
+use BigBlueButton\Core\DocumentFile;
+use BigBlueButton\Core\DocumentUrl;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -28,6 +30,7 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
+use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\TestServices\EnvLoader;
@@ -115,9 +118,9 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
-     * Test create meeting with a document URL.
+     * Test create meeting with a presentation URL.
      */
-    public function testCreateMeetingWithDocumentUrl(): void
+    public function testCreateMeetingWithPresentationUrl(): void
     {
         $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random');
@@ -130,9 +133,9 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
-     * Test create meeting with a document URL and filename.
+     * Test create meeting with a presentation URL and filename.
      */
-    public function testCreateMeetingWithDocumentUrlAndFileName(): void
+    public function testCreateMeetingWithPresentationUrlAndFileName(): void
     {
         $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
         $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'placeholder.png');
@@ -145,9 +148,9 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
-     * Test create meeting with a document URL.
+     * Test create meeting with a presentation embedded.
      */
-    public function testCreateMeetingWithDocumentEmbedded(): void
+    public function testCreateMeetingWithPresentationEmbedded(): void
     {
         $content = file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png');
         $this->assertIsString($content);
@@ -163,9 +166,9 @@ class BigBlueButtonTest extends TestCase
     }
 
     /**
-     * Test create meeting with a multiple documents.
+     * Test create meeting with a multiple presentations.
      */
-    public function testCreateMeetingWithMultiDocument(): void
+    public function testCreateMeetingWithMultiPresentations(): void
     {
         $content = file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png');
         $this->assertIsString($content);
@@ -179,6 +182,162 @@ class BigBlueButtonTest extends TestCase
         $this->assertCount(2, $params->getPresentations());
         $this->assertEquals('SUCCESS', $result->getReturnCode());
         $this->assertTrue($result->success());
+    }
+
+    /**
+     * Test create meeting with Document (Url).
+     */
+    public function testCreateMeetingWithDocumentUrl(): void
+    {
+        // ARRANGE
+        $url                     = 'https://picsum.photos/3840/2160/?random';
+        $filename                = 'picture.jpg';
+        $document                = new DocumentUrl($url, $filename);
+        $createMeetingParameters = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+        $createMeetingParameters->addDocument($document);
+
+        // ACT
+        $createMeetingResponse = $this->bbb->createMeeting($createMeetingParameters);
+
+        // ASSERT
+        $this->assertCount(1, $createMeetingParameters->getDocuments());
+        $this->assertTrue($createMeetingResponse->success());
+    }
+
+    /**
+     * Test create meeting with Document (File).
+     */
+    public function testCreateMeetingWithDocumentFile(): void
+    {
+        // ARRANGE
+        $filepath                = Fixtures::IMAGE_PATH . 'bbb_logo.png';
+        $filename                = 'picture.png';
+        $document                = new DocumentFile($filepath, $filename);
+        $createMeetingParameters = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+        $createMeetingParameters->addDocument($document);
+
+        // ACT
+        $createMeetingResponse = $this->bbb->createMeeting($createMeetingParameters);
+
+        // ASSERT
+        $this->assertCount(1, $createMeetingParameters->getDocuments());
+        $this->assertTrue($createMeetingResponse->success());
+    }
+
+    /**
+     * Test create meeting with Document (URL and File).
+     */
+    public function testCreateMeetingWithDocumentUrlAndFile(): void
+    {
+        // ARRANGE
+        // file 1
+        $url         = 'https://picsum.photos/3840/2160/?random';
+        $filename    = 'picture.jpg';
+        $documentUrl = new DocumentUrl($url, $filename);
+
+        // file 2
+        $filepath     = Fixtures::IMAGE_PATH . 'bbb_logo.png';
+        $filename     = 'picture.png';
+        $documentFile = new DocumentFile($filepath, $filename);
+
+        $createMeetingParameters = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+        $createMeetingParameters
+            ->addDocument($documentFile)
+            ->addDocument($documentUrl)
+        ;
+
+        // ACT
+        $createMeetingResponse = $this->bbb->createMeeting($createMeetingParameters);
+
+        // ASSERT
+        $this->assertCount(2, $createMeetingParameters->getDocuments());
+        $this->assertTrue($createMeetingResponse->success());
+    }
+
+    // Insert Document
+
+    /**
+     * Test insert document (URL) into existing meeting.
+     */
+    public function testInsertDocumentUrl(): void
+    {
+        // ARRANGE
+        $url                      = 'https://picsum.photos/3840/2160/?random';
+        $filename                 = 'picture.jpg';
+        $document                 = new DocumentUrl($url, $filename);
+        $createMeetingParameters  = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+        $createMeetingResponse    = $this->bbb->createMeeting($createMeetingParameters);
+        $insertDocumentParameters = new InsertDocumentParameters((string) $createMeetingParameters->getMeetingId());
+        $insertDocumentParameters->addDocument($document);
+
+        // PRE-CHECK
+        $this->assertCount(1, $insertDocumentParameters->getDocuments());
+        $this->assertTrue($createMeetingResponse->success());
+
+        // ACT
+        $insertDocumentResponse = $this->bbb->insertDocument($insertDocumentParameters);
+
+        // ASSERT
+        $this->assertTrue($insertDocumentResponse->success());
+    }
+
+    /**
+     * Test insert document (FILE) into existing meeting.
+     */
+    public function testInsertDocumentFile(): void
+    {
+        // ARRANGE
+        $filepath                 = Fixtures::IMAGE_PATH . 'bbb_logo.png';
+        $filename                 = 'picture.png';
+        $document                 = new DocumentFile($filepath, $filename);
+        $createMeetingParameters  = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+        $createMeetingResponse    = $this->bbb->createMeeting($createMeetingParameters);
+        $insertDocumentParameters = new InsertDocumentParameters((string) $createMeetingParameters->getMeetingId());
+        $insertDocumentParameters->addDocument($document);
+
+        // PRE-CHECK
+        $this->assertCount(1, $insertDocumentParameters->getDocuments());
+        $this->assertTrue($createMeetingResponse->success());
+
+        // ACT
+        $insertDocumentResponse = $this->bbb->insertDocument($insertDocumentParameters);
+
+        // ASSERT
+        $this->assertTrue($insertDocumentResponse->success());
+    }
+
+    /**
+     * Test insert document (URL and FILE) into existing meeting.
+     */
+    public function testInsertDocumentUrlAndFile(): void
+    {
+        // ARRANGE
+        $url         = 'https://picsum.photos/3840/2160/?random';
+        $filename    = 'picture.jpg';
+        $documentUrl = new DocumentUrl($url, $filename);
+
+        // file 2
+        $filepath     = Fixtures::IMAGE_PATH . 'bbb_logo.png';
+        $filename     = 'picture.png';
+        $documentFile = new DocumentFile($filepath, $filename);
+
+        $createMeetingParameters  = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+        $createMeetingResponse    = $this->bbb->createMeeting($createMeetingParameters);
+        $insertDocumentParameters = new InsertDocumentParameters((string) $createMeetingParameters->getMeetingId());
+        $insertDocumentParameters
+            ->addDocument($documentUrl)
+            ->addDocument($documentFile)
+        ;
+
+        // PRE-CHECK
+        $this->assertCount(2, $insertDocumentParameters->getDocuments());
+        $this->assertTrue($createMeetingResponse->success());
+
+        // ACT
+        $insertDocumentResponse = $this->bbb->insertDocument($insertDocumentParameters);
+
+        // ASSERT
+        $this->assertTrue($insertDocumentResponse->success());
     }
 
     // Join Meeting

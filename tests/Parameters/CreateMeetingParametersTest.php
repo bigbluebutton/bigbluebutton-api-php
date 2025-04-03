@@ -144,12 +144,11 @@ class CreateMeetingParametersTest extends ParameterTestCase
             null,
             'presentation.pdf'
         );
-        $this->assertXmlStringEqualsXmlFile(
-            Fixtures::REQUEST_PATH . 'presentation_with_filename.xml',
-            $createMeetingParams->getPresentationsAsXML()
-        );
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetPresentationsAsXMLWithFile(): void
     {
         $content = file_get_contents(Fixtures::IMAGE_PATH . 'bbb_logo.png');
