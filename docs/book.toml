@@ -10,6 +10,7 @@ src = "src"
 create-missing = false   # whether or not to create missing pages
 
 # Activate extensions (preprocessors)
+[preprocessor.index]
 [preprocessor.external-links]
 [preprocessor.alerts]
 
