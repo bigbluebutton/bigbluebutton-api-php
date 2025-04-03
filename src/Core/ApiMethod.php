@@ -25,7 +25,6 @@ final class ApiMethod
     public const CREATE                    = 'create';
     public const JOIN                      = 'join';
     public const INSERT_DOCUMENT           = 'insertDocument';
-    public const ENTER                     = 'enter';
     public const END                       = 'end';
     public const IS_MEETING_RUNNING        = 'isMeetingRunning';
     public const GET_MEETING_INFO          = 'getMeetingInfo';
@@ -37,6 +36,9 @@ final class ApiMethod
     public const UPDATE_RECORDINGS         = 'updateRecordings';
     public const GET_RECORDING_TEXT_TRACKS = 'getRecordingTextTracks';
     public const PUT_RECORDING_TEXT_TRACK  = 'putRecordingTextTrack';
+    public const SEND_CHAT_MESSAGE         = 'sendChatMessage';
+    public const GET_JOIN_URL              = 'getJoinUrl';
+    public const FEEDBACK                  = 'feedback';
     public const HOOKS_CREATE              = 'hooks/create';
     public const HOOKS_LIST                = 'hooks/list';
     public const HOOKS_DESTROY             = 'hooks/destroy';
