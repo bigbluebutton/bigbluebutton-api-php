@@ -37,12 +37,18 @@ class Hook
 
     private bool $rawData;
 
+    /**
+     * @var array<string>
+     */
+    private array $eventID;
+
     public function __construct(\SimpleXMLElement $xml)
     {
         $this->rawXml        = $xml;
         $this->hookId        = (int) $xml->hookID->__toString();
         $this->callbackUrl   = $xml->callbackURL->__toString();
         $this->meetingId     = $xml->meetingID->__toString();
+        $this->eventID       = explode(',', $xml->eventID->__toString());
         $this->permanentHook = 'true' === $xml->permanentHook->__toString();
         $this->rawData       = 'true' === $xml->rawData->__toString();
     }
@@ -60,6 +66,14 @@ class Hook
     public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getEventID(): array
+    {
+        return $this->eventID;
     }
 
     public function isPermanentHook(): ?bool

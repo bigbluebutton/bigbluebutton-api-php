@@ -6,6 +6,7 @@
             <callbackURL><![CDATA[http://postcatcher.in/catchers/abcdefghijk]]></callbackURL>
             <meetingID><![CDATA[my-meeting]]></meetingID>
             <permanentHook>false</permanentHook>
+            <eventID/>
             <rawData>false</rawData>
         </hook>
         <hook>

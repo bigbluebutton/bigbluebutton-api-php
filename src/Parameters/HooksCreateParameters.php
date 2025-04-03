@@ -21,6 +21,7 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Attribute\ApiParameterMapper;
+use BigBlueButton\Enum\WebHookEvent;
 
 class HooksCreateParameters extends BaseParameters
 {
@@ -28,7 +29,10 @@ class HooksCreateParameters extends BaseParameters
 
     private ?string $meetingId = null;
 
-    private ?string $eventId = null;
+    /**
+     * @var WebHookEvent[]
+     */
+    private array $eventId = [];
 
     private ?bool $getRaw = null;
 
@@ -63,12 +67,21 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
-    public function getEventId(): ?string
+    /**
+     * @return WebHookEvent[]
+     */
+    #[ApiParameterMapper(attributeName: 'eventID')]
+    public function getEventId(): array
     {
         return $this->eventId;
     }
 
-    public function setEventId(string $eventId): self
+    /**
+     * @param WebHookEvent[] $eventId
+     *
+     * @since 2.5
+     */
+    public function setEventId(array $eventId): self
     {
         $this->eventId = $eventId;
 
