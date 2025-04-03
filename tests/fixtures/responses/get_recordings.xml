@@ -128,11 +128,14 @@
         <recording>
             <recordID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026</recordID>
             <meetingID>9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]</meetingID>
+            <internalMeetingID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026</internalMeetingID>
             <name><![CDATA[SAT- Writing Section- Social Science and History (All participants)]]></name>
             <published>true</published>
             <state>published</state>
             <startTime>1462980100026</startTime>
             <endTime>1462986640649</endTime>
+            <participants>6</participants>
+            <rawSize>7219530</rawSize>
             <metadata>
                 <bbb-context><![CDATA[SAT Score Booster Program-Main]]></bbb-context>
                 <bbb-origin-version><![CDATA[2.7.7+ (Build: 20150319)]]></bbb-origin-version>

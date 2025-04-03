@@ -51,11 +51,14 @@ class GetRecordingsResponseTest extends TestCase
 
         $this->assertEquals('9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]', $aRecord->getMeetingId());
         $this->assertEquals('f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getRecordId());
+        $this->assertEquals('f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getInternalMeetingID());
         $this->assertEquals('SAT- Writing Section- Social Science and History (All participants)', $aRecord->getName());
         $this->assertTrue($aRecord->isPublished());
         $this->assertEquals('published', $aRecord->getState());
         $this->assertEquals(1462980100026, $aRecord->getStartTime());
         $this->assertEquals(1462986640649, $aRecord->getEndTime());
+        $this->assertEquals(6, $aRecord->getParticipants());
+        $this->assertEquals(7219530, $aRecord->getRawSize());
         $this->assertEquals('presentation', $aRecord->getPlaybackType());
         $this->assertEquals('https://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026', $aRecord->getPlaybackUrl());
         $this->assertEquals(86, $aRecord->getPlaybackLength());
