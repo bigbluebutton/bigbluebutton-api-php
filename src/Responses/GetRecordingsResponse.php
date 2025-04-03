@@ -27,6 +27,15 @@ use BigBlueButton\Core\Record;
  */
 class GetRecordingsResponse extends BaseResponse
 {
+    public function getTotalElements(): ?int
+    {
+        if (!$this->rawXml->totalElements) {
+            return null;
+        }
+
+        return (int) $this->rawXml->totalElements->__toString();
+    }
+
     /**
      * @return Record[]
      */

@@ -33,6 +33,10 @@ class GetRecordingsParameters extends MetaParameters
 
     private ?string $state = null;
 
+    private ?int $offset = null;
+
+    private ?int $limit = null;
+
     #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
@@ -68,6 +72,32 @@ class GetRecordingsParameters extends MetaParameters
     public function setState(string $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'offset')]
+    public function getOffset(): ?int
+    {
+        return $this->offset;
+    }
+
+    public function setOffset(?int $offset): self
+    {
+        $this->offset = $offset;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'limit')]
+    public function getLimit(): ?int
+    {
+        return $this->limit;
+    }
+
+    public function setLimit(?int $limit): self
+    {
+        $this->limit = $limit;
 
         return $this;
     }
