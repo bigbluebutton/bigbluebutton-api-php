@@ -61,6 +61,9 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?MeetingLayout $defaultLayout = null;
 
+    private ?string $errorRedirectUrl    = null;
+    private ?string $webcamBackgroundURL = null;
+
     public function __construct(string $meetingId, string $username, Role|string $passwordOrRole)
     {
         $this->meetingId = $meetingId;
@@ -231,6 +234,32 @@ class JoinMeetingParameters extends UserDataParameters
     public function setDefaultLayout(MeetingLayout $defaultLayout): self
     {
         $this->defaultLayout = $defaultLayout;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'errorRedirectUrl')]
+    public function getErrorRedirectUrl(): ?string
+    {
+        return $this->errorRedirectUrl;
+    }
+
+    public function setErrorRedirectUrl(string $errorRedirectUrl): self
+    {
+        $this->errorRedirectUrl = $errorRedirectUrl;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'webcamBackgroundURL')]
+    public function getWebcamBackgroundURL(): ?string
+    {
+        return $this->webcamBackgroundURL;
+    }
+
+    public function setWebcamBackgroundURL(string $webcamBackgroundURL): self
+    {
+        $this->webcamBackgroundURL = $webcamBackgroundURL;
 
         return $this;
     }
