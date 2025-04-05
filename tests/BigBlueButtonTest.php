@@ -34,6 +34,7 @@ use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Parameters\SendChatMessageParameters;
 use BigBlueButton\TestServices\EnvLoader;
 use BigBlueButton\TestServices\Fixtures;
 use BigBlueButton\TestServices\ParamsIterator;
@@ -351,6 +352,18 @@ class BigBlueButtonTest extends TestCase
         } else {
             $this->assertTrue($insertDocumentResponse->failed());
         }
+    }
+
+    public function testSendChatMessage(): void
+    {
+        $createMeetingParameters = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+        $createMeetingResponse   = $this->bbb->createMeeting($createMeetingParameters);
+
+        $sendChatMessageParameters = new SendChatMessageParameters($createMeetingResponse->getMeetingId(), $this->faker->sentence());
+        $sendChatMessageParameters->setUserName($this->faker->userName());
+        $sendChatMessageResponse = $this->bbb->sendChatMessage($sendChatMessageParameters);
+
+        $this->assertTrue($sendChatMessageResponse->success());
     }
 
     // Join Meeting

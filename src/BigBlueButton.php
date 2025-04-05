@@ -35,6 +35,7 @@ use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
+use BigBlueButton\Parameters\SendChatMessageParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
@@ -52,6 +53,7 @@ use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\Responses\PutRecordingTextTrackResponse;
+use BigBlueButton\Responses\SendChatMessageResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 
@@ -138,6 +140,7 @@ class BigBlueButton
     -- join
     -- end
     -- insertDocument
+    -- sendChatMessage
     */
 
     /**
@@ -210,6 +213,13 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
 
         return new InsertDocumentResponse($xml);
+    }
+
+    public function sendChatMessage(SendChatMessageParameters $sendChatMessageParams): SendChatMessageResponse
+    {
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getSendChatMessageUrl($sendChatMessageParams));
+
+        return new SendChatMessageResponse($xml);
     }
 
     // __________________ BBB MONITORING METHODS _________________
