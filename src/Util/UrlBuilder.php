@@ -47,16 +47,22 @@ class UrlBuilder
 
     private string $baseUrl;
 
-    public function __construct(string $secret, string $baseUrl, HashingAlgorithm $hashingAlgorithm)
-    {
+    public function __construct(
+        #[\SensitiveParameter]
+        string $secret,
+        string $baseUrl,
+        HashingAlgorithm $hashingAlgorithm,
+    ) {
         $this->setSecret($secret);
         $this->setBaseUrl($baseUrl);
         $this->setHashingAlgorithm($hashingAlgorithm);
     }
 
     // Getters & Setters
-    public function setSecret(string $secret): self
-    {
+    public function setSecret(
+        #[\SensitiveParameter]
+        string $secret,
+    ): self {
         $this->secret = $secret;
 
         return $this;
