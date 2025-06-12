@@ -92,8 +92,13 @@ class BigBlueButton
     /**
      * @param null|array<string, mixed> $opts
      */
-    public function __construct(?string $baseUrl = null, ?string $secret = null, ?array $opts = []) {
-        $urlBuilder = UrlBuilder::fromEnvVars($baseUrl, $secret);
+    public function __construct(
+        ?string $baseUrl = null,
+        ?string $secret = null,
+        ?array $opts = [],
+        ?UrlBuilder $urlBuilder = null,
+    ) {
+        $urlBuilder ??= UrlBuilder::fromEnvVars($baseUrl, $secret);
 
         // initialize deprecated properties
         $this->bbbBaseUrl       = $urlBuilder->getBaseUrl();
