@@ -158,7 +158,7 @@ class FixturesTest extends TestCase
      *
      * @return array<string, array<string, mixed>>
      */
-    private function xmlFileToFunctionMapping(): array
+    public static function xmlFileToFunctionMapping(): array
     {
         return [
             'case01_api_version' => [
