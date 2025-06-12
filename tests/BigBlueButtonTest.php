@@ -46,7 +46,7 @@ use BigBlueButton\TestServices\ParamsIterator;
  */
 class BigBlueButtonTest extends TestCase
 {
-    private BigBlueButton $bbb;
+    protected BigBlueButton $bbb;
 
     /**
      * Setup test class.
