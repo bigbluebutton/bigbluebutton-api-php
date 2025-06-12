@@ -280,7 +280,7 @@ class BigBlueButtonTest extends TestCase
         $insertDocumentResponse = $this->bbb->insertDocument($insertDocumentParameters);
 
         // ASSERT
-        if (!array_search(Feature::PRESENTATION, $createMeetingParameters->getDisabledFeatures()) > 0) {
+        if (!$this->isFeatureDisabled(Feature::PRESENTATION, $createMeetingParameters)) {
             $this->assertTrue($insertDocumentResponse->success());
         } else {
             $this->assertTrue($insertDocumentResponse->failed());
@@ -309,9 +309,7 @@ class BigBlueButtonTest extends TestCase
         $insertDocumentResponse = $this->bbb->insertDocument($insertDocumentParameters);
 
         // ASSERT
-        if (!in_array(Feature::PRESENTATION, $createMeetingParameters->getDisabledFeatures())
-            || in_array(Feature::PRESENTATION, $createMeetingParameters->getDisabledFeaturesExclude())
-        ) {
+        if (!$this->isFeatureDisabled(Feature::PRESENTATION, $createMeetingParameters)) {
             $this->assertTrue($insertDocumentResponse->success());
         } else {
             $this->assertTrue($insertDocumentResponse->failed());
@@ -349,7 +347,7 @@ class BigBlueButtonTest extends TestCase
         $insertDocumentResponse = $this->bbb->insertDocument($insertDocumentParameters);
 
         // ASSERT
-        if (!array_search(Feature::PRESENTATION, $createMeetingParameters->getDisabledFeatures()) > 0) {
+        if (!$this->isFeatureDisabled(Feature::PRESENTATION, $createMeetingParameters)) {
             $this->assertTrue($insertDocumentResponse->success());
         } else {
             $this->assertTrue($insertDocumentResponse->failed());
@@ -632,5 +630,14 @@ class BigBlueButtonTest extends TestCase
         $hooksDestroyParameters = new HooksDestroyParameters($this->faker->numberBetween(10000, 99999));
         $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
         $this->assertFalse($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+    }
+
+    /**
+     * Checks whether a feature is disabled in meeting parameters.
+     */
+    protected function isFeatureDisabled(Feature $feature, CreateMeetingParameters $createMeetingParameters): bool
+    {
+        return in_array($feature, $createMeetingParameters->getDisabledFeatures())
+            && !in_array($feature, $createMeetingParameters->getDisabledFeaturesExclude());
     }
 }
