@@ -309,7 +309,9 @@ class BigBlueButtonTest extends TestCase
         $insertDocumentResponse = $this->bbb->insertDocument($insertDocumentParameters);
 
         // ASSERT
-        if (!in_array(Feature::PRESENTATION, $createMeetingParameters->getDisabledFeatures()) {
+        if (!in_array(Feature::PRESENTATION, $createMeetingParameters->getDisabledFeatures())
+            || in_array(Feature::PRESENTATION, $createMeetingParameters->getDisabledFeaturesExclude())
+        ) {
             $this->assertTrue($insertDocumentResponse->success());
         } else {
             $this->assertTrue($insertDocumentResponse->failed());
