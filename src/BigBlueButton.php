@@ -604,12 +604,6 @@ class BigBlueButton
         }
         assert($request instanceof RequestInterface);
 
-        // @todo Handle cookies.
-        // @todo Set UTF-8?
-        // @todo Follow redirect location?
-        // @todo Recommend timeout.
-        // @todo Check if clients verify the peer's certificate.
-
         $response = $this->httpClient->sendRequest($request);
 
         // @todo Handle failed requests.
