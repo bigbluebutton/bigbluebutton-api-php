@@ -4,7 +4,7 @@
 
 [![Latest Release](https://img.shields.io/packagist/v/bigbluebutton/bigbluebutton-api-php?label=Release&logo=packagist)](https://packagist.org/packages/bigbluebutton/bigbluebutton-api-php)
 [![Downloads](https://img.shields.io/packagist/dt/bigbluebutton/bigbluebutton-api-php?label=Downloads)](https://packagist.org/packages/bigbluebutton/bigbluebutton-api-php)
-[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue?logo=php)](https://www.php.net/supported-versions.php)
+[![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-blue?logo=php)](https://www.php.net/supported-versions.php)
 [![License](https://img.shields.io/github/license/bigbluebutton/bigbluebutton-api-php?color=brightgreen)](LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/bigbluebutton/bigbluebutton-api-php)](https://github.com/bigbluebutton/bigbluebutton-api-php/commits)
 [![Open Issues](https://img.shields.io/github/issues/bigbluebutton/bigbluebutton-api-php)](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
@@ -20,7 +20,7 @@
 ---
 
 The official **BigBlueButton PHP API Client** provides a developer-friendly wrapper to interact with
-the **BigBlueButton** API. Built for **PHP 8.1+**, this library simplifies integration and management of
+the **BigBlueButton** API. Built for **PHP 8.2+**, this library simplifies integration and management of
 BigBlueButton servers in your PHP applications.
 
 ---
