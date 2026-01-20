@@ -94,6 +94,7 @@ class BigBlueButton
      */
     public function __construct(
         ?string $baseUrl = null,
+        #[\SensitiveParameter]
         ?string $secret = null,
         ?array $opts = [],
         ?UrlBuilder $urlBuilder = null,
