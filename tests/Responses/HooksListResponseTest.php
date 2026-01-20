@@ -72,8 +72,7 @@ class HooksListResponseTest extends TestCase
 
         $aHook = $this->hooksListResponse->getHooks()[0];
 
-        $this->assertEachGetterValueIsString($aHook, ['getCallbackUrl', 'getMeetingId']);
-        $this->assertEachGetterValueIsInteger($aHook, ['getHookId']);
+        $this->assertEachGetterValueIsString($aHook, ['getCallbackUrl', 'getMeetingId', 'getHookId']);
         $this->assertEachGetterValueIsBoolean($aHook, ['hasRawData', 'isPermanentHook']);
     }
 }

@@ -40,13 +40,13 @@ class SendChatMessageResponseTest extends TestCase
         $this->sendChatMessage = new SendChatMessageResponse($xml);
     }
 
-    public function testPublishRecordingsResponseContent(): void
+    public function testSendChatMessageResponseContent(): void
     {
         $this->assertEquals('SUCCESS', $this->sendChatMessage->getReturnCode());
-        $this->assertEquals('documentInserted', $this->sendChatMessage->getMessageKey());
+        $this->assertEquals('', $this->sendChatMessage->getMessageKey());
     }
 
-    public function testPublishRecordingsResponseTypes(): void
+    public function testSendChatMessageResponseTypes(): void
     {
         $this->assertEachGetterValueIsString($this->sendChatMessage, ['getReturnCode', 'getMessageKey']);
     }

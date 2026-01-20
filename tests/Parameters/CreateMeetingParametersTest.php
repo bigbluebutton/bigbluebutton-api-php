@@ -144,6 +144,8 @@ class CreateMeetingParametersTest extends ParameterTestCase
             null,
             'presentation.pdf'
         );
+
+        $this->assertXmlStringEqualsXmlFile(Fixtures::REQUEST_PATH . 'presentation_with_filename.xml', $createMeetingParams->getPresentationsAsXML());
     }
 
     /**
@@ -155,5 +157,11 @@ class CreateMeetingParametersTest extends ParameterTestCase
         $this->assertIsString($content);
 
         $createMeetingParams = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
+        $createMeetingParams->addPresentation(
+            'bbb_logo.png',
+            $content
+        );
+
+        $this->assertXmlStringEqualsXmlFile(Fixtures::REQUEST_PATH . 'presentation_with_file.xml', $createMeetingParams->getPresentationsAsXML());
     }
 }
