@@ -82,15 +82,13 @@ class HooksCreateResponseTest extends TestCase
 
     public function testHooksCreateResponseTypes(): void
     {
-        $this->assertEachGetterValueIsString($this->createResponseCreate, ['getReturnCode']);
-        $this->assertEachGetterValueIsInteger($this->createResponseCreate, ['getHookId']);
+        $this->assertEachGetterValueIsString($this->createResponseCreate, ['getReturnCode', 'getHookId']);
         $this->assertEachGetterValueIsBoolean($this->createResponseCreate, ['isPermanentHook', 'hasRawData']);
 
         $this->assertEachGetterValueIsString($this->createResponseFailedError, ['getReturnCode']);
         $this->assertEachGetterValueIsNull($this->createResponseFailedError, ['getHookId', 'isPermanentHook', 'hasRawData']);
 
-        $this->assertEachGetterValueIsString($this->createResponseCreateExisting, ['getReturnCode']);
-        $this->assertEachGetterValueIsInteger($this->createResponseCreateExisting, ['getHookId']);
+        $this->assertEachGetterValueIsString($this->createResponseCreateExisting, ['getReturnCode', 'getHookId']);
         $this->assertEachGetterValueIsNull($this->createResponseCreateExisting, ['isPermanentHook', 'hasRawData']);
     }
 }

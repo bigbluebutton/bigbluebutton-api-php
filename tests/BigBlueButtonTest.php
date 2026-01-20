@@ -363,7 +363,8 @@ class BigBlueButtonTest extends TestCase
         $sendChatMessageParameters->setUserName($this->faker->userName());
         $sendChatMessageResponse = $this->bbb->sendChatMessage($sendChatMessageParameters);
 
-        $this->assertTrue($sendChatMessageResponse->success());
+        // Even if the meeting exists, it returns failure because no user has already joined the meeting
+        $this->assertTrue($sendChatMessageResponse->failed());
     }
 
     // Join Meeting
@@ -401,7 +402,7 @@ class BigBlueButtonTest extends TestCase
         $joinMeetingParams = Fixtures::generateJoinMeetingParams();
         $joinMeetingMock   = Fixtures::getJoinMeetingMock($joinMeetingParams);
 
-        // adapt to join the above created meeting
+        // adapt to join the above-created meeting
         $joinMeetingMock->setRedirect(false);
         $joinMeetingMock->setMeetingId($createMeetingResponse->getMeetingId());
         $joinMeetingMock->setCreationTime($createMeetingResponse->getCreationTime());
