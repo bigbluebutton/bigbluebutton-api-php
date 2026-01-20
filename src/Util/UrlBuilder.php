@@ -54,12 +54,61 @@ class UrlBuilder
         $this->setHashingAlgorithm($hashingAlgorithm);
     }
 
+    /**
+     * Creates a new instance from environment variables.
+     *
+     * The optional parameters allow to specify some of the values, while the
+     * remaining values fall back to environment variables or to a default
+     * value.
+     *
+     * This method only exists to BC-support creating a BigBlueButton class
+     * without injecting the UrlBuilder instance.
+     *
+     * @internal
+     */
+    public static function fromEnvVars(
+        ?string $secret = null,
+        ?string $baseUrl = null,
+        ?HashingAlgorithm $hashingAlgorithm = null,
+    ): static {
+        $secret ??= getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT');
+        if (false === $secret) {
+            throw new \RuntimeException("No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor (2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
+        }
+
+        $baseUrl ??= getenv('BBB_SERVER_BASE_URL');
+        if (false === $baseUrl) {
+            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor '
+                . "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
+        }
+
+        $hashingAlgorithm ??= HashingAlgorithm::SHA_256;
+
+        // Extending classes need to override this method, if they change the
+        // constructor signature.
+        // @phpstan-ignore new.static
+        return new static($secret, $baseUrl, $hashingAlgorithm);
+    }
+
     // Getters & Setters
     public function setSecret(string $secret): self
     {
         $this->secret = $secret;
 
         return $this;
+    }
+
+    /**
+     * Gets the secret.
+     *
+     * This method only exists to support a deprecated property in the
+     * BigBlueButton class.
+     *
+     * @internal
+     */
+    public function getSecret(): string
+    {
+        return $this->secret;
     }
 
     public function setBaseUrl(string $baseUrl): self
@@ -72,6 +121,19 @@ class UrlBuilder
         $this->baseUrl = $baseUrl;
 
         return $this;
+    }
+
+    /**
+     * Gets the base url.
+     *
+     * This method only exists to support a deprecated property in the
+     * BigBlueButton class.
+     *
+     * @internal
+     */
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
     }
 
     public function setHashingAlgorithm(HashingAlgorithm $hashingAlgorithm): self
