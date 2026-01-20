@@ -111,14 +111,14 @@ class FixturesTest extends TestCase
      *
      * @dataProvider xmlFileToFunctionMapping
      */
-    public function testStructureOfFixturesIsStillUpToDate(string $requestFunction, string $filename, bool $success, string $messageKey, ?\Closure $parameters): void
+    public function testStructureOfFixturesIsStillUpToDate(string $method, string $filename, bool $success, string $messageKey, ?\Closure $parameters): void
     {
         // get parameters by closure from data provider
         $requestParameters = ($parameters) ? $parameters($this->bbb) : null;
 
         // make the request and get the XML of the response
         /** @var BaseResponse $response */
-        $response = $this->bbb->{$requestFunction}($requestParameters);
+        $response = $this->bbb->{$method}($requestParameters);
         $xmlAsIs  = $response->getRawXml();
 
         // load the XML of the fixture
@@ -158,18 +158,18 @@ class FixturesTest extends TestCase
      *
      * @return array<string, array<string, mixed>>
      */
-    private function xmlFileToFunctionMapping(): array
+    public static function xmlFileToFunctionMapping(): array
     {
         return [
             'case01_api_version' => [
-                'function'   => 'getApiVersion',
+                'method'   => 'getApiVersion',
                 'filename'   => 'api_version.xml',
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => null,
             ],
             'case02_create_meeting' => [
-                'function'   => 'createMeeting',
+                'method'   => 'createMeeting',
                 'filename'   => 'create_meeting.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -178,7 +178,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case03_join_meeting' => [
-                'function'   => 'joinMeeting',
+                'method'   => 'joinMeeting',
                 'filename'   => 'join_meeting.xml',
                 'success'    => true,
                 'messageKey' => 'successfullyJoined',
@@ -200,7 +200,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case04_end_meeting' => [
-                'function'   => 'endMeeting',
+                'method'   => 'endMeeting',
                 'filename'   => 'end_meeting.xml',
                 'success'    => true,
                 'messageKey' => 'sentEndMeetingRequest',
@@ -216,7 +216,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case05_is_meeting_running' => [
-                'function'   => 'isMeetingRunning',
+                'method'   => 'isMeetingRunning',
                 'filename'   => 'is_meeting_running.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -232,7 +232,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case06_list_of_meetings' => [
-                'function'   => 'getMeetings',
+                'method'   => 'getMeetings',
                 'filename'   => 'get_meetings.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -262,7 +262,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case07_meeting_info_of_meeting_without_breakout_rooms' => [
-                'function'   => 'getMeetingInfo',
+                'method'   => 'getMeetingInfo',
                 'filename'   => 'get_meeting_info.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -291,7 +291,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case08_meeting_info_of_breakout_room' => [
-                'function'   => 'getMeetingInfo',
+                'method'   => 'getMeetingInfo',
                 'filename'   => 'get_meeting_info_breakout_room.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -321,7 +321,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case09_meeting_info_of_meeting_with_breakout_rooms' => [
-                'function'   => 'getMeetingInfo',
+                'method'   => 'getMeetingInfo',
                 'filename'   => 'get_meeting_info_with_breakout_rooms.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -354,7 +354,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case10_hooks_create' => [
-                'function'   => 'hooksCreate',
+                'method'   => 'hooksCreate',
                 'filename'   => 'hooks_create.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -364,7 +364,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case11_hooks_create_existing' => [
-                'function'   => 'hooksCreate',
+                'method'   => 'hooksCreate',
                 'filename'   => 'hooks_create_existing.xml',
                 'success'    => true,
                 'messageKey' => 'duplicateWarning',
@@ -381,7 +381,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case12_hooks_list' => [
-                'function'   => 'hooksList',
+                'method'   => 'hooksList',
                 'filename'   => 'hooks_list.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -405,7 +405,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case13_hooks_destroy' => [
-                'function'   => 'hooksDestroy',
+                'method'   => 'hooksDestroy',
                 'filename'   => 'hooks_destroy.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -421,7 +421,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case14_hooks_destroy_not_found' => [
-                'function'   => 'hooksDestroy',
+                'method'   => 'hooksDestroy',
                 'filename'   => 'hooks_destroy_failed_not_found.xml',
                 'success'    => false,
                 'messageKey' => 'destroyMissingHook',
@@ -431,7 +431,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case15_insert_document' => [
-                'function'   => 'insertDocument',
+                'method'   => 'insertDocument',
                 'filename'   => 'insert_document.xml',
                 'success'    => true,
                 'messageKey' => 'documentInserted',
