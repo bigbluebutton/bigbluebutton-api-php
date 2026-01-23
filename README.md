@@ -23,11 +23,29 @@ The official **BigBlueButton PHP API Client** provides a developer-friendly wrap
 the **BigBlueButton** API. Built for **PHP 8.2+**, this library simplifies integration and management of
 BigBlueButton servers in your PHP applications.
 
----
+## Installation and Usage
+
+Please see the [documentation](./docs/Home.md) to know how to install and use this PHP-Client to interact with the API of a BigBlueButton-Server.
 
 ## 📦 Installation & Usage
 
-You can find the full documentation, including sample usage and installation instructions, in our [Wiki].
+
+Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
+
+## Build the documentation
+
+To build the documentation you need to install `Rust` and `mdbook`
+
+```bash
+curl https://sh.rustup.rs -sSf | sh -s -- -y
+source "$HOME/.cargo/env"
+cargo install mdbook
+```
+
+## Contributing guidelines
+### Code Quality 1: Style
+
+Make sure the code style configuration is applied by running PHPCS-Fixer.
 
 ```bash
 composer require bigbluebutton/bigbluebutton-api-php
@@ -64,18 +82,21 @@ composer code-check
 ./vendor/bin/phpstan analyse
 ```
 
-### 3. Running Tests
+# using an alias
+$ composer code-test
 
-```bash
-composer code-test
-# Or
-./vendor/bin/phpunit
+# or the same w/o alias
+$ ./vendor/bin/phpunit
 ```
 
 To run a specific test:
 
 ```bash
-composer code-test -- --filter BigBlueButtonTest::testApiVersion
+# using an alias
+$ composer code-test -- --filter BigBlueButtonTest::testApiVersion
+
+# or the same w/o alias
+$ ./vendor/bin/phpunit --filter BigBlueButtonTest::testApiVersion
 ```
 
 To skip code coverage:
