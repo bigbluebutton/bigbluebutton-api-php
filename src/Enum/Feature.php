@@ -49,4 +49,8 @@ enum Feature: string
     case EDIT_CHAT_MESSAGE                                        = 'editChatMessage';
     case REPLY_CHAT_MESSAGE                                       = 'replyChatMessage';
     case CHAT_MESSAGE_REACTIONS                                   = 'chatMessageReactions';
+    case RAISE_HAND                                               = 'raiseHand';
+    case USER_REACTIONS                                           = 'userReactions';
+    case CHAT_EMOJI_PICKET                                        = 'chatEmojiPicker';
+    case QUIZZES                                                  = 'quizzes';
 }
