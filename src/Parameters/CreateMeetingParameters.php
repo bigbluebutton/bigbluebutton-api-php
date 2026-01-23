@@ -161,7 +161,6 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?bool $preUploadedPresentationOverrideDefault = null;
 
-    private ?bool $allowPromoteGuestToModerator = null;
     /**
      * @var Feature[]
      */
@@ -184,6 +183,12 @@ class CreateMeetingParameters extends MetaParameters
     private ?string $presentationUploadExternalUrl = null;
 
     private ?string $presentationUploadExternalDescription = null;
+
+    private ?bool $allowPromoteGuestToModerator = null;
+
+    private ?bool $allowOverrideClientSettingsOnCreateCall = null;
+
+    private ?string $loginURL = null;
 
     /**
      * CreateMeetingParameters constructor.
@@ -1168,7 +1173,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * Will set the default layout for the meeting. Possible values are: CUSTOM_LAYOUT, SMART_LAYOUT,
-     * PRESENTATION_FOCUS, VIDEO_FOCUS.
+     * PRESENTATION_FOCUS, VIDEO_FOCUS, CAMERAS_ONLY, PARTICIPANTS_CHAT_ONLY, PRESENTATION_ONLY, MEDIA_ONLY.
      *
      * Default: SMART_LAYOUT
      *
@@ -1293,10 +1298,10 @@ class CreateMeetingParameters extends MetaParameters
         return $this->preUploadedPresentationOverrideDefault;
     }
 
-    #[ApiParameterMapper(attributeName: 'allowPromoteGuestToModerator')]
-    public function isAllowPromoteGuestToModerator(): ?bool
+    #[ApiParameterMapper(attributeName: 'allowOverrideClientSettingsOnCreateCall')]
+    public function isAllowOverrideClientSettingsOnCreateCall(): ?bool
     {
-        return $this->allowPromoteGuestToModerator;
+        return $this->allowOverrideClientSettingsOnCreateCall;
     }
 
     /**
@@ -1355,6 +1360,16 @@ class CreateMeetingParameters extends MetaParameters
     public function setAllowPromoteGuestToModerator(bool $allowPromoteGuestToModerator): self
     {
         $this->allowPromoteGuestToModerator = $allowPromoteGuestToModerator;
+
+        return $this;
+    }
+
+    /**
+     * @since 3.0.0
+     */
+    public function setAllowOverrideClientSettingsOnCreateCall(bool $allowOverrideClientSettingsOnCreateCall): self
+    {
+        $this->allowOverrideClientSettingsOnCreateCall = $allowOverrideClientSettingsOnCreateCall;
 
         return $this;
     }
@@ -1525,6 +1540,22 @@ class CreateMeetingParameters extends MetaParameters
     public function setPresentationUploadExternalDescription(string $presentationUploadExternalDescription): self
     {
         $this->presentationUploadExternalDescription = $presentationUploadExternalDescription;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'loginURL')]
+    public function getLoginURL(): ?string
+    {
+        return $this->loginURL;
+    }
+
+    /**
+     * @since 3.0.0
+     */
+    public function setLoginURL(string $loginURL): self
+    {
+        $this->loginURL = $loginURL;
 
         return $this;
     }
