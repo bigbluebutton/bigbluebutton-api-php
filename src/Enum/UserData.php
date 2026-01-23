@@ -59,9 +59,10 @@ enum UserData: string
     case FORCE_RESTORE_PRESENTATION_ON_NEW_EVENTS = 'bbb_force_restore_presentation_on_new_events';
 
     // Whiteboard settings
-    case MULTI_USER_PEN_ONLY = 'bbb_multi_user_pen_only';
-    case PRESENTER_TOOLS     = 'bbb_presenter_tools';
-    case MULTI_USER_TOOLS    = 'bbb_multi_user_tools';
+    case MULTI_USER_PEN_ONLY   = 'bbb_multi_user_pen_only';
+    case PRESENTER_TOOLS       = 'bbb_presenter_tools';
+    case MULTI_USER_TOOLS      = 'bbb_multi_user_tools';
+    case INITIAL_SELECTED_TOOL = 'bbb_initial_selected_tool';
 
     // Theming & Styling settings
     case CUSTOM_STYLE      = 'bbb_custom_style';
