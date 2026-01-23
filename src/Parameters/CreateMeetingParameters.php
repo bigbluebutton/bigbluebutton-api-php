@@ -161,6 +161,7 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?bool $preUploadedPresentationOverrideDefault = null;
 
+    private ?bool $allowPromoteGuestToModerator = null;
     /**
      * @var Feature[]
      */
@@ -1292,6 +1293,12 @@ class CreateMeetingParameters extends MetaParameters
         return $this->preUploadedPresentationOverrideDefault;
     }
 
+    #[ApiParameterMapper(attributeName: 'allowPromoteGuestToModerator')]
+    public function isAllowPromoteGuestToModerator(): ?bool
+    {
+        return $this->allowPromoteGuestToModerator;
+    }
+
     /**
      * If passed with a valid presentation file url, this presentation will override the default presentation.
      * To only upload but not set as default, also pass preUploadedPresentationOverrideDefault=false.
@@ -1338,6 +1345,16 @@ class CreateMeetingParameters extends MetaParameters
     public function setPreUploadedPresentationOverrideDefault(bool $preUploadedPresentationOverrideDefault): self
     {
         $this->preUploadedPresentationOverrideDefault = $preUploadedPresentationOverrideDefault;
+
+        return $this;
+    }
+
+    /**
+     * @since 2.7.9
+     */
+    public function setAllowPromoteGuestToModerator(bool $allowPromoteGuestToModerator): self
+    {
+        $this->allowPromoteGuestToModerator = $allowPromoteGuestToModerator;
 
         return $this;
     }
