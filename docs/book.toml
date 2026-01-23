@@ -3,7 +3,6 @@ title = "BigBlueButton PHP API Library - Documentation"
 description = "BigBlueButton PHP API Library - Documentation"
 authors = ["Ghazi Triki", "Tim Korn"]
 language = "en"
-multilingual = false
 src = "src"
 
 [build]
@@ -11,13 +10,11 @@ create-missing = false   # whether or not to create missing pages
 
 # Activate extensions (preprocessors)
 [preprocessor.index]
-[preprocessor.external-links]
-[preprocessor.alerts]
 
 [output.html]
 default-theme = "light"
 preferred-dark-theme = "navy"
-additional-css = ["theme/bbb.css"]
+additional-css = ["theme/css/bbb.css"]
 
 [output.html.search]
 enable = true            # enables the search feature
