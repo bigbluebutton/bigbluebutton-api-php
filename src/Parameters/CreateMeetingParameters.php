@@ -190,6 +190,17 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?string $loginURL = null;
 
+    // New properties
+    private ?string $pluginManifests = null;
+
+    private ?string $pluginManifestsFetchUrl = null;
+
+    private ?bool $presentationConversionCacheEnabled = null;
+
+    private ?int $maxNumPages = null;
+
+    private ?bool $multiUserWhiteboardEnabled = null;
+
     /**
      * CreateMeetingParameters constructor.
      */
@@ -1298,6 +1309,12 @@ class CreateMeetingParameters extends MetaParameters
         return $this->preUploadedPresentationOverrideDefault;
     }
 
+    #[ApiParameterMapper(attributeName: 'allowPromoteGuestToModerator')]
+    public function isAllowPromoteGuestToModerator(): ?bool
+    {
+        return $this->allowPromoteGuestToModerator;
+    }
+
     #[ApiParameterMapper(attributeName: 'allowOverrideClientSettingsOnCreateCall')]
     public function isAllowOverrideClientSettingsOnCreateCall(): ?bool
     {
@@ -1556,6 +1573,93 @@ class CreateMeetingParameters extends MetaParameters
     public function setLoginURL(string $loginURL): self
     {
         $this->loginURL = $loginURL;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'pluginManifests')]
+    public function getPluginManifests(): ?string
+    {
+        return $this->pluginManifests;
+    }
+
+    /**
+     * JSON string containing plugin manifests to load for the meeting.
+     */
+    public function setPluginManifests(string $pluginManifests): self
+    {
+        // Ensure the value is valid JSON by decoding and re-encoding
+        json_decode($pluginManifests);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new \InvalidArgumentException('pluginManifests must be a valid JSON string.');
+        }
+
+        $this->pluginManifests = $pluginManifests;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'pluginManifestsFetchUrl')]
+    public function getPluginManifestsFetchUrl(): ?string
+    {
+        return $this->pluginManifestsFetchUrl;
+    }
+
+    /**
+     * URL to fetch the plugin manifests from.
+     */
+    public function setPluginManifestsFetchUrl(string $pluginManifestsFetchUrl): self
+    {
+        $this->pluginManifestsFetchUrl = $pluginManifestsFetchUrl;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'presentationConversionCacheEnabled')]
+    public function isPresentationConversionCacheEnabled(): ?bool
+    {
+        return $this->presentationConversionCacheEnabled;
+    }
+
+    /**
+     * Enable or disable caching for presentation conversion.
+     */
+    public function setPresentationConversionCacheEnabled(bool $presentationConversionCacheEnabled): self
+    {
+        $this->presentationConversionCacheEnabled = $presentationConversionCacheEnabled;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'maxNumPages')]
+    public function getMaxNumPages(): ?int
+    {
+        return $this->maxNumPages;
+    }
+
+    /**
+     * Maximum number of pages allowed for presentations in the meeting.
+     */
+    public function setMaxNumPages(int $maxNumPages): self
+    {
+        $this->maxNumPages = $maxNumPages;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'multiUserWhiteboardEnabled')]
+    public function isMultiUserWhiteboardEnabled(): ?bool
+    {
+        return $this->multiUserWhiteboardEnabled;
+    }
+
+    /**
+     * Enable or disable the multi-user whiteboard feature.
+     */
+    public function setMultiUserWhiteboardEnabled(bool $multiUserWhiteboardEnabled): self
+    {
+        $this->multiUserWhiteboardEnabled = $multiUserWhiteboardEnabled;
 
         return $this;
     }
