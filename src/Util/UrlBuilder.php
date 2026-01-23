@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -76,14 +76,15 @@ class UrlBuilder
         ?HashingAlgorithm $hashingAlgorithm = null,
     ): static {
         $secret ??= getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT');
+
         if (false === $secret) {
             throw new \RuntimeException("No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor (2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
         }
 
         $baseUrl ??= getenv('BBB_SERVER_BASE_URL');
+
         if (false === $baseUrl) {
-            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor '
-                . "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
+            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor ' . "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
         }
 
         $hashingAlgorithm ??= HashingAlgorithm::SHA_256;

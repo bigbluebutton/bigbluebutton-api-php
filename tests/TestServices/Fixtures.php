@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -115,10 +115,8 @@ class Fixtures
                 $values = array_map(fn (\BackedEnum $case) => $case->value, $selected);
 
                 return $values;
-
             case 'single':
                 return $selected[0];
-
             default: // 'array'
                 return $selected;
         }
