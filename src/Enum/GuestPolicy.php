@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,13 +20,13 @@
 
 namespace BigBlueButton\Enum;
 
-use MabeEnum\Enum;
-
-// @ref : https://github.com/bigbluebutton/bigbluebutton/blob/5189abb225247290d1954e10827853d5fc022b66/bbb-common-web/src/main/java/org/bigbluebutton/api/domain/GuestPolicy.java
-class GuestPolicy extends Enum
+/**
+ * @ref : https://github.com/bigbluebutton/bigbluebutton/blob/5189abb225247290d1954e10827853d5fc022b66/bbb-common-web/src/main/java/org/bigbluebutton/api/domain/GuestPolicy.java
+ */
+enum GuestPolicy: string
 {
-    public const ALWAYS_ACCEPT      = 'ALWAYS_ACCEPT';
-    public const ALWAYS_DENY        = 'ALWAYS_DENY';
-    public const ASK_MODERATOR      = 'ASK_MODERATOR';
-    public const ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
+    case ALWAYS_ACCEPT      = 'ALWAYS_ACCEPT';
+    case ALWAYS_DENY        = 'ALWAYS_DENY';
+    case ASK_MODERATOR      = 'ASK_MODERATOR';
+    case ALWAYS_ACCEPT_AUTH = 'ALWAYS_ACCEPT_AUTH';
 }

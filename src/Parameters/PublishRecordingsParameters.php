@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,21 +20,24 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class PublishRecordingsParameters.
  */
 class PublishRecordingsParameters extends BaseParameters
 {
-    private ?string $recordingId = null;
+    private string $recordingId;
 
-    private ?bool $publish = null;
+    private bool $publish;
 
-    public function __construct(string $recordingId, ?bool $publish = null)
+    public function __construct(string $recordingId, bool $publish)
     {
         $this->recordingId = $recordingId;
         $this->publish     = $publish;
     }
 
+    #[ApiParameterMapper(attributeName: 'recordID')]
     public function getRecordingId(): ?string
     {
         return $this->recordingId;
@@ -47,6 +50,7 @@ class PublishRecordingsParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'publish')]
     public function isPublish(): ?bool
     {
         return $this->publish;
@@ -57,15 +61,5 @@ class PublishRecordingsParameters extends BaseParameters
         $this->publish = $publish;
 
         return $this;
-    }
-
-    public function getHTTPQuery(): string
-    {
-        return $this->buildHTTPQuery(
-            [
-                'recordID' => $this->recordingId,
-                'publish'  => !is_null($this->publish) ? ($this->publish ? 'true' : 'false') : $this->publish,
-            ]
-        );
     }
 }

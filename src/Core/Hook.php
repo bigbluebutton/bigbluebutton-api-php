@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -27,7 +27,7 @@ class Hook
 {
     protected \SimpleXMLElement $rawXml;
 
-    private int $hookId;
+    private string $hookId;
 
     private string $meetingId;
 
@@ -37,17 +37,23 @@ class Hook
 
     private bool $rawData;
 
+    /**
+     * @var array<string>
+     */
+    private array $eventID;
+
     public function __construct(\SimpleXMLElement $xml)
     {
         $this->rawXml        = $xml;
-        $this->hookId        = (int) $xml->hookID->__toString();
+        $this->hookId        = $xml->hookID->__toString();
         $this->callbackUrl   = $xml->callbackURL->__toString();
         $this->meetingId     = $xml->meetingID->__toString();
+        $this->eventID       = explode(',', $xml->eventID->__toString());
         $this->permanentHook = 'true' === $xml->permanentHook->__toString();
         $this->rawData       = 'true' === $xml->rawData->__toString();
     }
 
-    public function getHookId(): int
+    public function getHookId(): string
     {
         return $this->hookId;
     }
@@ -60,6 +66,14 @@ class Hook
     public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
+    }
+
+    /**
+     * @return array<string>
+     */
+    public function getEventID(): array
+    {
+        return $this->eventID;
     }
 
     public function isPermanentHook(): ?bool

@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,24 +20,29 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+
 /**
  * Class EndMeetingParameters.
  */
 class EndMeetingParameters extends BaseParameters
 {
-    private ?string $meetingId = null;
+    private string $meetingId;
 
     /**
+     * The password of the moderator.
+     *
      * @deprecated
      */
-    private ?string $password = null;
+    private ?string $password;
 
-    public function __construct(?string $meetingId = null, ?string $password = null)
+    public function __construct(string $meetingId, ?string $password = null)
     {
         $this->password  = $password;
         $this->meetingId = $meetingId;
     }
 
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -53,6 +58,7 @@ class EndMeetingParameters extends BaseParameters
     /**
      * @deprecated
      */
+    #[ApiParameterMapper(attributeName: 'password')]
     public function getPassword(): ?string
     {
         return $this->password;
@@ -61,20 +67,10 @@ class EndMeetingParameters extends BaseParameters
     /**
      * @deprecated
      */
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
         return $this;
-    }
-
-    public function getHTTPQuery(): string
-    {
-        return $this->buildHTTPQuery(
-            [
-                'meetingID' => $this->meetingId,
-                'password'  => $this->password,
-            ]
-        );
     }
 }

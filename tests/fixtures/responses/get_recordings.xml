@@ -30,7 +30,7 @@
                 </format>
                 <format>
                     <type>presentation</type>
-                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120</url>
+                    <url>https://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462807897120</url>
                     <processingTime>2973</processingTime>
                     <length>532</length>
                     <size>168019</size>
@@ -93,7 +93,7 @@
             <playback>
                 <format>
                     <type>presentation</type>
-                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1463067444315</url>
+                    <url>https://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1463067444315</url>
                     <length>63</length>
                 </format>
             </playback>
@@ -120,7 +120,7 @@
             <playback>
                 <format>
                     <type>presentation</type>
-                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1463413631320</url>
+                    <url>https://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1463413631320</url>
                     <length>50</length>
                 </format>
             </playback>
@@ -128,11 +128,14 @@
         <recording>
             <recordID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026</recordID>
             <meetingID>9d287cf50490ca856ca5273bd303a7e321df6051-4-119[0]</meetingID>
+            <internalMeetingID>f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026</internalMeetingID>
             <name><![CDATA[SAT- Writing Section- Social Science and History (All participants)]]></name>
             <published>true</published>
             <state>published</state>
             <startTime>1462980100026</startTime>
             <endTime>1462986640649</endTime>
+            <participants>6</participants>
+            <rawSize>7219530</rawSize>
             <metadata>
                 <bbb-context><![CDATA[SAT Score Booster Program-Main]]></bbb-context>
                 <bbb-origin-version><![CDATA[2.7.7+ (Build: 20150319)]]></bbb-origin-version>
@@ -148,7 +151,7 @@
             <playback>
                 <format>
                     <type>presentation</type>
-                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026</url>
+                    <url>https://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462980100026</url>
                     <length>86</length>
                 </format>
             </playback>
@@ -175,7 +178,7 @@
             <playback>
                 <format>
                     <type>presentation</type>
-                    <url>http://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462894360422</url>
+                    <url>https://test-install.blindsidenetworks.com/playback/presentation/0.9.0/playback.html?meetingId=f71d810b6e90a4a34ae02b8c7143e8733178578e-1462894360422</url>
                     <length>46</length>
                 </format>
             </playback>

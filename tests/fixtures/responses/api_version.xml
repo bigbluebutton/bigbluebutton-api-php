@@ -1,0 +1,9 @@
+<response>
+    <returncode>SUCCESS</returncode>
+    <version>2.0</version>
+    <apiVersion>2.0</apiVersion>
+    <bbbVersion>3.0.19</bbbVersion>
+    <html5PluginSdkVersion>0.0.95</html5PluginSdkVersion>
+    <graphqlWebsocketUrl>wss://bigbluebutton.server.com/graphql</graphqlWebsocketUrl>
+    <graphqlApiUrl>https://bigbluebutton.server.com/api/rest</graphqlApiUrl>
+</response>

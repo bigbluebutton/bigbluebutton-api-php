@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -27,7 +27,7 @@ use PhpCsFixer\Finder;
 $header = <<<'EOF'
     BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
 
-    Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+    Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
 
     This program is free software; you can redistribute it and/or modify it under the
     terms of the GNU Lesser General Public License as published by the Free Software
@@ -59,8 +59,21 @@ $config
     ])
     ->setRules([
         '@PhpCsFixer'                      => true,
-        '@PHP74Migration'                  => true,
-        'general_phpdoc_annotation_remove' => ['annotations' => ['expectedDeprecation']], // one should use PHPUnit built-in method instead
+        '@PHP8x2Migration'                 => true,
+
+        // Cleanliness
+        'no_unused_imports'                => true,
+        'ordered_imports'                  => ['sort_algorithm' => 'alpha'], 
+        'no_empty_comment'                 => true,
+        'no_empty_statement'               => true,
+
+        // Formatting
+        'blank_line_before_statement'      => ['statements' => ['return', 'if', 'try', 'throw']],
+        'method_argument_space'            => ['on_multiline' => 'ensure_fully_multiline'],
+        'single_line_throw'                => true,
+
+        // Imported
+        'general_phpdoc_annotation_remove' => ['annotations' => ['expectedDeprecation']],
         'header_comment'                   => ['header' => $header],
         'concat_space'                     => ['spacing' => 'one'],
         'function_declaration'             => ['closure_function_spacing' => 'none'],

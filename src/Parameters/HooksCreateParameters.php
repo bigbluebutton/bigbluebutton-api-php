@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -20,13 +20,19 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Attribute\ApiParameterMapper;
+use BigBlueButton\Enum\WebHookEvent;
+
 class HooksCreateParameters extends BaseParameters
 {
     private string $callbackUrl;
 
     private ?string $meetingId = null;
 
-    private ?string $eventId = null;
+    /**
+     * @var WebHookEvent[]
+     */
+    private array $eventId = [];
 
     private ?bool $getRaw = null;
 
@@ -35,6 +41,7 @@ class HooksCreateParameters extends BaseParameters
         $this->callbackUrl = $callbackUrl;
     }
 
+    #[ApiParameterMapper(attributeName: 'callbackURL')]
     public function getCallbackUrl(): string
     {
         return $this->callbackUrl;
@@ -47,6 +54,7 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'meetingID')]
     public function getMeetingId(): ?string
     {
         return $this->meetingId;
@@ -59,18 +67,28 @@ class HooksCreateParameters extends BaseParameters
         return $this;
     }
 
-    public function getEventId(): ?string
+    /**
+     * @return WebHookEvent[]
+     */
+    #[ApiParameterMapper(attributeName: 'eventID')]
+    public function getEventId(): array
     {
         return $this->eventId;
     }
 
-    public function setEventId(string $eventId): self
+    /**
+     * @param WebHookEvent[] $eventId
+     *
+     * @since 2.5
+     */
+    public function setEventId(array $eventId): self
     {
         $this->eventId = $eventId;
 
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'getRaw')]
     public function getRaw(): ?bool
     {
         return $this->getRaw;
@@ -81,16 +99,5 @@ class HooksCreateParameters extends BaseParameters
         $this->getRaw = $getRaw;
 
         return $this;
-    }
-
-    public function getHTTPQuery(): string
-    {
-        $queries = [
-            'callbackURL' => $this->callbackUrl,
-            'meetingID'   => $this->meetingId,
-            'getRaw'      => !is_null($this->getRaw) ? ($this->getRaw ? 'true' : 'false') : $this->getRaw,
-        ];
-
-        return $this->buildHTTPQuery($queries);
     }
 }

@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -35,6 +35,7 @@ use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
+use BigBlueButton\Parameters\SendChatMessageParameters;
 use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
@@ -52,6 +53,7 @@ use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\Responses\PutRecordingTextTrackResponse;
+use BigBlueButton\Responses\SendChatMessageResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
 
@@ -76,7 +78,7 @@ class BigBlueButton
      * @deprecated This property has been replaced by property in UrlBuilder-class.
      *             User property via $this->getUrlBuilder()->setHashingAlgorithm() and $this->getUrlBuilder()->getHashingAlgorithm().
      */
-    protected string $hashingAlgorithm;
+    protected HashingAlgorithm $hashingAlgorithm;
 
     /**
      * @var array<int, mixed>
@@ -90,35 +92,21 @@ class BigBlueButton
     /**
      * @param null|array<string, mixed> $opts
      */
-    public function __construct(?string $baseUrl = null, ?string $secret = null, ?array $opts = [])
-    {
-        // Provide an early error message if configuration is wrong
-        if (is_null($baseUrl) && false === getenv('BBB_SERVER_BASE_URL')) {
-            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor ' .
-                "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
-        }
-
-        if (is_null($secret) && false === getenv('BBB_SECRET') && false === getenv('BBB_SECURITY_SALT')) {
-            throw new \RuntimeException('No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor ' .
-                "(2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
-        }
-
-        // Keeping backward compatibility with older deployed versions
-        // BBB_SECRET is the new variable name and have higher priority against the old named BBB_SECURITY_SALT
-        // Reminder: getenv() will return FALSE if not set. But bool is not accepted by $this->bbbSecret
-        //           nor $this->bbbBaseUrl (only strings), thus FALSE will be converted automatically to an empty
-        //           string (''). Having a bool should be not possible due to the checks above and the automated
-        //           conversion, but PHPStan is still unhappy, so it's covered explicit by adding `?: ''`.
-        $bbbBaseUrl       = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
-        $bbbSecret        = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
-        $hashingAlgorithm = HashingAlgorithm::SHA_256;
+    public function __construct(
+        ?string $baseUrl = null,
+        #[\SensitiveParameter]
+        ?string $secret = null,
+        ?array $opts = [],
+        ?UrlBuilder $urlBuilder = null,
+    ) {
+        $urlBuilder ??= UrlBuilder::fromEnvVars($baseUrl, $secret);
 
         // initialize deprecated properties
-        $this->bbbBaseUrl       = $bbbBaseUrl;
-        $this->bbbSecret        = $bbbSecret;
-        $this->hashingAlgorithm = $hashingAlgorithm;
+        $this->bbbBaseUrl       = $urlBuilder->getBaseUrl();
+        $this->bbbSecret        = $urlBuilder->getSecret();
+        $this->hashingAlgorithm = $urlBuilder->getHashingAlgorithm();
 
-        $this->urlBuilder = new UrlBuilder($bbbSecret, $bbbBaseUrl, $hashingAlgorithm);
+        $this->urlBuilder = $urlBuilder;
         $this->curlOpts   = $opts['curl'] ?? [];
     }
 
@@ -138,6 +126,7 @@ class BigBlueButton
     -- join
     -- end
     -- insertDocument
+    -- sendChatMessage
     */
 
     /**
@@ -210,6 +199,13 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getInsertDocumentUrl($insertDocumentParams), $insertDocumentParams->getPresentationsAsXML());
 
         return new InsertDocumentResponse($xml);
+    }
+
+    public function sendChatMessage(SendChatMessageParameters $sendChatMessageParams): SendChatMessageResponse
+    {
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getSendChatMessageUrl($sendChatMessageParams));
+
+        return new SendChatMessageResponse($xml);
     }
 
     // __________________ BBB MONITORING METHODS _________________
@@ -302,11 +298,9 @@ class BigBlueButton
     }
 
     /**
-     * @param mixed $recordingParams
-     *
      * @throws BadResponseException|\RuntimeException
      */
-    public function getRecordings($recordingParams): GetRecordingsResponse
+    public function getRecordings(GetRecordingsParameters $recordingParams): GetRecordingsResponse
     {
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getRecordingsUrl($recordingParams));
 
@@ -414,11 +408,9 @@ class BigBlueButton
     }
 
     /**
-     * @param mixed $hookCreateParams
-     *
      * @throws BadResponseException
      */
-    public function hooksCreate($hookCreateParams): HooksCreateResponse
+    public function hooksCreate(HooksCreateParameters $hookCreateParams): HooksCreateResponse
     {
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getHooksCreateUrl($hookCreateParams));
 
@@ -452,11 +444,9 @@ class BigBlueButton
     }
 
     /**
-     * @param mixed $hooksDestroyParams
-     *
      * @throws BadResponseException
      */
-    public function hooksDestroy($hooksDestroyParams): HooksDestroyResponse
+    public function hooksDestroy(HooksDestroyParameters $hooksDestroyParams): HooksDestroyResponse
     {
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getHooksDestroyUrl($hooksDestroyParams));
 
@@ -493,13 +483,13 @@ class BigBlueButton
         return $this;
     }
 
-    public function setHashingAlgorithm(string $hashingAlgorithm): void
+    public function setHashingAlgorithm(HashingAlgorithm $hashingAlgorithm): void
     {
         $this->hashingAlgorithm = $hashingAlgorithm;
         $this->getUrlBuilder()->setHashingAlgorithm($hashingAlgorithm);
     }
 
-    public function getHashingAlgorithm(string $hashingAlgorithm): string
+    public function getHashingAlgorithm(): HashingAlgorithm
     {
         $this->hashingAlgorithm = $this->getUrlBuilder()->getHashingAlgorithm();
 
@@ -538,8 +528,8 @@ class BigBlueButton
         $ch         = curl_init();
         $cookieFile = tmpfile();
 
-        if (!$ch) {  // @phpstan-ignore-line
-            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+        if (false === $ch) {
+            throw new \RuntimeException('Failed to initialize cURL');
         }
 
         // JSESSIONID
@@ -550,13 +540,20 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFilePath);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFilePath);
 
-            if ($cookies) {
-                if (false !== mb_strpos($cookies, 'JSESSIONID')) {
-                    preg_match('/(?:JSESSIONID\s*)(?<JSESSIONID>.*)/', $cookies, $output_array);
-                    $this->setJSessionId($output_array['JSESSIONID']);
+            if ($cookies && false !== mb_strpos($cookies, 'JSESSIONID')) {
+                if (preg_match('/JSESSIONID\s*(?<JSESSIONID>[^;\s]*)/', $cookies, $output_array)) {
+                    // No need for isset() - we know JSESSIONID exists if preg_match returns true
+                    $this->setJSessionId(mb_trim($output_array['JSESSIONID']));
+                } else {
+                    throw new \RuntimeException('JSESSIONID found but could not be extracted');
                 }
             }
         }
+
+        // Initialise headers array with mandatory Content-type
+        $headers = [
+            'Content-type: ' . $contentType,
+        ];
 
         // PAYLOAD
         if (!empty($payload)) {
@@ -564,11 +561,12 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-type: ' . $contentType,
-                'Content-length: ' . strlen($payload),
-            ]);
+            // Add Content-length header if payload is present
+            $headers[] = 'Content-length: ' . strlen($payload);
         }
+
+        // Set HTTP headers
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         // OTHERS
         foreach ($this->curlOpts as $opt => $value) {
@@ -623,8 +621,8 @@ class BigBlueButton
      *
      * @throws BadResponseException
      */
-    private function processJsonResponse(string $url, string $payload = ''): string
+    private function processJsonResponse(string $url): string
     {
-        return $this->sendRequest($url, $payload, 'application/json');
+        return $this->sendRequest($url, contentType: 'application/json');
     }
 }

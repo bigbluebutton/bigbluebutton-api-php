@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2024 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -29,9 +29,12 @@ class Record
 
     private string $recordId;
     private string $meetingId;
+    private string $internalMeetingID;
     private string $name;
     private bool $isPublished;
     private string $state;
+    private int $participants;
+    private int $rawSize;
     private float $startTime;
     private float $endTime;
 
@@ -57,17 +60,20 @@ class Record
 
     public function __construct(\SimpleXMLElement $xml)
     {
-        $this->rawXml         = $xml;
-        $this->recordId       = $xml->recordID->__toString();
-        $this->meetingId      = $xml->meetingID->__toString();
-        $this->name           = $xml->name->__toString();
-        $this->isPublished    = 'true' === $xml->published->__toString();
-        $this->state          = $xml->state->__toString();
-        $this->startTime      = (float) $xml->startTime->__toString();
-        $this->endTime        = (float) $xml->endTime->__toString();
-        $this->playbackType   = $xml->playback->format->type->__toString();
-        $this->playbackUrl    = $xml->playback->format->url->__toString();
-        $this->playbackLength = (int) $xml->playback->format->length->__toString();
+        $this->rawXml            = $xml;
+        $this->recordId          = $xml->recordID->__toString();
+        $this->meetingId         = $xml->meetingID->__toString();
+        $this->internalMeetingID = $xml->internalMeetingID->__toString();
+        $this->name              = $xml->name->__toString();
+        $this->isPublished       = 'true' === $xml->published->__toString();
+        $this->state             = $xml->state->__toString();
+        $this->startTime         = (float) $xml->startTime->__toString();
+        $this->endTime           = (float) $xml->endTime->__toString();
+        $this->participants      = (int) $xml->participants->__toString();
+        $this->rawSize           = (int) $xml->rawSize->__toString();
+        $this->playbackType      = $xml->playback->format->type->__toString();
+        $this->playbackUrl       = $xml->playback->format->url->__toString();
+        $this->playbackLength    = (int) $xml->playback->format->length->__toString();
 
         foreach ($xml->metadata->children() as $meta) {
             $this->metas[$meta->getName()] = $meta->__toString();
@@ -82,6 +88,11 @@ class Record
     public function getMeetingId(): string
     {
         return $this->meetingId;
+    }
+
+    public function getInternalMeetingID(): string
+    {
+        return $this->internalMeetingID;
     }
 
     public function getName(): string
@@ -107,6 +118,16 @@ class Record
     public function getEndTime(): float
     {
         return $this->endTime;
+    }
+
+    public function getParticipants(): float
+    {
+        return $this->participants;
+    }
+
+    public function getRawSize(): float
+    {
+        return $this->rawSize;
     }
 
     /**
