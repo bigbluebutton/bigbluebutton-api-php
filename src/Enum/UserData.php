@@ -23,6 +23,9 @@ namespace BigBlueButton\Enum;
 enum UserData: string
 {
     // Application settings
+    /**
+     * @deprecated since 3.0.0, no more available use "/api/feedback" instead.
+     */
     case ASK_FOR_FEEDBACK_ON_LOGOUT       = 'bbb_ask_for_feedback_on_logout';
     case AUTO_JOIN_AUDIO                  = 'bbb_auto_join_audio';
     case CLIENT_TITLE                     = 'bbb_client_title';
