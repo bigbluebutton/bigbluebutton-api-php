@@ -59,10 +59,19 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?bool $guest = null;
 
+    /**
+     * @deprecated since 3.0.0
+     */
     private ?MeetingLayout $defaultLayout = null;
 
     private ?string $errorRedirectUrl    = null;
     private ?string $webcamBackgroundURL = null;
+
+    private ?bool $bot             = null;
+    private ?string $enforceLayout = null;
+    private ?string $logoutURL     = null;
+    private ?string $firstName     = null;
+    private ?string $lastName      = null;
 
     public function __construct(string $meetingId, string $username, Role|string $passwordOrRole)
     {
@@ -225,12 +234,18 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    /**
+     * @deprecated since 3.0.0
+     */
     #[ApiParameterMapper(attributeName: 'defaultLayout')]
     public function getDefaultLayout(): ?MeetingLayout
     {
         return $this->defaultLayout;
     }
 
+    /**
+     * @deprecated since 3.0.0, use "userdata-bbb_default_layout" instead
+     */
     public function setDefaultLayout(MeetingLayout $defaultLayout): self
     {
         $this->defaultLayout = $defaultLayout;
@@ -260,6 +275,71 @@ class JoinMeetingParameters extends UserDataParameters
     public function setWebcamBackgroundURL(string $webcamBackgroundURL): self
     {
         $this->webcamBackgroundURL = $webcamBackgroundURL;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'bot')]
+    public function isBot(): ?bool
+    {
+        return $this->bot;
+    }
+
+    public function setBot(bool $bot): self
+    {
+        $this->bot = $bot;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'enforceLayout')]
+    public function getEnforceLayout(): ?string
+    {
+        return $this->enforceLayout;
+    }
+
+    public function setEnforceLayout(string $enforceLayout): self
+    {
+        $this->enforceLayout = $enforceLayout;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'logoutURL')]
+    public function getLogoutURL(): ?string
+    {
+        return $this->logoutURL;
+    }
+
+    public function setLogoutURL(string $logoutURL): self
+    {
+        $this->logoutURL = $logoutURL;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'firstName')]
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'lastName')]
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
 
         return $this;
     }
