@@ -434,7 +434,7 @@ class FixturesTest extends TestCase
                 'method'     => 'insertDocument',
                 'filename'   => 'insert_document.xml',
                 'success'    => true,
-                'messageKey' => 'documentInserted',
+                'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): InsertDocumentParameters {
                     // arrange the BBB-server
                     $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 05)');
