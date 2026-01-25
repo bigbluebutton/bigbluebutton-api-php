@@ -148,7 +148,7 @@ class BigBlueButton
     }
 
     /**
-     * @deprecated Replaced by same function-name provided by UrlBuilder-class
+     * @deprecated Replaced by the same function-name provided by UrlBuilder-class
      */
     public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams): string
     {

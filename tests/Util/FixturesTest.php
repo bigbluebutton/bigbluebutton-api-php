@@ -24,13 +24,18 @@ use BigBlueButton\BigBlueButton;
 use BigBlueButton\Core\Hook;
 use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
+use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Parameters\SendChatMessageParameters;
+use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\BaseResponse;
 use BigBlueButton\TestServices\EnvLoader;
 use BigBlueButton\TestServices\Fixtures;
@@ -453,6 +458,60 @@ class FixturesTest extends TestCase
                     ;
 
                     return $insertDocumentParameters;
+                },
+            ],
+            'case16_delete_recordings' => [
+                'method'     => 'deleteRecordings',
+                'filename'   => 'delete_recordings.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): DeleteRecordingsParameters {
+                    // @fixme: to be implemented
+                },
+            ],
+            'case17_get_recordings' => [
+                'method'     => 'getRecordings',
+                'filename'   => 'get_recordings.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): GetRecordingsParameters {
+                    // @fixme: to be implemented
+                },
+            ],
+            'case18_get_recordings' => [
+                'method'     => 'hooksDestroy',
+                'filename'   => 'hooks_destroy_failed_not_found.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
+                    // @fixme: to be implemented
+                },
+            ],
+            'case19_get_recordings' => [
+                'method'     => 'publishRecordings',
+                'filename'   => 'publish_recordings.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): PublishRecordingsParameters {
+                    // @fixme: to be implemented
+                },
+            ],
+            'case20_get_recordings' => [
+                'method'     => 'sendChatMessage',
+                'filename'   => 'send_chat_message.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): SendChatMessageParameters {
+                    // @fixme: to be implemented
+                },
+            ],
+            'case21_get_recordings' => [
+                'method'     => 'updateRecordings',
+                'filename'   => 'update_recordings.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): UpdateRecordingsParameters {
+                    // @fixme: to be implemented
                 },
             ],
         ];
