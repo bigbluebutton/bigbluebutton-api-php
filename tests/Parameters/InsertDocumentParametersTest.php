@@ -33,6 +33,23 @@ use BigBlueButton\TestServices\Fixtures;
  */
 final class InsertDocumentParametersTest extends ParameterTestCase
 {
+    public function testSetMeetingId(): void
+    {
+        $originalMeetingId = 'original-meeting-123';
+        $newMeetingId      = 'new-meeting-456';
+
+        $insertDocumentParameters = new InsertDocumentParameters($originalMeetingId);
+
+        // Test initial value
+        $this->assertEquals($originalMeetingId, $insertDocumentParameters->getMeetingId());
+
+        // Test setting new value
+        $result = $insertDocumentParameters->setMeetingId($newMeetingId);
+
+        $this->assertEquals($newMeetingId, $insertDocumentParameters->getMeetingId());
+        $this->assertSame($insertDocumentParameters, $result); // Test fluent interface
+    }
+
     public function testInsertDocumentParametersWithMultiPresentationsWithoutOptions(): void
     {
         $meetingId                = $this->faker->uuid;

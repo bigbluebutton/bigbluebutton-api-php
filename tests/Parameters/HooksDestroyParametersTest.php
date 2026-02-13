@@ -33,4 +33,78 @@ class HooksDestroyParametersTest extends ParameterTestCase
 
         $this->assertEquals($hookId, $hooksDestroyParameters->getHookId());
     }
+
+    public function testSetHookId(): void
+    {
+        $originalHookId = 'original-hook-123';
+        $newHookId      = 'new-hook-456';
+
+        $hooksDestroyParameters = new HooksDestroyParameters($originalHookId);
+
+        // Test initial value
+        $this->assertEquals($originalHookId, $hooksDestroyParameters->getHookId());
+
+        // Test setting new value
+        $result = $hooksDestroyParameters->setHookId($newHookId);
+
+        $this->assertEquals($newHookId, $hooksDestroyParameters->getHookId());
+        $this->assertSame($hooksDestroyParameters, $result); // Test fluent interface
+    }
+
+    public function testHooksDestroyParametersWithEmptyHookId(): void
+    {
+        $hooksDestroyParameters = new HooksDestroyParameters('');
+
+        $this->assertEquals('', $hooksDestroyParameters->getHookId());
+    }
+
+    public function testHooksDestroyParametersWithLongHookId(): void
+    {
+        $longHookId             = str_repeat('a', 100);
+        $hooksDestroyParameters = new HooksDestroyParameters($longHookId);
+
+        $this->assertEquals($longHookId, $hooksDestroyParameters->getHookId());
+    }
+
+    public function testHooksDestroyParametersWithSpecialCharacters(): void
+    {
+        $specialHookId          = 'hook-123_abc.xyz';
+        $hooksDestroyParameters = new HooksDestroyParameters($specialHookId);
+
+        $this->assertEquals($specialHookId, $hooksDestroyParameters->getHookId());
+    }
+
+    public function testHooksDestroyParametersFluentInterface(): void
+    {
+        $hooksDestroyParameters = new HooksDestroyParameters('initial-hook');
+
+        $result = $hooksDestroyParameters
+            ->setHookId('updated-hook-1')
+            ->setHookId('updated-hook-2')
+        ;
+
+        $this->assertSame($hooksDestroyParameters, $result);
+        $this->assertEquals('updated-hook-2', $hooksDestroyParameters->getHookId());
+    }
+
+    public function testHooksDestroyParametersToApiDataArray(): void
+    {
+        $hookId                 = 'test-hook-789';
+        $hooksDestroyParameters = new HooksDestroyParameters($hookId);
+
+        $apiData = $hooksDestroyParameters->toApiDataArray();
+
+        $this->assertIsArray($apiData);
+        $this->assertEquals($hookId, $apiData['hookID']);
+    }
+
+    public function testHooksDestroyParametersGetHTTPQuery(): void
+    {
+        $hookId                 = 'test-hook-456';
+        $hooksDestroyParameters = new HooksDestroyParameters($hookId);
+
+        $query = $hooksDestroyParameters->getHTTPQuery();
+
+        $this->assertStringContainsString("hookID={$hookId}", $query);
+    }
 }
