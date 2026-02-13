@@ -25,6 +25,7 @@ use BigBlueButton\Enum\HashingAlgorithm;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\FeedbackParameters;
 use BigBlueButton\Parameters\GetJoinUrlParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
@@ -205,6 +206,11 @@ class UrlBuilder
     public function getSendChatMessageUrl(SendChatMessageParameters $sendChatMessageParameters): string
     {
         return $this->buildUrl(ApiMethod::SEND_CHAT_MESSAGE, $sendChatMessageParameters->getHTTPQuery());
+    }
+
+    public function getFeedbackUrl(FeedbackParameters $feedbackParameters): string
+    {
+        return $this->buildUrl(ApiMethod::FEEDBACK, $feedbackParameters->getHTTPQuery());
     }
 
     public function getIsMeetingRunningUrl(IsMeetingRunningParameters $meetingParams): string

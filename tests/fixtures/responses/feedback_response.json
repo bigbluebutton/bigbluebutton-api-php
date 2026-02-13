@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "feedback_id": "feedback-123456",
+  "session_token": "session-token-789",
+  "meeting_id": "meeting456",
+  "user_id": "user123",
+  "rating": 4,
+  "comment": "Great meeting experience!",
+  "submitted_at": "2023-01-15T14:30:00Z",
+  "processed": true,
+  "feedback_type": "meeting_feedback"
+}

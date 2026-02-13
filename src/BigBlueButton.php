@@ -25,6 +25,7 @@ use BigBlueButton\Exceptions\BadResponseException;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\FeedbackParameters;
 use BigBlueButton\Parameters\GetJoinUrlParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
@@ -42,6 +43,7 @@ use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\DeleteRecordingsResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
+use BigBlueButton\Responses\FeedbackResponse;
 use BigBlueButton\Responses\GetJoinUrlResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
@@ -226,6 +228,22 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getSendChatMessageUrl($sendChatMessageParams));
 
         return new SendChatMessageResponse($xml);
+    }
+
+    /**
+     * Submit feedback for a meeting or session.
+     * 
+     * This endpoint replaces the old /html5client/feedback endpoint with /api/feedback.
+     * It allows users to submit feedback about their meeting experience, including
+     * ratings and comments.
+     *
+     * @throws BadResponseException|\RuntimeException
+     */
+    public function feedback(FeedbackParameters $feedbackParams): FeedbackResponse
+    {
+        $json = $this->processJsonResponse($this->getUrlBuilder()->getFeedbackUrl($feedbackParams));
+
+        return new FeedbackResponse($json);
     }
 
     // __________________ BBB MONITORING METHODS _________________

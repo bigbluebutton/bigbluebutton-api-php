@@ -9,6 +9,7 @@
   - [Meetings](./api_calls/meetings.md)
   - [Get Join URL](./api_calls/get_join_url.md)
   - [Client Settings Override](./api_calls/client_settings_override.md)
+  - [Feedback](./api_calls/feedback.md)
   - [Recordings](./api_calls/recordings.md)
   - [Hooks](./api_calls/hooks.md)
   - [Server Configuration](./api_calls/bbb_config.md)
