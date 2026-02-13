@@ -532,20 +532,23 @@ class BigBlueButton
             throw new \RuntimeException('Failed to initialize cURL');
         }
 
-        // JSESSIONID
+        // JSESSIONID - Secure cookie handling with internal validation
         if ($cookieFile) {
             $cookieFilePath = stream_get_meta_data($cookieFile)['uri'];
-            $cookies        = file_get_contents($cookieFilePath);
-
+            
+            // Set secure cookie options
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFilePath);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFilePath);
-
-            if ($cookies && false !== mb_strpos($cookies, 'JSESSIONID')) {
-                if (preg_match('/JSESSIONID\s*(?<JSESSIONID>[^;\s]*)/', $cookies, $output_array)) {
-                    // No need for isset() - we know JSESSIONID exists if preg_match returns true
-                    $this->setJSessionId(mb_trim($output_array['JSESSIONID']));
-                } else {
-                    throw new \RuntimeException('JSESSIONID found but could not be extracted');
+            
+            // Read and validate cookies safely with internal validation
+            $cookies = file_get_contents($cookieFilePath);
+            if ($cookies !== false && mb_strlen($cookies) > 0) {
+                // Validate cookie format before processing
+                if ($this->isValidCookieFormat($cookies)) {
+                    $sessionId = $this->extractJSessionIdSafely($cookies);
+                    if ($sessionId !== null) {
+                        $this->setJSessionId($sessionId);
+                    }
                 }
             }
         }
@@ -600,6 +603,11 @@ class BigBlueButton
         curl_close($ch);
         unset($ch);
 
+        // Clean up temporary cookie file
+        if ($cookieFile) {
+            fclose($cookieFile);
+        }
+
         // RETURN
         return $data;
     }
@@ -624,5 +632,70 @@ class BigBlueButton
     private function processJsonResponse(string $url): string
     {
         return $this->sendRequest($url, contentType: 'application/json');
+    }
+
+    /**
+     * Validates cookie format to prevent injection attacks.
+     */
+    private function isValidCookieFormat(string $cookies): bool
+    {
+        // Check for basic cookie format and reject suspicious content
+        $lines = explode("\n", $cookies);
+        
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (empty($line)) {
+                continue;
+            }
+            
+            // Basic cookie format validation: name=value with optional attributes
+            if (!preg_match('/^[a-zA-Z0-9._-]+=[^;\r\n]*$/', $line)) {
+                // Check if it's a valid cookie with attributes
+                if (!preg_match('/^[a-zA-Z0-9._-]+=[^;\r\n]*(?:;[ \t]*[a-zA-Z0-9._-]+=[^;\r\n]*)*$/', $line)) {
+                    return false;
+                }
+            }
+            
+            // Reject potentially dangerous content
+            if (mb_strpos($line, '<script') !== false ||
+                mb_strpos($line, 'javascript:') !== false ||
+                mb_strpos($line, 'data:') !== false) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    /**
+     * Safely extracts JSESSIONID from cookie string with validation.
+     */
+    private function extractJSessionIdSafely(string $cookies): ?string
+    {
+        // Use a more restrictive regex pattern
+        if (preg_match('/JSESSIONID\s*=\s*([a-zA-Z0-9._-]+)/', $cookies, $matches)) {
+            $sessionId = $matches[1];
+            
+            // Validate session ID format (typical Java session IDs are 32 chars alphanumeric)
+            if ($this->isValidSessionId($sessionId)) {
+                return $sessionId;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Validate session ID format for security.
+     */
+    private function isValidSessionId(string $sessionId): bool
+    {
+        // Session IDs should be alphanumeric with limited special characters
+        // and reasonable length (typical Java session IDs are 32 chars)
+        $length = mb_strlen($sessionId);
+        
+        return $length >= 1 && 
+               $length <= 100 && 
+               preg_match('/^[a-zA-Z0-9._-]+$/', $sessionId);
     }
 }
