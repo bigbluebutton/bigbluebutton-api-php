@@ -25,6 +25,7 @@ use BigBlueButton\Enum\HashingAlgorithm;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\GetJoinUrlParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
@@ -184,6 +185,11 @@ class UrlBuilder
     public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams): string
     {
         return $this->buildUrl(ApiMethod::JOIN, $joinMeetingParams->getHTTPQuery());
+    }
+
+    public function getGetJoinUrlUrl(GetJoinUrlParameters $getJoinUrlParams): string
+    {
+        return $this->buildUrl(ApiMethod::GET_JOIN_URL, $getJoinUrlParams->getHTTPQuery());
     }
 
     public function getEndMeetingURL(EndMeetingParameters $endParams): string

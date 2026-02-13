@@ -25,6 +25,7 @@ use BigBlueButton\Exceptions\BadResponseException;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\GetJoinUrlParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
@@ -41,6 +42,7 @@ use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\DeleteRecordingsResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
+use BigBlueButton\Responses\GetJoinUrlResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
@@ -163,6 +165,24 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getJoinMeetingURL($joinMeetingParams));
 
         return new JoinMeetingResponse($xml);
+    }
+
+    /**
+     * Get a new join URL for an existing user session.
+     * 
+     * This endpoint generates a new /join URL that can be used to create a new session 
+     * for an existing user with the same user ID. This is particularly useful for 
+     * hybrid environments where multiple screens in the same room each require a 
+     * distinct session with different layouts, or for seamless user session transfers 
+     * to another device.
+     *
+     * @throws BadResponseException|\RuntimeException
+     */
+    public function getJoinUrl(GetJoinUrlParameters $getJoinUrlParams): GetJoinUrlResponse
+    {
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getGetJoinUrlUrl($getJoinUrlParams));
+
+        return new GetJoinUrlResponse($xml);
     }
 
     /**
