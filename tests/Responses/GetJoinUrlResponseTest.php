@@ -57,7 +57,7 @@ class GetJoinUrlResponseTest extends TestCase
         $this->assertEquals('https://bbb.example.com/redirect/session123456', $response->getRedirectUrl());
         $this->assertEquals('Mobile Device Session', $response->getSessionName());
         $this->assertTrue($response->isReplaceSession());
-        $this->assertEquals('presentation_focus', $response->getEnforceLayout());
+        $this->assertEquals('PRESENTATION_FOCUS', $response->getEnforceLayout());
     }
 
     public function testGetJoinUrlResponseWithMinimalData(): void
@@ -148,7 +148,7 @@ class GetJoinUrlResponseTest extends TestCase
     <redirect_url>https://bbb.example.com/redirect/session123456</redirect_url>
     <session_name>Mobile Device Session</session_name>
     <replace_session>true</replace_session>
-    <enforce_layout>presentation_focus</enforce_layout>
+    <enforce_layout>PRESENTATION_FOCUS</enforce_layout>
 </response>',
             'get_join_url_minimal_response.xml' => '<?xml version="1.0" encoding="UTF-8"?>
 <response>

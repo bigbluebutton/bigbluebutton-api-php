@@ -1,0 +1,6 @@
+<response>
+    <returncode>SUCCESS</returncode>
+    <messageKey>noRecordings</messageKey>
+    <message>No recordings found</message>
+    <recordings/>
+</response>

@@ -462,18 +462,18 @@ class FixturesTest extends TestCase
             ],
             'case16_delete_recordings' => [
                 'method'     => 'deleteRecordings',
-                'filename'   => 'delete_recordings.xml',
-                'success'    => true,
-                'messageKey' => '',
+                'filename'   => 'delete_recordings_not_found.xml',
+                'success'    => false,
+                'messageKey' => 'notFound',
                 'parameters' => function(BigBlueButton $bbb): DeleteRecordingsParameters {
                     return new DeleteRecordingsParameters('test-recording-id-123');
                 },
             ],
             'case17_get_recordings' => [
                 'method'     => 'getRecordings',
-                'filename'   => 'get_recordings.xml',
+                'filename'   => 'get_recordings_no_recordings.xml',
                 'success'    => true,
-                'messageKey' => '',
+                'messageKey' => 'noRecordings',
                 'parameters' => function(BigBlueButton $bbb): GetRecordingsParameters {
                     return new GetRecordingsParameters();
                 },
@@ -481,35 +481,35 @@ class FixturesTest extends TestCase
             'case18_get_recordings' => [
                 'method'     => 'hooksDestroy',
                 'filename'   => 'hooks_destroy_failed_not_found.xml',
-                'success'    => true,
-                'messageKey' => '',
+                'success'    => false,
+                'messageKey' => 'destroyMissingHook',
                 'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
                     return new HooksDestroyParameters('test-hook-id-456');
                 },
             ],
             'case19_get_recordings' => [
                 'method'     => 'publishRecordings',
-                'filename'   => 'publish_recordings.xml',
-                'success'    => true,
-                'messageKey' => '',
+                'filename'   => 'publish_recordings_not_found.xml',
+                'success'    => false,
+                'messageKey' => 'notFound',
                 'parameters' => function(BigBlueButton $bbb): PublishRecordingsParameters {
                     return new PublishRecordingsParameters('test-recording-id-789', true);
                 },
             ],
             'case20_get_recordings' => [
                 'method'     => 'sendChatMessage',
-                'filename'   => 'send_chat_message.xml',
-                'success'    => true,
-                'messageKey' => '',
+                'filename'   => 'send_chat_message_failed.xml',
+                'success'    => false,
+                'messageKey' => 'meetingNotFound',
                 'parameters' => function(BigBlueButton $bbb): SendChatMessageParameters {
                     return new SendChatMessageParameters('test-meeting-id-123', 'Hello, this is a test message!');
                 },
             ],
             'case21_get_recordings' => [
                 'method'     => 'updateRecordings',
-                'filename'   => 'update_recordings.xml',
-                'success'    => true,
-                'messageKey' => '',
+                'filename'   => 'update_recordings_not_found.xml',
+                'success'    => false,
+                'messageKey' => 'notFound',
                 'parameters' => function(BigBlueButton $bbb): UpdateRecordingsParameters {
                     return new UpdateRecordingsParameters('test-recording-id-999');
                 },
