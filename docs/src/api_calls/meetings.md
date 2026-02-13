@@ -46,6 +46,121 @@ $createMeetingParameters
 // ...
 ```
 
+#### Client Settings Override
+The BigBlueButton PHP API supports overriding HTML5 client settings from the settings.yml file. This feature allows you to customize the client behavior for specific meetings without modifying the server configuration.
+
+> [!IMPORTANT]  
+> For security reasons, the client settings override feature is disabled by default. You must explicitly enable it by setting `allowOverrideClientSettingsOnCreateCall=true`.
+
+##### Basic Usage
+```php
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Core\ClientSettingsOverride;
+
+// create an instance of the BBB-Client
+$bbb = new BigBlueButton();
+
+// define the required parameters for the meeting
+$createMeetingParameters = new CreateMeetingParameters($meetingId, $meetingName);
+
+// enable client settings override
+$createMeetingParameters->setAllowOverrideClientSettingsOnCreateCall(true);
+
+// create client settings override
+$clientSettings = new ClientSettingsOverride([
+    'public' => [
+        'kurento' => [
+            'wsUrl' => 'wss://test.bigbluebutton.org/bbb-webrtc-sfu'
+        ],
+        'media' => [
+            'sipjsHackViaWs' => false
+        ],
+        'app' => [
+            'appName' => 'Test Meeting',
+            'helpLink' => 'https://www.bigbluebutton.org',
+            'autoJoin' => false,
+            'askForConfirmationOnLeave' => false,
+            'userSettingsStorage' => 'localStorage',
+            'defaultSettings' => [
+                'application' => [
+                    'overrideLocale' => 'en'
+                ]
+            ]
+        ]
+    ]
+]);
+
+// set the client settings override
+$createMeetingParams->setClientSettingsOverride($clientSettings);
+
+// launch the request to the BBB-Server
+$createMeetingResponse = $bbb->createMeeting($createMeetingParameters);
+```
+
+##### Advanced Usage with Individual Settings
+You can also set individual settings using dot notation:
+```php
+$clientSettings = new ClientSettingsOverride();
+
+// set individual settings
+$clientSettings->setSetting('public.app.appName', 'Custom Meeting Name');
+$clientSettings->setSetting('public.kurento.wsUrl', 'wss://custom.example.com/sfu');
+$clientSettings->setSetting('public.media.sipjsHackViaWs', false);
+
+// get individual settings
+$appName = $clientSettings->getSetting('public.app.appName');
+$wsUrl = $clientSettings->getSetting('public.kurento.wsUrl', 'wss://default.example.com');
+
+// remove settings
+$clientSettings->removeSetting('public.media.sipjsHackViaWs');
+
+// set the client settings override
+$createMeetingParams->setClientSettingsOverride($clientSettings);
+```
+
+##### Creating from JSON
+You can create a ClientSettingsOverride object from a JSON string:
+```php
+$jsonSettings = '{
+    "public": {
+        "app": {
+            "appName": "JSON Meeting",
+            "helpLink": "https://help.example.com"
+        }
+    }
+}';
+
+$clientSettings = ClientSettingsOverride::fromJson($jsonSettings);
+$createMeetingParams->setClientSettingsOverride($clientSettings);
+```
+
+##### Common Override Settings
+Here are some commonly overridden settings:
+
+**Application Settings:**
+- `public.app.appName` - Custom application name
+- `public.app.helpLink` - Custom help link
+- `public.app.autoJoin` - Auto-join meeting (true/false)
+- `public.app.askForConfirmationOnLeave` - Ask for confirmation when leaving
+- `public.app.userSettingsStorage` - Storage type for user settings
+
+**Kurento/WebRTC Settings:**
+- `public.kurento.wsUrl` - Custom WebRTC SFU URL
+- `public.kurento.turnUrl` - Custom TURN server URL
+
+**Media Settings:**
+- `public.media.sipjsHackViaWs` - SIP.js WebSocket hack
+- `public.media.audio.codec` - Preferred audio codec
+- `public.media.video.codec` - Preferred video codec
+
+**Theme Settings:**
+- `public.theme.branding.target` - Custom branding target
+- `public.theme.custom_css_url` - Custom CSS URL
+
+> [!NOTE]  
+> The client settings override takes precedence over server configuration files. Use this feature carefully to avoid unexpected behavior.
+
 ### Insert Document
 
 Documents can be added either during the creation of a meeting (see `$createMeetingParameters`) or can be added once needed. This section is about adding documents into a running meeting.

@@ -21,6 +21,7 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Attribute\ApiParameterMapper;
+use BigBlueButton\Core\ClientSettingsOverride;
 use BigBlueButton\Enum\Feature;
 use BigBlueButton\Enum\GuestPolicy;
 use BigBlueButton\Enum\MeetingLayout;
@@ -187,6 +188,8 @@ class CreateMeetingParameters extends MetaParameters
     private ?bool $allowPromoteGuestToModerator = null;
 
     private ?bool $allowOverrideClientSettingsOnCreateCall = null;
+
+    private ?ClientSettingsOverride $clientSettingsOverride = null;
 
     private ?string $loginURL = null;
 
@@ -1389,6 +1392,99 @@ class CreateMeetingParameters extends MetaParameters
         $this->allowOverrideClientSettingsOnCreateCall = $allowOverrideClientSettingsOnCreateCall;
 
         return $this;
+    }
+
+    public function getClientSettingsOverride(): ?ClientSettingsOverride
+    {
+        return $this->clientSettingsOverride;
+    }
+
+    /**
+     * Set the client settings override module for the meeting.
+     * This allows overriding HTML5 client settings from the settings.yml file.
+     * 
+     * Note: This requires allowOverrideClientSettingsOnCreateCall to be set to true.
+     *
+     * @param ClientSettingsOverride|null $clientSettingsOverride
+     * @return self
+     * @since 3.0.0
+     */
+    public function setClientSettingsOverride(?ClientSettingsOverride $clientSettingsOverride): self
+    {
+        $this->clientSettingsOverride = $clientSettingsOverride;
+
+        return $this;
+    }
+
+    /**
+     * Get the client settings override as XML for the API request.
+     *
+     * @return string The XML representation of the client settings override module
+     * @since 3.0.0
+     */
+    public function getClientSettingsOverrideAsXML(): string
+    {
+        if (null === $this->clientSettingsOverride) {
+            return '';
+        }
+
+        return $this->clientSettingsOverride->toXML();
+    }
+
+    /**
+     * Get all modules (presentations and client settings override) as combined XML for the API request.
+     *
+     * @return string The combined XML representation of all modules
+     * @since 3.0.0
+     */
+    public function getModulesAsXML(): string
+    {
+        $presentationsXml = $this->getPresentationsAsXML();
+        $clientSettingsXml = $this->getClientSettingsOverrideAsXML();
+
+        // If both are empty, return empty string
+        if (empty($presentationsXml) && empty($clientSettingsXml)) {
+            return '';
+        }
+
+        // If only one is present, return it directly
+        if (empty($presentationsXml)) {
+            return $clientSettingsXml;
+        }
+        if (empty($clientSettingsXml)) {
+            return $presentationsXml;
+        }
+
+        // Both are present, need to merge them
+        try {
+            $presentationsDom = new \DOMDocument();
+            $presentationsDom->loadXML($presentationsXml);
+
+            $clientSettingsDom = new \DOMDocument();
+            $clientSettingsDom->loadXML($clientSettingsXml);
+
+            // Get the modules element from presentations
+            $presentationsModules = $presentationsDom->getElementsByTagName('modules')->item(0);
+            $clientSettingsModules = $clientSettingsDom->getElementsByTagName('modules')->item(0);
+
+            if ($presentationsModules && $clientSettingsModules) {
+                // Import all modules from client settings into presentations
+                foreach ($clientSettingsModules->childNodes as $childNode) {
+                    if ($childNode->nodeType === XML_ELEMENT_NODE) {
+                        $importedNode = $presentationsDom->importNode($childNode, true);
+                        $presentationsModules->appendChild($importedNode);
+                    }
+                }
+
+                return $presentationsDom->saveXML();
+            }
+
+            // Fallback: return presentations XML if something goes wrong
+            return $presentationsXml;
+        } catch (\Exception $e) {
+            // If XML parsing fails, return presentations XML as fallback
+            return $presentationsXml;
+        }
     }
 
     /**

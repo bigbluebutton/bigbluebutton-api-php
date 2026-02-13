@@ -7,6 +7,7 @@
 
 - [Executing API Calls]()
   - [Meetings](./api_calls/meetings.md)
+  - [Client Settings Override](./api_calls/client_settings_override.md)
   - [Recordings](./api_calls/recordings.md)
   - [Hooks](./api_calls/hooks.md)
   - [Server Configuration](./api_calls/bbb_config.md)

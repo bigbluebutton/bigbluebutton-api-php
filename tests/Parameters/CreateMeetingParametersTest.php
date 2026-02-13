@@ -20,6 +20,7 @@
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Core\ClientSettingsOverride;
 use BigBlueButton\TestServices\Fixtures;
 
 /**
@@ -163,5 +164,185 @@ class CreateMeetingParametersTest extends ParameterTestCase
         );
 
         $this->assertXmlStringEqualsXmlFile(Fixtures::REQUEST_PATH . 'presentation_with_file.xml', $createMeetingParams->getPresentationsAsXML());
+    }
+
+    public function testClientSettingsOverride(): void
+    {
+        $params = Fixtures::generateCreateParams();
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock($params);
+
+        // Test allowOverrideClientSettingsOnCreateCall parameter
+        $createMeetingParams->setAllowOverrideClientSettingsOnCreateCall(true);
+        $this->assertTrue($createMeetingParams->isAllowOverrideClientSettingsOnCreateCall());
+
+        $createMeetingParams->setAllowOverrideClientSettingsOnCreateCall(false);
+        $this->assertFalse($createMeetingParams->isAllowOverrideClientSettingsOnCreateCall());
+    }
+
+    public function testClientSettingsOverrideModule(): void
+    {
+        $params = Fixtures::generateCreateParams();
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock($params);
+
+        // Test client settings override module
+        $settings = [
+            'public' => [
+                'kurento' => [
+                    'wsUrl' => 'wss://test.bigbluebutton.org/bbb-webrtc-sfu'
+                ],
+                'media' => [
+                    'sipjsHackViaWs' => false
+                ],
+                'app' => [
+                    'appName' => 'Test',
+                    'helpLink' => 'https://www.bigbluebutton.org',
+                    'autoJoin' => false,
+                    'askForConfirmationOnLeave' => false,
+                    'userSettingsStorage' => 'localStorage',
+                    'defaultSettings' => [
+                        'application' => [
+                            'overrideLocale' => 'en'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $clientSettingsOverride = new ClientSettingsOverride($settings);
+        $createMeetingParams->setClientSettingsOverride($clientSettingsOverride);
+
+        $this->assertSame($clientSettingsOverride, $createMeetingParams->getClientSettingsOverride());
+        $this->assertEquals($settings, $createMeetingParams->getClientSettingsOverride()->getSettings());
+    }
+
+    public function testClientSettingsOverrideXML(): void
+    {
+        $params = Fixtures::generateCreateParams();
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock($params);
+
+        $settings = [
+            'public' => [
+                'kurento' => [
+                    'wsUrl' => 'wss://test.bigbluebutton.org/bbb-webrtc-sfu'
+                ],
+                'app' => [
+                    'appName' => 'Test'
+                ]
+            ]
+        ];
+
+        $clientSettingsOverride = new ClientSettingsOverride($settings);
+        $createMeetingParams->setClientSettingsOverride($clientSettingsOverride);
+
+        $xml = $createMeetingParams->getClientSettingsOverrideAsXML();
+        
+        $this->assertNotEmpty($xml);
+        $this->assertStringContainsString('<modules>', $xml);
+        $this->assertStringContainsString('<module name="clientSettingsOverride">', $xml);
+        $this->assertStringContainsString('<![CDATA[', $xml);
+        $this->assertStringContainsString('wss://test.bigbluebutton.org/bbb-webrtc-sfu', $xml);
+        $this->assertStringContainsString('Test', $xml);
+    }
+
+    public function testClientSettingsOverrideEmpty(): void
+    {
+        $params = Fixtures::generateCreateParams();
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock($params);
+
+        // Test with null client settings override
+        $this->assertEmpty($createMeetingParams->getClientSettingsOverrideAsXML());
+        $this->assertEmpty($createMeetingParams->getModulesAsXML());
+
+        // Test with empty client settings override
+        $emptyClientSettingsOverride = new ClientSettingsOverride([]);
+        $createMeetingParams->setClientSettingsOverride($emptyClientSettingsOverride);
+        
+        $this->assertEmpty($createMeetingParams->getClientSettingsOverrideAsXML());
+        $this->assertEmpty($createMeetingParams->getModulesAsXML());
+    }
+
+    public function testModulesAsXMLWithBothPresentationsAndClientSettings(): void
+    {
+        $params = Fixtures::generateCreateParams();
+        $createMeetingParams = Fixtures::getCreateMeetingParametersMock($params);
+
+        // Add a presentation
+        $createMeetingParams->addPresentation('https://example.com/presentation.pdf', null, 'presentation.pdf');
+
+        // Add client settings override
+        $settings = [
+            'public' => [
+                'app' => [
+                    'appName' => 'Test Meeting'
+                ]
+            ]
+        ];
+        $clientSettingsOverride = new ClientSettingsOverride($settings);
+        $createMeetingParams->setClientSettingsOverride($clientSettingsOverride);
+
+        $modulesXml = $createMeetingParams->getModulesAsXML();
+        
+        $this->assertNotEmpty($modulesXml);
+        $this->assertStringContainsString('<modules>', $modulesXml);
+        $this->assertStringContainsString('<module name="presentation">', $modulesXml);
+        $this->assertStringContainsString('<module name="clientSettingsOverride">', $modulesXml);
+        $this->assertStringContainsString('presentation.pdf', $modulesXml);
+        $this->assertStringContainsString('Test Meeting', $modulesXml);
+    }
+
+    public function testClientSettingsOverrideFromJson(): void
+    {
+        $settings = [
+            'public' => [
+                'app' => [
+                    'appName' => 'Test'
+                ]
+            ]
+        ];
+        
+        $json = json_encode($settings);
+        $clientSettingsOverride = ClientSettingsOverride::fromJson($json);
+        
+        $this->assertEquals($settings, $clientSettingsOverride->getSettings());
+    }
+
+    public function testClientSettingsOverrideFromInvalidJson(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid JSON string');
+        
+        ClientSettingsOverride::fromJson('invalid json');
+    }
+
+    public function testClientSettingsOverrideSetAndGetSetting(): void
+    {
+        $clientSettingsOverride = new ClientSettingsOverride();
+        
+        // Test setting nested values
+        $clientSettingsOverride->setSetting('public.app.appName', 'Test App');
+        $clientSettingsOverride->setSetting('public.kurento.wsUrl', 'wss://test.example.com');
+        
+        $this->assertEquals('Test App', $clientSettingsOverride->getSetting('public.app.appName'));
+        $this->assertEquals('wss://test.example.com', $clientSettingsOverride->getSetting('public.kurento.wsUrl'));
+        $this->assertNull($clientSettingsOverride->getSetting('non.existent.key'));
+        $this->assertEquals('default', $clientSettingsOverride->getSetting('non.existent.key', 'default'));
+    }
+
+    public function testClientSettingsOverrideRemoveSetting(): void
+    {
+        $settings = [
+            'public' => [
+                'app' => [
+                    'appName' => 'Test App'
+                ]
+            ]
+        ];
+        
+        $clientSettingsOverride = new ClientSettingsOverride($settings);
+        
+        $this->assertEquals('Test App', $clientSettingsOverride->getSetting('public.app.appName'));
+        
+        $clientSettingsOverride->removeSetting('public.app.appName');
+        $this->assertNull($clientSettingsOverride->getSetting('public.app.appName'));
     }
 }
