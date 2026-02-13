@@ -31,7 +31,7 @@ class FeedbackResponseTest extends TestCase
 {
     public function testFeedbackResponse(): void
     {
-        $json = $this->loadJsonFile('feedback_response.json');
+        $json     = $this->loadJsonFile('feedback_response.json');
         $response = new FeedbackResponse($json);
 
         $this->assertTrue($response->success());
@@ -40,7 +40,7 @@ class FeedbackResponseTest extends TestCase
 
     public function testFeedbackResponseFields(): void
     {
-        $json = $this->loadJsonFile('feedback_response.json');
+        $json     = $this->loadJsonFile('feedback_response.json');
         $response = new FeedbackResponse($json);
 
         // Test basic fields
@@ -59,7 +59,7 @@ class FeedbackResponseTest extends TestCase
 
     public function testFeedbackResponseWithMinimalData(): void
     {
-        $json = $this->loadJsonFile('feedback_minimal_response.json');
+        $json     = $this->loadJsonFile('feedback_minimal_response.json');
         $response = new FeedbackResponse($json);
 
         $this->assertTrue($response->success());
@@ -80,13 +80,13 @@ class FeedbackResponseTest extends TestCase
 
     public function testFeedbackResponseWithAdditionalData(): void
     {
-        $json = $this->loadJsonFile('feedback_with_additional_data_response.json');
+        $json     = $this->loadJsonFile('feedback_with_additional_data_response.json');
         $response = new FeedbackResponse($json);
 
         $this->assertTrue($response->success());
 
         $additionalData = $response->getAdditionalData();
-        
+
         $this->assertIsArray($additionalData);
         $this->assertEquals('mobile', $additionalData['device-type']);
         $this->assertEquals('iOS', $additionalData['platform']);
@@ -104,11 +104,11 @@ class FeedbackResponseTest extends TestCase
 
     public function testFeedbackResponseWithEmptyAdditionalData(): void
     {
-        $json = $this->loadJsonFile('feedback_minimal_response.json');
+        $json     = $this->loadJsonFile('feedback_minimal_response.json');
         $response = new FeedbackResponse($json);
 
         $additionalData = $response->getAdditionalData();
-        
+
         $this->assertIsArray($additionalData);
         $this->assertEmpty($additionalData);
 
@@ -118,7 +118,7 @@ class FeedbackResponseTest extends TestCase
 
     public function testFeedbackResponseError(): void
     {
-        $json = $this->loadJsonFile('feedback_error_response.json');
+        $json     = $this->loadJsonFile('feedback_error_response.json');
         $response = new FeedbackResponse($json);
 
         $this->assertFalse($response->success());
@@ -128,24 +128,24 @@ class FeedbackResponseTest extends TestCase
 
     public function testFeedbackResponseWithLongComment(): void
     {
-        $json = $this->loadJsonFile('feedback_long_comment_response.json');
+        $json     = $this->loadJsonFile('feedback_long_comment_response.json');
         $response = new FeedbackResponse($json);
 
         $this->assertTrue($response->success());
-        
+
         $comment = $response->getComment();
         $this->assertNotEmpty($comment);
-        $this->assertGreaterThan(100, strlen($comment)); // Should be a long comment
+        $this->assertGreaterThan(100, mb_strlen($comment)); // Should be a long comment
     }
 
     public function testFeedbackResponseWithDifferentRatings(): void
     {
         $ratings = [1, 2, 3, 4, 5];
-        
+
         foreach ($ratings as $rating) {
-            $json = $this->loadJsonFile("feedback_rating_{$rating}_response.json");
+            $json     = $this->loadJsonFile("feedback_rating_{$rating}_response.json");
             $response = new FeedbackResponse($json);
-            
+
             $this->assertTrue($response->success());
             $this->assertEquals($rating, $response->getRating());
         }
@@ -156,54 +156,72 @@ class FeedbackResponseTest extends TestCase
         // Create mock JSON responses for testing
         $responses = [
             'feedback_response.json' => json_encode([
-                'status' => 'ok',
-                'feedback_id' => 'feedback-123456',
-                'session_token' => 'session-token-789',
-                'meeting_id' => 'meeting456',
-                'user_id' => 'user123',
-                'rating' => 4,
-                'comment' => 'Great meeting experience!',
-                'submitted_at' => '2023-01-15T14:30:00Z',
-                'processed' => true,
-                'feedback_type' => 'meeting_feedback'
+                'response' => [
+                    'returncode'    => 'SUCCESS',
+                    'status'        => 'ok',
+                    'feedback_id'   => 'feedback-123456',
+                    'session_token' => 'session-token-789',
+                    'meeting_id'    => 'meeting456',
+                    'user_id'       => 'user123',
+                    'rating'        => 4,
+                    'comment'       => 'Great meeting experience!',
+                    'submitted_at'  => '2023-01-15T14:30:00Z',
+                    'processed'     => true,
+                    'feedback_type' => 'meeting_feedback',
+                ],
             ]),
             'feedback_minimal_response.json' => json_encode([
-                'status' => 'ok',
-                'feedback_id' => 'feedback-minimal-789',
-                'session_token' => 'minimal-session-token'
+                'response' => [
+                    'returncode'    => 'SUCCESS',
+                    'status'        => 'ok',
+                    'feedback_id'   => 'feedback-minimal-789',
+                    'session_token' => 'minimal-session-token',
+                ],
             ]),
             'feedback_with_additional_data_response.json' => json_encode([
-                'status' => 'ok',
-                'feedback_id' => 'feedback-additional-456',
-                'session_token' => 'session-with-data-123',
-                'rating' => 5,
-                'additional_data' => [
-                    'device-type' => 'mobile',
-                    'platform' => 'iOS',
-                    'client-version' => '2.1.0'
-                ]
+                'response' => [
+                    'returncode'      => 'SUCCESS',
+                    'status'          => 'ok',
+                    'feedback_id'     => 'feedback-additional-456',
+                    'session_token'   => 'session-with-data-123',
+                    'rating'          => 5,
+                    'additional_data' => [
+                        'device-type'    => 'mobile',
+                        'platform'       => 'iOS',
+                        'client-version' => '2.1.0',
+                    ],
+                ],
             ]),
             'feedback_error_response.json' => json_encode([
-                'status' => 'error',
-                'message' => 'Invalid session token',
-                'statuscode' => '404'
+                'response' => [
+                    'returncode' => 'FAILED',
+                    'status'     => 'error',
+                    'message'    => 'Invalid session token',
+                    'statuscode' => '404',
+                ],
             ]),
             'feedback_long_comment_response.json' => json_encode([
-                'status' => 'ok',
-                'feedback_id' => 'feedback-long-comment-123',
-                'session_token' => 'long-comment-session',
-                'rating' => 3,
-                'comment' => 'This is a very long comment about the meeting experience. It includes multiple sentences and provides detailed feedback about various aspects of the meeting including audio quality, video performance, user interface, and overall satisfaction. The comment is comprehensive and gives valuable insights for improving the meeting experience.'
-            ])
+                'response' => [
+                    'returncode'    => 'SUCCESS',
+                    'status'        => 'ok',
+                    'feedback_id'   => 'feedback-long-comment-123',
+                    'session_token' => 'long-comment-session',
+                    'rating'        => 3,
+                    'comment'       => 'This is a very long comment about the meeting experience. It includes multiple sentences and provides detailed feedback about various aspects of the meeting including audio quality, video performance, user interface, and overall satisfaction. The comment is comprehensive and gives valuable insights for improving the meeting experience.',
+                ],
+            ]),
         ];
 
         // Add rating-specific responses
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 5; ++$i) {
             $responses["feedback_rating_{$i}_response.json"] = json_encode([
-                'status' => 'ok',
-                'feedback_id' => "feedback-rating-{$i}-123",
-                'session_token' => "rating-session-{$i}",
-                'rating' => $i
+                'response' => [
+                    'returncode'    => 'SUCCESS',
+                    'status'        => 'ok',
+                    'feedback_id'   => "feedback-rating-{$i}-123",
+                    'session_token' => "rating-session-{$i}",
+                    'rating'        => $i,
+                ],
             ]);
         }
 

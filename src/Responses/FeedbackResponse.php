@@ -22,7 +22,7 @@ namespace BigBlueButton\Responses;
 
 /**
  * Class FeedbackResponse.
- * 
+ *
  * Response for the feedback API call.
  * Contains information about the feedback submission status.
  * This response is returned in JSON format.
@@ -31,72 +31,82 @@ class FeedbackResponse extends BaseJsonResponse
 {
     public function getFeedbackID(): ?string
     {
-        return $this->rawJson->feedback_id ?? null;
+        return $this->data->response->feedback_id ?? null;
     }
 
     public function getSessionToken(): ?string
     {
-        return $this->rawJson->session_token ?? null;
+        return $this->data->response->session_token ?? null;
     }
 
     public function getMeetingID(): ?string
     {
-        return $this->rawJson->meeting_id ?? null;
+        return $this->data->response->meeting_id ?? null;
     }
 
     public function getUserID(): ?string
     {
-        return $this->rawJson->user_id ?? null;
+        return $this->data->response->user_id ?? null;
     }
 
     public function getRating(): ?int
     {
-        $rating = $this->rawJson->rating ?? null;
-        
-        return $rating !== null ? (int) $rating : null;
+        $rating = $this->data->response->rating ?? null;
+
+        return null !== $rating ? (int) $rating : null;
     }
 
     public function getComment(): ?string
     {
-        return $this->rawJson->comment ?? null;
+        return $this->data->response->comment ?? null;
     }
 
     public function getSubmittedAt(): ?string
     {
-        return $this->rawJson->submitted_at ?? null;
+        return $this->data->response->submitted_at ?? null;
     }
 
     public function getProcessed(): bool
     {
-        return $this->rawJson->processed ?? false;
+        return $this->data->response->processed ?? false;
     }
 
     public function getFeedbackType(): ?string
     {
-        return $this->rawJson->feedback_type ?? null;
+        return $this->data->response->feedback_type ?? null;
     }
 
     public function getAdditionalData(): array
     {
-        return $this->rawJson->additional_data ?? [];
+        $additionalData = $this->data->response->additional_data ?? null;
+
+        if (null === $additionalData) {
+            return [];
+        }
+
+        return (array) $additionalData;
     }
 
     /**
      * Get a specific additional data field.
      *
-     * @param string $key The data field key
-     * @param string|null $default Default value if key doesn't exist
-     * @return string|null
+     * @param string      $key     The data field key
+     * @param null|string $default Default value if key doesn't exist
      */
     public function getAdditionalDataField(string $key, ?string $default = null): ?string
     {
         $data = $this->getAdditionalData();
-        
+
         return $data[$key] ?? $default;
     }
 
     public function getStatus(): ?string
     {
-        return $this->rawJson->status ?? null;
+        return $this->data->response->status ?? null;
+    }
+
+    public function getStatusCode(): ?string
+    {
+        return $this->data->response->statuscode ?? null;
     }
 }

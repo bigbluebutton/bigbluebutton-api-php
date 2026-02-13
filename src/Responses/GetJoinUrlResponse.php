@@ -22,7 +22,7 @@ namespace BigBlueButton\Responses;
 
 /**
  * Class GetJoinUrlResponse.
- * 
+ *
  * Response for the getJoinUrl API call.
  * Contains the generated join URL and related session information.
  */
@@ -71,14 +71,14 @@ class GetJoinUrlResponse extends BaseResponse
     public function getRedirectUrl(): ?string
     {
         $redirectUrl = $this->rawXml->redirect_url ?? null;
-        
+
         return $redirectUrl ? (string) $redirectUrl : null;
     }
 
     public function getSessionName(): ?string
     {
         $sessionName = $this->rawXml->session_name ?? null;
-        
+
         return $sessionName ? (string) $sessionName : null;
     }
 
@@ -90,8 +90,15 @@ class GetJoinUrlResponse extends BaseResponse
     public function getEnforceLayout(): ?string
     {
         $enforceLayout = $this->rawXml->enforce_layout ?? null;
-        
+
         return $enforceLayout ? (string) $enforceLayout : null;
+    }
+
+    public function getStatusCode(): ?string
+    {
+        $statusCode = $this->rawXml->statuscode ?? null;
+
+        return $statusCode ? (string) $statusCode : null;
     }
 
     /**
@@ -102,27 +109,26 @@ class GetJoinUrlResponse extends BaseResponse
     public function getUserData(): array
     {
         $userData = [];
-        
+
         if (isset($this->rawXml->userdata)) {
             foreach ($this->rawXml->userdata->children() as $key => $value) {
                 $userData[(string) $key] = (string) $value;
             }
         }
-        
+
         return $userData;
     }
 
     /**
      * Get a specific userdata parameter.
      *
-     * @param string $key The userdata parameter key
-     * @param string|null $default Default value if key doesn't exist
-     * @return string|null
+     * @param string      $key     The userdata parameter key
+     * @param null|string $default Default value if key doesn't exist
      */
     public function getUserDataParam(string $key, ?string $default = null): ?string
     {
         $userData = $this->getUserData();
-        
+
         return $userData[$key] ?? $default;
     }
 }

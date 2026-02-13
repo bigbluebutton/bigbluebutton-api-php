@@ -34,12 +34,12 @@ class ClientSettingsOverrideTest extends TestCase
         $settings = [
             'public' => [
                 'kurento' => [
-                    'wsUrl' => 'wss://test.bigbluebutton.org/bbb-webrtc-sfu'
+                    'wsUrl' => 'wss://test.bigbluebutton.org/bbb-webrtc-sfu',
                 ],
                 'app' => [
-                    'appName' => 'Test'
-                ]
-            ]
+                    'appName' => 'Test',
+                ],
+            ],
         ];
 
         $clientSettingsOverride = new ClientSettingsOverride($settings);
@@ -57,13 +57,13 @@ class ClientSettingsOverrideTest extends TestCase
     public function testSetAndGetSettings(): void
     {
         $clientSettingsOverride = new ClientSettingsOverride();
-        
+
         $settings = [
             'public' => [
                 'app' => [
-                    'appName' => 'New Test App'
-                ]
-            ]
+                    'appName' => 'New Test App',
+                ],
+            ],
         ];
 
         $clientSettingsOverride->setSettings($settings);
@@ -93,9 +93,9 @@ class ClientSettingsOverrideTest extends TestCase
             'public' => [
                 'app' => [
                     'appName' => 'Test App',
-                    'version' => '1.0'
-                ]
-            ]
+                    'version' => '1.0',
+                ],
+            ],
         ];
 
         $clientSettingsOverride = new ClientSettingsOverride($settings);
@@ -117,17 +117,17 @@ class ClientSettingsOverrideTest extends TestCase
         $settings = [
             'public' => [
                 'kurento' => [
-                    'wsUrl' => 'wss://test.bigbluebutton.org/bbb-webrtc-sfu'
+                    'wsUrl' => 'wss://test.bigbluebutton.org/bbb-webrtc-sfu',
                 ],
                 'app' => [
-                    'appName' => 'Test',
-                    'helpLink' => 'https://www.bigbluebutton.org'
-                ]
-            ]
+                    'appName'  => 'Test',
+                    'helpLink' => 'https://www.bigbluebutton.org',
+                ],
+            ],
         ];
 
         $clientSettingsOverride = new ClientSettingsOverride($settings);
-        $xml = $clientSettingsOverride->toXML();
+        $xml                    = $clientSettingsOverride->toXML();
 
         $this->assertNotEmpty($xml);
         $this->assertStringContainsString('<modules>', $xml);
@@ -143,7 +143,7 @@ class ClientSettingsOverrideTest extends TestCase
     public function testToXMLEmpty(): void
     {
         $clientSettingsOverride = new ClientSettingsOverride([]);
-        $xml = $clientSettingsOverride->toXML();
+        $xml                    = $clientSettingsOverride->toXML();
 
         $this->assertEmpty($xml);
     }
@@ -154,12 +154,12 @@ class ClientSettingsOverrideTest extends TestCase
             'public' => [
                 'app' => [
                     'appName' => 'Test App',
-                    'version' => '2.0'
-                ]
-            ]
+                    'version' => '2.0',
+                ],
+            ],
         ];
 
-        $json = json_encode($settings);
+        $json                   = json_encode($settings);
         $clientSettingsOverride = ClientSettingsOverride::fromJson($json);
 
         $this->assertEquals($settings, $clientSettingsOverride->getSettings());
@@ -191,12 +191,12 @@ class ClientSettingsOverrideTest extends TestCase
             'level1' => [
                 'level2' => [
                     'level3' => [
-                        'deep' => 'deep value'
+                        'deep' => 'deep value',
                     ],
-                    'another' => 'another value'
-                ]
+                    'another' => 'another value',
+                ],
             ],
-            'root' => 'root value'
+            'root' => 'root value',
         ];
 
         $this->assertEquals($expected, $clientSettingsOverride->getSettings());
@@ -207,9 +207,9 @@ class ClientSettingsOverrideTest extends TestCase
         $clientSettingsOverride = new ClientSettingsOverride([
             'public' => [
                 'app' => [
-                    'appName' => 'Original App'
-                ]
-            ]
+                    'appName' => 'Original App',
+                ],
+            ],
         ]);
 
         $this->assertEquals('Original App', $clientSettingsOverride->getSetting('public.app.appName'));
@@ -225,16 +225,16 @@ class ClientSettingsOverrideTest extends TestCase
         $clientSettingsOverride = new ClientSettingsOverride([
             'public' => [
                 'app' => [
-                    'appName' => 'Test App',
+                    'appName'  => 'Test App',
                     'settings' => [
-                        'theme' => 'dark',
-                        'language' => 'en'
-                    ]
+                        'theme'    => 'dark',
+                        'language' => 'en',
+                    ],
                 ],
                 'kurento' => [
-                    'wsUrl' => 'wss://test.example.com'
-                ]
-            ]
+                    'wsUrl' => 'wss://test.example.com',
+                ],
+            ],
         ]);
 
         // Remove a nested setting

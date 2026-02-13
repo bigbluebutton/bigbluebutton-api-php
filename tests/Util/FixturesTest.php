@@ -466,7 +466,7 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): DeleteRecordingsParameters {
-                    // @fixme: to be implemented
+                    return new DeleteRecordingsParameters('test-recording-id-123');
                 },
             ],
             'case17_get_recordings' => [
@@ -475,7 +475,7 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): GetRecordingsParameters {
-                    // @fixme: to be implemented
+                    return new GetRecordingsParameters();
                 },
             ],
             'case18_get_recordings' => [
@@ -484,7 +484,7 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
-                    // @fixme: to be implemented
+                    return new HooksDestroyParameters('test-hook-id-456');
                 },
             ],
             'case19_get_recordings' => [
@@ -493,7 +493,7 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): PublishRecordingsParameters {
-                    // @fixme: to be implemented
+                    return new PublishRecordingsParameters('test-recording-id-789', true);
                 },
             ],
             'case20_get_recordings' => [
@@ -502,7 +502,7 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): SendChatMessageParameters {
-                    // @fixme: to be implemented
+                    return new SendChatMessageParameters('test-meeting-id-123', 'Hello, this is a test message!');
                 },
             ],
             'case21_get_recordings' => [
@@ -511,7 +511,7 @@ class FixturesTest extends TestCase
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): UpdateRecordingsParameters {
-                    // @fixme: to be implemented
+                    return new UpdateRecordingsParameters('test-recording-id-999');
                 },
             ],
         ];

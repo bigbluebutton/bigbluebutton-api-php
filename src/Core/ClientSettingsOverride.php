@@ -22,7 +22,7 @@ namespace BigBlueButton\Core;
 
 /**
  * Class ClientSettingsOverride.
- * 
+ *
  * Represents a client settings override module for BigBlueButton meetings.
  * This allows overriding HTML5 client settings from the settings.yml file.
  */
@@ -54,7 +54,6 @@ class ClientSettingsOverride
      * Set all settings.
      *
      * @param array<string, mixed> $settings
-     * @return self
      */
     public function setSettings(array $settings): self
     {
@@ -66,9 +65,8 @@ class ClientSettingsOverride
     /**
      * Add or update a specific setting.
      *
-     * @param string $key The setting key (supports dot notation like "public.kurento.wsUrl")
-     * @param mixed $value The setting value
-     * @return self
+     * @param string $key   The setting key (supports dot notation like "public.kurento.wsUrl")
+     * @param mixed  $value The setting value
      */
     public function setSetting(string $key, mixed $value): self
     {
@@ -80,9 +78,8 @@ class ClientSettingsOverride
     /**
      * Get a specific setting.
      *
-     * @param string $key The setting key (supports dot notation)
-     * @param mixed $default Default value if key doesn't exist
-     * @return mixed
+     * @param string $key     The setting key (supports dot notation)
+     * @param mixed  $default Default value if key doesn't exist
      */
     public function getSetting(string $key, mixed $default = null): mixed
     {
@@ -93,7 +90,6 @@ class ClientSettingsOverride
      * Remove a specific setting.
      *
      * @param string $key The setting key (supports dot notation)
-     * @return self
      */
     public function removeSetting(string $key): self
     {
@@ -116,21 +112,21 @@ class ClientSettingsOverride
         $json = json_encode($this->settings, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
 
         return <<<XML
-<modules>
-   <module name="clientSettingsOverride">
-         <![CDATA[
-         {$json}
-         ]]>
-   </module>
-</modules>
-XML;
+            <modules>
+               <module name="clientSettingsOverride">
+                     <![CDATA[
+                     {$json}
+                     ]]>
+               </module>
+            </modules>
+            XML;
     }
 
     /**
      * Create a ClientSettingsOverride instance from a JSON string.
      *
      * @param string $jsonString The JSON string containing settings
-     * @return self
+     *
      * @throws \InvalidArgumentException If the JSON is invalid
      */
     public static function fromJson(string $jsonString): self
@@ -149,7 +145,7 @@ XML;
      */
     private function setNestedValue(array &$array, string $key, mixed $value): void
     {
-        $keys = explode('.', $key);
+        $keys    = explode('.', $key);
         $current = &$array;
 
         foreach ($keys as $i => $k) {
@@ -171,7 +167,7 @@ XML;
      */
     private function getNestedValue(array $array, string $key, mixed $default = null): mixed
     {
-        $keys = explode('.', $key);
+        $keys    = explode('.', $key);
         $current = $array;
 
         foreach ($keys as $k) {
@@ -190,7 +186,7 @@ XML;
      */
     private function removeNestedValue(array &$array, string $key): void
     {
-        $keys = explode('.', $key);
+        $keys    = explode('.', $key);
         $current = &$array;
 
         foreach ($keys as $i => $k) {

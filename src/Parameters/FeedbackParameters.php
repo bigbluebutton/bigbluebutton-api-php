@@ -24,7 +24,7 @@ use BigBlueButton\Attribute\ApiParameterMapper;
 
 /**
  * Class FeedbackParameters.
- * 
+ *
  * Parameters for the feedback API call.
  * This endpoint replaces the old /html5client/feedback endpoint with /api/feedback.
  * It allows submitting feedback about a meeting or session.
@@ -61,7 +61,6 @@ class FeedbackParameters extends BaseParameters
      * Set the session token.
      *
      * @param string $sessionToken Session token identifying the user session
-     * @return self
      */
     public function setSessionToken(string $sessionToken): self
     {
@@ -80,8 +79,7 @@ class FeedbackParameters extends BaseParameters
      * Set the rating for the feedback.
      * Typically a numeric rating (e.g., 1-5 stars).
      *
-     * @param int|null $rating The rating value
-     * @return self
+     * @param null|int $rating The rating value
      */
     public function setRating(?int $rating): self
     {
@@ -99,8 +97,7 @@ class FeedbackParameters extends BaseParameters
     /**
      * Set the comment for the feedback.
      *
-     * @param string|null $comment The feedback comment
-     * @return self
+     * @param null|string $comment The feedback comment
      */
     public function setComment(?string $comment): self
     {
@@ -118,8 +115,7 @@ class FeedbackParameters extends BaseParameters
     /**
      * Set the meeting ID for the feedback.
      *
-     * @param string|null $meetingID The meeting ID
-     * @return self
+     * @param null|string $meetingID The meeting ID
      */
     public function setMeetingID(?string $meetingID): self
     {
@@ -137,8 +133,7 @@ class FeedbackParameters extends BaseParameters
     /**
      * Set the user ID for the feedback.
      *
-     * @param string|null $userID The user ID
-     * @return self
+     * @param null|string $userID The user ID
      */
     public function setUserID(?string $userID): self
     {

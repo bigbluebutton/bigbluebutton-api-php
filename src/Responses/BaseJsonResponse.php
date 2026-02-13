@@ -33,7 +33,7 @@ abstract class BaseJsonResponse
     {
         $this->data = json_decode($json);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             throw new \RuntimeException('Invalid JSON response: ' . json_last_error_msg());
         }
 

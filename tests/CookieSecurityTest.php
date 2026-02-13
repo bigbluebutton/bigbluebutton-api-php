@@ -32,7 +32,7 @@ class CookieSecurityTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->bbb = new BigBlueButton();
+        $this->bbb = new BigBlueButton('http://test.example.com', 'test-secret');
     }
 
     /**
@@ -41,7 +41,7 @@ class CookieSecurityTest extends TestCase
     public function testValidCookieFormat(): void
     {
         $reflection = new \ReflectionClass($this->bbb);
-        $method = $reflection->getMethod('isValidCookieFormat');
+        $method     = $reflection->getMethod('isValidCookieFormat');
         $method->setAccessible(true);
 
         // Valid cookie formats
@@ -66,7 +66,7 @@ class CookieSecurityTest extends TestCase
     public function testInvalidCookieFormatRejection(): void
     {
         $reflection = new \ReflectionClass($this->bbb);
-        $method = $reflection->getMethod('isValidCookieFormat');
+        $method     = $reflection->getMethod('isValidCookieFormat');
         $method->setAccessible(true);
 
         // Invalid/dangerous cookie formats
@@ -94,22 +94,22 @@ class CookieSecurityTest extends TestCase
     public function testSafeJSessionIdExtraction(): void
     {
         $reflection = new \ReflectionClass($this->bbb);
-        $method = $reflection->getMethod('extractJSessionIdSafely');
+        $method     = $reflection->getMethod('extractJSessionIdSafely');
         $method->setAccessible(true);
 
         // Valid JSESSIONID extraction
         $validCookie = 'JSESSIONID=ABC123DEF456; Path=/';
-        $sessionId = $method->invoke($this->bbb, $validCookie);
+        $sessionId   = $method->invoke($this->bbb, $validCookie);
         $this->assertEquals('ABC123DEF456', $sessionId);
 
         // Case insensitive extraction
         $caseInsensitiveCookie = 'jsessionid=XYZ789ABC123';
-        $sessionId = $method->invoke($this->bbb, $caseInsensitiveCookie);
+        $sessionId             = $method->invoke($this->bbb, $caseInsensitiveCookie);
         $this->assertEquals('XYZ789ABC123', $sessionId);
 
         // No JSESSIONID present
         $noSessionCookie = 'OTHERCOOKIE=value123';
-        $sessionId = $method->invoke($this->bbb, $noSessionCookie);
+        $sessionId       = $method->invoke($this->bbb, $noSessionCookie);
         $this->assertNull($sessionId);
     }
 
@@ -119,7 +119,7 @@ class CookieSecurityTest extends TestCase
     public function testMaliciousJSessionIdRejection(): void
     {
         $reflection = new \ReflectionClass($this->bbb);
-        $method = $reflection->getMethod('extractJSessionIdSafely');
+        $method     = $reflection->getMethod('extractJSessionIdSafely');
         $method->setAccessible(true);
 
         // Malicious session IDs should be rejected
@@ -146,7 +146,7 @@ class CookieSecurityTest extends TestCase
     public function testJSessionIdFormatValidation(): void
     {
         $reflection = new \ReflectionClass($this->bbb);
-        $method = $reflection->getMethod('extractJSessionIdSafely');
+        $method     = $reflection->getMethod('extractJSessionIdSafely');
         $method->setAccessible(true);
 
         // Valid formats
@@ -188,7 +188,7 @@ class CookieSecurityTest extends TestCase
     public function testSessionIdValidation(): void
     {
         $reflection = new \ReflectionClass($this->bbb);
-        $method = $reflection->getMethod('isValidSessionId');
+        $method     = $reflection->getMethod('isValidSessionId');
         $method->setAccessible(true);
 
         // Valid session IDs

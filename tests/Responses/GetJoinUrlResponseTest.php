@@ -31,7 +31,7 @@ class GetJoinUrlResponseTest extends TestCase
 {
     public function testGetJoinUrlResponse(): void
     {
-        $xml = $this->loadXmlFile('get_join_url_response.xml');
+        $xml      = $this->loadXmlFile('get_join_url_response.xml');
         $response = new GetJoinUrlResponse($xml);
 
         $this->assertTrue($response->success());
@@ -40,7 +40,7 @@ class GetJoinUrlResponseTest extends TestCase
 
     public function testGetJoinUrlResponseFields(): void
     {
-        $xml = $this->loadXmlFile('get_join_url_response.xml');
+        $xml      = $this->loadXmlFile('get_join_url_response.xml');
         $response = new GetJoinUrlResponse($xml);
 
         // Test basic fields
@@ -62,7 +62,7 @@ class GetJoinUrlResponseTest extends TestCase
 
     public function testGetJoinUrlResponseWithMinimalData(): void
     {
-        $xml = $this->loadXmlFile('get_join_url_minimal_response.xml');
+        $xml      = $this->loadXmlFile('get_join_url_minimal_response.xml');
         $response = new GetJoinUrlResponse($xml);
 
         $this->assertTrue($response->success());
@@ -83,13 +83,13 @@ class GetJoinUrlResponseTest extends TestCase
 
     public function testGetJoinUrlResponseWithUserdata(): void
     {
-        $xml = $this->loadXmlFile('get_join_url_with_userdata_response.xml');
+        $xml      = $this->loadXmlFile('get_join_url_with_userdata_response.xml');
         $response = new GetJoinUrlResponse($xml);
 
         $this->assertTrue($response->success());
 
         $userData = $response->getUserData();
-        
+
         $this->assertIsArray($userData);
         $this->assertEquals('mobile', $userData['device-type']);
         $this->assertEquals('dark', $userData['theme-preference']);
@@ -107,11 +107,11 @@ class GetJoinUrlResponseTest extends TestCase
 
     public function testGetJoinUrlResponseWithEmptyUserdata(): void
     {
-        $xml = $this->loadXmlFile('get_join_url_minimal_response.xml');
+        $xml      = $this->loadXmlFile('get_join_url_minimal_response.xml');
         $response = new GetJoinUrlResponse($xml);
 
         $userData = $response->getUserData();
-        
+
         $this->assertIsArray($userData);
         $this->assertEmpty($userData);
 
@@ -121,7 +121,7 @@ class GetJoinUrlResponseTest extends TestCase
 
     public function testGetJoinUrlResponseError(): void
     {
-        $xml = $this->loadXmlFile('get_join_url_error_response.xml');
+        $xml      = $this->loadXmlFile('get_join_url_error_response.xml');
         $response = new GetJoinUrlResponse($xml);
 
         $this->assertFalse($response->success());
@@ -129,7 +129,7 @@ class GetJoinUrlResponseTest extends TestCase
         $this->assertEquals('404', $response->getStatusCode());
     }
 
-    private function loadXmlFile(string $filename): string
+    private function loadXmlFile(string $filename): \SimpleXMLElement
     {
         // Create mock XML responses for testing
         $responses = [
@@ -186,9 +186,11 @@ class GetJoinUrlResponseTest extends TestCase
     <returncode>FAILED</returncode>
     <message>Invalid session token</message>
     <statuscode>404</statuscode>
-</response>'
+</response>',
         ];
 
-        return $responses[$filename] ?? $responses['get_join_url_minimal_response.xml'];
+        $xmlString = $responses[$filename] ?? $responses['get_join_url_minimal_response.xml'];
+
+        return new \SimpleXMLElement($xmlString);
     }
 }

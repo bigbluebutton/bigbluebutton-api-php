@@ -171,11 +171,11 @@ class BigBlueButton
 
     /**
      * Get a new join URL for an existing user session.
-     * 
-     * This endpoint generates a new /join URL that can be used to create a new session 
-     * for an existing user with the same user ID. This is particularly useful for 
-     * hybrid environments where multiple screens in the same room each require a 
-     * distinct session with different layouts, or for seamless user session transfers 
+     *
+     * This endpoint generates a new /join URL that can be used to create a new session
+     * for an existing user with the same user ID. This is particularly useful for
+     * hybrid environments where multiple screens in the same room each require a
+     * distinct session with different layouts, or for seamless user session transfers
      * to another device.
      *
      * @throws BadResponseException|\RuntimeException
@@ -232,7 +232,7 @@ class BigBlueButton
 
     /**
      * Submit feedback for a meeting or session.
-     * 
+     *
      * This endpoint replaces the old /html5client/feedback endpoint with /api/feedback.
      * It allows users to submit feedback about their meeting experience, including
      * ratings and comments.
@@ -573,18 +573,20 @@ class BigBlueButton
         // JSESSIONID - Secure cookie handling with internal validation
         if ($cookieFile) {
             $cookieFilePath = stream_get_meta_data($cookieFile)['uri'];
-            
+
             // Set secure cookie options
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFilePath);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFilePath);
-            
+
             // Read and validate cookies safely with internal validation
             $cookies = file_get_contents($cookieFilePath);
-            if ($cookies !== false && mb_strlen($cookies) > 0) {
+
+            if (false !== $cookies && mb_strlen($cookies) > 0) {
                 // Validate cookie format before processing
                 if ($this->isValidCookieFormat($cookies)) {
                     $sessionId = $this->extractJSessionIdSafely($cookies);
-                    if ($sessionId !== null) {
+
+                    if (null !== $sessionId) {
                         $this->setJSessionId($sessionId);
                     }
                 }
@@ -679,29 +681,37 @@ class BigBlueButton
     {
         // Check for basic cookie format and reject suspicious content
         $lines = explode("\n", $cookies);
-        
+
         foreach ($lines as $line) {
-            $line = trim($line);
+            $line = mb_trim($line);
+
             if (empty($line)) {
-                continue;
+                return false; // Empty lines are invalid
             }
-            
+
             // Basic cookie format validation: name=value with optional attributes
             if (!preg_match('/^[a-zA-Z0-9._-]+=[^;\r\n]*$/', $line)) {
-                // Check if it's a valid cookie with attributes
-                if (!preg_match('/^[a-zA-Z0-9._-]+=[^;\r\n]*(?:;[ \t]*[a-zA-Z0-9._-]+=[^;\r\n]*)*$/', $line)) {
+                // Check if it's a valid cookie with attributes (allow spaces after semicolons)
+                // Allow attributes without values like HttpOnly, Secure, etc.
+                if (!preg_match('/^[a-zA-Z0-9._-]+=[^;\r\n]*(?:;\s*[a-zA-Z0-9._-]+(?:\s*=\s*[^;\r\n]*)?)*$/', $line)) {
                     return false;
                 }
             }
-            
+
             // Reject potentially dangerous content
-            if (mb_strpos($line, '<script') !== false ||
-                mb_strpos($line, 'javascript:') !== false ||
-                mb_strpos($line, 'data:') !== false) {
+            if (false !== mb_strpos($line, '<script')
+                || false !== mb_strpos($line, 'javascript:')
+                || false !== mb_strpos($line, 'data:')
+                || false !== mb_strpos($line, '../')) {
+                return false;
+            }
+
+            // Reject overly long cookies
+            if (mb_strlen($line) > 1000) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -710,19 +720,36 @@ class BigBlueButton
      */
     private function extractJSessionIdSafely(string $cookies): ?string
     {
-        // Use a more restrictive regex pattern
-        if (preg_match('/JSESSIONID\s*=\s*([a-zA-Z0-9._-]+)/', $cookies, $matches)) {
-            $sessionId = $matches[1];
-            
-            // Validate session ID format (typical Java session IDs are 32 chars alphanumeric)
-            if ($this->isValidSessionId($sessionId)) {
-                return $sessionId;
+        // Use case-insensitive regex pattern to find JSESSIONID with its value
+        // Match the entire JSESSIONID=value pattern to validate the full value
+        if (preg_match('/(?:JSESSIONID|jsessionid)\s*=\s*([^;]+)/', $cookies, $matches)) {
+            $sessionIdValue = mb_trim($matches[1]);
+
+            // Check for dangerous patterns in the session ID value
+            if (false !== mb_strpos($sessionIdValue, '../')
+                || false !== mb_strpos($sessionIdValue, '<')
+                || false !== mb_strpos($sessionIdValue, '>')
+                || false !== mb_strpos($sessionIdValue, '@')
+                || false !== mb_strpos($sessionIdValue, ' ')
+                || false !== mb_strpos($sessionIdValue, 'javascript:')
+                || false !== mb_strpos($sessionIdValue, '<script')) {
+                return null;
+            }
+
+            // Now extract only valid characters for the actual session ID
+            if (preg_match('/^([a-zA-Z0-9._-]+)$/', $sessionIdValue, $idMatches)) {
+                $sessionId = $idMatches[1];
+
+                // Validate session ID format (typical Java session IDs are 32 chars alphanumeric)
+                if ($this->isValidSessionId($sessionId)) {
+                    return $sessionId;
+                }
             }
         }
-        
+
         return null;
     }
-    
+
     /**
      * Validate session ID format for security.
      */
@@ -731,9 +758,23 @@ class BigBlueButton
         // Session IDs should be alphanumeric with limited special characters
         // and reasonable length (typical Java session IDs are 32 chars)
         $length = mb_strlen($sessionId);
-        
-        return $length >= 1 && 
-               $length <= 100 && 
-               preg_match('/^[a-zA-Z0-9._-]+$/', $sessionId);
+
+        // Check length constraints
+        if ($length < 1 || $length > 100) {
+            return false;
+        }
+
+        // Check for valid characters (alphanumeric, underscore, hyphen, dot only)
+        // This regex will reject @, spaces, and other invalid characters
+        if (!preg_match('/^[a-zA-Z0-9._-]+$/', $sessionId)) {
+            return false;
+        }
+
+        // Reject potentially dangerous patterns
+        if (false !== mb_strpos($sessionId, '../')) {
+            return false;
+        }
+
+        return true;
     }
 }

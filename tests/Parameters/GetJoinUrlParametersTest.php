@@ -21,7 +21,6 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Enum\MeetingLayout;
-use BigBlueButton\TestServices\Fixtures;
 
 /**
  * Class GetJoinUrlParametersTest.
@@ -32,7 +31,7 @@ class GetJoinUrlParametersTest extends ParameterTestCase
 {
     public function testGetJoinUrlParameters(): void
     {
-        $sessionToken = 'test-session-token-123';
+        $sessionToken     = 'test-session-token-123';
         $getJoinUrlParams = new GetJoinUrlParameters($sessionToken);
 
         $this->assertEquals($sessionToken, $getJoinUrlParams->getSessionToken());
@@ -41,7 +40,7 @@ class GetJoinUrlParametersTest extends ParameterTestCase
     public function testSetSessionToken(): void
     {
         $getJoinUrlParams = new GetJoinUrlParameters('original-token');
-        
+
         $newToken = 'new-session-token-456';
         $getJoinUrlParams->setSessionToken($newToken);
 
@@ -115,7 +114,7 @@ class GetJoinUrlParametersTest extends ParameterTestCase
     public function testGetHTTPQuery(): void
     {
         $getJoinUrlParams = new GetJoinUrlParameters('test-session-token');
-        
+
         // Add some parameters
         $getJoinUrlParams->setReplaceSession(true);
         $getJoinUrlParams->setSessionName('Test Session');
@@ -134,7 +133,7 @@ class GetJoinUrlParametersTest extends ParameterTestCase
     public function testGetHTTPQueryWithMinimalParameters(): void
     {
         $getJoinUrlParams = new GetJoinUrlParameters('minimal-token');
-        $query = $getJoinUrlParams->getHTTPQuery();
+        $query            = $getJoinUrlParams->getHTTPQuery();
 
         $this->assertStringContainsString('sessionToken=minimal-token', $query);
         $this->assertStringNotContainsString('replaceSession', $query);
@@ -151,7 +150,8 @@ class GetJoinUrlParametersTest extends ParameterTestCase
             ->setReplaceSession(true)
             ->setSessionName('Fluent Session')
             ->setEnforceLayout(MeetingLayout::SMART_LAYOUT)
-            ->addMeta('userdata-test', 'value');
+            ->addMeta('userdata-test', 'value')
+        ;
 
         $this->assertSame($getJoinUrlParams, $result);
         $this->assertEquals('new-token', $getJoinUrlParams->getSessionToken());
@@ -169,9 +169,9 @@ class GetJoinUrlParametersTest extends ParameterTestCase
         $getJoinUrlParams->addMeta('userdata-user-id', 'user123');
         $getJoinUrlParams->addMeta('userdata-preference-theme', 'dark');
         $getJoinUrlParams->addMeta('userdata-device-info', json_encode([
-            'type' => 'mobile',
-            'os' => 'iOS',
-            'version' => '15.0'
+            'type'    => 'mobile',
+            'os'      => 'iOS',
+            'version' => '15.0',
         ]));
 
         $query = $getJoinUrlParams->getHTTPQuery();

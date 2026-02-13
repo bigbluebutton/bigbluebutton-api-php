@@ -29,7 +29,7 @@ class FeedbackParametersTest extends ParameterTestCase
 {
     public function testFeedbackParameters(): void
     {
-        $sessionToken = 'test-session-token-123';
+        $sessionToken   = 'test-session-token-123';
         $feedbackParams = new FeedbackParameters($sessionToken);
 
         $this->assertEquals($sessionToken, $feedbackParams->getSessionToken());
@@ -38,7 +38,7 @@ class FeedbackParametersTest extends ParameterTestCase
     public function testSetSessionToken(): void
     {
         $feedbackParams = new FeedbackParameters('original-token');
-        
+
         $newToken = 'new-session-token-456';
         $feedbackParams->setSessionToken($newToken);
 
@@ -118,7 +118,7 @@ class FeedbackParametersTest extends ParameterTestCase
     public function testGetHTTPQuery(): void
     {
         $feedbackParams = new FeedbackParameters('test-session-token');
-        
+
         // Add some parameters
         $feedbackParams->setRating(4);
         $feedbackParams->setComment('Good meeting overall');
@@ -137,7 +137,7 @@ class FeedbackParametersTest extends ParameterTestCase
     public function testGetHTTPQueryWithMinimalParameters(): void
     {
         $feedbackParams = new FeedbackParameters('minimal-token');
-        $query = $feedbackParams->getHTTPQuery();
+        $query          = $feedbackParams->getHTTPQuery();
 
         $this->assertStringContainsString('sessionToken=minimal-token', $query);
         $this->assertStringNotContainsString('rating', $query);
@@ -155,7 +155,8 @@ class FeedbackParametersTest extends ParameterTestCase
             ->setRating(5)
             ->setComment('Excellent meeting!')
             ->setMeetingID('meeting789')
-            ->setUserID('user123');
+            ->setUserID('user123')
+        ;
 
         $this->assertSame($feedbackParams, $result);
         $this->assertEquals('new-token', $feedbackParams->getSessionToken());
@@ -189,7 +190,7 @@ class FeedbackParametersTest extends ParameterTestCase
         $feedbackParams->setComment($comment);
 
         $query = $feedbackParams->getHTTPQuery();
-        
+
         // The comment should be URL-encoded
         $this->assertStringContainsString('comment=Great+meeting%21+Loved+the+features.+%F0%9F%91%8D', $query);
         $this->assertEquals($comment, $feedbackParams->getComment());
@@ -204,7 +205,8 @@ class FeedbackParametersTest extends ParameterTestCase
             ->setRating(4)
             ->setComment('The meeting was good overall, but the audio quality could be improved.')
             ->setMeetingID('weekly-team-meeting-001')
-            ->setUserID('participant-john-doe');
+            ->setUserID('participant-john-doe')
+        ;
 
         $query = $feedbackParams->getHTTPQuery();
 

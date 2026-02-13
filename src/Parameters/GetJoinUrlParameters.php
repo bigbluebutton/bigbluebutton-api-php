@@ -25,13 +25,16 @@ use BigBlueButton\Enum\MeetingLayout;
 
 /**
  * Class GetJoinUrlParameters.
- * 
+ *
  * Parameters for the getJoinUrl API call.
- * This endpoint generates a new /join URL that can be used to create a new session 
+ * This endpoint generates a new /join URL that can be used to create a new session
  * for an existing user with the same user ID.
  */
-class GetJoinUrlParameters extends UserDataParameters
+class GetJoinUrlParameters extends MetaParameters
 {
+    /** @var array<string, mixed> */
+    private array $userData = [];
+
     private string $sessionToken;
 
     private ?bool $replaceSession = null;
@@ -60,7 +63,6 @@ class GetJoinUrlParameters extends UserDataParameters
      * Set the session token.
      *
      * @param string $sessionToken Session token to identify the user
-     * @return self
      */
     public function setSessionToken(string $sessionToken): self
     {
@@ -79,7 +81,6 @@ class GetJoinUrlParameters extends UserDataParameters
      * When set to true, using the newly generated join URL will immediately invalidate the original session.
      *
      * @param bool $replaceSession Whether to replace the original session
-     * @return self
      */
     public function setReplaceSession(bool $replaceSession): self
     {
@@ -98,8 +99,7 @@ class GetJoinUrlParameters extends UserDataParameters
      * Assign a descriptive name to the newly created session.
      * Allowing to quickly understand the session's origin or purpose when reviewing the user's session history.
      *
-     * @param string|null $sessionName The session name
-     * @return self
+     * @param null|string $sessionName The session name
      */
     public function setSessionName(?string $sessionName): self
     {
@@ -119,8 +119,7 @@ class GetJoinUrlParameters extends UserDataParameters
      * If provided, this overrides the enforceLayout parameter inherited from the original user's session.
      * If not specified, the new session inherits the layout behavior of the original session.
      *
-     * @param MeetingLayout|null $enforceLayout The layout to enforce
-     * @return self
+     * @param null|MeetingLayout $enforceLayout The layout to enforce
      */
     public function setEnforceLayout(?MeetingLayout $enforceLayout): self
     {
@@ -133,6 +132,37 @@ class GetJoinUrlParameters extends UserDataParameters
     {
         $queries = $this->toApiDataArray();
 
+        // Add meta parameters
+        $queries = $this->buildMeta($queries);
+
+        // Add userdata parameters (don't use meta prefix for userdata)
+        $this->buildUserData($queries);
+
         return $this->buildHTTPQuery($queries);
+    }
+
+    public function getUserData(string $key): mixed
+    {
+        return $this->userData[$key];
+    }
+
+    public function addUserData(string $key, mixed $value): static
+    {
+        $this->userData[$key] = $value;
+
+        return $this;
+    }
+
+    protected function buildUserData(mixed &$queries): void
+    {
+        foreach ($this->userData as $key => $value) {
+            $queryKey = 'userdata-' . $key;
+
+            if (is_bool($value)) {
+                $queries[$queryKey] = $value ? 'true' : 'false';
+            } else {
+                $queries[$queryKey] = (string) $value;
+            }
+        }
     }
 }
