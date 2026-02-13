@@ -45,17 +45,17 @@ abstract class BaseResponse
 
     public function getReturnCode(): string
     {
-        return $this->rawXml->returncode->__toString();
+        return $this->rawXml->returncode?->__toString() ?? '';
     }
 
     public function getMessageKey(): string
     {
-        return $this->rawXml->messageKey->__toString();
+        return $this->rawXml->messageKey?->__toString() ?? '';
     }
 
     public function getMessage(): string
     {
-        return $this->rawXml->message->__toString();
+        return $this->rawXml->message?->__toString() ?? '';
     }
 
     public function success(): bool

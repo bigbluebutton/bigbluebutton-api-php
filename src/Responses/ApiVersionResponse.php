@@ -27,16 +27,16 @@ class ApiVersionResponse extends BaseResponse
 {
     public function getVersion(): string
     {
-        return $this->rawXml->version->__toString();
+        return (string) $this->rawXml->version;
     }
 
     public function getApiVersion(): string
     {
-        return $this->rawXml->apiVersion->__toString();
+        return (string) $this->rawXml->apiVersion;
     }
 
     public function getBbbVersion(): string
     {
-        return $this->rawXml->bbbVersion->__toString();
+        return (string) $this->rawXml->bbbVersion;
     }
 }

@@ -27,6 +27,6 @@ class DeleteRecordingsResponse extends BaseResponse
 {
     public function isDeleted(): bool
     {
-        return 'true' === $this->rawXml->deleted->__toString();
+        return 'true' === (string) $this->rawXml->deleted;
     }
 }

@@ -27,6 +27,6 @@ class IsMeetingRunningResponse extends BaseResponse
 {
     public function isRunning(): bool
     {
-        return 'true' === $this->rawXml->running->__toString();
+        return 'true' === (string) $this->rawXml->running;
     }
 }

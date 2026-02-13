@@ -27,11 +27,11 @@ class EndMeetingResponse extends BaseResponse
 {
     public function getMessageKey(): string
     {
-        return $this->rawXml->messageKey->__toString();
+        return (string) $this->rawXml->messageKey;
     }
 
     public function getMessage(): string
     {
-        return $this->rawXml->message->__toString();
+        return (string) $this->rawXml->message;
     }
 }
