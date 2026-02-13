@@ -32,6 +32,14 @@ abstract class BaseJsonResponse
     public function __construct(string $json)
     {
         $this->data = json_decode($json);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \RuntimeException('Invalid JSON response: ' . json_last_error_msg());
+        }
+
+        if (!isset($this->data->response)) {
+            throw new \RuntimeException('Invalid JSON response structure: missing response field');
+        }
     }
 
     /**
