@@ -61,4 +61,5 @@ enum Feature: string
     case USER_REACTIONS = 'userReactions';
     case CHAT_EMOJI_PICKER = 'chatEmojiPicker';
     case QUIZZES = 'quizzes';
+    case PLUGINS = 'plugins';
 }
