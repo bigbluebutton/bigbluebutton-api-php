@@ -30,7 +30,7 @@ class GetRecordingTextTracksParameters extends MetaParameters
     /**
      * GetRecordingTextTracksParameters constructor.
      */
-    public function __construct(string $recordId = null)
+    public function __construct(?string $recordId = null)
     {
         $this->recordId = $recordId;
     }

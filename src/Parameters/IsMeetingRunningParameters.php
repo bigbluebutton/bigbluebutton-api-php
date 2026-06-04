@@ -27,7 +27,7 @@ class IsMeetingRunningParameters extends BaseParameters
 {
     private ?string $meetingId = null;
 
-    public function __construct(string $meetingId = null)
+    public function __construct(?string $meetingId = null)
     {
         $this->meetingId = $meetingId;
     }

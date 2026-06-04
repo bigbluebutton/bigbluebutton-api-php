@@ -27,7 +27,7 @@ class DeleteRecordingsParameters extends BaseParameters
 {
     private ?string $recordingId = null;
 
-    public function __construct(string $recordingId = null)
+    public function __construct(?string $recordingId = null)
     {
         $this->recordingId = $recordingId;
     }
