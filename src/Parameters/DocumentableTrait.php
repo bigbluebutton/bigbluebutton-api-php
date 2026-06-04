@@ -40,7 +40,7 @@ trait DocumentableTrait
     public function addPresentation(string $nameOrUrl, $content = null, ?string $filename = null, ?DocumentOptionsStore $attributes = null): self
     {
         $this->presentations[$nameOrUrl] = [
-            'content' => !$content ?: base64_encode($content),
+            'content' => null !== $content ? base64_encode($content) : null,
             'filename' => $filename,
             'attributes' => $attributes
         ];
