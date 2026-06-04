@@ -73,8 +73,10 @@ trait DocumentableTrait
                 }
 
                 // Add attributes using DocumentAttributes class
-                foreach ($data['attributes']->getAttributes() as $attrName => $attrValue) {
-                    $presentation->addAttribute($attrName, $attrValue);
+                if ($data['attributes'] instanceof DocumentOptionsStore) {
+                    foreach ($data['attributes']->getAttributes() as $attrName => $attrValue) {
+                        $presentation->addAttribute($attrName, $attrValue);
+                    }
                 }
             }
             $result = $xml->asXML();
