@@ -603,8 +603,10 @@ class BigBlueButton
             throw new BadResponseException('Bad response, HTTP code: ' . $httpCode . ', url: ' . $url);
         }
 
-        // CLOSE AND UNSET
-        curl_close($ch);
+        // UNSET
+        // Note: curl_close() is intentionally omitted. Since PHP 8.0 the curl handle is a
+        // CurlHandle object that is freed automatically by the garbage collector once unset,
+        // curl_close() has no effect and was deprecated in PHP 8.5.
         unset($ch);
 
         // RETURN
