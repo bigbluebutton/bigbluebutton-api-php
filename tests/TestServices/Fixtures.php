@@ -192,6 +192,18 @@ class Fixtures
             'presentationUploadExternalUrl'          => $faker->url,
             'presentationUploadExternalDescription'  => $faker->text,
             'recordFullDurationMedia'                => $faker->boolean(50),
+            'maxPinnedCameras'                       => $faker->numberBetween(1, 8),
+            'darkLogo'                               => $faker->imageUrl(330, 70),
+            'logoutTimer'                            => $faker->numberBetween(5, 60),
+            'cameraBridge'                           => $faker->randomElement(['fullbridge', 'livekit']),
+            'screenShareBridge'                      => $faker->randomElement(['fullbridge', 'livekit']),
+            'audioBridge'                            => $faker->randomElement(['freeswitch', 'livekit']),
+            'lockSettingsHideViewersAnnotation'      => $faker->boolean(50),
+            'breakoutRoomsCaptureSlides'             => $faker->boolean(50),
+            'breakoutRoomsCaptureNotes'              => $faker->boolean(50),
+            'breakoutRoomsCaptureSlidesFilename'     => $faker->word . '.pdf',
+            'breakoutRoomsCaptureNotesFilename'      => $faker->word . '.txt',
+            'plugin_sdkVersion'                      => $faker->numerify('1.#.#'),
         ];
     }
 
@@ -351,6 +363,18 @@ class Fixtures
             ->setNotifyRecordingIsOn($params['notifyRecordingIsOn'])
             ->setPresentationUploadExternalUrl($params['presentationUploadExternalUrl'])
             ->setPresentationUploadExternalDescription($params['presentationUploadExternalDescription'])
+            ->setMaxPinnedCameras($params['maxPinnedCameras'])
+            ->setDarkLogo($params['darkLogo'])
+            ->setLogoutTimer($params['logoutTimer'])
+            ->setCameraBridge($params['cameraBridge'])
+            ->setScreenShareBridge($params['screenShareBridge'])
+            ->setAudioBridge($params['audioBridge'])
+            ->setLockSettingsHideViewersAnnotation($params['lockSettingsHideViewersAnnotation'])
+            ->setBreakoutRoomsCaptureSlides($params['breakoutRoomsCaptureSlides'])
+            ->setBreakoutRoomsCaptureNotes($params['breakoutRoomsCaptureNotes'])
+            ->setBreakoutRoomsCaptureSlidesFilename($params['breakoutRoomsCaptureSlidesFilename'])
+            ->setBreakoutRoomsCaptureNotesFilename($params['breakoutRoomsCaptureNotesFilename'])
+            ->addPluginMeta('sdkVersion', $params['plugin_sdkVersion'])
         ;
     }
 

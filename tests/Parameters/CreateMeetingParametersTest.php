@@ -345,4 +345,39 @@ class CreateMeetingParametersTest extends ParameterTestCase
         $clientSettingsOverride->removeSetting('public.app.appName');
         $this->assertNull($clientSettingsOverride->getSetting('public.app.appName'));
     }
+
+    public function testPluginMetaInHttpQuery(): void
+    {
+        $createMeetingParams = new CreateMeetingParameters('123', 'Plugin Meta Test');
+
+        $createMeetingParams
+            ->addPluginMeta('api-base-url', 'https://server.example.com')
+            ->addPluginMeta('plugin_vendor-name', 'Riadvice')  // provided prefix is stripped
+        ;
+
+        $query = $createMeetingParams->getHTTPQuery();
+
+        $this->assertStringContainsString('plugin_api-base-url=' . urlencode('https://server.example.com'), $query);
+        $this->assertStringContainsString('plugin_vendor-name=Riadvice', $query);
+    }
+
+    public function testSetPluginMetaReplacesAllEntries(): void
+    {
+        $createMeetingParams = new CreateMeetingParameters('123', 'Plugin Meta Test');
+
+        $createMeetingParams->addPluginMeta('old-key', 'old-value');
+        $createMeetingParams->setPluginMeta([
+            'api-base-url' => 'https://server.example.com',
+            'vendor-name'  => 'Riadvice',
+        ]);
+
+        $this->assertEquals('https://server.example.com', $createMeetingParams->getPluginMeta('api-base-url'));
+        $this->assertEquals('Riadvice', $createMeetingParams->getPluginMeta('vendor-name'));
+
+        $query = $createMeetingParams->getHTTPQuery();
+
+        $this->assertStringContainsString('plugin_api-base-url=', $query);
+        $this->assertStringContainsString('plugin_vendor-name=', $query);
+        $this->assertStringNotContainsString('plugin_old-key=', $query);
+    }
 }

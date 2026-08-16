@@ -204,6 +204,31 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?bool $multiUserWhiteboardEnabled = null;
 
+    private ?int $maxPinnedCameras = null;
+
+    private ?string $darkLogo = null;
+
+    private ?int $logoutTimer = null;
+
+    private ?string $cameraBridge = null;
+
+    private ?string $screenShareBridge = null;
+
+    private ?string $audioBridge = null;
+
+    private ?bool $lockSettingsHideViewersAnnotation = null;
+
+    private ?bool $breakoutRoomsCaptureSlides = null;
+
+    private ?bool $breakoutRoomsCaptureNotes = null;
+
+    private ?string $breakoutRoomsCaptureSlidesFilename = null;
+
+    private ?string $breakoutRoomsCaptureNotesFilename = null;
+
+    /** @var array<string, mixed> */
+    private array $pluginMeta = [];
+
     /**
      * CreateMeetingParameters constructor.
      */
@@ -1761,6 +1786,233 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'maxPinnedCameras')]
+    public function getMaxPinnedCameras(): ?int
+    {
+        return $this->maxPinnedCameras;
+    }
+
+    /**
+     * Maximum number of cameras that can be pinned simultaneously in the meeting.
+     */
+    public function setMaxPinnedCameras(int $maxPinnedCameras): self
+    {
+        $this->maxPinnedCameras = $maxPinnedCameras;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'darklogo')]
+    public function getDarkLogo(): ?string
+    {
+        return $this->darkLogo;
+    }
+
+    /**
+     * URL to an image used instead of the logo in dark mode of the client.
+     */
+    public function setDarkLogo(string $darkLogo): self
+    {
+        $this->darkLogo = $darkLogo;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'logoutTimer')]
+    public function getLogoutTimer(): ?int
+    {
+        return $this->logoutTimer;
+    }
+
+    /**
+     * Time in minutes after which the client session times out. Overrides the
+     * server-side default (clientLogoutTimerInMinutes). Legacy parameter.
+     */
+    public function setLogoutTimer(int $logoutTimer): self
+    {
+        $this->logoutTimer = $logoutTimer;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'cameraBridge')]
+    public function getCameraBridge(): ?string
+    {
+        return $this->cameraBridge;
+    }
+
+    /**
+     * Selects the media bridge used for camera streams (e.g. fullbridge or livekit).
+     */
+    public function setCameraBridge(string $cameraBridge): self
+    {
+        $this->cameraBridge = $cameraBridge;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'screenShareBridge')]
+    public function getScreenShareBridge(): ?string
+    {
+        return $this->screenShareBridge;
+    }
+
+    /**
+     * Selects the media bridge used for screen-share streams.
+     */
+    public function setScreenShareBridge(string $screenShareBridge): self
+    {
+        $this->screenShareBridge = $screenShareBridge;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'audioBridge')]
+    public function getAudioBridge(): ?string
+    {
+        return $this->audioBridge;
+    }
+
+    /**
+     * Selects the media bridge used for audio (e.g. freeswitch or livekit).
+     */
+    public function setAudioBridge(string $audioBridge): self
+    {
+        $this->audioBridge = $audioBridge;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'lockSettingsHideViewersAnnotation')]
+    public function isLockSettingsHideViewersAnnotation(): ?bool
+    {
+        return $this->lockSettingsHideViewersAnnotation;
+    }
+
+    /**
+     * Setting to true will prevent viewers from seeing annotations from other
+     * viewers when multi-user whiteboard is on.
+     *
+     * Default: false
+     */
+    public function setLockSettingsHideViewersAnnotation(bool $lockSettingsHideViewersAnnotation): self
+    {
+        $this->lockSettingsHideViewersAnnotation = $lockSettingsHideViewersAnnotation;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'breakoutRoomsCaptureSlides')]
+    public function isBreakoutRoomsCaptureSlides(): ?bool
+    {
+        return $this->breakoutRoomsCaptureSlides;
+    }
+
+    /**
+     * Setting to true will capture the slides of the breakout room and upload
+     * them to the parent meeting when the breakout room ends.
+     */
+    public function setBreakoutRoomsCaptureSlides(bool $breakoutRoomsCaptureSlides): self
+    {
+        $this->breakoutRoomsCaptureSlides = $breakoutRoomsCaptureSlides;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'breakoutRoomsCaptureNotes')]
+    public function isBreakoutRoomsCaptureNotes(): ?bool
+    {
+        return $this->breakoutRoomsCaptureNotes;
+    }
+
+    /**
+     * Setting to true will capture the shared notes of the breakout room and
+     * upload them to the parent meeting when the breakout room ends.
+     */
+    public function setBreakoutRoomsCaptureNotes(bool $breakoutRoomsCaptureNotes): self
+    {
+        $this->breakoutRoomsCaptureNotes = $breakoutRoomsCaptureNotes;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'breakoutRoomsCaptureSlidesFilename')]
+    public function getBreakoutRoomsCaptureSlidesFilename(): ?string
+    {
+        return $this->breakoutRoomsCaptureSlidesFilename;
+    }
+
+    /**
+     * Filename to use when the slides of the breakout room are captured and
+     * uploaded to the parent meeting. Requires breakoutRoomsCaptureSlides.
+     */
+    public function setBreakoutRoomsCaptureSlidesFilename(string $breakoutRoomsCaptureSlidesFilename): self
+    {
+        $this->breakoutRoomsCaptureSlidesFilename = $breakoutRoomsCaptureSlidesFilename;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'breakoutRoomsCaptureNotesFilename')]
+    public function getBreakoutRoomsCaptureNotesFilename(): ?string
+    {
+        return $this->breakoutRoomsCaptureNotesFilename;
+    }
+
+    /**
+     * Filename to use when the shared notes of the breakout room are captured
+     * and uploaded to the parent meeting. Requires breakoutRoomsCaptureNotes.
+     */
+    public function setBreakoutRoomsCaptureNotesFilename(string $breakoutRoomsCaptureNotesFilename): self
+    {
+        $this->breakoutRoomsCaptureNotesFilename = $breakoutRoomsCaptureNotesFilename;
+
+        return $this;
+    }
+
+    /**
+     * Get a single plugin metadata value by its key (without the plugin_-prefix).
+     */
+    public function getPluginMeta(string $key): mixed
+    {
+        return $this->pluginMeta[$key];
+    }
+
+    /**
+     * Add plugin metadata, sent as plugin_<key> parameter to the BBB-Server.
+     *
+     * The key is provided without the plugin_-prefix (a mistakenly provided
+     * prefix is stripped). The BBB-Server lowercases the name, so lowercase
+     * keys should be preferred to reference them in the plugin manifest.
+     */
+    public function addPluginMeta(string $key, mixed $value): static
+    {
+        if (str_starts_with($key, 'plugin_')) {
+            $key = mb_substr($key, \mb_strlen('plugin_'));
+        }
+
+        $this->pluginMeta[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Replace all plugin metadata, sent as plugin_<key> parameters to the
+     * BBB-Server. Keys are provided without the plugin_-prefix.
+     *
+     * @param array<string, mixed> $pluginMeta
+     */
+    public function setPluginMeta(array $pluginMeta): static
+    {
+        $this->pluginMeta = [];
+
+        foreach ($pluginMeta as $key => $value) {
+            $this->addPluginMeta($key, $value);
+        }
+
+        return $this;
+    }
+
     public function getHTTPQuery(): string
     {
         $queries = $this->toApiDataArray();
@@ -1787,7 +2039,26 @@ class CreateMeetingParameters extends MetaParameters
         }
 
         $queries = $this->buildMeta($queries);
+        $queries = $this->buildPluginMeta($queries);
 
         return $this->buildHTTPQuery($queries);
+    }
+
+    /**
+     * @param array<string, mixed> $array
+     *
+     * @return array<string, mixed>
+     */
+    private function buildPluginMeta(array $array): array
+    {
+        foreach ($this->pluginMeta as $key => $value) {
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            }
+
+            $array['plugin_' . $key] = $value;
+        }
+
+        return $array;
     }
 }

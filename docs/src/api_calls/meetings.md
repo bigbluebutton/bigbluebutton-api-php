@@ -46,6 +46,39 @@ $createMeetingParameters
 // ...
 ```
 
+#### Plugin metadata
+BBB 3.0+ plugins can receive per-meeting configuration values through `plugin_*` create parameters. When the BBB-Server loads a plugin manifest (see `pluginManifests` / `pluginManifestsFetchUrl`), it replaces placeholders in the manifest with the matching values.
+
+A manifest may for example contain:
+```json
+{
+    "name": "my-plugin",
+    "settings": {
+        "api-base-url": "${plugin_api-base-url:https://fallback.example.com}"
+    }
+}
+```
+When the meeting is created, `${plugin_api-base-url:...}` is replaced by the value of the `plugin_api-base-url` parameter (or by the default after the `:` if the parameter is missing).
+
+```php
+// ...
+
+$createMeetingParameters
+    ->addPluginMeta('api-base-url', 'https://my-server.example.com')  // sent as plugin_api-base-url
+    ->addPluginMeta('vendor-name', 'Riadvice')
+    ;
+
+// several values at once
+$createMeetingParameters->setPluginMeta([
+    'api-base-url' => 'https://my-server.example.com',
+    'vendor-name'  => 'Riadvice',
+]);
+
+// ...
+```
+
+The key is provided without the `plugin_`-prefix (a provided prefix is stripped). Note that the BBB-Server lowercases the parameter name, so lowercase keys should be preferred. Placeholders in the manifest must reference the lowercased name.
+
 #### Client Settings Override
 The BigBlueButton PHP API supports overriding HTML5 client settings from the settings.yml file. This feature allows you to customize the client behavior for specific meetings without modifying the server configuration.
 
