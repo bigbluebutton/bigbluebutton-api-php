@@ -221,13 +221,16 @@ The `enforceLayout` parameter accepts the same values as the meeting creation:
 use BigBlueButton\Enum\MeetingLayout;
 
 // Available layout options
+MeetingLayout::UNIFIED_LAYOUT              // BBB 3.0+
 MeetingLayout::CUSTOM_LAYOUT
 MeetingLayout::SMART_LAYOUT
 MeetingLayout::PRESENTATION_FOCUS
 MeetingLayout::VIDEO_FOCUS
 MeetingLayout::CAMERAS_ONLY
-MeetingLayout::PARTICIPANTS_CHAT_ONLY
+MeetingLayout::PARTICIPANTS_CHAT_ONLY      // BBB 2.x
+MeetingLayout::PARTICIPANTS_AND_CHAT_ONLY  // BBB 3.0+ (replaces PARTICIPANTS_CHAT_ONLY)
 MeetingLayout::PRESENTATION_ONLY
+MeetingLayout::PLUGINS_ONLY                // BBB 3.0+
 MeetingLayout::MEDIA_ONLY
 ```
 
