@@ -29,6 +29,7 @@ final class ApiMethod
     public const IS_MEETING_RUNNING        = 'isMeetingRunning';
     public const GET_MEETING_INFO          = 'getMeetingInfo';
     public const GET_MEETINGS              = 'getMeetings';
+    public const GET_SESSIONS              = 'getSessions';
     public const SIGN_OUT                  = 'signOut';
     public const GET_RECORDINGS            = 'getRecordings';
     public const PUBLISH_RECORDINGS        = 'publishRecordings';

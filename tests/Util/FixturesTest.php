@@ -96,6 +96,7 @@ class FixturesTest extends TestCase
             'hooks_destroy_failed_no_id.xml', // because: It is mandatory to have an id in the destroy constructor
             'hooks_destroy_failed_error.xml', // because: No idea how to simulate this on a well configured BBB-Server
             'hooks_create_failed_error.xml',  // because: No idea how to simulate this on a well configured BBB-Server
+            'get_sessions_empty.xml',         // because: Sessions of recently ended meetings may still be active, the empty state is not reliably reproducible
         ];
         $xmlFilenamesFromFolderCleaned = array_diff($xmlFilenamesFromFolder, $xmlFilesThatAreNotTestable);
 
@@ -512,6 +513,30 @@ class FixturesTest extends TestCase
                 'messageKey' => 'notFound',
                 'parameters' => function(BigBlueButton $bbb): UpdateRecordingsParameters {
                     return new UpdateRecordingsParameters('test-recording-id-999');
+                },
+            ],
+            'case22_get_sessions' => [
+                'method'     => 'getSessions',
+                'filename'   => 'get_sessions.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): void {
+                    // create meeting room
+                    $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 22)');
+                    $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
+                    self::assertTrue($createMeetingResponse->success());
+                    self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
+
+                    // create two sessions by joining two users
+                    $joinMeetingParametersModerator = new JoinMeetingParameters($createMeetingResponse->getMeetingId(), 'Alice Moderator', Role::MODERATOR);
+                    $joinMeetingParametersModerator->setRedirect(false);
+                    $joinMeetingResponseModerator = $bbb->joinMeeting($joinMeetingParametersModerator);
+                    self::assertTrue($joinMeetingResponseModerator->success(), $joinMeetingResponseModerator->getMessage());
+
+                    $joinMeetingParametersViewer = new JoinMeetingParameters($createMeetingResponse->getMeetingId(), 'Bob Attendee', Role::VIEWER);
+                    $joinMeetingParametersViewer->setRedirect(false);
+                    $joinMeetingResponseViewer = $bbb->joinMeeting($joinMeetingParametersViewer);
+                    self::assertTrue($joinMeetingResponseViewer->success(), $joinMeetingResponseViewer->getMessage());
                 },
             ],
         ];

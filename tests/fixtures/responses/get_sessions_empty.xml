@@ -1,0 +1,6 @@
+<response>
+    <returncode>SUCCESS</returncode>
+    <sessions/>
+    <messageKey>noSessions</messageKey>
+    <message>no sessions were found on this serverr</message>
+</response>

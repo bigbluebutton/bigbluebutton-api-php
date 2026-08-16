@@ -24,6 +24,7 @@ use BigBlueButton\Core\ApiMethod;
 use BigBlueButton\Core\DocumentFile;
 use BigBlueButton\Core\DocumentUrl;
 use BigBlueButton\Enum\Feature;
+use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -33,6 +34,7 @@ use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
+use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\SendChatMessageParameters;
 use BigBlueButton\TestServices\EnvLoader;
@@ -503,6 +505,53 @@ class BigBlueButtonTest extends TestCase
 
         $result = $this->bbb->getMeetings();
         $this->assertNotEmpty($result->getMeetings());
+    }
+
+    // Get Sessions
+
+    /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     */
+    public function testGetSessionsUrl(): void
+    {
+        $url = $this->bbb->getSessionsUrl();
+        $this->assertStringContainsString(ApiMethod::GET_SESSIONS, $url);
+    }
+
+    public function testGetSessions(): void
+    {
+        // arrange the BBB-server: create a meeting and join two users
+        $createMeetingParameters = new CreateMeetingParameters($this->faker->uuid(), 'Meeting Room (GetSessions)');
+        $createMeetingResponse   = $this->bbb->createMeeting($createMeetingParameters);
+        $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
+
+        $joinMeetingParametersModerator = new JoinMeetingParameters($createMeetingResponse->getMeetingId(), 'Alice Moderator', Role::MODERATOR);
+        $joinMeetingParametersModerator->setRedirect(false);
+        $joinMeetingResponseModerator = $this->bbb->joinMeeting($joinMeetingParametersModerator);
+        $this->assertTrue($joinMeetingResponseModerator->success(), $joinMeetingResponseModerator->getMessage());
+
+        $joinMeetingParametersViewer = new JoinMeetingParameters($createMeetingResponse->getMeetingId(), 'Bob Attendee', Role::VIEWER);
+        $joinMeetingParametersViewer->setRedirect(false);
+        $joinMeetingResponseViewer = $this->bbb->joinMeeting($joinMeetingParametersViewer);
+        $this->assertTrue($joinMeetingResponseViewer->success(), $joinMeetingResponseViewer->getMessage());
+
+        // act
+        $getSessionsResponse = $this->bbb->getSessions();
+
+        // assert: each joined user holds a session, thus the meeting appears twice
+        $this->assertEquals('SUCCESS', $getSessionsResponse->getReturnCode());
+        $this->assertTrue($getSessionsResponse->success());
+
+        $sessions  = $getSessionsResponse->getSessions();
+        $userNames = array_map(static fn ($session) => $session->getUserName(), $sessions);
+
+        $this->assertContains('Alice Moderator', $userNames);
+        $this->assertContains('Bob Attendee', $userNames);
+
+        foreach ($sessions as $session) {
+            $this->assertNotEmpty($session->getMeetingId());
+            $this->assertNotEmpty($session->getMeetingName());
+        }
     }
 
     // Get meeting info

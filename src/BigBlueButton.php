@@ -49,6 +49,7 @@ use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\GetRecordingTextTracksResponse;
+use BigBlueButton\Responses\GetSessionsResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
@@ -300,6 +301,24 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getMeetingsUrl());
 
         return new GetMeetingsResponse($xml);
+    }
+
+    /**
+     * @deprecated Replaced by same function-name provided by UrlBuilder-class
+     */
+    public function getSessionsUrl(): string
+    {
+        return $this->getUrlBuilder()->getSessionsUrl();
+    }
+
+    /**
+     * @throws BadResponseException|\RuntimeException
+     */
+    public function getSessions(): GetSessionsResponse
+    {
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getSessionsUrl());
+
+        return new GetSessionsResponse($xml);
     }
 
     /**

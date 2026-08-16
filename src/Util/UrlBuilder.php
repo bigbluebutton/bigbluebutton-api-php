@@ -223,6 +223,11 @@ class UrlBuilder
         return $this->buildUrl(ApiMethod::GET_MEETINGS);
     }
 
+    public function getSessionsUrl(): string
+    {
+        return $this->buildUrl(ApiMethod::GET_SESSIONS);
+    }
+
     public function getMeetingInfoUrl(GetMeetingInfoParameters $meetingParams): string
     {
         return $this->buildUrl(ApiMethod::GET_MEETING_INFO, $meetingParams->getHTTPQuery());
