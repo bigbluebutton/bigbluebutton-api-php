@@ -258,6 +258,7 @@ class Fixtures
             'creationTime'         => $faker->unixTime,
             'role'                 => self::randomEnumValues($faker, Role::class, 1),
             'excludeFromDashboard' => $faker->boolean,
+            'enforceLayout'        => self::randomEnumValues($faker, MeetingLayout::class, 1),
             'userdata_countrycode' => $faker->countryCode,
             'userdata_email'       => $faker->email,
             'userdata_commercial'  => false,
@@ -406,6 +407,7 @@ class Fixtures
             ->addUserData('email', $params['userdata_email'])
             ->addUserData('commercial', $params['userdata_commercial'])
             ->setExcludeFromDashboard($params['excludeFromDashboard'])
+            ->setEnforceLayout($params['enforceLayout'])
         ;
     }
 

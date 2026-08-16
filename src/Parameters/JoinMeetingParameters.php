@@ -25,7 +25,7 @@ use BigBlueButton\Enum\MeetingLayout;
 use BigBlueButton\Enum\Role;
 
 /**
- * Class JoinMeetingParametersTest.
+ * Class JoinMeetingParameters.
  */
 class JoinMeetingParameters extends UserDataParameters
 {
@@ -67,11 +67,15 @@ class JoinMeetingParameters extends UserDataParameters
     private ?string $errorRedirectUrl    = null;
     private ?string $webcamBackgroundURL = null;
 
-    private ?bool $bot             = null;
-    private ?string $enforceLayout = null;
-    private ?string $logoutURL     = null;
-    private ?string $firstName     = null;
-    private ?string $lastName      = null;
+    private ?bool $bot                    = null;
+    private ?MeetingLayout $enforceLayout = null;
+    private ?string $logoutURL            = null;
+    private ?string $firstName            = null;
+    private ?string $lastName             = null;
+
+    private ?string $existingUserId      = null;
+    private ?string $replaceSessionToken = null;
+    private ?string $sessionName         = null;
 
     public function __construct(string $meetingId, string $username, Role|string $passwordOrRole)
     {
@@ -293,14 +297,66 @@ class JoinMeetingParameters extends UserDataParameters
     }
 
     #[ApiParameterMapper(attributeName: 'enforceLayout')]
-    public function getEnforceLayout(): ?string
+    public function getEnforceLayout(): ?MeetingLayout
     {
         return $this->enforceLayout;
     }
 
-    public function setEnforceLayout(string $enforceLayout): self
+    public function setEnforceLayout(MeetingLayout|string $enforceLayout): self
     {
-        $this->enforceLayout = $enforceLayout;
+        $this->enforceLayout = \is_string($enforceLayout) ? MeetingLayout::from($enforceLayout) : $enforceLayout;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'existingUserID')]
+    public function getExistingUserId(): ?string
+    {
+        return $this->existingUserId;
+    }
+
+    /**
+     * The user id of an already joined user to re-join the meeting as this
+     * user (e.g. with a new session). Used by the URLs returned by getJoinUrl.
+     */
+    public function setExistingUserId(string $existingUserId): self
+    {
+        $this->existingUserId = $existingUserId;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'replaceSessionToken')]
+    public function getReplaceSessionToken(): ?string
+    {
+        return $this->replaceSessionToken;
+    }
+
+    /**
+     * The session token that shall be replaced by this new session. Requires
+     * existingUserID to be set. Used by the URLs returned by getJoinUrl with
+     * replaceSession=true.
+     */
+    public function setReplaceSessionToken(string $replaceSessionToken): self
+    {
+        $this->replaceSessionToken = $replaceSessionToken;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'sessionName')]
+    public function getSessionName(): ?string
+    {
+        return $this->sessionName;
+    }
+
+    /**
+     * A descriptive name for the new session (e.g. "Mobile Device Transfer"),
+     * visible in the user's session history. Requires existingUserID to be set.
+     */
+    public function setSessionName(string $sessionName): self
+    {
+        $this->sessionName = $sessionName;
 
         return $this;
     }

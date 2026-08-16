@@ -282,6 +282,21 @@ $url = $joinMeetingResponse->getUrl();
 ```
 In the example above, the user is redirected directly (`setRedirect(true)`) to the meeting on the BBB-Server. In case the user shall not be redirected (`setRedirect(false)`), the request will provide a URL in its response. This URL can be used to redirect the user later (e.g. by button or link).
 
+#### Re-joining an existing user
+BBB 3.0+ allows to create an additional session for an already joined user by providing the internal user id (`existingUserID`). All sessions of the user then appear as the same user in the user list. Optionally the original session can be invalidated (`replaceSessionToken`) and the new session can be named (`sessionName`) for easier identification. These are the same parameters used by the URLs returned from [Get Join URL](./get_join_url.md).
+
+```php
+// ...
+
+$joinMeetingParameters
+    ->setExistingUserId('w_abc123def')            // internal user id of the joined user
+    ->setSessionName('Mobile Device Transfer')    // optional: name the new session
+    ->setReplaceSessionToken('st-orig-token')     // optional: invalidate the original session
+    ;
+
+// ...
+```
+
 ### Ending
 A meeting can be ended (destroyed) by calling the `endMeeting`-command.
 

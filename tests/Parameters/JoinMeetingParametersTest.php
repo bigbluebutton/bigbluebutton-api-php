@@ -69,4 +69,35 @@ class JoinMeetingParametersTest extends ParameterTestCase
         $this->assertEquals($errorRedirectUrl, $joinMeetingParams->getErrorRedirectUrl());
         $this->assertEquals($webcamBackgroundUrl, $joinMeetingParams->getWebcamBackgroundURL());
     }
+
+    public function testReJoinParametersInHttpQuery(): void
+    {
+        $joinMeetingParams = new JoinMeetingParameters('123', 'Re-Join Test', Role::MODERATOR);
+
+        $joinMeetingParams
+            ->setEnforceLayout($enforceLayout = $this->faker->randomElement(MeetingLayout::cases()))
+            ->setExistingUserId($existingUserId = 'w_abc123def')
+            ->setReplaceSessionToken($replaceSessionToken = 'st-token-123')
+            ->setSessionName($sessionName = 'Mobile Transfer')
+        ;
+
+        $query = $joinMeetingParams->getHTTPQuery();
+
+        $this->assertStringContainsString('enforceLayout=' . $enforceLayout->value, $query);
+        $this->assertStringContainsString('existingUserID=' . $existingUserId, $query);
+        $this->assertStringContainsString('replaceSessionToken=' . $replaceSessionToken, $query);
+        $this->assertStringContainsString('sessionName=' . str_replace(' ', '+', $sessionName), $query);
+    }
+
+    public function testEnforceLayoutAcceptsEnumAndString(): void
+    {
+        $joinMeetingParams = new JoinMeetingParameters('123', 'Layout Test', Role::VIEWER);
+
+        $joinMeetingParams->setEnforceLayout(MeetingLayout::SMART_LAYOUT);
+        $this->assertSame(MeetingLayout::SMART_LAYOUT, $joinMeetingParams->getEnforceLayout());
+
+        // string values are accepted for BC and resolved to the enum
+        $joinMeetingParams->setEnforceLayout('CUSTOM_LAYOUT');
+        $this->assertSame(MeetingLayout::CUSTOM_LAYOUT, $joinMeetingParams->getEnforceLayout());
+    }
 }
