@@ -39,4 +39,19 @@ class ApiVersionResponse extends BaseResponse
     {
         return (string) $this->rawXml->bbbVersion;
     }
+
+    public function getHtml5PluginSdkVersion(): string
+    {
+        return (string) $this->rawXml->html5PluginSdkVersion;
+    }
+
+    public function getGraphqlWebsocketUrl(): string
+    {
+        return (string) $this->rawXml->graphqlWebsocketUrl;
+    }
+
+    public function getGraphqlApiUrl(): string
+    {
+        return (string) $this->rawXml->graphqlApiUrl;
+    }
 }

@@ -47,10 +47,14 @@ class ApiVersionResponseTest extends TestCase
         $this->assertEquals('2.0', $this->apiVersionResponse->getVersion());
         $this->assertEquals('2.0', $this->apiVersionResponse->getApiVersion());
         $this->assertEquals('3.0.19', $this->apiVersionResponse->getBbbVersion());
+        $this->assertEquals('0.0.95', $this->apiVersionResponse->getHtml5PluginSdkVersion());
+        $this->assertEquals('wss://bigbluebutton.server.com/graphql', $this->apiVersionResponse->getGraphqlWebsocketUrl());
+        $this->assertEquals('https://bigbluebutton.server.com/api/rest', $this->apiVersionResponse->getGraphqlApiUrl());
     }
 
     public function testApiVersionResponseTypes(): void
     {
-        $this->assertEachGetterValueIsString($this->apiVersionResponse, ['getReturnCode', 'getVersion', 'getApiVersion', 'getBbbVersion']);
+        $this->assertEachGetterValueIsString($this->apiVersionResponse, ['getReturnCode', 'getVersion', 'getApiVersion', 'getBbbVersion',
+            'getHtml5PluginSdkVersion', 'getGraphqlWebsocketUrl', 'getGraphqlApiUrl', ]);
     }
 }
