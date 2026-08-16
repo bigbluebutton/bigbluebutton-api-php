@@ -2,6 +2,9 @@
 
 # Feedback
 
+> [!WARNING]
+> **Experimental.** The `/api/feedback` endpoint is reserved in the BBB server source but is **not routed yet** on current BBB releases — it returns HTTP 404 on BBB 3.x and 4.0-beta servers. This client implementation is provided in anticipation of the endpoint shipping in a future BBB release. Do not rely on it in production, and expect `BadResponseException` until your server actually provides the endpoint.
+
 The feedback endpoint allows users to submit feedback about their meeting experience. This endpoint replaces the old `/html5client/feedback` endpoint with `/api/feedback`, providing a more standardized API approach for collecting user feedback.
 
 This feature is particularly useful for:

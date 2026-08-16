@@ -4,6 +4,9 @@
 
 The getJoinUrl endpoint generates a new /join URL that can be used to create a new session for an existing user. By associating the new session token with the same user ID, all sessions will appear as the same user in the user list, ensuring accurate user counts.
 
+> [!IMPORTANT]
+> The `sessionToken` must belong to a **connected HTML5 client session**. A session token obtained from an API join (`redirect=false`) without a running client is rejected (e.g. `"Meeting not found"` on BBB 3.x).
+
 This feature is particularly useful for:
 - **Hybrid environments** where multiple screens in the same room each require a distinct session with different layouts
 - **Session transfers** enabling seamless user session transfers to another device (e.g., mobile device scanning a QR code displayed on a computer)
