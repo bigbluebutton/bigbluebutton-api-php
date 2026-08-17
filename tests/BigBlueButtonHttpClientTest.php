@@ -20,18 +20,19 @@
 
 namespace BigBlueButton;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\HttpFactory;
+use Http\Client\Curl\Client;
+use Nyholm\Psr7\Factory\Psr17Factory;
 
 /**
- * Class BigBlueButtonGuzzleTest.
+ * Class BigBlueButtonHttpClientTest.
  *
  * This test verifies that all the functionality that works with curl also works
- * with an injected http client. In this case, we use Guzzle.
+ * with an injected PSR-18 http client. In this case, the lightweight
+ * php-http/curl-client is used with nyholm/psr7 as PSR-17 factory.
  *
  * @internal
  */
-class BigBlueButtonGuzzleTest extends BigBlueButtonTest
+class BigBlueButtonHttpClientTest extends BigBlueButtonTest
 {
     /**
      * Setup test class.
@@ -40,12 +41,16 @@ class BigBlueButtonGuzzleTest extends BigBlueButtonTest
     {
         parent::setUp();
 
-        $client    = new Client();
-        $factory   = new HttpFactory();
+        $psr17Factory = new Psr17Factory();
+        $client       = new Client($psr17Factory, $psr17Factory, [
+            CURLOPT_FOLLOWLOCATION => 1,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT        => 20,
+        ]);
         $this->bbb = BigBlueButton::createWithHttpClient(
             $client,
-            $factory,
-            $factory,
+            $psr17Factory,
+            $psr17Factory,
             getenv('BBB_SERVER_BASE_URL') ?: $this->fail(),
             getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: $this->fail(),
         );
