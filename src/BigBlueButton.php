@@ -449,7 +449,10 @@ class BigBlueButton
      */
     public function putRecordingTextTrack(PutRecordingTextTrackParameters $putRecordingTextTrackParams): PutRecordingTextTrackResponse
     {
-        $json = $this->processJsonResponse($this->getUrlBuilder()->getPutRecordingTextTrackUrl($putRecordingTextTrackParams));
+        $json = $this->processJsonResponse(
+            $this->getUrlBuilder()->getPutRecordingTextTrackUrl($putRecordingTextTrackParams),
+            ['file' => $putRecordingTextTrackParams->getTrackFile()]
+        );
 
         return new PutRecordingTextTrackResponse($json);
     }
@@ -574,9 +577,15 @@ class BigBlueButton
     /**
      * A private utility method used by other public methods to request HTTP responses.
      *
+     * A string payload is sent as POST body with the given content type, an array
+     * payload is sent as multipart/form-data (the Content-type header incl. boundary
+     * is then set by cURL itself).
+     *
+     * @param array<string, mixed>|string $payload
+     *
      * @throws BadResponseException|\RuntimeException
      */
-    private function sendRequest(string $url, string $payload = '', string $contentType = 'application/xml'): string
+    private function sendRequest(string $url, array|string $payload = '', string $contentType = 'application/xml'): string
     {
         if (!extension_loaded('curl')) {
             throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
@@ -612,8 +621,9 @@ class BigBlueButton
             }
         }
 
-        // Initialise headers array with mandatory Content-type
-        $headers = [
+        // Initialise headers array with mandatory Content-type (multipart bodies
+        // rely on cURL setting the Content-type itself as it contains the boundary)
+        $headers = \is_array($payload) ? [] : [
             'Content-type: ' . $contentType,
         ];
 
@@ -623,8 +633,11 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            // Add Content-length header if payload is present
-            $headers[] = 'Content-length: ' . strlen($payload);
+
+            // Add Content-length header if a string payload is present
+            if (\is_string($payload)) {
+                $headers[] = 'Content-length: ' . strlen($payload);
+            }
         }
 
         // Set HTTP headers
@@ -686,11 +699,13 @@ class BigBlueButton
     /**
      * A private utility method used by other public methods to process json responses.
      *
+     * @param array<string, mixed>|string $payload
+     *
      * @throws BadResponseException
      */
-    private function processJsonResponse(string $url): string
+    private function processJsonResponse(string $url, array|string $payload = ''): string
     {
-        return $this->sendRequest($url, contentType: 'application/json');
+        return $this->sendRequest($url, $payload, 'application/json');
     }
 
     /**

@@ -44,4 +44,35 @@ class PutRecordingTextTrackParametersTest extends TestCase
         $getRecordingTextTracksParams->setRecordId($newRecordId = $this->faker->uuid);
         $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordId());
     }
+
+    public function testTrackFile(): void
+    {
+        $putRecordingTextTrackParams = new PutRecordingTextTrackParameters('record-id', 'subtitles', 'en', 'English');
+
+        $this->assertNull($putRecordingTextTrackParams->getTrackFilePath());
+        $this->assertNull($putRecordingTextTrackParams->getTrackFileName());
+
+        $trackFile = tempnam(sys_get_temp_dir(), 'vtt');
+        file_put_contents($trackFile, "WEBVTT\n\n00:00:00.000 --> 00:00:05.000\nHello!\n");
+
+        $putRecordingTextTrackParams->setTrackFile($trackFile);
+        $this->assertEquals($trackFile, $putRecordingTextTrackParams->getTrackFilePath());
+        $this->assertEquals(basename($trackFile), $putRecordingTextTrackParams->getTrackFileName());
+
+        $putRecordingTextTrackParams->setTrackFile($trackFile, 'captions.en.vtt');
+        $this->assertEquals('captions.en.vtt', $putRecordingTextTrackParams->getTrackFileName());
+
+        // the track file must not be part of the checksum-secured query
+        $this->assertStringNotContainsString('file=', $putRecordingTextTrackParams->getHTTPQuery());
+
+        unlink($trackFile);
+    }
+
+    public function testTrackFileMustExist(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $parameters = new PutRecordingTextTrackParameters('record-id', 'subtitles', 'en', 'English');
+        $parameters->setTrackFile('/nonexistent/path/captions.vtt');
+    }
 }

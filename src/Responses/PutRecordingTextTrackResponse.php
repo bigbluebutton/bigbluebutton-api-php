@@ -35,23 +35,32 @@ class PutRecordingTextTrackResponse extends BaseJsonResponse
         return $this->data->response->recordId;
     }
 
+    /**
+     * The message key is read directly from the response, since the generic
+     * getMessageKey() only returns a value for failed responses.
+     */
+    public function getUploadMessageKey(): ?string
+    {
+        return $this->data->response->messageKey ?? null;
+    }
+
     public function isUploadTrackSuccess(): bool
     {
-        return self::KEY_SUCCESS === $this->getMessageKey();
+        return self::KEY_SUCCESS === $this->getUploadMessageKey();
     }
 
     public function isUploadTrackFailed(): bool
     {
-        return self::KEY_FAILED === $this->getMessageKey();
+        return self::KEY_FAILED === $this->getUploadMessageKey();
     }
 
     public function isUploadTrackEmpty(): bool
     {
-        return self::KEY_EMPTY === $this->getMessageKey();
+        return self::KEY_EMPTY === $this->getUploadMessageKey();
     }
 
     public function isKeyParamError(): bool
     {
-        return self::KEY_PARAM_ERROR === $this->getMessageKey();
+        return self::KEY_PARAM_ERROR === $this->getUploadMessageKey();
     }
 }
