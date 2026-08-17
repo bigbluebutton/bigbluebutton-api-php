@@ -140,8 +140,10 @@ class BigBlueButton
      * Creates an instance with http client and factories.
      *
      * It is recommended for the http client to have a timeout of e.g. 10
-     * seconds, to avoid hanging requests. The timeout from ->setTimeout() will
+     * seconds, to avoid hanging requests. The timeout from ->setTimeOut() will
      * have no effect on an instance created in this way.
+     *
+     * @see docs/src/general/http_client.md for usage examples
      */
     public static function createWithHttpClient(
         ClientInterface $httpClient,

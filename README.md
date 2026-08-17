@@ -116,6 +116,27 @@ BBB_SERVER_BASE_URL=https://your-bbb-server.example.com/bigbluebutton/
 BBB_SECRET=your-secret
 ```
 
+### 5. HTTP Client
+
+The library uses curl by default and has no HTTP client dependency. Alternatively, inject any PSR-18 client with its PSR-17 factories:
+
+```php
+use BigBlueButton\BigBlueButton;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\HttpFactory;
+
+$factory = new HttpFactory();
+$bbb = BigBlueButton::createWithHttpClient(
+    new Client(['timeout' => 10]),
+    $factory,
+    $factory,
+    'https://your-bbb-server.example.com/bigbluebutton/',
+    'your-secret',
+);
+```
+
+See the [HTTP Client documentation](docs/src/general/http_client.md) for more examples (Guzzle, Symfony HttpClient, php-http) and behavioral notes.
+
 ---
 
 ## ✅ Pre-Commit Checks (CaptainHook)
