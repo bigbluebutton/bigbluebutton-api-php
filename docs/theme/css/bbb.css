@@ -2,6 +2,13 @@
     display: none;
 }
 
+/* Header logo rendered via theme/header.hbs partial */
+.bbb-header-logo {
+    max-height: 80px;
+    margin: 1em auto;
+    display: block;
+}
+
 main h2 a:before {
     content: counter(h2counter) ".\0000a0";
 }

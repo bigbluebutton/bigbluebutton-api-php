@@ -1,4 +1,3 @@
-{{#include ../header.md}}
 
 # Cookies and the JSESSIONID
 

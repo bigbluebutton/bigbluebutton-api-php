@@ -1,4 +1,3 @@
-{{#include ../header.md}}
 
 # Get Join URL
 

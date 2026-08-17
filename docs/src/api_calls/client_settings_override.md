@@ -1,4 +1,3 @@
-{{#include ../header.md}}
 
 # Client Settings Override
 

@@ -1,4 +1,3 @@
-{{#include ../header.md}}
 
 # Learning Dashboard
 

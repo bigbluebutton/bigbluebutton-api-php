@@ -1,4 +1,3 @@
-{{#include ../header.md}}
 
 # Welcome to the BigBlueButton API PHP
 

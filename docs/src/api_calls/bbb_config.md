@@ -1,4 +1,3 @@
-{{#include ../header.md}}
 
 # Server Configuration
 
