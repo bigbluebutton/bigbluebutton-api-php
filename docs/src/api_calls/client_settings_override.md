@@ -16,6 +16,16 @@ Client settings override provides a way to:
 > [!IMPORTANT]  
 > For security reasons, this feature is disabled by default. You must explicitly enable it by setting `allowOverrideClientSettingsOnCreateCall=true`.
 
+## Variant via URL (BBB 3.0.25+)
+
+Instead of passing the settings inline, you can reference a hosted JSON file. The URL variant **takes precedence** over the inline `clientSettingsOverride` payload and **does not** require `allowOverrideClientSettingsOnCreateCall`:
+
+```php
+$createMeetingParameters->setClientSettingsOverrideJsonUrl('https://your-server.example.com/settings-override.json');
+```
+
+The BBB-Server fetches the JSON file when the meeting is created.
+
 ## Core Classes
 
 ### ClientSettingsOverride

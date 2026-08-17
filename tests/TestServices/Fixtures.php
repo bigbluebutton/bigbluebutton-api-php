@@ -204,6 +204,9 @@ class Fixtures
             'breakoutRoomsCaptureSlidesFilename'     => $faker->word . '.pdf',
             'breakoutRoomsCaptureNotesFilename'      => $faker->word . '.txt',
             'plugin_sdkVersion'                      => $faker->numerify('1.#.#'),
+            'sharedNotesEditor'                      => $faker->randomElement(['etherpad', 'blockNote']),
+            'sharedNotesInitialContentJsonUrl'       => $faker->url(),
+            'clientSettingsOverrideJsonUrl'          => $faker->url(),
         ];
     }
 
@@ -376,6 +379,9 @@ class Fixtures
             ->setBreakoutRoomsCaptureSlidesFilename($params['breakoutRoomsCaptureSlidesFilename'])
             ->setBreakoutRoomsCaptureNotesFilename($params['breakoutRoomsCaptureNotesFilename'])
             ->addPluginMeta('sdkVersion', $params['plugin_sdkVersion'])
+            ->setSharedNotesEditor($params['sharedNotesEditor'])
+            ->setSharedNotesInitialContentJsonUrl($params['sharedNotesInitialContentJsonUrl'])
+            ->setClientSettingsOverrideJsonUrl($params['clientSettingsOverrideJsonUrl'])
         ;
     }
 

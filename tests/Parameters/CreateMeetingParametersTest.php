@@ -380,4 +380,51 @@ class CreateMeetingParametersTest extends ParameterTestCase
         $this->assertStringContainsString('plugin_vendor-name=', $query);
         $this->assertStringNotContainsString('plugin_old-key=', $query);
     }
+
+    public function testSharedNotesInitialContentAsXML(): void
+    {
+        $createMeetingParams = new CreateMeetingParameters('123', 'Shared Notes Test');
+
+        $this->assertSame('', $createMeetingParams->getSharedNotesInitialContentAsXML());
+
+        $json = '{"type":"doc","content":[{"type":"paragraph"}]}';
+        $createMeetingParams->setSharedNotesInitialContentJson($json);
+
+        $this->assertEquals($json, $createMeetingParams->getSharedNotesInitialContentJson());
+
+        $xml = $createMeetingParams->getSharedNotesInitialContentAsXML();
+        $this->assertStringContainsString('<module name="sharedNotesInitialContentJson">', $xml);
+        $this->assertStringContainsString('<![CDATA[', $xml);
+        $this->assertStringContainsString($json, $xml);
+    }
+
+    public function testSharedNotesInitialContentJsonMustBeValid(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $createMeetingParams = new CreateMeetingParameters('123', 'Shared Notes Test');
+        $createMeetingParams->setSharedNotesInitialContentJson('not json');
+    }
+
+    public function testModulesAsXMLMergesAllModules(): void
+    {
+        $createMeetingParams = new CreateMeetingParameters('123', 'Modules Merge Test');
+        $createMeetingParams->addPresentation('https://example.com/presentation.pdf');
+
+        $clientSettingsOverride = new ClientSettingsOverride();
+        $clientSettingsOverride->setSetting('public.app.appName', 'Test App');
+        $createMeetingParams->setClientSettingsOverride($clientSettingsOverride);
+
+        $createMeetingParams->setSharedNotesInitialContentJson('{"type":"doc"}');
+
+        $xml = $createMeetingParams->getModulesAsXML();
+
+        $this->assertStringContainsString('<modules', $xml);
+        $this->assertStringContainsString('<module name="presentation"', $xml);
+        $this->assertStringContainsString('<module name="clientSettingsOverride"', $xml);
+        $this->assertStringContainsString('<module name="sharedNotesInitialContentJson"', $xml);
+
+        // exactly one <modules> container must remain
+        $this->assertSame(1, mb_substr_count($xml, '<modules'));
+    }
 }

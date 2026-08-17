@@ -53,4 +53,6 @@ enum Feature: string
     case USER_REACTIONS                                           = 'userReactions';
     case CHAT_EMOJI_PICKET                                        = 'chatEmojiPicker';
     case QUIZZES                                                  = 'quizzes';
+    case PRIVATE_CHAT                                             = 'privateChat';
+    case PLUGINS                                                  = 'plugins';
 }

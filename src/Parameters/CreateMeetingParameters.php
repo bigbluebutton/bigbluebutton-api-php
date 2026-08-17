@@ -229,6 +229,14 @@ class CreateMeetingParameters extends MetaParameters
     /** @var array<string, mixed> */
     private array $pluginMeta = [];
 
+    private ?string $sharedNotesEditor = null;
+
+    private ?string $sharedNotesInitialContentJsonUrl = null;
+
+    private ?string $clientSettingsOverrideJsonUrl = null;
+
+    private ?string $sharedNotesInitialContentJson = null;
+
     /**
      * CreateMeetingParameters constructor.
      */
@@ -1464,53 +1472,21 @@ class CreateMeetingParameters extends MetaParameters
      */
     public function getModulesAsXML(): string
     {
-        $presentationsXml  = $this->getPresentationsAsXML();
-        $clientSettingsXml = $this->getClientSettingsOverrideAsXML();
+        $modules = array_filter([
+            $this->getPresentationsAsXML(),
+            $this->getClientSettingsOverrideAsXML(),
+            $this->getSharedNotesInitialContentAsXML(),
+        ], static fn (string $xml): bool => '' !== $xml);
 
-        // If both are empty, return empty string
-        if (empty($presentationsXml) && empty($clientSettingsXml)) {
+        if ([] === $modules) {
             return '';
         }
 
-        // If only one is present, return it directly
-        if (empty($presentationsXml)) {
-            return $clientSettingsXml;
+        if (1 === \count($modules)) {
+            return reset($modules);
         }
 
-        if (empty($clientSettingsXml)) {
-            return $presentationsXml;
-        }
-
-        // Both are present, need to merge them
-        try {
-            $presentationsDom = new \DOMDocument();
-            $presentationsDom->loadXML($presentationsXml);
-
-            $clientSettingsDom = new \DOMDocument();
-            $clientSettingsDom->loadXML($clientSettingsXml);
-
-            // Get the modules element from presentations
-            $presentationsModules  = $presentationsDom->getElementsByTagName('modules')->item(0);
-            $clientSettingsModules = $clientSettingsDom->getElementsByTagName('modules')->item(0);
-
-            if ($presentationsModules && $clientSettingsModules) {
-                // Import all modules from client settings into presentations
-                foreach ($clientSettingsModules->childNodes as $childNode) {
-                    if (XML_ELEMENT_NODE === $childNode->nodeType) {
-                        $importedNode = $presentationsDom->importNode($childNode, true);
-                        $presentationsModules->appendChild($importedNode);
-                    }
-                }
-
-                return $presentationsDom->saveXML();
-            }
-
-            // Fallback: return presentations XML if something goes wrong
-            return $presentationsXml;
-        } catch (\Exception $e) {
-            // If XML parsing fails, return presentations XML as fallback
-            return $presentationsXml;
-        }
+        return $this->mergeModulesXml($modules);
     }
 
     /**
@@ -2013,6 +1989,102 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'sharedNotesEditor')]
+    public function getSharedNotesEditor(): ?string
+    {
+        return $this->sharedNotesEditor;
+    }
+
+    /**
+     * Editor to be rendered in the shared-notes area: 'etherpad' or 'blockNote'.
+     * Default on the BBB-Server: etherpad.
+     */
+    public function setSharedNotesEditor(string $sharedNotesEditor): self
+    {
+        $this->sharedNotesEditor = $sharedNotesEditor;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'sharedNotesInitialContentJsonUrl')]
+    public function getSharedNotesInitialContentJsonUrl(): ?string
+    {
+        return $this->sharedNotesInitialContentJsonUrl;
+    }
+
+    /**
+     * URL from which the shared-notes will fetch the initial content. Only
+     * applicable if sharedNotesEditor is set to 'blockNote'.
+     */
+    public function setSharedNotesInitialContentJsonUrl(string $sharedNotesInitialContentJsonUrl): self
+    {
+        $this->sharedNotesInitialContentJsonUrl = $sharedNotesInitialContentJsonUrl;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'clientSettingsOverrideJsonUrl')]
+    public function getClientSettingsOverrideJsonUrl(): ?string
+    {
+        return $this->clientSettingsOverrideJsonUrl;
+    }
+
+    /**
+     * URL of a JSON file overriding the client settings. Takes precedence over
+     * the clientSettingsOverride POST payload and does not require
+     * allowOverrideClientSettingsOnCreateCall.
+     */
+    public function setClientSettingsOverrideJsonUrl(string $clientSettingsOverrideJsonUrl): self
+    {
+        $this->clientSettingsOverrideJsonUrl = $clientSettingsOverrideJsonUrl;
+
+        return $this;
+    }
+
+    /**
+     * The initial content of the shared notes as JSON string, sent as
+     * sharedNotesInitialContentJson POST module.
+     */
+    public function getSharedNotesInitialContentJson(): ?string
+    {
+        return $this->sharedNotesInitialContentJson;
+    }
+
+    public function setSharedNotesInitialContentJson(string $sharedNotesInitialContentJson): self
+    {
+        json_decode($sharedNotesInitialContentJson);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new \InvalidArgumentException('sharedNotesInitialContentJson must be a valid JSON string.');
+        }
+
+        $this->sharedNotesInitialContentJson = $sharedNotesInitialContentJson;
+
+        return $this;
+    }
+
+    /**
+     * The sharedNotesInitialContentJson POST module.
+     */
+    public function getSharedNotesInitialContentAsXML(): string
+    {
+        if (null === $this->sharedNotesInitialContentJson) {
+            return '';
+        }
+
+        $json = $this->sharedNotesInitialContentJson;
+
+        return <<<XML
+            <modules>
+               <module name="sharedNotesInitialContentJson">
+                     <![CDATA[
+                     {$json}
+                     ]]>
+               </module>
+            </modules>
+            XML;
+    }
+
     public function getHTTPQuery(): string
     {
         $queries = $this->toApiDataArray();
@@ -2042,6 +2114,47 @@ class CreateMeetingParameters extends MetaParameters
         $queries = $this->buildPluginMeta($queries);
 
         return $this->buildHTTPQuery($queries);
+    }
+
+    /**
+     * Merges several <modules> documents into one.
+     *
+     * @param array<int, string> $modulesXml
+     */
+    private function mergeModulesXml(array $modulesXml): string
+    {
+        $first = (string) array_shift($modulesXml);
+
+        try {
+            $targetDom     = new \DOMDocument();
+            $targetModules = $targetDom->loadXML($first) ? $targetDom->getElementsByTagName('modules')->item(0) : null;
+
+            if (null === $targetModules) {
+                return $first;
+            }
+
+            foreach ($modulesXml as $xml) {
+                $sourceDom     = new \DOMDocument();
+                $sourceModules = $sourceDom->loadXML($xml) ? $sourceDom->getElementsByTagName('modules')->item(0) : null;
+
+                if (null === $sourceModules) {
+                    continue;
+                }
+
+                foreach ($sourceModules->childNodes as $childNode) {
+                    if (XML_ELEMENT_NODE === $childNode->nodeType) {
+                        $targetModules->appendChild($targetDom->importNode($childNode, true));
+                    }
+                }
+            }
+
+            $merged = $targetDom->saveXML();
+
+            return false !== $merged ? $merged : $first;
+        } catch (\Exception) {
+            // If XML parsing fails, return the first modules XML as fallback
+            return $first;
+        }
     }
 
     /**

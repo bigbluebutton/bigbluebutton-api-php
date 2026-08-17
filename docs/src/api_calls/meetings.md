@@ -79,6 +79,20 @@ $createMeetingParameters->setPluginMeta([
 
 The key is provided without the `plugin_`-prefix (a provided prefix is stripped). Note that the BBB-Server lowercases the parameter name, so lowercase keys should be preferred. Placeholders in the manifest must reference the lowercased name.
 
+#### Shared notes (BBB 3.0)
+The editor of the shared-notes area can be selected and pre-filled with initial content.
+```php
+// ...
+
+$createMeetingParameters
+    ->setSharedNotesEditor('blockNote')                                   // 'etherpad' (default) or 'blockNote'
+    ->setSharedNotesInitialContentJsonUrl('https://cdn.example.com/notes.json')  // initial content fetched by the client
+    ->setSharedNotesInitialContentJson('{"type":"doc","content":[]}')    // ...or sent inline as POST module
+    ;
+
+// ...
+```
+
 #### Client Settings Override
 The BigBlueButton PHP API supports overriding HTML5 client settings from the settings.yml file. This feature allows you to customize the client behavior for specific meetings without modifying the server configuration.
 
