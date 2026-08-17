@@ -39,6 +39,7 @@ final class ApiMethod
     public const PUT_RECORDING_TEXT_TRACK  = 'putRecordingTextTrack';
     public const SEND_CHAT_MESSAGE         = 'sendChatMessage';
     public const GET_JOIN_URL              = 'getJoinUrl';
+    public const LEARNING_DASHBOARD        = 'learningDashboard';
     public const FEEDBACK                  = 'feedback';
     public const HOOKS_CREATE              = 'hooks/create';
     public const HOOKS_LIST                = 'hooks/list';

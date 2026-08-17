@@ -35,6 +35,7 @@ use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\LearningDashboardParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\SendChatMessageParameters;
@@ -191,6 +192,11 @@ class UrlBuilder
     public function getGetJoinUrlUrl(GetJoinUrlParameters $getJoinUrlParams): string
     {
         return $this->buildUrl(ApiMethod::GET_JOIN_URL, $getJoinUrlParams->getHTTPQuery());
+    }
+
+    public function getLearningDashboardUrl(LearningDashboardParameters $learningDashboardParams): string
+    {
+        return $this->buildUrl(ApiMethod::LEARNING_DASHBOARD, $learningDashboardParams->getHTTPQuery());
     }
 
     public function getEndMeetingURL(EndMeetingParameters $endParams): string

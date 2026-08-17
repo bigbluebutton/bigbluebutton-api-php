@@ -35,6 +35,7 @@ use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\LearningDashboardParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\SendChatMessageParameters;
@@ -56,6 +57,7 @@ use BigBlueButton\Responses\HooksListResponse;
 use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
+use BigBlueButton\Responses\LearningDashboardResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\SendChatMessageResponse;
@@ -186,6 +188,30 @@ class BigBlueButton
         $json = $this->processJsonResponse($this->getUrlBuilder()->getGetJoinUrlUrl($getJoinUrlParams));
 
         return new GetJoinUrlResponse($json);
+    }
+
+    /**
+     * @deprecated Replaced by same function-name provided by UrlBuilder-class
+     */
+    public function getLearningDashboardUrl(LearningDashboardParameters $learningDashboardParams): string
+    {
+        return $this->getUrlBuilder()->getLearningDashboardUrl($learningDashboardParams);
+    }
+
+    /**
+     * Get the learning dashboard data of a running meeting.
+     *
+     * The session token must belong to a user with the MODERATOR role, the meeting
+     * must be running and the learningDashboard feature must not be disabled for
+     * the meeting.
+     *
+     * @throws BadResponseException|\RuntimeException
+     */
+    public function learningDashboard(LearningDashboardParameters $learningDashboardParams): LearningDashboardResponse
+    {
+        $json = $this->processJsonResponse($this->getUrlBuilder()->getLearningDashboardUrl($learningDashboardParams));
+
+        return new LearningDashboardResponse($json);
     }
 
     /**
