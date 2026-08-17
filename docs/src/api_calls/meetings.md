@@ -293,6 +293,14 @@ if (!$createMeetingResponse->success()) {
 ### Joining
 Once a meeting is created successfully, it is ready to let the participants into the meeting. This will be done with the join command. It needs to defined into which meeting (`$meetingId`) and by what name (`$name`) the participant shall join the meeting. Additionally the role of the particpant needs to be declared: either as moderator (`Role::MODERATOR`) or as a regular viewer (`Role::VIEWER`).
 
+> [!IMPORTANT]
+> The standard way to join a meeting is to **redirect the user's browser** to a join URL, so that the BBB-Server can set the session cookie and forward the user to the html5 client:
+> ```php
+> $joinUrl = $bbb->getJoinMeetingURL($joinMeetingParameters);
+> header('Location: ' . $joinUrl);
+> ```
+> Calling `joinMeeting()` server-side skips that cookie and typically requires `allowRequestsWithoutSession=true` on the meeting, which weakens the meeting's security. Use it only for special cases where you explicitly need the join response (e.g. session tokens for API-driven clients).
+
 ```php
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Parameters\JoinMeetingParameters;

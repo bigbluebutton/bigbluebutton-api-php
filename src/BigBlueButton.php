@@ -201,7 +201,12 @@ class BigBlueButton
     }
 
     /**
-     * @deprecated Replaced by the same function-name provided by UrlBuilder-class
+     * The preferred way to let a user join a meeting: build the join URL and
+     * redirect the user's browser to it. The BBB-Server then sets the essential
+     * session cookie and forwards the user to the html5 client.
+     *
+     * Note: the UrlBuilder-class provides the same function-name and is used
+     * internally, but this wrapper stays officially supported.
      */
     public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams): string
     {
@@ -209,6 +214,17 @@ class BigBlueButton
     }
 
     /**
+     * Executes the join request server-side and returns its response.
+     *
+     * Warning: this is NOT the standard way to join a meeting! The usual flow is
+     * to redirect the user's browser to the URL from getJoinMeetingURL(), so the
+     * BBB-Server can set the session cookie. Joining server-side (e.g. with
+     * redirect=false) skips that cookie and typically requires
+     * allowRequestsWithoutSession=true on the meeting, which weakens the
+     * meeting's security. Use joinMeeting() only for special cases where you
+     * explicitly need the join response (e.g. session tokens for API-driven
+     * clients).
+     *
      * @throws BadResponseException|\RuntimeException
      */
     public function joinMeeting(JoinMeetingParameters $joinMeetingParams): JoinMeetingResponse
