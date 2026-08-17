@@ -32,7 +32,9 @@
     "ext-curl": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "ext-simplexml": "*"
+    "ext-simplexml": "*",
+    "psr/http-client": "^1.0",
+    "psr/http-factory": "^1.1"
   },
   "require-dev": {
     "bmitch/churn-php": "^1.7",
@@ -41,6 +43,8 @@
     "fakerphp/faker": "^1.23",
     "friendsofphp/php-cs-fixer": "^3.54",
     "nunomaduro/phpinsights": "^2.11",
+    "nyholm/psr7": "^1.8",
+    "php-http/curl-client": "^2.4",
     "phpstan/phpstan": "^1.10",
     "phpunit/php-code-coverage": "^10.1",
     "phpunit/phpunit": "^10.5",

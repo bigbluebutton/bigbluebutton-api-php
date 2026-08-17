@@ -48,7 +48,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FixturesTest extends TestCase
 {
-    private BigBlueButton $bbb;
+    protected BigBlueButton $bbb;
     private Fixtures $fixtures;
 
     private static Generator $faker;

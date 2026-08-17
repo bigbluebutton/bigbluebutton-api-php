@@ -63,6 +63,10 @@ use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\SendChatMessageResponse;
 use BigBlueButton\Responses\UpdateRecordingsResponse;
 use BigBlueButton\Util\UrlBuilder;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 /**
  * Class BigBlueButton.
@@ -97,6 +101,21 @@ class BigBlueButton
     protected UrlBuilder $urlBuilder;
 
     /**
+     * An http client, or NULL to fall back to curl.
+     */
+    private ?ClientInterface $httpClient = null;
+
+    /**
+     * An http request factory, or NULL to fall back to curl.
+     */
+    private ?RequestFactoryInterface $requestFactory = null;
+
+    /**
+     * A stream factory, or NULL to fall back to curl.
+     */
+    private ?StreamFactoryInterface $streamFactory = null;
+
+    /**
      * @param null|array<string, mixed> $opts
      */
     public function __construct(
@@ -115,6 +134,33 @@ class BigBlueButton
 
         $this->urlBuilder = $urlBuilder;
         $this->curlOpts   = $opts['curl'] ?? [];
+    }
+
+    /**
+     * Creates an instance with http client and factories.
+     *
+     * It is recommended for the http client to have a timeout of e.g. 10
+     * seconds, to avoid hanging requests. The timeout from ->setTimeOut() will
+     * have no effect on an instance created in this way.
+     *
+     * @see docs/src/general/http_client.md for usage examples
+     */
+    public static function createWithHttpClient(
+        ClientInterface $httpClient,
+        RequestFactoryInterface $requestFactory,
+        StreamFactoryInterface $streamFactory,
+        string $baseUrl,
+        string $secret,
+    ): static {
+        // Extending classes need to override this method, if they change the
+        // constructor signature.
+        // @phpstan-ignore new.static
+        $instance                 = new static($baseUrl, $secret);
+        $instance->httpClient     = $httpClient;
+        $instance->requestFactory = $requestFactory;
+        $instance->streamFactory  = $streamFactory;
+
+        return $instance;
     }
 
     /**
@@ -552,6 +598,10 @@ class BigBlueButton
     }
 
     /**
+     * Sets curl options.
+     *
+     * This has no effect if the instance has an http client.
+     *
      * @param array<int, mixed> $curlOpts
      */
     public function setCurlOpts(array $curlOpts): void
@@ -561,6 +611,8 @@ class BigBlueButton
 
     /**
      * Set Curl Timeout (Optional), Default 10 Seconds.
+     *
+     * This has no effect if the instance has an http client.
      */
     public function setTimeOut(int $TimeOutInSeconds): self
     {
@@ -603,6 +655,102 @@ class BigBlueButton
     /**
      * A private utility method used by other public methods to request HTTP responses.
      *
+     * Uses the injected PSR http client, or falls back to curl if no client is
+     * injected.
+     *
+     * @param array<string, mixed>|string $payload
+     *
+     * @throws BadResponseException|\RuntimeException
+     */
+    private function sendRequest(string $url, array|string $payload = '', string $contentType = 'application/xml'): string
+    {
+        if (null === $this->httpClient
+            || null === $this->requestFactory
+            || null === $this->streamFactory
+        ) {
+            return $this->sendRequestWithCurl($url, $payload, $contentType);
+        }
+
+        if (\is_array($payload)) {
+            $request = $this->buildMultipartRequest($url, $payload);
+        } else {
+            $request = $this->requestFactory->createRequest('GET', $url);
+
+            if ('' !== $payload) {
+                $request = $request
+                    ->withBody($this->streamFactory->createStream($payload))
+                    ->withMethod('POST')
+                    ->withHeader('Content-type', $contentType)
+                ;
+            }
+        }
+
+        $response = $this->httpClient->sendRequest($request);
+
+        // JSESSIONID - capture from the Set-Cookie headers with the same
+        // validation as the curl transport
+        foreach ($response->getHeader('Set-Cookie') as $cookie) {
+            if ($this->isValidCookieFormat($cookie)) {
+                $sessionId = $this->extractJSessionIdSafely($cookie);
+
+                if (null !== $sessionId) {
+                    $this->setJSessionId($sessionId);
+                }
+            }
+        }
+
+        $httpCode = $response->getStatusCode();
+
+        if ($httpCode < 200 || $httpCode >= 300) {
+            throw new BadResponseException('Bad response, HTTP code: ' . $httpCode . ', url: ' . $url);
+        }
+
+        return (string) $response->getBody();
+    }
+
+    /**
+     * Builds a multipart/form-data request, e.g. for the caption track upload.
+     *
+     * @param array<string, \CURLFile|string> $payload
+     */
+    private function buildMultipartRequest(string $url, array $payload): RequestInterface
+    {
+        if (null === $this->requestFactory || null === $this->streamFactory) {
+            throw new \RuntimeException('A request factory and a stream factory are required to build a multipart request.');
+        }
+
+        $boundary = 'bbb-' . bin2hex(random_bytes(16));
+        $body     = $this->streamFactory->createStream('');
+
+        foreach ($payload as $name => $value) {
+            $body->write("--{$boundary}\r\n");
+
+            if ($value instanceof \CURLFile) {
+                $filename = str_replace(["\r", "\n", '"'], '', $value->getPostFilename());
+                $body->write(sprintf(
+                    "Content-Disposition: form-data; name=\"%s\"; filename=\"%s\"\r\nContent-Type: %s\r\n\r\n",
+                    $name,
+                    $filename,
+                    $value->getMimeType()
+                ));
+                $body->write((string) $this->streamFactory->createStreamFromFile($value->getFilename()));
+                $body->write("\r\n");
+            } else {
+                $body->write(sprintf("Content-Disposition: form-data; name=\"%s\"\r\n\r\n%s\r\n", $name, $value));
+            }
+        }
+
+        $body->write("--{$boundary}--\r\n");
+
+        return $this->requestFactory->createRequest('POST', $url)
+            ->withBody($body)
+            ->withHeader('Content-type', 'multipart/form-data; boundary=' . $boundary)
+        ;
+    }
+
+    /**
+     * A private utility method used by other public methods to request HTTP responses.
+     *
      * A string payload is sent as POST body with the given content type, an array
      * payload is sent as multipart/form-data (the Content-type header incl. boundary
      * is then set by cURL itself).
@@ -611,7 +759,7 @@ class BigBlueButton
      *
      * @throws BadResponseException|\RuntimeException
      */
-    private function sendRequest(string $url, array|string $payload = '', string $contentType = 'application/xml'): string
+    private function sendRequestWithCurl(string $url, array|string $payload = '', string $contentType = 'application/xml'): string
     {
         if (!extension_loaded('curl')) {
             throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
