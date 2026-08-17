@@ -79,7 +79,7 @@ class DocumentUrlTest extends TestCase
     public function testIsValidWithValidUrl(): void
     {
         // Use a reliable URL that should be accessible
-        $documentUrl = new DocumentUrl('https://httpbin.org/status/200');
+        $documentUrl = new DocumentUrl('https://example.com/');
 
         // This test might be slow due to network call
         $isValid = $documentUrl->isValid();
@@ -90,7 +90,7 @@ class DocumentUrlTest extends TestCase
     public function testIsValidWithInvalidUrl(): void
     {
         // Use a URL that should return 404
-        $documentUrl = new DocumentUrl('https://httpbin.org/status/404');
+        $documentUrl = new DocumentUrl('https://example.com/nonexistent');
 
         // This test might be slow due to network call
         $isValid = $documentUrl->isValid();

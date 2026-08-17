@@ -97,6 +97,11 @@ class FixturesTest extends TestCase
             'hooks_destroy_failed_error.xml', // because: No idea how to simulate this on a well configured BBB-Server
             'hooks_create_failed_error.xml',  // because: No idea how to simulate this on a well configured BBB-Server
             'get_sessions_empty.xml',         // because: Sessions of recently ended meetings may still be active, the empty state is not reliably reproducible
+            'delete_recordings.xml',          // because: Requires an existing recording on the BBB-Server (recording processing not available on the test server)
+            'get_recordings.xml',             // because: Requires an existing recording on the BBB-Server (recording processing not available on the test server)
+            'publish_recordings.xml',         // because: Requires an existing recording on the BBB-Server (recording processing not available on the test server)
+            'update_recordings.xml',          // because: Requires an existing recording on the BBB-Server (recording processing not available on the test server)
+            'send_chat_message.xml',          // because: Requires a meeting that is actually started by a joined client (not reliably reproducible via API joins)
         ];
         $xmlFilenamesFromFolderCleaned = array_diff($xmlFilenamesFromFolder, $xmlFilesThatAreNotTestable);
 
@@ -433,7 +438,7 @@ class FixturesTest extends TestCase
                 'messageKey' => 'destroyMissingHook',
                 'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
                     // create and return parameter for test
-                    return new HooksDestroyParameters(self::$faker->numberBetween());
+                    return new HooksDestroyParameters((string) self::$faker->numberBetween());
                 },
             ],
             'case15_insert_document' => [

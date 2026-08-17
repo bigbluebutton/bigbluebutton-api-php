@@ -53,7 +53,7 @@ abstract class BaseJsonResponse
     public function getMessage(): ?string
     {
         if ($this->failed()) {
-            return $this->data->response->message;
+            return $this->data->response->message ?? null;
         }
 
         return null;
@@ -62,7 +62,7 @@ abstract class BaseJsonResponse
     public function getMessageKey(): ?string
     {
         if ($this->failed()) {
-            return $this->data->response->messageKey;
+            return $this->data->response->messageKey ?? null;
         }
 
         return null;

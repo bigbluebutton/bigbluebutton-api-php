@@ -301,7 +301,7 @@ class CreateMeetingParametersTest extends ParameterTestCase
             ],
         ];
 
-        $json                   = json_encode($settings);
+        $json                   = (string) json_encode($settings);
         $clientSettingsOverride = ClientSettingsOverride::fromJson($json);
 
         $this->assertEquals($settings, $clientSettingsOverride->getSettings());

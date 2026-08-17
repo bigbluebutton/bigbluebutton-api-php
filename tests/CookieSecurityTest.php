@@ -42,7 +42,6 @@ class CookieSecurityTest extends TestCase
     {
         $reflection = new \ReflectionClass($this->bbb);
         $method     = $reflection->getMethod('isValidCookieFormat');
-        $method->setAccessible(true);
 
         // Valid cookie formats
         $validCookies = [
@@ -67,7 +66,6 @@ class CookieSecurityTest extends TestCase
     {
         $reflection = new \ReflectionClass($this->bbb);
         $method     = $reflection->getMethod('isValidCookieFormat');
-        $method->setAccessible(true);
 
         // Invalid/dangerous cookie formats
         $invalidCookies = [
@@ -95,7 +93,6 @@ class CookieSecurityTest extends TestCase
     {
         $reflection = new \ReflectionClass($this->bbb);
         $method     = $reflection->getMethod('extractJSessionIdSafely');
-        $method->setAccessible(true);
 
         // Valid JSESSIONID extraction
         $validCookie = 'JSESSIONID=ABC123DEF456; Path=/';
@@ -120,7 +117,6 @@ class CookieSecurityTest extends TestCase
     {
         $reflection = new \ReflectionClass($this->bbb);
         $method     = $reflection->getMethod('extractJSessionIdSafely');
-        $method->setAccessible(true);
 
         // Malicious session IDs should be rejected
         $maliciousCookies = [
@@ -147,7 +143,6 @@ class CookieSecurityTest extends TestCase
     {
         $reflection = new \ReflectionClass($this->bbb);
         $method     = $reflection->getMethod('extractJSessionIdSafely');
-        $method->setAccessible(true);
 
         // Valid formats
         $validFormats = [
@@ -189,7 +184,6 @@ class CookieSecurityTest extends TestCase
     {
         $reflection = new \ReflectionClass($this->bbb);
         $method     = $reflection->getMethod('isValidSessionId');
-        $method->setAccessible(true);
 
         // Valid session IDs
         $validIds = ['ABC123', 'abc123def456', 'ABC_123-DEF.456', str_repeat('A', 100)];

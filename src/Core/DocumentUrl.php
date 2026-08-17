@@ -89,8 +89,6 @@ class DocumentUrl extends Document
         $data     = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        curl_close($ch);
-
         if ($httpCode >= 200 && $httpCode < 400) {
             return true;
         }

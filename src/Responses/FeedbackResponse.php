@@ -76,6 +76,9 @@ class FeedbackResponse extends BaseJsonResponse
         return $this->data->response->feedback_type ?? null;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getAdditionalData(): array
     {
         $additionalData = $this->data->response->additional_data ?? null;

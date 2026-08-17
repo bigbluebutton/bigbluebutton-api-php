@@ -693,7 +693,7 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
 
         // destroy non-existing hook
-        $hooksDestroyParameters = new HooksDestroyParameters($this->faker->numberBetween(10000, 99999));
+        $hooksDestroyParameters = new HooksDestroyParameters((string) $this->faker->numberBetween(10000, 99999));
         $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
         $this->assertFalse($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
     }

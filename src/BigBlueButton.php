@@ -697,8 +697,7 @@ class BigBlueButton
             throw new BadResponseException('Bad response, HTTP code: ' . $httpCode . ', url: ' . $url);
         }
 
-        // CLOSE AND UNSET
-        curl_close($ch);
+        // UNSET (curl_close is a no-op since PHP 8.0 and deprecated since 8.5)
         unset($ch);
 
         // Clean up temporary cookie file

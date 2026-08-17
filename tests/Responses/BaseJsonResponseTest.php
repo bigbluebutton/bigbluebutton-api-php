@@ -31,7 +31,7 @@ class BaseJsonResponseTest extends TestCase
 {
     public function testBaseJsonResponseSuccess(): void
     {
-        $json = json_encode([
+        $json = (string) json_encode([
             'response' => [
                 'returncode' => 'SUCCESS',
                 'message'    => 'Operation successful',
@@ -51,7 +51,7 @@ class BaseJsonResponseTest extends TestCase
 
     public function testBaseJsonResponseFailed(): void
     {
-        $json = json_encode([
+        $json = (string) json_encode([
             'response' => [
                 'returncode' => 'FAILED',
                 'message'    => 'Operation failed',
@@ -70,7 +70,7 @@ class BaseJsonResponseTest extends TestCase
 
     public function testBaseJsonResponseSuccessWithoutMessage(): void
     {
-        $json = json_encode([
+        $json = (string) json_encode([
             'response' => [
                 'returncode' => 'SUCCESS',
             ],
@@ -87,7 +87,7 @@ class BaseJsonResponseTest extends TestCase
 
     public function testBaseJsonResponseFailedWithoutMessage(): void
     {
-        $json = json_encode([
+        $json = (string) json_encode([
             'response' => [
                 'returncode' => 'FAILED',
             ],
@@ -110,7 +110,7 @@ class BaseJsonResponseTest extends TestCase
                 'message'    => 'Test message',
             ],
         ];
-        $json = json_encode($originalData);
+        $json = (string) json_encode($originalData);
 
         $response = new TestableJsonResponse($json);
         $rawJson  = $response->getRawJson();
@@ -118,7 +118,7 @@ class BaseJsonResponseTest extends TestCase
         $this->assertEquals($json, $rawJson);
 
         // Verify the raw JSON can be decoded back to the original data
-        $decodedData = json_decode($rawJson, true);
+        $decodedData = json_decode((string) $rawJson, true);
         $this->assertEquals($originalData, $decodedData);
     }
 
@@ -134,7 +134,7 @@ class BaseJsonResponseTest extends TestCase
 
     public function testBaseJsonResponseWithMissingResponseField(): void
     {
-        $json = json_encode([
+        $json = (string) json_encode([
             'data' => [
                 'returncode' => 'SUCCESS',
             ],
@@ -174,7 +174,7 @@ class BaseJsonResponseTest extends TestCase
 
     public function testBaseJsonResponseWithComplexResponse(): void
     {
-        $json = json_encode([
+        $json = (string) json_encode([
             'response' => [
                 'returncode' => 'SUCCESS',
                 'message'    => 'Complex operation completed',
@@ -199,13 +199,13 @@ class BaseJsonResponseTest extends TestCase
 
         // Test that the raw JSON preserves the complex structure
         $rawJson = $response->getRawJson();
-        $decoded = json_decode($rawJson, true);
+        $decoded = json_decode((string) $rawJson, true);
         $this->assertEquals(123, $decoded['response']['data']['id']);
     }
 
     public function testBaseJsonResponseWithMalformedReturnCode(): void
     {
-        $json = json_encode([
+        $json = (string) json_encode([
             'response' => [
                 'returncode' => 'UNKNOWN',
                 'message'    => 'Unknown status',

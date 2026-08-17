@@ -28,6 +28,7 @@ namespace BigBlueButton\Core;
  */
 class ClientSettingsOverride
 {
+    /** @var array<string, mixed> */
     private array $settings = [];
 
     /**
@@ -142,6 +143,8 @@ class ClientSettingsOverride
 
     /**
      * Set a nested value using dot notation.
+     *
+     * @param array<string, mixed> $array
      */
     private function setNestedValue(array &$array, string $key, mixed $value): void
     {
@@ -164,6 +167,8 @@ class ClientSettingsOverride
 
     /**
      * Get a nested value using dot notation.
+     *
+     * @param array<string, mixed> $array
      */
     private function getNestedValue(array $array, string $key, mixed $default = null): mixed
     {
@@ -183,6 +188,8 @@ class ClientSettingsOverride
 
     /**
      * Remove a nested value using dot notation.
+     *
+     * @param array<string, mixed> $array
      */
     private function removeNestedValue(array &$array, string $key): void
     {

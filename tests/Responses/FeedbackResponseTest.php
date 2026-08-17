@@ -225,6 +225,6 @@ class FeedbackResponseTest extends TestCase
             ]);
         }
 
-        return $responses[$filename] ?? $responses['feedback_minimal_response.json'];
+        return (string) ($responses[$filename] ?? $responses['feedback_minimal_response.json']);
     }
 }
