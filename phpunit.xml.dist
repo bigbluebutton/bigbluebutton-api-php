@@ -9,14 +9,6 @@
         stopOnFailure="false"
         cacheDirectory="./var/.phpunit.cache"
         backupStaticProperties="false">
-  <coverage>
-    <report>
-      <html outputDirectory="./var/coverage/"/>
-    </report>
-  </coverage>
-  <php>
-    <env name="XDEBUG_MODE" value="coverage"/>
-  </php>
   <testsuites>
     <testsuite name="BigBlueButton test suite">
       <directory>tests</directory>

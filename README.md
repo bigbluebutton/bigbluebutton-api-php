@@ -99,13 +99,13 @@ $ composer code-test -- --filter BigBlueButtonTest::testApiVersion
 $ ./vendor/bin/phpunit --filter BigBlueButtonTest::testApiVersion
 ```
 
-To skip code coverage:
+To generate a code coverage report (requires a coverage driver such as Xdebug or PCOV, stored in `./var/coverage/`):
 
 ```bash
-composer code-test -- --no-coverage
+composer code-coverage
 ```
 
-> **Coverage reports are stored in:** `./var/coverage/`
+Regular test runs (`composer code-test`) do not collect coverage and therefore do not require a coverage driver.
 
 ### 4. Configuration
 
