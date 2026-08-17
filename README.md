@@ -166,6 +166,18 @@ vendor/bin/captainhook install
 
 ---
 
+## 🏷️ Versioning and Releases
+
+This project follows [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PATCH`):
+
+- **MAJOR** for incompatible API changes
+- **MINOR** for backwards-compatible functionality additions
+- **PATCH** for backwards-compatible bug fixes
+
+Releases are published as git tags in the `x.x.x` format without a `v` prefix (like the existing `2.3.1`) and are summarized in [CHANGELOG.md](CHANGELOG.md). When preparing a release, move the changelog's `[Unreleased]` section to the new version and tag the release commit.
+
+---
+
 ## 📝 License
 
 This project is licensed under the terms of the [LGPL-3.0](LICENSE).
