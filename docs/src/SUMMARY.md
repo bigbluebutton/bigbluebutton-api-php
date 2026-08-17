@@ -5,6 +5,7 @@
   - [Welcome](./general/home.md)
   - [Getting Started](./general/getting_started.md)
   - [HTTP Client](./general/http_client.md)
+  - [Cookies and the JSESSIONID](./general/cookies.md)
 
 - [Executing API Calls]()
   - [Meetings](./api_calls/meetings.md)
