@@ -30,3 +30,52 @@ main h3 {
 main h4 {
     counter-increment: h4counter;
 }
+
+/* Zoomable images feature (mdBook >= 2.x).
+   The repo overrides general.css so the default zoom CSS is missing,
+   causing a visible checkbox and doubled image. This restores it. */
+.content .checkbox-img {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+.content .checkbox-img:focus + img {
+    outline: auto;
+}
+.content .checkbox-img:not(:checked) ~ .img-wrapper {
+    display: none;
+}
+.content .checkbox-label {
+    display: block;
+    max-width: 100%;
+}
+.content .checkbox-label img {
+    cursor: zoom-in;
+}
+.content .checkbox-img:checked ~ .img-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+}
+.content .checkbox-img:checked ~ .img-wrapper > img {
+    --img-padding: 5px;
+    padding: var(--img-padding);
+    background: #999;
+    cursor: zoom-out;
+    max-width: calc(100% - (var(--img-padding) * 2));
+    max-height: calc(100% - (var(--img-padding) * 2));
+}
