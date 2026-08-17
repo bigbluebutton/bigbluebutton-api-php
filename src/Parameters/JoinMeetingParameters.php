@@ -59,6 +59,8 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?bool $guest = null;
 
+    private ?bool $auth = null;
+
     /**
      * @deprecated since 3.0.0
      */
@@ -237,6 +239,27 @@ class JoinMeetingParameters extends UserDataParameters
     public function setGuest(bool $guest): self
     {
         $this->guest = $guest;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'auth')]
+    public function isAuth(): ?bool
+    {
+        return $this->auth;
+    }
+
+    /**
+     * Marks the user as authenticated for the guest-policy evaluation.
+     *
+     * With guestPolicy=ALWAYS_ACCEPT_AUTH only authenticated users are admitted.
+     * A user that joins without the guest-parameter is treated as authenticated
+     * by the BBB-Server anyway; an explicit auth=true lets a guest-flagged user
+     * pass the policy check.
+     */
+    public function setAuth(bool $auth): self
+    {
+        $this->auth = $auth;
 
         return $this;
     }
