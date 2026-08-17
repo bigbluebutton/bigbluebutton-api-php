@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -34,6 +34,8 @@ class FixturesGuzzleTest extends FixturesTest
 {
     public function setUp(): void
     {
+        parent::setUp();
+
         $client    = new Client();
         $factory   = new HttpFactory();
         $this->bbb = BigBlueButton::createWithHttpClient(
@@ -43,7 +45,5 @@ class FixturesGuzzleTest extends FixturesTest
             getenv('BBB_SERVER_BASE_URL') ?: $this->fail(),
             getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: $this->fail(),
         );
-
-        parent::setUp();
     }
 }

@@ -21,6 +21,7 @@
 namespace BigBlueButton\Core;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\EnvLoader;
 
 /**
  * Class DocumentUrlTest.
@@ -78,10 +79,11 @@ class DocumentUrlTest extends TestCase
 
     public function testIsValidWithValidUrl(): void
     {
-        // Use a reliable URL that should be accessible
-        $documentUrl = new DocumentUrl('https://example.com/');
+        // Use the BBB-Server of the test environment (same server all other live tests use)
+        EnvLoader::loadEnvironmentVariables();
+        $baseUrl     = mb_rtrim((string) getenv('BBB_SERVER_BASE_URL'), '/');
+        $documentUrl = new DocumentUrl($baseUrl . '/');
 
-        // This test might be slow due to network call
         $isValid = $documentUrl->isValid();
 
         $this->assertTrue($isValid);
@@ -89,10 +91,11 @@ class DocumentUrlTest extends TestCase
 
     public function testIsValidWithInvalidUrl(): void
     {
-        // Use a URL that should return 404
-        $documentUrl = new DocumentUrl('https://example.com/nonexistent');
+        // Use a path that is answered with 404 by the BBB-Server
+        EnvLoader::loadEnvironmentVariables();
+        $baseUrl     = mb_rtrim((string) getenv('BBB_SERVER_BASE_URL'), '/');
+        $documentUrl = new DocumentUrl($baseUrl . '/nonexistent-path-for-404');
 
-        // This test might be slow due to network call
         $isValid = $documentUrl->isValid();
 
         $this->assertFalse($isValid);

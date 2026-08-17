@@ -653,9 +653,8 @@ class BigBlueButton
     /**
      * A private utility method used by other public methods to request HTTP responses.
      *
-     * A string payload is sent as POST body with the given content type, an array
-     * payload is sent as multipart/form-data (the Content-type header incl. boundary
-     * is then set by cURL itself).
+     * Uses the injected PSR http client, or falls back to curl if no client is
+     * injected.
      *
      * @param array<string, mixed>|string $payload
      *
@@ -670,31 +669,95 @@ class BigBlueButton
             return $this->sendRequestWithCurl($url, $payload, $contentType);
         }
 
-        $request = $this->requestFactory->createRequest('GET', $url);
+        if (\is_array($payload)) {
+            $request = $this->buildMultipartRequest($url, $payload);
+        } else {
+            $request = $this->requestFactory->createRequest('GET', $url);
 
-        $request = $request->withHeader('Content-type', $contentType);
-
-        if ($payload) {
-            $payloadStream = $this->streamFactory->createStream($payload);
-            $request       = $request->withBody($payloadStream);
-            assert($request instanceof RequestInterface);
-            $request = $request->withMethod('POST');
+            if ('' !== $payload) {
+                $request = $request
+                    ->withBody($this->streamFactory->createStream($payload))
+                    ->withMethod('POST')
+                    ->withHeader('Content-type', $contentType)
+                ;
+            }
         }
-        assert($request instanceof RequestInterface);
 
         $response = $this->httpClient->sendRequest($request);
 
-        // @todo Handle failed requests.
+        // JSESSIONID - capture from the Set-Cookie headers with the same
+        // validation as the curl transport
+        foreach ($response->getHeader('Set-Cookie') as $cookie) {
+            if ($this->isValidCookieFormat($cookie)) {
+                $sessionId = $this->extractJSessionIdSafely($cookie);
+
+                if (null !== $sessionId) {
+                    $this->setJSessionId($sessionId);
+                }
+            }
+        }
+
+        $httpCode = $response->getStatusCode();
+
+        if ($httpCode < 200 || $httpCode >= 300) {
+            throw new BadResponseException('Bad response, HTTP code: ' . $httpCode . ', url: ' . $url);
+        }
 
         return (string) $response->getBody();
     }
 
     /**
+     * Builds a multipart/form-data request, e.g. for the caption track upload.
+     *
+     * @param array<string, \CURLFile|string> $payload
+     */
+    private function buildMultipartRequest(string $url, array $payload): RequestInterface
+    {
+        if (null === $this->requestFactory || null === $this->streamFactory) {
+            throw new \RuntimeException('A request factory and a stream factory are required to build a multipart request.');
+        }
+
+        $boundary = 'bbb-' . bin2hex(random_bytes(16));
+        $body     = $this->streamFactory->createStream('');
+
+        foreach ($payload as $name => $value) {
+            $body->write("--{$boundary}\r\n");
+
+            if ($value instanceof \CURLFile) {
+                $filename = str_replace(["\r", "\n", '"'], '', $value->getPostFilename());
+                $body->write(sprintf(
+                    "Content-Disposition: form-data; name=\"%s\"; filename=\"%s\"\r\nContent-Type: %s\r\n\r\n",
+                    $name,
+                    $filename,
+                    $value->getMimeType()
+                ));
+                $body->write((string) $this->streamFactory->createStreamFromFile($value->getFilename()));
+                $body->write("\r\n");
+            } else {
+                $body->write(sprintf("Content-Disposition: form-data; name=\"%s\"\r\n\r\n%s\r\n", $name, $value));
+            }
+        }
+
+        $body->write("--{$boundary}--\r\n");
+
+        return $this->requestFactory->createRequest('POST', $url)
+            ->withBody($body)
+            ->withHeader('Content-type', 'multipart/form-data; boundary=' . $boundary)
+        ;
+    }
+
+    /**
      * A private utility method used by other public methods to request HTTP responses.
+     *
+     * A string payload is sent as POST body with the given content type, an array
+     * payload is sent as multipart/form-data (the Content-type header incl. boundary
+     * is then set by cURL itself).
+     *
+     * @param array<string, mixed>|string $payload
      *
      * @throws BadResponseException|\RuntimeException
      */
-    private function sendRequestWithCurl(string $url, string $payload = '', string $contentType = 'application/xml'): string
+    private function sendRequestWithCurl(string $url, array|string $payload = '', string $contentType = 'application/xml'): string
     {
         if (!extension_loaded('curl')) {
             throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
