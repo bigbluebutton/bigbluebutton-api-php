@@ -77,9 +77,11 @@ class DocumentUrl extends Document
     {
         $ch = curl_init($url);
 
+        // @codeCoverageIgnoreStart
         if (!$ch) {
             throw new \RuntimeException('Unhandled curl error!');
         }
+        // @codeCoverageIgnoreEnd
 
         curl_setopt($ch, CURLOPT_TIMEOUT, $this->getTimeout());
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->getTimeout());

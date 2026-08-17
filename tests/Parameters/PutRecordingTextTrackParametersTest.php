@@ -75,4 +75,44 @@ class PutRecordingTextTrackParametersTest extends TestCase
         $parameters = new PutRecordingTextTrackParameters('record-id', 'subtitles', 'en', 'English');
         $parameters->setTrackFile('/nonexistent/path/captions.vtt');
     }
+
+    public function testPutRecordingTextTrackSetters(): void
+    {
+        $putRecordingTextTrackParams = new PutRecordingTextTrackParameters('rec-123', 'subtitles', 'en', 'English');
+
+        $putRecordingTextTrackParams
+            ->setRecordId('rec-456')
+            ->setKind('captions')
+            ->setLang('fr')
+            ->setLabel('Français')
+        ;
+
+        $this->assertSame('rec-456', $putRecordingTextTrackParams->getRecordId());
+        $this->assertSame('captions', $putRecordingTextTrackParams->getKind());
+        $this->assertSame('fr', $putRecordingTextTrackParams->getLang());
+        $this->assertSame('Français', $putRecordingTextTrackParams->getLabel());
+    }
+
+    public function testTrackFileMimeTypes(): void
+    {
+        $parameters = new PutRecordingTextTrackParameters('rec', 'subtitles', 'en', 'English');
+
+        $vtt = tempnam(sys_get_temp_dir(), 'vtt');
+        rename($vtt, $vtt . '.vtt');
+        $parameters->setTrackFile($vtt . '.vtt');
+        $this->assertSame('text/vtt', $parameters->getTrackFile()->getMimeType());
+
+        $srt = tempnam(sys_get_temp_dir(), 'srt');
+        rename($srt, $srt . '.srt');
+        $parameters->setTrackFile($srt . '.srt');
+        $this->assertSame('text/plain', $parameters->getTrackFile()->getMimeType());
+
+        $bin = tempnam(sys_get_temp_dir(), 'bin');
+        $parameters->setTrackFile($bin);
+        $this->assertSame('application/octet-stream', $parameters->getTrackFile()->getMimeType());
+
+        unlink($vtt . '.vtt');
+        unlink($srt . '.srt');
+        unlink($bin);
+    }
 }

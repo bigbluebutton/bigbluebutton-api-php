@@ -52,7 +52,7 @@ enum Feature: string
     case CHAT_MESSAGE_REACTIONS                   = 'chatMessageReactions';
     case RAISE_HAND                               = 'raiseHand';
     case USER_REACTIONS                           = 'userReactions';
-    case CHAT_EMOJI_PICKET                        = 'chatEmojiPicker';
+    case CHAT_EMOJI_PICKER                        = 'chatEmojiPicker';
     case QUIZZES                                  = 'quizzes';
     case PRIVATE_CHAT                             = 'privateChat';
     case PLUGINS                                  = 'plugins';

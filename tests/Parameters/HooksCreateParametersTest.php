@@ -70,4 +70,12 @@ class HooksCreateParametersTest extends ParameterTestCase
         $this->assertEquals($getRaw, $hooksCreateParameters->getRaw());
         $this->assertEquals($eventIds, $hooksCreateParameters->getEventId());
     }
+
+    public function testHooksCreateSetters(): void
+    {
+        $hooksCreateParams = new HooksCreateParameters('https://hook.example.com/old');
+        $hooksCreateParams->setCallbackUrl('https://hook.example.com/new');
+
+        $this->assertSame('https://hook.example.com/new', $hooksCreateParams->getCallbackUrl());
+    }
 }

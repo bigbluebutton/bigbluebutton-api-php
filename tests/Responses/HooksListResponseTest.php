@@ -75,4 +75,15 @@ class HooksListResponseTest extends TestCase
         $this->assertEachGetterValueIsString($aHook, ['getCallbackUrl', 'getMeetingId', 'getHookId']);
         $this->assertEachGetterValueIsBoolean($aHook, ['hasRawData', 'isPermanentHook']);
     }
+
+    public function testHookEventId(): void
+    {
+        $fixtures = new Fixtures();
+        $hooks    = new HooksListResponse($fixtures->fromXmlFile('hooks_list.xml'));
+
+        foreach ($hooks->getHooks() as $hook) {
+            $this->assertInstanceOf(Hook::class, $hook);
+            $this->assertIsArray($hook->getEventID());
+        }
+    }
 }

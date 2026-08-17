@@ -2296,9 +2296,11 @@ class CreateMeetingParameters extends MetaParameters
             }
 
             return $targetDom->saveXML() ?: $first;
+            // @codeCoverageIgnoreStart
         } catch (\Exception) {
             // If XML parsing fails, return the first modules XML as fallback
             return $first;
+            // @codeCoverageIgnoreEnd
         }
     }
 

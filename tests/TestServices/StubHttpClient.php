@@ -18,28 +18,33 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\TestServices;
+
+use Nyholm\Psr7\Response;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
- * @internal
+ * A PSR-18 client that always returns the same canned response.
+ *
+ * It allows testing all API methods of the BigBlueButton-class offline,
+ * without a real server.
  */
-class GetRecordingTextTracksParametersTest extends ParameterTestCase
+class StubHttpClient implements ClientInterface
 {
-    public function testGetRecordingTextTracksParameters(): void
+    private ResponseInterface $response;
+
+    /**
+     * @param array<string, string> $headers
+     */
+    public function __construct(int $status = 200, array $headers = [], string $body = '')
     {
-        $getRecordingTextTracksParams = new GetRecordingTextTracksParameters($recordId = $this->faker->uuid);
-
-        $this->assertEquals($recordId, $getRecordingTextTracksParams->getRecordId());
-
-        // Test setters that are ignored by the constructor
-        $getRecordingTextTracksParams->setRecordId($newRecordId = $this->faker->uuid);
-        $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordId());
+        $this->response = new Response($status, $headers, $body);
     }
 
-    public function testGetRecordingTextTracksHttpQuery(): void
+    public function sendRequest(RequestInterface $request): ResponseInterface
     {
-        $getRecordingTextTracksParams = new GetRecordingTextTracksParameters('rec-123');
-
-        $this->assertStringContainsString('recordID=rec-123', $getRecordingTextTracksParams->getHTTPQuery());
+        return $this->response;
     }
 }

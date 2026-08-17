@@ -25,6 +25,7 @@ use BigBlueButton\Core\DocumentFile;
 use BigBlueButton\Core\DocumentUrl;
 use BigBlueButton\Enum\Feature;
 use BigBlueButton\Enum\Role;
+use BigBlueButton\Exceptions\BadResponseException;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -696,6 +697,38 @@ class BigBlueButtonTest extends TestCase
         $hooksDestroyParameters = new HooksDestroyParameters((string) $this->faker->numberBetween(10000, 99999));
         $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
         $this->assertFalse($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
+    }
+
+    public function testCurlRequestFailureThrowsRuntimeException(): void
+    {
+        $bbb = new BigBlueButton('https://nonexistent-host.invalid/bigbluebutton/', 'secret');
+
+        $this->expectException(\RuntimeException::class);
+
+        $bbb->getMeetings();
+    }
+
+    public function testCurlOptionsAreAppliedBeforeExecution(): void
+    {
+        // custom curl options are passed to the handle even when the request itself fails
+        $bbb = new BigBlueButton('https://nonexistent-host.invalid/bigbluebutton/', 'secret');
+        $bbb->setCurlOpts([CURLOPT_VERBOSE => 0]);
+
+        $this->expectException(\RuntimeException::class);
+
+        $bbb->getMeetings();
+    }
+
+    public function testCurlNonSuccessResponseThrowsBadResponseException(): void
+    {
+        EnvLoader::loadEnvironmentVariables();
+        $baseUrl = \mb_rtrim((string) getenv('BBB_SERVER_BASE_URL'), '/') . '/definitely-not-a-page';
+
+        $bbb = new BigBlueButton($baseUrl, 'secret');
+
+        $this->expectException(BadResponseException::class);
+
+        $bbb->getMeetings();
     }
 
     /**

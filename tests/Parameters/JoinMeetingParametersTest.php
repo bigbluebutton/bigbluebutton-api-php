@@ -100,4 +100,27 @@ class JoinMeetingParametersTest extends ParameterTestCase
         $joinMeetingParams->setEnforceLayout('CUSTOM_LAYOUT');
         $this->assertSame(MeetingLayout::CUSTOM_LAYOUT, $joinMeetingParams->getEnforceLayout());
     }
+
+    public function testJoinMeetingAdditionalSetters(): void
+    {
+        $joinMeetingParams = new JoinMeetingParameters('id', 'name', 'password');
+
+        $joinMeetingParams
+            ->setBot(true)
+            ->setCustomParameter('custom-key', 'custom-value')
+            ->setFirstName('Peter')
+            ->setLastName('Parker')
+            ->setLogoutURL('https://app.example.com/logout')
+        ;
+
+        $this->assertTrue($joinMeetingParams->isBot());
+        $this->assertSame('Peter', $joinMeetingParams->getFirstName());
+        $this->assertSame('Parker', $joinMeetingParams->getLastName());
+        $this->assertSame('https://app.example.com/logout', $joinMeetingParams->getLogoutURL());
+
+        $query = $joinMeetingParams->getHTTPQuery();
+        $this->assertStringContainsString('custom-key=custom-value', $query);
+        $this->assertStringContainsString('firstName=Peter', $query);
+        $this->assertStringContainsString('lastName=Parker', $query);
+    }
 }

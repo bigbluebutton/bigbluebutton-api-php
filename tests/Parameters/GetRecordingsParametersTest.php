@@ -40,4 +40,16 @@ class GetRecordingsParametersTest extends ParameterTestCase
         $this->assertEquals($state, $getRecordings->getState());
         $this->assertStringContainsString('meta_' . $meta . '=' . $name, $params);
     }
+
+    public function testGetRecordingsSetters(): void
+    {
+        $getRecordingsParams = new GetRecordingsParameters();
+        $getRecordingsParams
+            ->setOffset(10)
+            ->setLimit(20)
+        ;
+
+        $this->assertSame(10, $getRecordingsParams->getOffset());
+        $this->assertSame(20, $getRecordingsParams->getLimit());
+    }
 }

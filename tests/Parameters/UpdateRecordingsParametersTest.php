@@ -39,4 +39,12 @@ class UpdateRecordingsParametersTest extends ParameterTestCase
         $updateRecordingsParams->setRecordingId($newId = $this->faker->uuid);
         $this->assertEquals($newId, $updateRecordingsParams->getRecordingId());
     }
+
+    public function testUpdateRecordingsMetaBooleans(): void
+    {
+        $updateRecordingsParams = new UpdateRecordingsParameters('rec-123');
+        $updateRecordingsParams->addMeta('approved', true);
+
+        $this->assertStringContainsString('meta_approved=true', $updateRecordingsParams->getHTTPQuery());
+    }
 }

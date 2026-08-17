@@ -180,4 +180,29 @@ class GetJoinUrlParametersTest extends ParameterTestCase
         $this->assertStringContainsString('userdata-preference-theme=dark', $query);
         $this->assertStringContainsString('userdata-device-info=', $query);
     }
+
+    public function testGetJoinUrlUserData(): void
+    {
+        $getJoinUrlParams = new GetJoinUrlParameters('token');
+        $getJoinUrlParams->addUserData('device-type', 'mobile');
+
+        $this->assertSame('mobile', $getJoinUrlParams->getUserData('device-type'));
+        $this->assertStringContainsString('userdata-device-type=mobile', $getJoinUrlParams->getHTTPQuery());
+    }
+
+    public function testGetJoinUrlUserDataBooleans(): void
+    {
+        $getJoinUrlParams = new GetJoinUrlParameters('token');
+        $getJoinUrlParams
+            ->addUserData('flag-on', true)
+            ->addUserData('flag-off', false)
+            ->addUserData('note', 'text')
+        ;
+
+        $query = $getJoinUrlParams->getHTTPQuery();
+
+        $this->assertStringContainsString('userdata-flag-on=true', $query);
+        $this->assertStringContainsString('userdata-flag-off=false', $query);
+        $this->assertStringContainsString('userdata-note=text', $query);
+    }
 }

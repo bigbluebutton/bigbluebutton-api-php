@@ -197,4 +197,46 @@ class CookieSecurityTest extends TestCase
             $this->assertFalse($method->invoke($this->bbb, $id), "Invalid ID should fail: {$id}");
         }
     }
+
+    public function testSessionIdValidationRejectsInvalidValues(): void
+    {
+        $bbb    = new BigBlueButton('https://server.example.com/bigbluebutton/', 'secret');
+        $method = new \ReflectionMethod($bbb, 'isValidSessionId');
+
+        $this->assertFalse($method->invoke($bbb, str_repeat('a', 101)));
+        $this->assertFalse($method->invoke($bbb, 'invalid@characters'));
+        $this->assertTrue($method->invoke($bbb, 'abc123DEF-456.789'));
+    }
+
+    public function testJSessionIdExtractionFromCookieJar(): void
+    {
+        $bbb    = new BigBlueButton('https://server.example.com/bigbluebutton/', 'secret');
+        $method = new \ReflectionMethod($bbb, 'extractJSessionIdFromCookieJar');
+
+        // Netscape jar format: domain, flag, path, secure, name, value
+        $jar = tempnam(sys_get_temp_dir(), 'jar');
+        file_put_contents($jar, implode("\n", [
+            "#HttpOnly_server.example.com\tFALSE\t/bigbluebutton\tTRUE\tJSESSIONID\tabc123DEF456ghi789",
+            "server.example.com\tFALSE\t/\tFALSE\tOTHERCOOKIE\tothervalue",
+            'short-line',
+            "#HttpOnly_server.example.com\tFALSE\t/bigbluebutton\tTRUE\tJSESSIONID\t../dangerous/value",
+            "#HttpOnly_server.example.com\tFALSE\t/bigbluebutton\tTRUE\tjsessionid\tvalid987value654",
+        ]));
+
+        try {
+            $method->invoke($bbb, $jar);
+
+            // the last valid jsessionid entry wins
+            $this->assertSame('valid987value654', $bbb->getJSessionId());
+        } finally {
+            unlink($jar);
+        }
+    }
+
+    public function testJSessionIdIsEmptyByDefault(): void
+    {
+        $bbb = new BigBlueButton('https://server.example.com/bigbluebutton/', 'secret');
+
+        $this->assertSame('', $bbb->getJSessionId());
+    }
 }

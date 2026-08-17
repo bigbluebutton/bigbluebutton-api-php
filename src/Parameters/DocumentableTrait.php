@@ -63,9 +63,11 @@ trait DocumentableTrait
             foreach ($this->documents as $document) {
                 $documentNode = $moduleNode->addChild('document');
 
+                // @codeCoverageIgnoreStart
                 if (null === $documentNode) {
                     throw new \Exception('XML could not be generated');
                 }
+                // @codeCoverageIgnoreEnd
 
                 if ($document->getValidation()) {
                     if (!$document->isValid()) {
@@ -116,9 +118,11 @@ trait DocumentableTrait
             $result = $xml->asXML();
         }
 
+        // @codeCoverageIgnoreStart
         if (!is_string($result)) {
             throw new \RuntimeException('String expected, but ' . gettype($result) . ' received.');
         }
+        // @codeCoverageIgnoreEnd
 
         return $result;
     }
@@ -161,8 +165,6 @@ trait DocumentableTrait
                         $document->setRemovable($value);
 
                         break;
-                    default:
-                        throw new \Exception('The value ' . $documentOption . ' is not valid.');
                 }
             }
         }

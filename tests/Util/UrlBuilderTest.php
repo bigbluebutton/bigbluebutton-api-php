@@ -27,13 +27,12 @@ use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\EnvBackup;
 use BigBlueButton\TestServices\Fixtures;
 use BigBlueButton\TestServices\ParamsIterator;
 
 /**
  * @internal
- *
- * @coversNothing
  */
 class UrlBuilderTest extends TestCase
 {
@@ -150,5 +149,53 @@ class UrlBuilderTest extends TestCase
         $url            = $this->urlBuilder->getUpdateRecordingsUrl(Fixtures::getUpdateRecordingsParamsMock($params));
         $paramsIterator = new ParamsIterator('testUpdateRecordingsUrl');
         $paramsIterator->iterate($params, $url);
+    }
+
+    public function testUrlBuilderFromEnvVarsRequiresSecret(): void
+    {
+        $env = EnvBackup::save(['BBB_SECRET', 'BBB_SECURITY_SALT']);
+        putenv('BBB_SECRET');
+        putenv('BBB_SECURITY_SALT');
+
+        try {
+            $this->expectException(\RuntimeException::class);
+            $this->expectExceptionMessage('No BBB-Secret');
+
+            UrlBuilder::fromEnvVars(null, 'https://server.example.com/bigbluebutton/');
+        } finally {
+            EnvBackup::restore($env);
+        }
+    }
+
+    public function testUrlBuilderFromEnvVarsRequiresBaseUrl(): void
+    {
+        $env = EnvBackup::save(['BBB_SECRET', 'BBB_SERVER_BASE_URL']);
+        putenv('BBB_SECRET=dummy-secret');
+        putenv('BBB_SERVER_BASE_URL');
+
+        try {
+            $this->expectException(\RuntimeException::class);
+            $this->expectExceptionMessage('No BBB-Server-Url');
+
+            UrlBuilder::fromEnvVars();
+        } finally {
+            EnvBackup::restore($env);
+        }
+    }
+
+    public function testUrlBuilderFromEnvVarsLegacySalt(): void
+    {
+        $env = EnvBackup::save(['BBB_SECRET', 'BBB_SECURITY_SALT', 'BBB_SERVER_BASE_URL']);
+        putenv('BBB_SECRET');
+        putenv('BBB_SECURITY_SALT=legacy-salt');
+        putenv('BBB_SERVER_BASE_URL=https://server.example.com/bigbluebutton/');
+
+        try {
+            $urlBuilder = UrlBuilder::fromEnvVars();
+
+            $this->assertSame('legacy-salt', $urlBuilder->getSecret());
+        } finally {
+            EnvBackup::restore($env);
+        }
     }
 }

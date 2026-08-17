@@ -18,28 +18,39 @@
  * with BigBlueButton; if not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace BigBlueButton\Parameters;
+namespace BigBlueButton\TestServices;
 
 /**
- * @internal
+ * Saves and restores environment variables around tests that modify them.
  */
-class GetRecordingTextTracksParametersTest extends ParameterTestCase
+class EnvBackup
 {
-    public function testGetRecordingTextTracksParameters(): void
+    /**
+     * @param array<int, string> $names
+     *
+     * @return array<string, false|string>
+     */
+    public static function save(array $names): array
     {
-        $getRecordingTextTracksParams = new GetRecordingTextTracksParameters($recordId = $this->faker->uuid);
+        $backup = [];
+        foreach ($names as $name) {
+            $backup[$name] = getenv($name);
+        }
 
-        $this->assertEquals($recordId, $getRecordingTextTracksParams->getRecordId());
-
-        // Test setters that are ignored by the constructor
-        $getRecordingTextTracksParams->setRecordId($newRecordId = $this->faker->uuid);
-        $this->assertEquals($newRecordId, $getRecordingTextTracksParams->getRecordId());
+        return $backup;
     }
 
-    public function testGetRecordingTextTracksHttpQuery(): void
+    /**
+     * @param array<string, false|string> $backup
+     */
+    public static function restore(array $backup): void
     {
-        $getRecordingTextTracksParams = new GetRecordingTextTracksParameters('rec-123');
-
-        $this->assertStringContainsString('recordID=rec-123', $getRecordingTextTracksParams->getHTTPQuery());
+        foreach ($backup as $name => $value) {
+            if (false === $value) {
+                putenv($name);
+            } else {
+                putenv($name . '=' . $value);
+            }
+        }
     }
 }

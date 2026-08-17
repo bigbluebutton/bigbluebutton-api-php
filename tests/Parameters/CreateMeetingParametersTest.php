@@ -468,4 +468,100 @@ class CreateMeetingParametersTest extends ParameterTestCase
         $this->assertStringContainsString('sharedNotesInitialContentMarkdown=%23+Notes', $query);
         $this->assertStringContainsString('sharedNotesInitialContentMarkdownUrl=', $query);
     }
+
+    public function testCreateMeetingAdditionalSetters(): void
+    {
+        $createMeetingParams = new CreateMeetingParameters('id', 'name');
+
+        $createMeetingParams
+            ->setAllowPromoteGuestToModerator(true)
+            ->setLoginURL('https://app.example.com/login')
+            ->setMaxNumPages(150)
+            ->setMultiUserWhiteboardEnabled(true)
+            ->setPluginManifests('["https://plugin.example.com/manifest.json"]')
+            ->setPluginManifestsFetchUrl('https://plugin.example.com/manifests.json')
+            ->setPreUploadedPresentation('https://files.example.com/slides.pdf')
+            ->setPreUploadedPresentationName('slides.pdf')
+            ->setPresentationConversionCacheEnabled(true)
+        ;
+
+        $this->assertTrue($createMeetingParams->isAllowPromoteGuestToModerator());
+        $this->assertSame('https://app.example.com/login', $createMeetingParams->getLoginURL());
+        $this->assertSame(150, $createMeetingParams->getMaxNumPages());
+        $this->assertTrue($createMeetingParams->isMultiUserWhiteboardEnabled());
+        $this->assertSame('["https://plugin.example.com/manifest.json"]', $createMeetingParams->getPluginManifests());
+        $this->assertSame('https://plugin.example.com/manifests.json', $createMeetingParams->getPluginManifestsFetchUrl());
+        $this->assertSame('https://files.example.com/slides.pdf', $createMeetingParams->getPreUploadedPresentation());
+        $this->assertSame('slides.pdf', $createMeetingParams->getPreUploadedPresentationName());
+        $this->assertTrue($createMeetingParams->isPresentationConversionCacheEnabled());
+
+        $query = $createMeetingParams->getHTTPQuery();
+        $this->assertStringContainsString('loginURL=', $query);
+        $this->assertStringContainsString('maxNumPages=150', $query);
+        $this->assertStringContainsString('pluginManifestsFetchUrl=', $query);
+        $this->assertStringContainsString('preUploadedPresentation=', $query);
+    }
+
+    public function testMetaAndPluginValuesAreConvertedToApiStrings(): void
+    {
+        $createMeetingParams = new CreateMeetingParameters('id', 'name');
+        $createMeetingParams
+            ->addMeta('flag-on', true)
+            ->addMeta('flag-off', false)
+            ->addPluginMeta('enabled', true)
+            ->addPluginMeta('disabled', false)
+        ;
+
+        $query = $createMeetingParams->getHTTPQuery();
+
+        $this->assertStringContainsString('meta_flag-on=true', $query);
+        $this->assertStringContainsString('meta_flag-off=false', $query);
+        $this->assertStringContainsString('plugin_enabled=true', $query);
+        $this->assertStringContainsString('plugin_disabled=false', $query);
+    }
+
+    public function testPluginManifestsMustBeValidJson(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $createMeetingParams = new CreateMeetingParameters('id', 'name');
+        $createMeetingParams->setPluginManifests('not-json');
+    }
+
+    public function testAddPresentationRequiresContentForNonUrls(): void
+    {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('content-value');
+
+        $createMeetingParams = new CreateMeetingParameters('id', 'name');
+        $createMeetingParams->addPresentation('local-file.pdf');
+    }
+
+    public function testMergeModulesFallbacksOnInvalidXml(): void
+    {
+        $createMeetingParams = new CreateMeetingParameters('id', 'name');
+        $method              = new \ReflectionMethod($createMeetingParams, 'mergeModulesXml');
+
+        // suppress the warning of the intentionally malformed XML
+        set_error_handler(static fn (): bool => true);
+
+        try {
+            $method->invoke($createMeetingParams, ['<modules><module name="x"/></modules>', '<not-xml-at-all']);
+        } finally {
+            restore_error_handler();
+        }
+
+        // an XML without a modules-container returns the input unchanged
+        $result = $method->invoke($createMeetingParams, ['<other/>']);
+        $this->assertSame('<other/>', $result);
+
+        // a source without a modules-container is skipped during merging
+        $merged = $method->invoke($createMeetingParams, [
+            '<modules><module name="first"/></modules>',
+            '<no-modules-here/>',
+            '<modules><module name="second"/></modules>',
+        ]);
+        $this->assertStringContainsString('name="first"', $merged);
+        $this->assertStringContainsString('name="second"', $merged);
+    }
 }

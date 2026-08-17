@@ -118,4 +118,20 @@ class GetRecordingsResponseTest extends TestCase
 
         $this->assertEachGetterValueIsDouble($aRecord, ['getStartTime', 'getEndTime']);
     }
+
+    public function testGetRecordingsTotalElements(): void
+    {
+        $fixtures = new Fixtures();
+
+        // without pagination the BBB-Server does not include totalElements
+        $response = new GetRecordingsResponse($fixtures->fromXmlFile('get_recordings.xml'));
+        $this->assertNotNull($response->getRecords());
+        $this->assertNull($response->getTotalElements());
+
+        // with pagination it is part of the response
+        $paginatedXml = simplexml_load_string('<response><returncode>SUCCESS</returncode><totalElements>6</totalElements><recordings/></response>');
+        $this->assertIsObject($paginatedXml);
+        $paginated = new GetRecordingsResponse($paginatedXml);
+        $this->assertSame(6, $paginated->getTotalElements());
+    }
 }

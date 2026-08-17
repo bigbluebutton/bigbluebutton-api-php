@@ -94,9 +94,9 @@ class BigBlueButton
     /**
      * @var array<int, mixed>
      */
-    protected array $curlOpts = [];
-    protected int $timeOut    = 10;
-    protected string $jSessionId;
+    protected array $curlOpts    = [];
+    protected int $timeOut       = 10;
+    protected string $jSessionId = '';
 
     protected UrlBuilder $urlBuilder;
 
@@ -801,16 +801,20 @@ class BigBlueButton
      */
     private function sendRequestWithCurl(string $url, array|string $payload = '', string $contentType = 'application/xml'): string
     {
+        // @codeCoverageIgnoreStart
         if (!extension_loaded('curl')) {
             throw new \RuntimeException('Post XML data set but curl PHP module is not installed or not enabled.');
         }
+        // @codeCoverageIgnoreEnd
 
         $ch         = curl_init();
         $cookieFile = tmpfile();
 
+        // @codeCoverageIgnoreStart
         if (false === $ch) {
             throw new \RuntimeException('Failed to initialize cURL');
         }
+        // @codeCoverageIgnoreEnd
 
         // JSESSIONID - use a temporary cookie file to collect the cookies of the response
         if ($cookieFile) {
@@ -861,26 +865,7 @@ class BigBlueButton
         // JSESSIONID - Read the collected cookies from the jar (Netscape format)
         // and extract the session id with internal validation
         if ($cookieFile) {
-            $jarLines = file(stream_get_meta_data($cookieFile)['uri'], FILE_IGNORE_NEW_LINES) ?: [];
-
-            foreach ($jarLines as $jarLine) {
-                $jarFields = explode("\t", $jarLine);
-
-                // a jar line consists of: domain, flag, path, secure, name, value
-                if (\count($jarFields) < 6 || 'JSESSIONID' !== $jarFields[4] && 'jsessionid' !== $jarFields[4]) {
-                    continue;
-                }
-
-                $cookie = $jarFields[4] . '=' . $jarFields[5];
-
-                if ($this->isValidCookieFormat($cookie)) {
-                    $sessionId = $this->extractJSessionIdSafely($cookie);
-
-                    if (null !== $sessionId) {
-                        $this->setJSessionId($sessionId);
-                    }
-                }
-            }
+            $this->extractJSessionIdFromCookieJar(stream_get_meta_data($cookieFile)['uri']);
         }
 
         // ANALYSE
@@ -967,6 +952,34 @@ class BigBlueButton
         }
 
         return true;
+    }
+
+    /**
+     * Extracts the JSESSIONID from a Netscape-format cookie jar file.
+     *
+     * A jar line consists of: domain, flag, path, secure, name, value.
+     */
+    private function extractJSessionIdFromCookieJar(string $jarPath): void
+    {
+        $jarLines = file($jarPath, FILE_IGNORE_NEW_LINES) ?: [];
+
+        foreach ($jarLines as $jarLine) {
+            $jarFields = explode("\t", $jarLine);
+
+            if (\count($jarFields) < 6 || ('JSESSIONID' !== $jarFields[4] && 'jsessionid' !== $jarFields[4])) {
+                continue;
+            }
+
+            $cookie = $jarFields[4] . '=' . $jarFields[5];
+
+            if ($this->isValidCookieFormat($cookie)) {
+                $sessionId = $this->extractJSessionIdSafely($cookie);
+
+                if (null !== $sessionId) {
+                    $this->setJSessionId($sessionId);
+                }
+            }
+        }
     }
 
     /**

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace BigBlueButton\Parameters;
 
+use BigBlueButton\Core\Document;
 use BigBlueButton\Core\DocumentFile;
 use BigBlueButton\Core\DocumentUrl;
 use BigBlueButton\Enum\DocumentOption;
@@ -202,5 +203,78 @@ final class InsertDocumentParametersTest extends ParameterTestCase
         $this->assertCount(1, $insertDocumentParameters->getDocuments());
         $this->assertIsString($xmlAsIs);
         $this->assertXmlStringEqualsXmlFile($filepathXml, $xmlAsIs);
+    }
+
+    public function testInvalidDocumentClassIsRejected(): void
+    {
+        $document = new class extends Document {
+            public function getUrl(): ?string
+            {
+                return null;
+            }
+
+            public function isValid(): bool
+            {
+                return true;
+            }
+        };
+
+        $insertDocumentParams = new InsertDocumentParameters('meeting-id');
+        $insertDocumentParams->addDocument($document);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('is not a valid document');
+
+        $insertDocumentParams->getDocumentsAsXML();
+    }
+
+    public function testDocumentOptionsAreSerialized(): void
+    {
+        $insertDocumentParams = new InsertDocumentParameters('meeting-id');
+        $insertDocumentParams->addPresentation(
+            'https://files.example.com/doc.pdf',
+            null,
+            'doc.pdf',
+            (new DocumentOptions())
+                ->addOption(DocumentOption::CURRENT, true)
+                ->addOption(DocumentOption::DOWNLOADABLE, false)
+                ->addOption(DocumentOption::REMOVABLE, true)
+        );
+
+        $xml = $insertDocumentParams->getPresentationsAsXML();
+
+        $this->assertStringContainsString('current="true"', $xml);
+        $this->assertStringContainsString('downloadable="false"', $xml);
+        $this->assertStringContainsString('removable="true"', $xml);
+    }
+
+    public function testOtherAttributesAreSerialized(): void
+    {
+        $insertDocumentParams = new InsertDocumentParameters('meeting-id');
+        $insertDocumentParams->addPresentation(
+            'https://files.example.com/doc.pdf',
+            null,
+            null,
+            null,
+            ['custom-attr' => 'custom-value']
+        );
+
+        $xml = $insertDocumentParams->getPresentationsAsXML();
+
+        $this->assertStringContainsString('custom-attr="custom-value"', $xml);
+    }
+
+    public function testInvalidDocumentIsRejectedDuringSerialization(): void
+    {
+        $document = new DocumentFile('/nonexistent/path/file.txt', 'file.txt');
+        $document->setValidation(true);
+
+        $insertDocumentParams = new InsertDocumentParameters('meeting-id');
+        $insertDocumentParams->addDocument($document);
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('is not valid');
+
+        $insertDocumentParams->getPresentationsAsXML();
     }
 }
