@@ -1,9 +1,8 @@
 {{#include ../header.md}}
 
 # Documentation
-> [!WARNING]  
-> The content of this section is outdated and is currently under review!
-> Please feel invited to contribute!
+
+This documentation is built with [mdBook](https://rust-lang.github.io/mdBook/). The sources live in `docs/src/`; the build output goes to `docs/book/` (git-ignored).
 
 1) Install rust
 

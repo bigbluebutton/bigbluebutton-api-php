@@ -241,9 +241,8 @@ Here are some commonly overridden settings:
 Documents can be added either during the creation of a meeting (see `$createMeetingParameters`) or can be added once needed. This section is about adding documents into a running meeting.
 
 #### old way (presentations)
-> [!WARNING]  
-> The content of this section is outdated and is currently under review!
-> Please feel invited to contribute!
+> [!NOTE]
+> `addPresentation()` is deprecated — use the document-based API below instead.
 
 ```php
 use BigBlueButton\BigBlueButton;
@@ -283,12 +282,31 @@ if (!$createMeetingResponse->success()) {
 // steps once document has been added
 ```
 #### new way (documents)
-> [!WARNING]  
-> The content of this section is outdated and is currently under review!
-> Please feel invited to contribute!
+The document-based API replaces the deprecated `addPresentation()` calls. A document is either a `DocumentUrl` (referenced by URL) or a `DocumentFile` (read from the local filesystem); options like `current`, `removable` and `downloadable` are set directly on the document:
 
 ```php
+use BigBlueButton\Core\DocumentFile;
+use BigBlueButton\Core\DocumentUrl;
+use BigBlueButton\Parameters\InsertDocumentParameters;
+
+// ...
+
+$insertDocumentParameters = new InsertDocumentParameters($meetingId);
+
+// by URL, marked as the current presentation
+$insertDocumentParameters->addDocument(
+    (new DocumentUrl('https://files.example.com/slides.pdf', 'slides.pdf'))->setCurrent(true)
+);
+
+// from the local filesystem, downloadable for the participants
+$insertDocumentParameters->addDocument(
+    (new DocumentFile('/path/to/handout.pdf', 'handout.pdf'))->setDownloadable(true)
+);
+
+$insertDocumentResponse = $bbb->insertDocument($insertDocumentParameters);
 ```
+
+The same document objects are used when pre-uploading presentations into a meeting on `create` — see the `DocumentableTrait` methods on `CreateMeetingParameters`.
 
 ### Joining
 Once a meeting is created successfully, it is ready to let the participants into the meeting. This will be done with the join command. It needs to define into which meeting (`$meetingId`) and by what name (`$name`) the participant shall join the meeting. Additionally the role of the participant needs to be declared: either as moderator (`Role::MODERATOR`) or as a regular viewer (`Role::VIEWER`).

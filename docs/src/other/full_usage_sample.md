@@ -1,9 +1,6 @@
 {{#include ../header.md}}
 
 # Full Usage Example
-> [!WARNING]  
-> The content of this section is outdated and is currently under review!
-> Please feel invited to contribute!
 
 ## Introduction
 
@@ -18,8 +15,8 @@ library to create a meeting then join it.
 
 Before we can show you how to use the library, it is important to have the following point done:
 - BigBlueButton server installed. Easy enough, it takes 15 minutes or less. Just follow this link https://bigbluebutton.org/2018/03/28/install-bigbluebutton-in-15-minutes/ if not already done.
-- PHP 7.0 or higher. Whether the library is compatible with previous version of PHP 5.4, 5.5 and 5.6, we highly discourage you to use it on those versions to avoid any unwanted behavior.
-- curl, mbstring, simple-xml PHP extensions. They are active by default in most PHP distributions.
+- PHP 8.2 or higher.
+- curl, mbstring, SimpleXML and JSON PHP extensions. They are active by default in most PHP distributions.
 - A running HTTP server, Apache2 or nginx.
 - Composer PHP dependency manager pre-installed.
 
@@ -184,7 +181,7 @@ parameter. After it we are storing the meeting id we got from our form inside th
 ```php
 // Init BigBlueButton API
 $bbb = new BigBlueButton();
-$meetingId = $HTTP_POST_VARS['meeting'];
+$meetingId = $_POST['meeting'];
 ```
 
 ## Creating the meeting
@@ -210,12 +207,12 @@ are detailed below.
 Joining the meeting is done in two steps. In the first step we create an instance of `CreateMeetingParameters` and fill
 the previously saved `$meetingId`, then `username` and `role` values from POST values. The third required parameter is
 password, the role of the user is determined by the system depending on the provided password. For that reason we will
-read it from `$passwords` using the `$HTTP_POST_VARS['role']` key. 
+read it from `$passwords` using the `$_POST['role']` key. 
 
 
 ```php
 // Send a join meeting request
-$joinParams = new JoinMeetingParameters($meetingId, $HTTP_POST_VARS['username'], $passwords[$HTTP_POST_VARS['role']]);
+$joinParams = new JoinMeetingParameters($meetingId, $_POST['username'], $passwords[$_POST['role']]);
 ```
 
 ### Following the server redirection
