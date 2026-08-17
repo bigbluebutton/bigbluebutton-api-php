@@ -93,6 +93,34 @@ $createMeetingParameters
 // ...
 ```
 
+The initial content can also be provided as raw Markdown (BBB 3.0.33+). The BlockNote JSON takes precedence over the Markdown; within the Markdown variants the URL is resolved first, then the inline parameter, then the POST module.
+```php
+// ...
+
+$createMeetingParameters
+    ->setSharedNotesInitialContentMarkdownUrl('https://cdn.example.com/notes.md')  // fetched by the BBB-Server (HTTPS only)
+    ->setSharedNotesInitialContentMarkdown('# Short notes')              // ...or inline as create parameter
+    ->setSharedNotesInitialContentMarkdownModule('# Long notes...')      // ...or as POST module for large content
+    ;
+
+// ...
+```
+
+#### BBB 4.0 additions
+```php
+// ...
+
+$createMeetingParameters
+    ->setLockSettingsPresenterPolicy(PresenterPolicy::FREE_FOR_ALL)      // 'Request to Present' policy: moderatorOnly | requireApproval (default) | freeForAll
+    ->setNotifyRecordingAppend('This session is recorded for training.') // appended to the recording notification (requires notifyRecordingIsOn)
+    ->setRequireUserConsentBeforeUnmuting(true)                          // consent dialog before moderators may unmute a user
+    ;
+
+// ...
+```
+
+Note that BBB 4.0 removed some parameters that are still supported by this library for older server versions: `copyright` and `webVoice` (create) and `webVoiceConf` (join) are obsolete, `lockSettingsDisableNote` (singular) is replaced by `lockSettingsDisableNotes`, and `meetingLayout` only accepts `UNIFIED_LAYOUT` (new default), `CAMERAS_ONLY`, `PARTICIPANTS_AND_CHAT_ONLY`, `PRESENTATION_ONLY` and `MEDIA_ONLY` anymore.
+
 #### Client Settings Override
 The BigBlueButton PHP API supports overriding HTML5 client settings from the settings.yml file. This feature allows you to customize the client behavior for specific meetings without modifying the server configuration.
 

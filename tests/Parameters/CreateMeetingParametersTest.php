@@ -21,6 +21,7 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Core\ClientSettingsOverride;
+use BigBlueButton\Enum\PresenterPolicy;
 use BigBlueButton\TestServices\Fixtures;
 
 /**
@@ -416,6 +417,7 @@ class CreateMeetingParametersTest extends ParameterTestCase
         $createMeetingParams->setClientSettingsOverride($clientSettingsOverride);
 
         $createMeetingParams->setSharedNotesInitialContentJson('{"type":"doc"}');
+        $createMeetingParams->setSharedNotesInitialContentMarkdownModule('# Welcome');
 
         $xml = $createMeetingParams->getModulesAsXML();
 
@@ -423,8 +425,47 @@ class CreateMeetingParametersTest extends ParameterTestCase
         $this->assertStringContainsString('<module name="presentation"', $xml);
         $this->assertStringContainsString('<module name="clientSettingsOverride"', $xml);
         $this->assertStringContainsString('<module name="sharedNotesInitialContentJson"', $xml);
+        $this->assertStringContainsString('<module name="sharedNotesInitialContentMarkdown"', $xml);
 
         // exactly one <modules> container must remain
         $this->assertSame(1, mb_substr_count($xml, '<modules'));
+    }
+
+    public function testSharedNotesInitialContentMarkdownAsXML(): void
+    {
+        $createMeetingParams = new CreateMeetingParameters('123', 'Markdown Test');
+
+        $this->assertSame('', $createMeetingParams->getSharedNotesInitialContentMarkdownAsXML());
+
+        $markdown = "# Welcome\n\n- First item\n- Second item";
+        $createMeetingParams->setSharedNotesInitialContentMarkdownModule($markdown);
+
+        $this->assertEquals($markdown, $createMeetingParams->getSharedNotesInitialContentMarkdownModule());
+
+        $xml = $createMeetingParams->getSharedNotesInitialContentMarkdownAsXML();
+        $this->assertStringContainsString('<module name="sharedNotesInitialContentMarkdown">', $xml);
+        $this->assertStringContainsString('<![CDATA[', $xml);
+        $this->assertStringContainsString('# Welcome', $xml);
+    }
+
+    public function testPresenterPolicyParametersInHttpQuery(): void
+    {
+        $createMeetingParams = new CreateMeetingParameters('123', '4.0 Params Test');
+
+        $createMeetingParams
+            ->setLockSettingsPresenterPolicy(PresenterPolicy::FREE_FOR_ALL)
+            ->setNotifyRecordingAppend('This session is recorded for training purposes.')
+            ->setRequireUserConsentBeforeUnmuting(true)
+            ->setSharedNotesInitialContentMarkdown('# Notes')
+            ->setSharedNotesInitialContentMarkdownUrl('https://cdn.example.com/notes.md')
+        ;
+
+        $query = $createMeetingParams->getHTTPQuery();
+
+        $this->assertStringContainsString('lockSettingsPresenterPolicy=freeForAll', $query);
+        $this->assertStringContainsString('notifyRecordingAppend=', $query);
+        $this->assertStringContainsString('requireUserConsentBeforeUnmuting=true', $query);
+        $this->assertStringContainsString('sharedNotesInitialContentMarkdown=%23+Notes', $query);
+        $this->assertStringContainsString('sharedNotesInitialContentMarkdownUrl=', $query);
     }
 }

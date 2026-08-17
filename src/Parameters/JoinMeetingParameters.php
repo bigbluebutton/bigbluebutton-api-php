@@ -153,6 +153,9 @@ class JoinMeetingParameters extends UserDataParameters
         return $this->webVoiceConf;
     }
 
+    /**
+     * @deprecated since 4.0 (obsolete; set a custom voice extension for the old Flash client, value was never read)
+     */
     public function setWebVoiceConf(string $webVoiceConf): self
     {
         $this->webVoiceConf = $webVoiceConf;

@@ -194,18 +194,16 @@ The `enforceLayout` parameter accepts the same values as the meeting creation:
 use BigBlueButton\Enum\MeetingLayout;
 
 // Available layout options
-MeetingLayout::UNIFIED_LAYOUT              // BBB 3.0+
-MeetingLayout::CUSTOM_LAYOUT
-MeetingLayout::SMART_LAYOUT
-MeetingLayout::PRESENTATION_FOCUS
-MeetingLayout::VIDEO_FOCUS
+MeetingLayout::UNIFIED_LAYOUT              // BBB 3.0+ (default in 4.0)
 MeetingLayout::CAMERAS_ONLY
-MeetingLayout::PARTICIPANTS_CHAT_ONLY      // BBB 2.x
 MeetingLayout::PARTICIPANTS_AND_CHAT_ONLY  // BBB 3.0+ (replaces PARTICIPANTS_CHAT_ONLY)
 MeetingLayout::PRESENTATION_ONLY
 MeetingLayout::PLUGINS_ONLY                // BBB 3.0+
 MeetingLayout::MEDIA_ONLY
 ```
+
+> [!WARNING]
+> BBB 4.0 no longer accepts `CUSTOM_LAYOUT`, `SMART_LAYOUT`, `PRESENTATION_FOCUS` and `VIDEO_FOCUS`. The cases remain available in this library for BBB 2.x/3.x servers, but using them against a 4.0 server has no effect.
 
 ## Userdata Parameters
 

@@ -23,6 +23,7 @@ namespace BigBlueButton\TestServices;
 use BigBlueButton\Enum\Feature;
 use BigBlueButton\Enum\GuestPolicy;
 use BigBlueButton\Enum\MeetingLayout;
+use BigBlueButton\Enum\PresenterPolicy;
 use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -207,6 +208,11 @@ class Fixtures
             'sharedNotesEditor'                      => $faker->randomElement(['etherpad', 'blockNote']),
             'sharedNotesInitialContentJsonUrl'       => $faker->url(),
             'clientSettingsOverrideJsonUrl'          => $faker->url(),
+            'sharedNotesInitialContentMarkdown'      => $faker->sentences(2, true),
+            'sharedNotesInitialContentMarkdownUrl'   => $faker->url(),
+            'notifyRecordingAppend'                  => $faker->sentence,
+            'requireUserConsentBeforeUnmuting'       => $faker->boolean(50),
+            'lockSettingsPresenterPolicy'            => self::randomEnumValues($faker, PresenterPolicy::class, 1),
         ];
     }
 
@@ -382,6 +388,11 @@ class Fixtures
             ->setSharedNotesEditor($params['sharedNotesEditor'])
             ->setSharedNotesInitialContentJsonUrl($params['sharedNotesInitialContentJsonUrl'])
             ->setClientSettingsOverrideJsonUrl($params['clientSettingsOverrideJsonUrl'])
+            ->setSharedNotesInitialContentMarkdown($params['sharedNotesInitialContentMarkdown'])
+            ->setSharedNotesInitialContentMarkdownUrl($params['sharedNotesInitialContentMarkdownUrl'])
+            ->setNotifyRecordingAppend($params['notifyRecordingAppend'])
+            ->setRequireUserConsentBeforeUnmuting($params['requireUserConsentBeforeUnmuting'])
+            ->setLockSettingsPresenterPolicy($params['lockSettingsPresenterPolicy'])
         ;
     }
 

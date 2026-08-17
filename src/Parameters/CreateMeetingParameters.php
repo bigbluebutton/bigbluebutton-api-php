@@ -25,6 +25,7 @@ use BigBlueButton\Core\ClientSettingsOverride;
 use BigBlueButton\Enum\Feature;
 use BigBlueButton\Enum\GuestPolicy;
 use BigBlueButton\Enum\MeetingLayout;
+use BigBlueButton\Enum\PresenterPolicy;
 
 /**
  * Class CreateMeetingParameters.
@@ -237,6 +238,18 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?string $sharedNotesInitialContentJson = null;
 
+    private ?string $sharedNotesInitialContentMarkdown = null;
+
+    private ?string $sharedNotesInitialContentMarkdownUrl = null;
+
+    private ?string $sharedNotesInitialContentMarkdownModule = null;
+
+    private ?string $notifyRecordingAppend = null;
+
+    private ?bool $requireUserConsentBeforeUnmuting = null;
+
+    private ?PresenterPolicy $lockSettingsPresenterPolicy = null;
+
     /**
      * CreateMeetingParameters constructor.
      */
@@ -386,6 +399,9 @@ class CreateMeetingParameters extends MetaParameters
         return $this->webVoice;
     }
 
+    /**
+     * @deprecated since 4.0 (obsolete; selected a separate voice conference for the old Flash client)
+     */
     public function setWebVoice(string $webVoice): self
     {
         $this->webVoice = $webVoice;
@@ -761,6 +777,9 @@ class CreateMeetingParameters extends MetaParameters
         return $this->copyright;
     }
 
+    /**
+     * @deprecated since 4.0 (had no effect; use clientSettingsOverride for public.app.copyright instead)
+     */
     public function setCopyright(string $copyright): self
     {
         $this->copyright = $copyright;
@@ -1476,6 +1495,7 @@ class CreateMeetingParameters extends MetaParameters
             $this->getPresentationsAsXML(),
             $this->getClientSettingsOverrideAsXML(),
             $this->getSharedNotesInitialContentAsXML(),
+            $this->getSharedNotesInitialContentMarkdownAsXML(),
         ], static fn (string $xml): bool => '' !== $xml);
 
         if ([] === $modules) {
@@ -2083,6 +2103,133 @@ class CreateMeetingParameters extends MetaParameters
                </module>
             </modules>
             XML;
+    }
+
+    #[ApiParameterMapper(attributeName: 'sharedNotesInitialContentMarkdown')]
+    public function getSharedNotesInitialContentMarkdown(): ?string
+    {
+        return $this->sharedNotesInitialContentMarkdown;
+    }
+
+    /**
+     * Raw Markdown as initial content of the shared notes, sent inline as create
+     * parameter. Suitable for short content that fits within URL length limits.
+     * The BlockNote JSON content takes precedence over the Markdown.
+     */
+    public function setSharedNotesInitialContentMarkdown(string $sharedNotesInitialContentMarkdown): self
+    {
+        $this->sharedNotesInitialContentMarkdown = $sharedNotesInitialContentMarkdown;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'sharedNotesInitialContentMarkdownUrl')]
+    public function getSharedNotesInitialContentMarkdownUrl(): ?string
+    {
+        return $this->sharedNotesInitialContentMarkdownUrl;
+    }
+
+    /**
+     * URL from which the raw Markdown for the initial shared-notes content is
+     * fetched by the BBB-Server (HTTPS only).
+     */
+    public function setSharedNotesInitialContentMarkdownUrl(string $sharedNotesInitialContentMarkdownUrl): self
+    {
+        $this->sharedNotesInitialContentMarkdownUrl = $sharedNotesInitialContentMarkdownUrl;
+
+        return $this;
+    }
+
+    /**
+     * Raw Markdown sent in the POST body via the sharedNotesInitialContentMarkdown
+     * module, for content too large for a query string.
+     */
+    public function getSharedNotesInitialContentMarkdownModule(): ?string
+    {
+        return $this->sharedNotesInitialContentMarkdownModule;
+    }
+
+    public function setSharedNotesInitialContentMarkdownModule(string $markdown): self
+    {
+        $this->sharedNotesInitialContentMarkdownModule = $markdown;
+
+        return $this;
+    }
+
+    /**
+     * The sharedNotesInitialContentMarkdown POST module.
+     */
+    public function getSharedNotesInitialContentMarkdownAsXML(): string
+    {
+        if (null === $this->sharedNotesInitialContentMarkdownModule) {
+            return '';
+        }
+
+        $markdown = $this->sharedNotesInitialContentMarkdownModule;
+
+        return <<<XML
+            <modules>
+               <module name="sharedNotesInitialContentMarkdown">
+                     <![CDATA[
+                     {$markdown}
+                     ]]>
+               </module>
+            </modules>
+            XML;
+    }
+
+    #[ApiParameterMapper(attributeName: 'notifyRecordingAppend')]
+    public function getNotifyRecordingAppend(): ?string
+    {
+        return $this->notifyRecordingAppend;
+    }
+
+    /**
+     * Plain text appended to the recording notification dialog shown to the
+     * users when notifyRecordingIsOn is active.
+     */
+    public function setNotifyRecordingAppend(string $notifyRecordingAppend): self
+    {
+        $this->notifyRecordingAppend = $notifyRecordingAppend;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'requireUserConsentBeforeUnmuting')]
+    public function isRequireUserConsentBeforeUnmuting(): ?bool
+    {
+        return $this->requireUserConsentBeforeUnmuting;
+    }
+
+    /**
+     * Setting to true shows a consent dialog to a user before a moderator is
+     * allowed to unmute them. Only relevant when allowModsToUnmuteUsers is set.
+     *
+     * Default: false
+     */
+    public function setRequireUserConsentBeforeUnmuting(bool $requireUserConsentBeforeUnmuting): self
+    {
+        $this->requireUserConsentBeforeUnmuting = $requireUserConsentBeforeUnmuting;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'lockSettingsPresenterPolicy')]
+    public function getLockSettingsPresenterPolicy(): ?PresenterPolicy
+    {
+        return $this->lockSettingsPresenterPolicy;
+    }
+
+    /**
+     * Policy controlling the "Request to Present" feature.
+     *
+     * Default: requireApproval
+     */
+    public function setLockSettingsPresenterPolicy(PresenterPolicy $lockSettingsPresenterPolicy): self
+    {
+        $this->lockSettingsPresenterPolicy = $lockSettingsPresenterPolicy;
+
+        return $this;
     }
 
     public function getHTTPQuery(): string
