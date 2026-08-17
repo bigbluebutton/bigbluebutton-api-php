@@ -24,10 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Create: generic `plugin_*` metadata (`addPluginMeta()` / `setPluginMeta()`)
   - Join: `bot`, `enforceLayout`, `logoutURL`, `firstName`, `lastName`, `webcamBackgroundURL`, `errorRedirectUrl`
   - Join (BBB 3.0+): re-join parameters `existingUserID`, `replaceSessionToken`, `sessionName`
+  - Join: `auth` parameter for the guest-policy evaluation (`guestPolicy=ALWAYS_ACCEPT_AUTH`)
   - `MeetingLayout` enum: `UNIFIED_LAYOUT`, `PLUGINS_ONLY`, `PARTICIPANTS_AND_CHAT_ONLY`
   - `Feature` enum (disabledFeatures): `privateChat`, `plugins`, `multiFunctionalMode`, `pinChatMessage` and all 3.0 options
   - `ApiVersionResponse`: `graphqlWebsocketUrl`, `graphqlApiUrl`, `html5PluginSdkVersion`
 - **PSR-18 http client injection**: `BigBlueButton::createWithHttpClient()` accepts any PSR-18 client with PSR-17 factories; curl remains the dependency-free default. Multipart uploads (caption tracks), `BadResponseException` error handling and JSESSIONID capture work identically through both transports.
+- Complete mdBook documentation: HTTP client injection, cookies/JSESSIONID, hooks, recordings incl. text tracks, server configuration, FAQ, contribution and testing guides.
 
 ### Fixed
 
@@ -36,6 +38,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `PutRecordingTextTrackResponse::isUploadTrackSuccess()` and friends evaluate the message key of successful responses, too
 - `BigBlueButton::__construct($baseUrl, $secret)` no longer mixes up the two arguments when passed explicitly
 - `BaseJsonResponse` reads missing `message`/`messageKey` properties null-safe
+- The curl transport now reads the cookie jar after the request and extracts the JSESSIONID from the Netscape jar format (the old code read the jar before the request and could never capture a cookie)
+- `DocumentFile` throws its dedicated exception on unreadable files instead of emitting a PHP warning first
+- `getJSessionId()` no longer fails on uninitialized access before a session id was captured
 
 ### Deprecated
 
@@ -46,6 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `JoinMeetingParameters::enforceLayout` accepts `MeetingLayout|string` and is exposed as `MeetingLayout` enum
+- `getJoinMeetingURL()` is officially supported again and documented as the standard join flow; `joinMeeting()` carries a warning that server-side joins skip the session cookie
+- Test suite: 100 percent class, method and line coverage; every API method is additionally tested offline against a stub PSR-18 client
 - Quality gates: PHPStan clean, PHPUnit exits 0, pre-commit hooks pass without bypass; code coverage is opt-in via `composer code-coverage`
 
 ## [2.3.1] - 2024-05-07
