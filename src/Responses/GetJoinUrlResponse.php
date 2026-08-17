@@ -23,112 +23,137 @@ namespace BigBlueButton\Responses;
 /**
  * Class GetJoinUrlResponse.
  *
- * Response for the getJoinUrl API call.
- * Contains the generated join URL and related session information.
+ * Response for the getJoinUrl API call. The successful response contains the
+ * generated join URL, failed responses contain the session token that was
+ * rejected.
  */
-class GetJoinUrlResponse extends BaseResponse
+class GetJoinUrlResponse extends BaseJsonResponse
 {
-    public function getUrl(): string
+    /**
+     * The generated join URL, including its checksum. Only present in
+     * successful responses.
+     */
+    public function getUrl(): ?string
     {
-        return (string) $this->rawXml->url;
-    }
-
-    public function getSessionToken(): string
-    {
-        return (string) $this->rawXml->session_token;
-    }
-
-    public function getUserId(): string
-    {
-        return (string) $this->rawXml->user_id;
-    }
-
-    public function getMeetingId(): string
-    {
-        return (string) $this->rawXml->meeting_id;
-    }
-
-    public function getAuthToken(): string
-    {
-        return (string) $this->rawXml->auth_token;
-    }
-
-    public function getGuestStatus(): string
-    {
-        return (string) $this->rawXml->guestStatus;
-    }
-
-    public function getUserName(): string
-    {
-        return (string) $this->rawXml->user_name;
-    }
-
-    public function getCreatedTime(): string
-    {
-        return (string) $this->rawXml->created_time;
-    }
-
-    public function getRedirectUrl(): ?string
-    {
-        $redirectUrl = $this->rawXml->redirect_url ?? null;
-
-        return $redirectUrl ? (string) $redirectUrl : null;
-    }
-
-    public function getSessionName(): ?string
-    {
-        $sessionName = $this->rawXml->session_name ?? null;
-
-        return $sessionName ? (string) $sessionName : null;
-    }
-
-    public function isReplaceSession(): bool
-    {
-        return 'true' === (string) ($this->rawXml->replace_session ?? 'false');
-    }
-
-    public function getEnforceLayout(): ?string
-    {
-        $enforceLayout = $this->rawXml->enforce_layout ?? null;
-
-        return $enforceLayout ? (string) $enforceLayout : null;
-    }
-
-    public function getStatusCode(): ?string
-    {
-        $statusCode = $this->rawXml->statuscode ?? null;
-
-        return $statusCode ? (string) $statusCode : null;
+        return $this->data->response->url ?? null;
     }
 
     /**
-     * Get all userdata parameters that were merged or overridden.
+     * The session token that was used for the request. Only present in failed
+     * responses.
+     */
+    public function getSessionToken(): ?string
+    {
+        return $this->data->response->sessionToken ?? null;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain an enforce-layout value
+     */
+    public function getEnforceLayout(): ?string
+    {
+        return null;
+    }
+
+    // ________ BC-stubs of getters of a former response-format that the BBB-Server never sent ________
+    // The BBB-Server responds with a JSON document that only contains url and sessionToken. The
+    // following getters are kept for backwards compatibility and are never populated with a value.
+
+    /**
+     * @deprecated never populated: the server response does not contain a user id
+     */
+    public function getUserId(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain a meeting id
+     */
+    public function getMeetingId(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain an auth token
+     */
+    public function getAuthToken(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain a guest status
+     */
+    public function getGuestStatus(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain a user name
+     */
+    public function getUserName(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain a creation time
+     */
+    public function getCreatedTime(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain a redirect url
+     */
+    public function getRedirectUrl(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain a session name
+     */
+    public function getSessionName(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain a replace-session flag
+     */
+    public function isReplaceSession(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @deprecated never populated: the server response does not contain a status code
+     */
+    public function getStatusCode(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @return array<string, mixed>
      *
-     * @return array<string, string> Associative array of userdata parameters
+     * @deprecated never populated: the server response does not contain user data
      */
     public function getUserData(): array
     {
-        $userData = [];
-
-        if (isset($this->rawXml->userdata)) {
-            foreach ($this->rawXml->userdata->children() as $key => $value) {
-                $userData[(string) $key] = (string) $value;
-            }
-        }
-
-        return $userData;
+        return [];
     }
 
     /**
-     * Get a specific userdata parameter.
-     *
-     * @param string      $key     The userdata parameter key
-     * @param null|string $default Default value if key doesn't exist
+     * @deprecated never populated: the server response does not contain user data
      */
     public function getUserDataParam(string $key, ?string $default = null): ?string
     {
-        $userData = $this->getUserData();
-
-        return $userData[$key] ?? $default;
+        return $default;
     }
 }

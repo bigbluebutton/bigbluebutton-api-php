@@ -21,6 +21,7 @@
 namespace BigBlueButton\Responses;
 
 use BigBlueButton\TestCase;
+use BigBlueButton\TestServices\Fixtures;
 
 /**
  * Class GetJoinUrlResponseTest.
@@ -29,168 +30,62 @@ use BigBlueButton\TestCase;
  */
 class GetJoinUrlResponseTest extends TestCase
 {
-    public function testGetJoinUrlResponse(): void
-    {
-        $xml      = $this->loadXmlFile('get_join_url_response.xml');
-        $response = new GetJoinUrlResponse($xml);
+    private GetJoinUrlResponse $success;
 
-        $this->assertTrue($response->success());
-        $this->assertEquals('Successfully retrieved join URL', $response->getMessage());
+    private GetJoinUrlResponse $failed;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $fixtures = new Fixtures();
+
+        $this->success = new GetJoinUrlResponse($fixtures->fromJsonFile('get_join_url.json'));
+        $this->failed  = new GetJoinUrlResponse($fixtures->fromJsonFile('get_join_url_failed.json'));
     }
 
-    public function testGetJoinUrlResponseFields(): void
+    public function testGetJoinUrlResponseSuccess(): void
     {
-        $xml      = $this->loadXmlFile('get_join_url_response.xml');
-        $response = new GetJoinUrlResponse($xml);
+        $this->assertEquals('SUCCESS', $this->success->getReturnCode());
+        $this->assertTrue($this->success->success());
 
-        // Test basic fields
-        $this->assertEquals('https://bbb.example.com/join/session123456', $response->getUrl());
-        $this->assertEquals('new-session-token-789', $response->getSessionToken());
-        $this->assertEquals('user123', $response->getUserId());
-        $this->assertEquals('meeting456', $response->getMeetingId());
-        $this->assertEquals('auth-token-abc', $response->getAuthToken());
-        $this->assertEquals('ALLOWED', $response->getGuestStatus());
-        $this->assertEquals('John Doe', $response->getUserName());
-        $this->assertEquals('2023-01-15T10:30:00Z', $response->getCreatedTime());
+        $url = $this->success->getUrl();
+        $this->assertIsString($url);
+        $this->assertStringStartsWith('https://yourserver.com/bigbluebutton/api/join?', $url);
+        $this->assertStringContainsString('checksum=', $url);
 
-        // Test optional fields
-        $this->assertEquals('https://bbb.example.com/redirect/session123456', $response->getRedirectUrl());
-        $this->assertEquals('Mobile Device Session', $response->getSessionName());
-        $this->assertTrue($response->isReplaceSession());
-        $this->assertEquals('PRESENTATION_FOCUS', $response->getEnforceLayout());
+        // the session token is only returned in failed responses
+        $this->assertNull($this->success->getSessionToken());
     }
 
-    public function testGetJoinUrlResponseWithMinimalData(): void
+    public function testGetJoinUrlResponseFailed(): void
     {
-        $xml      = $this->loadXmlFile('get_join_url_minimal_response.xml');
-        $response = new GetJoinUrlResponse($xml);
-
-        $this->assertTrue($response->success());
-
-        // Test required fields
-        $this->assertNotEmpty($response->getUrl());
-        $this->assertNotEmpty($response->getSessionToken());
-        $this->assertNotEmpty($response->getUserId());
-        $this->assertNotEmpty($response->getMeetingId());
-        $this->assertNotEmpty($response->getAuthToken());
-
-        // Test optional fields are null when not present
-        $this->assertNull($response->getRedirectUrl());
-        $this->assertNull($response->getSessionName());
-        $this->assertFalse($response->isReplaceSession());
-        $this->assertNull($response->getEnforceLayout());
+        $this->assertEquals('FAILED', $this->failed->getReturnCode());
+        $this->assertTrue($this->failed->failed());
+        $this->assertEquals('Invalid session token', $this->failed->getMessage());
+        $this->assertEquals('xyn1fbqlrhug1j6z', $this->failed->getSessionToken());
+        $this->assertNull($this->failed->getUrl());
     }
 
-    public function testGetJoinUrlResponseWithUserdata(): void
+    /**
+     * The BC-stubs of the former (never server-supported) response format keep
+     * returning empty values instead of breaking callers.
+     */
+    public function testGetJoinUrlResponseBcStubs(): void
     {
-        $xml      = $this->loadXmlFile('get_join_url_with_userdata_response.xml');
-        $response = new GetJoinUrlResponse($xml);
-
-        $this->assertTrue($response->success());
-
-        $userData = $response->getUserData();
-
-        $this->assertIsArray($userData);
-        $this->assertEquals('mobile', $userData['device-type']);
-        $this->assertEquals('dark', $userData['theme-preference']);
-        $this->assertEquals('user123', $userData['user-id']);
-
-        // Test getting specific userdata parameters
-        $this->assertEquals('mobile', $response->getUserDataParam('device-type'));
-        $this->assertEquals('dark', $response->getUserDataParam('theme-preference'));
-        $this->assertEquals('user123', $response->getUserDataParam('user-id'));
-
-        // Test getting non-existent parameter with default
-        $this->assertEquals('default-value', $response->getUserDataParam('non-existent', 'default-value'));
-        $this->assertNull($response->getUserDataParam('non-existent'));
-    }
-
-    public function testGetJoinUrlResponseWithEmptyUserdata(): void
-    {
-        $xml      = $this->loadXmlFile('get_join_url_minimal_response.xml');
-        $response = new GetJoinUrlResponse($xml);
-
-        $userData = $response->getUserData();
-
-        $this->assertIsArray($userData);
-        $this->assertEmpty($userData);
-
-        $this->assertNull($response->getUserDataParam('any-key'));
-        $this->assertEquals('default', $response->getUserDataParam('any-key', 'default'));
-    }
-
-    public function testGetJoinUrlResponseError(): void
-    {
-        $xml      = $this->loadXmlFile('get_join_url_error_response.xml');
-        $response = new GetJoinUrlResponse($xml);
-
-        $this->assertFalse($response->success());
-        $this->assertEquals('Invalid session token', $response->getMessage());
-        $this->assertEquals('404', $response->getStatusCode());
-    }
-
-    private function loadXmlFile(string $filename): \SimpleXMLElement
-    {
-        // Create mock XML responses for testing
-        $responses = [
-            'get_join_url_response.xml' => '<?xml version="1.0" encoding="UTF-8"?>
-<response>
-    <returncode>SUCCESS</returncode>
-    <message>Successfully retrieved join URL</message>
-    <url>https://bbb.example.com/join/session123456</url>
-    <session_token>new-session-token-789</session_token>
-    <user_id>user123</user_id>
-    <meeting_id>meeting456</meeting_id>
-    <auth_token>auth-token-abc</auth_token>
-    <guestStatus>ALLOWED</guestStatus>
-    <user_name>John Doe</user_name>
-    <created_time>2023-01-15T10:30:00Z</created_time>
-    <redirect_url>https://bbb.example.com/redirect/session123456</redirect_url>
-    <session_name>Mobile Device Session</session_name>
-    <replace_session>true</replace_session>
-    <enforce_layout>PRESENTATION_FOCUS</enforce_layout>
-</response>',
-            'get_join_url_minimal_response.xml' => '<?xml version="1.0" encoding="UTF-8"?>
-<response>
-    <returncode>SUCCESS</returncode>
-    <message>Successfully retrieved join URL</message>
-    <url>https://bbb.example.com/join/session123456</url>
-    <session_token>new-session-token-789</session_token>
-    <user_id>user123</user_id>
-    <meeting_id>meeting456</meeting_id>
-    <auth_token>auth-token-abc</auth_token>
-    <guestStatus>ALLOWED</guestStatus>
-    <user_name>John Doe</user_name>
-    <created_time>2023-01-15T10:30:00Z</created_time>
-</response>',
-            'get_join_url_with_userdata_response.xml' => '<?xml version="1.0" encoding="UTF-8"?>
-<response>
-    <returncode>SUCCESS</returncode>
-    <message>Successfully retrieved join URL</message>
-    <url>https://bbb.example.com/join/session123456</url>
-    <session_token>new-session-token-789</session_token>
-    <user_id>user123</user_id>
-    <meeting_id>meeting456</meeting_id>
-    <auth_token>auth-token-abc</auth_token>
-    <guestStatus>ALLOWED</guestStatus>
-    <user_name>John Doe</user_name>
-    <created_time>2023-01-15T10:30:00Z</created_time>
-    <userdata>
-        <device-type>mobile</device-type>
-        <theme-preference>dark</theme-preference>
-        <user-id>user123</user-id>
-    </userdata>
-</response>',
-            'get_join_url_error_response.xml' => '<?xml version="1.0" encoding="UTF-8"?>
-<response>
-    <returncode>FAILED</returncode>
-    <message>Invalid session token</message>
-    <statuscode>404</statuscode>
-</response>',
-        ];
-
-        $xmlString = $responses[$filename] ?? $responses['get_join_url_minimal_response.xml'];
-
-        return new \SimpleXMLElement($xmlString);
+        $this->assertNull($this->success->getUserId());
+        $this->assertNull($this->success->getMeetingId());
+        $this->assertNull($this->success->getAuthToken());
+        $this->assertNull($this->success->getGuestStatus());
+        $this->assertNull($this->success->getUserName());
+        $this->assertNull($this->success->getCreatedTime());
+        $this->assertNull($this->success->getRedirectUrl());
+        $this->assertNull($this->success->getSessionName());
+        $this->assertFalse($this->success->isReplaceSession());
+        $this->assertNull($this->success->getStatusCode());
+        $this->assertNull($this->success->getEnforceLayout());
+        $this->assertSame([], $this->success->getUserData());
+        $this->assertNull($this->success->getUserDataParam('any'));
+        $this->assertSame('fallback', $this->success->getUserDataParam('any', 'fallback'));
     }
 }

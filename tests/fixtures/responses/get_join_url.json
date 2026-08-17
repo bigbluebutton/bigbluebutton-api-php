@@ -1,0 +1,7 @@
+{
+    "response": {
+        "returncode": "SUCCESS",
+        "message": "Join URL provided successfully.",
+        "url": "https://yourserver.com/bigbluebutton/api/join?&redirect=true&existingUserID=w_t18rn7uc1wjm&role=MODERATOR&userdata-bbb_client_title=Presentation+client&sessionName=Presentation+session&fullName=teacher%2B1&meetingID=random-7653737&enforceLayout=PRESENTATION_ONLY&checksum=135f230a2339b9485d91a3e87b1a22420ca57e8b"
+    }
+}

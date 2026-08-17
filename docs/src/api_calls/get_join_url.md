@@ -154,30 +154,24 @@ if ($secondScreenResponse->success() && $thirdScreenResponse->success()) {
 
 ## Response Fields
 
-The GetJoinUrlResponse provides the following fields:
-
-### Required Fields
+The response is JSON and provides the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `url` | String | The generated join URL |
-| `sessionToken` | String | The new session token |
-| `userId` | String | The user ID (same as original session) |
-| `meetingId` | String | The meeting ID |
-| `authToken` | String | Authentication token for the session |
-| `guestStatus` | String | Guest status (e.g., "ALLOWED", "DENIED") |
-| `userName` | String | The user's name |
-| `createdTime` | String | Timestamp when the session was created |
+| `url` | String | The generated join URL (including its checksum). Successful responses only |
+| `sessionToken` | String | The session token that was rejected. Failed responses only |
 
-### Optional Fields
+Example of a successful response:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `redirectUrl` | String | Redirect URL if configured |
-| `sessionName` | String | The session name if provided |
-| `replaceSession` | Boolean | Whether the original session will be replaced |
-| `enforceLayout` | String | The enforced layout setting |
-| `userData` | Array | Merged userdata parameters |
+```json
+{
+    "response": {
+        "returncode": "SUCCESS",
+        "message": "Join URL provided successfully.",
+        "url": "https://yourserver.com/bigbluebutton/api/join?&redirect=true&existingUserID=w_t18rn7uc1wjm&role=MODERATOR&checksum=..."
+    }
+}
+```
 
 ## Response Handling
 
@@ -185,34 +179,10 @@ The GetJoinUrlResponse provides the following fields:
 $response = $bbb->getJoinUrl($getJoinUrlParams);
 
 if ($response->success()) {
-    // Basic information
     echo "Join URL: " . $response->getUrl();
-    echo "Session Token: " . $response->getSessionToken();
-    echo "User ID: " . $response->getUserId();
-    echo "Meeting ID: " . $response->getMeetingId();
-    
-    // Optional information
-    if ($response->getSessionName()) {
-        echo "Session Name: " . $response->getSessionName();
-    }
-    
-    if ($response->getRedirectUrl()) {
-        echo "Redirect URL: " . $response->getRedirectUrl();
-    }
-    
-    // Userdata handling
-    $userData = $response->getUserData();
-    foreach ($userData as $key => $value) {
-        echo "User Data - {$key}: {$value}";
-    }
-    
-    // Specific userdata parameter
-    $deviceType = $response->getUserDataParam('device-type', 'unknown');
-    echo "Device Type: " . $deviceType;
-    
 } else {
     echo "Error: " . $response->getMessage();
-    echo "Status Code: " . $response->getStatusCode();
+    echo "Rejected session token: " . $response->getSessionToken();
 }
 ```
 

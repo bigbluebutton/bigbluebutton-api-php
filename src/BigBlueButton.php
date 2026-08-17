@@ -183,9 +183,9 @@ class BigBlueButton
      */
     public function getJoinUrl(GetJoinUrlParameters $getJoinUrlParams): GetJoinUrlResponse
     {
-        $xml = $this->processXmlResponse($this->getUrlBuilder()->getGetJoinUrlUrl($getJoinUrlParams));
+        $json = $this->processJsonResponse($this->getUrlBuilder()->getGetJoinUrlUrl($getJoinUrlParams));
 
-        return new GetJoinUrlResponse($xml);
+        return new GetJoinUrlResponse($json);
     }
 
     /**
