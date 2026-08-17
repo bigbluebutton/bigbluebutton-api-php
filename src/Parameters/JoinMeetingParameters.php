@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -25,7 +25,7 @@ use BigBlueButton\Enum\MeetingLayout;
 use BigBlueButton\Enum\Role;
 
 /**
- * Class JoinMeetingParametersTest.
+ * Class JoinMeetingParameters.
  */
 class JoinMeetingParameters extends UserDataParameters
 {
@@ -59,10 +59,23 @@ class JoinMeetingParameters extends UserDataParameters
 
     private ?bool $guest = null;
 
+    /**
+     * @deprecated since 3.0.0
+     */
     private ?MeetingLayout $defaultLayout = null;
 
     private ?string $errorRedirectUrl    = null;
     private ?string $webcamBackgroundURL = null;
+
+    private ?bool $bot                    = null;
+    private ?MeetingLayout $enforceLayout = null;
+    private ?string $logoutURL            = null;
+    private ?string $firstName            = null;
+    private ?string $lastName             = null;
+
+    private ?string $existingUserId      = null;
+    private ?string $replaceSessionToken = null;
+    private ?string $sessionName         = null;
 
     public function __construct(string $meetingId, string $username, Role|string $passwordOrRole)
     {
@@ -140,6 +153,9 @@ class JoinMeetingParameters extends UserDataParameters
         return $this->webVoiceConf;
     }
 
+    /**
+     * @deprecated since 4.0 (obsolete; set a custom voice extension for the old Flash client, value was never read)
+     */
     public function setWebVoiceConf(string $webVoiceConf): self
     {
         $this->webVoiceConf = $webVoiceConf;
@@ -225,12 +241,18 @@ class JoinMeetingParameters extends UserDataParameters
         return $this;
     }
 
+    /**
+     * @deprecated since 3.0.0
+     */
     #[ApiParameterMapper(attributeName: 'defaultLayout')]
     public function getDefaultLayout(): ?MeetingLayout
     {
         return $this->defaultLayout;
     }
 
+    /**
+     * @deprecated since 3.0.0, use "userdata-bbb_default_layout" instead
+     */
     public function setDefaultLayout(MeetingLayout $defaultLayout): self
     {
         $this->defaultLayout = $defaultLayout;
@@ -260,6 +282,123 @@ class JoinMeetingParameters extends UserDataParameters
     public function setWebcamBackgroundURL(string $webcamBackgroundURL): self
     {
         $this->webcamBackgroundURL = $webcamBackgroundURL;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'bot')]
+    public function isBot(): ?bool
+    {
+        return $this->bot;
+    }
+
+    public function setBot(bool $bot): self
+    {
+        $this->bot = $bot;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'enforceLayout')]
+    public function getEnforceLayout(): ?MeetingLayout
+    {
+        return $this->enforceLayout;
+    }
+
+    public function setEnforceLayout(MeetingLayout|string $enforceLayout): self
+    {
+        $this->enforceLayout = \is_string($enforceLayout) ? MeetingLayout::from($enforceLayout) : $enforceLayout;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'existingUserID')]
+    public function getExistingUserId(): ?string
+    {
+        return $this->existingUserId;
+    }
+
+    /**
+     * The user id of an already joined user to re-join the meeting as this
+     * user (e.g. with a new session). Used by the URLs returned by getJoinUrl.
+     */
+    public function setExistingUserId(string $existingUserId): self
+    {
+        $this->existingUserId = $existingUserId;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'replaceSessionToken')]
+    public function getReplaceSessionToken(): ?string
+    {
+        return $this->replaceSessionToken;
+    }
+
+    /**
+     * The session token that shall be replaced by this new session. Requires
+     * existingUserID to be set. Used by the URLs returned by getJoinUrl with
+     * replaceSession=true.
+     */
+    public function setReplaceSessionToken(string $replaceSessionToken): self
+    {
+        $this->replaceSessionToken = $replaceSessionToken;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'sessionName')]
+    public function getSessionName(): ?string
+    {
+        return $this->sessionName;
+    }
+
+    /**
+     * A descriptive name for the new session (e.g. "Mobile Device Transfer"),
+     * visible in the user's session history. Requires existingUserID to be set.
+     */
+    public function setSessionName(string $sessionName): self
+    {
+        $this->sessionName = $sessionName;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'logoutURL')]
+    public function getLogoutURL(): ?string
+    {
+        return $this->logoutURL;
+    }
+
+    public function setLogoutURL(string $logoutURL): self
+    {
+        $this->logoutURL = $logoutURL;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'firstName')]
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'lastName')]
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
 
         return $this;
     }

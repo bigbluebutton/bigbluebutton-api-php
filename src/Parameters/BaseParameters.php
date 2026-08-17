@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -34,10 +34,7 @@ abstract class BaseParameters
         // No need for null checks anymore since toApiDataArray() filters them out
         foreach ($apiData as $value) {
             if (!is_string($value)) {
-                throw new \RuntimeException(sprintf(
-                    'Invalid API parameter type: %s',
-                    gettype($value)
-                ));
+                throw new \RuntimeException(sprintf('Invalid API parameter type: %s', gettype($value)));
             }
         }
 
@@ -95,12 +92,9 @@ abstract class BaseParameters
         // Handle BackedEnum cases
         if ($value instanceof \BackedEnum) {
             $enumValue = $value->value;
+
             if (!is_scalar($enumValue)) {
-                throw new \RuntimeException(sprintf(
-                    'Enum value for %s must be scalar, got %s',
-                    get_class($value),
-                    gettype($enumValue)
-                ));
+                throw new \RuntimeException(sprintf('Enum value for %s must be scalar, got %s', get_class($value), gettype($enumValue)));
             }
 
             return (string) $enumValue;
@@ -117,10 +111,7 @@ abstract class BaseParameters
         }
 
         if (is_object($value)) {
-            throw new \RuntimeException(sprintf(
-                'Cannot convert object of type %s to API value',
-                get_class($value)
-            ));
+            throw new \RuntimeException(sprintf('Cannot convert object of type %s to API value', get_class($value)));
         }
 
         // Force string conversion for all scalar values
@@ -137,6 +128,7 @@ abstract class BaseParameters
         $converted = [];
         foreach ($values as $item) {
             $convertedItem = $this->strictConvertToApiValue($item);
+
             if (null !== $convertedItem) {
                 $converted[] = $convertedItem;
             }

@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -27,27 +27,27 @@ class CreateMeetingResponse extends BaseResponse
 {
     public function getMeetingId(): string
     {
-        return $this->rawXml->meetingID->__toString();
+        return (string) $this->rawXml->meetingID;
     }
 
     public function getInternalMeetingId(): string
     {
-        return $this->rawXml->internalMeetingID->__toString();
+        return (string) $this->rawXml->internalMeetingID;
     }
 
     public function getParentMeetingId(): string
     {
-        return $this->rawXml->parentMeetingID->__toString();
+        return (string) $this->rawXml->parentMeetingID;
     }
 
     public function getAttendeePassword(): string
     {
-        return $this->rawXml->attendeePW->__toString();
+        return (string) $this->rawXml->attendeePW;
     }
 
     public function getModeratorPassword(): string
     {
-        return $this->rawXml->moderatorPW->__toString();
+        return (string) $this->rawXml->moderatorPW;
     }
 
     /**
@@ -65,7 +65,7 @@ class CreateMeetingResponse extends BaseResponse
 
     public function getDialNumber(): string
     {
-        return $this->rawXml->dialNumber->__toString();
+        return (string) $this->rawXml->dialNumber;
     }
 
     /**
@@ -73,12 +73,12 @@ class CreateMeetingResponse extends BaseResponse
      */
     public function getCreationDate(): string
     {
-        return $this->rawXml->createDate->__toString();
+        return (string) $this->rawXml->createDate;
     }
 
     public function hasUserJoined(): bool
     {
-        return 'true' === $this->rawXml->hasUserJoined->__toString();
+        return 'true' === (string) $this->rawXml->hasUserJoined;
     }
 
     public function getDuration(): int
@@ -88,6 +88,6 @@ class CreateMeetingResponse extends BaseResponse
 
     public function hasBeenForciblyEnded(): bool
     {
-        return 'true' === $this->rawXml->hasBeenForciblyEnded->__toString();
+        return 'true' === (string) $this->rawXml->hasBeenForciblyEnded;
     }
 }

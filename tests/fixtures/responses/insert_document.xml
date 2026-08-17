@@ -1,5 +1,4 @@
 <response>
     <returncode>SUCCESS</returncode>
-    <messageKey>documentInserted</messageKey>
     <message>Presentation is being uploaded</message>
 </response>

@@ -1,0 +1,15 @@
+<response>
+    <returncode>SUCCESS</returncode>
+    <sessions>
+        <meeting>
+            <meetingID>b6cdef623f494878af42c27a6e44d1acfed65451-1786915293531</meetingID>
+            <meetingName>Live Client Probe</meetingName>
+            <userName>Alice Moderator</userName>
+        </meeting>
+        <meeting>
+            <meetingID>b6cdef623f494878af42c27a6e44d1acfed65451-1786915293531</meetingID>
+            <meetingName>Live Client Probe</meetingName>
+            <userName>Bob Attendee</userName>
+        </meeting>
+    </sessions>
+</response>

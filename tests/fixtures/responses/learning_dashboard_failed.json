@@ -1,0 +1,7 @@
+{
+    "response": {
+        "returncode": "FAILED",
+        "message": "Invalid session token",
+        "sessionToken": "xyn1fbqlrhug1j6z"
+    }
+}

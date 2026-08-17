@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -46,11 +46,15 @@ class ApiVersionResponseTest extends TestCase
         $this->assertEquals('SUCCESS', $this->apiVersionResponse->getReturnCode());
         $this->assertEquals('2.0', $this->apiVersionResponse->getVersion());
         $this->assertEquals('2.0', $this->apiVersionResponse->getApiVersion());
-        $this->assertEquals('2.4-rc-7', $this->apiVersionResponse->getBbbVersion());
+        $this->assertEquals('3.0.19', $this->apiVersionResponse->getBbbVersion());
+        $this->assertEquals('0.0.95', $this->apiVersionResponse->getHtml5PluginSdkVersion());
+        $this->assertEquals('wss://bigbluebutton.server.com/graphql', $this->apiVersionResponse->getGraphqlWebsocketUrl());
+        $this->assertEquals('https://bigbluebutton.server.com/api/rest', $this->apiVersionResponse->getGraphqlApiUrl());
     }
 
     public function testApiVersionResponseTypes(): void
     {
-        $this->assertEachGetterValueIsString($this->apiVersionResponse, ['getReturnCode', 'getVersion', 'getApiVersion', 'getBbbVersion']);
+        $this->assertEachGetterValueIsString($this->apiVersionResponse, ['getReturnCode', 'getVersion', 'getApiVersion', 'getBbbVersion',
+            'getHtml5PluginSdkVersion', 'getGraphqlWebsocketUrl', 'getGraphqlApiUrl', ]);
     }
 }

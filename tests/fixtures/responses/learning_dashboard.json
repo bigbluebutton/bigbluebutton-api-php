@@ -1,0 +1,7 @@
+{
+    "response": {
+        "returncode": "SUCCESS",
+        "data": "{ \"activity\": { \"records\": [] }, \"users\": { \"w_t18rn7uc1wjm\": { \"name\": \"teacher 1\", \"role\": \"MODERATOR\" } } }",
+        "sessionToken": "xyn1fbqlrhug1j6z"
+    }
+}

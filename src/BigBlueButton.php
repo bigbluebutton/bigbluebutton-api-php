@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -25,6 +25,8 @@ use BigBlueButton\Exceptions\BadResponseException;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\FeedbackParameters;
+use BigBlueButton\Parameters\GetJoinUrlParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
@@ -33,6 +35,7 @@ use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\LearningDashboardParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\SendChatMessageParameters;
@@ -41,16 +44,20 @@ use BigBlueButton\Responses\ApiVersionResponse;
 use BigBlueButton\Responses\CreateMeetingResponse;
 use BigBlueButton\Responses\DeleteRecordingsResponse;
 use BigBlueButton\Responses\EndMeetingResponse;
+use BigBlueButton\Responses\FeedbackResponse;
+use BigBlueButton\Responses\GetJoinUrlResponse;
 use BigBlueButton\Responses\GetMeetingInfoResponse;
 use BigBlueButton\Responses\GetMeetingsResponse;
 use BigBlueButton\Responses\GetRecordingsResponse;
 use BigBlueButton\Responses\GetRecordingTextTracksResponse;
+use BigBlueButton\Responses\GetSessionsResponse;
 use BigBlueButton\Responses\HooksCreateResponse;
 use BigBlueButton\Responses\HooksDestroyResponse;
 use BigBlueButton\Responses\HooksListResponse;
 use BigBlueButton\Responses\InsertDocumentResponse;
 use BigBlueButton\Responses\IsMeetingRunningResponse;
 use BigBlueButton\Responses\JoinMeetingResponse;
+use BigBlueButton\Responses\LearningDashboardResponse;
 use BigBlueButton\Responses\PublishRecordingsResponse;
 use BigBlueButton\Responses\PutRecordingTextTrackResponse;
 use BigBlueButton\Responses\SendChatMessageResponse;
@@ -111,35 +118,21 @@ class BigBlueButton
     /**
      * @param null|array<string, mixed> $opts
      */
-    public function __construct(?string $baseUrl = null, ?string $secret = null, ?array $opts = [])
-    {
-        // Provide an early error message if configuration is wrong
-        if (is_null($baseUrl) && false === getenv('BBB_SERVER_BASE_URL')) {
-            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor '
-                . "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
-        }
-
-        if (is_null($secret) && false === getenv('BBB_SECRET') && false === getenv('BBB_SECURITY_SALT')) {
-            throw new \RuntimeException('No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor '
-                . "(2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
-        }
-
-        // Keeping backward compatibility with older deployed versions
-        // BBB_SECRET is the new variable name and have higher priority against the old named BBB_SECURITY_SALT
-        // Reminder: getenv() will return FALSE if not set. But bool is not accepted by $this->bbbSecret
-        //           nor $this->bbbBaseUrl (only strings), thus FALSE will be converted automatically to an empty
-        //           string (''). Having a bool should be not possible due to the checks above and the automated
-        //           conversion, but PHPStan is still unhappy, so it's covered explicit by adding `?: ''`.
-        $bbbBaseUrl       = $baseUrl ?: getenv('BBB_SERVER_BASE_URL') ?: '';
-        $bbbSecret        = $secret ?: getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT') ?: '';
-        $hashingAlgorithm = HashingAlgorithm::SHA_256;
+    public function __construct(
+        ?string $baseUrl = null,
+        #[\SensitiveParameter]
+        ?string $secret = null,
+        ?array $opts = [],
+        ?UrlBuilder $urlBuilder = null,
+    ) {
+        $urlBuilder ??= UrlBuilder::fromEnvVars($secret, $baseUrl);
 
         // initialize deprecated properties
-        $this->bbbBaseUrl       = $bbbBaseUrl;
-        $this->bbbSecret        = $bbbSecret;
-        $this->hashingAlgorithm = $hashingAlgorithm;
+        $this->bbbBaseUrl       = $urlBuilder->getBaseUrl();
+        $this->bbbSecret        = $urlBuilder->getSecret();
+        $this->hashingAlgorithm = $urlBuilder->getHashingAlgorithm();
 
-        $this->urlBuilder = new UrlBuilder($bbbSecret, $bbbBaseUrl, $hashingAlgorithm);
+        $this->urlBuilder = $urlBuilder;
         $this->curlOpts   = $opts['curl'] ?? [];
     }
 
@@ -200,13 +193,13 @@ class BigBlueButton
      */
     public function createMeeting(CreateMeetingParameters $createMeetingParams): CreateMeetingResponse
     {
-        $xml = $this->processXmlResponse($this->getUrlBuilder()->getCreateMeetingUrl($createMeetingParams), $createMeetingParams->getPresentationsAsXML());
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getCreateMeetingUrl($createMeetingParams), $createMeetingParams->getModulesAsXML());
 
         return new CreateMeetingResponse($xml);
     }
 
     /**
-     * @deprecated Replaced by same function-name provided by UrlBuilder-class
+     * @deprecated Replaced by the same function-name provided by UrlBuilder-class
      */
     public function getJoinMeetingURL(JoinMeetingParameters $joinMeetingParams): string
     {
@@ -221,6 +214,48 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getJoinMeetingURL($joinMeetingParams));
 
         return new JoinMeetingResponse($xml);
+    }
+
+    /**
+     * Get a new join URL for an existing user session.
+     *
+     * This endpoint generates a new /join URL that can be used to create a new session
+     * for an existing user with the same user ID. This is particularly useful for
+     * hybrid environments where multiple screens in the same room each require a
+     * distinct session with different layouts, or for seamless user session transfers
+     * to another device.
+     *
+     * @throws BadResponseException|\RuntimeException
+     */
+    public function getJoinUrl(GetJoinUrlParameters $getJoinUrlParams): GetJoinUrlResponse
+    {
+        $json = $this->processJsonResponse($this->getUrlBuilder()->getGetJoinUrlUrl($getJoinUrlParams));
+
+        return new GetJoinUrlResponse($json);
+    }
+
+    /**
+     * @deprecated Replaced by same function-name provided by UrlBuilder-class
+     */
+    public function getLearningDashboardUrl(LearningDashboardParameters $learningDashboardParams): string
+    {
+        return $this->getUrlBuilder()->getLearningDashboardUrl($learningDashboardParams);
+    }
+
+    /**
+     * Get the learning dashboard data of a running meeting.
+     *
+     * The session token must belong to a user with the MODERATOR role, the meeting
+     * must be running and the learningDashboard feature must not be disabled for
+     * the meeting.
+     *
+     * @throws BadResponseException|\RuntimeException
+     */
+    public function learningDashboard(LearningDashboardParameters $learningDashboardParams): LearningDashboardResponse
+    {
+        $json = $this->processJsonResponse($this->getUrlBuilder()->getLearningDashboardUrl($learningDashboardParams));
+
+        return new LearningDashboardResponse($json);
     }
 
     /**
@@ -264,6 +299,22 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getSendChatMessageUrl($sendChatMessageParams));
 
         return new SendChatMessageResponse($xml);
+    }
+
+    /**
+     * Submit feedback for a meeting or session.
+     *
+     * This endpoint replaces the old /html5client/feedback endpoint with /api/feedback.
+     * It allows users to submit feedback about their meeting experience, including
+     * ratings and comments.
+     *
+     * @throws BadResponseException|\RuntimeException
+     */
+    public function feedback(FeedbackParameters $feedbackParams): FeedbackResponse
+    {
+        $json = $this->processJsonResponse($this->getUrlBuilder()->getFeedbackUrl($feedbackParams));
+
+        return new FeedbackResponse($json);
     }
 
     // __________________ BBB MONITORING METHODS _________________
@@ -320,6 +371,24 @@ class BigBlueButton
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getMeetingsUrl());
 
         return new GetMeetingsResponse($xml);
+    }
+
+    /**
+     * @deprecated Replaced by same function-name provided by UrlBuilder-class
+     */
+    public function getSessionsUrl(): string
+    {
+        return $this->getUrlBuilder()->getSessionsUrl();
+    }
+
+    /**
+     * @throws BadResponseException|\RuntimeException
+     */
+    public function getSessions(): GetSessionsResponse
+    {
+        $xml = $this->processXmlResponse($this->getUrlBuilder()->getSessionsUrl());
+
+        return new GetSessionsResponse($xml);
     }
 
     /**
@@ -450,7 +519,10 @@ class BigBlueButton
      */
     public function putRecordingTextTrack(PutRecordingTextTrackParameters $putRecordingTextTrackParams): PutRecordingTextTrackResponse
     {
-        $json = $this->processJsonResponse($this->getUrlBuilder()->getPutRecordingTextTrackUrl($putRecordingTextTrackParams));
+        $json = $this->processJsonResponse(
+            $this->getUrlBuilder()->getPutRecordingTextTrackUrl($putRecordingTextTrackParams),
+            ['file' => $putRecordingTextTrackParams->getTrackFile()]
+        );
 
         return new PutRecordingTextTrackResponse($json);
     }
@@ -581,9 +653,15 @@ class BigBlueButton
     /**
      * A private utility method used by other public methods to request HTTP responses.
      *
+     * A string payload is sent as POST body with the given content type, an array
+     * payload is sent as multipart/form-data (the Content-type header incl. boundary
+     * is then set by cURL itself).
+     *
+     * @param array<string, mixed>|string $payload
+     *
      * @throws BadResponseException|\RuntimeException
      */
-    private function sendRequest(string $url, string $payload = '', string $contentType = 'application/xml'): string
+    private function sendRequest(string $url, array|string $payload = '', string $contentType = 'application/xml'): string
     {
         if (null === $this->httpClient
             || null === $this->requestFactory
@@ -628,26 +706,33 @@ class BigBlueButton
         if (false === $ch) {
             throw new \RuntimeException('Failed to initialize cURL');
         }
-        // JSESSIONID
+
+        // JSESSIONID - Secure cookie handling with internal validation
         if ($cookieFile) {
             $cookieFilePath = stream_get_meta_data($cookieFile)['uri'];
-            $cookies        = file_get_contents($cookieFilePath);
 
+            // Set secure cookie options
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFilePath);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFilePath);
 
-            if ($cookies && false !== mb_strpos($cookies, 'JSESSIONID')) {
-                if (preg_match('/JSESSIONID\s*(?<JSESSIONID>[^;\s]*)/', $cookies, $output_array)) {
-                    // No need for isset() - we know JSESSIONID exists if preg_match returns true
-                    $this->setJSessionId(mb_trim($output_array['JSESSIONID']));
-                } else {
-                    throw new \RuntimeException('JSESSIONID found but could not be extracted');
+            // Read and validate cookies safely with internal validation
+            $cookies = file_get_contents($cookieFilePath);
+
+            if (false !== $cookies && mb_strlen($cookies) > 0) {
+                // Validate cookie format before processing
+                if ($this->isValidCookieFormat($cookies)) {
+                    $sessionId = $this->extractJSessionIdSafely($cookies);
+
+                    if (null !== $sessionId) {
+                        $this->setJSessionId($sessionId);
+                    }
                 }
             }
         }
 
-        // Initialise headers array with mandatory Content-type
-        $headers = [
+        // Initialise headers array with mandatory Content-type (multipart bodies
+        // rely on cURL setting the Content-type itself as it contains the boundary)
+        $headers = \is_array($payload) ? [] : [
             'Content-type: ' . $contentType,
         ];
 
@@ -657,8 +742,11 @@ class BigBlueButton
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            // Add Content-length header if payload is present
-            $headers[] = 'Content-length: ' . strlen($payload);
+
+            // Add Content-length header if a string payload is present
+            if (\is_string($payload)) {
+                $headers[] = 'Content-length: ' . strlen($payload);
+            }
         }
 
         // Set HTTP headers
@@ -692,9 +780,13 @@ class BigBlueButton
             throw new BadResponseException('Bad response, HTTP code: ' . $httpCode . ', url: ' . $url);
         }
 
-        // CLOSE AND UNSET
-        curl_close($ch);
+        // UNSET (curl_close is a no-op since PHP 8.0 and deprecated since 8.5)
         unset($ch);
+
+        // Clean up temporary cookie file
+        if ($cookieFile) {
+            fclose($cookieFile);
+        }
 
         // RETURN
         return $data;
@@ -715,10 +807,116 @@ class BigBlueButton
     /**
      * A private utility method used by other public methods to process json responses.
      *
+     * @param array<string, mixed>|string $payload
+     *
      * @throws BadResponseException
      */
-    private function processJsonResponse(string $url): string
+    private function processJsonResponse(string $url, array|string $payload = ''): string
     {
-        return $this->sendRequest($url, contentType: 'application/json');
+        return $this->sendRequest($url, $payload, 'application/json');
+    }
+
+    /**
+     * Validates cookie format to prevent injection attacks.
+     */
+    private function isValidCookieFormat(string $cookies): bool
+    {
+        // Check for basic cookie format and reject suspicious content
+        $lines = explode("\n", $cookies);
+
+        foreach ($lines as $line) {
+            $line = mb_trim($line);
+
+            if (empty($line)) {
+                return false; // Empty lines are invalid
+            }
+
+            // Basic cookie format validation: name=value with optional attributes
+            if (!preg_match('/^[a-zA-Z0-9._-]+=[^;\r\n]*$/', $line)) {
+                // Check if it's a valid cookie with attributes (allow spaces after semicolons)
+                // Allow attributes without values like HttpOnly, Secure, etc.
+                if (!preg_match('/^[a-zA-Z0-9._-]+=[^;\r\n]*(?:;\s*[a-zA-Z0-9._-]+(?:\s*=\s*[^;\r\n]*)?)*$/', $line)) {
+                    return false;
+                }
+            }
+
+            // Reject potentially dangerous content
+            if (false !== mb_strpos($line, '<script')
+                || false !== mb_strpos($line, 'javascript:')
+                || false !== mb_strpos($line, 'data:')
+                || false !== mb_strpos($line, '../')) {
+                return false;
+            }
+
+            // Reject overly long cookies
+            if (mb_strlen($line) > 1000) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Safely extracts JSESSIONID from cookie string with validation.
+     */
+    private function extractJSessionIdSafely(string $cookies): ?string
+    {
+        // Use case-insensitive regex pattern to find JSESSIONID with its value
+        // Match the entire JSESSIONID=value pattern to validate the full value
+        if (preg_match('/(?:JSESSIONID|jsessionid)\s*=\s*([^;]+)/', $cookies, $matches)) {
+            $sessionIdValue = mb_trim($matches[1]);
+
+            // Check for dangerous patterns in the session ID value
+            if (false !== mb_strpos($sessionIdValue, '../')
+                || false !== mb_strpos($sessionIdValue, '<')
+                || false !== mb_strpos($sessionIdValue, '>')
+                || false !== mb_strpos($sessionIdValue, '@')
+                || false !== mb_strpos($sessionIdValue, ' ')
+                || false !== mb_strpos($sessionIdValue, 'javascript:')
+                || false !== mb_strpos($sessionIdValue, '<script')) {
+                return null;
+            }
+
+            // Now extract only valid characters for the actual session ID
+            if (preg_match('/^([a-zA-Z0-9._-]+)$/', $sessionIdValue, $idMatches)) {
+                $sessionId = $idMatches[1];
+
+                // Validate session ID format (typical Java session IDs are 32 chars alphanumeric)
+                if ($this->isValidSessionId($sessionId)) {
+                    return $sessionId;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Validate session ID format for security.
+     */
+    private function isValidSessionId(string $sessionId): bool
+    {
+        // Session IDs should be alphanumeric with limited special characters
+        // and reasonable length (typical Java session IDs are 32 chars)
+        $length = mb_strlen($sessionId);
+
+        // Check length constraints
+        if ($length < 1 || $length > 100) {
+            return false;
+        }
+
+        // Check for valid characters (alphanumeric, underscore, hyphen, dot only)
+        // This regex will reject @, spaces, and other invalid characters
+        if (!preg_match('/^[a-zA-Z0-9._-]+$/', $sessionId)) {
+            return false;
+        }
+
+        // Reject potentially dangerous patterns
+        if (false !== mb_strpos($sessionId, '../')) {
+            return false;
+        }
+
+        return true;
     }
 }

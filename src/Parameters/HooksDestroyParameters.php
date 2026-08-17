@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -24,20 +24,20 @@ use BigBlueButton\Attribute\ApiParameterMapper;
 
 class HooksDestroyParameters extends BaseParameters
 {
-    private int $hookId;
+    private string $hookId;
 
-    public function __construct(int $hookId)
+    public function __construct(string $hookId)
     {
         $this->hookId = $hookId;
     }
 
     #[ApiParameterMapper(attributeName: 'hookID')]
-    public function getHookId(): int
+    public function getHookId(): string
     {
         return $this->hookId;
     }
 
-    public function setHookId(int $hookId): self
+    public function setHookId(string $hookId): self
     {
         $this->hookId = $hookId;
 

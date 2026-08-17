@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -25,6 +25,8 @@ use BigBlueButton\Enum\HashingAlgorithm;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\FeedbackParameters;
+use BigBlueButton\Parameters\GetJoinUrlParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
 use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\GetRecordingTextTracksParameters;
@@ -33,6 +35,7 @@ use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\LearningDashboardParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\PutRecordingTextTrackParameters;
 use BigBlueButton\Parameters\SendChatMessageParameters;
@@ -47,19 +50,75 @@ class UrlBuilder
 
     private string $baseUrl;
 
-    public function __construct(string $secret, string $baseUrl, HashingAlgorithm $hashingAlgorithm)
-    {
+    public function __construct(
+        #[\SensitiveParameter]
+        string $secret,
+        string $baseUrl,
+        HashingAlgorithm $hashingAlgorithm,
+    ) {
         $this->setSecret($secret);
         $this->setBaseUrl($baseUrl);
         $this->setHashingAlgorithm($hashingAlgorithm);
     }
 
+    /**
+     * Creates a new instance from environment variables.
+     *
+     * The optional parameters allow to specify some of the values, while the
+     * remaining values fall back to environment variables or to a default
+     * value.
+     *
+     * This method only exists to BC-support creating a BigBlueButton class
+     * without injecting the UrlBuilder instance.
+     *
+     * @internal
+     */
+    public static function fromEnvVars(
+        ?string $secret = null,
+        ?string $baseUrl = null,
+        ?HashingAlgorithm $hashingAlgorithm = null,
+    ): static {
+        $secret ??= getenv('BBB_SECRET') ?: getenv('BBB_SECURITY_SALT');
+
+        if (false === $secret) {
+            throw new \RuntimeException("No BBB-Secret (or BBB-Salt) found! Please provide it either in constructor (2nd argument) or by environment variable 'BBB_SECRET' (or 'BBB_SECURITY_SALT')!");
+        }
+
+        $baseUrl ??= getenv('BBB_SERVER_BASE_URL');
+
+        if (false === $baseUrl) {
+            throw new \RuntimeException('No BBB-Server-Url found! Please provide it either in constructor ' . "(1st argument) or by environment variable 'BBB_SERVER_BASE_URL'!");
+        }
+
+        $hashingAlgorithm ??= HashingAlgorithm::SHA_256;
+
+        // Extending classes need to override this method, if they change the
+        // constructor signature.
+        // @phpstan-ignore new.static
+        return new static($secret, $baseUrl, $hashingAlgorithm);
+    }
+
     // Getters & Setters
-    public function setSecret(string $secret): self
-    {
+    public function setSecret(
+        #[\SensitiveParameter]
+        string $secret,
+    ): self {
         $this->secret = $secret;
 
         return $this;
+    }
+
+    /**
+     * Gets the secret.
+     *
+     * This method only exists to support a deprecated property in the
+     * BigBlueButton class.
+     *
+     * @internal
+     */
+    public function getSecret(): string
+    {
+        return $this->secret;
     }
 
     public function setBaseUrl(string $baseUrl): self
@@ -72,6 +131,19 @@ class UrlBuilder
         $this->baseUrl = $baseUrl;
 
         return $this;
+    }
+
+    /**
+     * Gets the base url.
+     *
+     * This method only exists to support a deprecated property in the
+     * BigBlueButton class.
+     *
+     * @internal
+     */
+    public function getBaseUrl(): string
+    {
+        return $this->baseUrl;
     }
 
     public function setHashingAlgorithm(HashingAlgorithm $hashingAlgorithm): self
@@ -117,6 +189,16 @@ class UrlBuilder
         return $this->buildUrl(ApiMethod::JOIN, $joinMeetingParams->getHTTPQuery());
     }
 
+    public function getGetJoinUrlUrl(GetJoinUrlParameters $getJoinUrlParams): string
+    {
+        return $this->buildUrl(ApiMethod::GET_JOIN_URL, $getJoinUrlParams->getHTTPQuery());
+    }
+
+    public function getLearningDashboardUrl(LearningDashboardParameters $learningDashboardParams): string
+    {
+        return $this->buildUrl(ApiMethod::LEARNING_DASHBOARD, $learningDashboardParams->getHTTPQuery());
+    }
+
     public function getEndMeetingURL(EndMeetingParameters $endParams): string
     {
         return $this->buildUrl(ApiMethod::END, $endParams->getHTTPQuery());
@@ -132,6 +214,11 @@ class UrlBuilder
         return $this->buildUrl(ApiMethod::SEND_CHAT_MESSAGE, $sendChatMessageParameters->getHTTPQuery());
     }
 
+    public function getFeedbackUrl(FeedbackParameters $feedbackParameters): string
+    {
+        return $this->buildUrl(ApiMethod::FEEDBACK, $feedbackParameters->getHTTPQuery());
+    }
+
     public function getIsMeetingRunningUrl(IsMeetingRunningParameters $meetingParams): string
     {
         return $this->buildUrl(ApiMethod::IS_MEETING_RUNNING, $meetingParams->getHTTPQuery());
@@ -140,6 +227,11 @@ class UrlBuilder
     public function getMeetingsUrl(): string
     {
         return $this->buildUrl(ApiMethod::GET_MEETINGS);
+    }
+
+    public function getSessionsUrl(): string
+    {
+        return $this->buildUrl(ApiMethod::GET_SESSIONS);
     }
 
     public function getMeetingInfoUrl(GetMeetingInfoParameters $meetingParams): string

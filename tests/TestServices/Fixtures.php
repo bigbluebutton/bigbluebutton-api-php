@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -23,6 +23,7 @@ namespace BigBlueButton\TestServices;
 use BigBlueButton\Enum\Feature;
 use BigBlueButton\Enum\GuestPolicy;
 use BigBlueButton\Enum\MeetingLayout;
+use BigBlueButton\Enum\PresenterPolicy;
 use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -115,10 +116,8 @@ class Fixtures
                 $values = array_map(fn (\BackedEnum $case) => $case->value, $selected);
 
                 return $values;
-
             case 'single':
                 return $selected[0];
-
             default: // 'array'
                 return $selected;
         }
@@ -194,6 +193,26 @@ class Fixtures
             'presentationUploadExternalUrl'          => $faker->url,
             'presentationUploadExternalDescription'  => $faker->text,
             'recordFullDurationMedia'                => $faker->boolean(50),
+            'maxPinnedCameras'                       => $faker->numberBetween(1, 8),
+            'darkLogo'                               => $faker->imageUrl(330, 70),
+            'logoutTimer'                            => $faker->numberBetween(5, 60),
+            'cameraBridge'                           => $faker->randomElement(['fullbridge', 'livekit']),
+            'screenShareBridge'                      => $faker->randomElement(['fullbridge', 'livekit']),
+            'audioBridge'                            => $faker->randomElement(['freeswitch', 'livekit']),
+            'lockSettingsHideViewersAnnotation'      => $faker->boolean(50),
+            'breakoutRoomsCaptureSlides'             => $faker->boolean(50),
+            'breakoutRoomsCaptureNotes'              => $faker->boolean(50),
+            'breakoutRoomsCaptureSlidesFilename'     => $faker->word . '.pdf',
+            'breakoutRoomsCaptureNotesFilename'      => $faker->word . '.txt',
+            'plugin_sdkVersion'                      => $faker->numerify('1.#.#'),
+            'sharedNotesEditor'                      => $faker->randomElement(['etherpad', 'blockNote']),
+            'sharedNotesInitialContentJsonUrl'       => $faker->url(),
+            'clientSettingsOverrideJsonUrl'          => $faker->url(),
+            'sharedNotesInitialContentMarkdown'      => $faker->sentences(2, true),
+            'sharedNotesInitialContentMarkdownUrl'   => $faker->url(),
+            'notifyRecordingAppend'                  => $faker->sentence,
+            'requireUserConsentBeforeUnmuting'       => $faker->boolean(50),
+            'lockSettingsPresenterPolicy'            => self::randomEnumValues($faker, PresenterPolicy::class, 1),
         ];
     }
 
@@ -248,6 +267,7 @@ class Fixtures
             'creationTime'         => $faker->unixTime,
             'role'                 => self::randomEnumValues($faker, Role::class, 1),
             'excludeFromDashboard' => $faker->boolean,
+            'enforceLayout'        => self::randomEnumValues($faker, MeetingLayout::class, 1),
             'userdata_countrycode' => $faker->countryCode,
             'userdata_email'       => $faker->email,
             'userdata_commercial'  => false,
@@ -353,6 +373,26 @@ class Fixtures
             ->setNotifyRecordingIsOn($params['notifyRecordingIsOn'])
             ->setPresentationUploadExternalUrl($params['presentationUploadExternalUrl'])
             ->setPresentationUploadExternalDescription($params['presentationUploadExternalDescription'])
+            ->setMaxPinnedCameras($params['maxPinnedCameras'])
+            ->setDarkLogo($params['darkLogo'])
+            ->setLogoutTimer($params['logoutTimer'])
+            ->setCameraBridge($params['cameraBridge'])
+            ->setScreenShareBridge($params['screenShareBridge'])
+            ->setAudioBridge($params['audioBridge'])
+            ->setLockSettingsHideViewersAnnotation($params['lockSettingsHideViewersAnnotation'])
+            ->setBreakoutRoomsCaptureSlides($params['breakoutRoomsCaptureSlides'])
+            ->setBreakoutRoomsCaptureNotes($params['breakoutRoomsCaptureNotes'])
+            ->setBreakoutRoomsCaptureSlidesFilename($params['breakoutRoomsCaptureSlidesFilename'])
+            ->setBreakoutRoomsCaptureNotesFilename($params['breakoutRoomsCaptureNotesFilename'])
+            ->addPluginMeta('sdkVersion', $params['plugin_sdkVersion'])
+            ->setSharedNotesEditor($params['sharedNotesEditor'])
+            ->setSharedNotesInitialContentJsonUrl($params['sharedNotesInitialContentJsonUrl'])
+            ->setClientSettingsOverrideJsonUrl($params['clientSettingsOverrideJsonUrl'])
+            ->setSharedNotesInitialContentMarkdown($params['sharedNotesInitialContentMarkdown'])
+            ->setSharedNotesInitialContentMarkdownUrl($params['sharedNotesInitialContentMarkdownUrl'])
+            ->setNotifyRecordingAppend($params['notifyRecordingAppend'])
+            ->setRequireUserConsentBeforeUnmuting($params['requireUserConsentBeforeUnmuting'])
+            ->setLockSettingsPresenterPolicy($params['lockSettingsPresenterPolicy'])
         ;
     }
 
@@ -384,6 +424,7 @@ class Fixtures
             ->addUserData('email', $params['userdata_email'])
             ->addUserData('commercial', $params['userdata_commercial'])
             ->setExcludeFromDashboard($params['excludeFromDashboard'])
+            ->setEnforceLayout($params['enforceLayout'])
         ;
     }
 

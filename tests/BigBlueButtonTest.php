@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -24,6 +24,7 @@ use BigBlueButton\Core\ApiMethod;
 use BigBlueButton\Core\DocumentFile;
 use BigBlueButton\Core\DocumentUrl;
 use BigBlueButton\Enum\Feature;
+use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
 use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
@@ -33,6 +34,7 @@ use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
+use BigBlueButton\Parameters\JoinMeetingParameters;
 use BigBlueButton\Parameters\PublishRecordingsParameters;
 use BigBlueButton\Parameters\SendChatMessageParameters;
 use BigBlueButton\TestServices\EnvLoader;
@@ -88,6 +90,22 @@ class BigBlueButtonTest extends TestCase
         $this->assertEquals('SUCCESS', $apiVersion->getReturnCode());
         $this->assertEquals('2.0', $apiVersion->getVersion());
         $this->assertTrue($apiVersion->success());
+    }
+
+    // Constructor
+
+    /**
+     * Regression test: base url and secret must not be mixed up when passed
+     * explicitly to the constructor.
+     */
+    public function testConstructorWithExplicitBaseUrlAndSecret(): void
+    {
+        $bbb = new BigBlueButton('https://server.example.com/bigbluebutton/', 'the-secret');
+
+        $url = $bbb->getMeetingsUrl();
+
+        $this->assertStringStartsWith('https://server.example.com/bigbluebutton/api/getMeetings', $url);
+        $this->assertStringNotContainsString('the-secret', $url);
     }
 
     // Create Meeting
@@ -363,7 +381,8 @@ class BigBlueButtonTest extends TestCase
         $sendChatMessageParameters->setUserName($this->faker->userName());
         $sendChatMessageResponse = $this->bbb->sendChatMessage($sendChatMessageParameters);
 
-        $this->assertTrue($sendChatMessageResponse->success());
+        // Even if the meeting exists, it returns failure because no user has already joined the meeting
+        $this->assertTrue($sendChatMessageResponse->failed());
     }
 
     // Join Meeting
@@ -401,7 +420,7 @@ class BigBlueButtonTest extends TestCase
         $joinMeetingParams = Fixtures::generateJoinMeetingParams();
         $joinMeetingMock   = Fixtures::getJoinMeetingMock($joinMeetingParams);
 
-        // adapt to join the above created meeting
+        // adapt to join the above-created meeting
         $joinMeetingMock->setRedirect(false);
         $joinMeetingMock->setMeetingId($createMeetingResponse->getMeetingId());
         $joinMeetingMock->setCreationTime($createMeetingResponse->getCreationTime());
@@ -502,6 +521,53 @@ class BigBlueButtonTest extends TestCase
 
         $result = $this->bbb->getMeetings();
         $this->assertNotEmpty($result->getMeetings());
+    }
+
+    // Get Sessions
+
+    /**
+     * @deprecated Test will be removed together with the deprecated function from BigBlueButton::class
+     */
+    public function testGetSessionsUrl(): void
+    {
+        $url = $this->bbb->getSessionsUrl();
+        $this->assertStringContainsString(ApiMethod::GET_SESSIONS, $url);
+    }
+
+    public function testGetSessions(): void
+    {
+        // arrange the BBB-server: create a meeting and join two users
+        $createMeetingParameters = new CreateMeetingParameters($this->faker->uuid(), 'Meeting Room (GetSessions)');
+        $createMeetingResponse   = $this->bbb->createMeeting($createMeetingParameters);
+        $this->assertEquals('SUCCESS', $createMeetingResponse->getReturnCode());
+
+        $joinMeetingParametersModerator = new JoinMeetingParameters($createMeetingResponse->getMeetingId(), 'Alice Moderator', Role::MODERATOR);
+        $joinMeetingParametersModerator->setRedirect(false);
+        $joinMeetingResponseModerator = $this->bbb->joinMeeting($joinMeetingParametersModerator);
+        $this->assertTrue($joinMeetingResponseModerator->success(), $joinMeetingResponseModerator->getMessage());
+
+        $joinMeetingParametersViewer = new JoinMeetingParameters($createMeetingResponse->getMeetingId(), 'Bob Attendee', Role::VIEWER);
+        $joinMeetingParametersViewer->setRedirect(false);
+        $joinMeetingResponseViewer = $this->bbb->joinMeeting($joinMeetingParametersViewer);
+        $this->assertTrue($joinMeetingResponseViewer->success(), $joinMeetingResponseViewer->getMessage());
+
+        // act
+        $getSessionsResponse = $this->bbb->getSessions();
+
+        // assert: each joined user holds a session, thus the meeting appears twice
+        $this->assertEquals('SUCCESS', $getSessionsResponse->getReturnCode());
+        $this->assertTrue($getSessionsResponse->success());
+
+        $sessions  = $getSessionsResponse->getSessions();
+        $userNames = array_map(static fn ($session) => $session->getUserName(), $sessions);
+
+        $this->assertContains('Alice Moderator', $userNames);
+        $this->assertContains('Bob Attendee', $userNames);
+
+        foreach ($sessions as $session) {
+            $this->assertNotEmpty($session->getMeetingId());
+            $this->assertNotEmpty($session->getMeetingName());
+        }
     }
 
     // Get meeting info
@@ -627,7 +693,7 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
 
         // destroy non-existing hook
-        $hooksDestroyParameters = new HooksDestroyParameters($this->faker->numberBetween(10000, 99999));
+        $hooksDestroyParameters = new HooksDestroyParameters((string) $this->faker->numberBetween(10000, 99999));
         $hooksCreateResponse    = $this->bbb->hooksDestroy($hooksDestroyParameters);
         $this->assertFalse($hooksCreateResponse->success(), $hooksCreateResponse->getMessage());
     }

@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -27,11 +27,11 @@ class EndMeetingResponse extends BaseResponse
 {
     public function getMessageKey(): string
     {
-        return $this->rawXml->messageKey->__toString();
+        return (string) $this->rawXml->messageKey;
     }
 
     public function getMessage(): string
     {
-        return $this->rawXml->message->__toString();
+        return (string) $this->rawXml->message;
     }
 }

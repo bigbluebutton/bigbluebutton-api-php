@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -21,9 +21,11 @@
 namespace BigBlueButton\Parameters;
 
 use BigBlueButton\Attribute\ApiParameterMapper;
+use BigBlueButton\Core\ClientSettingsOverride;
 use BigBlueButton\Enum\Feature;
 use BigBlueButton\Enum\GuestPolicy;
 use BigBlueButton\Enum\MeetingLayout;
+use BigBlueButton\Enum\PresenterPolicy;
 
 /**
  * Class CreateMeetingParameters.
@@ -184,6 +186,70 @@ class CreateMeetingParameters extends MetaParameters
 
     private ?string $presentationUploadExternalDescription = null;
 
+    private ?bool $allowPromoteGuestToModerator = null;
+
+    private ?bool $allowOverrideClientSettingsOnCreateCall = null;
+
+    private ?ClientSettingsOverride $clientSettingsOverride = null;
+
+    private ?string $loginURL = null;
+
+    // New properties
+    private ?string $pluginManifests = null;
+
+    private ?string $pluginManifestsFetchUrl = null;
+
+    private ?bool $presentationConversionCacheEnabled = null;
+
+    private ?int $maxNumPages = null;
+
+    private ?bool $multiUserWhiteboardEnabled = null;
+
+    private ?int $maxPinnedCameras = null;
+
+    private ?string $darkLogo = null;
+
+    private ?int $logoutTimer = null;
+
+    private ?string $cameraBridge = null;
+
+    private ?string $screenShareBridge = null;
+
+    private ?string $audioBridge = null;
+
+    private ?bool $lockSettingsHideViewersAnnotation = null;
+
+    private ?bool $breakoutRoomsCaptureSlides = null;
+
+    private ?bool $breakoutRoomsCaptureNotes = null;
+
+    private ?string $breakoutRoomsCaptureSlidesFilename = null;
+
+    private ?string $breakoutRoomsCaptureNotesFilename = null;
+
+    /** @var array<string, mixed> */
+    private array $pluginMeta = [];
+
+    private ?string $sharedNotesEditor = null;
+
+    private ?string $sharedNotesInitialContentJsonUrl = null;
+
+    private ?string $clientSettingsOverrideJsonUrl = null;
+
+    private ?string $sharedNotesInitialContentJson = null;
+
+    private ?string $sharedNotesInitialContentMarkdown = null;
+
+    private ?string $sharedNotesInitialContentMarkdownUrl = null;
+
+    private ?string $sharedNotesInitialContentMarkdownModule = null;
+
+    private ?string $notifyRecordingAppend = null;
+
+    private ?bool $requireUserConsentBeforeUnmuting = null;
+
+    private ?PresenterPolicy $lockSettingsPresenterPolicy = null;
+
     /**
      * CreateMeetingParameters constructor.
      */
@@ -333,6 +399,9 @@ class CreateMeetingParameters extends MetaParameters
         return $this->webVoice;
     }
 
+    /**
+     * @deprecated since 4.0 (obsolete; selected a separate voice conference for the old Flash client)
+     */
     public function setWebVoice(string $webVoice): self
     {
         $this->webVoice = $webVoice;
@@ -708,6 +777,9 @@ class CreateMeetingParameters extends MetaParameters
         return $this->copyright;
     }
 
+    /**
+     * @deprecated since 4.0 (had no effect; use clientSettingsOverride for public.app.copyright instead)
+     */
     public function setCopyright(string $copyright): self
     {
         $this->copyright = $copyright;
@@ -1167,7 +1239,7 @@ class CreateMeetingParameters extends MetaParameters
 
     /**
      * Will set the default layout for the meeting. Possible values are: CUSTOM_LAYOUT, SMART_LAYOUT,
-     * PRESENTATION_FOCUS, VIDEO_FOCUS.
+     * PRESENTATION_FOCUS, VIDEO_FOCUS, CAMERAS_ONLY, PARTICIPANTS_CHAT_ONLY, PRESENTATION_ONLY, MEDIA_ONLY.
      *
      * Default: SMART_LAYOUT
      *
@@ -1292,6 +1364,18 @@ class CreateMeetingParameters extends MetaParameters
         return $this->preUploadedPresentationOverrideDefault;
     }
 
+    #[ApiParameterMapper(attributeName: 'allowPromoteGuestToModerator')]
+    public function isAllowPromoteGuestToModerator(): ?bool
+    {
+        return $this->allowPromoteGuestToModerator;
+    }
+
+    #[ApiParameterMapper(attributeName: 'allowOverrideClientSettingsOnCreateCall')]
+    public function isAllowOverrideClientSettingsOnCreateCall(): ?bool
+    {
+        return $this->allowOverrideClientSettingsOnCreateCall;
+    }
+
     /**
      * If passed with a valid presentation file url, this presentation will override the default presentation.
      * To only upload but not set as default, also pass preUploadedPresentationOverrideDefault=false.
@@ -1340,6 +1424,89 @@ class CreateMeetingParameters extends MetaParameters
         $this->preUploadedPresentationOverrideDefault = $preUploadedPresentationOverrideDefault;
 
         return $this;
+    }
+
+    /**
+     * @since 2.7.9
+     */
+    public function setAllowPromoteGuestToModerator(bool $allowPromoteGuestToModerator): self
+    {
+        $this->allowPromoteGuestToModerator = $allowPromoteGuestToModerator;
+
+        return $this;
+    }
+
+    /**
+     * @since 3.0.0
+     */
+    public function setAllowOverrideClientSettingsOnCreateCall(bool $allowOverrideClientSettingsOnCreateCall): self
+    {
+        $this->allowOverrideClientSettingsOnCreateCall = $allowOverrideClientSettingsOnCreateCall;
+
+        return $this;
+    }
+
+    public function getClientSettingsOverride(): ?ClientSettingsOverride
+    {
+        return $this->clientSettingsOverride;
+    }
+
+    /**
+     * Set the client settings override module for the meeting.
+     * This allows overriding HTML5 client settings from the settings.yml file.
+     *
+     * Note: This requires allowOverrideClientSettingsOnCreateCall to be set to true.
+     *
+     * @since 3.0.0
+     */
+    public function setClientSettingsOverride(?ClientSettingsOverride $clientSettingsOverride): self
+    {
+        $this->clientSettingsOverride = $clientSettingsOverride;
+
+        return $this;
+    }
+
+    /**
+     * Get the client settings override as XML for the API request.
+     *
+     * @return string The XML representation of the client settings override module
+     *
+     * @since 3.0.0
+     */
+    public function getClientSettingsOverrideAsXML(): string
+    {
+        if (null === $this->clientSettingsOverride) {
+            return '';
+        }
+
+        return $this->clientSettingsOverride->toXML();
+    }
+
+    /**
+     * Get all modules (presentations and client settings override) as combined XML for the API request.
+     *
+     * @return string The combined XML representation of all modules
+     *
+     * @since 3.0.0
+     */
+    public function getModulesAsXML(): string
+    {
+        $modules = array_filter([
+            $this->getPresentationsAsXML(),
+            $this->getClientSettingsOverrideAsXML(),
+            $this->getSharedNotesInitialContentAsXML(),
+            $this->getSharedNotesInitialContentMarkdownAsXML(),
+        ], static fn (string $xml): bool => '' !== $xml);
+
+        if ([] === $modules) {
+            return '';
+        }
+
+        if (1 === \count($modules)) {
+            return reset($modules);
+        }
+
+        return $this->mergeModulesXml($modules);
     }
 
     /**
@@ -1512,6 +1679,559 @@ class CreateMeetingParameters extends MetaParameters
         return $this;
     }
 
+    #[ApiParameterMapper(attributeName: 'loginURL')]
+    public function getLoginURL(): ?string
+    {
+        return $this->loginURL;
+    }
+
+    /**
+     * @since 3.0.0
+     */
+    public function setLoginURL(string $loginURL): self
+    {
+        $this->loginURL = $loginURL;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'pluginManifests')]
+    public function getPluginManifests(): ?string
+    {
+        return $this->pluginManifests;
+    }
+
+    /**
+     * JSON string containing plugin manifests to load for the meeting.
+     */
+    public function setPluginManifests(string $pluginManifests): self
+    {
+        // Ensure the value is valid JSON by decoding and re-encoding
+        json_decode($pluginManifests);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new \InvalidArgumentException('pluginManifests must be a valid JSON string.');
+        }
+
+        $this->pluginManifests = $pluginManifests;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'pluginManifestsFetchUrl')]
+    public function getPluginManifestsFetchUrl(): ?string
+    {
+        return $this->pluginManifestsFetchUrl;
+    }
+
+    /**
+     * URL to fetch the plugin manifests from.
+     */
+    public function setPluginManifestsFetchUrl(string $pluginManifestsFetchUrl): self
+    {
+        $this->pluginManifestsFetchUrl = $pluginManifestsFetchUrl;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'presentationConversionCacheEnabled')]
+    public function isPresentationConversionCacheEnabled(): ?bool
+    {
+        return $this->presentationConversionCacheEnabled;
+    }
+
+    /**
+     * Enable or disable caching for presentation conversion.
+     */
+    public function setPresentationConversionCacheEnabled(bool $presentationConversionCacheEnabled): self
+    {
+        $this->presentationConversionCacheEnabled = $presentationConversionCacheEnabled;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'maxNumPages')]
+    public function getMaxNumPages(): ?int
+    {
+        return $this->maxNumPages;
+    }
+
+    /**
+     * Maximum number of pages allowed for presentations in the meeting.
+     */
+    public function setMaxNumPages(int $maxNumPages): self
+    {
+        $this->maxNumPages = $maxNumPages;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'multiUserWhiteboardEnabled')]
+    public function isMultiUserWhiteboardEnabled(): ?bool
+    {
+        return $this->multiUserWhiteboardEnabled;
+    }
+
+    /**
+     * Enable or disable the multi-user whiteboard feature.
+     */
+    public function setMultiUserWhiteboardEnabled(bool $multiUserWhiteboardEnabled): self
+    {
+        $this->multiUserWhiteboardEnabled = $multiUserWhiteboardEnabled;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'maxPinnedCameras')]
+    public function getMaxPinnedCameras(): ?int
+    {
+        return $this->maxPinnedCameras;
+    }
+
+    /**
+     * Maximum number of cameras that can be pinned simultaneously in the meeting.
+     */
+    public function setMaxPinnedCameras(int $maxPinnedCameras): self
+    {
+        $this->maxPinnedCameras = $maxPinnedCameras;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'darklogo')]
+    public function getDarkLogo(): ?string
+    {
+        return $this->darkLogo;
+    }
+
+    /**
+     * URL to an image used instead of the logo in dark mode of the client.
+     */
+    public function setDarkLogo(string $darkLogo): self
+    {
+        $this->darkLogo = $darkLogo;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'logoutTimer')]
+    public function getLogoutTimer(): ?int
+    {
+        return $this->logoutTimer;
+    }
+
+    /**
+     * Time in minutes after which the client session times out. Overrides the
+     * server-side default (clientLogoutTimerInMinutes). Legacy parameter.
+     */
+    public function setLogoutTimer(int $logoutTimer): self
+    {
+        $this->logoutTimer = $logoutTimer;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'cameraBridge')]
+    public function getCameraBridge(): ?string
+    {
+        return $this->cameraBridge;
+    }
+
+    /**
+     * Selects the media bridge used for camera streams (e.g. fullbridge or livekit).
+     */
+    public function setCameraBridge(string $cameraBridge): self
+    {
+        $this->cameraBridge = $cameraBridge;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'screenShareBridge')]
+    public function getScreenShareBridge(): ?string
+    {
+        return $this->screenShareBridge;
+    }
+
+    /**
+     * Selects the media bridge used for screen-share streams.
+     */
+    public function setScreenShareBridge(string $screenShareBridge): self
+    {
+        $this->screenShareBridge = $screenShareBridge;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'audioBridge')]
+    public function getAudioBridge(): ?string
+    {
+        return $this->audioBridge;
+    }
+
+    /**
+     * Selects the media bridge used for audio (e.g. freeswitch or livekit).
+     */
+    public function setAudioBridge(string $audioBridge): self
+    {
+        $this->audioBridge = $audioBridge;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'lockSettingsHideViewersAnnotation')]
+    public function isLockSettingsHideViewersAnnotation(): ?bool
+    {
+        return $this->lockSettingsHideViewersAnnotation;
+    }
+
+    /**
+     * Setting to true will prevent viewers from seeing annotations from other
+     * viewers when multi-user whiteboard is on.
+     *
+     * Default: false
+     */
+    public function setLockSettingsHideViewersAnnotation(bool $lockSettingsHideViewersAnnotation): self
+    {
+        $this->lockSettingsHideViewersAnnotation = $lockSettingsHideViewersAnnotation;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'breakoutRoomsCaptureSlides')]
+    public function isBreakoutRoomsCaptureSlides(): ?bool
+    {
+        return $this->breakoutRoomsCaptureSlides;
+    }
+
+    /**
+     * Setting to true will capture the slides of the breakout room and upload
+     * them to the parent meeting when the breakout room ends.
+     */
+    public function setBreakoutRoomsCaptureSlides(bool $breakoutRoomsCaptureSlides): self
+    {
+        $this->breakoutRoomsCaptureSlides = $breakoutRoomsCaptureSlides;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'breakoutRoomsCaptureNotes')]
+    public function isBreakoutRoomsCaptureNotes(): ?bool
+    {
+        return $this->breakoutRoomsCaptureNotes;
+    }
+
+    /**
+     * Setting to true will capture the shared notes of the breakout room and
+     * upload them to the parent meeting when the breakout room ends.
+     */
+    public function setBreakoutRoomsCaptureNotes(bool $breakoutRoomsCaptureNotes): self
+    {
+        $this->breakoutRoomsCaptureNotes = $breakoutRoomsCaptureNotes;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'breakoutRoomsCaptureSlidesFilename')]
+    public function getBreakoutRoomsCaptureSlidesFilename(): ?string
+    {
+        return $this->breakoutRoomsCaptureSlidesFilename;
+    }
+
+    /**
+     * Filename to use when the slides of the breakout room are captured and
+     * uploaded to the parent meeting. Requires breakoutRoomsCaptureSlides.
+     */
+    public function setBreakoutRoomsCaptureSlidesFilename(string $breakoutRoomsCaptureSlidesFilename): self
+    {
+        $this->breakoutRoomsCaptureSlidesFilename = $breakoutRoomsCaptureSlidesFilename;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'breakoutRoomsCaptureNotesFilename')]
+    public function getBreakoutRoomsCaptureNotesFilename(): ?string
+    {
+        return $this->breakoutRoomsCaptureNotesFilename;
+    }
+
+    /**
+     * Filename to use when the shared notes of the breakout room are captured
+     * and uploaded to the parent meeting. Requires breakoutRoomsCaptureNotes.
+     */
+    public function setBreakoutRoomsCaptureNotesFilename(string $breakoutRoomsCaptureNotesFilename): self
+    {
+        $this->breakoutRoomsCaptureNotesFilename = $breakoutRoomsCaptureNotesFilename;
+
+        return $this;
+    }
+
+    /**
+     * Get a single plugin metadata value by its key (without the plugin_-prefix).
+     */
+    public function getPluginMeta(string $key): mixed
+    {
+        return $this->pluginMeta[$key];
+    }
+
+    /**
+     * Add plugin metadata, sent as plugin_<key> parameter to the BBB-Server.
+     *
+     * The key is provided without the plugin_-prefix (a mistakenly provided
+     * prefix is stripped). The BBB-Server lowercases the name, so lowercase
+     * keys should be preferred to reference them in the plugin manifest.
+     */
+    public function addPluginMeta(string $key, mixed $value): static
+    {
+        if (str_starts_with($key, 'plugin_')) {
+            $key = mb_substr($key, \mb_strlen('plugin_'));
+        }
+
+        $this->pluginMeta[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Replace all plugin metadata, sent as plugin_<key> parameters to the
+     * BBB-Server. Keys are provided without the plugin_-prefix.
+     *
+     * @param array<string, mixed> $pluginMeta
+     */
+    public function setPluginMeta(array $pluginMeta): static
+    {
+        $this->pluginMeta = [];
+
+        foreach ($pluginMeta as $key => $value) {
+            $this->addPluginMeta($key, $value);
+        }
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'sharedNotesEditor')]
+    public function getSharedNotesEditor(): ?string
+    {
+        return $this->sharedNotesEditor;
+    }
+
+    /**
+     * Editor to be rendered in the shared-notes area: 'etherpad' or 'blockNote'.
+     * Default on the BBB-Server: etherpad.
+     */
+    public function setSharedNotesEditor(string $sharedNotesEditor): self
+    {
+        $this->sharedNotesEditor = $sharedNotesEditor;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'sharedNotesInitialContentJsonUrl')]
+    public function getSharedNotesInitialContentJsonUrl(): ?string
+    {
+        return $this->sharedNotesInitialContentJsonUrl;
+    }
+
+    /**
+     * URL from which the shared-notes will fetch the initial content. Only
+     * applicable if sharedNotesEditor is set to 'blockNote'.
+     */
+    public function setSharedNotesInitialContentJsonUrl(string $sharedNotesInitialContentJsonUrl): self
+    {
+        $this->sharedNotesInitialContentJsonUrl = $sharedNotesInitialContentJsonUrl;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'clientSettingsOverrideJsonUrl')]
+    public function getClientSettingsOverrideJsonUrl(): ?string
+    {
+        return $this->clientSettingsOverrideJsonUrl;
+    }
+
+    /**
+     * URL of a JSON file overriding the client settings. Takes precedence over
+     * the clientSettingsOverride POST payload and does not require
+     * allowOverrideClientSettingsOnCreateCall.
+     */
+    public function setClientSettingsOverrideJsonUrl(string $clientSettingsOverrideJsonUrl): self
+    {
+        $this->clientSettingsOverrideJsonUrl = $clientSettingsOverrideJsonUrl;
+
+        return $this;
+    }
+
+    /**
+     * The initial content of the shared notes as JSON string, sent as
+     * sharedNotesInitialContentJson POST module.
+     */
+    public function getSharedNotesInitialContentJson(): ?string
+    {
+        return $this->sharedNotesInitialContentJson;
+    }
+
+    public function setSharedNotesInitialContentJson(string $sharedNotesInitialContentJson): self
+    {
+        json_decode($sharedNotesInitialContentJson);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new \InvalidArgumentException('sharedNotesInitialContentJson must be a valid JSON string.');
+        }
+
+        $this->sharedNotesInitialContentJson = $sharedNotesInitialContentJson;
+
+        return $this;
+    }
+
+    /**
+     * The sharedNotesInitialContentJson POST module.
+     */
+    public function getSharedNotesInitialContentAsXML(): string
+    {
+        if (null === $this->sharedNotesInitialContentJson) {
+            return '';
+        }
+
+        $json = $this->sharedNotesInitialContentJson;
+
+        return <<<XML
+            <modules>
+               <module name="sharedNotesInitialContentJson">
+                     <![CDATA[
+                     {$json}
+                     ]]>
+               </module>
+            </modules>
+            XML;
+    }
+
+    #[ApiParameterMapper(attributeName: 'sharedNotesInitialContentMarkdown')]
+    public function getSharedNotesInitialContentMarkdown(): ?string
+    {
+        return $this->sharedNotesInitialContentMarkdown;
+    }
+
+    /**
+     * Raw Markdown as initial content of the shared notes, sent inline as create
+     * parameter. Suitable for short content that fits within URL length limits.
+     * The BlockNote JSON content takes precedence over the Markdown.
+     */
+    public function setSharedNotesInitialContentMarkdown(string $sharedNotesInitialContentMarkdown): self
+    {
+        $this->sharedNotesInitialContentMarkdown = $sharedNotesInitialContentMarkdown;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'sharedNotesInitialContentMarkdownUrl')]
+    public function getSharedNotesInitialContentMarkdownUrl(): ?string
+    {
+        return $this->sharedNotesInitialContentMarkdownUrl;
+    }
+
+    /**
+     * URL from which the raw Markdown for the initial shared-notes content is
+     * fetched by the BBB-Server (HTTPS only).
+     */
+    public function setSharedNotesInitialContentMarkdownUrl(string $sharedNotesInitialContentMarkdownUrl): self
+    {
+        $this->sharedNotesInitialContentMarkdownUrl = $sharedNotesInitialContentMarkdownUrl;
+
+        return $this;
+    }
+
+    /**
+     * Raw Markdown sent in the POST body via the sharedNotesInitialContentMarkdown
+     * module, for content too large for a query string.
+     */
+    public function getSharedNotesInitialContentMarkdownModule(): ?string
+    {
+        return $this->sharedNotesInitialContentMarkdownModule;
+    }
+
+    public function setSharedNotesInitialContentMarkdownModule(string $markdown): self
+    {
+        $this->sharedNotesInitialContentMarkdownModule = $markdown;
+
+        return $this;
+    }
+
+    /**
+     * The sharedNotesInitialContentMarkdown POST module.
+     */
+    public function getSharedNotesInitialContentMarkdownAsXML(): string
+    {
+        if (null === $this->sharedNotesInitialContentMarkdownModule) {
+            return '';
+        }
+
+        $markdown = $this->sharedNotesInitialContentMarkdownModule;
+
+        return <<<XML
+            <modules>
+               <module name="sharedNotesInitialContentMarkdown">
+                     <![CDATA[
+                     {$markdown}
+                     ]]>
+               </module>
+            </modules>
+            XML;
+    }
+
+    #[ApiParameterMapper(attributeName: 'notifyRecordingAppend')]
+    public function getNotifyRecordingAppend(): ?string
+    {
+        return $this->notifyRecordingAppend;
+    }
+
+    /**
+     * Plain text appended to the recording notification dialog shown to the
+     * users when notifyRecordingIsOn is active.
+     */
+    public function setNotifyRecordingAppend(string $notifyRecordingAppend): self
+    {
+        $this->notifyRecordingAppend = $notifyRecordingAppend;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'requireUserConsentBeforeUnmuting')]
+    public function isRequireUserConsentBeforeUnmuting(): ?bool
+    {
+        return $this->requireUserConsentBeforeUnmuting;
+    }
+
+    /**
+     * Setting to true shows a consent dialog to a user before a moderator is
+     * allowed to unmute them. Only relevant when allowModsToUnmuteUsers is set.
+     *
+     * Default: false
+     */
+    public function setRequireUserConsentBeforeUnmuting(bool $requireUserConsentBeforeUnmuting): self
+    {
+        $this->requireUserConsentBeforeUnmuting = $requireUserConsentBeforeUnmuting;
+
+        return $this;
+    }
+
+    #[ApiParameterMapper(attributeName: 'lockSettingsPresenterPolicy')]
+    public function getLockSettingsPresenterPolicy(): ?PresenterPolicy
+    {
+        return $this->lockSettingsPresenterPolicy;
+    }
+
+    /**
+     * Policy controlling the "Request to Present" feature.
+     *
+     * Default: requireApproval
+     */
+    public function setLockSettingsPresenterPolicy(PresenterPolicy $lockSettingsPresenterPolicy): self
+    {
+        $this->lockSettingsPresenterPolicy = $lockSettingsPresenterPolicy;
+
+        return $this;
+    }
+
     public function getHTTPQuery(): string
     {
         $queries = $this->toApiDataArray();
@@ -1538,7 +2258,67 @@ class CreateMeetingParameters extends MetaParameters
         }
 
         $queries = $this->buildMeta($queries);
+        $queries = $this->buildPluginMeta($queries);
 
         return $this->buildHTTPQuery($queries);
+    }
+
+    /**
+     * Merges several <modules> documents into one.
+     *
+     * @param array<int, string> $modulesXml
+     */
+    private function mergeModulesXml(array $modulesXml): string
+    {
+        $first = (string) array_shift($modulesXml);
+
+        try {
+            $targetDom     = new \DOMDocument();
+            $targetModules = $targetDom->loadXML($first) ? $targetDom->getElementsByTagName('modules')->item(0) : null;
+
+            if (null === $targetModules) {
+                return $first;
+            }
+
+            foreach ($modulesXml as $xml) {
+                $sourceDom     = new \DOMDocument();
+                $sourceModules = $sourceDom->loadXML($xml) ? $sourceDom->getElementsByTagName('modules')->item(0) : null;
+
+                if (null === $sourceModules) {
+                    continue;
+                }
+
+                foreach ($sourceModules->childNodes as $childNode) {
+                    if (XML_ELEMENT_NODE === $childNode->nodeType) {
+                        $targetModules->appendChild($targetDom->importNode($childNode, true));
+                    }
+                }
+            }
+
+            $merged = $targetDom->saveXML();
+
+            return false !== $merged ? $merged : $first;
+        } catch (\Exception) {
+            // If XML parsing fails, return the first modules XML as fallback
+            return $first;
+        }
+    }
+
+    /**
+     * @param array<string, mixed> $array
+     *
+     * @return array<string, mixed>
+     */
+    private function buildPluginMeta(array $array): array
+    {
+        foreach ($this->pluginMeta as $key => $value) {
+            if (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            }
+
+            $array['plugin_' . $key] = $value;
+        }
+
+        return $array;
     }
 }

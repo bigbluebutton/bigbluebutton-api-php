@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -33,6 +33,23 @@ use BigBlueButton\TestServices\Fixtures;
  */
 final class InsertDocumentParametersTest extends ParameterTestCase
 {
+    public function testSetMeetingId(): void
+    {
+        $originalMeetingId = 'original-meeting-123';
+        $newMeetingId      = 'new-meeting-456';
+
+        $insertDocumentParameters = new InsertDocumentParameters($originalMeetingId);
+
+        // Test initial value
+        $this->assertEquals($originalMeetingId, $insertDocumentParameters->getMeetingId());
+
+        // Test setting new value
+        $result = $insertDocumentParameters->setMeetingId($newMeetingId);
+
+        $this->assertEquals($newMeetingId, $insertDocumentParameters->getMeetingId());
+        $this->assertSame($insertDocumentParameters, $result); // Test fluent interface
+    }
+
     public function testInsertDocumentParametersWithMultiPresentationsWithoutOptions(): void
     {
         $meetingId                = $this->faker->uuid;

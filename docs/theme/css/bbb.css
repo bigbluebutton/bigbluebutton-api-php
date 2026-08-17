@@ -1,0 +1,32 @@
+.nav-wide-wrapper {
+    display: none;
+}
+
+main h2 a:before {
+    content: counter(h2counter) ".\0000a0";
+}
+main h3 a:before {
+    content: counter(h2counter) "." counter(h3counter) ".\0000a0";
+}
+main h4 a:before {
+    content: counter(h2counter) "." counter(h3counter) "." counter(h4counter) ".\0000a0";
+}
+
+main h1 {
+    counter-reset: h2counter;
+    border-bottom: 3px solid coral
+}
+
+main h2 {
+    counter-reset: h3counter;
+    counter-increment: h2counter;
+}
+
+main h3 {
+    counter-reset: h4counter;
+    counter-increment: h3counter;
+}
+
+main h4 {
+    counter-increment: h4counter;
+}

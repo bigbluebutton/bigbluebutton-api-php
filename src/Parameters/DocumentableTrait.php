@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -76,12 +76,12 @@ trait DocumentableTrait
                 switch (true) {
                     case $document instanceof DocumentUrl:
                         $documentNode->addAttribute('url', $document->getUrl());
+
                         if ($document->getName()) {
                             $documentNode->addAttribute('filename', $document->getName());
                         }
 
                         break;
-
                     case $document instanceof DocumentFile:
                         if ($document->getName()) {
                             $documentNode->addAttribute('name', $document->getName());
@@ -89,7 +89,6 @@ trait DocumentableTrait
                         $documentNode[0] = base64_encode($document->getFileContent());  // @phpstan-ignore-line
 
                         break;
-
                     default:
                         throw new \Exception('The class `' . get_class($document) . '` is not a valid document. It shall be either an instance (direct or extended) of DocumentUrl or a DocumentFile.');
                 }
@@ -154,17 +153,14 @@ trait DocumentableTrait
                         $document->setCurrent($value);
 
                         break;
-
                     case DocumentOption::DOWNLOADABLE->value:
                         $document->setDownloadable($value);
 
                         break;
-
                     case DocumentOption::REMOVABLE->value:
                         $document->setRemovable($value);
 
                         break;
-
                     default:
                         throw new \Exception('The value ' . $documentOption . ' is not valid.');
                 }

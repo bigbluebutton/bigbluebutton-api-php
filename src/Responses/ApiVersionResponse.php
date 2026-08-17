@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -27,16 +27,31 @@ class ApiVersionResponse extends BaseResponse
 {
     public function getVersion(): string
     {
-        return $this->rawXml->version->__toString();
+        return (string) $this->rawXml->version;
     }
 
     public function getApiVersion(): string
     {
-        return $this->rawXml->apiVersion->__toString();
+        return (string) $this->rawXml->apiVersion;
     }
 
     public function getBbbVersion(): string
     {
-        return $this->rawXml->bbbVersion->__toString();
+        return (string) $this->rawXml->bbbVersion;
+    }
+
+    public function getHtml5PluginSdkVersion(): string
+    {
+        return (string) $this->rawXml->html5PluginSdkVersion;
+    }
+
+    public function getGraphqlWebsocketUrl(): string
+    {
+        return (string) $this->rawXml->graphqlWebsocketUrl;
+    }
+
+    public function getGraphqlApiUrl(): string
+    {
+        return (string) $this->rawXml->graphqlApiUrl;
     }
 }

@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -23,6 +23,9 @@ namespace BigBlueButton\Enum;
 enum UserData: string
 {
     // Application settings
+    /**
+     * @deprecated since 3.0.0, no more available use "/api/feedback" instead.
+     */
     case ASK_FOR_FEEDBACK_ON_LOGOUT       = 'bbb_ask_for_feedback_on_logout';
     case AUTO_JOIN_AUDIO                  = 'bbb_auto_join_audio';
     case CLIENT_TITLE                     = 'bbb_client_title';
@@ -59,9 +62,10 @@ enum UserData: string
     case FORCE_RESTORE_PRESENTATION_ON_NEW_EVENTS = 'bbb_force_restore_presentation_on_new_events';
 
     // Whiteboard settings
-    case MULTI_USER_PEN_ONLY = 'bbb_multi_user_pen_only';
-    case PRESENTER_TOOLS     = 'bbb_presenter_tools';
-    case MULTI_USER_TOOLS    = 'bbb_multi_user_tools';
+    case MULTI_USER_PEN_ONLY   = 'bbb_multi_user_pen_only';
+    case PRESENTER_TOOLS       = 'bbb_presenter_tools';
+    case MULTI_USER_TOOLS      = 'bbb_multi_user_tools';
+    case INITIAL_SELECTED_TOOL = 'bbb_initial_selected_tool';
 
     // Theming & Styling settings
     case CUSTOM_STYLE      = 'bbb_custom_style';

@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -35,6 +35,10 @@ class PutRecordingTextTrackParameters extends BaseParameters
 
     private string $label;
 
+    private ?string $trackFilePath = null;
+
+    private ?string $trackFileName = null;
+
     /**
      * PutRecordingTextTrackParameters constructor.
      */
@@ -44,6 +48,46 @@ class PutRecordingTextTrackParameters extends BaseParameters
         $this->kind     = $kind;
         $this->lang     = $lang;
         $this->label    = $label;
+    }
+
+    /**
+     * The caption track file to upload, provided as multipart form-data field
+     * "file" (the file itself is not part of the checksum-secured query).
+     */
+    public function setTrackFile(string $filePath, ?string $fileName = null): self
+    {
+        if (!is_file($filePath) || !is_readable($filePath)) {
+            throw new \InvalidArgumentException(sprintf('Track file "%s" does not exist or is not readable.', $filePath));
+        }
+
+        $this->trackFilePath = $filePath;
+        $this->trackFileName = $fileName ?? basename($filePath);
+
+        return $this;
+    }
+
+    public function getTrackFilePath(): ?string
+    {
+        return $this->trackFilePath;
+    }
+
+    public function getTrackFileName(): ?string
+    {
+        return $this->trackFileName;
+    }
+
+    /**
+     * The caption track as cURL-file to be sent as multipart form-data field "file".
+     *
+     * @throws \RuntimeException when no track file was set before
+     */
+    public function getTrackFile(): \CURLFile
+    {
+        if (null === $this->trackFilePath) {
+            throw new \RuntimeException('No track file set. Use setTrackFile() before uploading a text track.');
+        }
+
+        return new \CURLFile($this->trackFilePath, $this->getTrackFileMimeType(), (string) $this->trackFileName);
     }
 
     #[ApiParameterMapper(attributeName: 'recordID')]
@@ -96,5 +140,17 @@ class PutRecordingTextTrackParameters extends BaseParameters
         $this->label = $label;
 
         return $this;
+    }
+
+    /**
+     * Determines the mime type of the track file by its extension.
+     */
+    private function getTrackFileMimeType(): string
+    {
+        return match (mb_strtolower(pathinfo((string) $this->trackFilePath, PATHINFO_EXTENSION))) {
+            'vtt'   => 'text/vtt',
+            'srt'   => 'text/plain',
+            default => 'application/octet-stream',
+        };
     }
 }

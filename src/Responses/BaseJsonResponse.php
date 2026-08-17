@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -32,6 +32,14 @@ abstract class BaseJsonResponse
     public function __construct(string $json)
     {
         $this->data = json_decode($json);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new \RuntimeException('Invalid JSON response: ' . json_last_error_msg());
+        }
+
+        if (!isset($this->data->response)) {
+            throw new \RuntimeException('Invalid JSON response structure: missing response field');
+        }
     }
 
     /**
@@ -45,7 +53,7 @@ abstract class BaseJsonResponse
     public function getMessage(): ?string
     {
         if ($this->failed()) {
-            return $this->data->response->message;
+            return $this->data->response->message ?? null;
         }
 
         return null;
@@ -54,7 +62,7 @@ abstract class BaseJsonResponse
     public function getMessageKey(): ?string
     {
         if ($this->failed()) {
-            return $this->data->response->messageKey;
+            return $this->data->response->messageKey ?? null;
         }
 
         return null;

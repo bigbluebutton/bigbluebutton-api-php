@@ -3,7 +3,7 @@
 /*
  * BigBlueButton open source conferencing system - https://www.bigbluebutton.org/.
  *
- * Copyright (c) 2016-2025 BigBlueButton Inc. and by respective authors (see below).
+ * Copyright (c) 2016-2026 BigBlueButton Inc. and by respective authors (see below).
  *
  * This program is free software; you can redistribute it and/or modify it under the
  * terms of the GNU Lesser General Public License as published by the Free Software
@@ -24,13 +24,18 @@ use BigBlueButton\BigBlueButton;
 use BigBlueButton\Core\Hook;
 use BigBlueButton\Enum\Role;
 use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\DeleteRecordingsParameters;
 use BigBlueButton\Parameters\EndMeetingParameters;
 use BigBlueButton\Parameters\GetMeetingInfoParameters;
+use BigBlueButton\Parameters\GetRecordingsParameters;
 use BigBlueButton\Parameters\HooksCreateParameters;
 use BigBlueButton\Parameters\HooksDestroyParameters;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 use BigBlueButton\Parameters\IsMeetingRunningParameters;
 use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\PublishRecordingsParameters;
+use BigBlueButton\Parameters\SendChatMessageParameters;
+use BigBlueButton\Parameters\UpdateRecordingsParameters;
 use BigBlueButton\Responses\BaseResponse;
 use BigBlueButton\TestServices\EnvLoader;
 use BigBlueButton\TestServices\Fixtures;
@@ -91,6 +96,12 @@ class FixturesTest extends TestCase
             'hooks_destroy_failed_no_id.xml', // because: It is mandatory to have an id in the destroy constructor
             'hooks_destroy_failed_error.xml', // because: No idea how to simulate this on a well configured BBB-Server
             'hooks_create_failed_error.xml',  // because: No idea how to simulate this on a well configured BBB-Server
+            'get_sessions_empty.xml',         // because: Sessions of recently ended meetings may still be active, the empty state is not reliably reproducible
+            'delete_recordings.xml',          // because: Requires an existing recording on the BBB-Server (recording processing not available on the test server)
+            'get_recordings.xml',             // because: Requires an existing recording on the BBB-Server (recording processing not available on the test server)
+            'publish_recordings.xml',         // because: Requires an existing recording on the BBB-Server (recording processing not available on the test server)
+            'update_recordings.xml',          // because: Requires an existing recording on the BBB-Server (recording processing not available on the test server)
+            'send_chat_message.xml',          // because: Requires a meeting that is actually started by a joined client (not reliably reproducible via API joins)
         ];
         $xmlFilenamesFromFolderCleaned = array_diff($xmlFilenamesFromFolder, $xmlFilesThatAreNotTestable);
 
@@ -111,14 +122,14 @@ class FixturesTest extends TestCase
      *
      * @dataProvider xmlFileToFunctionMapping
      */
-    public function testStructureOfFixturesIsStillUpToDate(string $requestFunction, string $filename, bool $success, string $messageKey, ?\Closure $parameters): void
+    public function testStructureOfFixturesIsStillUpToDate(string $method, string $filename, bool $success, string $messageKey, ?\Closure $parameters): void
     {
         // get parameters by closure from data provider
         $requestParameters = ($parameters) ? $parameters($this->bbb) : null;
 
         // make the request and get the XML of the response
         /** @var BaseResponse $response */
-        $response = $this->bbb->{$requestFunction}($requestParameters);
+        $response = $this->bbb->{$method}($requestParameters);
         $xmlAsIs  = $response->getRawXml();
 
         // load the XML of the fixture
@@ -130,9 +141,9 @@ class FixturesTest extends TestCase
         $this->assertInstanceOf(\SimpleXMLElement::class, $xmlToBe);
 
         /*
-         * There is a bug which prevent proper testing of the attendees. Once meetings are created on
+         * There is a bug that prevents proper testing of the attendees. Once meetings are created on
          * the server, you can join attendees, but by fetching the info of the meeting from the server
-         * the list of attendees is empty. So this needs to excluded temporary from the data that is
+         * the list of attendees is empty. So this needs to exclude temporary from the data that is
          * coming from the fixture-files until that bug is solved.
          *
          * Remark: Once the bug is solved on the BBB-Server (= new Version), there must be a solution
@@ -158,18 +169,18 @@ class FixturesTest extends TestCase
      *
      * @return array<string, array<string, mixed>>
      */
-    private function xmlFileToFunctionMapping(): array
+    public static function xmlFileToFunctionMapping(): array
     {
         return [
             'case01_api_version' => [
-                'function'   => 'getApiVersion',
+                'method'     => 'getApiVersion',
                 'filename'   => 'api_version.xml',
                 'success'    => true,
                 'messageKey' => '',
                 'parameters' => null,
             ],
             'case02_create_meeting' => [
-                'function'   => 'createMeeting',
+                'method'     => 'createMeeting',
                 'filename'   => 'create_meeting.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -178,7 +189,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case03_join_meeting' => [
-                'function'   => 'joinMeeting',
+                'method'     => 'joinMeeting',
                 'filename'   => 'join_meeting.xml',
                 'success'    => true,
                 'messageKey' => 'successfullyJoined',
@@ -200,7 +211,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case04_end_meeting' => [
-                'function'   => 'endMeeting',
+                'method'     => 'endMeeting',
                 'filename'   => 'end_meeting.xml',
                 'success'    => true,
                 'messageKey' => 'sentEndMeetingRequest',
@@ -216,7 +227,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case05_is_meeting_running' => [
-                'function'   => 'isMeetingRunning',
+                'method'     => 'isMeetingRunning',
                 'filename'   => 'is_meeting_running.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -232,7 +243,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case06_list_of_meetings' => [
-                'function'   => 'getMeetings',
+                'method'     => 'getMeetings',
                 'filename'   => 'get_meetings.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -262,7 +273,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case07_meeting_info_of_meeting_without_breakout_rooms' => [
-                'function'   => 'getMeetingInfo',
+                'method'     => 'getMeetingInfo',
                 'filename'   => 'get_meeting_info.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -291,7 +302,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case08_meeting_info_of_breakout_room' => [
-                'function'   => 'getMeetingInfo',
+                'method'     => 'getMeetingInfo',
                 'filename'   => 'get_meeting_info_breakout_room.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -321,7 +332,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case09_meeting_info_of_meeting_with_breakout_rooms' => [
-                'function'   => 'getMeetingInfo',
+                'method'     => 'getMeetingInfo',
                 'filename'   => 'get_meeting_info_with_breakout_rooms.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -354,7 +365,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case10_hooks_create' => [
-                'function'   => 'hooksCreate',
+                'method'     => 'hooksCreate',
                 'filename'   => 'hooks_create.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -364,7 +375,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case11_hooks_create_existing' => [
-                'function'   => 'hooksCreate',
+                'method'     => 'hooksCreate',
                 'filename'   => 'hooks_create_existing.xml',
                 'success'    => true,
                 'messageKey' => 'duplicateWarning',
@@ -381,7 +392,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case12_hooks_list' => [
-                'function'   => 'hooksList',
+                'method'     => 'hooksList',
                 'filename'   => 'hooks_list.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -405,7 +416,7 @@ class FixturesTest extends TestCase
                 },
             ],
             'case13_hooks_destroy' => [
-                'function'   => 'hooksDestroy',
+                'method'     => 'hooksDestroy',
                 'filename'   => 'hooks_destroy.xml',
                 'success'    => true,
                 'messageKey' => '',
@@ -414,27 +425,27 @@ class FixturesTest extends TestCase
                     $hooksCreateParameters = new HooksCreateParameters(self::$faker->url());
                     $hooksCreateResponse   = $bbb->hooksCreate($hooksCreateParameters);
                     self::assertTrue($hooksCreateResponse->success());
-                    self::assertIsInt($hooksCreateResponse->getHookId());
+                    self::assertIsString($hooksCreateResponse->getHookId());
 
                     // create and return parameter for test
                     return new HooksDestroyParameters($hooksCreateResponse->getHookId());
                 },
             ],
             'case14_hooks_destroy_not_found' => [
-                'function'   => 'hooksDestroy',
+                'method'     => 'hooksDestroy',
                 'filename'   => 'hooks_destroy_failed_not_found.xml',
                 'success'    => false,
                 'messageKey' => 'destroyMissingHook',
                 'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
                     // create and return parameter for test
-                    return new HooksDestroyParameters(self::$faker->numberBetween());
+                    return new HooksDestroyParameters((string) self::$faker->numberBetween());
                 },
             ],
             'case15_insert_document' => [
-                'function'   => 'insertDocument',
+                'method'     => 'insertDocument',
                 'filename'   => 'insert_document.xml',
                 'success'    => true,
-                'messageKey' => 'documentInserted',
+                'messageKey' => '',
                 'parameters' => function(BigBlueButton $bbb): InsertDocumentParameters {
                     // arrange the BBB-server
                     $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 05)');
@@ -453,6 +464,84 @@ class FixturesTest extends TestCase
                     ;
 
                     return $insertDocumentParameters;
+                },
+            ],
+            'case16_delete_recordings' => [
+                'method'     => 'deleteRecordings',
+                'filename'   => 'delete_recordings_not_found.xml',
+                'success'    => false,
+                'messageKey' => 'notFound',
+                'parameters' => function(BigBlueButton $bbb): DeleteRecordingsParameters {
+                    return new DeleteRecordingsParameters('test-recording-id-123');
+                },
+            ],
+            'case17_get_recordings' => [
+                'method'     => 'getRecordings',
+                'filename'   => 'get_recordings_no_recordings.xml',
+                'success'    => true,
+                'messageKey' => 'noRecordings',
+                'parameters' => function(BigBlueButton $bbb): GetRecordingsParameters {
+                    return new GetRecordingsParameters();
+                },
+            ],
+            'case18_get_recordings' => [
+                'method'     => 'hooksDestroy',
+                'filename'   => 'hooks_destroy_failed_not_found.xml',
+                'success'    => false,
+                'messageKey' => 'destroyMissingHook',
+                'parameters' => function(BigBlueButton $bbb): HooksDestroyParameters {
+                    return new HooksDestroyParameters('test-hook-id-456');
+                },
+            ],
+            'case19_get_recordings' => [
+                'method'     => 'publishRecordings',
+                'filename'   => 'publish_recordings_not_found.xml',
+                'success'    => false,
+                'messageKey' => 'notFound',
+                'parameters' => function(BigBlueButton $bbb): PublishRecordingsParameters {
+                    return new PublishRecordingsParameters('test-recording-id-789', true);
+                },
+            ],
+            'case20_get_recordings' => [
+                'method'     => 'sendChatMessage',
+                'filename'   => 'send_chat_message_failed.xml',
+                'success'    => false,
+                'messageKey' => 'meetingNotFound',
+                'parameters' => function(BigBlueButton $bbb): SendChatMessageParameters {
+                    return new SendChatMessageParameters('test-meeting-id-123', 'Hello, this is a test message!');
+                },
+            ],
+            'case21_get_recordings' => [
+                'method'     => 'updateRecordings',
+                'filename'   => 'update_recordings_not_found.xml',
+                'success'    => false,
+                'messageKey' => 'notFound',
+                'parameters' => function(BigBlueButton $bbb): UpdateRecordingsParameters {
+                    return new UpdateRecordingsParameters('test-recording-id-999');
+                },
+            ],
+            'case22_get_sessions' => [
+                'method'     => 'getSessions',
+                'filename'   => 'get_sessions.xml',
+                'success'    => true,
+                'messageKey' => '',
+                'parameters' => function(BigBlueButton $bbb): void {
+                    // create meeting room
+                    $createMeetingParameters = new CreateMeetingParameters(self::$faker->uuid(), 'Meeting Room (case 22)');
+                    $createMeetingResponse   = $bbb->createMeeting($createMeetingParameters);
+                    self::assertTrue($createMeetingResponse->success());
+                    self::assertEquals('bbb-none', $createMeetingResponse->getParentMeetingId());
+
+                    // create two sessions by joining two users
+                    $joinMeetingParametersModerator = new JoinMeetingParameters($createMeetingResponse->getMeetingId(), 'Alice Moderator', Role::MODERATOR);
+                    $joinMeetingParametersModerator->setRedirect(false);
+                    $joinMeetingResponseModerator = $bbb->joinMeeting($joinMeetingParametersModerator);
+                    self::assertTrue($joinMeetingResponseModerator->success(), $joinMeetingResponseModerator->getMessage());
+
+                    $joinMeetingParametersViewer = new JoinMeetingParameters($createMeetingResponse->getMeetingId(), 'Bob Attendee', Role::VIEWER);
+                    $joinMeetingParametersViewer->setRedirect(false);
+                    $joinMeetingResponseViewer = $bbb->joinMeeting($joinMeetingParametersViewer);
+                    self::assertTrue($joinMeetingResponseViewer->success(), $joinMeetingResponseViewer->getMessage());
                 },
             ],
         ];
