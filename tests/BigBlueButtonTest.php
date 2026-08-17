@@ -92,6 +92,22 @@ class BigBlueButtonTest extends TestCase
         $this->assertTrue($apiVersion->success());
     }
 
+    // Constructor
+
+    /**
+     * Regression test: base url and secret must not be mixed up when passed
+     * explicitly to the constructor.
+     */
+    public function testConstructorWithExplicitBaseUrlAndSecret(): void
+    {
+        $bbb = new BigBlueButton('https://server.example.com/bigbluebutton/', 'the-secret');
+
+        $url = $bbb->getMeetingsUrl();
+
+        $this->assertStringStartsWith('https://server.example.com/bigbluebutton/api/getMeetings', $url);
+        $this->assertStringNotContainsString('the-secret', $url);
+    }
+
     // Create Meeting
 
     /**

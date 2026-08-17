@@ -104,7 +104,7 @@ class BigBlueButton
         ?array $opts = [],
         ?UrlBuilder $urlBuilder = null,
     ) {
-        $urlBuilder ??= UrlBuilder::fromEnvVars($baseUrl, $secret);
+        $urlBuilder ??= UrlBuilder::fromEnvVars($secret, $baseUrl);
 
         // initialize deprecated properties
         $this->bbbBaseUrl       = $urlBuilder->getBaseUrl();
