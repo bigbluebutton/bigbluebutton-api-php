@@ -255,6 +255,14 @@ class BigBlueButton
     /**
      * @deprecated Replaced by same function-name provided by UrlBuilder-class
      */
+    public function getGetJoinUrlUrl(GetJoinUrlParameters $getJoinUrlParams): string
+    {
+        return $this->getUrlBuilder()->getGetJoinUrlUrl($getJoinUrlParams);
+    }
+
+    /**
+     * @deprecated Replaced by same function-name provided by UrlBuilder-class
+     */
     public function getLearningDashboardUrl(LearningDashboardParameters $learningDashboardParams): string
     {
         return $this->getUrlBuilder()->getLearningDashboardUrl($learningDashboardParams);
@@ -312,6 +320,14 @@ class BigBlueButton
         return new InsertDocumentResponse($xml);
     }
 
+    /**
+     * @deprecated Replaced by same function-name provided by UrlBuilder-class
+     */
+    public function getSendChatMessageUrl(SendChatMessageParameters $sendChatMessageParams): string
+    {
+        return $this->getUrlBuilder()->getSendChatMessageUrl($sendChatMessageParams);
+    }
+
     public function sendChatMessage(SendChatMessageParameters $sendChatMessageParams): SendChatMessageResponse
     {
         $xml = $this->processXmlResponse($this->getUrlBuilder()->getSendChatMessageUrl($sendChatMessageParams));
@@ -333,6 +349,14 @@ class BigBlueButton
         $json = $this->processJsonResponse($this->getUrlBuilder()->getFeedbackUrl($feedbackParams));
 
         return new FeedbackResponse($json);
+    }
+
+    /**
+     * @deprecated Replaced by same function-name provided by UrlBuilder-class
+     */
+    public function getFeedbackUrl(FeedbackParameters $feedbackParams): string
+    {
+        return $this->getUrlBuilder()->getFeedbackUrl($feedbackParams);
     }
 
     // __________________ BBB MONITORING METHODS _________________
@@ -788,27 +812,13 @@ class BigBlueButton
             throw new \RuntimeException('Failed to initialize cURL');
         }
 
-        // JSESSIONID - Secure cookie handling with internal validation
+        // JSESSIONID - use a temporary cookie file to collect the cookies of the response
         if ($cookieFile) {
             $cookieFilePath = stream_get_meta_data($cookieFile)['uri'];
 
             // Set secure cookie options
             curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFilePath);
             curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFilePath);
-
-            // Read and validate cookies safely with internal validation
-            $cookies = file_get_contents($cookieFilePath);
-
-            if (false !== $cookies && mb_strlen($cookies) > 0) {
-                // Validate cookie format before processing
-                if ($this->isValidCookieFormat($cookies)) {
-                    $sessionId = $this->extractJSessionIdSafely($cookies);
-
-                    if (null !== $sessionId) {
-                        $this->setJSessionId($sessionId);
-                    }
-                }
-            }
         }
 
         // Initialise headers array with mandatory Content-type (multipart bodies
@@ -848,13 +858,34 @@ class BigBlueButton
         $data     = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        // ANALYSE
-        if (false === $data) {
-            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+        // JSESSIONID - Read the collected cookies from the jar (Netscape format)
+        // and extract the session id with internal validation
+        if ($cookieFile) {
+            $jarLines = file(stream_get_meta_data($cookieFile)['uri'], FILE_IGNORE_NEW_LINES) ?: [];
+
+            foreach ($jarLines as $jarLine) {
+                $jarFields = explode("\t", $jarLine);
+
+                // a jar line consists of: domain, flag, path, secure, name, value
+                if (\count($jarFields) < 6 || 'JSESSIONID' !== $jarFields[4] && 'jsessionid' !== $jarFields[4]) {
+                    continue;
+                }
+
+                $cookie = $jarFields[4] . '=' . $jarFields[5];
+
+                if ($this->isValidCookieFormat($cookie)) {
+                    $sessionId = $this->extractJSessionIdSafely($cookie);
+
+                    if (null !== $sessionId) {
+                        $this->setJSessionId($sessionId);
+                    }
+                }
+            }
         }
 
-        if (is_bool($data)) {
-            throw new \RuntimeException('Curl error: BOOL received, but STRING expected.');
+        // ANALYSE
+        if (!\is_string($data)) {
+            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
         }
 
         if ($httpCode < 200 || $httpCode >= 300) {
@@ -990,11 +1021,6 @@ class BigBlueButton
         // Check for valid characters (alphanumeric, underscore, hyphen, dot only)
         // This regex will reject @, spaces, and other invalid characters
         if (!preg_match('/^[a-zA-Z0-9._-]+$/', $sessionId)) {
-            return false;
-        }
-
-        // Reject potentially dangerous patterns
-        if (false !== mb_strpos($sessionId, '../')) {
             return false;
         }
 

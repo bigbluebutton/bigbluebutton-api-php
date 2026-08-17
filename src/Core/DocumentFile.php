@@ -64,9 +64,13 @@ class DocumentFile extends Document
             return $this->fileContent;
         }
 
+        if (!is_readable($this->filepath)) {
+            throw new \Exception("Unable to read file at {$this->filepath}");
+        }
+
         $fileContent = file_get_contents($this->filepath);
 
-        if (!$fileContent) {
+        if (false === $fileContent || '' === $fileContent) {
             throw new \Exception("Unable to read file at {$this->filepath}");
         }
 

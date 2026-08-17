@@ -2295,9 +2295,7 @@ class CreateMeetingParameters extends MetaParameters
                 }
             }
 
-            $merged = $targetDom->saveXML();
-
-            return false !== $merged ? $merged : $first;
+            return $targetDom->saveXML() ?: $first;
         } catch (\Exception) {
             // If XML parsing fails, return the first modules XML as fallback
             return $first;

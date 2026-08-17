@@ -31,13 +31,6 @@ abstract class BaseParameters
     {
         $apiData = $this->toApiDataArray();
 
-        // No need for null checks anymore since toApiDataArray() filters them out
-        foreach ($apiData as $value) {
-            if (!is_string($value)) {
-                throw new \RuntimeException(sprintf('Invalid API parameter type: %s', gettype($value)));
-            }
-        }
-
         return $this->buildHTTPQuery($apiData);
     }
 
@@ -91,13 +84,7 @@ abstract class BaseParameters
 
         // Handle BackedEnum cases
         if ($value instanceof \BackedEnum) {
-            $enumValue = $value->value;
-
-            if (!is_scalar($enumValue)) {
-                throw new \RuntimeException(sprintf('Enum value for %s must be scalar, got %s', get_class($value), gettype($enumValue)));
-            }
-
-            return (string) $enumValue;
+            return (string) $value->value;
         }
 
         // Handle arrays
