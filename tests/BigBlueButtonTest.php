@@ -144,7 +144,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithPresentationUrl(): void
     {
         $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $params->addPresentation('https://picsum.photos/3840/2160/?random');
+        $params->addPresentation('https://placepix.net/3840/2160');
 
         $result = $this->bbb->createMeeting($params);
 
@@ -159,7 +159,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithPresentationUrlAndFileName(): void
     {
         $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'placeholder.png');
+        $params->addPresentation('https://placepix.net/3840/2160', null, 'placeholder.png');
 
         $result = $this->bbb->createMeeting($params);
 
@@ -195,7 +195,7 @@ class BigBlueButtonTest extends TestCase
         $this->assertIsString($content);
 
         $params = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
-        $params->addPresentation('https://picsum.photos/3840/2160/?random', null, 'presentation.png');
+        $params->addPresentation('https://placepix.net/3840/2160', null, 'presentation.png');
         $params->addPresentation('logo.png', $content);
 
         $result = $this->bbb->createMeeting($params);
@@ -211,7 +211,7 @@ class BigBlueButtonTest extends TestCase
     public function testCreateMeetingWithDocumentUrl(): void
     {
         // ARRANGE
-        $url                     = 'https://picsum.photos/3840/2160/?random';
+        $url                     = 'https://placepix.net/3840/2160';
         $filename                = 'picture.jpg';
         $document                = new DocumentUrl($url, $filename);
         $createMeetingParameters = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
@@ -252,7 +252,7 @@ class BigBlueButtonTest extends TestCase
     {
         // ARRANGE
         // file 1
-        $url         = 'https://picsum.photos/3840/2160/?random';
+        $url         = 'https://placepix.net/3840/2160';
         $filename    = 'picture.jpg';
         $documentUrl = new DocumentUrl($url, $filename);
 
@@ -283,7 +283,7 @@ class BigBlueButtonTest extends TestCase
     public function testInsertDocumentUrl(): void
     {
         // ARRANGE
-        $url                      = 'https://picsum.photos/3840/2160/?random';
+        $url                      = 'https://placepix.net/3840/2160';
         $filename                 = 'picture.jpg';
         $document                 = new DocumentUrl($url, $filename);
         $createMeetingParameters  = Fixtures::getCreateMeetingParametersMock(Fixtures::generateCreateParams());
@@ -341,7 +341,7 @@ class BigBlueButtonTest extends TestCase
     public function testInsertDocumentUrlAndFile(): void
     {
         // ARRANGE
-        $url         = 'https://picsum.photos/3840/2160/?random';
+        $url         = 'https://placepix.net/3840/2160';
         $filename    = 'picture.jpg';
         $documentUrl = new DocumentUrl($url, $filename);
 
