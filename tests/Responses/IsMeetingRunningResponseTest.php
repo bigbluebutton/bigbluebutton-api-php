@@ -46,7 +46,7 @@ class IsMeetingRunningResponseTest extends TestCase
         $this->assertTrue($this->running->isRunning());
         $xml = $this->running->getRawXml()->asXML();
         $this->assertIsString($xml);
-        $this->assertEquals('<?xmlversion="1.0"?><response><returncode>SUCCESS</returncode><running>true</running></response>', preg_replace('/\\s+/', '', $xml));
+        $this->assertEquals('<?xmlversion="1.0"?><response><returncode>SUCCESS</returncode><running>true</running></response>', preg_replace('/\s+/', '', $xml));
     }
 
     public function testIsMeetingRunningResponseTypes(): void
