@@ -100,4 +100,21 @@ class HooksCreateParameters extends BaseParameters
 
         return $this;
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * The eventID parameter is kept even when the list is empty: the webhooks
+     * application echoes it and replies with an empty <eventID/> element.
+     */
+    public function toApiDataArray(): array
+    {
+        $data = parent::toApiDataArray();
+
+        if (!\array_key_exists('eventID', $data)) {
+            $data['eventID'] = '';
+        }
+
+        return $data;
+    }
 }

@@ -47,6 +47,55 @@ class BaseParametersTest extends TestCase
         $parameters->getHTTPQuery();
     }
 
+    public function testEmptyArraysAreNotSerializedAsEmptyParams(): void
+    {
+        $parameters = new class extends BaseParameters {
+            /** @var array<string> */
+            private array $list = [];
+
+            /** @var array<string> */
+            private ?array $nullableList = null;
+
+            /**
+             * @return array<string>
+             */
+            #[ApiParameterMapper(attributeName: 'list')]
+            public function getList(): array
+            {
+                return $this->list;
+            }
+
+            /**
+             * @return null|array<string>
+             */
+            #[ApiParameterMapper(attributeName: 'nullableList')]
+            public function getNullableList(): ?array
+            {
+                return $this->nullableList;
+            }
+        };
+
+        $query = $parameters->getHTTPQuery();
+
+        // an empty list means "not set" for the BBB-Server and must be omitted,
+        // exactly like an unset (null) list
+        $this->assertStringNotContainsString('list=', $query);
+        $this->assertStringNotContainsString('nullableList=', $query);
+    }
+
+    public function testEmptyParamsNotSentOnFreshCreateAndHooksParameters(): void
+    {
+        $createQuery = (new CreateMeetingParameters('m1', 'Meeting One'))->getHTTPQuery();
+        $hooksQuery  = (new HooksCreateParameters('https://hook.example.com'))->getHTTPQuery();
+
+        $this->assertStringNotContainsString('disabledFeatures=', $createQuery, $createQuery);
+        $this->assertStringNotContainsString('disabledFeaturesExclude=', $createQuery, $createQuery);
+
+        // the hooks eventID parameter is deliberately sent empty: the webhooks
+        // application echoes it with an empty <eventID/> element
+        $this->assertStringContainsString('eventID=', $hooksQuery, $hooksQuery);
+    }
+
     public function testStrictValueConversion(): void
     {
         $parameters = new class extends BaseParameters {

@@ -87,9 +87,9 @@ abstract class BaseParameters
             return (string) $value->value;
         }
 
-        // Handle arrays
+        // Handle arrays: an empty array means "not set" and is omitted, like null
         if (is_array($value)) {
-            return $this->convertArrayToApiString($value);
+            return [] === $value ? null : $this->convertArrayToApiString($value);
         }
 
         // Handle all other cases with strict string conversion
