@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The curl transport now reads the cookie jar after the request and extracts the JSESSIONID from the Netscape jar format (the old code read the jar before the request and could never capture a cookie)
 - `DocumentFile` throws its dedicated exception on unreadable files instead of emitting a PHP warning first
 - `getJSessionId()` no longer fails on uninitialized access before a session id was captured
+- Empty list parameters (`disabledFeatures`, `disabledFeaturesExclude`) are no longer serialized as empty strings on every request; the hooks `eventID` parameter is deliberately still sent empty — the webhooks application echoes it with an empty element
 
 ### Deprecated
 
@@ -50,6 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `psr/http-client` and `psr/http-factory` are optional (`suggest`): the library itself ships without package dependencies and uses curl by default
+- The curl transport releases its cookie temp file also when a request fails; the hooks hashing algorithm is restored when a URL build throws; the parameter-mapping reflection is cached per class
 - `JoinMeetingParameters::enforceLayout` accepts `MeetingLayout|string` and is exposed as `MeetingLayout` enum
 - `getJoinMeetingURL()` is officially supported again and documented as the standard join flow; `joinMeeting()` carries a warning that server-side joins skip the session cookie
 - Test suite: 100 percent class, method and line coverage; every API method is additionally tested offline against a stub PSR-18 client
