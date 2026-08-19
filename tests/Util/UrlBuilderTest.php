@@ -86,7 +86,7 @@ class UrlBuilderTest extends TestCase
     public function testCreateMeetingUrl(): void
     {
         $params = $this->generateCreateParams();
-        $url    = $this->urlBuilder->getCreateMeetingUrl($this->getCreateMock($params));
+        $url    = $this->urlBuilder->getCreateMeetingUrl(Fixtures::getCreateMeetingParametersMock($params));
 
         $paramsIterator = new ParamsIterator('testCreateMeetingUrl');
         $paramsIterator->iterate($params, $url);
@@ -96,7 +96,7 @@ class UrlBuilderTest extends TestCase
     {
         $joinMeetingParams = $this->generateJoinMeetingParams();
 
-        $joinMeetingMock = $this->getJoinMeetingMock($joinMeetingParams);
+        $joinMeetingMock = Fixtures::getJoinMeetingMock($joinMeetingParams);
 
         $url            = $this->urlBuilder->getJoinMeetingURL($joinMeetingMock);
         $paramsIterator = new ParamsIterator('testCreateJoinMeetingUrl');
@@ -105,8 +105,8 @@ class UrlBuilderTest extends TestCase
 
     public function testCreateEndMeetingUrl(): void
     {
-        $params         = $this->generateEndMeetingParams();
-        $url            = $this->urlBuilder->getEndMeetingURL($this->getEndMeetingMock($params));
+        $params         = Fixtures::generateEndMeetingParams();
+        $url            = $this->urlBuilder->getEndMeetingURL(Fixtures::getEndMeetingMock($params));
         $paramsIterator = new ParamsIterator('testCreateEndMeetingUrl');
         $paramsIterator->iterate($params, $url);
     }

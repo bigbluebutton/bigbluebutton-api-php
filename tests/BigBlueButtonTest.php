@@ -404,11 +404,6 @@ class BigBlueButtonTest extends TestCase
         $paramsIterator->iterate($joinMeetingParams, $url);
     }
 
-    /**
-     * @expectedException \Exception
-     *
-     * @expectedExceptionMessage String could not be parsed as XML
-     */
     public function testJoinMeeting(): void
     {
         // create a meeting that can be joined
