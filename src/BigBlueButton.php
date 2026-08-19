@@ -143,6 +143,10 @@ class BigBlueButton
      * seconds, to avoid hanging requests. The timeout from ->setTimeOut() will
      * have no effect on an instance created in this way.
      *
+     * Requires the psr/http-client and psr/http-factory interfaces to be
+     * installed (suggested by this package, shipped with every common PSR-18
+     * implementation such as guzzlehttp/psr7 or nyholm/psr7).
+     *
      * @see docs/src/general/http_client.md for usage examples
      */
     public static function createWithHttpClient(

@@ -9,7 +9,7 @@
 - [SimpleXML](https://php.net/manual/book.simplexml.php) extension (ext-simplexml).
 - [JSON](https://php.net/manual/book.json.php) extension (ext-json).
 
-The library itself has no runtime package dependencies beyond the two PSR interface packages (`psr/http-client`, `psr/http-factory`). It sends requests with curl by default; alternatively you can inject any [PSR-18 http client](./http_client.md).
+The library itself has no runtime package dependencies. It sends requests with curl by default; alternatively you can inject any [PSR-18 http client](./http_client.md).
 
 ## Installation
 

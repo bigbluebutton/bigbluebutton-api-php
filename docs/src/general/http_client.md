@@ -25,7 +25,7 @@ $bbb = BigBlueButton::createWithHttpClient(
 );
 ```
 
-The library itself only requires the two interface packages (`psr/http-client`, `psr/http-factory`) — bring your own client.
+The library itself has no package requirements — the PSR interfaces (`psr/http-client`, `psr/http-factory`) are a suggested installation and ship with every common PSR-18 implementation anyway. Bring your own client.
 
 ### Example: Guzzle
 
