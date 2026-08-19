@@ -72,9 +72,9 @@ $getJoinUrlParams->setSessionName('Mobile Device Transfer');
 $getJoinUrlParams->setEnforceLayout(MeetingLayout::VIDEO_FOCUS);
 
 // Add custom userdata parameters
-$getJoinUrlParams->addMeta('userdata-device-type', 'mobile');
-$getJoinUrlParams->addMeta('userdata-transfer-source', 'desktop');
-$getJoinUrlParams->addMeta('userdata-screen-size', 'small');
+$getJoinUrlParams->addUserData('device-type', 'mobile');
+$getJoinUrlParams->addUserData('transfer-source', 'desktop');
+$getJoinUrlParams->addUserData('screen-size', 'small');
 
 $response = $bbb->getJoinUrl($getJoinUrlParams);
 
@@ -99,8 +99,8 @@ $bbb = new BigBlueButton();
 // Generate a join URL for mobile device transfer
 $getJoinUrlParams = new GetJoinUrlParameters('desktop-session-token-789');
 $getJoinUrlParams->setSessionName('Mobile Transfer from Desktop');
-$getJoinUrlParams->addMeta('userdata-transfer-initiated', date('Y-m-d H:i:s'));
-$getJoinUrlParams->addMeta('userdata-device-platform', 'mobile');
+$getJoinUrlParams->addUserData('transfer-initiated', date('Y-m-d H:i:s'));
+$getJoinUrlParams->addUserData('device-platform', 'mobile');
 
 $response = $bbb->getJoinUrl($getJoinUrlParams);
 
@@ -133,7 +133,7 @@ $originalToken = 'main-screen-session-001';
 $secondScreenParams = new GetJoinUrlParameters($originalToken);
 $secondScreenParams->setSessionName('Second Screen - Presentation View');
 $secondScreenParams->setEnforceLayout(MeetingLayout::PRESENTATION_FOCUS);
-$secondScreenParams->addMeta('userdata-screen-role', 'presentation');
+$secondScreenParams->addUserData('screen-role', 'presentation');
 
 $secondScreenResponse = $bbb->getJoinUrl($secondScreenParams);
 
@@ -141,7 +141,7 @@ $secondScreenResponse = $bbb->getJoinUrl($secondScreenParams);
 $thirdScreenParams = new GetJoinUrlParameters($originalToken);
 $thirdScreenParams->setSessionName('Third Screen - Participants View');
 $thirdScreenParams->setEnforceLayout(MeetingLayout::PARTICIPANTS_CHAT_ONLY);
-$thirdScreenParams->addMeta('userdata-screen-role', 'participants');
+$thirdScreenParams->addUserData('screen-role', 'participants');
 
 $thirdScreenResponse = $bbb->getJoinUrl($thirdScreenParams);
 
@@ -222,12 +222,12 @@ Userdata parameters allow you to pass additional information about the session:
 
 ```php
 // Single parameter
-$getJoinUrlParams->addMeta('userdata-device-type', 'mobile');
+$getJoinUrlParams->addUserData('device-type', 'mobile');
 
 // Multiple parameters
-$getJoinUrlParams->addMeta('userdata-device-type', 'mobile');
-$getJoinUrlParams->addMeta('userdata-platform', 'iOS');
-$getJoinUrlParams->addMeta('userdata-app-version', '2.1.0');
+$getJoinUrlParams->addUserData('device-type', 'mobile');
+$getJoinUrlParams->addUserData('platform', 'iOS');
+$getJoinUrlParams->addUserData('app-version', '2.1.0');
 
 // Complex data (JSON encoded)
 $deviceInfo = [
@@ -239,7 +239,7 @@ $deviceInfo = [
         'height' => 667
     ]
 ];
-$getJoinUrlParams->addMeta('userdata-device-info', json_encode($deviceInfo));
+$getJoinUrlParams->addUserData('device-info', json_encode($deviceInfo));
 ```
 
 ## Security Considerations
@@ -325,8 +325,8 @@ An executive wants to transfer a meeting from desktop to mobile for commuting:
 $transferParams = new GetJoinUrlParameters($desktopSessionToken);
 $transferParams->setReplaceSession(true);
 $transferParams->setSessionName('Mobile Transfer - ' . date('H:i'));
-$transferParams->addMeta('userdata-transfer-reason', 'commute');
-$transferParams->addMeta('userdata-connection-type', 'mobile');
+$transferParams->addUserData('transfer-reason', 'commute');
+$transferParams->addUserData('connection-type', 'mobile');
 ```
 
 ### Support Scenario
@@ -335,9 +335,9 @@ A support agent needs to join a customer meeting with elevated permissions:
 ```php
 $supportParams = new GetJoinUrlParameters($customerSessionToken);
 $supportParams->setSessionName('Support Agent Session');
-$supportParams->addMeta('userdata-role', 'support');
-$supportParams->addMeta('userdata-support-id', $supportAgentId);
-$supportParams->addMeta('userdata-elevated-permissions', 'true');
+$supportParams->addUserData('role', 'support');
+$supportParams->addUserData('support-id', $supportAgentId);
+$supportParams->addUserData('elevated-permissions', 'true');
 ```
 
 This API provides powerful flexibility for managing user sessions across different devices and scenarios while maintaining user identity and meeting continuity.

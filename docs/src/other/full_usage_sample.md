@@ -134,11 +134,6 @@ Your form should look like the image below, and the source code is just below th
         <label for="meeting">Course</label>
     </p>
 
-    <p class="web">
-        <input type="checkbox" name="html5" id="html5"/>
-        <label for="html5">Use HTML5</label>
-    </p>
-
     <p class="submit">
         <input type="submit" value="Join"/>
     </p>
@@ -216,8 +211,7 @@ $joinParams = new JoinMeetingParameters($meetingId, $_POST['username'], $passwor
 
 ### Following the server redirection
 
-We set `redirect` to `true` if we want an immediate redirection to the meeting. We also pass `true` to
-`setJoinViaHtml5` to join the meeting using the HTML5 client.
+We set `redirect` to `true` if we want an immediate redirection to the meeting.
 
 ```php
 // Ask for immediate redirection
@@ -255,17 +249,7 @@ Then we prepare the server URL for joining the meeting.
 $bbbServerUrl = "https://my-bbb-server.com";
 ```
 
-Depending on the client you want to use the join URL construction will be different.
-
-If you want to join the Flash client, the default URL will look like the lines below.
-
-```php
-// Join the Flash client
-header('Status: 301 Moved Permanently', false, 301);
-header('Location:' . $bbbServerUrl . "/client/BigBlueButton.html?sessionToken=" . $joinResponse->getSessionToken());
-```
-
-If you want to join the meeting using the HTML5 client, the default URL is different.
+The user is redirected to the HTML5 client using the session token of the join response.
 
 ```php
 // Join the HTML5 client

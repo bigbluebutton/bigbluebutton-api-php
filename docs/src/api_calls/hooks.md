@@ -63,4 +63,4 @@ The `WebHookEvent` enum lists all events the server can deliver, among them:
 ## Hashing on older servers
 
 > [!IMPORTANT]
-> BBB servers below 3.0 accept only SHA-1 checksums for the webhooks endpoints. The library automatically uses SHA-1 for hook calls in that case; on servers 3.0 and above the hooks use the same SHA-256 default as every other call. You can override the algorithm with the `HASH_ALGO_FOR_HOOKS` environment variable.
+> BBB servers below 3.0 accept only SHA-1 checksums for the webhooks endpoints. Since the library cannot detect the server version, hook URLs are always built with SHA-1 (safe on every server version); set the `HASH_ALGO_FOR_HOOKS` environment variable to use a different algorithm for hooks, e.g. `sha256` on servers 3.0 and above.

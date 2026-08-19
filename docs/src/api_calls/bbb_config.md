@@ -38,4 +38,4 @@ $bbb = new BigBlueButton('https://bbb.example.com/bigbluebutton/', 'your-secret'
 Every API call is signed with a checksum of `methodName + queryString + secret`. The library uses SHA-256 by default, which every BigBlueButton 2.3+ server accepts. Older servers accepted SHA-1 only; if you operate one, the algorithm can be configured via the `UrlBuilder`.
 
 > [!NOTE]
-> For BBB servers below 3.0 the webhooks endpoints only accept SHA-1 checksums. The library handles this automatically (see [Hooks](./hooks.md)).
+> For BBB servers below 3.0 the webhooks endpoints only accept SHA-1 checksums. The library therefore always signs hook calls with SHA-1; see [Hooks](./hooks.md) for the `HASH_ALGO_FOR_HOOKS` override.

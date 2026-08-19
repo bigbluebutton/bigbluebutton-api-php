@@ -25,12 +25,15 @@ BigBlueButton servers in your PHP applications.
 
 ## Installation and Usage
 
-Please see the [documentation](./docs/Home.md) to know how to install and use this PHP-Client to interact with the API of a BigBlueButton-Server.
+Install the library via Composer:
 
-## 📦 Installation & Usage
+```bash
+composer require bigbluebutton/bigbluebutton-api-php
+```
 
+Usage instructions and the full API documentation live in the [mdBook documentation](./docs/src/SUMMARY.md) (build it locally with `mdbook build docs`).
 
-Bugs and feature request are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
+Bugs and feature requests are tracked on [GitHub](https://github.com/bigbluebutton/bigbluebutton-api-php/issues)
 
 ## Build the documentation
 
@@ -43,13 +46,8 @@ cargo install mdbook
 ```
 
 ## Contributing guidelines
-### Code Quality 1: Style
 
-Make sure the code style configuration is applied by running PHPCS-Fixer.
-
-```bash
-composer require bigbluebutton/bigbluebutton-api-php
-```
+See the [contributing documentation](./docs/src/contributing/contributing.md) for the full workflow.
 
 ---
 
@@ -82,11 +80,14 @@ composer code-check
 ./vendor/bin/phpstan analyse
 ```
 
+### 3. Testing
+
+```bash
 # using an alias
-$ composer code-test
+composer code-test
 
 # or the same w/o alias
-$ ./vendor/bin/phpunit
+./vendor/bin/phpunit
 ```
 
 To run a specific test:

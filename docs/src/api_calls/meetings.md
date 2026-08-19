@@ -39,7 +39,7 @@ To adapt the predefined parameters of a meeting, the parameters for the creation
 
 $createMeetingParameters
     ->setWelcomeMessage('Dear Student, welcome to our lesson today!')
-    ->setWebcamsOnlyForModerator('Dear lecture, do not forget to be kind!')
+    ->setWebcamsOnlyForModerator(true)
     ;
 
 // ...
@@ -166,7 +166,7 @@ $clientSettings = new ClientSettingsOverride([
 ]);
 
 // set the client settings override
-$createMeetingParams->setClientSettingsOverride($clientSettings);
+$createMeetingParameters->setClientSettingsOverride($clientSettings);
 
 // launch the request to the BBB-Server
 $createMeetingResponse = $bbb->createMeeting($createMeetingParameters);
@@ -190,7 +190,7 @@ $wsUrl = $clientSettings->getSetting('public.kurento.wsUrl', 'wss://default.exam
 $clientSettings->removeSetting('public.media.sipjsHackViaWs');
 
 // set the client settings override
-$createMeetingParams->setClientSettingsOverride($clientSettings);
+$createMeetingParameters->setClientSettingsOverride($clientSettings);
 ```
 
 ##### Creating from JSON
@@ -206,7 +206,7 @@ $jsonSettings = '{
 }';
 
 $clientSettings = ClientSettingsOverride::fromJson($jsonSettings);
-$createMeetingParams->setClientSettingsOverride($clientSettings);
+$createMeetingParameters->setClientSettingsOverride($clientSettings);
 ```
 
 ##### Common Override Settings
@@ -246,7 +246,7 @@ Documents can be added either during the creation of a meeting (see `$createMeet
 ```php
 use BigBlueButton\BigBlueButton;
 use BigBlueButton\Enum\DocumentOption;
-use BigBlueButton\Parameters\Config\DocumentOptionsStore;
+use BigBlueButton\Parameters\Config\DocumentOptions;
 use BigBlueButton\Parameters\InsertDocumentParameters;
 
 // create an instance of the BBB-Client (see details in the setup description)
@@ -258,10 +258,10 @@ $url       = 'https://your.file.url/example.pdf';
 $file      = __DIR__ . '/foldername/example.png';
 
 // define the document options
-$documentOptions = new DocumentOptionsStore();
-$documentOptions->addAttribute(DocumentOption::CURRENT, true);
-$documentOptions->addAttribute(DocumentOption::REMOVABLE, false);
-$documentOptions->addAttribute(DocumentOption::DOWNLOADABLE, true);
+$documentOptions = new DocumentOptions();
+$documentOptions->addOption(DocumentOption::CURRENT, true);
+$documentOptions->addOption(DocumentOption::REMOVABLE, false);
+$documentOptions->addOption(DocumentOption::DOWNLOADABLE, true);
 
 // announce 3 documents that shall to be added into the meeting
 $insertDocumentParameters = new InsertDocumentParameters($meetingId);
@@ -274,7 +274,7 @@ $insertDocumentParameters
 // launch the request to the BBB-Server and receive its response
 $insertDocumentResponse = $bbb->insertDocument($insertDocumentParameters);
 
-if (!$createMeetingResponse->success()) {
+if (!$insertDocumentResponse->success()) {
     throw new \Exception($insertDocumentResponse->getMessage());
 }
 
@@ -340,7 +340,7 @@ $joinMeetingParameters->setRedirect(true);  // will ensure that the user is redi
 $joinMeetingResponse = $bbb->joinMeeting($joinMeetingParameters);
 
 if (!$joinMeetingResponse->success()) {
-    throw new \Exception($joinMeetingResponse->getMessage()});
+    throw new \Exception($joinMeetingResponse->getMessage());
 }
 
 $url = $joinMeetingResponse->getUrl();
@@ -385,7 +385,7 @@ $endMeetingParameters = new EndMeetingParameters($meetingID);
 $endMeetingResponse = $bbb->endMeeting($endMeetingParameters);
 
 if (!$endMeetingResponse->success()) {
-    throw new \Exception($endMeetingResponse->getMessage()});
+    throw new \Exception($endMeetingResponse->getMessage());
 }
 
 // ...
@@ -439,7 +439,7 @@ $bbb = new BigBlueButton();
 $meetingID = 123456;
 
 // launch the request to the BBB-Server
-$isMeetingExisting = $this->bbb->isMeetingExisting($meetingId);
+$isMeetingExisting = $bbb->isMeetingExisting($meetingID);
 
 if (!$isMeetingExisting) {
     // meeting is not existing
