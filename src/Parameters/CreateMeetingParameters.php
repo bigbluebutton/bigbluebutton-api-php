@@ -2239,10 +2239,10 @@ class CreateMeetingParameters extends MetaParameters
         // Add breakout rooms parameters only if the meeting is a breakout room
         if ($this->isBreakout()) {
             $queries = array_merge($queries, [
-                'isBreakout'      => !is_null($this->isBreakout) ? ($this->isBreakout ? 'true' : 'false') : $this->isBreakout,
+                'isBreakout'      => $this->isBreakout ? 'true' : 'false',
                 'parentMeetingID' => $this->parentMeetingId,
                 'sequence'        => $this->sequence,
-                'freeJoin'        => !is_null($this->freeJoin) ? ($this->freeJoin ? 'true' : 'false') : $this->freeJoin,
+                'freeJoin'        => null !== $this->freeJoin ? ($this->freeJoin ? 'true' : 'false') : null,
             ]);
         } else {
             $queries = array_merge($queries, [

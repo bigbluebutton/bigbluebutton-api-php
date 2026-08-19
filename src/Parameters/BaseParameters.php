@@ -27,6 +27,14 @@ use BigBlueButton\Attribute\ApiParameterMapper;
  */
 abstract class BaseParameters
 {
+    /**
+     * Cache of the API-parameter mapping per class: class-name => method-name => attribute-name.
+     * The mapping is immutable per class, so it is computed only once.
+     *
+     * @var array<string, array<string, string>>
+     */
+    private static array $attributeCache = [];
+
     public function getHTTPQuery(): string
     {
         $apiData = $this->toApiDataArray();
@@ -39,20 +47,14 @@ abstract class BaseParameters
      */
     public function toApiDataArray(): array
     {
-        $result          = [];
-        $classReflection = new \ReflectionClass($this);
+        $result = [];
 
-        foreach ($classReflection->getMethods() as $method) {
-            foreach ($method->getAttributes(ApiParameterMapper::class) as $attribute) {
-                /** @var ApiParameterMapper $attributeObject */
-                $attributeObject = $attribute->newInstance();
-                $key             = $attributeObject->getAttributeName();
-                $value           = $this->strictConvertToApiValue($this->{$method->getName()}());
+        foreach ($this->getAttributeMapping() as $methodName => $attributeName) {
+            $value = $this->strictConvertToApiValue($this->{$methodName}());
 
-                // Only include non-null values
-                if (null !== $value) {
-                    $result[$key] = $value;
-                }
+            // Only include non-null values
+            if (null !== $value) {
+                $result[$attributeName] = $value;
             }
         }
 
@@ -69,6 +71,31 @@ abstract class BaseParameters
             ['+', '%21', '%27', '%28', '%29', '%2A'],
             http_build_query($array, '', '&', \PHP_QUERY_RFC3986)
         );
+    }
+
+    /**
+     * @return array<string, string> // method-name => attribute-name
+     */
+    private function getAttributeMapping(): array
+    {
+        $class = static::class;
+
+        if (!isset(self::$attributeCache[$class])) {
+            $mapping = [];
+
+            foreach ((new \ReflectionClass($this))->getMethods() as $method) {
+                foreach ($method->getAttributes(ApiParameterMapper::class) as $attribute) {
+                    /** @var ApiParameterMapper $attributeObject */
+                    $attributeObject = $attribute->newInstance();
+
+                    $mapping[$method->getName()] = $attributeObject->getAttributeName();
+                }
+            }
+
+            self::$attributeCache[$class] = $mapping;
+        }
+
+        return self::$attributeCache[$class];
     }
 
     /**

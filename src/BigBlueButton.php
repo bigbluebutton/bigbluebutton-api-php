@@ -859,30 +859,32 @@ class BigBlueButton
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->timeOut);
 
         // EXECUTE and RESULT
-        $data     = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        try {
+            $data     = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        // JSESSIONID - Read the collected cookies from the jar (Netscape format)
-        // and extract the session id with internal validation
-        if ($cookieFile) {
-            $this->extractJSessionIdFromCookieJar(stream_get_meta_data($cookieFile)['uri']);
-        }
+            // JSESSIONID - Read the collected cookies from the jar (Netscape format)
+            // and extract the session id with internal validation
+            if ($cookieFile) {
+                $this->extractJSessionIdFromCookieJar(stream_get_meta_data($cookieFile)['uri']);
+            }
 
-        // ANALYSE
-        if (!\is_string($data)) {
-            throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
-        }
+            // ANALYSE
+            if (!\is_string($data)) {
+                throw new \RuntimeException('Unhandled curl error: ' . curl_error($ch));
+            }
 
-        if ($httpCode < 200 || $httpCode >= 300) {
-            throw new BadResponseException('Bad response, HTTP code: ' . $httpCode . ', url: ' . $url);
-        }
+            if ($httpCode < 200 || $httpCode >= 300) {
+                throw new BadResponseException('Bad response, HTTP code: ' . $httpCode . ', url: ' . $url);
+            }
+        } finally {
+            // UNSET (curl_close is a no-op since PHP 8.0 and deprecated since 8.5)
+            unset($ch);
 
-        // UNSET (curl_close is a no-op since PHP 8.0 and deprecated since 8.5)
-        unset($ch);
-
-        // Clean up temporary cookie file
-        if ($cookieFile) {
-            fclose($cookieFile);
+            // Clean up temporary cookie file
+            if ($cookieFile) {
+                fclose($cookieFile);
+            }
         }
 
         // RETURN

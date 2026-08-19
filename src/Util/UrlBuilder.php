@@ -277,19 +277,7 @@ class UrlBuilder
      */
     public function getHooksCreateUrl(HooksCreateParameters $hookCreateParams): string
     {
-        // store current hashing algorithm
-        $hashingAlgorithm = $this->getHashingAlgorithm();
-
-        // change hashing algorithm for hooks
-        $this->setHashingAlgorithm($this->getHashingAlgorithmForHooks());
-
-        // build URL
-        $url = $this->buildUrl(ApiMethod::HOOKS_CREATE, $hookCreateParams->getHTTPQuery());
-
-        // reset to 'normal' hashing algorithm
-        $this->setHashingAlgorithm($hashingAlgorithm);
-
-        return $url;
+        return $this->buildHookUrl(ApiMethod::HOOKS_CREATE, $hookCreateParams->getHTTPQuery());
     }
 
     /**
@@ -300,19 +288,7 @@ class UrlBuilder
      */
     public function getHooksListUrl(): string
     {
-        // store current hashing algorithm
-        $hashingAlgorithm = $this->getHashingAlgorithm();
-
-        // change hashing algorithm for hooks
-        $this->setHashingAlgorithm($this->getHashingAlgorithmForHooks());
-
-        // build URL
-        $url = $this->buildUrl(ApiMethod::HOOKS_LIST);
-
-        // reset to 'normal' hashing algorithm
-        $this->setHashingAlgorithm($hashingAlgorithm);
-
-        return $url;
+        return $this->buildHookUrl(ApiMethod::HOOKS_LIST);
     }
 
     /**
@@ -323,19 +299,25 @@ class UrlBuilder
      */
     public function getHooksDestroyUrl(HooksDestroyParameters $hooksDestroyParams): string
     {
-        // store current hashing algorithm
-        $hashingAlgorithm = $this->getHashingAlgorithm();
+        return $this->buildHookUrl(ApiMethod::HOOKS_DESTROY, $hooksDestroyParams->getHTTPQuery());
+    }
 
-        // change hashing algorithm for hooks
+    /**
+     * Builds a hooks URL with the hooks-specific hashing algorithm, restoring
+     * the previously configured algorithm afterwards - also in case of an
+     * exception during the URL build.
+     */
+    private function buildHookUrl(string $method, string $params = ''): string
+    {
+        $previousAlgorithm = $this->getHashingAlgorithm();
+
         $this->setHashingAlgorithm($this->getHashingAlgorithmForHooks());
 
-        // build URL
-        $url = $this->buildUrl(ApiMethod::HOOKS_DESTROY, $hooksDestroyParams->getHTTPQuery());
-
-        // reset to 'normal' hashing algorithm
-        $this->setHashingAlgorithm($hashingAlgorithm);
-
-        return $url;
+        try {
+            return $this->buildUrl($method, $params);
+        } finally {
+            $this->setHashingAlgorithm($previousAlgorithm);
+        }
     }
 
     /**

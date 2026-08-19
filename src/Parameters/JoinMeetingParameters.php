@@ -84,7 +84,7 @@ class JoinMeetingParameters extends UserDataParameters
         $this->meetingId = $meetingId;
         $this->username  = $username;
 
-        if (Role::MODERATOR === $passwordOrRole || Role::VIEWER === $passwordOrRole) {
+        if ($passwordOrRole instanceof Role) {
             $this->role = $passwordOrRole;
         } else {
             $this->password = $passwordOrRole;
