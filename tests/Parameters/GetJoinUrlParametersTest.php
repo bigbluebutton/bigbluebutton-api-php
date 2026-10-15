@@ -125,7 +125,7 @@ class GetJoinUrlParametersTest extends ParameterTestCase
 
         $this->assertStringContainsString('sessionToken=test-session-token', $query);
         $this->assertStringContainsString('replaceSession=true', $query);
-        $this->assertStringContainsString('sessionName=Test+Session', $query);
+        $this->assertStringContainsString('sessionName=Test%20Session', $query);
         $this->assertStringContainsString('enforceLayout=PRESENTATION_FOCUS', $query);
         $this->assertStringContainsString('userdata-device=tablet', $query);
     }

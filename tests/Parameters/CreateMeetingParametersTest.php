@@ -465,7 +465,7 @@ class CreateMeetingParametersTest extends ParameterTestCase
         $this->assertStringContainsString('lockSettingsPresenterPolicy=freeForAll', $query);
         $this->assertStringContainsString('notifyRecordingAppend=', $query);
         $this->assertStringContainsString('requireUserConsentBeforeUnmuting=true', $query);
-        $this->assertStringContainsString('sharedNotesInitialContentMarkdown=%23+Notes', $query);
+        $this->assertStringContainsString('sharedNotesInitialContentMarkdown=%23%20Notes', $query);
         $this->assertStringContainsString('sharedNotesInitialContentMarkdownUrl=', $query);
     }
 

@@ -88,7 +88,7 @@ class JoinMeetingParametersTest extends ParameterTestCase
         $this->assertStringContainsString('enforceLayout=' . $enforceLayout->value, $query);
         $this->assertStringContainsString('existingUserID=' . $existingUserId, $query);
         $this->assertStringContainsString('replaceSessionToken=' . $replaceSessionToken, $query);
-        $this->assertStringContainsString('sessionName=' . str_replace(' ', '+', $sessionName), $query);
+        $this->assertStringContainsString('sessionName=' . str_replace(' ', '%20', $sessionName), $query);
     }
 
     public function testEnforceLayoutAcceptsEnumAndString(): void

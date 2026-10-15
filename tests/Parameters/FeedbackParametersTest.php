@@ -129,7 +129,7 @@ class FeedbackParametersTest extends ParameterTestCase
 
         $this->assertStringContainsString('sessionToken=test-session-token', $query);
         $this->assertStringContainsString('rating=4', $query);
-        $this->assertStringContainsString('comment=Good+meeting+overall', $query);
+        $this->assertStringContainsString('comment=Good%20meeting%20overall', $query);
         $this->assertStringContainsString('meetingID=meeting123', $query);
         $this->assertStringContainsString('userID=user456', $query);
     }
@@ -192,7 +192,7 @@ class FeedbackParametersTest extends ParameterTestCase
         $query = $feedbackParams->getHTTPQuery();
 
         // The comment should be URL-encoded
-        $this->assertStringContainsString('comment=Great+meeting%21+Loved+the+features.+%F0%9F%91%8D', $query);
+        $this->assertStringContainsString('comment=Great%20meeting%21%20Loved%20the%20features.%20%F0%9F%91%8D', $query);
         $this->assertEquals($comment, $feedbackParams->getComment());
     }
 
@@ -212,7 +212,7 @@ class FeedbackParametersTest extends ParameterTestCase
 
         $this->assertStringContainsString('sessionToken=complex-session-token', $query);
         $this->assertStringContainsString('rating=4', $query);
-        $this->assertStringContainsString('comment=The+meeting+was+good+overall', $query);
+        $this->assertStringContainsString('comment=The%20meeting%20was%20good%20overall', $query);
         $this->assertStringContainsString('meetingID=weekly-team-meeting-001', $query);
         $this->assertStringContainsString('userID=participant-john-doe', $query);
     }

@@ -66,11 +66,7 @@ abstract class BaseParameters
      */
     protected function buildHTTPQuery(array $array): string
     {
-        return str_replace(
-            ['%20', '!', "'", '(', ')', '*'],
-            ['+', '%21', '%27', '%28', '%29', '%2A'],
-            http_build_query($array, '', '&', \PHP_QUERY_RFC3986)
-        );
+        return http_build_query($array, '', '&', \PHP_QUERY_RFC3986);
     }
 
     /**
