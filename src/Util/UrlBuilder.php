@@ -175,7 +175,14 @@ class UrlBuilder
      */
     public function buildQs(string $method = '', string $params = ''): string
     {
-        return $params . '&checksum=' . hash($this->hashingAlgorithm->value, $method . $params . $this->secret);
+        // Avoid extra & if we have no params at all
+        if ('' !== $params) {
+            $checksumParam = '&checksum=';
+        } else {
+            $checksumParam = 'checksum=';
+        }
+
+        return $params . $checksumParam . hash($this->hashingAlgorithm->value, $method . $params . $this->secret);
     }
 
     // URL-Generators
